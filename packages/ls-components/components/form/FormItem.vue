@@ -1,0 +1,425 @@
+<script setup lang="ts">
+/**
+ * Form item 组件
+ * !!!最多支持101个 el-form-item
+ */
+import type { CheckboxValueType, FormRules } from 'element-plus';
+import { isEqual } from 'lodash-es';
+import { ref } from 'vue';
+import { isEmpty } from '../_utils/utils';
+
+interface PropsType {
+  isValue?: boolean // 是否初始化modelValue值为value的值默认false
+  value?: any
+  type: FormItemType
+  label: string
+  prop: string | string[]
+  rules?: FormRules
+  className?: string
+  labelClass?: string
+  subhead?: string
+  tooltip?: string
+  options?: OptionType[]
+  attrs?: {
+    [key: string]: any
+  }
+  listeners?: {
+    [key: string]: any
+  }
+  colon?: boolean
+  read?: boolean
+  labelNumber?: boolean
+}
+
+const props: PropsType = withDefaults(defineProps<PropsType>(), {
+  read: false,
+  isValue: false,
+})
+
+const emits = defineEmits<{
+  'update:value': [key: string | number | string[], value: any]
+}>()
+
+// 级联多选
+const cascaderProps = { multiple: true }
+
+const modelValue = defineModel<any>()
+const FormItemRef = ref()
+
+// 下拉框全选
+const selectCheckAll = ref(false)
+const selectIndeterminate = ref(false)
+
+// 下拉框全选事件
+function handleSelectCheckAll(val: CheckboxValueType) {
+  selectIndeterminate.value = false
+
+  if (val && props.options && props.options.length)
+    modelValue.value = props.options.map(_ => _.value)
+  else
+    modelValue.value = []
+}
+
+// 只有isValue 的时候 才会去赋值给 modelValue
+watch(() => props.value, (newVal) => {
+  if (props.isValue)
+    modelValue.value = newVal
+}, {
+  immediate: true,
+  deep: true,
+})
+
+watch(() => modelValue, (newVal: any) => {
+  if (!isEmpty(props.prop))
+    emits('update:value', props.prop, newVal)
+}, {
+  immediate: true,
+  deep: true,
+})
+
+// select 去掉不存在opctions 的value
+watch([() => modelValue, () => props.type, () => props.attrs, () => props.options], ([newVal, type, attrs, options]: any) => {
+  if (type === 'select' && options && !isEmpty(options)) {
+    const values = options.map((_: any) => _.value)
+
+    if (attrs && attrs.multiple) {
+      if (!isEmpty(newVal.value)) {
+        const value: any[] = []
+        newVal.value.forEach((item: any) => {
+          if (values.includes(item))
+            value.push(item)
+        })
+
+        if (!isEqual(value, newVal.value))
+          modelValue.value = value
+      }
+
+      if (isEmpty(newVal.value)) {
+        selectCheckAll.value = false
+        selectIndeterminate.value = false
+      }
+      else {
+        const isAll = newVal.value.length === options.length
+        selectCheckAll.value = isAll
+        selectIndeterminate.value = !isAll
+      }
+    }
+    else {
+      if (!isEmpty(newVal.value) && !values.includes(newVal.value))
+        modelValue.value = ''
+    }
+  }
+}, {
+  immediate: true,
+  deep: true,
+})
+
+// 从 2015 到 当前年份
+function yearDisabledDdate(data: Date) {
+  const year = data.getFullYear()
+  const nowYear = new Date().getFullYear()
+
+  return year < 2015 || year > nowYear
+}
+
+// 数字验证
+const newRules = computed(() => {
+  if (props.type === 'number') {
+    const rules: FormRules | undefined = props.rules
+    let list: any[] = []
+
+    if (rules) {
+      if (Array.isArray(rules))
+        list = list.concat(rules)
+      else
+        list.push(rules)
+    }
+
+    // 小数限制前15后7位
+    list.push(
+      {
+        pattern: /^-?\d{1,15}(?:\.\d{1,7})?$/,
+        message: '输入超过最大值',
+        trigger: 'blur',
+      },
+    )
+
+    return list
+  }
+  else {
+    return props.rules
+  }
+})
+
+defineExpose({
+  FormItemRef
+})
+</script>
+
+<template>
+  <div v-if="type === 'title'" mb-24px :class="className">
+    <div mb-10px flex items-center>
+      <div mr-10px h-20px w-2px bg-black dark:bg-white />
+      <h1 text-16px font-bold>
+        {{ label }}
+        <span v-if="subhead" text-12px color-gray>{{ subhead }}</span>
+      </h1>
+    </div>
+    <el-divider border-style="dashed" />
+  </div>
+
+  <el-form-item
+    v-else
+    ref="FormItemRef"
+    :label="colon ? `${label}：` : label"
+    :prop="prop"
+    :rules="newRules"
+    :class="className"
+  >
+    <template v-if="labelClass || tooltip" #label>
+      <div class="flex items-center">
+        <span :class="labelClass">{{ label }}</span>
+
+        <el-tooltip
+          v-if="tooltip"
+          effect="dark"
+          placement="top"
+          :content="tooltip"
+        >
+          <i class="i-ep-warning-filled ml-4px mr-4px" />
+        </el-tooltip>
+
+        <span v-if="colon" :class="labelClass">：</span>
+      </div>
+    </template>
+
+    <template v-if="read && type !== 'switch' && (isEmpty(modelValue))">
+      <span>--</span>
+    </template>
+
+    <template v-else>
+      <span v-if="type === 'label'">
+        <template v-if="isEmpty(modelValue)">
+          --
+        </template>
+        <template v-if="labelNumber">
+          <!-- 数字 -->
+          <el-text :type="Number(modelValue) < 0 ? 'danger' : ''">
+            {{ modelValue }}
+          </el-text>
+        </template>
+        <template v-else>
+          {{ modelValue }}
+        </template>
+      </span>
+
+      <!-- 输入框 -->
+      <el-input
+        v-else-if="type === 'input'"
+        v-model.trim="modelValue"
+        :clearable="true"
+        :placeholder="`请输入${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 文本域 -->
+      <el-input
+        v-else-if="type === 'textarea'"
+        v-model.trim="modelValue"
+        type="textarea"
+        rows="4"
+        show-word-limit
+        maxlength="100"
+        :placeholder="`请输入${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 数字输入框 -->
+      <el-input-number
+        v-else-if="type === 'number'"
+        v-model.trim="modelValue"
+        :placeholder="`请输入${label}`"
+        :max="1000000000000000"
+        :min="0"
+        :controls="false"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 选择框 -->
+      <el-select
+        v-else-if="type === 'select'"
+        v-model="modelValue"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      >
+        <!-- 多选和有数据下支持全选 -->
+        <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
+          <el-checkbox
+            v-model="selectCheckAll"
+            :indeterminate="selectIndeterminate"
+            @change="handleSelectCheckAll"
+          >
+            全部
+          </el-checkbox>
+        </template>
+        <el-option
+          v-for="(option, i) in options"
+          :key="`${i}-${option.value}`"
+          :label="option.label"
+          :value="option.value"
+        />
+      </el-select>
+
+      <!-- 年份 -->
+      <el-date-picker
+        v-else-if="type === 'year'"
+        v-model="modelValue"
+        type="year"
+        value-format="YYYY"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        :disabled-date="yearDisabledDdate"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 月份 -->
+      <el-date-picker
+        v-else-if="type === 'month'"
+        v-model="modelValue"
+        type="month"
+        value-format="YYYY-MM"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        :disabled-date="yearDisabledDdate"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 日期 -->
+      <el-date-picker
+        v-else-if=" type === 'date'"
+        v-model="modelValue"
+        type="date"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 级联 -->
+      <el-cascader
+        v-else-if="type === 'cascader'"
+        v-model="modelValue"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        :options="options"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 多选级联 -->
+      <el-cascader
+        v-else-if="type === 'multipleCascader'"
+        v-model="modelValue"
+        :clearable="true"
+        :placeholder="`请选择${label}`"
+        :options="options"
+        v-bind="attrs"
+        :props="cascaderProps"
+        v-on="listeners || {}"
+      />
+
+      <!-- 开关 -->
+      <el-switch
+        v-else-if="type === 'switch'"
+        v-model="modelValue"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 上传组件 -->
+      <!-- <Upload
+        v-else-if="type === 'upload'"
+        v-model:file-list="modelValue"
+        accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+        type="image"
+        :url="attrs && attrs.url"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      >
+        <template v-if="attrs && attrs.tip" #tip>
+          <div>
+            {{ attrs && attrs.tip }}
+          </div>
+        </template>
+      </Upload> -->
+    </template>
+  </el-form-item>
+</template>
+
+<style scoped lang="scss">
+:deep() .el-select-dropdown__header {
+  padding: 0 !important;
+}
+.el-select {
+  --el-select-width: 220px;
+}
+.el-input {
+  --el-input-width: 220px;
+}
+.el-input-number {
+  width: var(--el-input-width);
+  &:deep() .el-input__inner {
+    text-align: left;
+  }
+}
+.el-textarea {
+  &:deep() .el-textarea__inner {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar:horizontal {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgb(0 0 0 / 20%);
+      border-radius: 10px;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        background-color: rgb(0 0 0 / 30%);
+      }
+    }
+  }
+}
+.dark {
+  .el-textarea {
+    &:deep() .el-textarea__inner {
+      &::-webkit-scrollbar-thumb {
+        background-color: rgb(255 255 255 / 20%);
+        &:hover {
+          background-color: rgb(255 255 255 / 40%);
+        }
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.el-select-dropdown__header {
+  padding: 5px 10px !important;
+}
+.el-divider--horizontal {
+  margin: 0;
+}
+</style>

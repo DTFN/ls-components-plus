@@ -1,0 +1,32 @@
+@media (min-width: 1440px) {
+  .logo {
+    width: 100px;
+    height: auto !important;
+  }
+  .VPNavBar.has-sidebar {
+    .title {
+      margin-left: 16px;
+      padding-left: 0!important;
+      width: calc(var(--vp-sidebar-width) - 64px) !important;
+    }
+    .divider {
+      padding-left: var(--vp-sidebar-width) !important;
+    }
+    .content {
+      padding-right: 32px !important;
+      padding-left: var(--vp-sidebar-width) !important;
+    }
+  }
+
+  .VPSidebar {
+    width: auto !important;
+    padding-left: 32px !important;
+  }
+  .VPContent.has-sidebar {
+    padding-left: var(--vp-sidebar-width) !important;
+    padding-right: 0!important;
+    .content-container {
+      max-width: none !important;
+    }
+  }
+}
