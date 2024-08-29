@@ -4,7 +4,7 @@ import LSButton from '@cpo/button/Button.vue';
 
 <template>
   <div>
-    <LSButton />
+    <LSButton icon-name="iconoir:fish" :icon-type="2">基础按钮</LSButton>
   </div>
 </template>
 

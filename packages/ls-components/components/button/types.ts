@@ -1,10 +1,24 @@
+/**
+ *  iconType: 2: iconify
+ */
 export const lsBtnProp = {
-  iconSize: {
+  iconName: {
+    type: String,
+    default: ''
+  },
+  iconType: {
     type: Number,
-    default: 24
+    default: 0
+  },
+  iconWidth: {
+    type: Number,
+    default: 16
+  },
+  iconHeight: {
+    type: Number,
+    default: 16
   },
   iconColor: {
-    type: String,
-    default: '#006eff'
+    type: String
   }
 };

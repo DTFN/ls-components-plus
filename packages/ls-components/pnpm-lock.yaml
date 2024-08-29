@@ -1,0 +1,29 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      '@iconify-json/ep':
+        specifier: ^1.1.16
+        version: 1.1.16
+
+packages:
+
+  '@iconify-json/ep@1.1.16':
+    resolution: {integrity: sha512-g7XnumVhTGlMDFkr7D3U19HJxneGdRwG8MIeV/PIubfRQu1wOh9aYQSycbTYMV9LCVr0Hg2wN1U45R8MJvPjlA==}
+
+  '@iconify/types@2.0.0':
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+
+snapshots:
+
+  '@iconify-json/ep@1.1.16':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify/types@2.0.0': {}

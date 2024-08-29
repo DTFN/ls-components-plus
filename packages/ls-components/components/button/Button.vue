@@ -1,15 +1,31 @@
 <script setup lang="ts" name="LSButton">
+import { Icon } from '@iconify/vue';
 import { lsBtnProp } from './types';
 
-const btnClass = '';
+const props = defineProps(lsBtnProp);
 
-console.log(lsBtnProp);
+const btnClass = computed(() => {
+  return 'ls-button';
+});
+const btnColor = computed(() => {
+  return props.iconColor || '#006eff';
+});
+const btnName = computed(() => {
+  return props.iconType === 1 ? `${props.iconName}` : props.iconName;
+});
 </script>
 
 <template>
   <el-button v-bind="$attrs" :class="btnClass">
-    <slot></slot>
+    <template v-if="iconName">
+      <Icon v-if="iconType === 2" :icon="btnName" class="ls-iconify" :color="btnColor" :width="iconWidth" :height="iconHeight" />
+    </template>
+    <span class="ls-slot">
+      <slot></slot>
+    </span>
   </el-button>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '@cpo/_style/button.scss';
+</style>
