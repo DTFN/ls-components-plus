@@ -9,151 +9,149 @@ import { ref } from 'vue';
 import { isEmpty } from '../_utils/utils';
 
 interface PropsType {
-  isValue?: boolean // 是否初始化modelValue值为value的值默认false
-  value?: any
-  type: FormItemType
-  label: string
-  prop: string | string[]
-  rules?: FormRules
-  className?: string
-  labelClass?: string
-  subhead?: string
-  tooltip?: string
-  options?: OptionType[]
+  isValue?: boolean; // 是否初始化modelValue值为value的值默认false
+  value?: any;
+  type: FormItemType;
+  label: string;
+  prop: string | string[];
+  rules?: FormRules;
+  className?: string;
+  labelClass?: string;
+  subhead?: string;
+  tooltip?: string;
+  options?: OptionType[];
   attrs?: {
-    [key: string]: any
-  }
+    [key: string]: any;
+  };
   listeners?: {
-    [key: string]: any
-  }
-  colon?: boolean
-  read?: boolean
-  labelNumber?: boolean
+    [key: string]: any;
+  };
+  colon?: boolean;
+  read?: boolean;
+  labelNumber?: boolean;
 }
 
 const props: PropsType = withDefaults(defineProps<PropsType>(), {
   read: false,
-  isValue: false,
-})
+  isValue: false
+});
 
 const emits = defineEmits<{
-  'update:value': [key: string | number | string[], value: any]
-}>()
+  'update:value': [key: string | number | string[], value: any];
+}>();
 
 // 级联多选
-const cascaderProps = { multiple: true }
+const cascaderProps = { multiple: true };
 
-const modelValue = defineModel<any>()
-const FormItemRef = ref()
+const modelValue = defineModel<any>();
+const FormItemRef = ref();
 
 // 下拉框全选
-const selectCheckAll = ref(false)
-const selectIndeterminate = ref(false)
+const selectCheckAll = ref(false);
+const selectIndeterminate = ref(false);
 
 // 下拉框全选事件
 function handleSelectCheckAll(val: CheckboxValueType) {
-  selectIndeterminate.value = false
+  selectIndeterminate.value = false;
 
-  if (val && props.options && props.options.length)
-    modelValue.value = props.options.map(_ => _.value)
-  else
-    modelValue.value = []
+  if (val && props.options && props.options.length) modelValue.value = props.options.map(_ => _.value);
+  else modelValue.value = [];
 }
 
 // 只有isValue 的时候 才会去赋值给 modelValue
-watch(() => props.value, (newVal) => {
-  if (props.isValue)
-    modelValue.value = newVal
-}, {
-  immediate: true,
-  deep: true,
-})
+watch(
+  () => props.value,
+  newVal => {
+    if (props.isValue) modelValue.value = newVal;
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
-watch(() => modelValue, (newVal: any) => {
-  if (!isEmpty(props.prop))
-    emits('update:value', props.prop, newVal)
-}, {
-  immediate: true,
-  deep: true,
-})
+watch(
+  () => modelValue,
+  (newVal: any) => {
+    if (!isEmpty(props.prop)) emits('update:value', props.prop, newVal);
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 // select 去掉不存在opctions 的value
-watch([() => modelValue, () => props.type, () => props.attrs, () => props.options], ([newVal, type, attrs, options]: any) => {
-  if (type === 'select' && options && !isEmpty(options)) {
-    const values = options.map((_: any) => _.value)
+watch(
+  [() => modelValue, () => props.type, () => props.attrs, () => props.options],
+  ([newVal, type, attrs, options]: any) => {
+    if (type === 'select' && options && !isEmpty(options)) {
+      const values = options.map((_: any) => _.value);
 
-    if (attrs && attrs.multiple) {
-      if (!isEmpty(newVal.value)) {
-        const value: any[] = []
-        newVal.value.forEach((item: any) => {
-          if (values.includes(item))
-            value.push(item)
-        })
+      if (attrs && attrs.multiple) {
+        if (!isEmpty(newVal.value)) {
+          const value: any[] = [];
+          newVal.value.forEach((item: any) => {
+            if (values.includes(item)) value.push(item);
+          });
 
-        if (!isEqual(value, newVal.value))
-          modelValue.value = value
-      }
+          if (!isEqual(value, newVal.value)) modelValue.value = value;
+        }
 
-      if (isEmpty(newVal.value)) {
-        selectCheckAll.value = false
-        selectIndeterminate.value = false
-      }
-      else {
-        const isAll = newVal.value.length === options.length
-        selectCheckAll.value = isAll
-        selectIndeterminate.value = !isAll
+        if (isEmpty(newVal.value)) {
+          selectCheckAll.value = false;
+          selectIndeterminate.value = false;
+        } else {
+          const isAll = newVal.value.length === options.length;
+          selectCheckAll.value = isAll;
+          selectIndeterminate.value = !isAll;
+        }
+      } else {
+        if (!isEmpty(newVal.value) && !values.includes(newVal.value)) modelValue.value = '';
       }
     }
-    else {
-      if (!isEmpty(newVal.value) && !values.includes(newVal.value))
-        modelValue.value = ''
-    }
+  },
+  {
+    immediate: true,
+    deep: true
   }
-}, {
-  immediate: true,
-  deep: true,
-})
+);
 
 // 从 2015 到 当前年份
 function yearDisabledDdate(data: Date) {
-  const year = data.getFullYear()
-  const nowYear = new Date().getFullYear()
+  const year = data.getFullYear();
+  const nowYear = new Date().getFullYear();
 
-  return year < 2015 || year > nowYear
+  return year < 2015 || year > nowYear;
 }
 
 // 数字验证
 const newRules = computed(() => {
   if (props.type === 'number') {
-    const rules: FormRules | undefined = props.rules
-    let list: any[] = []
+    const rules: FormRules | undefined = props.rules;
+    let list: any[] = [];
 
     if (rules) {
-      if (Array.isArray(rules))
-        list = list.concat(rules)
-      else
-        list.push(rules)
+      if (Array.isArray(rules)) list = list.concat(rules);
+      else list.push(rules);
     }
 
     // 小数限制前15后7位
-    list.push(
-      {
-        pattern: /^-?\d{1,15}(?:\.\d{1,7})?$/,
-        message: '输入超过最大值',
-        trigger: 'blur',
-      },
-    )
+    list.push({
+      pattern: /^-?\d{1,15}(?:\.\d{1,7})?$/,
+      message: '输入超过最大值',
+      trigger: 'blur'
+    });
 
-    return list
+    return list;
+  } else {
+    return props.rules;
   }
-  else {
-    return props.rules
-  }
-})
+});
 
 defineExpose({
   FormItemRef
-})
+});
 </script>
 
 <template>
@@ -168,24 +166,12 @@ defineExpose({
     <el-divider border-style="dashed" />
   </div>
 
-  <el-form-item
-    v-else
-    ref="FormItemRef"
-    :label="colon ? `${label}：` : label"
-    :prop="prop"
-    :rules="newRules"
-    :class="className"
-  >
+  <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="newRules" :class="className">
     <template v-if="labelClass || tooltip" #label>
       <div class="flex items-center">
         <span :class="labelClass">{{ label }}</span>
 
-        <el-tooltip
-          v-if="tooltip"
-          effect="dark"
-          placement="top"
-          :content="tooltip"
-        >
+        <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
           <i class="i-ep-warning-filled ml-4px mr-4px" />
         </el-tooltip>
 
@@ -193,15 +179,13 @@ defineExpose({
       </div>
     </template>
 
-    <template v-if="read && type !== 'switch' && (isEmpty(modelValue))">
+    <template v-if="read && type !== 'switch' && isEmpty(modelValue)">
       <span>--</span>
     </template>
 
     <template v-else>
       <span v-if="type === 'label'">
-        <template v-if="isEmpty(modelValue)">
-          --
-        </template>
+        <template v-if="isEmpty(modelValue)"> -- </template>
         <template v-if="labelNumber">
           <!-- 数字 -->
           <el-text :type="Number(modelValue) < 0 ? 'danger' : ''">
@@ -259,20 +243,11 @@ defineExpose({
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
-          <el-checkbox
-            v-model="selectCheckAll"
-            :indeterminate="selectIndeterminate"
-            @change="handleSelectCheckAll"
-          >
+          <el-checkbox v-model="selectCheckAll" :indeterminate="selectIndeterminate" @change="handleSelectCheckAll">
             全部
           </el-checkbox>
         </template>
-        <el-option
-          v-for="(option, i) in options"
-          :key="`${i}-${option.value}`"
-          :label="option.label"
-          :value="option.value"
-        />
+        <el-option v-for="(option, i) in options" :key="`${i}-${option.value}`" :label="option.label" :value="option.value" />
       </el-select>
 
       <!-- 年份 -->
@@ -303,7 +278,7 @@ defineExpose({
 
       <!-- 日期 -->
       <el-date-picker
-        v-else-if=" type === 'date'"
+        v-else-if="type === 'date'"
         v-model="modelValue"
         type="date"
         :clearable="true"
@@ -336,12 +311,7 @@ defineExpose({
       />
 
       <!-- 开关 -->
-      <el-switch
-        v-else-if="type === 'switch'"
-        v-model="modelValue"
-        v-bind="attrs"
-        v-on="listeners || {}"
-      />
+      <el-switch v-else-if="type === 'switch'" v-model="modelValue" v-bind="attrs" v-on="listeners || {}" />
 
       <!-- 上传组件 -->
       <!-- <Upload

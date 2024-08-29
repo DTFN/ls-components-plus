@@ -7,29 +7,29 @@ import { reactive, ref } from 'vue';
 const props = withDefaults(
   defineProps<{
     formData: {
-      [key: string]: any
-    }
-    formItems: FormItemsType[]
+      [key: string]: any;
+    };
+    formItems: FormItemsType[];
     // 一行 Item 的数量
-    column?: number
+    column?: number;
     // 确认按钮显示 loading
-    loading?: boolean
-    showBtnLoading?: boolean
+    loading?: boolean;
+    showBtnLoading?: boolean;
     // 是否禁止
-    disabled?: boolean
+    disabled?: boolean;
     // 按钮 是否显示 true
-    showButtons?: boolean
+    showButtons?: boolean;
     // 重置按钮 是否显示 true
-    showReset?: boolean
+    showReset?: boolean;
     // submit按钮文案  查询
-    confirmText?: string
+    confirmText?: string;
     // 确认按钮样式
-    confirmClassName?: string
+    confirmClassName?: string;
     // label 是否添加冒号 不添加
-    colon?: boolean
+    colon?: boolean;
     // 只读
     // read?: boolean
-    labelWidth?: number | string
+    labelWidth?: number | string;
   }>(),
   {
     column: 1,
@@ -41,97 +41,91 @@ const props = withDefaults(
     confirmText: '查询',
     colon: true,
     labelWidth: 'auto',
-    labelPosition: 'left',
-  },
-)
+    labelPosition: 'left'
+  }
+);
 
 const emit = defineEmits<{
-  'update:form-data': [formData: any]
-  'submit': [form: any]
-  'reset': [form: any]
-}>()
+  'update:form-data': [formData: any];
+  submit: [form: any];
+  reset: [form: any];
+}>();
 
-const FormRef = ref<FormInstance>()
+const FormRef = ref<FormInstance>();
 
-let form = reactive<{ [key: string]: any }>({})
+let form = reactive<{ [key: string]: any }>({});
 
-const attrs = useAttrs()
+const attrs = useAttrs();
 
 const buttonsAttrs: ComputedRef<ObjType> = computed(() => {
   if (attrs.inline) {
     if (attrs['label-position'] === 'top') {
       return {
-        class: '',
-      }
+        class: ''
+      };
     }
 
-    return {}
+    return {};
   }
 
   return {
-    label: '  ',
-  }
-})
+    label: '  '
+  };
+});
 
 // 重置
 function resetForm(formEl: FormInstance | undefined) {
-  if (!formEl)
-    return
-  formEl.resetFields()
-  emit('reset', form)
+  if (!formEl) return;
+  formEl.resetFields();
+  emit('reset', form);
 }
 
 // 校验
 async function submitForm(formEl: FormInstance | undefined) {
-  if (!formEl)
-    return
+  if (!formEl) return;
   await formEl.validate((valid, fields) => {
-    if (valid)
-      emit('submit', form)
-    else
-      console.log('error submit!', fields)
-  })
+    if (valid) emit('submit', form);
+    else console.log('error submit!', fields);
+  });
 }
 
 // 校验方法
 function validate() {
   return new Promise((resolve, reject) => {
-    if (!FormRef.value)
-      return resolve(false)
+    if (!FormRef.value) return resolve(false);
 
     FormRef.value.validate((valid, fields) => {
       if (valid) {
-        resolve(form)
+        resolve(form);
+      } else {
+        console.log('error submit!', fields);
+        reject(fields);
       }
-      else {
-        console.log('error submit!', fields)
-        reject(fields)
-      }
-    })
-  })
+    });
+  });
 }
 
 // 更新表单数据
 function updateFormData(key: string | number | string[], value: any) {
-  set(form, key, value)
+  set(form, key, value);
 }
 
 watch(
   () => props.formData,
-  (newVal) => {
-    form = newVal || {}
+  newVal => {
+    form = newVal || {};
   },
   {
     deep: true,
-    immediate: true,
-  },
-)
+    immediate: true
+  }
+);
 
 defineExpose({
   FormRef,
   validate,
-  submitForm,
-})
+  submitForm
+});
 </script>
 
 <template>
@@ -149,7 +143,15 @@ defineExpose({
           <el-col :span="item.isRow ? 24 : 24 / column">
             <slot v-if="item.type === 'slot'" :name="item.prop" />
 
-            <FormItem v-else :is-value="true" :value="get(form, item.prop)" v-bind="item" :colon="colon" :read="disabled" @update:value="updateFormData" />
+            <FormItem
+              v-else
+              :is-value="true"
+              :value="get(form, item.prop)"
+              v-bind="item"
+              :colon="colon"
+              :read="disabled"
+              @update:value="updateFormData"
+            />
           </el-col>
         </template>
       </el-row>
@@ -159,7 +161,15 @@ defineExpose({
       <template v-for="item in formItems" :key="item.prop">
         <slot v-if="item.type === 'slot'" :name="item.prop" />
 
-        <FormItem v-else :is-value="true" :value="get(form, item.prop)" v-bind="item" :colon="colon" :read="disabled" @update:value="updateFormData" />
+        <FormItem
+          v-else
+          :is-value="true"
+          :value="get(form, item.prop)"
+          v-bind="item"
+          :colon="colon"
+          :read="disabled"
+          @update:value="updateFormData"
+        />
       </template>
     </template>
 
@@ -170,12 +180,9 @@ defineExpose({
         {{ confirmText }}
       </el-button>
 
-      <el-button v-if="showReset" @click="resetForm(FormRef)">
-        重置
-      </el-button>
+      <el-button v-if="showReset" @click="resetForm(FormRef)"> 重置 </el-button>
     </el-form-item>
   </el-form>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

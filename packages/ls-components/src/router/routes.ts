@@ -23,4 +23,12 @@ export default [
   //     title: 'Table'
   //   }
   // }
+  {
+    name: 'Button',
+    path: '/button',
+    component: () => import('@/views/button/Index.vue'),
+    meta: {
+      title: 'Button'
+    }
+  }
 ];

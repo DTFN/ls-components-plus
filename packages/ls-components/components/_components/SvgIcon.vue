@@ -1,15 +1,18 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  name: string
-  color?: string
-  size?: string | number
-}>(), {
-  color: 'currentColor',
-})
+const props = withDefaults(
+  defineProps<{
+    name: string;
+    color?: string;
+    size?: string | number;
+  }>(),
+  {
+    color: 'currentColor'
+  }
+);
 
-const symbolId = computed(() => `#${props.name}`)
+const symbolId = computed(() => `#${props.name}`);
 
-const isSvgIcon = computed(() => props.name?.startsWith('icon'))
+const isSvgIcon = computed(() => props.name?.startsWith('icon'));
 </script>
 
 <template>

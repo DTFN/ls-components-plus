@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Test from '@/components/Test.vue';
-
 </script>
 
 <template>
@@ -8,5 +7,4 @@ import Test from '@/components/Test.vue';
   <Test msg="Test" />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

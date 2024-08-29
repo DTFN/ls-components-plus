@@ -20,11 +20,7 @@ module.exports = {
     }
   },
   // 继承某些已有的规则
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'plugin:prettier/recommended'
-  ],
+  extends: ['plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
   /**
    * "off" 或 0    ==>  关闭规则
    * "warn" 或 1   ==>  打开的规则作为警告（不影响代码执行）
@@ -62,4 +58,4 @@ module.exports = {
     'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词
     'vue/no-setup-props-destructure': 'off' // 禁止解构 props 传递给 setup
   }
-}
+};
