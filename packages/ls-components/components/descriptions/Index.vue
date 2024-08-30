@@ -21,7 +21,7 @@ watch(
 </script>
 
 <template>
-  <div class="ls-descriptions" :class="[$attrs[column] ? `column-${$attrs[column]}` : '']">
+  <div class="ls-descriptions" :class="[column ? `column-${column}` : '']">
     <el-descriptions :title="title" :size="size" v-bind="$attrs" :direction="direction" :column="column" border>
       <template #title>
         <slot name="title"></slot>
@@ -65,6 +65,13 @@ watch(
 
 <style lang="scss" scoped>
 .ls-descriptions {
+  &.column-2 {
+    :deep(.el-descriptions__body) {
+      td {
+        width: 25%;
+      }
+    }
+  }
   :deep(.el-descriptions__body) {
     th {
       font-weight: bold;
