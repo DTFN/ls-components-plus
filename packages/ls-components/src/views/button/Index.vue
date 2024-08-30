@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { Edit } from '@element-plus/icons-vue';
 import LSButton from '@cpo/button/Button.vue';
 </script>
 
 <template>
   <div>
-    <LSButton icon-name="iconoir:fish" :icon-type="2">基础按钮</LSButton>
+    <LSButton :icon="Edit">按钮1</LSButton>
+    <LSButton icon-name="iconoir:fish" :icon-type="2">按钮2</LSButton>
   </div>
 </template>
 

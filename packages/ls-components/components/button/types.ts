@@ -1,5 +1,5 @@
 /**
- *  iconType: 2: iconify
+ *  iconType: 1: eleplus自带 2: iconify
  */
 export const lsBtnProp = {
   iconName: {
@@ -8,7 +8,7 @@ export const lsBtnProp = {
   },
   iconType: {
     type: Number,
-    default: 0
+    default: 1
   },
   iconWidth: {
     type: Number,

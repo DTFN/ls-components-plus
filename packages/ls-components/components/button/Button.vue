@@ -8,10 +8,10 @@ const btnClass = computed(() => {
   return 'ls-button';
 });
 const btnColor = computed(() => {
-  return props.iconColor || '#006eff';
+  return props.iconColor || '';
 });
 const btnName = computed(() => {
-  return props.iconType === 1 ? `${props.iconName}` : props.iconName;
+  return props.iconName;
 });
 </script>
 

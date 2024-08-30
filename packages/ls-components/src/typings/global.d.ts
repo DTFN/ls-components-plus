@@ -50,3 +50,5 @@ declare const __APP_INFO__: {
 };
 
 declare type LocaleType = 'zh-CN' | 'en';
+
+declare module '@vitejs/plugin-vue-jsx';
