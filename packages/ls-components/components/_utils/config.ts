@@ -56,3 +56,10 @@ export const getVariable = (key: string): string => {
   }
   return '';
 };
+
+export const setVariable = (key: string, val: string): void => {
+  const oVal = getVariable(key);
+  if (key && (!getVariable(key) || oVal !== val)) {
+    document.documentElement.style.setProperty(key, val);
+  }
+};

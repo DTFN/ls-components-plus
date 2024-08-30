@@ -22,4 +22,20 @@ export const lsBtnProp = {
   }
 };
 
-export const lsBtnGroupProp = {};
+export const lsBtnGroupProp = {
+  // 按钮之间分割符号 1: |
+  separator: {
+    type: Number,
+    default: 1
+  },
+  // 间隔符号颜色
+  separatorColor: {
+    type: String,
+    default: ''
+  },
+  // 间隔符号大小
+  separatorSize: {
+    type: Number,
+    default: 12
+  }
+};

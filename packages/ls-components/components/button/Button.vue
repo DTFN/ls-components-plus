@@ -27,5 +27,22 @@ const btnName = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-@import '@cpo/_style/button.scss';
+.ls-button {
+  span {
+    line-height: normal;
+  }
+  .ls-icon {
+    margin-right: 6px;
+    &.only-icon {
+      margin-right: 0;
+    }
+  }
+  .ls-iconify {
+    margin-right: 6px;
+  }
+  .ls-iconify,
+  .ls-slot {
+    vertical-align: middle;
+  }
+}
 </style>
