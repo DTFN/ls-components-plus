@@ -37,6 +37,8 @@ module.exports = {
     ],
     'block-closing-brace-newline-before': 'always',
     'block-closing-brace-newline-after': 'always',
+    'block-closing-brace-empty-line-before': 'never',
+    'scss/no-global-function-names': null
   },
   ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts']
 };

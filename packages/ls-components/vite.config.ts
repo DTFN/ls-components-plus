@@ -57,7 +57,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         scss: {
           // @use "src/style/element/index.scss" as *; 自定义主题颜色
           // additionalData: `@use "src/style/var.scss" as *;`,
-          additionalData: `@use "components/_style/element/index.scss" as *;`
+          additionalData: `@use "@cpo/_style/common/variable.scss" as *; @use "@cpo/_style/common/utils.scss" as *; @use "@cpo/_style/element/index.scss" as *;`
         }
       }
     },

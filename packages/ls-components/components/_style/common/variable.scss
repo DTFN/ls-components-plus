@@ -1,0 +1,161 @@
+@charset "utf-8";
+
+// getComputedStyle(document.documentElement).getPropertyValue('--variable-name')
+
+/*********  font-size & line-height  *********/
+$font-size-large: 64px;
+$line-height-large: 72px;
+$font-size-medium: 48px;
+$line-height-medium: 56px;
+$font-size-title-large: 36px;
+$line-height-title-large: 44px;
+$font-size-title-medium: 28px;
+$line-height-title-medium: 36px;
+$font-size-title-small: 24px;
+$line-height-title-small: 32px;
+$font-size-subtitle-large: 20px;
+$line-height-subtitle-large: 28px;
+$font-size-subtitle-medium: 16px;
+$line-height-subtitle-medium: 24px;
+$font-size-subtitle-small: 14px;
+$line-height-subtitle-small: 22px;
+$font-size-content-large: 16px;
+$line-height-content-large: 24px;
+$font-size-content-medium: 14px;
+$line-height-content-medium: 22px;
+$font-size-content-small: 12px;
+$line-height-content-small: 20px;
+$font-size-label-medium: 14px;
+$line-height-label-medium: 22px;
+$font-size-label-small: 12px;
+$line-height-label-small: 20px;
+$font-size-link-large: 16px;
+$line-height-link-large: 24px;
+$font-size-link-medium: 14px;
+$line-height-link-medium: 22px;
+$font-size-link-small: 12px;
+$line-height-link-small: 20px;
+
+/*********  color  *********/
+$color-theme: #2285ff;
+
+// 主要色
+$color-brand1: #e8f6ff;
+$color-brand2: #c0e5ff;
+$color-brand3: #99d1ff;
+$color-brand4: #71baff;
+$color-brand5: #4aa1ff;
+$color-brand6: #2285ff;
+$color-brand7: #1564d2;
+$color-brand8: #0b46a6;
+$color-brand9: #042d79;
+$color-brand10: #00184d;
+$color-brands: $color-brand1 $color-brand2 $color-brand3 $color-brand4 $color-brand5 $color-brand6 $color-brand7 $color-brand8
+  $color-brand9 $color-brand10;
+$color-gray1: #ffffff;
+$color-gray2: #f8f8f8;
+$color-gray3: #f1f1f1;
+$color-gray4: #eaeaea;
+$color-gray5: #e3e3e3;
+$color-gray6: #dcdcdc;
+$color-gray7: #cbcbcb;
+$color-grays: $color-gray1 $color-gray2 $color-gray3 $color-gray4 $color-gray5 $color-gray6 $color-gray7;
+
+// 辅助色
+$color-success1: #e8ffea;
+$color-success2: #aff0b5;
+$color-success3: #7be188;
+$color-success4: #4cd263;
+$color-success5: #23c343;
+$color-success6: #00b42a;
+$color-success7: #009a29;
+$color-success8: #008026;
+$color-success9: #006622;
+$color-success10: #004d1c;
+$color-successs: $color-success1 $color-success2 $color-success3 $color-success4 $color-success5 $color-success6 $color-success7
+  $color-success8 $color-success9 $color-success10;
+$color-warning1: #fff7e8;
+$color-warning2: #ffe4ba;
+$color-warning3: #ffcf8b;
+$color-warning4: #ffb65d;
+$color-warning5: #ff9a2e;
+$color-warning6: #ff7d00;
+$color-warning7: #d25f00;
+$color-warning8: #a64500;
+$color-warning9: #792e00;
+$color-warning10: #4d1b00;
+$color-warnings: $color-warning1 $color-warning2 $color-warning3 $color-warning4 $color-warning5 $color-warning6 $color-warning7
+  $color-warning8 $color-warning9 $color-warning10;
+$color-danger1: #ffece8;
+$color-danger2: #fdcdc5;
+$color-danger3: #fbaca3;
+$color-danger4: #f98981;
+$color-danger5: #f76560;
+$color-danger6: #f53f3f;
+$color-danger7: #cb272d;
+$color-danger8: #a1151e;
+$color-danger9: #770813;
+$color-danger10: #4d000a;
+$color-dangers: $color-danger1 $color-danger2 $color-danger3 $color-danger4 $color-danger5 $color-danger6 $color-danger7
+  $color-danger8 $color-danger9 $color-danger10;
+$color-info1: #e9f6ff;
+$color-info2: #d8e4ed;
+$color-info3: #c7d1da;
+$color-info4: #b7bfc8;
+$color-info5: #a6adb5;
+$color-info6: #a6adb5;
+$color-info7: #61738d;
+$color-info8: #374f78;
+$color-info9: #163062;
+$color-info10: #00174d;
+$color-infos: $color-info1 $color-info2 $color-info3 $color-info4 $color-info5 $color-info6 $color-info7 $color-info8 $color-info9
+  $color-info10;
+
+// 中性色
+$color-text1: #2c2c2c;
+$color-text2: #5e5e5e;
+$color-text3: #8b8b8b;
+$color-text4: #c5c5c5;
+$color-text5: #dcdcdc;
+$color-texts: $color-text1 $color-text2 $color-text3 $color-text4 $color-text5;
+$color-border1: #c4c6cd;
+$color-border2: #d3d4da;
+$color-border3: #dfe0e3;
+$color-border4: #e7e8eb;
+$color-border5: #eeeef0;
+$color-border6: #f3f3f4;
+
+// 7-9 button border color
+$color-border7: #e7e7e7;
+$color-border8: #dcdcdc;
+$color-border9: #cbcbcb;
+$color-borders: $color-border1 $color-border2 $color-border3 $color-border4 $color-border5 $color-border6 $color-border7
+  $color-border8 $color-border9;
+$color-fill1: #e4e5e8;
+$color-fill2: #e9eaed;
+$color-fill3: #edeef1;
+$color-fill4: #f2f3f6;
+$color-fill5: #f6f8fa;
+$color-fill6: #fbfcff;
+$color-fill7: #ffffff;
+
+// 8-9 button background color
+$color-fill8: #f3f3f4;
+$color-fill9: #eeeef0;
+$color-fills: $color-fill1 $color-fill2 $color-fill3 $color-fill4 $color-fill5 $color-fill6 $color-fill7;
+$color-light: #ffffff;
+$color-dark: #000000;
+
+/**********  box-shadow  ***********/
+$box-shadow-base:
+  0 1px 10px rgb(0 0 0 / 5%),
+  0 4px 5px rgb(0 0 0 / 8%),
+  0 2px 4px -1px rgb(0 0 0 / 12%);
+$box-shadow-mid:
+  0 3px 14px 2px rgb(0 0 0 / 5%),
+  0 8px 10px 1px rgb(0 0 0 / 6%),
+  0 5px 5px -3px rgb(0 0 0 / 10%);
+$box-shadow-up:
+  0 6px 30px 5px rgb(0 0 0 / 5%),
+  0 16px 24px 2px rgb(0 0 0 / 4%),
+  0 8px 10px -5px rgb(0 0 0 / 8%);

@@ -42,9 +42,9 @@ export const initVariables = () => {
     variables['colorLight'] = getRootAttr(ele, `--color-light`);
     variables['colorDark'] = getRootAttr(ele, `--color-dark`);
 
-    variables['boxShadowbase'] = getRootAttr(ele, `--box-shadow-base`);
-    variables['boxShadowMid'] = getRootAttr(ele, `--box-shadow-mid`);
-    variables['boxShadowUp'] = getRootAttr(ele, `--box-shadow-up`);
+    variables['boxShadowbase'] = getRootAttr(ele, `-box-shadow-base`);
+    variables['boxShadowMid'] = getRootAttr(ele, `-box-shadow-mid`);
+    variables['boxShadowUp'] = getRootAttr(ele, `-box-shadow-up`);
   }
   return variables;
 };

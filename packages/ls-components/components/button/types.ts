@@ -1,11 +1,10 @@
-/**
- *  iconType: 1: eleplus自带 2: iconify
- */
 export const lsBtnProp = {
+  // 支持iconify
   iconName: {
     type: String,
     default: ''
   },
+  // iconType: 1: eleplus自带 2: iconify
   iconType: {
     type: Number,
     default: 1
@@ -22,3 +21,5 @@ export const lsBtnProp = {
     type: String
   }
 };
+
+export const lsBtnGroupProp = {};

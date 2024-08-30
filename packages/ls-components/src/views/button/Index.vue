@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Edit } from '@element-plus/icons-vue';
-import LSButton from '@cpo/button/Button.vue';
 </script>
 
 <template>
