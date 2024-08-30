@@ -30,5 +30,13 @@ export default [
     meta: {
       title: 'Button'
     }
+  },
+  {
+    name: 'Descriptions',
+    path: '/descriptions',
+    component: () => import('@/views/descriptions/Index.vue'),
+    meta: {
+      title: 'Descriptions'
+    }
   }
 ];

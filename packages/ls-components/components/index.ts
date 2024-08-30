@@ -1,12 +1,19 @@
 import type { App, Plugin } from 'vue';
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { LSButton, LSButtonGroup } from './button/index';
+import LSDescriptions from './descriptions/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
-  LSButton
+  LSButton,
+  LSDescriptions
 };
 
 const install = (app: App) => {
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component);
+  }
+
   for (const key of Object.keys(components)) {
     const cpo: any = components[key];
     app.component(cpo?.name, cpo);

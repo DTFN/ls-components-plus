@@ -4,23 +4,38 @@ import { lsBtnGroupProp } from './types';
 
 const props = defineProps(lsBtnGroupProp);
 
+watch(
+  () => props.separatorColor,
+  val => {
+    if (val) {
+      setVariable('--separator-color', val);
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
+
+watch(
+  () => props.separatorSize,
+  val => {
+    if (val) {
+      setVariable('--separator-size', val + '');
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
+
 const separator = computed(() => {
   const val = props.separator;
   if (!val) {
     return '';
   }
   return `separator separator-${val}`;
-});
-
-const separatorcolor = computed(() => {
-  const val = props.separatorColor;
-  if (val) {
-    setVariable('--separator-color', val);
-  }
-});
-
-const separatorsize = computed(() => {
-  setVariable('--separator-size', props.separatorSize + '');
 });
 
 const btnClass = computed(() => {
@@ -34,7 +49,7 @@ const btnClass = computed(() => {
 
 <template>
   <el-button-group v-bind="$attrs" :class="btnClass">
-    <slot :separatorcolor :separatorsize></slot>
+    <slot></slot>
   </el-button-group>
 </template>
 

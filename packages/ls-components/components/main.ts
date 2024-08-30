@@ -5,5 +5,6 @@ export { default } from './index';
 
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue';
 export { default as LSButton } from '@cpo/button/Button.vue';
+export { default as LSDescriptions } from '@cpo/descriptions/Index.vue';
 
 export type {} from './components.ts';
