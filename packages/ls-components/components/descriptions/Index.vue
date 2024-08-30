@@ -21,7 +21,7 @@ watch(
 </script>
 
 <template>
-  <div class="ls-descriptions">
+  <div class="ls-descriptions" :class="[$attrs[column] ? `column-${$attrs[column]}` : '']">
     <el-descriptions :title="title" :size="size" v-bind="$attrs" :direction="direction" :column="column" border>
       <template #title>
         <slot name="title"></slot>
@@ -70,7 +70,7 @@ watch(
       font-weight: bold;
     }
     td {
-      width: 33.33%;
+      width: 50%;
       word-break: break-all;
       vertical-align: middle;
     }
@@ -87,7 +87,7 @@ watch(
       padding: 2vh 11px !important;
       &.el-descriptions__cell {
         &.is-bordered-label {
-          background-color: var(--label-bg-color) !important;
+          background-color: var(--bg-color-primary) !important;
         }
       }
     }
