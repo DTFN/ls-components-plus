@@ -1,5 +1,5 @@
 <template>
-  <div class="ls-upload">
+  <div class="ls-upload" :class="{ 'ls-upload-drag': isDrag }">
     <el-upload
       ref="uploadRef"
       v-bind="Object.assign(defAttrs, $attrs)"
@@ -23,7 +23,7 @@
           </template>
           <template v-else>
             <div v-if="isPicCard" class="btn-picture-card">
-              <el-icon class="upload-btn-plus" :size="24" :color="configs.iconColor"><Plus /></el-icon>
+              <el-icon class="upload-btn-plus" :size="28" :color="configs.iconColor"><Plus /></el-icon>
               <div>{{ btnText }}</div>
             </div>
             <LSButton v-else plain icon="upload">{{ btnText }}</LSButton>
@@ -207,11 +207,11 @@ watch(
 
 function validateForm(msg: String) {
   const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
-  if (formRuleFunc && formRuleFunc instanceof Function && formValidateFunc && formValidateFunc instanceof Function) {
-    const formRule = formRuleFunc();
+  if (formRuleFunc && formRuleFunc.value instanceof Function && formValidateFunc && formValidateFunc.value instanceof Function) {
+    const formRule = formRuleFunc.value();
     const { message } = formRule;
     formRule.message = msg;
-    formValidateFunc();
+    formValidateFunc.value();
     formRule.message = message;
   }
   emits('uploadErrorFunc', msg);
@@ -361,6 +361,10 @@ function onSuccessAction(response: any, file: UploadFile, fileList: UploadFiles)
   if (props.onSuccess) {
     return props.onSuccess(response, file, fileList);
   }
+  const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
+  if (formRuleFunc && formRuleFunc.value instanceof Function && formValidateFunc && formValidateFunc.value instanceof Function) {
+    formValidateFunc.value();
+  }
 }
 
 function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
@@ -408,8 +412,9 @@ async function httpRequestAction(data: any) {
       res = await httpRequestFunc.value(formData);
     } catch (error) {
       res = error;
+    } finally {
+      emits('httpResponseFunc', res);
     }
-    emits('httpResponseFunc', res);
   }
 }
 
@@ -498,8 +503,9 @@ function cancelUpload() {
       }
       &.multi-css {
         width: 100%;
-        min-width: 496px;
-        max-width: 800px;
+
+        // min-width: 496px;
+        // max-width: 800px;
       }
     }
   }
@@ -577,6 +583,18 @@ function cancelUpload() {
   }
   :deep(.el-upload) {
     vertical-align: middle;
+    .el-upload-dragger {
+      min-height: 120px;
+    }
+  }
+  &.ls-upload-drag {
+    :deep() .el-upload-list--picture-card {
+      width: 100%;
+      .el-upload {
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 }
 </style>
