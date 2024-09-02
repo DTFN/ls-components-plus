@@ -2,15 +2,17 @@
 import { Icon } from '@iconify/vue';
 import dayjs from 'dayjs';
 import { lsDescProp } from './types';
-import { setVariable } from '@cpo/_utils/config';
 
 const props = defineProps(lsDescProp);
 
+const lsDescRef = ref();
+
 watch(
-  () => props.labelBgColor,
-  val => {
+  () => props.labelColor,
+  async val => {
     if (val) {
-      setVariable('--label-bg-color', val);
+      await nextTick();
+      updateLabelStyle(val, 1);
     }
   },
   {
@@ -18,10 +20,35 @@ watch(
     immediate: true
   }
 );
+
+watch(
+  () => props.labelBgColor,
+  async val => {
+    if (val) {
+      await nextTick();
+      updateLabelStyle(val, 2);
+    }
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+);
+
+function updateLabelStyle(color: string, type: number) {
+  const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
+  doms.forEach((element: any) => {
+    if (type === 1) {
+      element.style.color = color;
+    } else if (type === 2) {
+      element.style.backgroundColor = color;
+    }
+  });
+}
 </script>
 
 <template>
-  <div class="ls-descriptions" :class="[column ? `column-${column}` : '']">
+  <div class="ls-descriptions" ref="lsDescRef" :class="[column ? `column-${column}` : '']">
     <el-descriptions :title="title" :size="size" v-bind="$attrs" :direction="direction" :column="column" border>
       <template #title>
         <slot name="title"></slot>
@@ -92,11 +119,11 @@ watch(
   :deep() .el-descriptions__body {
     .el-descriptions__label {
       padding: 2vh 11px !important;
-      &.el-descriptions__cell {
-        &.is-bordered-label {
-          background-color: var(--bg-color-primary) !important;
-        }
-      }
+
+      // &.el-descriptions__cell {
+      //   &.is-bordered-label {
+      //   }
+      // }
     }
     .el-descriptions__table.is-bordered .el-descriptions__cell {
       border: 1px solid #dcdfe6 !important;

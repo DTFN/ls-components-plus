@@ -1,34 +1,7 @@
 <script setup lang="ts" name="LSButtonGroup">
-import { setVariable } from '@cpo/_utils/config';
 import { lsBtnGroupProp } from './types';
 
 const props = defineProps(lsBtnGroupProp);
-
-watch(
-  () => props.separatorColor,
-  val => {
-    if (val) {
-      setVariable('--separator-color', val);
-    }
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
-
-watch(
-  () => props.separatorSize,
-  val => {
-    if (val) {
-      setVariable('--separator-size', val + '');
-    }
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
 
 const separator = computed(() => {
   const val = props.separator;
@@ -66,8 +39,9 @@ const btnClass = computed(() => {
         position: relative;
         margin-right: 12px;
         margin-left: 12px;
-        font-size: var(--separator-size);
-        color: var(--separator-color);
+        font-size: 14px;
+        line-height: 18px;
+        color: $color-text1;
       }
       &:last-child {
         &::after {
@@ -79,6 +53,13 @@ const btnClass = computed(() => {
       :deep() .el-button {
         &::after {
           content: '|';
+        }
+      }
+    }
+    &-2 {
+      :deep() .el-button {
+        &::after {
+          content: '#';
         }
       }
     }

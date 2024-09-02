@@ -13,6 +13,11 @@ export const lsDescProp = {
     type: String,
     default: 'horizontal'
   },
+  // label字体颜色
+  labelColor: {
+    type: String,
+    default: ''
+  },
   // label展示区域背景色
   labelBgColor: {
     type: String,
