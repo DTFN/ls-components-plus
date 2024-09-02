@@ -434,16 +434,18 @@ function comfirmUpload() {
   uploadRef?.value?.submit();
 }
 
+function removeFile(file: UploadFile) {
+  uploadRef?.value.handleRemove(file);
+}
+
 function cancelUpload() {
-  let uploadDelDoms = null;
-  const elDom = uploadRef?.value;
-  if (typeof listType.value === 'undefined' || listType.value === UPLOAD_TYPE_MAP.text) {
-    uploadDelDoms = elDom.querySelectorAll('.ls-upload-del');
-  } else if (isPicCard.value) {
-    uploadDelDoms = elDom.querySelectorAll('.el-upload-list--picture-card .el-upload-list__item-delete');
-  }
-  (uploadDelDoms || []).forEach((e: any) => {
-    e.click();
+  configs.uploadFileList.forEach((file: UploadFile) => {
+    if (file) {
+      try {
+        uploadRef?.value?.abort(file);
+        removeFile(file);
+      } catch (error) {}
+    }
   });
 }
 
