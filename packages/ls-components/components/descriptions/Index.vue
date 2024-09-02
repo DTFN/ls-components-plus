@@ -119,11 +119,6 @@ function updateLabelStyle(color: string, type: number) {
   :deep() .el-descriptions__body {
     .el-descriptions__label {
       padding: 2vh 11px !important;
-
-      // &.el-descriptions__cell {
-      //   &.is-bordered-label {
-      //   }
-      // }
     }
     .el-descriptions__table.is-bordered .el-descriptions__cell {
       border: 1px solid #dcdfe6 !important;

@@ -1,454 +1,557 @@
-<script setup lang="ts">
-/**
- * 上传组件
- */
-// import type { UploadFile, UploadFiles, UploadProgressEvent, UploadProps, UploadRawFile, UploadUserFile } from 'element-plus';
-// import { isEqual } from 'lodash-es';
-// import { genFileId } from 'element-plus';
-// // import { download_api } from '~api/common';
-// import { blobUrl, validateFileType } from '@cpo/_utils/utils';
-// // import useUserStore from '~store/user';
-
-// interface FileListType extends UploadUserFile {
-//   pathKey?: string;
-// }
-
-// const props = withDefaults(
-//   defineProps<{
-//     type: 'image' | 'text';
-//     // 接口
-//     url: string;
-//     // 文件大小限制(MB)
-//     size?: number;
-//     // 文件数量限制
-//     limit?: number;
-//     // 接受上传的文件类型
-//     accept?: string;
-//     // 文件格式限制提示
-//     acceptHint?: string;
-//     // 文件
-//     fileList?: UploadFileType[];
-//     // 是否显示已上传文件列表
-//     showFileList?: boolean;
-//     // 是否显示上传成功提示
-//     showSuccessMessage?: boolean;
-//     // 显示上传成功提示文字
-//     successMessage?: string;
-//     // 显示上传失败提示文字
-//     errorMessage?: string;
-//     // 显示上传按钮文字
-//     buttonText?: string;
-//     // 是否禁止
-//     disabled?: boolean;
-//     // 是否处理上传成功返回的数据
-//     isDealRes?: boolean;
-//     // 上传按钮属性
-//     buttonAtttrs?: ObjType;
-//     // 上传请求方法
-//     method?: string;
-//     // 上传请求参数
-//     data?: ObjType | Function;
-//     // 上传文件字段名
-//     name?: string;
-//   }>(),
-//   {
-//     fileList: () => [],
-//     type: 'text',
-//     showFileList: false,
-//     limit: 1,
-//     showSuccessMessage: true,
-//     successMessage: '上传成功',
-//     errorMessage: '上传失败',
-//     buttonText: '上传文件',
-//     disabled: false,
-//     isDealRes: true,
-//     data: () => ({}),
-//     method: 'post',
-//     name: 'file'
-//   }
-// );
-
-// const emits = defineEmits<{
-//   'update:fileList': [fileList: UploadFileType[]];
-//   updateSuccess: [res: any];
-//   handlePreview: [uploadFile: UploadFile];
-// }>();
-
-// const UploadRef = ref();
-
-// const uploadLoading = ref(false);
-
-// const baseURL = import.meta.env.VITE_APP_API_BASEURL;
-
-// // const fileList = ref<UploadUserFile[]>([]);
-
-// const propsUploadFiles = computed<UploadUserFile[]>(() => {
-//   const list: FileListType[] = [];
-
-//   if (props.fileList && props.fileList.length) {
-//     props.fileList.forEach((item: UploadFileType) => {
-//       const { url, name, pathKey } = item;
-//       list.push({
-//         url,
-//         name: name || pathKey,
-//         pathKey
-//       });
-//     });
-//   }
-
-//   return list;
-// });
-
-// const uploadFiles = computed<UploadFileType[]>(() => {
-//   const list: UploadFileType[] = [];
-
-//   if (fileList.value && fileList.value.length) {
-//     fileList.value.forEach((item: FileListType) => {
-//       const { url, name, status, pathKey } = item;
-
-//       if (pathKey) {
-//         list.push({
-//           url,
-//           name: name || pathKey,
-//           pathKey
-//         });
-//       } else {
-//         const response: any = item.response;
-
-//         if (status && status === 'success' && response.code === 200 && response.data && response.data.filePathKey) {
-//           list.push({
-//             url,
-//             name: name || response.data.filePathKey,
-//             pathKey: response.data.filePathKey
-//           });
-//         }
-//       }
-//     });
-//   }
-
-//   return list;
-// });
-
-// watch(
-//   () => propsUploadFiles.value,
-//   newVal => {
-//     if (!isEqual(newVal, uploadFiles.value)) fileList.value = newVal;
-//   },
-//   { immediate: true, deep: true }
-// );
-
-// watch(
-//   () => uploadFiles.value,
-//   newVal => {
-//     if (!isEqual(newVal, propsUploadFiles.value)) emits('update:fileList', newVal);
-//   },
-//   { deep: true }
-// );
-
-// // 正在下载的图片 key:pathKey
-// const downImageUrls: ObjType = ref({});
-
-// // 获取图片url
-// function getImageUrl(pathKey: string, uid: number) {
-//   if (!uid) return;
-//   const result = downImageUrls.value[uid];
-
-//   if (!result && result !== 'uploading') {
-//     const index = fileList.value.findIndex((item: FileListType) => item.uid === uid);
-
-//     if (index >= 0) {
-//       downImageUrls[uid] = 'uploading';
-//       download_api(pathKey).then(res => {
-//         const url: any = blobUrl(res);
-//         fileList.value[index].url = url;
-//         fileList.value[index].status = 'success';
-//         fileList.value[index].percentage = 100;
-//         delete downImageUrls.value[uid];
-//       });
-//     }
-//   }
-// }
-
-// watch(
-//   () => fileList.value,
-//   newVal => {
-//     if (props.type === 'image') {
-//       newVal.forEach((item: FileListType) => {
-//         const { url, status, pathKey, uid } = item;
-
-//         if (!url && status !== 'uploading' && pathKey && uid) {
-//           item.status = 'uploading';
-//           item.percentage = 50;
-//           getImageUrl(pathKey, uid);
-//         }
-//       });
-//     }
-//   },
-//   { immediate: true, deep: true }
-// );
-
-// // 文件列表的类型
-// const listType = computed<'text' | 'picture-card'>(() => {
-//   return props.type === 'image' ? 'picture-card' : 'text';
-// });
-
-// // 是否显示已上传文件列表
-// const showFileList = computed<boolean>(() => {
-//   return props.type === 'image' ? true : props.showFileList;
-// });
-
-// // 图片预览url集
-// const urlList = computed<string[]>(() => {
-//   return fileList.value ? fileList.value.map((item: any) => item.url) : [];
-// });
-
-// const showViewer = ref(false);
-// const urlIndex = ref(0);
-
-// // 鼠标滚轮事件 放大缩小事件 不往下传 不影响浏览器事件
-// let stopWheelListener: (() => void) | undefined;
-
-// // 监听鼠标滚轮事件 放大缩小事件
-// function wheelHandler(e: WheelEvent) {
-//   if (!e.ctrlKey) return;
-
-//   if (e.deltaY < 0) {
-//     e.preventDefault();
-
-//     return false;
-//   } else if (e.deltaY > 0) {
-//     e.preventDefault();
-
-//     return false;
-//   }
-// }
-
-// // 关闭图片文件预览窗口
-// function closeViewer() {
-//   stopWheelListener?.();
-//   showViewer.value = false;
-// }
-
-// // 点击文件列表中已上传的文件时的钩子
-// const handlePreview: UploadProps['onPreview'] = (uploadFile: UploadFile) => {
-//   if (props.type === 'image') {
-//     stopWheelListener = useEventListener('wheel', wheelHandler, {
-//       passive: false
-//     });
-//     const findIndex = (urlList.value || []).findIndex(item => item === uploadFile.url);
-//     urlIndex.value = findIndex < 0 ? 0 : findIndex;
-//     // 文件预览
-//     showViewer.value = true;
-//   }
-//   emits('handlePreview', uploadFile);
-// };
-
-// // 文件列表移除文件时的钩子
-// const handleRemove: UploadProps['onRemove'] = (_uploadFile: UploadFile, _uploadFiles: UploadFiles) => {
-//   // console.log('handleRemove', uploadFile, uploadFiles)
-// };
-
-// // 文件上传成功时的钩子
-// const handleSuccess: UploadProps['onSuccess'] = (_response: any, _uploadFile: UploadFile, _uploadFiles: UploadFiles) => {
-//   // console.log('handleSuccess-response', _response)
-//   uploadLoading.value = false;
-//   let isSuc = true;
-
-//   if (_response && _response.code === 200) {
-//     if (props.isDealRes) isSuc = !!(_response.data && _response.data.filePathKey);
-//   } else {
-//     isSuc = false;
-//   }
-
-//   if (isSuc) {
-//     if (props.showSuccessMessage) ElMessage.success(props.successMessage || '上传成功');
-
-//     emits('updateSuccess', _response.data);
-//   } else {
-//     ElMessage.error(_response?.msg || `${props.errorMessage || '上传失败'}`);
-//   }
-//   // console.log('handleSuccess', uploadFile, uploadFiles)
-// };
-
-// // 文件上传失败时的钩子
-// const handleError: UploadProps['onError'] = (_error: Error, _uploadFile: UploadFile, _uploadFiles: UploadFiles) => {
-//   // console.log('handleError', _error)
-//   uploadLoading.value = false;
-//   ElMessage.error(`${props.errorMessage || '上传失败'}`);
-// };
-
-// // 文件上传时的钩子
-// const handleProgress: UploadProps['onProgress'] = (
-//   _evt: UploadProgressEvent,
-//   _uploadFile: UploadFile,
-//   _uploadFiles: UploadFiles
-// ) => {
-//   // console.log('handleProgress', _evt, _uploadFile, uploadFiles)
-// };
-
-// // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
-// const handleChange: UploadProps['onChange'] = (_uploadFile: UploadFile, _uploadFiles: UploadFiles) => {
-//   // console.log('handleChange', uploadFile, uploadFiles)
-// };
-
-// // 当超出限制时，执行的钩子函数
-// const handleExceed: UploadProps['onExceed'] = (_files: File[], _uploadFiles: UploadUserFile[]) => {
-//   // 如果文件个数限制一个的时候 自动替换
-//   if (props.limit === 1) {
-//     UploadRef.value!.clearFiles();
-//     const file = _files[0] as UploadRawFile;
-//     file.uid = genFileId();
-//     UploadRef.value!.handleStart(file);
-//     UploadRef.value!.submit();
-//   } else {
-//     uploadLoading.value = false;
-//     ElMessage.error(`只能上传 ${props.limit} 个文件`);
-//   }
-// };
-
-// // 文件上传之前是否通过
-// const isBeforeUploadSuc = ref(true);
-
-// // 上传文件之前
-// const beforeUpload: UploadProps['beforeUpload'] = (rawFile: UploadRawFile) => {
-//   const accept: string | undefined = props.accept;
-
-//   // 文件格式校验
-//   let isAccord: boolean = true;
-
-//   if (accept) isAccord = validateFileType(accept, rawFile);
-
-//   if (!isAccord) {
-//     ElMessage.error(props.acceptHint || `请上传 ${accept} 格式的文件!`);
-//     isBeforeUploadSuc.value = false;
-
-//     return false;
-//   }
-
-//   // 文件尺寸校验
-//   let isLtM = true;
-
-//   if (props.size) isLtM = rawFile.size / 1024 / 1024 < props.size;
-
-//   if (!isLtM) {
-//     ElMessage.error(`上传的文件大小不能超过 ${props.size} MB!`);
-//     isBeforeUploadSuc.value = false;
-
-//     return false;
-//   }
-//   isBeforeUploadSuc.value = true;
-
-//   uploadLoading.value = true;
-
-//   return true;
-// };
-
-// // 删除文件之前的钩子
-// const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, _uploadFiles) => {
-//   if (!isBeforeUploadSuc.value) return true;
-
-//   return ElMessageBox.confirm(`是否删除 ${uploadFile.name} ?`).then(
-//     () => true,
-//     () => false
-//   );
-// };
-
-// // 文件数量是否超出限制
-// const isExceed = computed(() => {
-//   return props.limit ? fileList.value.length >= props.limit : false;
-// });
-
-// defineExpose({
-//   UploadRef,
-//   fileList
-// });
-</script>
-
 <template>
-  <div>
-    <!-- <el-upload
-      ref="UploadRef"
-      v-model:file-list="fileList"
-      :class="[{ 'hide-upload': isExceed || disabled }, { 'hide-file-list': !showFileList }]"
-      :action="`${baseURL}${url}`"
-      :headers="{ Authorization: `Bearer ${useUserStore().getToken()}` }"
-      :method="method"
-      :data="data"
-      :name="name"
-      :accept="accept"
-      :list-type="listType"
-      :show-file-list="showFileList"
-      :limit="limit"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :on-success="handleSuccess"
-      :on-error="handleError"
-      :on-progress="handleProgress"
-      :on-change="handleChange"
-      :on-exceed="handleExceed"
-      :before-upload="beforeUpload"
-      :before-remove="beforeRemove"
-      :disabled="disabled || uploadLoading"
+  <div class="ls-upload">
+    <el-upload
+      ref="uploadRef"
+      v-bind="Object.assign(defAttrs, $attrs)"
+      :on-exceed="onExceedAction"
+      :before-upload="beforeUploadAction"
+      :on-change="onChangeAction"
+      :on-success="onSuccessAction"
+      :on-error="onErrorAction"
+      :on-remove="onRemoveAction"
+      :on-preview="onPreviewAction"
     >
-      <div v-if="type === 'image'" class="i-ep-plus text-24px" />
-
-      <el-button v-else type="primary" v-bind="buttonAtttrs" :loading="uploadLoading" :disabled="disabled || uploadLoading">
-        {{ buttonText }}
-      </el-button>
-
-      <template v-if="$slots.trigger && type !== 'image'" #trigger>
-        <slot name="trigger" />
+      <template #default>
+        <template v-if="!slots.default">
+          <template v-if="isDrag">
+            <LSIcon :name="'upload-cloud'" class="upload-icon" :size="56" fill="#E7E7E7" />
+            <div class="ls-drag">
+              <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
+              &nbsp;&nbsp;/&nbsp;&nbsp;
+              <div class="drag-txt ls-color-text2">拖拽到此区域</div>
+            </div>
+          </template>
+          <template v-else>
+            <div v-if="isPicCard" class="btn-picture-card">
+              <LSIcon :name="'plus'" class="upload-btn-plus" :size="24" :fill="configs.iconColor" />
+              <div>{{ btnText }}</div>
+            </div>
+            <LSButton v-else ls-icon="upload" :icon-color="configs.iconColor">&nbsp;{{ btnText }}</LSButton>
+          </template>
+          <div
+            v-if="!autoUpload"
+            class="upload-btn-handle"
+            :class="[isDrag ? 'drag-css' : 'nor-css', !isCover || isMultiple ? 'multi-css' : '']"
+          >
+            <LSButton
+              v-if="!isDrag"
+              class="ls-upload-btn-com ls-upload-btn-comfirm"
+              :class="{ 'is-ready': hasReadyFile() }"
+              @click="comfirmUpload"
+              >开始上传
+            </LSButton>
+            <template v-else>
+              <LSButton v-if="!isCover || isMultiple" @click="cancelUpload" class="ls-upload-btn-com ls-upload-btn-cancel"
+                >取消上传</LSButton
+              >
+              <LSButton
+                class="start-upload ls-upload-btn-com ls-upload-btn-comfirm"
+                :class="{ 'is-ready': hasReadyFile() }"
+                @click="comfirmUpload"
+                >开始上传</LSButton
+              >
+            </template>
+          </div>
+        </template>
+        <slot v-else></slot>
       </template>
-
-      <template v-if="$slots.tip" #tip>
-        <slot name="tip" />
+      <template v-if="slots.trigger" #trigger>
+        <slot name="trigger"> </slot>
+      </template>
+      <template #tip>
+        <div v-if="!slots.tip" class="ls-tip">{{ tipText }}</div>
+        <slot v-else name="tip"> </slot>
+      </template>
+      <template v-if="slots.file" #file>
+        <slot name="file"></slot>
       </template>
     </el-upload>
-
-    <el-image-viewer
-      v-if="showViewer"
-      teleported
-      :url-list="urlList"
-      :initial-index="urlIndex"
-      :z-index="3000"
-      @close="closeViewer"
-    /> -->
+    <LSPreview v-if="configs.showPreview" :on-close="closePreview" :type="configs.typePreview" :source="configs.sourcePreview" />
   </div>
 </template>
 
-<style scoped lang="scss">
-.hide-upload {
-  &:deep() .el-upload--picture-card {
-    display: none;
+<script setup lang="ts">
+import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST } from './upload';
+import type { configsType, UploadChangeFile } from './upload';
+import { getVariable } from '@cpo/_utils/config';
+import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
+
+defineOptions({
+  name: 'LSUpload',
+  inheritAttrs: false
+});
+
+const slots = useSlots();
+const attrs = useAttrs();
+
+const uploadRef = ref();
+
+const defAttrs: any = reactive({
+  isCover: true
+});
+const configs: configsType = reactive({
+  uploadFileList: [],
+  initUploadStatus: true,
+  showPreview: false,
+  typePreview: '',
+  sourcePreview: '',
+  iconColor: getVariable('colorText1')
+});
+
+const props = defineProps(lsUploadProps);
+
+const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
+
+const isToast = computed(() => {
+  return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
+});
+const isCover = computed(() => {
+  const status = props?.item?.isCover;
+
+  return typeof status === 'undefined' ? true : status;
+});
+const isMultiple = computed(() => {
+  return attrs.multiple;
+});
+const autoUpload = computed(() => {
+  const status = attrs['auto-upload'];
+  return typeof status === 'undefined' ? true : status;
+});
+const emptyFileMsg = computed(() => {
+  return props?.item?.emptyFileMsg || '';
+});
+const listType = computed(() => {
+  return attrs['list-type'];
+});
+const isPicCard = computed(() => {
+  return listType.value === UPLOAD_TYPE_MAP.picCard;
+});
+const limitFile = computed(() => {
+  return props?.item?.limitFile || [];
+});
+const limitFileMsg = computed(() => {
+  return props?.item?.limitFileMsg || '';
+});
+const limitSize = computed(() => {
+  return props?.item?.limitSize || 2;
+});
+const limitSizeMsg = computed(() => {
+  return props?.item?.limitSizeMsg || '';
+});
+const limitNumMsg = computed(() => {
+  return props?.item?.limitNumMsg || '';
+});
+const isDrag = computed(() => {
+  return attrs.drag;
+});
+const btnText = computed(() => {
+  const hint = isPicCard.value ? '图片' : '文件';
+  let text = `选择${hint}`;
+  if (isCover.value && !isMultiple.value) {
+    if (autoUpload.value) {
+      if (configs.initUploadStatus) {
+        text = '点击上传';
+      } else {
+        text = '重新上传';
+      }
+    } else {
+      if (configs.initUploadStatus) {
+        text = `选择${hint}`;
+      } else {
+        text = '重新选择';
+      }
+    }
+  } else {
+    if (autoUpload.value) {
+      text = '点击上传';
+    }
+  }
+  return text;
+});
+const tipText = computed(() => {
+  let text = '不限制上传格式，';
+  if (isPicCard.value) {
+    text = '文件须为图片格式，';
+  }
+  return `${text}文件大小不超过${limitSize.value}M`;
+});
+const httpRequestFunc = computed(() => {
+  return props?.item?.httpRequestFunc;
+});
+
+watch(
+  [isCover, httpRequestFunc],
+  ([nVal1, nVal2]) => {
+    defAttrs.isCover = nVal1;
+
+    if (nVal2 && nVal2 instanceof Function) {
+      defAttrs['http-request'] = httpRequestAction;
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+function validateForm(msg: String) {
+  const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
+  if (formRuleFunc && formRuleFunc instanceof Function && formValidateFunc && formValidateFunc instanceof Function) {
+    const formRule = formRuleFunc();
+    const { message } = formRule;
+    formRule.message = msg;
+    formValidateFunc();
+    formRule.message = message;
+  }
+  emits('uploadErrorFunc', msg);
+}
+
+function onExceedAction(files: File[], fileList: UploadUserFile[]) {
+  if (props.onExceed) {
+    return props.onExceed(files, fileList);
+  }
+  const msg: any =
+    `当前限制选择 ${attrs.limit} 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件` ||
+    limitNumMsg.value;
+  if (isToast.value) {
+    setTimeout(() => {
+      ElMessage.warning(msg);
+    }, 200);
+  } else {
+    validateForm(msg);
   }
 }
-:deep() .el-upload-list--picture-card {
-  .el-upload--picture-card,
-  .el-upload-list__item {
-    width: 120px;
-    height: 120px;
-    color: var(--el-border-color-darker);
+
+function beforeUploadAction(file: UploadRawFile) {
+  const { size, name } = file;
+  if (props.beforeUpload) {
+    const beforeStatus = props.beforeUpload(file);
+    if (beforeStatus && isCover.value && !isMultiple.value) {
+      updateCoverFileList();
+    }
+    return beforeStatus;
   }
-  .el-icon--close-tip {
-    display: none;
-    opacity: 0;
+  let isSuccess: Boolean = true;
+  const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name);
+  const isLimitSize = size / 1024 / 1024 > limitSize.value;
+  if (isLimitFile) {
+    const msg =
+      limitFileMsg.value ||
+      `上传文件 ${file.name} 只能是 ${limitFile.value
+        .filter(item => item)
+        .join('，')
+        .toLocaleLowerCase()} 格式！`;
+    if (isToast.value) {
+      setTimeout(() => {
+        ElMessage.error(msg);
+      }, 200);
+    } else {
+      validateForm(msg);
+    }
+    isSuccess = false;
   }
-  .el-progress {
-    width: 100px !important;
-    .el-progress-circle {
-      width: 100px !important;
-      height: 100px !important;
+  if (isLimitSize) {
+    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}MB！`;
+    if (isToast.value) {
+      setTimeout(() => {
+        ElMessage.error(msg);
+      }, 200);
+    } else {
+      validateForm(msg);
+    }
+    isSuccess = false;
+  }
+  if (isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
+    const msg = `上传文件 ${file.name} 不是图片格式的文件！`;
+    if (isToast.value) {
+      setTimeout(() => {
+        ElMessage.error(msg);
+      }, 200);
+    } else {
+      validateForm(msg);
+    }
+    isSuccess = false;
+  }
+  if (isSuccess && autoUpload.value && isCover.value && !isMultiple.value) {
+    updateCoverFileList();
+  }
+  return isSuccess;
+}
+
+function fileTypeMatch(name: string, list?: Array<string>) {
+  let fileData: Array<any> = [];
+  if (limitFile.value.length > 0) {
+    fileData = limitFile.value;
+  } else if (list) {
+    fileData = list;
+  }
+  if (fileData.length <= 0) {
+    return true;
+  }
+  for (let i = 0; i < fileData.length; i++) {
+    const elem = (fileData[i] || '').toLowerCase();
+    if (name.toLowerCase().endsWith(elem)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function updateCoverFileList(preIndex?: number, endIndex?: number) {
+  configs.uploadFileList.splice(preIndex || 0, endIndex || configs.uploadFileList.length - 1);
+}
+
+function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
+  configs.uploadFileList = fileList;
+  if (!autoUpload.value && isCover.value && !isMultiple.value) {
+    updateCoverFileList();
+  }
+  if (props.onChange) {
+    return props.onChange(file, fileList);
+  }
+  const { size } = file;
+  if (size <= 0) {
+    setChangeRes();
+    const msg = emptyFileMsg.value || '禁止上传空文件，请检查后重新上传！';
+    if (isToast.value) {
+      ElMessage.error(msg);
+    } else {
+      validateForm(msg);
+    }
+    return;
+  }
+  if (file.raw) {
+    if (!autoUpload.value && !beforeUploadAction(file.raw)) {
+      setChangeRes();
+    } else {
+      file.blob = URL.createObjectURL(file.raw) || '';
+      emits('onChangeFunc', file);
     }
   }
 }
-.hide-file-list {
-  &:deep() .el-upload-list {
-    margin: 0;
+
+function setChangeRes() {
+  let startIndex = 0;
+  if (configs.uploadFileList.length > 1) {
+    startIndex = configs.uploadFileList.length - 1;
+  }
+  updateCoverFileList(startIndex, 1);
+  emits('onChangeFunc', {});
+}
+
+function onSuccessAction(response: any, file: UploadFile, fileList: UploadFiles) {
+  configs.initUploadStatus = false;
+  if (props.onSuccess) {
+    return props.onSuccess(response, file, fileList);
   }
 }
-:deep() .is-disabled {
-  .el-upload-list__item-status-label {
-    display: none;
+
+function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
+  if (props.onError) {
+    return props.onError(err, file, fileList);
+  }
+}
+
+function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
+  configs.initUploadStatus = !fileList.length;
+  if (props.onRemove) {
+    return props.onRemove(file, fileList);
+  }
+}
+
+function onPreviewAction(file: UploadFile) {
+  if (props.onPreview) {
+    return props.onPreview(file);
+  }
+  const { raw, url } = file;
+  if (raw && url && isPicCard.value && raw.type.startsWith('image')) {
+    configs.typePreview = 'pic';
+    configs.sourcePreview = [url];
+    configs.showPreview = true;
+  }
+}
+
+async function httpRequestAction(data: any) {
+  const { file } = data;
+  if (!file) {
+    return;
+  }
+  if (props.httpRequest) {
+    return props.httpRequest(data);
+  }
+  const formData = new FormData();
+  formData.append('file', file);
+  if (httpRequestFunc.value instanceof Function) {
+    let res: any = {};
+    try {
+      res = await httpRequestFunc.value(formData);
+    } catch (error) {
+      res = error;
+    }
+    emits('httpResponseFunc', res);
+  }
+}
+
+function hasReadyFile() {
+  let status = false;
+  for (let i = 0; i < configs.uploadFileList.length; i++) {
+    const file = configs.uploadFileList[i];
+    if (file.status === UPLOAD_STATUS_MAP.ready) {
+      status = true;
+      break;
+    }
+  }
+  return status;
+}
+
+function comfirmUpload() {
+  uploadRef?.value?.submit();
+}
+
+function cancelUpload() {
+  let uploadDelDoms = null;
+  const elDom = uploadRef?.value;
+  if (typeof listType.value === 'undefined' || listType.value === UPLOAD_TYPE_MAP.text) {
+    uploadDelDoms = elDom.querySelectorAll('.ls-upload-del');
+  } else if (isPicCard.value) {
+    uploadDelDoms = elDom.querySelectorAll('.el-upload-list--picture-card .el-upload-list__item-delete');
+  }
+  (uploadDelDoms || []).forEach((e: any) => {
+    e.click();
+  });
+}
+
+function closePreview() {
+  configs.showPreview = false;
+  configs.sourcePreview = '';
+}
+</script>
+
+<style lang="scss" scoped>
+.ls-upload {
+  font-size: $font-size-content-small;
+  :deep(.ls-tip) {
+    margin-top: 8px;
+    font-size: $font-size-content-small;
+    font-weight: 400;
+    line-height: $line-height-content-small;
+    color: $color-text3;
+  }
+  :deep(.upload-icon) {
+    top: 16px;
+
+    @extend %horizontal-center;
+  }
+  :deep(.ls-drag) {
+    @extend %horizontal-center;
+
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    line-height: normal;
+    .drag-txt {
+      font-size: $font-size-content-medium;
+      line-height: $line-height-content-medium;
+    }
+  }
+  :deep(.upload-btn-handle) {
+    position: relative;
+    width: 334px;
+    vertical-align: middle;
+    cursor: pointer;
+    &.nor-css {
+      display: inline-block;
+      width: auto;
+      margin-left: 8px;
+    }
+    &.drag-css {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 12px;
+      .start-upload {
+        margin-left: 8px;
+      }
+      &.multi-css {
+        width: 100%;
+        min-width: 496px;
+        max-width: 800px;
+      }
+    }
+  }
+  :deep(.el-upload-list) {
+    .el-upload-list__item-name {
+      padding-left: 0;
+      font-size: $font-size-content-small;
+      .el-icon-document {
+        display: none;
+      }
+      .file-name-icon {
+        margin-right: 4px;
+        vertical-align: text-bottom;
+      }
+    }
+    .el-progress-bar {
+      display: none;
+    }
+  }
+  :deep(.btn-picture-card) {
+    @extend %v-h-center;
+
+    text-align: center;
+    .upload-btn-plus {
+      margin-bottom: 10px;
+    }
+  }
+  :deep(.ls-upload-btn-com) {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 5px 16px;
+    border: 1px solid #e7e7e7;
+    border-radius: 2px;
+    .ls-icon {
+      margin-right: 8px;
+    }
+    .ls-upload-btn-text {
+      font-size: $font-size-content-medium;
+      line-height: $line-height-content-medium;
+      color: $color-text1;
+    }
+    &.ls-upload-btn-comfirm,
+    &.ls-upload-btn-cancel {
+      font-size: $font-size-content-medium;
+      line-height: $line-height-content-medium;
+    }
+    &.ls-upload-btn-comfirm {
+      color: $color-light;
+      background-color: $color-brand3;
+      border: 1px solid $color-brand3;
+      &.is-ready {
+        background-color: $color-brand6;
+        border: 1px solid $color-brand6;
+      }
+    }
+    &.ls-upload-btn-cancel {
+      color: $color-text1;
+      background-color: #e7e7e7;
+      border: 1px solid #e7e7e7;
+    }
+    &.ls-upload-btn-default {
+      &:hover {
+        background-color: $color-border6;
+      }
+      &:focus {
+        background-color: $color-border5;
+      }
+    }
+  }
+  :deep(.el-upload--picture-card) {
+    position: relative;
   }
 }
 </style>
