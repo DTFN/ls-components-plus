@@ -20,9 +20,7 @@ const btnName = computed(() => {
     <template v-if="iconName">
       <Icon v-if="iconType === 2" :icon="btnName" class="ls-iconify" :color="btnColor" :width="iconWidth" :height="iconHeight" />
     </template>
-    <span class="ls-slot">
-      <slot></slot>
-    </span>
+    <slot></slot>
   </el-button>
 </template>
 
@@ -41,7 +39,7 @@ const btnName = computed(() => {
     margin-right: 6px;
   }
   .ls-iconify,
-  .ls-slot {
+  .span {
     vertical-align: middle;
   }
 }

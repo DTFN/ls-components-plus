@@ -2,11 +2,13 @@ import type { App, Plugin } from 'vue';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
+import LSUpload from './upload/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
   LSButton,
-  LSDescriptions
+  LSDescriptions,
+  LSUpload
 };
 
 const install = (app: App) => {

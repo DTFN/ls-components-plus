@@ -38,5 +38,13 @@ export default [
     meta: {
       title: 'Descriptions'
     }
+  },
+  {
+    name: 'Upload',
+    path: '/upload',
+    component: () => import('@/views/upload/Index.vue'),
+    meta: {
+      title: 'Upload'
+    }
   }
 ];

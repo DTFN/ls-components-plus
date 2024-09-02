@@ -45,7 +45,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./components/table/Table.vue')['default']
     Test: typeof import('./src/components/Test.vue')['default']
-    Upload: typeof import('./components/upload/Upload.vue')['default']
+    Upload: typeof import('./components/upload/Index.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

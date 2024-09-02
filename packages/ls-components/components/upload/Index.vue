@@ -11,10 +11,10 @@
       :on-remove="onRemoveAction"
       :on-preview="onPreviewAction"
     >
-      <template #default>
-        <template v-if="!slots.default">
+      <template #trigger>
+        <template v-if="!slots.trigger">
           <template v-if="isDrag">
-            <LSIcon :name="'upload-cloud'" class="upload-icon" :size="56" fill="#E7E7E7" />
+            <el-icon class="upload-icon" size="56" color="#E7E7E7"><UploadFilled /></el-icon>
             <div class="ls-drag">
               <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
               &nbsp;&nbsp;/&nbsp;&nbsp;
@@ -23,11 +23,17 @@
           </template>
           <template v-else>
             <div v-if="isPicCard" class="btn-picture-card">
-              <LSIcon :name="'plus'" class="upload-btn-plus" :size="24" :fill="configs.iconColor" />
+              <el-icon class="upload-btn-plus" :size="24" :color="configs.iconColor"><Plus /></el-icon>
               <div>{{ btnText }}</div>
             </div>
-            <LSButton v-else ls-icon="upload" :icon-color="configs.iconColor">&nbsp;{{ btnText }}</LSButton>
+            <LSButton v-else plain icon="upload">{{ btnText }}</LSButton>
           </template>
+        </template>
+        <slot v-else name="trigger"> </slot>
+      </template>
+
+      <template #default>
+        <template v-if="!slots.default">
           <div
             v-if="!autoUpload"
             class="upload-btn-handle"
@@ -35,18 +41,24 @@
           >
             <LSButton
               v-if="!isDrag"
+              type="primary"
               class="ls-upload-btn-com ls-upload-btn-comfirm"
               :class="{ 'is-ready': hasReadyFile() }"
               @click="comfirmUpload"
               >开始上传
             </LSButton>
             <template v-else>
-              <LSButton v-if="!isCover || isMultiple" @click="cancelUpload" class="ls-upload-btn-com ls-upload-btn-cancel"
+              <LSButton
+                v-if="!isCover || isMultiple"
+                type="primary"
+                @click="cancelUpload"
+                class="ls-upload-btn-com ls-upload-btn-cancel"
                 >取消上传</LSButton
               >
               <LSButton
                 class="start-upload ls-upload-btn-com ls-upload-btn-comfirm"
                 :class="{ 'is-ready': hasReadyFile() }"
+                type="primary"
                 @click="comfirmUpload"
                 >开始上传</LSButton
               >
@@ -55,18 +67,17 @@
         </template>
         <slot v-else></slot>
       </template>
-      <template v-if="slots.trigger" #trigger>
-        <slot name="trigger"> </slot>
-      </template>
+
       <template #tip>
         <div v-if="!slots.tip" class="ls-tip">{{ tipText }}</div>
         <slot v-else name="tip"> </slot>
       </template>
+
       <template v-if="slots.file" #file>
         <slot name="file"></slot>
       </template>
     </el-upload>
-    <LSPreview v-if="configs.showPreview" :on-close="closePreview" :type="configs.typePreview" :source="configs.sourcePreview" />
+    <!-- <LSPreview v-if="configs.showPreview" :on-close="closePreview" :type="configs.typePreview" :source="configs.sourcePreview" /> -->
   </div>
 </template>
 
@@ -158,7 +169,7 @@ const btnText = computed(() => {
       if (configs.initUploadStatus) {
         text = `选择${hint}`;
       } else {
-        text = '重新选择';
+        text = '重新上传';
       }
     }
   } else {
@@ -421,10 +432,10 @@ function cancelUpload() {
   });
 }
 
-function closePreview() {
-  configs.showPreview = false;
-  configs.sourcePreview = '';
-}
+// function closePreview() {
+//   configs.showPreview = false;
+//   configs.sourcePreview = '';
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -511,9 +522,10 @@ function closePreview() {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    padding: 5px 16px;
-    border: 1px solid #e7e7e7;
-    border-radius: 2px;
+
+    // padding: 5px 16px;
+    // border: 1px solid #e7e7e7;
+    // border-radius: 2px;
     .ls-icon {
       margin-right: 8px;
     }
@@ -552,6 +564,9 @@ function closePreview() {
   }
   :deep(.el-upload--picture-card) {
     position: relative;
+  }
+  :deep(.el-upload) {
+    vertical-align: middle;
   }
 }
 </style>
