@@ -234,7 +234,6 @@ function onExceedAction(files: File[], fileList: UploadUserFile[]) {
 }
 
 function beforeUploadAction(file: UploadRawFile) {
-  const { size, name } = file;
   if (props.beforeUpload) {
     const beforeStatus = props.beforeUpload(file);
     if (beforeStatus && isCover.value && !isMultiple.value) {
@@ -242,7 +241,16 @@ function beforeUploadAction(file: UploadRawFile) {
     }
     return beforeStatus;
   }
+  const isSuccess = validateUploadFile(file, true);
+  if (isSuccess && autoUpload.value && isCover.value && !isMultiple.value) {
+    updateCoverFileList();
+  }
+  return isSuccess;
+}
+
+function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
   let isSuccess: Boolean = true;
+  const { size, name } = file;
   const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name);
   const isLimitSize = size / 1024 / 1024 > limitSize.value;
   if (isLimitFile) {
@@ -252,7 +260,7 @@ function beforeUploadAction(file: UploadRawFile) {
         .filter(item => item)
         .join('，')
         .toLocaleLowerCase()} 格式！`;
-    if (isToast.value) {
+    if (isToast.value && showMsg) {
       setTimeout(() => {
         ElMessage.error(msg);
       }, 200);
@@ -263,7 +271,7 @@ function beforeUploadAction(file: UploadRawFile) {
   }
   if (isLimitSize) {
     const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}MB！`;
-    if (isToast.value) {
+    if (isToast.value && showMsg) {
       setTimeout(() => {
         ElMessage.error(msg);
       }, 200);
@@ -274,7 +282,7 @@ function beforeUploadAction(file: UploadRawFile) {
   }
   if (isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
     const msg = `上传文件 ${file.name} 不是图片格式的文件！`;
-    if (isToast.value) {
+    if (isToast.value && showMsg) {
       setTimeout(() => {
         ElMessage.error(msg);
       }, 200);
@@ -282,9 +290,6 @@ function beforeUploadAction(file: UploadRawFile) {
       validateForm(msg);
     }
     isSuccess = false;
-  }
-  if (isSuccess && autoUpload.value && isCover.value && !isMultiple.value) {
-    updateCoverFileList();
   }
   return isSuccess;
 }
@@ -314,7 +319,8 @@ function updateCoverFileList(preIndex?: number, endIndex?: number) {
 
 function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
   configs.uploadFileList = fileList;
-  if (!autoUpload.value && isCover.value && !isMultiple.value) {
+  const isSuccess = file.raw && validateUploadFile(file.raw, !autoUpload.value);
+  if (isSuccess && isCover.value && !isMultiple.value) {
     updateCoverFileList();
   }
   if (props.onChange) {
@@ -332,7 +338,7 @@ function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
     return;
   }
   if (file.raw) {
-    if (!autoUpload.value && !beforeUploadAction(file.raw)) {
+    if (!autoUpload.value && !isSuccess) {
       setChangeRes();
     } else {
       file.blob = URL.createObjectURL(file.raw) || '';
@@ -385,6 +391,10 @@ function onPreviewAction(file: UploadFile) {
 async function httpRequestAction(data: any) {
   const { file } = data;
   if (!file) {
+    return;
+  }
+  const { size } = file;
+  if (size <= 0 || !validateUploadFile(file, false)) {
     return;
   }
   if (props.httpRequest) {
