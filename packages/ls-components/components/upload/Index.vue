@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST } from './upload';
+import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './upload';
 import type { configsType, UploadChangeFile } from './upload';
 import { getVariable } from '@cpo/_utils/config';
 import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
@@ -98,7 +98,8 @@ const attrs = useAttrs();
 const uploadRef = ref();
 
 const defAttrs: any = reactive({
-  isCover: true
+  isCover: true,
+  accept: ''
 });
 const configs: configsType = reactive({
   uploadFileList: [],
@@ -204,6 +205,30 @@ watch(
     deep: true
   }
 );
+
+watch(
+  () => limitFile.value,
+  val => {
+    if (val && val.length > 0) {
+      updateFileAccept(val);
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+function updateFileAccept(files: Array<string>) {
+  defAttrs.accept = '';
+  files.forEach((key: string) => {
+    const fileType = fileTypeMap[key] || '';
+    if (fileType) {
+      if (defAttrs.accept) defAttrs.accept += ',';
+      defAttrs.accept += fileType;
+    }
+  });
+}
 
 function validateForm(msg: String) {
   const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
