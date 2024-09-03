@@ -15,16 +15,22 @@
       <template #trigger>
         <template v-if="!slots.trigger">
           <template v-if="isDrag">
-            <el-icon class="upload-icon" size="56" color="#E7E7E7"><UploadFilled /></el-icon>
+            <el-button v-if="uploading" text :loading="uploading"></el-button>
+            <el-icon v-else class="upload-icon" size="56" color="#E7E7E7"><UploadFilled /></el-icon>
             <div class="ls-drag">
               <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
-              &nbsp;&nbsp;/&nbsp;&nbsp;
-              <div class="drag-txt ls-color-text2">拖拽到此区域</div>
+              <template v-if="!uploading">
+                &nbsp;&nbsp;/&nbsp;&nbsp;
+                <div class="drag-txt ls-color-text2">拖拽到此区域</div>
+              </template>
             </div>
           </template>
           <template v-else>
             <div v-if="isPicCard" class="btn-picture-card">
-              <el-icon class="upload-btn-plus" :size="28" :color="configs.iconColor"><Plus /></el-icon>
+              <el-button v-if="uploading" text :loading="uploading"></el-button>
+              <el-icon v-else class="upload-btn-plus" :size="28" :color="configs.iconColor">
+                <Plus />
+              </el-icon>
               <div>{{ btnText }}</div>
             </div>
             <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
@@ -45,6 +51,7 @@
               type="primary"
               class="ls-upload-btn-com ls-upload-btn-comfirm"
               :class="{ 'is-ready': hasReadyFile() }"
+              :loading="uploading"
               @click="comfirmUpload"
               >开始上传
             </LSButton>
@@ -60,6 +67,7 @@
                 class="start-upload ls-upload-btn-com ls-upload-btn-comfirm"
                 :class="{ 'is-ready': hasReadyFile() }"
                 type="primary"
+                :loading="uploading"
                 @click="comfirmUpload"
                 >开始上传</LSButton
               >
@@ -101,7 +109,8 @@ const uploading = ref(false);
 
 const defAttrs: any = reactive({
   isCover: true,
-  accept: ''
+  accept: '',
+  disabled: uploading
 });
 const configs: configsType = reactive({
   uploadFileList: [],
@@ -161,7 +170,9 @@ const isDrag = computed(() => {
 const btnText = computed(() => {
   const hint = isPicCard.value ? '图片' : '文件';
   let text = `选择${hint}`;
-  if (isCover.value && !isMultiple.value) {
+  if (uploading.value) {
+    text = '正在上传...';
+  } else if (isCover.value && !isMultiple.value) {
     if (autoUpload.value) {
       if (configs.initUploadStatus) {
         text = '点击上传';
@@ -437,12 +448,14 @@ async function httpRequestAction(data: any) {
   const formData = new FormData();
   formData.append('file', file);
   if (httpRequestFunc.value instanceof Function) {
+    uploading.value = true;
     let res: any = {};
     try {
       res = await httpRequestFunc.value(formData);
     } catch (error) {
       res = error;
     } finally {
+      uploading.value = false;
       emits('httpResponseFunc', res);
     }
   }
@@ -560,6 +573,11 @@ function onProgressAction() {
     .el-progress-bar {
       display: none;
     }
+    &.el-upload-list--text {
+      .el-upload-list__item .el-progress__text {
+        top: -25px;
+      }
+    }
   }
   :deep(.btn-picture-card) {
     @extend %v-h-center;
@@ -621,6 +639,11 @@ function onProgressAction() {
     vertical-align: middle;
     .el-upload-dragger {
       min-height: 120px;
+    }
+    .el-icon {
+      &.is-loading {
+        font-size: 24px;
+      }
     }
   }
   &.ls-upload-drag {
