@@ -10,6 +10,7 @@
       :on-error="onErrorAction"
       :on-remove="onRemoveAction"
       :on-preview="onPreviewAction"
+      :on-progress="onProgressAction"
     >
       <template #trigger>
         <template v-if="!slots.trigger">
@@ -26,7 +27,7 @@
               <el-icon class="upload-btn-plus" :size="28" :color="configs.iconColor"><Plus /></el-icon>
               <div>{{ btnText }}</div>
             </div>
-            <LSButton v-else plain icon="upload">{{ btnText }}</LSButton>
+            <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
           </template>
         </template>
         <slot v-else name="trigger"> </slot>
@@ -96,6 +97,7 @@ const slots = useSlots();
 const attrs = useAttrs();
 
 const uploadRef = ref();
+const uploading = ref(false);
 
 const defAttrs: any = reactive({
   isCover: true,
@@ -243,6 +245,7 @@ function validateForm(msg: String) {
 }
 
 function onExceedAction(files: File[], fileList: UploadUserFile[]) {
+  uploading.value = false;
   if (props.onExceed) {
     return props.onExceed(files, fileList);
   }
@@ -382,17 +385,19 @@ function setChangeRes() {
 }
 
 function onSuccessAction(response: any, file: UploadFile, fileList: UploadFiles) {
+  uploading.value = false;
   configs.initUploadStatus = false;
-  if (props.onSuccess) {
-    return props.onSuccess(response, file, fileList);
-  }
   const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
   if (formRuleFunc && formRuleFunc.value instanceof Function && formValidateFunc && formValidateFunc.value instanceof Function) {
     formValidateFunc.value();
   }
+  if (props.onSuccess) {
+    return props.onSuccess(response, file, fileList);
+  }
 }
 
 function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
+  uploading.value = false;
   if (props.onError) {
     return props.onError(err, file, fileList);
   }
@@ -472,6 +477,10 @@ function cancelUpload() {
       } catch (error) {}
     }
   });
+}
+
+function onProgressAction() {
+  uploading.value = true;
 }
 
 // function closePreview() {

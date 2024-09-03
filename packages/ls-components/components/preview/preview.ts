@@ -1,6 +1,6 @@
 import { buildProps, definePropType, mutable } from '@pkg/_utils/runtime';
 import type { ExtractPropTypes } from 'vue';
-import type Pic from './components/Pic.vue';
+import type Pic from './components/Image.vue';
 
 const emitNames = ['update:source', 'loadComplete', 'loadError'];
 
