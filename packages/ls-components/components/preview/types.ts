@@ -1,6 +1,6 @@
-import { buildProps, definePropType, mutable } from '@pkg/_utils/runtime';
+import { buildProps, definePropType, mutable } from '@cpo/_utils/runtime';
 import type { ExtractPropTypes } from 'vue';
-import type Pic from './components/Image.vue';
+import type LSImage from './components/Image.vue';
 
 const emitNames = ['update:source', 'loadComplete', 'loadError'];
 
@@ -52,4 +52,30 @@ export interface ImageViewerMode {
   name: string;
 }
 
-export type ImageViewerInstance = InstanceType<typeof Pic>;
+export type ImageViewerInstance = InstanceType<typeof LSImage>;
+
+export const lsPreviewProp = {
+  type: {
+    type: String
+  },
+  source: {
+    type: [Array<string>]
+  },
+  zoomSize: {
+    type: [Number, String],
+    default: 1.5
+  },
+  needLoading: {
+    type: Boolean,
+    default: true
+  },
+  loadingOption: {
+    type: Object,
+    default: () => {
+      return {
+        text: 'Loading',
+        background: 'rgba(0, 0, 0, 0.5)'
+      };
+    }
+  }
+};

@@ -46,5 +46,13 @@ export default [
     meta: {
       title: 'Upload'
     }
+  },
+  {
+    name: 'Preview',
+    path: '/preview',
+    component: () => import('@/views/preview/Index.vue'),
+    meta: {
+      title: 'Preview'
+    }
   }
 ];

@@ -3,12 +3,14 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
 import LSUpload from './upload/index';
+import LSPreview from './preview/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
   LSButton,
   LSDescriptions,
-  LSUpload
+  LSUpload,
+  LSPreview
 };
 
 const install = (app: App) => {

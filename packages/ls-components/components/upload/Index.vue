@@ -91,8 +91,8 @@
 </template>
 
 <script setup lang="ts">
-import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './upload';
-import type { configsType, UploadChangeFile } from './upload';
+import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
+import type { configsType, UploadChangeFile } from './types';
 import { getVariable } from '@cpo/_utils/config';
 import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
 
