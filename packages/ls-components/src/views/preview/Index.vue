@@ -9,7 +9,7 @@ const showViewer = ref(false);
 
 function closeViewer() {
   showViewer.value = false;
-  // source.value = '';
+  source.value = '';
 }
 </script>
 

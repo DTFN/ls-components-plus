@@ -1,18 +1,4 @@
 export const lsDescProp = {
-  title: {
-    type: String,
-    default: ''
-  },
-  // 大小
-  size: {
-    type: String,
-    default: 'default'
-  },
-  // 方向
-  direction: {
-    type: String,
-    default: 'horizontal'
-  },
   // label字体颜色
   labelColor: {
     type: String,
@@ -22,11 +8,6 @@ export const lsDescProp = {
   labelBgColor: {
     type: String,
     default: '#e2edff'
-  },
-  // 列表头
-  column: {
-    type: Number,
-    default: 1
   },
   /**
    * 数据

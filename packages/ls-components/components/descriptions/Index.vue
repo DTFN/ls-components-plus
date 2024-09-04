@@ -2,10 +2,17 @@
 import { Icon } from '@iconify/vue';
 import dayjs from 'dayjs';
 import { lsDescProp } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 
 const props = defineProps(lsDescProp);
 
+const defAttrs = ref({
+  column: 1
+});
+
 const lsDescRef = ref();
+const ns = useNamespace('descriptions');
+const comClass: string = ns.b();
 
 watch(
   () => props.labelColor,
@@ -48,8 +55,8 @@ function updateLabelStyle(color: string, type: number) {
 </script>
 
 <template>
-  <div class="ls-descriptions" ref="lsDescRef" :class="[column ? `column-${column}` : '']">
-    <el-descriptions :title="title" :size="size" v-bind="$attrs" :direction="direction" :column="column" border>
+  <div ref="lsDescRef" :class="[comClass, `column-${$attrs.column || 1}`]">
+    <el-descriptions v-bind="Object.assign(defAttrs, $attrs)" border>
       <template #title>
         <slot name="title"></slot>
       </template>
@@ -67,7 +74,7 @@ function updateLabelStyle(color: string, type: number) {
               :width="item.iconWidth || 16"
               :height="item.iconHeight || 16"
             />
-            <el-icon v-else class="ls-icon" size="item.iconSize" :color="item.iconColor || item.btnColor"
+            <el-icon v-else class="ls-icon" :size="item.iconSize" :color="item.iconColor || item.btnColor"
               ><component :is="item.icon"
             /></el-icon>
             {{ item?.label }}

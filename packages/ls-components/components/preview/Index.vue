@@ -36,7 +36,7 @@ const defAttrs: any = reactive({
   source: props.source
 });
 const ns = useNamespace('preview');
-const previewClass: string = ns.b();
+const comClass: string = ns.b();
 const cpoMap: any = reactive({
   image: LSImage
 });
@@ -93,7 +93,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="previewVisible" :class="previewClass">
+  <div v-if="previewVisible" :class="comClass">
     <component
       :is="{ ...curCpo }"
       v-bind="Object.assign(defAttrs, $attrs)"

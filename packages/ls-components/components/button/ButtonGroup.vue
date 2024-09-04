@@ -1,4 +1,5 @@
 <script setup lang="ts" name="LSButtonGroup">
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBtnGroupProp } from './types';
 
 const props = defineProps(lsBtnGroupProp);
@@ -11,12 +12,15 @@ const separator = computed(() => {
   return `separator separator-${val}`;
 });
 
+const ns = useNamespace('button-group');
+const comClass: string = ns.b();
+
 const btnClass = computed(() => {
   let cssName = '';
   if (separator.value) {
     cssName += separator.value;
   }
-  return `ls-button-group ${cssName}`;
+  return `${comClass} ${cssName}`;
 });
 </script>
 

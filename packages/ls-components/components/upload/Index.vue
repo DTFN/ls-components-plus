@@ -1,5 +1,5 @@
 <template>
-  <div class="ls-upload" :class="{ 'ls-upload-drag': isDrag }">
+  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '']">
     <el-upload
       ref="uploadRef"
       v-bind="Object.assign(defAttrs, $attrs)"
@@ -95,6 +95,7 @@ import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fil
 import type { configsType, UploadChangeFile } from './types';
 import { getVariable } from '@cpo/_utils/config';
 import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 
 defineOptions({
   name: 'LSUpload',
@@ -103,6 +104,9 @@ defineOptions({
 
 const slots = useSlots();
 const attrs = useAttrs();
+
+const ns = useNamespace('upload');
+const comClass: string = ns.b();
 
 const uploadRef = ref();
 const uploading = ref(false);

@@ -1,12 +1,12 @@
 <script setup lang="ts" name="LSButton">
 import { Icon } from '@iconify/vue';
 import { lsBtnProp } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 
 const props = defineProps(lsBtnProp);
 
-const btnClass = computed(() => {
-  return 'ls-button';
-});
+const ns = useNamespace('button');
+const comClass: string = ns.b();
 const btnColor = computed(() => {
   return props.iconColor || '';
 });
@@ -16,7 +16,7 @@ const btnName = computed(() => {
 </script>
 
 <template>
-  <el-button v-bind="$attrs" :class="btnClass">
+  <el-button v-bind="$attrs" :class="comClass">
     <template v-if="iconName">
       <Icon v-if="iconType === 2" :icon="btnName" class="ls-iconify" :color="btnColor" :width="iconWidth" :height="iconHeight" />
     </template>
