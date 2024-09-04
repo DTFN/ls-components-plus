@@ -15,6 +15,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import FilesLoader from 'vite-plugin-files-loader';
 
 import path from 'path';
 const pathSrc = path.resolve(__dirname, '../../ls-components');
@@ -89,7 +90,8 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
     createSvgIconsPlugin({
       iconDirs: [path.resolve(process.cwd(), 'src/assets/svgs')],
       symbolId: 'icon-[dir]-[name]'
-    })
+    }),
+    FilesLoader()
   ];
 };
 

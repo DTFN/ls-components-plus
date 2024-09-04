@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSImage from './components/Image.vue';
+import LSDocx from './components/Docx.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 import { isArray } from '@cpo/_utils/check';
 
 defineOptions({
   name: 'LSPreview',
+  components: {
+    LSImage,
+    LSDocx
+  },
   inheritAttrs: false
 });
 
@@ -22,29 +27,45 @@ const previewVisible = defineModel({
   type: Boolean
 });
 
-watch(
-  () => previewVisible?.value,
-  val => {
-    if (val && checkSource()) {
-      openLoading();
-    }
-  }
-);
-
 const defAttrs: any = reactive({
   zoomSize,
-  source: props.source
+  source: ''
 });
 const ns = useNamespace('preview');
 const comClass: string = ns.b();
 const cpoMap: any = reactive({
-  image: LSImage
+  image: LSImage,
+  docx: LSDocx
 });
 const loadInstance: any = ref();
 
 const curCpo = computed(() => {
   return type?.value && cpoMap[type?.value];
 });
+
+watch(
+  () => previewVisible?.value,
+  val => {
+    if (val && checkSource()) {
+      openLoading();
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+watch(
+  () => props.source,
+  val => {
+    defAttrs.source = val;
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 function openLoading() {
   props.type !== 'pdf' && props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
@@ -67,7 +88,7 @@ const loadError = () => {
 function checkSource() {
   let status: Boolean = true;
   const type: string = props.type || '';
-  const source: Array<string> = props.source || [];
+  const source: Array<string> | ArrayBuffer = props.source || [];
   switch (type) {
     case 'image':
       if (!source || !isArray(source) || source.length <= 0) {
@@ -79,7 +100,6 @@ function checkSource() {
     default:
       break;
   }
-  previewVisible.value = Boolean(status);
   return status;
 }
 
@@ -95,7 +115,7 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="previewVisible" :class="comClass">
     <component
-      :is="{ ...curCpo }"
+      :is="curCpo.name"
       v-bind="Object.assign(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"

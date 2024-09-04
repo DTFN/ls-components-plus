@@ -6,6 +6,7 @@ const emitNames = ['update:source', 'loadComplete', 'loadError'];
 
 export { emitNames };
 
+// image
 export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise';
 
 export const imageViewerProps = buildProps({
@@ -54,12 +55,20 @@ export interface ImageViewerMode {
 
 export type ImageViewerInstance = InstanceType<typeof LSImage>;
 
+// docx
+export const docxProps = buildProps({
+  source: {
+    type: ArrayBuffer,
+    default: null
+  }
+});
+
 export const lsPreviewProp = {
   type: {
     type: String
   },
   source: {
-    type: [Array<string>]
+    type: [Array<string>, ArrayBuffer]
   },
   zoomSize: {
     type: [Number, String],
@@ -74,7 +83,7 @@ export const lsPreviewProp = {
     default: () => {
       return {
         text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.5)'
+        background: 'rgba(0, 0, 0, 0.3)'
       };
     }
   }
