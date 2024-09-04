@@ -11,7 +11,7 @@ export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockw
 
 export const imageViewerProps = buildProps({
   source: {
-    type: definePropType<string[]>(Array),
+    type: [definePropType<string[]>(Array), String],
     default: () => mutable([] as const)
   },
   zIndex: {
@@ -58,7 +58,7 @@ export type ImageViewerInstance = InstanceType<typeof LSImage>;
 // docx
 export const docxProps = buildProps({
   source: {
-    type: ArrayBuffer,
+    type: [ArrayBuffer, String],
     default: null
   },
   onClose: Function
@@ -68,9 +68,7 @@ export const lsPreviewProp = {
   type: {
     type: String
   },
-  source: {
-    type: [Array<string>, ArrayBuffer]
-  },
+  source: {},
   zoomSize: {
     type: [Number, String],
     default: 1.5

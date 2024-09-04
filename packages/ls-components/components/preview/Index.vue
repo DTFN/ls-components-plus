@@ -4,7 +4,6 @@ import LSImage from './components/Image.vue';
 import LSDocx from './components/Docx.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
-import { isArray } from '@cpo/_utils/check';
 
 defineOptions({
   name: 'LSPreview',
@@ -46,7 +45,7 @@ const curCpo = computed(() => {
 watch(
   () => previewVisible?.value,
   val => {
-    if (val && checkSource()) {
+    if (val) {
       openLoading();
     }
   },
@@ -84,24 +83,6 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
-
-function checkSource() {
-  let status: Boolean = true;
-  const type: string = props.type || '';
-  const source: Array<string> | ArrayBuffer = props.source || [];
-  switch (type) {
-    case 'image':
-      if (!source || !isArray(source) || source.length <= 0) {
-        ElMessage.error('图片地址不能为空！');
-        status = false;
-      }
-      break;
-
-    default:
-      break;
-  }
-  return status;
-}
 
 onBeforeMount(() => {
   previewVisible.value && props.type && openLoading();

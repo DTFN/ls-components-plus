@@ -21,7 +21,7 @@ watch(
   }
 );
 
-async function updateDocx(val: ArrayBuffer) {
+async function updateDocx(val: ArrayBuffer | String) {
   if (!val || !isArrayBuffer(val)) {
     ElMessage.error('Word文档地址不能为空且格式必须是ArrayBuffer');
     return;
