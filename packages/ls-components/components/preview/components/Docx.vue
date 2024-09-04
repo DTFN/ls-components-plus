@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { docxProps, imageViewerEmits } from '../types';
+import { isArrayBuffer } from '@cpo/_utils/check';
 
 const ns = useNamespace('docx');
 const comClass: string = ns.b();
@@ -21,7 +22,7 @@ watch(
 );
 
 async function updateDocx(val: ArrayBuffer) {
-  if (!val) {
+  if (!val || !isArrayBuffer(val)) {
     ElMessage.error('Word文档地址不能为空且格式必须是ArrayBuffer');
     return;
   }
@@ -45,20 +46,61 @@ async function updateDocx(val: ArrayBuffer) {
       renderEndnotes: true, //enables endnotes rendering
       debug: false //enables additional logging
     })
-    .then(res => {
+    .then(() => {
       emits('loadComplete');
-      console.log(res);
     })
     .catch(() => {
       emits('loadError');
     });
 }
+
+const closeFunc = () => {
+  props.onClose && props.onClose();
+  emits('update:source', []);
+};
 </script>
 
 <template>
   <div :class="comClass">
+    <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+      <el-icon :size="24" color="#FFF"><Close /></el-icon>
+    </span>
     <div ref="docxRef"></div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@mixin op-icon() {
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  color: #ffffff;
+  background-color: #606266;
+  border-color: #ffffff;
+}
+.ls-docx__btn {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  opacity: 0.8;
+  .ls-icon {
+    font-size: inherit;
+    cursor: pointer;
+  }
+  &.ls-docx__close {
+    top: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+
+    @include op-icon;
+  }
+}
+</style>

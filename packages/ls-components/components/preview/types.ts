@@ -60,7 +60,8 @@ export const docxProps = buildProps({
   source: {
     type: ArrayBuffer,
     default: null
-  }
+  },
+  onClose: Function
 });
 
 export const lsPreviewProp = {

@@ -93,3 +93,7 @@ export const isQuarter = (fromat: string) => {
 };
 
 export const isFirefox = (): boolean => isClient && /firefox/i.test(window.navigator.userAgent);
+
+export const isArrayBuffer = (data: any) => {
+  return data instanceof ArrayBuffer || ArrayBuffer.isView(data);
+};
