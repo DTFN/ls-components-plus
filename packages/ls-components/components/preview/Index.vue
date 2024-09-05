@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSImage from './components/Image.vue';
 import LSDocx from './components/Docx.vue';
+import LSXlsx from './components/Xlsx.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 
@@ -9,7 +10,8 @@ defineOptions({
   name: 'LSPreview',
   components: {
     LSImage,
-    LSDocx
+    LSDocx,
+    LSXlsx
   },
   inheritAttrs: false
 });
@@ -34,7 +36,8 @@ const ns = useNamespace('preview');
 const comClass: string = ns.b();
 const cpoMap: any = reactive({
   image: LSImage,
-  docx: LSDocx
+  docx: LSDocx,
+  xlsx: LSXlsx
 });
 const loadInstance: any = ref();
 

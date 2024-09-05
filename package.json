@@ -52,6 +52,7 @@
     "docx-preview": "^0.3.2",
     "element-plus": "^2.8.1",
     "lodash-es": "^4.17.21",
+    "luckyexcel": "^1.0.1",
     "pinia": "^2.2.2",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3"

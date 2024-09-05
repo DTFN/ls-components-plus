@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import docx from '@/assets/files/测试.docx?url';
+import xlsx from '@/assets/files/222.xlsx?url';
 
 const type = ref('image');
 const source: any = ref();
@@ -28,6 +29,11 @@ function openViewer(val: string) {
         source.value = data.data;
       });
       break;
+    case 'xlsx':
+      axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
+        source.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
+      });
+      break;
     default:
       break;
   }
@@ -41,6 +47,8 @@ function openViewer(val: string) {
       <LSButton type="primary" @click="openViewer('image')">图片预览</LSButton>
 
       <LSButton type="primary" @click="openViewer('docx')">Docx预览</LSButton>
+
+      <LSButton type="primary" @click="openViewer('xlsx')">Xlsx预览</LSButton>
     </div>
     <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" />
   </div>

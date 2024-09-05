@@ -93,3 +93,33 @@ export function validateFileType(accept: string, rawFile: File): boolean {
 
   return isValidType;
 }
+
+export const loadJs = (list: Array<any> = []) => {
+  const pAll: any = [];
+  list.forEach((item: any) => {
+    pAll.push(
+      new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.id = item.id;
+        script.src = item.src;
+        document.body.appendChild(script);
+        script.onload = function () {
+          resolve({});
+        };
+        script.onerror = function () {
+          reject({});
+        };
+      })
+    );
+  });
+  return Promise.all(pAll);
+};
+
+export const removeJs = (list: Array<any> = []) => {
+  list.forEach((item: any) => {
+    const script = document.getElementById(item.id);
+    if (script) {
+      script.remove();
+    }
+  });
+};

@@ -19,6 +19,11 @@ module.exports = {
       jsx: true
     }
   },
+  overrides: [
+    {
+      files: ['*.vue', '*.ts']
+    }
+  ],
   // 继承某些已有的规则
   extends: ['plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
   /**

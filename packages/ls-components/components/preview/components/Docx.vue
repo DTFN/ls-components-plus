@@ -18,12 +18,15 @@ watch(
   () => props.source,
   val => {
     updateDocx(val);
+  },
+  {
+    immediate: true,
+    deep: true
   }
 );
 
 async function updateDocx(val: ArrayBuffer | String) {
   if (!val || !isArrayBuffer(val)) {
-    ElMessage.error('Word文档地址不能为空且格式必须是ArrayBuffer');
     return;
   }
   const docx = await docxPromise();

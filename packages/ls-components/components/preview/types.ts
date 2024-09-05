@@ -64,6 +64,15 @@ export const docxProps = buildProps({
   onClose: Function
 });
 
+// xlsx
+export const xlsxProps = buildProps({
+  source: {
+    type: [File, String],
+    default: null
+  },
+  onClose: Function
+});
+
 export const lsPreviewProp = {
   type: {
     type: String

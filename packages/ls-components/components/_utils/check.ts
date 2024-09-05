@@ -97,3 +97,7 @@ export const isFirefox = (): boolean => isClient && /firefox/i.test(window.navig
 export const isArrayBuffer = (data: any) => {
   return data instanceof ArrayBuffer || ArrayBuffer.isView(data);
 };
+
+export const isFile = (data: any) => {
+  return data instanceof File;
+};
