@@ -45,7 +45,6 @@ async function initXlsx(val: File | string) {
         if (exportJson.sheets == null) {
           return;
         }
-
         console.log(luckysheetfile);
 
         (window as any).luckysheet.destroy();
@@ -109,7 +108,16 @@ async function initXlsx(val: File | string) {
             // 图片删除前
             imageDeleteBefore: () => false,
             // 图片更新前
-            imageUpdateBefore: () => false
+            imageUpdateBefore: () => false,
+            workbookCreateAfter: function (json: any) {
+              console.info('workbook create after!!!!====', json);
+              const element: any = document.getElementById('luckysheet-cell-main');
+              if (element) {
+                window.addEventListener('keydown', disableKeyboardEvents);
+                window.addEventListener('keypress', disableKeyboardEvents);
+                window.addEventListener('keyup', disableKeyboardEvents);
+              }
+            }
           }
         });
       }
@@ -118,6 +126,11 @@ async function initXlsx(val: File | string) {
   } catch (error) {
     emits('loadError');
   }
+}
+
+function disableKeyboardEvents(event: Event) {
+  event.preventDefault();
+  event.stopPropagation();
 }
 
 onBeforeUnmount(() => {
