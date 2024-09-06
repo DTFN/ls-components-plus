@@ -156,6 +156,43 @@ onBeforeUnmount(() => {
   padding: 0;
   margin: 0;
   transform: translateY(-50%);
+  :deep() .img-list {
+    pointer-events: none;
+  }
+
+  // luckysheet 双击不展示编辑状态框
+  :deep() .luckysheet-input-box {
+    display: none !important;
+  }
+  :deep() .luckysheet-loading-image {
+    display: none !important;
+  }
+
+  // 禁止操作
+  :deep() .luckysheet-cell-main {
+    // 不展示当前选中的框
+    .luckysheet-cell-selected,
+    .luckysheet-modal-dialog-border {
+      display: none !important;
+    }
+
+    // 图片不允许展示编辑样式
+    /* stylelint-disable-next-line selector-id-pattern */
+    #luckysheet-modal-dialog-activeImage {
+      border: 0 !important;
+    }
+    /* stylelint-disable-next-line selector-id-pattern */
+    #luckysheet-modal-dialog-activeImage .luckysheet-modal-dialog-content {
+      display: none !important;
+    }
+    .luckysheet-modal-dialog.luckysheet-modal-dialog-image {
+      display: block !important;
+    }
+    .luckysheet-modal-dialog-resize,
+    .luckysheet-modal-dialog-controll {
+      display: none !important;
+    }
+  }
 }
 
 @mixin op-icon() {
