@@ -61,7 +61,7 @@ import { useZIndex } from '@cpo/_hooks/useZIndex';
 import { EVENT_CODE } from '@cpo/_constants';
 import { isFirefox, isNumber } from '@cpo/_utils/check';
 import { keysOf } from '@cpo/_utils/types';
-import { imageViewerEmits, imageViewerProps } from '../types';
+import { previewEmits, imageViewerProps } from '../types';
 import type { CSSProperties } from 'vue';
 import type { ImageViewerAction, ImageViewerMode } from '../types';
 
@@ -77,7 +77,7 @@ const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
 const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
 
 const props = defineProps(imageViewerProps);
-const emits = defineEmits(imageViewerEmits);
+const emits = defineEmits(previewEmits);
 
 const ns = useNamespace('image');
 const { nextZIndex } = useZIndex();

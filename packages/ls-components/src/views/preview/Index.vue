@@ -2,6 +2,7 @@
 import axios from 'axios';
 import docx from '@/assets/files/测试.docx?url';
 import xlsx from '@/assets/files/222.xlsx?url';
+import pdf from '@/assets/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf';
 
 const type = ref('image');
 const source: any = ref();
@@ -34,6 +35,9 @@ function openViewer(val: string) {
         source.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
       });
       break;
+    case 'pdf':
+      source.value = pdf;
+      break;
     default:
       break;
   }
@@ -49,8 +53,10 @@ function openViewer(val: string) {
       <LSButton type="primary" @click="openViewer('docx')">Docx预览</LSButton>
 
       <LSButton type="primary" @click="openViewer('xlsx')">Xlsx预览</LSButton>
+
+      <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
     </div>
-    <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" annotation-layer />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { docxProps, imageViewerEmits } from '../types';
+import { docxProps, previewEmits } from '../types';
 import { isArrayBuffer } from '@cpo/_utils/check';
 
 const ns = useNamespace('docx');
@@ -10,7 +10,7 @@ const docxPromise = () => import('docx-preview');
 
 const props = defineProps(docxProps);
 
-const emits = defineEmits(imageViewerEmits);
+const emits = defineEmits(previewEmits);
 
 const docxRef = ref();
 

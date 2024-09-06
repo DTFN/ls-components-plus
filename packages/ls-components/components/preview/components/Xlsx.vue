@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { imageViewerEmits, xlsxProps } from '../types';
+import { previewEmits, xlsxProps } from '../types';
 import { loadJs, removeJs } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import LuckyExcel from 'luckyexcel';
@@ -15,7 +15,7 @@ const comClass = ns.b();
 
 const props = defineProps(xlsxProps);
 
-const emits = defineEmits(imageViewerEmits);
+const emits = defineEmits(previewEmits);
 
 watch(
   () => props.source,

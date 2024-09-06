@@ -3,6 +3,7 @@ import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSImage from './components/Image.vue';
 import LSDocx from './components/Docx.vue';
 import LSXlsx from './components/Xlsx.vue';
+import LSPdf from './components/Pdf.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 
@@ -11,7 +12,8 @@ defineOptions({
   components: {
     LSImage,
     LSDocx,
-    LSXlsx
+    LSXlsx,
+    LSPdf
   },
   inheritAttrs: false
 });
@@ -37,7 +39,8 @@ const comClass: string = ns.b();
 const cpoMap: any = reactive({
   image: LSImage,
   docx: LSDocx,
-  xlsx: LSXlsx
+  xlsx: LSXlsx,
+  pdf: LSPdf
 });
 const loadInstance: any = ref();
 
@@ -70,7 +73,7 @@ watch(
 );
 
 function openLoading() {
-  props.type !== 'pdf' && props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+  props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
 }
 
 const closeLoading = () => {
@@ -103,6 +106,7 @@ onBeforeUnmount(() => {
       v-bind="Object.assign(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"
+      annotation-layer
     ></component>
   </div>
 </template>
