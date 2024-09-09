@@ -86,7 +86,13 @@
         <slot name="file"></slot>
       </template>
     </el-upload>
-    <!-- <LSPreview v-if="configs.showPreview" :on-close="closePreview" :type="configs.typePreview" :source="configs.sourcePreview" /> -->
+
+    <LSPreview
+      v-model="configs.showPreview"
+      :on-close="closePreview"
+      :type="configs.typePreview"
+      :source="configs.sourcePreview"
+    />
   </div>
 </template>
 
@@ -431,7 +437,7 @@ function onPreviewAction(file: UploadFile) {
   }
   const { raw, url } = file;
   if (raw && url && isPicCard.value && raw.type.startsWith('image')) {
-    configs.typePreview = 'pic';
+    configs.typePreview = 'image';
     configs.sourcePreview = [url];
     configs.showPreview = true;
   }
@@ -500,10 +506,10 @@ function onProgressAction() {
   uploading.value = true;
 }
 
-// function closePreview() {
-//   configs.showPreview = false;
-//   configs.sourcePreview = '';
-// }
+function closePreview() {
+  configs.showPreview = false;
+  configs.sourcePreview = '';
+}
 </script>
 
 <style lang="scss" scoped>
