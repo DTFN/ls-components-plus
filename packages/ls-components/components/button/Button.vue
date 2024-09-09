@@ -3,6 +3,8 @@ import { Icon } from '@iconify/vue';
 import { lsBtnProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 
+const slots = useSlots();
+
 const props = defineProps(lsBtnProp);
 
 const ns = useNamespace('button');
@@ -16,12 +18,13 @@ const btnName = computed(() => {
 </script>
 
 <template>
-  <el-button v-bind="$attrs" :class="comClass">
+  <el-button v-if="slots.default" v-bind="$attrs" :class="comClass">
     <template v-if="iconName">
       <Icon v-if="iconType === 2" :icon="btnName" class="ls-iconify" :color="btnColor" :width="iconWidth" :height="iconHeight" />
     </template>
     <slot></slot>
   </el-button>
+  <el-button v-else v-bind="$attrs" :class="comClass" />
 </template>
 
 <style lang="scss" scoped>

@@ -27,11 +27,12 @@ const comClass: string = ns.b();
 const pdfObj: Ref<PDFDocumentLoadingTask | undefined> = ref(undefined);
 const curPage = ref(1);
 const allPages = ref(0);
+const scale = ref(1);
+const isComplete = ref(false);
 
 const props = withDefaults(
   defineProps<{
     source: string;
-    scale?: number;
     rotation?: number;
     fitParent?: boolean;
     width?: number;
@@ -48,12 +49,13 @@ const props = withDefaults(
     highlightText?: string | string[];
     highlightOptions?: HighlightOptions;
     onClose: Function;
-    pagination: boolean;
+    showPage?: boolean;
+    showSize?: boolean;
   }>(),
   {
-    scale: 1,
     intent: 'display',
-    pagination: true
+    showPage: true,
+    showSize: true
   }
 );
 
@@ -132,7 +134,7 @@ function getRotation(rotation: number): number {
 }
 
 function getScale(page: PDFPageProxy): number {
-  let fscale = props.scale;
+  let fscale = scale.value;
   if (props.fitParent) {
     const parentWidth: number = (container.value!.parentNode! as HTMLElement).clientWidth;
     const scale1Width = page.getViewport({ scale: 1 }).width;
@@ -284,7 +286,7 @@ function initDoc(proxy: PDFDocumentLoadingTask) {
 }
 
 watch(
-  () => [props.scale, props.width, props.height, props.rotation, props.hideForms, props.intent],
+  () => [props.width, props.height, props.rotation, props.hideForms, props.intent],
   () => {
     // Props that should dispatch an render task
     renderPage(curPage.value);
@@ -300,27 +302,24 @@ function cancel() {
   cancelRender();
 }
 
-onMounted(() => {
-  initPdf();
-});
-
-onUnmounted(() => {
-  pdfObj?.value?.destroy();
-});
-
 async function initPdf() {
   if (props.source) {
-    const { pdf, processLoadingTask, pages }: any = usePDF(props.source);
-    await processLoadingTask(props.source);
-    pdfObj.value = pdf.value;
-    allPages.value = pages.value;
-    if (pdfObj.value) {
-      initDoc(pdfObj.value);
+    try {
+      const { pdf, processLoadingTask, pages }: any = usePDF(props.source);
+      await processLoadingTask(props.source);
+      pdfObj.value = pdf.value;
+      allPages.value = pages.value;
+      if (pdfObj.value) {
+        initDoc(pdfObj.value);
+      }
+    } finally {
+      isComplete.value = true;
     }
   }
 }
 
 const closeFunc = () => {
+  isComplete.value = false;
   props.onClose && props.onClose();
   emits('update:source');
 };
@@ -339,6 +338,15 @@ function nextPdf() {
   }
 }
 
+function scalePdf(val: number) {
+  if (val === 0) {
+    scale.value = scale.value > 0.25 ? scale.value - 0.25 : scale.value;
+  } else {
+    scale.value = scale.value < 2 ? scale.value + 0.25 : scale.value;
+  }
+  renderPage(curPage.value);
+}
+
 defineExpose({
   reload,
   cancel
@@ -346,14 +354,21 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="comClass">
+  <div v-if="isComplete" :class="comClass">
     <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <el-icon :size="24" color="#FFF"><Close /></el-icon>
     </span>
-    <div v-if="pagination" class="page-wrap">
-      <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">上一页</LSButton
-      ><span class="num-wrap">{{ curPage }} / {{ allPages }}</span
-      ><LSButton type="primary" size="small" :disabled="curPage == allPages" @click="nextPdf">下一页</LSButton>
+    <div class="opt-wrap">
+      <div v-if="showPage" class="page-wrap">
+        <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">上一页</LSButton
+        ><span class="num-wrap">{{ curPage }} / {{ allPages }}</span
+        ><LSButton type="primary" size="small" :disabled="curPage == allPages" @click="nextPdf">下一页</LSButton>
+      </div>
+      <div v-if="showSize" class="size-wrap">
+        <LSButton type="primary" icon="Minus" size="small" @click="scalePdf(0)" />
+        <span class="num-wrap">{{ scale * 100 }}%</span>
+        <LSButton type="primary" icon="Plus" size="small" @click="scalePdf(1)" />
+      </div>
     </div>
     <div ref="container" style="position: relative; display: block">
       <canvas dir="ltr" style="display: block" role="main" />
@@ -419,10 +434,17 @@ defineExpose({
       @include op-icon;
     }
   }
-  .page-wrap {
+  .opt-wrap {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 12px;
-    text-align: center;
+    .page-wrap {
+      position: relative;
+      margin-right: 12px;
+      text-align: center;
+    }
     .el-button,
     .num-wrap {
       display: inline-block;
@@ -430,7 +452,7 @@ defineExpose({
     }
     .num-wrap {
       margin: 0 12px;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
       color: #ffffff;
     }
