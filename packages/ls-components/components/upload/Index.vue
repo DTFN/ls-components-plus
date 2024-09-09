@@ -135,9 +135,7 @@ const props = defineProps(lsUploadProps);
 
 const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
 
-const isToast = computed(() => {
-  return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
-});
+const isToast = computed(() => {});
 const isCover = computed(() => {
   const status = props?.item?.isCover;
 
@@ -212,6 +210,9 @@ const tipText = computed(() => {
 });
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
+});
+const textPreview = computed(() => {
+  return props?.item?.textPreview;
 });
 
 watch(
@@ -435,11 +436,43 @@ function onPreviewAction(file: UploadFile) {
   if (props.onPreview) {
     return props.onPreview(file);
   }
-  const { raw, url } = file;
-  if (raw && url && isPicCard.value && raw.type.startsWith('image')) {
-    configs.typePreview = 'image';
-    configs.sourcePreview = [url];
-    configs.showPreview = true;
+  const { raw, url, blob, name }: any = file;
+  const { type }: any = raw || {};
+  if (raw) {
+    if (textPreview.value) {
+      if (type?.startsWith('image')) {
+        configs.typePreview = 'image';
+        configs.sourcePreview = isPicCard.value ? [url] : [blob];
+        configs.showPreview = true;
+      } else if (type == 'application/pdf') {
+        configs.typePreview = 'pdf';
+        configs.sourcePreview = blob;
+        configs.showPreview = true;
+      } else if (['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)) {
+        configs.typePreview = 'xlsx';
+        fetch(blob)
+          .then((response: any) => response.blob())
+          .then(data => {
+            configs.sourcePreview = new File([data], name, { type });
+            configs.showPreview = true;
+          });
+      } else if (type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        configs.typePreview = 'docx';
+        fetch(blob)
+          .then(response => response.blob())
+          .then(blob => blob.arrayBuffer())
+          .then(data => {
+            configs.sourcePreview = data;
+            configs.showPreview = true;
+          });
+      }
+    } else if (isPicCard.value) {
+      if (type?.startsWith('image')) {
+        configs.typePreview = 'image';
+        configs.sourcePreview = [url];
+        configs.showPreview = true;
+      }
+    }
   }
 }
 

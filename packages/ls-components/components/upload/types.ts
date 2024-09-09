@@ -7,7 +7,7 @@ export interface configsType {
   initUploadStatus: boolean;
   showPreview: boolean;
   typePreview: string;
-  sourcePreview: string | Array<string>;
+  sourcePreview: any;
   iconColor: string;
 }
 
@@ -28,6 +28,8 @@ interface itemType {
   formRuleFunc?: Function;
   formValidateFunc?: Function;
   httpRequestFunc?: Function;
+  // docx、pdf、xlsx
+  textPreview?: boolean;
 }
 
 export const lsUploadProps = {

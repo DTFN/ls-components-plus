@@ -29,6 +29,7 @@ async function updateDocx(val: ArrayBuffer | String) {
   if (!val || !isArrayBuffer(val)) {
     return;
   }
+
   const docx = await docxPromise();
   docx
     .renderAsync(val, docxRef.value, docxRef.value, {
