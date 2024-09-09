@@ -106,7 +106,6 @@ onBeforeUnmount(() => {
       v-bind="Object.assign(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"
-      annotation-layer
     ></component>
   </div>
 </template>
@@ -119,7 +118,7 @@ onBeforeUnmount(() => {
   z-index: 999;
   width: 100%;
   height: 100%;
-  background-color: rgba($color: #000000, $alpha: 60%);
+  background-color: gray;
 }
 .file-wrapper {
   position: fixed;

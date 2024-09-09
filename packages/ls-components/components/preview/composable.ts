@@ -65,7 +65,7 @@ export function usePDF(
       loadingTask.onPassword = onPassword;
     }
 
-    loadingTask.promise.then(
+    return loadingTask.promise.then(
       async (doc: any) => {
         pdfDoc.value = doc;
 
@@ -192,6 +192,7 @@ export function usePDF(
     info,
     print,
     download,
-    getPDFDestination
+    getPDFDestination,
+    processLoadingTask
   };
 }

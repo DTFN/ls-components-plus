@@ -56,7 +56,7 @@ function openViewer(val: string) {
 
       <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
     </div>
-    <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" annotation-layer />
+    <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" />
   </div>
 </template>
 

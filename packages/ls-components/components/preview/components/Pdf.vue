@@ -22,13 +22,15 @@ interface InternalProps {
   viewport: PageViewport | undefined;
 }
 
-const ns = useNamespace('docx');
+const ns = useNamespace('pdf');
 const comClass: string = ns.b();
+const pdfObj: Ref<PDFDocumentLoadingTask | undefined> = ref(undefined);
+const curPage = ref(1);
+const allPages = ref(0);
 
 const props = withDefaults(
   defineProps<{
     source: string;
-    page?: number;
     scale?: number;
     rotation?: number;
     fitParent?: boolean;
@@ -45,11 +47,13 @@ const props = withDefaults(
     watermarkOptions?: WatermarkOptions;
     highlightText?: string | string[];
     highlightOptions?: HighlightOptions;
+    onClose: Function;
+    pagination: boolean;
   }>(),
   {
-    page: 1,
     scale: 1,
-    intent: 'display'
+    intent: 'display',
+    pagination: true
   }
 );
 
@@ -60,17 +64,15 @@ const emits = defineEmits<{
   (event: 'textLoaded', payload: TextLayerLoadedEventPayload): void;
   (event: 'annotationLoaded', payload: any[]): void;
   (event: 'xfaLoaded'): void;
+  (event: 'loadComplete'): void;
+  (event: 'loadError'): void;
+  (event: 'update:source'): void;
 }>();
 
 watch(
   () => props.source,
-  async val => {
-    if (val) {
-      await nextTick();
-      const tempPdf: any = usePDF(val);
-
-      tempPdf && initDoc(tempPdf);
-    }
+  () => {
+    initPdf();
   },
   {
     immediate: true,
@@ -204,6 +206,8 @@ function setupCanvas(viewport: PageViewport): HTMLCanvasElement {
   canvas.style.width = `${Math.floor(viewport.width)}px`;
   canvas.style.height = `${Math.floor(viewport.height)}px`;
 
+  canvas.setAttribute('class', 'pdf-canvas');
+
   // --scale-factor property
   container.value?.style.setProperty('--scale-factor', `${viewport.scale}`);
   // Also setting dimension properties for load layer
@@ -261,8 +265,10 @@ function renderPage(pageNum: number) {
           loading.value = false;
           paintWatermark(viewport.scale);
           emits('loaded', internalProps.value.viewport!);
+          emits('loadComplete');
         })
         .catch(() => {
+          emits('loadError');
           // render task cancelled
         });
     });
@@ -272,34 +278,65 @@ function initDoc(proxy: PDFDocumentLoadingTask) {
   if (proxy.promise) {
     proxy.promise.then(async (document: any) => {
       internalProps.value.document = document;
-      renderPage(props.page);
+      renderPage(curPage.value);
     });
   }
 }
 
 watch(
-  () => [props.scale, props.width, props.height, props.rotation, props.page, props.hideForms, props.intent],
+  () => [props.scale, props.width, props.height, props.rotation, props.hideForms, props.intent],
   () => {
     // Props that should dispatch an render task
-    renderPage(props.page);
+    renderPage(curPage.value);
   }
 );
 
-onMounted(() => {
-  if (props.source !== undefined) {
-    const tempPdf: any = usePDF(props.source);
-
-    tempPdf && initDoc(tempPdf);
-  }
-});
-
 // Exposed methods
 function reload() {
-  renderPage(props.page);
+  renderPage(curPage.value);
 }
 
 function cancel() {
   cancelRender();
+}
+
+onMounted(() => {
+  initPdf();
+});
+
+onUnmounted(() => {
+  pdfObj?.value?.destroy();
+});
+
+async function initPdf() {
+  if (props.source) {
+    const { pdf, processLoadingTask, pages }: any = usePDF(props.source);
+    await processLoadingTask(props.source);
+    pdfObj.value = pdf.value;
+    allPages.value = pages.value;
+    if (pdfObj.value) {
+      initDoc(pdfObj.value);
+    }
+  }
+}
+
+const closeFunc = () => {
+  props.onClose && props.onClose();
+  emits('update:source');
+};
+
+function prevPdf() {
+  if (curPage.value > 1) {
+    curPage.value--;
+    renderPage(curPage.value);
+  }
+}
+
+function nextPdf() {
+  if (curPage.value < allPages.value) {
+    curPage.value++;
+    renderPage(curPage.value);
+  }
 }
 
 defineExpose({
@@ -310,6 +347,14 @@ defineExpose({
 
 <template>
   <div :class="comClass">
+    <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+      <el-icon :size="24" color="#FFF"><Close /></el-icon>
+    </span>
+    <div v-if="pagination" class="page-wrap">
+      <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">上一页</LSButton
+      ><span class="num-wrap">{{ curPage }} / {{ allPages }}</span
+      ><LSButton type="primary" size="small" :disabled="curPage == allPages" @click="nextPdf">下一页</LSButton>
+    </div>
     <div ref="container" style="position: relative; display: block">
       <canvas dir="ltr" style="display: block" role="main" />
       <Annotation
@@ -334,4 +379,61 @@ defineExpose({
 
 <style lang="scss" scoped>
 @import 'pdfjs-dist/web/pdf_viewer.css';
+
+@mixin op-icon() {
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  color: #ffffff;
+  background-color: #606266;
+  border-color: #ffffff;
+}
+.ls-pdf {
+  :deep() .pdf-canvas {
+    position: relative !important;
+    top: 12px !important;
+    margin: auto !important;
+  }
+  .ls-pdf__btn {
+    position: absolute;
+    z-index: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 50%;
+    opacity: 0.8;
+    .ls-icon {
+      font-size: inherit;
+      cursor: pointer;
+    }
+    &.ls-pdf__close {
+      top: 40px;
+      right: 40px;
+      width: 40px;
+      height: 40px;
+      font-size: 40px;
+
+      @include op-icon;
+    }
+  }
+  .page-wrap {
+    position: relative;
+    margin-top: 12px;
+    text-align: center;
+    .el-button,
+    .num-wrap {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .num-wrap {
+      margin: 0 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+  }
+}
 </style>
