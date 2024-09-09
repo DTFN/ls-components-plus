@@ -91,6 +91,25 @@ function scalePdf(val: number) {
   }
 }
 
+const noMore = ref(false);
+const count = ref(0);
+const load = () => {
+  console.log(1231231);
+  if (count.value >= allPages.value) {
+    noMore.value = true;
+    return;
+  }
+  count.value++;
+};
+
+function changePagition() {
+  showPagination.value = !showPagination.value;
+  if (!showPagination.value) {
+    noMore.value = false;
+    count.value = allPages.value > 10 ? 10 : allPages.value;
+  }
+}
+
 function loadComplete() {
   emits('loadComplete');
 }
@@ -116,28 +135,34 @@ function loadError() {
         <span class="num-wrap">{{ scale * 100 }}%</span>
         <LSButton type="primary" icon="Plus" size="small" :disabled="scale == 2" @click="scalePdf(1)" />
       </div>
-      <LSButton type="primary" size="small" @click="showPagination = !showPagination">{{ paginationTxt }}</LSButton>
+      <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
     </div>
-    <PdfItem
-      v-if="showPagination"
-      v-bind="$attrs"
-      :pdf="pdfObj"
-      :page="curPage"
-      :scale="scale"
-      @load-complete="loadComplete"
-      @load-error="loadError"
-    />
-    <div v-else>
+    <div class="pdf-content">
       <PdfItem
-        v-for="page in allPages"
-        :key="page"
+        v-if="showPagination"
         v-bind="$attrs"
         :pdf="pdfObj"
-        :page="page"
+        :page="curPage"
         :scale="scale"
         @load-complete="loadComplete"
         @load-error="loadError"
       />
+      <div v-else class="infinite-list-wrapper" style="overflow: auto">
+        <el-scrollbar :height="'calc(100vh - 48px)'">
+          <ul v-infinite-scroll="load" :infinite-scroll-disabled="noMore" class="infinite-list">
+            <li v-for="page in count" :key="page" class="infinite-list-item">
+              <PdfItem
+                v-bind="$attrs"
+                :pdf="pdfObj"
+                :page="page"
+                :scale="scale"
+                @load-complete="loadComplete"
+                @load-error="loadError"
+              />
+            </li>
+          </ul>
+        </el-scrollbar>
+      </div>
     </div>
   </div>
 </template>
@@ -156,8 +181,10 @@ function loadError() {
 .ls-pdf {
   :deep() .pdf-canvas {
     position: relative !important;
-    top: 12px !important;
     margin: auto !important;
+  }
+  .pdf-content {
+    margin-top: 12px;
   }
   .ls-pdf__btn {
     position: absolute;
@@ -209,6 +236,9 @@ function loadError() {
       font-weight: bold;
       color: #ffffff;
     }
+  }
+  .infinite-list-wrapper {
+    height: calc(100vh - 48px);
   }
 }
 </style>
