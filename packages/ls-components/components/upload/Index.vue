@@ -27,10 +27,8 @@
           </template>
           <template v-else>
             <div v-if="isPicCard" class="btn-picture-card">
-              <el-button v-if="uploading" text :loading="uploading"></el-button>
-              <el-icon v-else class="upload-btn-plus" :size="28" :color="configs.iconColor">
-                <Plus />
-              </el-icon>
+              <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+              <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
               <div>{{ btnText }}</div>
             </div>
             <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
