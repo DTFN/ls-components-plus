@@ -15,8 +15,8 @@
       <template #trigger>
         <template v-if="!slots.trigger">
           <template v-if="isDrag">
-            <el-button v-if="uploading" text :loading="uploading"></el-button>
-            <el-icon v-else class="upload-icon" size="56" color="#E7E7E7"><UploadFilled /></el-icon>
+            <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+            <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
             <div class="ls-drag">
               <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
               <template v-if="!uploading">
@@ -102,6 +102,8 @@ import type { configsType, UploadChangeFile } from './types';
 import { getVariable } from '@cpo/_utils/config';
 import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import LSButton from '@cpo/button/Button.vue';
+import LSIcon from '@cpo/icon/Index.vue';
 
 defineOptions({
   name: 'LSUpload',
@@ -135,7 +137,9 @@ const props = defineProps(lsUploadProps);
 
 const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
 
-const isToast = computed(() => {});
+const isToast = computed(() => {
+  return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
+});
 const isCover = computed(() => {
   const status = props?.item?.isCover;
 
@@ -547,6 +551,7 @@ function closePreview() {
 
 <style lang="scss" scoped>
 .ls-upload {
+  position: relative;
   font-size: $font-size-content-small;
   :deep(.ls-tip) {
     margin-top: 8px;
@@ -585,6 +590,8 @@ function closePreview() {
       margin-left: 8px;
     }
     &.drag-css {
+      position: absolute;
+      right: 0;
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
@@ -696,6 +703,9 @@ function closePreview() {
         width: 100%;
         height: auto;
       }
+    }
+    :deep() .el-upload-list {
+      margin-top: 24px;
     }
   }
 }
