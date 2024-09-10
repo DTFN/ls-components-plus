@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import Form from '../../../components/form/Form.vue';
+// import Form from '../../../components/form/Form.vue';
 const FormRef = ref();
 const loading = ref(false);
 const formData = ref({
@@ -48,7 +48,6 @@ const formItems = ref<FormItemsType[]>([
     ]
   }
 ]);
-
 function onLogin() {
   if (loading.value) return;
   FormRef.value.validate().then((res: any) => {
@@ -61,27 +60,25 @@ function onLogin() {
   });
 }
 
-import { reactive } from 'vue';
-
 // do not use same name with ref
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
-});
+// const form = reactive({
+//   name: '',
+//   region: '',
+//   date1: '',
+//   date2: '',
+//   delivery: false,
+//   type: [],
+//   resource: '',
+//   desc: ''
+// });
 
-const onSubmit = () => {
-  console.log('submit!');
-};
+// const onSubmit = () => {
+//   console.log('submit!');
+// };
 </script>
 
 <template>
-  <Form
+  <LSForm
     ref="FormRef"
     label-position="top"
     :loading="loading"
@@ -92,7 +89,7 @@ const onSubmit = () => {
     :hide-required-asterisk="true"
   />
   <el-button type="primary" :loading="loading" :disabled="loading" @click="onLogin">登 录</el-button>
-  <div>--------------------------------------------------------------------------------------------</div>
+  <!-- <div>--------------------------------------------------------------------------------------------</div>
   <el-form :model="form" label-width="auto" style="max-width: 600px">
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
@@ -138,7 +135,7 @@ const onSubmit = () => {
       <el-button type="primary" @click="onSubmit">Create</el-button>
       <el-button>Cancel</el-button>
     </el-form-item>
-  </el-form>
+  </el-form> -->
 </template>
 
 <style scoped></style>

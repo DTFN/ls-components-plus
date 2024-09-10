@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSFormItem">
 /**
  * Form item 组件
  * !!!最多支持101个 el-form-item

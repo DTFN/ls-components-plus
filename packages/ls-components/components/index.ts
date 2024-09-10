@@ -1,16 +1,21 @@
-import type { App, Plugin } from 'vue';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+import type { App, Plugin } from 'vue';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
-import LSUpload from './upload/index';
+import { LSForm, LSFormItem } from './form/index';
 import LSPreview from './preview/index';
+import LSTable from './table/index';
+import LSUpload from './upload/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
   LSButton,
   LSDescriptions,
   LSUpload,
-  LSPreview
+  LSPreview,
+  LSForm,
+  LSFormItem,
+  LSTable
 };
 
 const install = (app: App) => {
