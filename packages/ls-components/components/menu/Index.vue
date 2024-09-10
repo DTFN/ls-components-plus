@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { menuProps } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
+import MenuItem from './MenuItem.vue';
 
 const { currentRouter } = useRouterHook();
 
@@ -55,7 +56,7 @@ onMounted(() => {
 
 <template>
   <el-menu v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
-    <menu-item
+    <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
       :item="item"
@@ -67,6 +68,34 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .ls-menu {
+  &.el-menu {
+    height: 100%;
+    border-right: 0;
+    :deep(.el-sub-menu) {
+      .el-menu--inline {
+        background-color: #f4f4f4;
+      }
+    }
+    :deep() .el-menu-item {
+      position: relative;
+      &:hover {
+        background-color: var(--el-fill-color-light);
+        outline: none;
+      }
+      &.is-active {
+        background-color: var(--bg-color-primary) !important;
+        &::before {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 4px;
+          content: '';
+          background-color: var(--el-color-primary);
+        }
+      }
+    }
+  }
   :deep() {
     .el-sub-menu {
       .el-menu-item {
@@ -92,34 +121,6 @@ onMounted(() => {
               background: var(--el-color-primary);
             }
           }
-        }
-      }
-    }
-  }
-  .el-menu {
-    height: 100%;
-    border-right: 0;
-    :deep(.el-sub-menu) {
-      .el-menu--inline {
-        background-color: #f4f4f4;
-      }
-    }
-    .el-menu-item {
-      position: relative;
-      &:hover {
-        background-color: var(--el-fill-color-light);
-        outline: none;
-      }
-      &.is-active {
-        background-color: var(--bg-color-primary) !important;
-        &::before {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          width: 4px;
-          content: '';
-          background-color: var(--el-color-primary);
         }
       }
     }

@@ -96,8 +96,12 @@ export default function () {
     });
   }
 
-  const getMenusByAuth = (menuConfigList: any, routePath: string, permissionList?: Array<string | number>) => {
-    const routesModule = import.meta.glob(`${routePath}/**/*.vue`);
+  const getMenusByAuth = (
+    menuConfigList: any,
+    routesModule: Record<string, any>,
+    routePath: string,
+    permissionList?: Array<string | number>
+  ) => {
     const menus: Array<RouteRecordRaw> = [];
 
     getRouterConfig(menuConfigList).forEach((config: ConfigItemType) => {
