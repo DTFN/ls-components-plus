@@ -54,6 +54,14 @@ export default [
         meta: {
           title: 'Preview'
         }
+      },
+      {
+        name: 'Menu',
+        path: '/menu',
+        component: () => import('@/views/menu/Index.vue'),
+        meta: {
+          title: 'Menu'
+        }
       }
     ]
   }

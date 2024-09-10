@@ -24,6 +24,11 @@ const dataList = [
     id: '5',
     title: 'Preview',
     path: '/preview'
+  },
+  {
+    id: '6',
+    title: 'Menu',
+    path: '/menu'
   }
 ];
 const router = useRouter();
