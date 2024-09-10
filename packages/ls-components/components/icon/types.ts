@@ -15,15 +15,16 @@ export const iconProps = buildProps({
     default: ''
   },
   width: {
-    type: String,
-    default: '24'
+    type: [String, Number],
+    default: '16'
   },
   height: {
-    type: String,
-    default: '24'
+    type: [String, Number],
+    default: '16'
   },
+  // 适用于el-icon
   size: {
     type: [String, Number],
-    default: '24'
+    default: '16'
   }
 });

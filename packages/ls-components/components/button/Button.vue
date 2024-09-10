@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSButton">
-import { Icon } from '@iconify/vue';
 import { lsBtnProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import LSIcon from '@cpo/icon';
 
 const slots = useSlots();
 
@@ -12,19 +12,41 @@ const comClass: string = ns.b();
 const btnColor = computed(() => {
   return props.iconColor || '';
 });
-const btnName = computed(() => {
-  return props.iconName;
-});
 </script>
 
 <template>
   <el-button v-if="slots.default" v-bind="$attrs" :class="comClass">
-    <template v-if="iconName">
-      <Icon v-if="iconType === 2" :icon="btnName" class="ls-iconify" :color="btnColor" :width="iconWidth" :height="iconHeight" />
-    </template>
-    <slot></slot>
+    <LSIcon
+      v-if="iconName || slots.icon"
+      :type="iconType"
+      :name="iconName"
+      :color="btnColor"
+      :width="iconWidth"
+      :height="iconHeight"
+      :size="iconSize"
+    >
+      <slot name="icon"></slot>
+    </LSIcon>
+    <span>
+      <slot></slot>
+    </span>
   </el-button>
-  <el-button v-else v-bind="$attrs" :class="comClass" />
+  <el-button v-else v-bind="$attrs" :class="comClass">
+    <LSIcon
+      v-if="iconName || slots.icon"
+      class="only-icon"
+      :type="iconType"
+      :name="iconName"
+      :color="btnColor"
+      :width="iconWidth"
+      :height="iconHeight"
+      :size="iconSize"
+    >
+      <template #icon>
+        <slot></slot>
+      </template>
+    </LSIcon>
+  </el-button>
 </template>
 
 <style lang="scss" scoped>

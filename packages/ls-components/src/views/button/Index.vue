@@ -15,14 +15,19 @@ setTimeout(() => {
 
 <template>
   <div>
-    <LSButton :icon="Edit" :loading="true">按钮1</LSButton>
-    <LSButton icon-name="iconoir:fish" :icon-type="2">按钮2</LSButton>
+    <LSButton :icon="Edit"></LSButton>
+    <LSButton :loading="true">按钮1</LSButton>
+    <LSButton icon-name="mingcute:look-left-fill" :icon-type="1"></LSButton>
+    <LSButton icon-name="iconoir:fish" :icon-type="1" icon-color="blue" :icon-width="30" :icon-height="30">按钮2</LSButton>
+    <LSButton>
+      <SvgIconDataIcv />
+    </LSButton>
 
     <br />
 
     <LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
       <LSButton :icon="Edit" link>按钮3</LSButton>
-      <LSButton :icon-name="iconName" :icon-type="2" link>按钮4</LSButton>
+      <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
       <LSButton link>按钮5</LSButton>
     </LSButtonGroup>
 
@@ -30,8 +35,14 @@ setTimeout(() => {
 
     <LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
       <LSButton :icon="Edit" link>按钮6</LSButton>
-      <LSButton :icon-name="iconName" :icon-type="2" link>按钮7</LSButton>
-      <LSButton link>按钮8</LSButton>
+      <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
+      <LSButton link>
+        <template #icon>
+          <el-icon size="20"> <Edit /> </el-icon>
+          <SvgIconVue />
+        </template>
+        按钮8</LSButton
+      >
     </LSButtonGroup>
 
     <LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />

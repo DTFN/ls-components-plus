@@ -4,18 +4,22 @@ export const lsBtnProp = {
     type: String,
     default: ''
   },
-  // iconType: 1: eleplus自带 2: iconify
+  // 1: iconify 2: svg default: el-icon
   iconType: {
-    type: Number,
-    default: 1
+    type: [Number, String],
+    default: ''
   },
   iconWidth: {
-    type: Number,
-    default: 16
+    type: [String, Number],
+    default: '16'
   },
   iconHeight: {
-    type: Number,
-    default: 16
+    type: [String, Number],
+    default: '16'
+  },
+  iconSize: {
+    type: [String, Number],
+    default: '16'
   },
   iconColor: {
     type: String

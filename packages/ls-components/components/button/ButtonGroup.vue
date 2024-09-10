@@ -43,7 +43,7 @@ const btnClass = computed(() => {
         position: relative;
         margin-right: 12px;
         margin-left: 12px;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 18px;
         color: $color-text1;
       }
