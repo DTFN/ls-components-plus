@@ -2,42 +2,45 @@
 const dataList = [
   {
     id: '1',
-    title: 'Button',
+    title: 'Button 按钮',
     path: '/button'
   },
   {
     id: '2',
-    title: 'Upload',
+    title: 'Upload 上传',
     path: '/upload'
   },
   {
     id: '3',
-    title: 'Descriptions',
+    title: 'Descriptions 描述',
     path: '/descriptions'
   },
   {
     id: '4',
-    title: 'Form',
+    title: 'Form 表单',
     path: '/form'
   },
   {
     id: '5',
-    title: 'Preview',
+    title: 'Preview 预览',
     path: '/preview'
+  },
+  {
+    id: '6',
+    title: 'Table 表格',
+    path: '/table'
   }
 ];
 const router = useRouter();
-const selectedKeys: Ref<string> = ref('');
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 function jumpRoute(path: string) {
-  if (path) {
+  if (path && path.trim() !== '') {
     try {
       router.push(path);
     } catch (error) {
       console.error('Failed to push route:', error);
     }
+  } else {
+    return;
   }
 }
 </script>
@@ -46,8 +49,8 @@ function jumpRoute(path: string) {
   <section class="main_container">
     <header class="main_header">Demo展示</header>
     <section class="main_content">
-      <el-menu :default-active="selectedKeys" class="left_menu" @select="handleSelect">
-        <el-menu-item v-for="item in dataList" :key="item.id" :index="item.id" @click="jumpRoute(item.path)">
+      <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>
+        <el-menu-item v-for="item in dataList" :key="item.id" :index="item.path" @click="jumpRoute(item.path)">
           <span>{{ item.title }}</span>
         </el-menu-item>
       </el-menu>

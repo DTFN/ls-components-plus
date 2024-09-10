@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSTable">
 import dayjs from 'dayjs';
 import { get } from 'lodash-es';
 

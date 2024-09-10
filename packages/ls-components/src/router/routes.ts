@@ -3,9 +3,7 @@ export default [
     name: 'Layout',
     path: '/',
     component: () => import('@/views/Layout.vue'),
-    meta: {
-      title: 'Layout'
-    },
+    redirect: '/button',
     children: [
       {
         name: 'Form',
@@ -23,14 +21,14 @@ export default [
           title: 'Button'
         }
       },
-      // {
-      //   name: 'Table',
-      //   path: '/table',
-      //   component: () => import('@/views/table/Index.vue'),
-      //   meta: {
-      //     title: 'Table'
-      //   }
-      // },
+      {
+        name: 'Table',
+        path: '/table',
+        component: () => import('@/views/table/Index.vue'),
+        meta: {
+          title: 'Table'
+        }
+      },
       {
         name: 'Descriptions',
         path: '/descriptions',

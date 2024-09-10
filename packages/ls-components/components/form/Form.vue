@@ -1,8 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSForm">
 // Form 公共组件
 import type { FormInstance } from 'element-plus';
 import { get, set } from 'lodash-es';
 import { reactive, ref } from 'vue';
+import FormItem from './FormItem.vue';
 
 const props = withDefaults(
   defineProps<{
