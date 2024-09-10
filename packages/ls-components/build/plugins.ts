@@ -16,6 +16,7 @@ import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import FilesLoader from 'vite-plugin-files-loader';
+import svgLoader from 'vite-svg-loader';
 
 import path from 'path';
 const pathSrc = path.resolve(__dirname, '../../ls-components');
@@ -43,11 +44,6 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         data: { title: VITE_GLOB_APP_TITLE }
       }
     }),
-    // 使用 svg 图标
-    // createSvgIconsPlugin({
-    //   iconDirs: [resolve(process.cwd(), "src/assets/icons")],
-    //   symbolId: "icon-[dir]-[name]"
-    // }),
     // vitePWA
     // VITE_PWA && createVitePwa(viteEnv),
     // 是否生成包预览，分析依赖包大小做优化处理
@@ -91,7 +87,8 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
       iconDirs: [path.resolve(process.cwd(), 'src/assets/svgs')],
       symbolId: 'icon-[dir]-[name]'
     }),
-    FilesLoader()
+    FilesLoader(),
+    svgLoader()
   ];
 };
 
