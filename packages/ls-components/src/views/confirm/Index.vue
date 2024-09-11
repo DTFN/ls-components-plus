@@ -28,7 +28,7 @@ const handleClick = (val: number) => {
     useHtml.value = false;
   } else if (val == 2) {
     title.value = '标题 2';
-    message.value = '<span style="color: red;">内容 2</span>';
+    message.value = '<span style="color: red;">内容 2</span> <br/> <span style="color: green;">内容 222222</span>';
     setTimeout(() => {
       message.value = '<span style="color: blue;">内容 222222</span>';
     }, 1000);
