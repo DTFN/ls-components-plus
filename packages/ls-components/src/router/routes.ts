@@ -60,6 +60,14 @@ export default [
         meta: {
           title: 'Menu'
         }
+      },
+      {
+        name: 'Confirm',
+        path: '/confirm',
+        component: () => import('@/views/confirm/Index.vue'),
+        meta: {
+          title: 'Confirm'
+        }
       }
     ]
   }

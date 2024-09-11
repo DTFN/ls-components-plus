@@ -1,6 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export type ConfirmType = 'success' | 'info' | 'warning' | 'error';
+export type ConfirmType = '' | 'success' | 'info' | 'warning' | 'error';
 
 export const lsConfirmProps = buildProps({
   title: {
@@ -9,7 +9,7 @@ export const lsConfirmProps = buildProps({
   },
   type: {
     type: String as PropType<ConfirmType>,
-    default: 'info'
+    default: ''
   },
   message: {
     type: String,
@@ -58,6 +58,10 @@ export const lsConfirmProps = buildProps({
   closeOnPressEscape: {
     type: Boolean,
     default: false
+  },
+  appendTo: {
+    type: [String, HTMLElement],
+    default: ''
   },
   requestApi: {
     type: [Function, null],

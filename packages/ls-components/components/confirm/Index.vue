@@ -14,6 +14,7 @@ const visible = defineModel({
   type: Boolean
 });
 
+const lsConfirmRef = ref();
 const requestData: Ref<any> = ref();
 
 watch(
@@ -30,7 +31,9 @@ watch(
 );
 
 function initBox() {
-  ElMessageBox.confirm(props.message, props.title, {
+  ElMessageBox({
+    title: props.title,
+    message: props.useHtml ? lsConfirmRef?.value?.innerHTML : props.message,
     confirmButtonText: props.confirmBtnTxt,
     cancelButtonText: props.cancelBtnTxt,
     type: props.type,
@@ -43,12 +46,16 @@ function initBox() {
     customClass: props.customClass,
     closeOnClickModal: props.closeOnClickModal,
     closeOnPressEscape: props.closeOnPressEscape,
-    appendTo: document.getElementById('lsConfirm') || '',
+    appendTo: props.appendTo,
     beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true;
         if (props.requestApi && typeof props.requestApi === 'function') {
-          requestData.value = await props.requestApi();
+          try {
+            requestData.value = await props.requestApi();
+          } catch (error) {
+            requestData.value = error;
+          }
         }
         instance.confirmButtonLoading = false;
         done();
@@ -58,16 +65,27 @@ function initBox() {
     }
   })
     .then(() => {
+      visible.value = false;
       emitAll('onConfirm', requestData);
     })
     .catch(() => {
+      visible.value = false;
       emitAll('onCancel');
     });
 }
 </script>
 
 <template>
-  <div id="lsConfirm" :class="comClass"></div>
+  <div ref="lsConfirmRef" :class="comClass">
+    <slot name="message"></slot>
+  </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ls-confirm {
+  z-index: -1;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+</style>
