@@ -30,10 +30,41 @@ watch(
   }
 );
 
+const title: any = computed(() => {
+  return props.title;
+});
+
+const message: any = computed(() => {
+  return props.message;
+});
+
+watch(
+  () => message.value,
+  val => {
+    if (visible?.value && val) {
+      updateMessage();
+    }
+  },
+  {
+    deep: true
+  }
+);
+
+async function updateMessage() {
+  const msgDom: Element | null = document.querySelector('.ls-confirm-box .el-message-box__message p');
+  if (msgDom) {
+    if (props.useHtml) {
+      msgDom.innerHTML = message.value;
+    } else {
+      msgDom.textContent = message.value;
+    }
+  }
+}
+
 function initBox() {
   ElMessageBox({
-    title: props.title,
-    message: props.useHtml ? lsConfirmRef?.value?.innerHTML : props.message,
+    title,
+    message: message.value,
     confirmButtonText: props.confirmBtnTxt,
     cancelButtonText: props.cancelBtnTxt,
     type: props.type,
@@ -43,7 +74,7 @@ function initBox() {
     showCancelButton: props.showCancelBtn,
     showConfirmButton: props.showConfirmBtn,
     showClose: props.showClose,
-    customClass: props.customClass,
+    customClass: `${props.customClass} ls-confirm-box`,
     closeOnClickModal: props.closeOnClickModal,
     closeOnPressEscape: props.closeOnPressEscape,
     appendTo: props.appendTo,
@@ -76,9 +107,7 @@ function initBox() {
 </script>
 
 <template>
-  <div ref="lsConfirmRef" :class="comClass">
-    <slot name="message"></slot>
-  </div>
+  <div ref="lsConfirmRef" :class="comClass"></div>
 </template>
 
 <style lang="scss" scoped>

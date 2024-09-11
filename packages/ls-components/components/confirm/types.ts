@@ -4,7 +4,7 @@ export type ConfirmType = '' | 'success' | 'info' | 'warning' | 'error';
 
 export const lsConfirmProps = buildProps({
   title: {
-    type: String,
+    type: [String, Object],
     default: ''
   },
   type: {
@@ -12,7 +12,7 @@ export const lsConfirmProps = buildProps({
     default: ''
   },
   message: {
-    type: String,
+    type: [String, Object, HTMLElement],
     default: ''
   },
   confirmBtnTxt: {
