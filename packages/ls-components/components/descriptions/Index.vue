@@ -1,8 +1,10 @@
 <script setup lang="ts" name="LSDescriptions">
-import { Icon } from '@iconify/vue';
+import LSIcon from '@cpo/icon/Index.vue';
 import dayjs from 'dayjs';
 import { lsDescProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+
+const slots = useSlots();
 
 const props = defineProps(lsDescProp);
 
@@ -64,19 +66,19 @@ function updateLabelStyle(color: string, type: number) {
         <slot name="extra"></slot>
       </template>
       <el-descriptions-item v-for="(item, i) in list" :key="i" :label="item?.label">
-        <template #label v-if="item.icon">
+        <template #label v-if="item.iconName">
           <div class="cell-item">
-            <Icon
-              v-if="item.iconType === 2"
-              :icon="item.icon"
-              class="ls-icon"
-              :color="item.iconColor || item.btnColor"
+            <LSIcon
+              v-if="item.iconName || slots.icon"
+              :type="item.iconType"
+              :name="item.iconName"
+              :color="item.iconColor"
               :width="item.iconWidth || 16"
               :height="item.iconHeight || 16"
-            />
-            <el-icon v-else class="ls-icon" :size="item.iconSize" :color="item.iconColor || item.btnColor"
-              ><component :is="item.icon"
-            /></el-icon>
+              :size="item.iconHeight || 16"
+            >
+              <slot name="icon"></slot>
+            </LSIcon>
             {{ item?.label }}
           </div>
         </template>

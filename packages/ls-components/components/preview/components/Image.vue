@@ -6,30 +6,28 @@
 
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon :size="24" color="#FFF"><Close /></el-icon>
+          <LSIcon name="Close" :size="24" color="#FFF" />
         </span>
 
         <!-- ARROW -->
         <template v-if="!isSingle">
           <span :class="[ns.e('btn'), ns.e('prev'), ns.is('disabled', !infinite && isFirst)]" @click="prev">
-            <el-icon color="#FFF" :size="24"><ArrowLeft /></el-icon>
+            <LSIcon name="ArrowLeft" :size="24" color="#FFF" />
           </span>
           <span :class="[ns.e('btn'), ns.e('next'), ns.is('disabled', !infinite && isLast)]" @click="next">
-            <el-icon color="#FFF" :size="24"><ArrowRight /></el-icon>
+            <LSIcon name="ArrowRight" :size="24" color="#FFF" />
           </span>
         </template>
         <!-- ACTIONS -->
         <div :class="[ns.e('btn'), ns.e('actions')]">
           <div :class="ns.e('actions__inner')">
-            <el-icon :size="24" color="#FFF" @click="handleActions('zoomOut')"><ZoomOut /></el-icon>
-            <el-icon :size="24" color="#FFF" @click="handleActions('zoomIn')"><ZoomIn /></el-icon>
+            <LSIcon name="ZoomOut" :size="24" color="#FFF" @click="handleActions('zoomOut')" />
+            <LSIcon name="ZoomIn" :size="24" color="#FFF" @click="handleActions('zoomIn')" />
             <i :class="ns.e('actions__divider')" />
-            <el-icon :size="24" color="#FFF" @click="toggleMode">
-              <component :is="mode.name" />
-            </el-icon>
+            <LSIcon :name="mode.name" :size="24" color="#FFF" @click="toggleMode" />
             <i :class="ns.e('actions__divider')" />
-            <el-icon :size="24" color="#FFF" @click="handleActions('anticlockwise')"><RefreshLeft /></el-icon>
-            <el-icon :size="24" color="#FFF" @click="handleActions('clockwise')"><RefreshRight /></el-icon>
+            <LSIcon name="RefreshLeft" :size="24" color="#FFF" @click="handleActions('anticlockwise')" />
+            <LSIcon name="RefreshRight" :size="24" color="#FFF" @click="handleActions('clockwise')" />
           </div>
         </div>
         <!-- CANVAS -->
@@ -64,6 +62,7 @@ import { keysOf } from '@cpo/_utils/types';
 import { previewEmits, imageViewerProps } from '../types';
 import type { CSSProperties } from 'vue';
 import type { ImageViewerAction, ImageViewerMode } from '../types';
+import LSIcon from '@cpo/icon/Index.vue';
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {

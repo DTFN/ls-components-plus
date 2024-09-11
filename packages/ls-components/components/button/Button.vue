@@ -42,9 +42,7 @@ const btnColor = computed(() => {
       :height="iconHeight"
       :size="iconSize"
     >
-      <template #icon>
-        <slot></slot>
-      </template>
+      <slot name="icon"></slot>
     </LSIcon>
   </el-button>
 </template>

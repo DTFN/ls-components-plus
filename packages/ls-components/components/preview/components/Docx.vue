@@ -67,7 +67,7 @@ const closeFunc = () => {
 <template>
   <div :class="comClass">
     <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
-      <el-icon :size="24" color="#FFF"><Close /></el-icon>
+      <LSIcon name="Close" :size="24" color="#FFF" />
     </span>
     <div ref="docxRef"></div>
   </div>

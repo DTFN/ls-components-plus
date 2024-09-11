@@ -30,7 +30,7 @@ defineProps(iconProps);
 .ls-icon {
   display: inline-block;
   font-size: 0;
-  line-height: normal;
+  line-height: 0;
   vertical-align: middle;
 }
 </style>

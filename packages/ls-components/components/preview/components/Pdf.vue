@@ -122,7 +122,7 @@ function loadError() {
 <template>
   <div v-if="isComplete" :class="comClass">
     <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
-      <el-icon :size="24" color="#FFF"><Close /></el-icon>
+      <LSIcon name="Close" :size="24" color="#FFF" />
     </span>
     <div class="opt-wrap">
       <div v-if="showPagination" class="page-wrap">

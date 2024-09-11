@@ -1,4 +1,5 @@
 <script setup lang="ts" name="LSMenuItem">
+import LSIcon from '@cpo/icon/Index.vue';
 import { menuItemProps } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
@@ -20,13 +21,13 @@ defineProps(menuItemProps);
   <template v-if="!needPermission || permissionList.includes(item.pCode)">
     <!-- 单个菜单项 -->
     <el-menu-item v-if="!item.children || item.leaf" :index="item['key']" @click="jumpRoute(item)">
-      <el-icon><component :is="item.icon" /></el-icon>
+      <LSIcon :name="item.icon" color="#FFF" />
       <span>{{ item.title }}</span>
     </el-menu-item>
     <!-- 子菜单 -->
     <el-sub-menu v-else :index="item['key']">
       <template #title>
-        <el-icon><component :is="item.icon" /></el-icon>
+        <LSIcon :name="item.icon" color="#FFF" />
         <span>{{ item.title }}</span>
       </template>
       <MenuItem
