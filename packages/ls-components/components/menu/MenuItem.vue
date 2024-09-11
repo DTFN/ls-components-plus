@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSMenuItem">
 import LSIcon from '@cpo/icon/Index.vue';
-import { menuItemProps } from './types';
+import { lsMenuItemProps } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
 const { jumpRouteCom } = useRouterHook();
@@ -14,7 +14,7 @@ const jumpRoute = (item: any) => {
   }
 };
 
-defineProps(menuItemProps);
+defineProps(lsMenuItemProps);
 </script>
 
 <template id="menu-item">

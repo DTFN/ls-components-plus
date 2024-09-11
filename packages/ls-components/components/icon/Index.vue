@@ -1,13 +1,13 @@
 <script setup lang="ts" name="LSIcon">
 import { Icon } from '@iconify/vue';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { iconProps } from './types';
+import { lsIconProps } from './types';
 const slots = useSlots();
 
 const ns = useNamespace('icon');
 const comClass: string = ns.b();
 
-defineProps(iconProps);
+defineProps(lsIconProps);
 </script>
 
 <template>

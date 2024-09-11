@@ -1,4 +1,6 @@
-export const lsDescProp = {
+import { buildProps } from '@cpo/_utils/runtime';
+
+export const lsDescProp = buildProps({
   // label字体颜色
   labelColor: {
     type: String,
@@ -19,4 +21,4 @@ export const lsDescProp = {
     type: Array<any>,
     default: () => []
   }
-};
+});

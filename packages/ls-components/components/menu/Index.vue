@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSMenu">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { menuProps } from './types';
+import { lsMenuProps } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import MenuItem from './MenuItem.vue';
 
@@ -9,7 +9,7 @@ const { currentRouter } = useRouterHook();
 const ns = useNamespace('menu');
 const comClass: string = ns.b();
 
-const props = defineProps(menuProps);
+const props = defineProps(lsMenuProps);
 
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');

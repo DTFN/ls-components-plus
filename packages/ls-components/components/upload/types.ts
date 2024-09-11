@@ -1,6 +1,7 @@
 import type { LSUnionTypeSS } from '@cpo/_utils/types';
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { UploadFile, UploadRawFile } from 'element-plus';
+import { buildProps } from '@cpo/_utils/runtime';
 
 export interface configsType {
   uploadFileList: Array<UploadFile>;
@@ -32,7 +33,7 @@ interface itemType {
   textPreview?: boolean;
 }
 
-export const lsUploadProps = {
+export const lsUploadProps = buildProps({
   item: {
     type: Object as PropType<itemType>,
     default: () => ({}) as itemType
@@ -69,7 +70,7 @@ export const lsUploadProps = {
     type: Function,
     default: null
   }
-};
+});
 
 export type lsUploadPropsType = ExtractPropTypes<typeof lsUploadProps>;
 

@@ -1,7 +1,7 @@
 import { buildProps } from '@cpo/_utils/runtime';
 import { LocationQueryRaw } from 'vue-router';
 
-export const menuProps = buildProps({
+export const lsMenuProps = buildProps({
   // jumpType: 1 打开新页面 default router.push
   menuConfigList: {
     type: Array<any>,
@@ -17,7 +17,7 @@ export const menuProps = buildProps({
   }
 });
 
-export const menuItemProps = buildProps({
+export const lsMenuItemProps = buildProps({
   needPermission: {
     type: Boolean,
     default: true

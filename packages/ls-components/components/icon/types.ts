@@ -1,6 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export const iconProps = buildProps({
+export const lsIconProps = buildProps({
   // 1: iconify 2: svg default: el-icon
   type: {
     type: [Number, String],
