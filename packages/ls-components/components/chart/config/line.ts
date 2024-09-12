@@ -212,10 +212,6 @@ const setOption = (data: any, templatePatch: any) => {
 };
 
 // 处理数据方法
-function dealOption(data = {}, templatePatch = {}) {
+export function dealOption(data = {}, templatePatch = {}) {
   return setOption(data, templatePatch);
 }
-
-export default {
-  dealConfig: dealOption
-};

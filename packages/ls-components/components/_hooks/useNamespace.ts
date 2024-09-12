@@ -18,7 +18,7 @@ const bemConfig = (namespace: string, block: string, blockSuffix: string, elemen
 };
 
 export const useNamespace = (block: string) => {
-  const namespace = useGlobalConfig('namespace', defNamespace);
+  const namespace = useGlobalConfig(defNamespace);
   const b = (blockSuffix = '') => bemConfig(namespace.value, block, blockSuffix, '', '');
   const e = (element?: string) => (element ? bemConfig(namespace.value, block, '', element, '') : '');
   const m = (modifier?: string) => (modifier ? bemConfig(namespace.value, block, '', '', modifier) : '');

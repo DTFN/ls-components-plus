@@ -1,10 +1,10 @@
 import { merge } from 'lodash-es';
 
-export function templateOption({ template, data = [], templatePatch = {}, customOption = {} }: any) {
+export async function templateOption({ template, data = [], templatePatch = {}, customOption = {} }: any) {
   if (template) {
-    let configData = require(`./${template}.ts`);
-    const { dealConfig } = configData.default;
-    return merge(dealConfig(data, templatePatch), customOption);
+    let configData = await import(`./${template}.ts`);
+    const { dealOption } = configData;
+    return merge(dealOption(data, templatePatch), customOption);
   }
   return customOption;
 }

@@ -265,8 +265,4 @@ const setOption = (
   return option;
 };
 
-const dealOption = (data: any, templatePatch: any) => setOption(data, templatePatch);
-
-export default {
-  dealConfig: dealOption
-};
+export const dealOption = (data: any, templatePatch: any) => setOption(data, templatePatch);

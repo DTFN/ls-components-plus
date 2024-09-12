@@ -33,14 +33,10 @@ const echartObj: Ref<any> = ref();
 const chartOption: Ref<any> = ref({});
 
 const chartStyle = computed(() => {
-  let style: any = {};
-  if (props.width) {
-    style['width'] = `${props.width}${typeof props.width === 'number' ? 'px' : ''}`;
-  }
-  if (props.height) {
-    style['height'] = `${props.height}${typeof props.height === 'number' ? 'px' : ''}`;
-  }
-  return style;
+  return {
+    width: props.width ? `${props.width}px` : '100%',
+    height: props.height ? `${props.height}px` : '30vh'
+  };
 });
 
 watch(
@@ -54,9 +50,9 @@ watch(
   }
 );
 
-function setChartOption() {
+async function setChartOption() {
   if (props.template) {
-    chartOption.value = config.templateOption({
+    chartOption.value = await config.templateOption({
       template: props.template,
       data: props.data,
       templatePatch: props.templatePatch,
@@ -71,12 +67,9 @@ function setChartOption() {
 }
 
 function initChart() {
-  if ((window as any).process.browser) {
-    echartObj.value && echartObj.value.dispose();
-    echartObj.value = markRaw(echarts.init(lsChartRef.value));
-    window.removeEventListener('resize', resizeChart);
-    window.addEventListener('resize', resizeChart);
-  }
+  echartObj.value = markRaw(echarts.init(lsChartRef.value));
+  window.removeEventListener('resize', resizeChart);
+  window.addEventListener('resize', resizeChart);
 }
 
 function resizeChart() {

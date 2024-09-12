@@ -70,7 +70,9 @@ function jumpRoute(path: string) {
         </el-menu-item>
       </el-menu>
       <section class="right_content">
-        <router-view />
+        <el-config-provider :value-on-clear="undefined" :empty-values="[undefined, null]">
+          <router-view />
+        </el-config-provider>
       </section>
     </section>
   </section>

@@ -70,10 +70,10 @@ const setLegend = (templatePatch: any) => {
 const setGrid = (templatePatch: any) => {
   const { dataZoom } = templatePatch;
   const params: any = {
-    left: '2%',
-    right: '2%',
-    top: '5%',
-    bottom: '2%',
+    left: '3%',
+    right: '3%',
+    top: '12%',
+    bottom: '3%',
     containLabel: true
   };
   if (dataZoom === 'vertical') {
@@ -204,7 +204,7 @@ const setSeriesOption = (templatePatch: any, item: any, index: any) => {
     option.itemStyle =
       index == 0
         ? {
-            barBorderColor: 'rgba(0,0,0,0)',
+            borderColor: 'rgba(0,0,0,0)',
             color: 'rgba(0,0,0,0)'
           }
         : null;
@@ -212,7 +212,7 @@ const setSeriesOption = (templatePatch: any, item: any, index: any) => {
       index == 0
         ? {
             itemStyle: {
-              barBorderColor: 'rgba(0,0,0,0)',
+              borderColor: 'rgba(0,0,0,0)',
               color: 'rgba(0,0,0,0)'
             }
           }
@@ -265,10 +265,6 @@ const setOption = (data: any, templatePatch: any) => {
   return option;
 };
 
-function dealOption(data = {}, templatePatch = {}) {
+export function dealOption(data = {}, templatePatch = {}) {
   return setOption(data, templatePatch);
 }
-
-export default {
-  dealConfig: dealOption
-};
