@@ -17,10 +17,23 @@ const themeOptions = ref([
   }
 ]);
 
+const customOption = ref({
+  xAxis: [
+    {
+      axisLabel: {
+        rotate: 45,
+        align: 'center',
+        margin: 24
+      }
+    }
+  ]
+});
+
 const templateAll: any = ref({
   templatePatchSimple: {
     labelPosition: 'top',
-    showBackground: true
+    showBackground: true,
+    showBarFont: false
   },
   templatePatchNegative: {
     labelPosition: 'both',
@@ -69,7 +82,7 @@ const dataWaterfall = {
   })(),
   seriesData: [
     {
-      name: '辅助',
+      name: 'temp',
       data: [0, 900, 1245, 1530, 1376, 1376, 0, 1689, 1856, 1495, 1292]
     },
     {
@@ -207,7 +220,13 @@ function generateData(count: number) {
       </el-form-item>
     </el-form>
 
-    <LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :style="{ marginTop: '16px' }" />
+    <LSChart
+      template="bar"
+      :data="dataSimple"
+      :template-patch="templateAll.templatePatchSimple"
+      :custom-option="customOption"
+      :style="{ marginTop: '16px' }"
+    />
     <LSChart
       template="bar"
       :data="dataNegative"

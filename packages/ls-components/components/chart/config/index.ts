@@ -4,6 +4,7 @@ export async function templateOption({ template, data = [], templatePatch = {}, 
   if (template) {
     let configData = await import(`./${template}.ts`);
     const { dealOption } = configData;
+    console.log(dealOption(data, templatePatch), customOption);
     return merge(dealOption(data, templatePatch), customOption);
   }
   return customOption;

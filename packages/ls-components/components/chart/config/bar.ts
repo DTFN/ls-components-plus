@@ -14,10 +14,10 @@ const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
-    legend && value !== '-' && seriesName !== '辅助' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
-  const valueHtml = value !== '-' && seriesName !== '辅助' ? `<span class="value">${value}</span>` : '';
+    legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
+  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value}</span>` : '';
   const badgeHtml =
-    value !== '-'
+    value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
       : '';
   return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
@@ -96,6 +96,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
     axisLine: {
       show: axis == axisType,
       lineStyle: {
+        width: 1,
         color: FONT_COLOR_MAP[theme || DEF_THEME]
       }
     },

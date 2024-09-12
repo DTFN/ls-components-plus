@@ -124,7 +124,7 @@ defineExpose({
     font-weight: bold;
   }
   .serise-wrap {
-    display: fle x;
+    display: flex;
     align-items: center;
     .content-badge {
       width: 12px;
