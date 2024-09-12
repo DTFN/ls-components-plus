@@ -56,13 +56,20 @@ const setTooltip = (templatePatch: any) => {
 const setLegend = (templatePatch: any) => {
   const { legend, theme } = templatePatch;
   return {
+    type: 'scroll',
     data: legend || [],
     icon: 'rect',
     itemWidth: 12,
     itemHeight: 10,
     textStyle: {
       color: FONT_COLOR_MAP[theme || DEF_THEME],
-      padding: [3, 0, 0, 0]
+      fontSize: 12,
+      height: 10,
+      rich: {
+        a: {
+          verticalAlign: 'middle'
+        }
+      }
     }
   };
 };

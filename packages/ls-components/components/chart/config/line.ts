@@ -5,19 +5,18 @@ import {
   DEF_THEME,
   DATA_ZOOM_COLOR,
   TOOLTIP_COLOR_MAP,
-  BG_BAR_COLOR_MAP
+  BG_BAR_COLOR_MAP,
+  SPLIT_LINE_COLOR
 } from './base';
 
 const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
-    legend && value && value !== '-' && seriesName !== '辅助'
-      ? `<span class="serise-name">${legend ? seriesName : ''}</span>`
-      : '';
-  const valueHtml = value && value !== '-' && seriesName !== '辅助' ? `<span class="value">${value}</span>` : '';
+    legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
+  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value}</span>` : '';
   const badgeHtml =
-    value && value !== '-'
+    value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
       : '';
   return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
@@ -47,7 +46,7 @@ const setTooltip = (templatePatch: any) => {
         },
         padding: 12,
         backgroundColor: TOOLTIP_COLOR_MAP[theme || DEF_THEME]['bgColor'],
-        extraCssText: TOOLTIP_COLOR_MAP[theme || DEF_THEME]['shadowColor'],
+        extraCssText: `box-shadow: ${TOOLTIP_COLOR_MAP[theme || DEF_THEME]['shadowColor']};`,
         formatter: tooltipFormatter
       }
     : null;
@@ -56,13 +55,20 @@ const setTooltip = (templatePatch: any) => {
 const setLegend = (templatePatch: any) => {
   const { legend, theme } = templatePatch;
   return {
+    type: 'scroll',
     data: legend || [],
     icon: 'rect',
     itemWidth: 12,
     itemHeight: 10,
     textStyle: {
       color: FONT_COLOR_MAP[theme || DEF_THEME],
-      padding: [3, 0, 0, 0]
+      fontSize: 12,
+      height: 10,
+      rich: {
+        a: {
+          verticalAlign: 'middle'
+        }
+      }
     }
   };
 };
@@ -70,9 +76,10 @@ const setLegend = (templatePatch: any) => {
 const setGrid = (templatePatch: any) => {
   const { dataZoom } = templatePatch;
   const params: any = {
-    left: '2%',
-    right: '2%',
-    bottom: '2%',
+    left: '3%',
+    right: '3%',
+    top: '12%',
+    bottom: '3%',
     containLabel: true
   };
   if (dataZoom === 'vertical') {
@@ -86,18 +93,30 @@ const setGrid = (templatePatch: any) => {
 
 const setAxis = (data: any, templatePatch: any, axisType: any) => {
   const { axisData } = data;
-  const { axis = 'x' } = templatePatch;
+  const { axis = 'x', theme } = templatePatch;
   const params: any = {
     type: axis == axisType ? 'category' : 'value',
     axisTick: {
       show: false
     },
     axisLine: {
-      show: false
+      show: axis == axisType,
+      lineStyle: {
+        width: 1,
+        color: FONT_COLOR_MAP[theme || DEF_THEME]
+      }
+    },
+    axisLabel: {
+      margin: 18
+    },
+    splitLine: {
+      lineStyle: {
+        type: 'dashed',
+        color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+      }
     }
   };
   axis == axisType && (params.data = axisData);
-  console.log(params, 'templatePatch');
   return [params];
 };
 
