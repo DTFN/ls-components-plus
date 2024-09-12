@@ -123,3 +123,25 @@ export const removeJs = (list: Array<any> = []) => {
     }
   });
 };
+
+/**
+ * 获取随机颜色
+ */
+export function getRandomHexColor() {
+  const hex = Math.floor(Math.random() * 16777215).toString(16);
+  return `#${hex.padStart(6, '0')}`;
+}
+
+/**
+ * 获取月份
+ */
+export function getMonths() {
+  return Array.from({ length: 12 }, (_, index) => `${index + 1}月`);
+}
+
+/**
+ * 获取小时
+ */
+export function getHours() {
+  return Array.from({ length: 24 }, (_, index) => `${index < 10 ? '0' + index : index}时`);
+}

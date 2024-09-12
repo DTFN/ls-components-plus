@@ -9,6 +9,7 @@ import LSUpload from './upload/index';
 import LSMenu from './menu/index';
 import LSIcon from './icon/index';
 import LSConfirm from './confirm/index';
+import LSChart from './chart/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -21,7 +22,8 @@ const components: Record<string, Plugin> = {
   LSTable,
   LSMenu,
   LSIcon,
-  LSConfirm
+  LSConfirm,
+  LSChart
 };
 
 const install = (app: App) => {
