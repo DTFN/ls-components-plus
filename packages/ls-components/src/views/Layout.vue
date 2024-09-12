@@ -39,6 +39,11 @@ const dataList = [
     id: '8',
     title: 'Confirm 确认框',
     path: '/confirm'
+  },
+  {
+    id: '9',
+    title: 'Chart 图表',
+    path: '/chart'
   }
 ];
 const router = useRouter();

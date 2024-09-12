@@ -68,6 +68,14 @@ export default [
         meta: {
           title: 'Confirm'
         }
+      },
+      {
+        name: 'Chart',
+        path: '/chart',
+        component: () => import('@/views/chart/Index.vue'),
+        meta: {
+          title: 'Chart'
+        }
       }
     ]
   }
