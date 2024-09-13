@@ -7,7 +7,7 @@ import {
   TOOLTIP_COLOR_MAP,
   BG_BAR_COLOR_MAP,
   SPLIT_LINE_COLOR
-} from './base';
+} from '../base';
 
 const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const { name, seriesName, value, color } = data;

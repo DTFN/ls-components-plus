@@ -8,7 +8,7 @@ import {
   LABEL_POSITION_MAP,
   BG_BAR_COLOR_MAP,
   TOOLTIP_COLOR_MAP
-} from './base';
+} from '../base';
 
 const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const { name, seriesName, value, color } = data;

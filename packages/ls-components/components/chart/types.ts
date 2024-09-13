@@ -39,6 +39,10 @@ export const lsChartProps = buildProps({
    * 柱状数据值显示位置，showBarFont为true时有效 top / left / right / bottom / inside / insideLeft / insideRight / insideTop / insideBottom / insideTopLeft / insideBottomLeft / insideTopRight / insideBottomRight 默认inside
    * labelPosition: String
    * ++++++++++++++++++柱状图参数++++++++++++++++++
+   *
+   * ++++++++++++++++++折现图参数++++++++++++++++++
+   * 是否支持折线柱状图 true / false 默认false
+   * lineBar: Boolean
    */
   templatePatch: {
     type: Object,

@@ -29,6 +29,7 @@ const customOption = ref({
   ]
 });
 
+// 柱状图
 const templateAll: any = ref({
   templatePatchSimple: {
     labelPosition: 'top',
@@ -151,6 +152,172 @@ const defSeriseOption = {
 };
 const templatePatchDefSeries = {};
 
+// 折线图
+const temperatureData = [
+  {
+    propertyValue: '73.55',
+    propertyTime: 1726174800000
+  },
+  {
+    propertyValue: '75.72',
+    propertyTime: 1726178400000
+  },
+  {
+    propertyValue: '76.77',
+    propertyTime: 1726182000000
+  },
+  {
+    propertyValue: '75.68',
+    propertyTime: 1726185600000
+  },
+  {
+    propertyValue: '76.13',
+    propertyTime: 1726189200000
+  },
+  {
+    propertyValue: '74.85',
+    propertyTime: 1726192800000
+  },
+  {
+    propertyValue: '75.95',
+    propertyTime: 1726196400000
+  },
+  {
+    propertyValue: '75.80',
+    propertyTime: 1726200000000
+  },
+  {
+    propertyValue: '74.35',
+    propertyTime: 1726203600000
+  },
+  {
+    propertyValue: '74.33',
+    propertyTime: 1726207200000
+  },
+  {
+    propertyValue: '74.02',
+    propertyTime: 1726210800000
+  },
+  {
+    propertyValue: '76.27',
+    propertyTime: 1726214400000
+  }
+];
+
+const humidity = [
+  {
+    propertyValue: '30.67',
+    propertyTime: 1726174800000
+  },
+  {
+    propertyValue: '28.82',
+    propertyTime: 1726178400000
+  },
+  {
+    propertyValue: '29.82',
+    propertyTime: 1726182000000
+  },
+  {
+    propertyValue: '29.25',
+    propertyTime: 1726185600000
+  },
+  {
+    propertyValue: '30.52',
+    propertyTime: 1726189200000
+  },
+  {
+    propertyValue: '29.65',
+    propertyTime: 1726192800000
+  },
+  {
+    propertyValue: '29.70',
+    propertyTime: 1726196400000
+  },
+  {
+    propertyValue: '30.18',
+    propertyTime: 1726200000000
+  },
+  {
+    propertyValue: '29.47',
+    propertyTime: 1726203600000
+  },
+  {
+    propertyValue: '29.33',
+    propertyTime: 1726207200000
+  },
+  {
+    propertyValue: '30.58',
+    propertyTime: 1726210800000
+  },
+  {
+    propertyValue: '29.13',
+    propertyTime: 1726214400000
+  }
+];
+const templateAllLine = {
+  dataSimple: {
+    axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    seriesData: [120, 200, 150, 80, 70, 110, 130]
+  },
+  dataMultiple: {
+    axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+    seriesData: [
+      {
+        name: 'Email',
+        type: 'line',
+        data: [120, 132, 101, 134, 90, 230, 210]
+      },
+      {
+        name: 'name',
+        type: 'line',
+        data: [220, 182, 191, 234, 290, 330, 310]
+      },
+      {
+        name: 'address',
+        type: 'line',
+        data: [22, 66, 99, 234, 33, 56, 310]
+      }
+    ]
+  },
+  dataLineBar: {
+    axisData: temperatureData.map(item => item.propertyTime),
+    seriesData: [
+      {
+        type: 'line',
+        emphasis: {
+          focus: 'series'
+        },
+        smooth: true,
+        data: temperatureData.map(item => item.propertyValue)
+      },
+      {
+        type: 'bar',
+        data: humidity.map(item => item.propertyValue),
+        yAxisIndex: 1
+      }
+    ]
+  }
+};
+
+const templateSimpleLine = {
+  labelPosition: 'top',
+  tooltip: 'cross'
+};
+const templateMultipleLine = {
+  labelPosition: 'top',
+  type: 'multiple',
+  smooth: true,
+  areaStyle: {},
+  tooltip: 'cross',
+  legend: ['Email', 'name', 'address'],
+  dataZoom: 'horizontal'
+};
+const templateLineBar = {
+  labelPosition: 'top',
+  type: 'multiple',
+  smooth: true
+};
+
 function changeChartStyle() {
   [
     'templatePatchSimple',
@@ -220,6 +387,8 @@ function generateData(count: number) {
       </el-form-item>
     </el-form>
 
+    <el-divider content-position="left">柱状图</el-divider>
+
     <LSChart
       template="bar"
       :data="dataSimple"
@@ -258,6 +427,30 @@ function generateData(count: number) {
       :custom-option="defSeriseOption"
       :style="{ marginTop: '16px' }"
     ></LSChart>
+
+    <el-divider content-position="left">折线图</el-divider>
+
+    <LSChart
+      template="line"
+      :data="templateAllLine.dataSimple"
+      :template-patch="templateSimpleLine"
+      :custom-option="customOption"
+      :style="{ marginTop: '16px' }"
+    />
+    <LSChart
+      template="line"
+      :data="templateAllLine.dataMultiple"
+      :template-patch="templateMultipleLine"
+      :style="{ marginTop: '16px' }"
+    />
+
+    <LSChart
+      template="line"
+      :data="templateAllLine.dataLineBar"
+      :template-patch="templateLineBar"
+      :style="{ marginTop: '16px' }"
+      line-bar="true"
+    />
   </div>
 </template>
 
