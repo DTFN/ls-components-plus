@@ -145,3 +145,37 @@ export function getMonths() {
 export function getHours() {
   return Array.from({ length: 24 }, (_, index) => `${index < 10 ? '0' + index : index}时`);
 }
+
+/**
+ * 数字保留x小数
+ */
+export function numberFixed(num: any, len?: number) {
+  return Number((Math.ceil(num * 100) / 100).toFixed(len || 1));
+}
+
+/**
+ * 图表参数计算
+ */
+export function formatChartAxis(max: any, min: any, fixed?: number) {
+  const tMax = max;
+  const tMin = min;
+  fixed = fixed || 0;
+  max = numberFixed(max, fixed);
+  min = numberFixed(min, fixed);
+  let interval = numberFixed((max - min) / 2, fixed);
+  interval = interval == 0 ? 0.1 : interval;
+  let dep = Math.ceil((max - min) / interval);
+  dep = dep == 0 ? 1 : dep;
+  if (min < interval) {
+    min = 0;
+  }
+  let aMax = numberFixed(interval * dep + min, fixed);
+  if (aMax < tMax) {
+    aMax = numberFixed(aMax + interval, fixed);
+  }
+  return {
+    aMax,
+    aMin: min == 0 || min < tMin ? min : numberFixed(min - interval, fixed),
+    aInterval: interval
+  };
+}

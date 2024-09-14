@@ -1,3 +1,4 @@
+import { formatChartAxis, numberFixed } from '@cpo/_utils/utils';
 import {
   BAR_COLOR_MAP,
   BG_COLOR_MAP,
@@ -92,34 +93,11 @@ const setGrid = (templatePatch: any) => {
 };
 
 const setAxis = (data: any, templatePatch: any, axisType: any) => {
-  const { axisData } = data;
-  const { axis = 'x', theme, lineBar } = templatePatch;
-  if (lineBar && axis !== axisType) {
-    // line + bar 组合
-    return [
-      {
-        type: 'value',
-        splitLine: {
-          show: false,
-          lineStyle: {
-            color: SPLIT_LINE_COLOR[theme || DEF_THEME]
-          }
-        }
-      },
-      {
-        type: 'value',
-        splitLine: {
-          lineStyle: {
-            color: SPLIT_LINE_COLOR[theme || DEF_THEME],
-            type: 'dashed',
-            width: 2,
-            dashOffset: 2
-          }
-        }
-      }
-    ];
-  } else {
-    const params: any = {
+  const { axisData, seriesData } = data;
+  const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch;
+
+  let params: any = [
+    {
       type: axis == axisType ? 'category' : 'value',
       axisTick: {
         show: false
@@ -139,11 +117,59 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
           type: 'dashed',
           color: SPLIT_LINE_COLOR[theme || DEF_THEME]
         }
+      },
+      data: axis == axisType ? axisData : []
+    }
+  ];
+  if (axis !== axisType) {
+    if (lineBar) {
+      params = [
+        {
+          type: 'value',
+          splitLine: {
+            show: false,
+            lineStyle: {
+              color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+            }
+          }
+        },
+        {
+          type: 'value',
+          splitLine: {
+            lineStyle: {
+              color: SPLIT_LINE_COLOR[theme || DEF_THEME],
+              type: 'dashed',
+              width: 2,
+              dashOffset: 2
+            }
+          }
+        }
+      ];
+    }
+    if (dynamicAxis) {
+      let mathData: any = [];
+      if (type === 'multiple' && !lineBar) {
+        mathData = seriesData.reduce((acc: any, item: any) => acc.concat(item.data), []);
       }
-    };
-    axis == axisType && (params.data = axisData);
-    return [params];
+      params.map((item: any, i: number) => {
+        if (type === 'multiple') {
+          if (lineBar) {
+            mathData = (seriesData[i]?.data || []).map((item: any) => numberFixed(item));
+          }
+        } else {
+          mathData = (seriesData || []).map((item: any) => numberFixed(item));
+        }
+        const max = Math.max(...mathData);
+        const min = Math.min(...mathData);
+        const { aInterval, aMax, aMin } = formatChartAxis(max, min);
+        item.min = aMin;
+        item.max = aMax;
+        item.interval = aInterval;
+        return item;
+      });
+    }
   }
+  return params;
 };
 
 const setDataZoom = (templatePatch: any) => {

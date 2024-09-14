@@ -296,6 +296,19 @@ const templateAllLine = {
         yAxisIndex: 1
       }
     ]
+  },
+  dynamicLine: {
+    axisData: temperatureData.map(item => item.propertyTime),
+    seriesData: [
+      {
+        type: 'line',
+        emphasis: {
+          focus: 'series'
+        },
+        smooth: true,
+        data: temperatureData.map(item => item.propertyValue)
+      }
+    ]
   }
 };
 
@@ -311,12 +324,20 @@ const templateMultipleLine = {
   tooltip: 'cross',
   legend: ['Email', 'name', 'address'],
   dataZoom: 'horizontal'
+  // dynamicAxis: true
 };
 const templateLineBar = {
   labelPosition: 'top',
   type: 'multiple',
   smooth: true,
-  lineBar: true
+  lineBar: true,
+  dynamicAxis: true
+};
+const templateDynamicLine = {
+  labelPosition: 'top',
+  type: 'multiple',
+  tooltip: 'cross',
+  dynamicAxis: true
 };
 
 function changeChartStyle() {
@@ -449,6 +470,13 @@ function generateData(count: number) {
       template="line"
       :data="templateAllLine.dataLineBar"
       :template-patch="templateLineBar"
+      :style="{ marginTop: '16px' }"
+    />
+
+    <LSChart
+      template="line"
+      :data="templateAllLine.dynamicLine"
+      :template-patch="templateDynamicLine"
       :style="{ marginTop: '16px' }"
     />
   </div>
