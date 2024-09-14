@@ -81,6 +81,7 @@ export type themeType = {
     dataZoomColor: Array<string>;
     barBgColor: string;
     toolTip: {
+      color: string;
       bgColor: string;
       shadowColor: string;
     };

@@ -9,6 +9,7 @@ const THEME_MAP: themeType = {
     dataZoomColor: ['rgba(221, 54, 54, 1)', 'rgba(11, 109, 238, .5)'],
     barBgColor: 'rgba(231, 232, 235, 0.6)',
     toolTip: {
+      color: '#FFFFFF',
       bgColor: '#FFFFFF',
       shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);'
     }
@@ -21,6 +22,7 @@ const THEME_MAP: themeType = {
     dataZoomColor: ['rgba(221, 54, 54, 1)', 'rgba(11, 109, 238, .5)'],
     barBgColor: 'rgba(255, 255, 255, 0.2)',
     toolTip: {
+      color: '#5E5E5E',
       bgColor: '#5E5E5E',
       shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);'
     }

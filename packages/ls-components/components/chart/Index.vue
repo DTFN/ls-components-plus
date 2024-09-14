@@ -40,7 +40,7 @@ const chartStyle = computed(() => {
 });
 
 watch(
-  () => [props.template, props.data, props.customOption, props.templatePatch],
+  () => [props.width, props.height, props.template, props.data, props.customOption, props.templatePatch],
   () => {
     setChartOption();
   },
@@ -58,7 +58,6 @@ async function setChartOption() {
       templatePatch: props.templatePatch,
       customOption: props.customOption
     });
-    console.log(chartOption.value);
   } else {
     chartOption.value = props.customOption;
   }

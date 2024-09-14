@@ -53,7 +53,7 @@ const templateAll: any = ref({
   },
   templatePatchMultiBar: {
     type: 'multiBar',
-    tooltip: 'shadow',
+    tooltip: 'cross',
     dataZoom: 'horizontal',
     labelPosition: 'top',
     legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
@@ -315,6 +315,40 @@ const dynamicLine: any = {
   ]
 };
 
+// 饼图
+const customOptionPie = ref({
+  series: [
+    {
+      roseType: 'area'
+    }
+  ]
+});
+const templateAllPie: any = ref({
+  template1: {},
+  template2: {
+    radius: ['45%', '60%']
+  },
+  template3: {
+    radius: ['10%', '60%'],
+    roseType: 'radius'
+  },
+  template4: {
+    radius: ['45%', '60%'],
+    innerRadius: [0, '35%']
+  }
+});
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const innerDataPie = [
+  { value: 1548, name: '图例 1' },
+  { value: 775, name: '图例 2' },
+  { value: 679, name: '图例 3' }
+];
 function changeChartStyle() {
   [
     'templatePatchSimple',
@@ -332,6 +366,10 @@ function changeChartStyle() {
     templateAllLine.value[item].theme = formInline.value.themeModel;
     templateAllLine.value[item].axis = formInline.value.axis;
     templateAllLine.value[item].labelPosition = formInline.value.pos;
+  });
+
+  ['template1', 'template2', 'template3', 'template4'].forEach((item: any) => {
+    templateAllPie.value[item].theme = formInline.value.themeModel;
   });
 }
 </script>
@@ -428,7 +466,52 @@ function changeChartStyle() {
         :data="dynamicLine"
         :template-patch="templateAllLine.templateDynamicLine"
         :style="{ marginTop: '16px' }"
+        width="800"
+        height="400"
       />
+
+      <el-divider content-position="left">饼图</el-divider>
+
+      <LSChart
+        template="pie"
+        :data="{ seriesData: seriesDataPie }"
+        :template-patch="templateAllPie.template1"
+        :style="{ marginTop: '16px' }"
+        width="800"
+        height="400"
+        :custom-option="customOptionPie"
+      ></LSChart>
+
+      <LSChart
+        template="pie"
+        :data="{ seriesData: seriesDataPie }"
+        :template-patch="templateAllPie.template2"
+        :style="{ marginTop: '16px' }"
+        height="400"
+      ></LSChart>
+
+      <LSChart
+        template="pie"
+        :data="{ seriesData: seriesDataPie }"
+        :template-patch="templateAllPie.template3"
+        :style="{ marginTop: '16px' }"
+        height="400"
+      ></LSChart>
+
+      <LSChart
+        template="pie"
+        :data="{ seriesData: seriesDataPie, innerData: innerDataPie }"
+        :template-patch="templateAllPie.template4"
+        :custom-option="{
+          series: [
+            {
+              cursor: 'move'
+            }
+          ]
+        }"
+        :style="{ marginTop: '16px' }"
+        height="400"
+      ></LSChart>
     </div>
   </div>
 </template>

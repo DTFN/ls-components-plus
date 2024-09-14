@@ -40,7 +40,10 @@ const setTooltip = (templatePatch: any) => {
         trigger: 'axis',
         axisPointer: {
           type: tooltip,
-          z: 1
+          z: 1,
+          label: {
+            color: TOOLTIP_COLOR_MAP[theme || DEF_THEME]['color']
+          }
         },
         textStyle: {
           color: FONT_COLOR_MAP[theme || DEF_THEME]

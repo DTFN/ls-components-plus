@@ -1,3 +1,5 @@
+import { BG_COLOR_MAP, DEF_THEME, FONT_COLOR_MAP, SPLIT_LINE_COLOR } from '../base';
+
 /**
  * 提示框组件
  * @param {showTooltip} 是否显示提示框组件
@@ -192,7 +194,7 @@ const setOption = (
   data: any,
   {
     color = ['#2285FF', '#FF7D00', '#00CDDC', '#FB466C', '#FFC917', '#8CEAFF', '#A16FFD', '#FD8BFF'],
-    backgroundColor = '#fff',
+    theme = DEF_THEME,
     showTooltip,
     tooltipTrigger,
     tooltipFormatter,
@@ -220,11 +222,8 @@ const setOption = (
     innerLabelColor
   }: any = {}
 ) => {
-  if (['#000', '#000000', 'black'].includes(backgroundColor)) {
-    if (!legendTextColor) legendTextColor = '#fff';
-    if (!labelColor) labelColor = '#C5C5C5';
-    if (!lineColor) lineColor = '#5E5E5E';
-  }
+  labelColor = legendTextColor = FONT_COLOR_MAP[theme || DEF_THEME];
+  lineColor = SPLIT_LINE_COLOR[theme || DEF_THEME];
 
   const option: any = {
     tooltip: setTooltip({
@@ -260,8 +259,8 @@ const setOption = (
       innerLabelColor
     })
   };
-  option.backgroundColor = backgroundColor;
   option.color = color;
+  option.backgroundColor = BG_COLOR_MAP[theme || DEF_THEME];
   return option;
 };
 
