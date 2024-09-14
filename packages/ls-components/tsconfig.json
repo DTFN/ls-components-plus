@@ -31,7 +31,7 @@
       "@": ["src"],
       "@/*": ["src/*"],
       "@cpo": ["components"],
-      "@cpo/*": ["components/*"],
+      "@cpo/*": ["components/*"]
     }
   },
   "include": [
@@ -52,7 +52,7 @@
     "auto-imports.d.ts",
     "src/typings/*.ts",
     "components/_types/*.ts",
-    "components.d.ts",
+    "components.d.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.js", ".npmrc"]
 }

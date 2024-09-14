@@ -2,12 +2,14 @@
 import dayjs from 'dayjs';
 import { get } from 'lodash-es';
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     tableColumn: any[];
     tableData: any[];
     // 总条数
     total?: number;
+    // 当前页码
+    currentPage?: number;
     // 是否展示Loading状态
     loading?: boolean;
     // 是否展示分页
@@ -34,6 +36,7 @@ withDefaults(
     showPagination: true,
     showSelect: false,
     total: 0,
+    currentPage: 1,
     showTableIndex: true,
     tableIndexfixed: false,
     tableIndexLabel: '序号',
@@ -41,32 +44,55 @@ withDefaults(
     showEmpty: true,
     showRadio: false,
     radioLabel: 'id',
-    selectedRow: () => {
-      return {};
+    selectedRow: () => ({})
+  }
+);
+
+const emit = defineEmits<{
+  sizeChange: [pageSize: number];
+  currentPageChange: [pageNumber: number];
+}>();
+
+const TableRef = ref();
+
+// Table 公共组件
+const pageNo = ref(1);
+const pageSize = ref(10);
+
+watch(
+  () => props.currentPage,
+  newVal => {
+    // if (newVal !== pageNo.value) pageNo.value = newVal;
+    if (newVal !== pageNo.value) {
+      pageNo.value = Math.max(1, Math.min(newVal, Math.ceil(props.total / pageSize.value)));
     }
   }
 );
 
-const TableRef = ref();
-const currentPage = defineModel('currentPage', { type: Number, default: 0 });
-const pageSize = defineModel('pageSize', { type: Number, default: 10 });
-const background = ref(false);
-
-const emitAll = defineEmits(['handleRowChange']);
-
-const handleRowChange = (currentRow: any, oldCurrentRow: any) => {
-  emitAll('handleRowChange', currentRow, oldCurrentRow);
-};
+// const emitAll = defineEmits(['handleRowChange']);
+// const handleRowChange = (currentRow: any, oldCurrentRow: any) => {
+//   emitAll('handleRowChange', currentRow, oldCurrentRow);
+// };
 
 // 序号
 function indexMethod(index: number) {
-  return (currentPage.value - 1) * pageSize.value + index + 1;
+  console.log('====pageNo.value:', pageNo.value);
+  return (pageNo.value - 1) * pageSize.value + index + 1;
+}
+
+function handleSizeChange(val: number) {
+  pageSize.value = val;
+  emit('sizeChange', val);
+}
+
+function handleCurrentPageChange(val: number) {
+  pageNo.value = val;
+  emit('currentPageChange', val);
 }
 
 // 日期转换
-function formatDate(val: string, template?: string) {
+function formatDate(val: string | null | undefined, template?: string) {
   if (!val) return '--';
-
   return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
@@ -83,7 +109,6 @@ defineExpose({
     style="width: 100%"
     v-bind="$attrs"
     :data="tableData"
-    @current-change="handleRowChange"
   >
     <slot name="expand"></slot>
 
@@ -144,14 +169,16 @@ defineExpose({
   </el-table>
 
   <el-pagination
-    class="flex justify-end pt-20px"
     v-if="showPagination"
-    v-model:current-page="currentPage"
+    v-model:current-page="pageNo"
     v-model:page-size="pageSize"
+    class="flex justify-end pt-20px"
+    layout="total, prev, pager, next,sizes"
+    :disabled="loading"
     :page-sizes="pageSizes"
-    :background="background"
-    layout="total, sizes, prev, pager, next, jumper"
     :total="total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentPageChange"
   />
 </template>
 
@@ -159,5 +186,9 @@ defineExpose({
 :deep() .el-empty {
   --el-empty-padding: 24px 0 10px 0;
   --el-empty-description-margin-top: 10px;
+}
+.el-pagination {
+  justify-content: flex-end;
+  margin-top: 24px;
 }
 </style>

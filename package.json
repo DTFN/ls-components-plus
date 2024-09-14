@@ -15,7 +15,7 @@
     "build-pre:ls-docs": "pnpm -r --filter ls-docs run build:pre",
     "build-prod:ls-docs": "pnpm -r --filter ls-docs run build:prod",
     "prepare": "husky install",
-    "lint:fix": "eslint **/*.{vue,js,ts,md,json} --fix",
+    "lint:fix": "eslint **/*.{vue,ts,json} --fix",
     "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint:lint-staged": "lint-staged",
