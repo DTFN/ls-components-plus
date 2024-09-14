@@ -315,7 +315,8 @@ const templateMultipleLine = {
 const templateLineBar = {
   labelPosition: 'top',
   type: 'multiple',
-  smooth: true
+  smooth: true,
+  lineBar: true
 };
 
 function changeChartStyle() {
@@ -449,7 +450,6 @@ function generateData(count: number) {
       :data="templateAllLine.dataLineBar"
       :template-patch="templateLineBar"
       :style="{ marginTop: '16px' }"
-      line-bar="true"
     />
   </div>
 </template>

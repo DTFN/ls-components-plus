@@ -42,7 +42,6 @@ export const lsChartProps = buildProps({
    *
    * ++++++++++++++++++折现图参数++++++++++++++++++
    * 是否支持折线柱状图 true / false 默认false
-   * lineBar: Boolean
    */
   templatePatch: {
     type: Object,

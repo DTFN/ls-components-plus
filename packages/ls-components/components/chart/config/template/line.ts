@@ -93,31 +93,57 @@ const setGrid = (templatePatch: any) => {
 
 const setAxis = (data: any, templatePatch: any, axisType: any) => {
   const { axisData } = data;
-  const { axis = 'x', theme } = templatePatch;
-  const params: any = {
-    type: axis == axisType ? 'category' : 'value',
-    axisTick: {
-      show: false
-    },
-    axisLine: {
-      show: axis == axisType,
-      lineStyle: {
-        width: 1,
-        color: FONT_COLOR_MAP[theme || DEF_THEME]
+  const { axis = 'x', theme, lineBar } = templatePatch;
+  if (lineBar && axis !== axisType) {
+    // line + bar 组合
+    return [
+      {
+        type: 'value',
+        splitLine: {
+          show: false,
+          lineStyle: {
+            color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+          }
+        }
+      },
+      {
+        type: 'value',
+        splitLine: {
+          lineStyle: {
+            color: SPLIT_LINE_COLOR[theme || DEF_THEME],
+            type: 'dashed',
+            width: 2,
+            dashOffset: 2
+          }
+        }
       }
-    },
-    axisLabel: {
-      margin: 18
-    },
-    splitLine: {
-      lineStyle: {
-        type: 'dashed',
-        color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+    ];
+  } else {
+    const params: any = {
+      type: axis == axisType ? 'category' : 'value',
+      axisTick: {
+        show: false
+      },
+      axisLine: {
+        show: axis == axisType,
+        lineStyle: {
+          width: 1,
+          color: FONT_COLOR_MAP[theme || DEF_THEME]
+        }
+      },
+      axisLabel: {
+        margin: 18
+      },
+      splitLine: {
+        lineStyle: {
+          type: 'dashed',
+          color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+        }
       }
-    }
-  };
-  axis == axisType && (params.data = axisData);
-  return [params];
+    };
+    axis == axisType && (params.data = axisData);
+    return [params];
+  }
 };
 
 const setDataZoom = (templatePatch: any) => {
@@ -175,6 +201,8 @@ const setSeries = (data: any, templatePatch: any) => {
       return {
         name: item.name,
         type: item.type,
+        emphasis: item.emphasis,
+        yAxisIndex: item.yAxisIndex,
         smooth,
         areaStyle: areaStyle ? { ...areaStyle, opacity: 0.2 } : undefined,
         label: {
