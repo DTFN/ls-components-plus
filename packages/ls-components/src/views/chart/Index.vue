@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import * as echarts from 'echarts/core';
-
 const formInline = ref({
   themeModel: 'default',
   axis: 'x',
@@ -138,19 +136,6 @@ const dataMultiBar = {
     }
   ]
 };
-const dataDefSeries = {
-  axisData: generateData(5e5)
-};
-const defSeriseOption = {
-  series: [
-    {
-      type: 'bar',
-      data: generateData(5e5).valueData,
-      large: true
-    }
-  ]
-};
-const templatePatchDefSeries = {};
 
 // 折线图
 const temperatureData = [
@@ -203,7 +188,6 @@ const temperatureData = [
     propertyTime: 1726214400000
   }
 ];
-
 const humidity = [
   {
     propertyValue: '30.67',
@@ -254,90 +238,81 @@ const humidity = [
     propertyTime: 1726214400000
   }
 ];
-const templateAllLine = {
-  dataSimple: {
-    axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    seriesData: [120, 200, 150, 80, 70, 110, 130]
+const templateAllLine: any = ref({
+  templateSimpleLine: {
+    labelPosition: 'top',
+    tooltip: 'cross'
   },
-  dataMultiple: {
-    axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-    seriesData: [
-      {
-        name: 'Email',
-        type: 'line',
-        data: [120, 132, 101, 134, 90, 230, 210]
-      },
-      {
-        name: 'name',
-        type: 'line',
-        data: [220, 182, 191, 234, 290, 330, 310]
-      },
-      {
-        name: 'address',
-        type: 'line',
-        data: [22, 66, 99, 234, 33, 56, 310]
-      }
-    ]
+  templateMultipleLine: {
+    labelPosition: 'top',
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['Email', 'name', 'address'],
+    dataZoom: 'horizontal'
+    // dynamicAxis: true
   },
-  dataLineBar: {
-    axisData: temperatureData.map(item => item.propertyTime),
-    seriesData: [
-      {
-        type: 'line',
-        emphasis: {
-          focus: 'series'
-        },
-        smooth: true,
-        data: temperatureData.map(item => item.propertyValue)
-      },
-      {
-        type: 'bar',
-        data: humidity.map(item => item.propertyValue),
-        yAxisIndex: 1
-      }
-    ]
+  templateLineBar: {
+    labelPosition: 'top',
+    type: 'multiple',
+    smooth: true,
+    lineBar: true
+    // dynamicAxis: true
   },
-  dynamicLine: {
-    axisData: temperatureData.map(item => item.propertyTime),
-    seriesData: [
-      {
-        type: 'line',
-        emphasis: {
-          focus: 'series'
-        },
-        smooth: true,
-        data: temperatureData.map(item => item.propertyValue)
-      }
-    ]
+  templateDynamicLine: {
+    labelPosition: 'top',
+    type: 'multiple',
+    tooltip: 'cross',
+    dynamicAxis: true
   }
-};
+});
 
-const templateSimpleLine = {
-  labelPosition: 'top',
-  tooltip: 'cross'
+const dataSimpleLine: any = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
 };
-const templateMultipleLine = {
-  labelPosition: 'top',
-  type: 'multiple',
-  smooth: true,
-  areaStyle: {},
-  tooltip: 'cross',
-  legend: ['Email', 'name', 'address'],
-  dataZoom: 'horizontal'
-  // dynamicAxis: true
+const dataMultipleLine: any = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: 'Email',
+      type: 'line',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: 'name',
+      type: 'line',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    },
+    {
+      name: 'address',
+      type: 'line',
+      data: [22, 66, 99, 234, 33, 56, 310]
+    }
+  ]
 };
-const templateLineBar = {
-  labelPosition: 'top',
-  type: 'multiple',
-  smooth: true,
-  lineBar: true,
-  dynamicAxis: true
+const dataLineBarLine: any = {
+  axisData: temperatureData.map(item => item.propertyTime),
+  seriesData: [
+    {
+      type: 'line',
+      data: temperatureData.map(item => item.propertyValue)
+    },
+    {
+      type: 'bar',
+      data: humidity.map(item => item.propertyValue)
+    }
+  ]
 };
-const templateDynamicLine = {
-  labelPosition: 'top',
-  type: 'multiple',
-  tooltip: 'cross',
-  dynamicAxis: true
+const dynamicLine: any = {
+  axisData: temperatureData.map(item => item.propertyTime),
+  seriesData: [
+    {
+      type: 'line',
+      data: temperatureData.map(item => item.propertyValue)
+    }
+  ]
 };
 
 function changeChartStyle() {
@@ -352,31 +327,12 @@ function changeChartStyle() {
     templateAll.value[item].axis = formInline.value.axis;
     templateAll.value[item].labelPosition = formInline.value.pos;
   });
-}
 
-function generateData(count: number) {
-  let baseValue = Math.random() * 1000;
-  let time = +new Date(2011, 0, 1);
-  let smallBaseValue: number;
-
-  function next(idx: number) {
-    smallBaseValue = idx % 30 === 0 ? Math.random() * 700 : smallBaseValue + Math.random() * 500 - 250;
-    baseValue += Math.random() * 20 - 10;
-    return Math.max(0, Math.round(baseValue + smallBaseValue) + 3000);
-  }
-
-  let categoryData = [];
-  let valueData = [];
-  for (let i = 0; i < count; i++) {
-    categoryData.push(echarts.time.format(time, '{yyyy}-{MM}-{dd} {hh}:{mm}:{ss}', true));
-    valueData.push(next(i).toFixed(2));
-    time += 1000;
-  }
-
-  return {
-    categoryData: categoryData,
-    valueData: valueData
-  };
+  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item: any) => {
+    templateAllLine.value[item].theme = formInline.value.themeModel;
+    templateAllLine.value[item].axis = formInline.value.axis;
+    templateAllLine.value[item].labelPosition = formInline.value.pos;
+  });
 }
 </script>
 
@@ -409,77 +365,82 @@ function generateData(count: number) {
       </el-form-item>
     </el-form>
 
-    <el-divider content-position="left">柱状图</el-divider>
+    <div style="margin-top: 60px">
+      <el-divider content-position="left">柱状图</el-divider>
 
-    <LSChart
-      template="bar"
-      :data="dataSimple"
-      :template-patch="templateAll.templatePatchSimple"
-      :custom-option="customOption"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="bar"
-      :data="dataNegative"
-      :template-patch="templateAll.templatePatchNegative"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="bar"
-      :data="dataWaterfall"
-      :template-patch="templateAll.templatePatchWaterfall"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="bar"
-      :data="dataCategory"
-      :template-patch="templateAll.templatePatchCategory"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="bar"
-      :data="dataMultiBar"
-      :template-patch="templateAll.templatePatchMultiBar"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="bar"
-      :data="dataDefSeries"
-      :template-patch="templatePatchDefSeries"
-      :custom-option="defSeriseOption"
-      :style="{ marginTop: '16px' }"
-    ></LSChart>
+      <LSChart
+        template="bar"
+        :data="dataSimple"
+        :template-patch="templateAll.templatePatchSimple"
+        :custom-option="customOption"
+        :style="{ marginTop: '16px' }"
+      />
+      <LSChart
+        template="bar"
+        :data="dataNegative"
+        :template-patch="templateAll.templatePatchNegative"
+        :style="{ marginTop: '16px' }"
+      />
+      <LSChart
+        template="bar"
+        :data="dataWaterfall"
+        :template-patch="templateAll.templatePatchWaterfall"
+        :style="{ marginTop: '16px' }"
+      />
+      <LSChart
+        template="bar"
+        :data="dataCategory"
+        :template-patch="templateAll.templatePatchCategory"
+        :style="{ marginTop: '16px' }"
+      />
+      <LSChart
+        template="bar"
+        :data="dataMultiBar"
+        :template-patch="templateAll.templatePatchMultiBar"
+        :style="{ marginTop: '16px' }"
+      />
 
-    <el-divider content-position="left">折线图</el-divider>
+      <el-divider content-position="left">折线图</el-divider>
 
-    <LSChart
-      template="line"
-      :data="templateAllLine.dataSimple"
-      :template-patch="templateSimpleLine"
-      :custom-option="customOption"
-      :style="{ marginTop: '16px' }"
-    />
-    <LSChart
-      template="line"
-      :data="templateAllLine.dataMultiple"
-      :template-patch="templateMultipleLine"
-      :style="{ marginTop: '16px' }"
-    />
+      <LSChart
+        template="line"
+        :data="dataSimpleLine"
+        :template-patch="templateAllLine.templateSimpleLine"
+        :custom-option="customOption"
+        :style="{ marginTop: '16px' }"
+      />
+      <LSChart
+        template="line"
+        :data="dataMultipleLine"
+        :template-patch="templateAllLine.templateMultipleLine"
+        :style="{ marginTop: '16px' }"
+      />
 
-    <LSChart
-      template="line"
-      :data="templateAllLine.dataLineBar"
-      :template-patch="templateLineBar"
-      :style="{ marginTop: '16px' }"
-    />
+      <LSChart
+        template="line"
+        :data="dataLineBarLine"
+        :template-patch="templateAllLine.templateLineBar"
+        :style="{ marginTop: '16px' }"
+      />
 
-    <LSChart
-      template="line"
-      :data="templateAllLine.dynamicLine"
-      :template-patch="templateDynamicLine"
-      :style="{ marginTop: '16px' }"
-    />
+      <LSChart
+        template="line"
+        :data="dynamicLine"
+        :template-patch="templateAllLine.templateDynamicLine"
+        :style="{ marginTop: '16px' }"
+      />
+    </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.demo-form-inline {
+  position: fixed;
+  top: 60px;
+  left: 220px;
+  z-index: 99999;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #ffffff;
+}
+</style>

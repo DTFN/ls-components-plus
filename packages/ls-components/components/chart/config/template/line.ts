@@ -95,7 +95,6 @@ const setGrid = (templatePatch: any) => {
 const setAxis = (data: any, templatePatch: any, axisType: any) => {
   const { axisData, seriesData } = data;
   const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch;
-
   let params: any = [
     {
       type: axis == axisType ? 'category' : 'value',
@@ -201,7 +200,6 @@ const setDataZoom = (templatePatch: any) => {
         },
         {
           show: false,
-          yAxisIndex: 0,
           filterMode: 'empty',
           right: 0,
           showDataShadow: true
@@ -216,19 +214,22 @@ const setSeries = (data: any, templatePatch: any) => {
     type = 'simple',
     showBarFont = true,
     labelPosition = 'inside',
-    smooth = false,
+    smooth = true,
     areaStyle = undefined,
     showBackground,
     theme,
-    name
+    name,
+    lineBar,
+    axis
   } = templatePatch;
   if (type === 'multiple') {
-    return (seriesData || []).map((item: any) => {
-      return {
+    return (seriesData || []).map((item: any, i: number) => {
+      const params: any = {
         name: item.name,
         type: item.type,
-        emphasis: item.emphasis,
-        yAxisIndex: item.yAxisIndex,
+        emphasis: item.emphasis || {
+          focus: 'series'
+        },
         smooth,
         areaStyle: areaStyle ? { ...areaStyle, opacity: 0.2 } : undefined,
         label: {
@@ -241,6 +242,14 @@ const setSeries = (data: any, templatePatch: any) => {
         },
         data: item.data || []
       };
+      if (lineBar) {
+        if (axis !== 'y' && i === 1) {
+          params.yAxisIndex = 1;
+        } else {
+          params.yAxisIndex = 0;
+        }
+      }
+      return params;
     });
   } else {
     return [

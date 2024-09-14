@@ -58,6 +58,7 @@ async function setChartOption() {
       templatePatch: props.templatePatch,
       customOption: props.customOption
     });
+    console.log(chartOption.value);
   } else {
     chartOption.value = props.customOption;
   }
