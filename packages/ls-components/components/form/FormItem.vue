@@ -9,7 +9,7 @@ import { ref } from 'vue';
 import { isEmpty } from '../_utils/utils';
 
 interface PropsType {
-  isValue?: boolean; // 是否初始化modelValue值为value的值默认false
+  isValue?: boolean; // 是否初始化modelValue值为value的值
   value?: any;
   type: FormItemType;
   label: string;
@@ -33,7 +33,8 @@ interface PropsType {
 
 const props: PropsType = withDefaults(defineProps<PropsType>(), {
   read: false,
-  isValue: false
+  isValue: false,
+  isNumberRule: true
 });
 
 const emits = defineEmits<{
@@ -42,7 +43,6 @@ const emits = defineEmits<{
 
 // 级联多选
 const cascaderProps = { multiple: true };
-
 const modelValue = defineModel<any>();
 const FormItemRef = ref();
 
@@ -117,56 +117,15 @@ watch(
   }
 );
 
-// 从 2015 到 当前年份
-function yearDisabledDdate(data: Date) {
-  const year = data.getFullYear();
-  const nowYear = new Date().getFullYear();
-
-  return year < 2015 || year > nowYear;
-}
-
-// 数字验证
-const newRules = computed(() => {
-  if (props.type === 'number') {
-    const rules: FormRules | undefined = props.rules;
-    let list: any[] = [];
-
-    if (rules) {
-      if (Array.isArray(rules)) list = list.concat(rules);
-      else list.push(rules);
-    }
-
-    // 小数限制前15后7位
-    list.push({
-      pattern: /^-?\d{1,15}(?:\.\d{1,7})?$/,
-      message: '输入超过最大值',
-      trigger: 'blur'
-    });
-
-    return list;
-  } else {
-    return props.rules;
-  }
-});
-
 defineExpose({
   FormItemRef
 });
 </script>
 
 <template>
-  <div v-if="type === 'title'" mb-24px :class="className">
-    <div mb-10px flex items-center>
-      <div mr-10px h-20px w-2px bg-black dark:bg-white />
-      <h1 text-16px font-bold>
-        {{ label }}
-        <span v-if="subhead" text-12px color-gray>{{ subhead }}</span>
-      </h1>
-    </div>
-    <el-divider border-style="dashed" />
-  </div>
+  <slot v-if="type === 'slot'" :name="prop"></slot>
 
-  <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="newRules" :class="className">
+  <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="rules" :class="className">
     <template v-if="labelClass || tooltip" #label>
       <div class="flex items-center">
         <span :class="labelClass">{{ label }}</span>
@@ -249,32 +208,6 @@ defineExpose({
         </template>
         <el-option v-for="(option, i) in options" :key="`${i}-${option.value}`" :label="option.label" :value="option.value" />
       </el-select>
-
-      <!-- 年份 -->
-      <el-date-picker
-        v-else-if="type === 'year'"
-        v-model="modelValue"
-        type="year"
-        value-format="YYYY"
-        :clearable="true"
-        :placeholder="`请选择${label}`"
-        :disabled-date="yearDisabledDdate"
-        v-bind="attrs"
-        v-on="listeners || {}"
-      />
-
-      <!-- 月份 -->
-      <el-date-picker
-        v-else-if="type === 'month'"
-        v-model="modelValue"
-        type="month"
-        value-format="YYYY-MM"
-        :clearable="true"
-        :placeholder="`请选择${label}`"
-        :disabled-date="yearDisabledDdate"
-        v-bind="attrs"
-        v-on="listeners || {}"
-      />
 
       <!-- 日期 -->
       <el-date-picker

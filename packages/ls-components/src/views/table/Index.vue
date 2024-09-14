@@ -17,64 +17,6 @@ const tableColumn = [
     // width: 70
   }
 ];
-
-// const tableData = computed(() => {
-//   const list: any[] = [
-//     {
-//       code: 'EquipmentTypeEnum',
-//       name: '机组类型',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'EquipmentCategoryEnum',
-//       name: '机组类别',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'capacity',
-//       name: '装机容量（MW）',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'ratedPower',
-//       name: '额定功率',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'ProductTypeEnum',
-//       name: '产品类型',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'BoilerTypeEnum',
-//       name: '锅炉类型',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'boiler_productionCapacity',
-//       name: '生产能力',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'TurbineTypeEnum',
-//       name: '汽轮机类型',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'PressureParamsTypeEnum',
-//       name: '汽轮机压力参数',
-//       defaultValue: '0'
-//     },
-//     {
-//       code: 'turbine_ratedPower',
-//       name: '汽轮机额定功率',
-//       defaultValue: '0'
-//     }
-//   ];
-
-//   return list;
-// });
-
 const tableDataRef = ref([
   {
     id: '1',
@@ -86,7 +28,7 @@ const tableDataRef = ref([
     id: '2',
     code: 'EquipmentCategoryEnum',
     name: '机组类别',
-    defaultValue: '0'
+    defaultValue: '1'
   },
   {
     id: '3',
@@ -104,19 +46,19 @@ const tableDataRef = ref([
     id: '5',
     code: 'ProductTypeEnum',
     name: '产品类型',
-    defaultValue: '0'
+    defaultValue: '1'
   },
   {
     id: '6',
     code: 'BoilerTypeEnum',
     name: '锅炉类型',
-    defaultValue: '0'
+    defaultValue: '1'
   },
   {
     id: '7',
     code: 'boiler_productionCapacity',
     name: '生产能力',
-    defaultValue: '0'
+    defaultValue: '1'
   },
   {
     id: '8',
@@ -134,10 +76,36 @@ const tableDataRef = ref([
     id: '10',
     code: 'turbine_ratedPower',
     name: '汽轮机额定功率',
+    defaultValue: '1'
+  },
+  {
+    id: '11',
+    code: 'EquipmentTypeEnum',
+    name: '机组类型1',
+    defaultValue: '2'
+  },
+  {
+    id: '12',
+    code: 'EquipmentCategoryEnum',
+    name: '机组类别1',
     defaultValue: '0'
+  },
+  {
+    id: '13',
+    code: 'capacity',
+    name: '装机容量（MW）1',
+    defaultValue: '1'
   }
 ]);
 
+// const currentPage = ref(1);
+// const pageSize = ref(10);
+// const total = tableData.value.length;
+let total = ref(0);
+watch(tableDataRef, () => {
+  total.value = tableDataRef.value.length;
+  console.log('====total.value:', total.value);
+});
 const tableData = computed(() => tableDataRef.value);
 function onRemoveParam(id: string) {
   try {
@@ -147,16 +115,19 @@ function onRemoveParam(id: string) {
     console.error('Error removing parameter:', error);
   }
 }
+
+// function handleCurrentChange(val: any) {
+//   currentPage.value = val;
+// }
 </script>
 
 <template>
+  <!-- <div class="common_title">示例 1</div> -->
   <LSTable
-    :border="true"
-    :show-table-index="false"
+    border
+    :show-table-index="true"
     :show-pagination="false"
-    :show-empty="false"
     :show-radio="false"
-    :radio-label="'CID'"
     :table-column="tableColumn"
     :table-data="tableData"
   >
@@ -166,6 +137,33 @@ function onRemoveParam(id: string) {
       </template>
     </el-table-column>
   </LSTable>
+
+  <!-- <div class="common_title">示例 2</div> -->
+  <!-- <LSTable
+    :table-data="tableData"
+    :table-column="tableColumn"
+    :show-pagination="true"
+    :show-radio="false"
+    v-model:current-page="currentPage"
+    v-model:page-size="pageSize"
+    :total="total"
+    class="table2"
+  >
+    <el-table-column prop="operate" label="操作" width="100px">
+      <template #default="{ row }">
+        <el-button link type="danger" @click="onRemoveParam(row.id)"> 移除 </el-button>
+      </template>
+    </el-table-column>
+  </LSTable> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+.common_title {
+  margin: 24px 0 8px;
+  font-size: 16px;
+  font-weight: 500;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+</style>
