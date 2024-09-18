@@ -23,9 +23,11 @@ import { MENU_LIST } from '@/constant';
           <span>{{ item.title }}</span>
         </el-menu-item>
       </el-menu> -->
+
       <LSMenu :menu-config-list="MENU_LIST" style="width: 200px" />
       <section class="right_content">
         <el-config-provider :value-on-clear="undefined" :empty-values="[undefined, null]">
+          <LSBreadcrumb />
           <router-view />
         </el-config-provider>
       </section>

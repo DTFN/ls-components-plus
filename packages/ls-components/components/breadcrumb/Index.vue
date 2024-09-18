@@ -9,7 +9,7 @@ const props = defineProps(lsBreadcrumbProp);
 
 const { jumpRouteCom, currentRouter } = useRouterHook();
 
-const ns = useNamespace('button');
+const ns = useNamespace('breadcrumb');
 const comClass: string = ns.b();
 
 function isBCList(obj: unknown): obj is Array<JumpParamsType> {
@@ -54,6 +54,8 @@ function jumpLink(item: JumpParamsType) {
 
 <style lang="scss" scoped>
 .ls-breadcrumb {
+  display: flex;
+  align-items: center;
   padding: 0 0 20px;
   line-height: 20px;
   .el-breadcrumb,
