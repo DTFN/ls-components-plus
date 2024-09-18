@@ -548,7 +548,7 @@ function setDefineBCList(name: string, query: any) {
       },
       {
         title: '产品详情',
-        name: 'ProductDetail',
+        name: 'Button',
         query
       },
       {
@@ -563,7 +563,7 @@ function setDefineBCList(name: string, query: any) {
 
 <template>
   <div>
-    <LSBreadcrumb :define-list="defineBCList" />
+    <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
     <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
   </div>
