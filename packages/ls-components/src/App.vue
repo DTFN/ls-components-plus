@@ -22,7 +22,7 @@ router.addRoute({
 });
 jumpRouteCom(
   {
-    path: '/'
+    path: location.pathname || '/'
   },
   1
 );

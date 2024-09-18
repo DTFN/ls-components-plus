@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useRouterHook } from '@cpo/menu';
+
 const MENU_CONFIG_LIST = [
   {
     title: '渔场概览',
@@ -520,10 +522,48 @@ const MENU_CONFIG_LIST = [
     ]
   }
 ];
+
+const { getRouteQuery, currentRouter } = useRouterHook();
+
+const defineBCList: any = ref([]);
+
+watch(
+  () => currentRouter.value,
+  val => {
+    const { name }: any = val || {};
+    const query = getRouteQuery();
+    setDefineBCList(name, query);
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+function setDefineBCList(name: string, query: any) {
+  if (name === 'Menu') {
+    defineBCList.value = [
+      {
+        title: '产品管理'
+      },
+      {
+        title: '产品详情',
+        name: 'ProductDetail',
+        query
+      },
+      {
+        title: '物模型草稿'
+      }
+    ];
+  } else {
+    defineBCList.value = [];
+  }
+}
 </script>
 
 <template>
   <div>
+    <LSBreadcrumb :define-list="defineBCList" />
     <br />
     <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
   </div>
