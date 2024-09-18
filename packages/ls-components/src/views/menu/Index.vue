@@ -524,6 +524,8 @@ const MENU_CONFIG_LIST = [
 
 <template>
   <div>
+    <LSBreadcrumb />
+    <br />
     <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
   </div>
 </template>

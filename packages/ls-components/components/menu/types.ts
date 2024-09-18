@@ -76,6 +76,7 @@ export type JumpParamsType = {
   title?: string;
   path?: string;
   query?: LocationQueryRaw;
+  link?: string;
 };
 
 export type GroupOptionType = {

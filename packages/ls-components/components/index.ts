@@ -10,6 +10,7 @@ import LSMenu from './menu/index';
 import LSIcon from './icon/index';
 import LSConfirm from './confirm/index';
 import LSChart from './chart/index';
+import LSBreadcrumb from './breadcrumb/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -23,7 +24,8 @@ const components: Record<string, Plugin> = {
   LSMenu,
   LSIcon,
   LSConfirm,
-  LSChart
+  LSChart,
+  LSBreadcrumb
 };
 
 const install = (app: App) => {

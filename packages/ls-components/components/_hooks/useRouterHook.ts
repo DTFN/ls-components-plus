@@ -96,6 +96,14 @@ export default function () {
     });
   }
 
+  /**
+   * 根据权限获取菜单，并生成路由，无权限则全部返回
+   * @param menuConfigList
+   * @param routesModule
+   * @param routePath
+   * @param permissionList
+   * @returns
+   */
   const getMenusByAuth = (
     menuConfigList: any,
     routesModule: Record<string, any>,
