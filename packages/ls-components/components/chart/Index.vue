@@ -62,7 +62,9 @@ async function setChartOption() {
     chartOption.value = props.customOption;
   }
   if (echartObj.value) {
-    echartObj.value.setOption(chartOption.value);
+    echartObj.value.setOption(chartOption.value, {
+      notMerge: true
+    });
   }
 }
 

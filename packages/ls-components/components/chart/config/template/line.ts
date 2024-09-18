@@ -125,37 +125,44 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
   ];
   if (axis !== axisType) {
     if (lineBar) {
-      params = [
-        {
-          type: 'value',
-          splitLine: {
-            show: false,
-            lineStyle: {
-              color: SPLIT_LINE_COLOR[theme || DEF_THEME]
-            }
-          }
-        },
-        {
-          type: 'value',
-          splitLine: {
-            lineStyle: {
-              color: SPLIT_LINE_COLOR[theme || DEF_THEME],
-              type: 'dashed',
-              width: 2,
-              dashOffset: 2
-            }
-          }
-        }
-      ];
+      params =
+        axis == 'x'
+          ? [
+              {
+                type: 'value',
+                splitLine: {
+                  show: false,
+                  lineStyle: {
+                    color: SPLIT_LINE_COLOR[theme || DEF_THEME]
+                  }
+                }
+              },
+              {
+                type: 'value',
+                splitLine: {
+                  lineStyle: {
+                    color: SPLIT_LINE_COLOR[theme || DEF_THEME],
+                    type: 'dashed',
+                    width: 2,
+                    dashOffset: 2
+                  }
+                }
+              }
+            ]
+          : [
+              {
+                type: 'value'
+              }
+            ];
     }
     if (dynamicAxis) {
       let mathData: any = [];
-      if (type === 'multiple' && !lineBar) {
+      if (type === 'multiple' && (!lineBar || (axis == 'y' && lineBar))) {
         mathData = seriesData.reduce((acc: any, item: any) => acc.concat(item.data), []);
       }
       params.map((item: any, i: number) => {
         if (type === 'multiple') {
-          if (lineBar) {
+          if (lineBar && axis == 'x') {
             mathData = (seriesData[i]?.data || []).map((item: any) => numberFixed(item));
           }
         } else {
@@ -247,9 +254,11 @@ const setSeries = (data: any, templatePatch: any) => {
       };
       if (lineBar) {
         if (axis !== 'y' && i === 1) {
-          params.yAxisIndex = 1;
+          params.yAxisIndex = i;
         } else {
-          params.yAxisIndex = 0;
+          if (params.yAxisIndex) {
+            delete params.yAxisIndex;
+          }
         }
       }
       return params;
