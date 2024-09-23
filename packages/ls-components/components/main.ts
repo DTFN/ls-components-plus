@@ -1,6 +1,8 @@
 import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
 
+import useRouterHook from '@cpo/_hooks/useRouterHook';
+
 export { default } from './index';
 
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue';
@@ -17,3 +19,5 @@ export { default as LSBellMessage } from '@cpo/bellMessage/Index.vue';
 export { default as LSLive } from '@cpo/live/Index.vue';
 
 export type {} from './components.ts';
+
+export { useRouterHook };

@@ -11,7 +11,7 @@ const comClass: string = ns.b();
 const curUrl = ref('');
 const lastDecodedFrames = ref(0);
 const player: any = ref(null);
-const videoRef = ref();
+const lsLiveRef = ref();
 const defAttrs = ref({
   // 是否自动播放
   autoplay: true,
@@ -84,8 +84,8 @@ function createPlayer(liveUrl: string) {
         lazyLoad: false
       }
     );
-    if (player.value && videoRef.value) {
-      player.value.attachMediaElement(videoRef.value);
+    if (player.value && lsLiveRef.value) {
+      player.value.attachMediaElement(lsLiveRef.value);
       player.value.load();
       player.value.play();
       listenPlayer();
@@ -121,7 +121,7 @@ defineExpose({
 
 <template>
   <div :class="comClass">
-    <video v-bind="Object.assign(defAttrs, $attrs)" width="100%" class="ls-video" ref="videoRef"></video>
+    <video v-bind="Object.assign(defAttrs, $attrs)" width="100%" class="ls-video" ref="lsLiveRef"></video>
   </div>
 </template>
 

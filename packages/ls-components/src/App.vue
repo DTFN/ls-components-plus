@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouterHook } from '@cpo/menu/index';
+import { useRouterHook } from '@cpo/main';
 import { RouterView } from 'vue-router';
 import { MENU_LIST } from './constant/index';
 
