@@ -1,21 +1,26 @@
+/**
+ * 权限查询和详情key，用于权限树勾选关联
+ */
 const POWER_KEY = {
   P: 'p',
   D: 'd'
 };
 
-export function excutePowerTree(treeData: any, curData: any, curCheckeds: any) {
+// 执行权限树
+export function excutePowerTree(data: any, curData: any, curCheckeds: any) {
   const { parentId, permission } = curData;
   const { checkedKeys, checkedNodes } = curCheckeds;
 
   if (!curData.children && parentId !== 0) {
-    getCurLevelNodes(treeData, parentId, permission, checkedNodes, checkedKeys.includes(curData.id));
+    getCurLevelNodes(data, parentId, permission, checkedNodes, checkedKeys.includes(curData.id));
   }
 
   return checkedNodes;
 }
 
-function getCurLevelNodes(treeData: any, curParentId: any, curPermission: any, checkedNodes: any, isChecked: any) {
-  treeData.forEach((item: any) => {
+// 获取当前层级的节点
+function getCurLevelNodes(data: any, curParentId: any, curPermission: any, checkedNodes: any, isChecked: any) {
+  data.forEach((item: any) => {
     if (item.id == curParentId) {
       if (isChecked) {
         if (!curPermission.startsWith(POWER_KEY.P)) {
@@ -30,6 +35,7 @@ function getCurLevelNodes(treeData: any, curParentId: any, curPermission: any, c
   });
 }
 
+// 设置当前层级的节点
 function setCheckedNodes(list: any, checkedNodes: any, curPermission: any, isChecked: any) {
   const isP = curPermission.startsWith(POWER_KEY.P);
   const isD = curPermission.startsWith(POWER_KEY.D);

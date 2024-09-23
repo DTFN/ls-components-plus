@@ -77,6 +77,7 @@ function getAllChildKeys(children: any) {
   }, []);
 }
 
+// 更新隐藏样式
 async function updateHideStyle() {
   await nextTick();
   const hideChilds: any = document.getElementsByClassName('hide-child-node');
@@ -91,6 +92,7 @@ async function updateHideStyle() {
   }
 }
 
+// 全选所有节点
 function handleCheckAllChange() {
   isIndeterminate.value = false;
   if (lsTreeRef.value) {
@@ -174,7 +176,10 @@ defineExpose({
       <template #default="{ node, data }">
         <span
           class="custom-tree-node"
-          :class="{ 'last-child-node': node.isLeaf && data.parentId > 0, 'hide-child-node': data.permission?.startsWith('I') }"
+          :class="{
+            'last-child-node': node.isLeaf && data.parentId > 0,
+            'hide-child-node': data.permission?.startsWith(hideNodeKey)
+          }"
         >
           <span>{{ node.label }}</span>
         </span>

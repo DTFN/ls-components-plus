@@ -29,11 +29,6 @@ export const lsTreeProps = buildProps({
   hideNodeKey: {
     type: String,
     default: ''
-  },
-  // 权限检测keys
-  powerCheckKeys: {
-    type: Array,
-    default: () => []
   }
 });
 
