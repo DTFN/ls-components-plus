@@ -57,4 +57,10 @@ export const lsBellMessageProps = buildProps({
   }
 });
 
-export const emitNames = ['updateNotice', 'readAll', 'readMsg', 'loadMore'];
+/**
+ * 事件名
+ *  readAll: 全部读取
+ *  readMsg: 单条读取
+ *  loadMore: 加载更多
+ */
+export const emitNames = ['readAll', 'readMsg', 'loadMore'];

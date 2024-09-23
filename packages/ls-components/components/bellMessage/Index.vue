@@ -60,7 +60,7 @@ function loadMore() {
       </template>
       <div class="msg-list-view">
         <div class="top-box">
-          <LSButton class="pl-12 read_all" link :type="noticeNum > 1 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
+          <LSButton class="pl-12 read_all" link :type="noticeNum > 0 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
             >全部已读</LSButton
           >
         </div>
