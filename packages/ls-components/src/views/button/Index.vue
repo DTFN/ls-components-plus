@@ -3,6 +3,7 @@ import { Edit } from '@element-plus/icons-vue';
 import SvgIconVue from '@/assets/vue.svg';
 import SvgIconCount from '@/assets/count.svg';
 import SvgIconDataIcv from '@/assets/data_icv.svg';
+import m1 from '@/assets/m1.mp4?url';
 
 const iconName = ref('iconoir:fish');
 const separatorColor = ref('red');
@@ -16,6 +17,7 @@ const liveRef = ref();
 const liveRef2 = ref();
 const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv');
 const liveUrl2 = ref('https://video.shipin520.com/video_listen/588ku_video/21/03/15/12/06/22/video604edd3ee67a6.mp4');
+liveUrl2.value = m1;
 onMounted(() => {
   liveRef.value && liveRef.value.createPlayer(liveUrl);
   liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
@@ -74,7 +76,7 @@ onMounted(() => {
     <LSLive ref="liveRef" class="live-wrap" />
 
     <br />
-    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" />
+    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :loop="false" />
   </div>
 </template>
 

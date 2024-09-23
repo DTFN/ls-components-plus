@@ -36,7 +36,7 @@ function destoryPlayer() {
 
 // 监听播放器
 function listenPlayer() {
-  if (player.value) {
+  if (player.value && props.type === 'flv') {
     player.value.on(flvjs.Events.ERROR, (errorType: any, errorDetail: any, errorInfo: any) => {
       console.log('errorType', errorType);
       console.log('errorDetail', errorDetail);
@@ -47,7 +47,7 @@ function listenPlayer() {
         createPlayer(curUrl.value);
       }
     });
-    player.value.on('statistics_info', function (res: any) {
+    player.value.on(flvjs.Events.STATISTICS_INFO, function (res: any) {
       const { decodedFrames } = res || {};
       if (lastDecodedFrames.value === 0) {
         lastDecodedFrames.value = decodedFrames;
@@ -101,7 +101,7 @@ function createPlayer(liveUrl: string) {
 // 更新可见状态
 function updateVisibilityStatus() {
   if (document.visibilityState === 'visible') {
-    if (curUrl.value) {
+    if (curUrl.value && props.type === 'flv') {
       createPlayer(curUrl.value);
     }
   } else {
