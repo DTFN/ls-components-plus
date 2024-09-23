@@ -16,12 +16,14 @@ import { MENU_LIST } from '@/constant';
 const noticeNum = ref(1);
 const list: any = ref([
   {
+    id: '1',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 12:00:00',
     readStatus: 0
   },
   {
+    id: '2',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 13:00:00',
@@ -32,13 +34,22 @@ const list: any = ref([
 const loadMore = () => {
   list.value = list.value.concat(list.value);
 };
+
+const readMsg = (id: string) => {
+  list.value = list.value.map((item: any) => {
+    if (item.id === id) {
+      item.readStatus = 1;
+    }
+    return item;
+  });
+};
 </script>
 
 <template>
   <section class="main_container">
     <header class="main_header">
       Demo展示
-      <LSBellMessage :notice-num="noticeNum" :list="list" @load-more="loadMore" />
+      <LSBellMessage :notice-num="noticeNum" :list="list" @read-msg="readMsg" @load-more="loadMore" />
     </header>
     <section class="main_content">
       <!-- <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>

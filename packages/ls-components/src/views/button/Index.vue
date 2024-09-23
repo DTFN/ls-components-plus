@@ -11,6 +11,15 @@ setTimeout(() => {
   separatorColor.value = 'blue';
   iconName.value = 'game-icons:whale-tail';
 }, 2000);
+
+const liveRef = ref();
+const liveRef2 = ref();
+const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv');
+const liveUrl2 = ref('https://video.shipin520.com/video_listen/588ku_video/21/03/15/12/06/22/video604edd3ee67a6.mp4');
+onMounted(() => {
+  liveRef.value && liveRef.value.createPlayer(liveUrl);
+  liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
+});
 </script>
 
 <template>
@@ -59,7 +68,19 @@ setTimeout(() => {
     <LSIcon width="30" height="30">
       <SvgIconVue />
     </LSIcon>
+
+    <br />
+
+    <LSLive ref="liveRef" class="live-wrap" />
+
+    <br />
+    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" />
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.live-wrap {
+  width: 385px;
+  height: auto;
+}
+</style>

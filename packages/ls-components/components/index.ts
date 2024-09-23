@@ -12,6 +12,7 @@ import LSConfirm from './confirm/index';
 import LSChart from './chart/index';
 import LSBreadcrumb from './breadcrumb/index';
 import LSBellMessage from './bellMessage/index';
+import LSLive from './live/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -27,7 +28,8 @@ const components: Record<string, Plugin> = {
   LSConfirm,
   LSChart,
   LSBreadcrumb,
-  LSBellMessage
+  LSBellMessage,
+  LSLive
 };
 
 const install = (app: App) => {

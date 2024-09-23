@@ -61,6 +61,7 @@
     "docx-preview": "^0.3.2",
     "echarts": "^5.5.1",
     "element-plus": "^2.8.1",
+    "flv.js": "^1.6.2",
     "lodash-es": "^4.17.21",
     "luckyexcel": "^1.0.1",
     "pdfjs-dist": "^4.6.82",
