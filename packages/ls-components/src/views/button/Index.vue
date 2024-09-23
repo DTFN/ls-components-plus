@@ -83,6 +83,6 @@ onMounted(() => {
 <style lang="scss" scoped>
 .live-wrap {
   width: 385px;
-  height: auto;
+  height: 300px;
 }
 </style>

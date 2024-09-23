@@ -12,7 +12,6 @@ const curUrl = ref('');
 const lastDecodedFrames = ref(0);
 const player: any = ref(null);
 const videoRef = ref();
-
 const defAttrs = ref({
   // 是否自动播放
   autoplay: true,
@@ -37,10 +36,8 @@ function destoryPlayer() {
 // 监听播放器
 function listenPlayer() {
   if (player.value && props.type === 'flv') {
-    player.value.on(flvjs.Events.ERROR, (errorType: any, errorDetail: any, errorInfo: any) => {
-      console.log('errorType', errorType);
-      console.log('errorDetail', errorDetail);
-      console.log('errorInfo', errorInfo);
+    player.value.on(flvjs.Events.ERROR, () => {
+      // errorType: any, errorDetail: any, errorInfo: any
       // 视频出错后销毁重建
       destoryPlayer();
       if (curUrl.value) {
@@ -141,7 +138,7 @@ defineExpose({
     position: relative;
     width: 100%;
     height: 100%;
-    mix-blend-mode: darken;
+    object-fit: cover;
   }
   .control-wrap {
     display: flex;
