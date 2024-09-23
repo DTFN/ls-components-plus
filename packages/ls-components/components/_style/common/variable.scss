@@ -159,3 +159,65 @@ $box-shadow-up:
   0 6px 30px 5px rgb(0 0 0 / 5%),
   0 16px 24px 2px rgb(0 0 0 / 4%),
   0 8px 10px -5px rgb(0 0 0 / 8%);
+
+@each $var in (0, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40) {
+  .m-#{$var} {
+    margin: #{$var}px !important;
+  }
+
+  .mt-#{$var} {
+    margin-top: #{$var}px !important;
+  }
+
+  .ml-#{$var} {
+    margin-left: #{$var}px !important;
+  }
+
+  .mr-#{$var} {
+    margin-right: #{$var}px !important;
+  }
+
+  .mb-#{$var} {
+    margin-bottom: #{$var}px !important;
+  }
+
+  .mlr-#{$var} {
+    margin-right: #{$var}px !important;
+    margin-left: #{$var}px !important;
+  }
+
+  .mtb-#{$var} {
+    margin-top: #{$var}px !important;
+    margin-bottom: #{$var}px !important;
+  }
+
+  .p-#{$var} {
+    padding: #{$var}px !important;
+  }
+
+  .pt-#{$var} {
+    padding-top: #{$var}px !important;
+  }
+
+  .pl-#{$var} {
+    padding-left: #{$var}px !important;
+  }
+
+  .pr-#{$var} {
+    padding-right: #{$var}px !important;
+  }
+
+  .pb-#{$var} {
+    padding-bottom: #{$var}px !important;
+  }
+
+  .plr-#{$var} {
+    padding-right: #{$var}px !important;
+    padding-left: #{$var}px !important;
+  }
+
+  .ptb-#{$var} {
+    padding-top: #{$var}px !important;
+    padding-bottom: #{$var}px !important;
+  }
+}

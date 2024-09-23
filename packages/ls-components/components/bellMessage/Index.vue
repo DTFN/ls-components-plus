@@ -1,15 +1,12 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSBellMessage">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBellMessageProps, emitNames } from './types';
 
 const emitAll = defineEmits(emitNames);
 
 defineProps(lsBellMessageProps);
-const visible = defineModel({
-  type: Boolean
-});
 
-const defAttrs = ref({
+const defAttrs: any = ref({
   width: 360,
   placement: 'bottom-end',
   trigger: 'click'
@@ -32,8 +29,8 @@ function loadMore() {
 </script>
 
 <template>
-  <div v-if="visible" :class="comClass">
-    <el-popover v-bind="Object.assign(defAttrs, $attrs)">
+  <div :class="comClass">
+    <el-popover v-bind="Object.assign(defAttrs, $attrs)" popper-class="ls-bell-message-popover">
       <template #reference>
         <el-badge class="icon-message" :show-zero="false" :value="Number(noticeNum)" :max="badgeMax" dot-class="notice-dot">
           <template #default>
@@ -51,7 +48,7 @@ function loadMore() {
         </el-badge>
       </template>
       <div class="msg-list-view">
-        <div class="ptb-10 top-box">
+        <div class="top-box">
           <LSButton class="pl-12 read_all" link :type="noticeNum > 1 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
             >全部已读</LSButton
           >
@@ -83,89 +80,107 @@ function loadMore() {
 
 <style lang="scss" scoped>
 .ls-bell-message {
-  max-height: calc(100vh - 200px);
+  position: relative;
+  display: inline-block;
   overflow: hidden;
-  .top-box {
-    text-align: right;
-    border-bottom: 1px dashed #e3e2ea;
-    .read_all {
-      font-size: 14px;
-    }
+  font-size: 0;
+  line-height: normal;
+  vertical-align: middle;
+  .icon-message {
+    position: relative;
+    font-size: 18px;
+    color: var(--el-color-primary);
+    cursor: pointer;
   }
-  .content-box {
-    max-height: calc(100vh - 254px);
-    overflow: hidden auto;
-    .icon-loading {
-      color: var(--el-color-primary);
-    }
-    .no-more {
-      font-size: 12px;
-      color: #999999;
-      text-align: center;
-    }
-    &::-webkit-scrollbar {
-      width: 7px;
-      background-color: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: transparent;
-      background-clip: content-box;
-      border-radius: 10px;
-    }
-    &:hover {
-      &::-webkit-scrollbar-thumb {
-        background-color: rgb(144 147 153 / 40%) !important;
-        transition: background-color 0.3s;
-      }
-    }
-    .msg-item {
-      position: relative;
-      padding: 12px 14px;
-      cursor: pointer;
-      border-bottom: 1px solid #d8d8d8;
-      &:last-child {
-        border-bottom: none;
-      }
-      &:hover {
-        background: rgba($color: var(--el-color-primary), $alpha: 10%);
-      }
-      h1 {
-        font-size: 16px;
-      }
-      p {
-        font-size: 12px;
-      }
-      span {
-        font-size: 12px;
-        color: #999999;
-      }
-      .dot {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 9px;
-        height: 9px;
-        background: var(--el-color-error);
-        border-radius: 100%;
-      }
-      .detail {
-        width: 60px;
-        font-size: 12px;
-        color: var(--el-color-primary);
-        &:hover {
-          color: #2466ff;
-        }
-      }
-      .msg-type {
-        margin-top: 6px;
-        color: var(--el-color-primary);
-      }
-      .content {
+}
+.ls-bell-message-popover {
+  .msg-list-view {
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+    .top-box {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: right;
+      border-bottom: 1px dashed #e3e2ea;
+      .read_all {
         font-size: 14px;
       }
-      .time {
+    }
+    .content-box {
+      max-height: calc(100vh - 254px);
+      overflow: hidden auto;
+      .icon-loading {
+        color: var(--el-color-primary);
+      }
+      .no-more {
         font-size: 12px;
-        color: var(--el-color-info);
+        color: #999999;
+        text-align: center;
+      }
+      &::-webkit-scrollbar {
+        width: 7px;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        background-clip: content-box;
+        border-radius: 10px;
+      }
+      &:hover {
+        &::-webkit-scrollbar-thumb {
+          background-color: rgb(144 147 153 / 40%) !important;
+          transition: background-color 0.3s;
+        }
+      }
+      .msg-item {
+        position: relative;
+        padding: 12px 14px;
+        cursor: pointer;
+        border-bottom: 1px solid #d8d8d8;
+        &:last-child {
+          border-bottom: none;
+        }
+        &:hover {
+          background: rgba($color: var(--el-color-primary), $alpha: 10%);
+        }
+        h1 {
+          font-size: 16px;
+        }
+        p {
+          font-size: 12px;
+        }
+        span {
+          font-size: 12px;
+          color: #999999;
+        }
+        .dot {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 9px;
+          height: 9px;
+          background: var(--el-color-error);
+          border-radius: 100%;
+        }
+        .detail {
+          width: 60px;
+          font-size: 12px;
+          color: var(--el-color-primary);
+          &:hover {
+            color: $color-theme;
+          }
+        }
+        .msg-type {
+          margin-top: 6px;
+          color: var(--el-color-primary);
+        }
+        .content {
+          font-size: 14px;
+        }
+        .time {
+          font-size: 12px;
+          color: var(--el-color-info);
+        }
       }
     }
   }

@@ -45,7 +45,7 @@ export const lsBellMessageProps = buildProps({
   },
   /**
    * 列表数据
-   * msgType: 消息类型
+   * msgType: 消息类型内容
    * content: 消息内容
    * createdTime: 创建时间
    * readStatus: 是否已读

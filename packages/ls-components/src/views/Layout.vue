@@ -12,11 +12,33 @@ import { MENU_LIST } from '@/constant';
 //     return;
 //   }
 // }
+
+const list: any = ref([
+  {
+    msgType: '角色权限变更',
+    content: '角色权限已变更，将在下次登录后生效！',
+    createdTime: '2024-02-01 12:00:00',
+    readStatus: 0
+  },
+  {
+    msgType: '角色权限变更',
+    content: '角色权限已变更，将在下次登录后生效！',
+    createdTime: '2024-02-01 13:00:00',
+    readStatus: 1
+  }
+]);
+
+const loadMore = () => {
+  list.value = list.value.concat(list.value);
+};
 </script>
 
 <template>
   <section class="main_container">
-    <header class="main_header">Demo展示</header>
+    <header class="main_header">
+      Demo展示
+      <LSBellMessage :list="list" @load-more="loadMore" />
+    </header>
     <section class="main_content">
       <!-- <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>
         <el-menu-item v-for="item in dataList" :key="item.id" :index="item.path" @click="jumpRoute(item.path)">
