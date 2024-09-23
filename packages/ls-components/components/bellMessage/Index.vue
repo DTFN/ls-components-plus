@@ -4,90 +4,80 @@ import { lsBellMessageProps, emitNames } from './types';
 
 const emitAll = defineEmits(emitNames);
 
-const props = defineProps(lsBellMessageProps);
+defineProps(lsBellMessageProps);
+const visible = defineModel({
+  type: Boolean
+});
+
+const defAttrs = ref({
+  width: 360,
+  placement: 'bottom-end',
+  trigger: 'click'
+});
 
 const ns = useNamespace('bell-message');
 const comClass: string = ns.b();
 
-const loading = ref(false);
-const noMore = ref(false);
-const messageCount = ref(0);
-const msgList = ref<Array<any>>([]);
-const params = ref({
-  currentPage: 1,
-  pageSize: 10
-});
-
-async function readAll() {
-  if (props.readAllApi) {
-    await props.readAllApi();
-    msgList.value = msgList.value.map((item: any) => {
-      item.readStatus = true;
-      return item;
-    });
-    emitAll('updateNotice');
-  }
+function readAll() {
+  emitAll('readAll');
 }
 
-async function readMsg(id: number) {
-  if (props.readApi) {
-    await props.readApi(id);
-    msgList.value = msgList.value.map((item: any) => {
-      if (id === item.id) {
-        item.readStatus = true;
-      }
-      return item;
-    });
-  }
-  allReadFunc();
+function readMsg(id: string) {
+  emitAll('readMsg', id);
 }
 
-function allReadFunc() {
-  let allRead = true;
-  msgList.value = msgList.value.map((item: any) => {
-    if (item.readStatus == 0) {
-      allRead = false;
-    }
-    return item;
-  });
-  allRead && noMore.value && emitAll('updateNotice');
+function loadMore() {
+  emitAll('loadMore');
 }
 </script>
 
 <template>
-  <div :class="comClass">
-    <div class="ptb-10 top-box">
-      <LSButton
-        class="pl-12 read_all"
-        link
-        :type="messageCount > 1 ? 'primary' : ''"
-        :disabled="messageCount < 1"
-        @click="readAll"
-        >全部已读</LSButton
-      >
-    </div>
+  <div v-if="visible" :class="comClass">
+    <el-popover v-bind="Object.assign(defAttrs, $attrs)">
+      <template #reference>
+        <el-badge class="icon-message" :show-zero="false" :value="Number(noticeNum)" :max="badgeMax" dot-class="notice-dot">
+          <template #default>
+            <LSIcon
+              v-if="badgeIconName"
+              :type="badgeIconType"
+              :name="badgeIconName"
+              :color="badgeIconColor"
+              :width="badgeIconWidth"
+              :height="badgeIconHeight"
+              :size="badgeIconSize"
+            />
+            <el-icon v-else><BellFilled /></el-icon>
+          </template>
+        </el-badge>
+      </template>
+      <div class="msg-list-view">
+        <div class="ptb-10 top-box">
+          <LSButton class="pl-12 read_all" link :type="noticeNum > 1 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
+            >全部已读</LSButton
+          >
+        </div>
 
-    <div class="content-box" v-loading="loading">
-      <div v-for="(item, index) in msgList" :key="index" class="mlr-6 msg-item" @click="readMsg(item.id)">
-        <h1>{{ item.title }}</h1>
-        <el-tag v-if="msgTypeMap[item.type]?.label" type="primary" class="msg-type">{{ msgTypeMap[item.type]?.label }}</el-tag>
-        <div class="mt-8 content" v-html="item.content"></div>
-        <div class="mt-8 time">{{ item.createdTime }}</div>
-        <div v-show="item.readStatus == 0" class="dot"></div>
-      </div>
+        <div class="content-box" v-loading="loading">
+          <div v-for="(item, index) in list" :key="index" class="mlr-6 msg-item" @click="readMsg(item.id)">
+            <h1>{{ item.title }}</h1>
+            <el-tag v-if="item.msgType" type="primary" class="msg-type">{{ item.msgType }}</el-tag>
+            <div class="mt-8 content" v-html="item.content"></div>
+            <div class="mt-8 time">{{ item.createdTime }}</div>
+            <div v-show="item.readStatus == 0" class="dot"></div>
+          </div>
 
-      <div
-        class="flex-center ptb-24"
-        :style="{
-          textAlign: 'center'
-        }"
-      >
-        <div v-if="noMore" class="no-more">暂无更多</div>
-        <el-button v-else-if="params.currentPage > 1" link type="primary" :loading="loading" @click="loadMore"
-          >加载更多</el-button
-        >
+          <div
+            class="flex-center ptb-24"
+            :style="{
+              textAlign: 'center'
+            }"
+          >
+            <div v-if="noMore" class="no-more">暂无更多</div>
+            <el-button v-else link type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
+          </div>
+        </div>
       </div>
-    </div>
+    </el-popover>
   </div>
 </template>
 
