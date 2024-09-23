@@ -13,6 +13,7 @@ import { MENU_LIST } from '@/constant';
 //   }
 // }
 
+const noticeNum = ref(1);
 const list: any = ref([
   {
     msgType: '角色权限变更',
@@ -37,7 +38,7 @@ const loadMore = () => {
   <section class="main_container">
     <header class="main_header">
       Demo展示
-      <LSBellMessage :list="list" @load-more="loadMore" />
+      <LSBellMessage :notice-num="noticeNum" :list="list" @load-more="loadMore" />
     </header>
     <section class="main_content">
       <!-- <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>

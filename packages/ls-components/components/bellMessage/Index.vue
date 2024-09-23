@@ -12,6 +12,12 @@ const defAttrs: any = ref({
   trigger: 'click'
 });
 
+const defBadgeAttrs: any = ref({
+  showZero: false,
+  max: 99,
+  offset: [3, 2]
+});
+
 const ns = useNamespace('bell-message');
 const comClass: string = ns.b();
 
@@ -32,7 +38,12 @@ function loadMore() {
   <div :class="comClass">
     <el-popover v-bind="Object.assign(defAttrs, $attrs)" popper-class="ls-bell-message-popover">
       <template #reference>
-        <el-badge class="icon-message" :show-zero="false" :value="Number(noticeNum)" :max="badgeMax" dot-class="notice-dot">
+        <el-badge
+          v-bind="Object.assign(defBadgeAttrs, $attrs)"
+          class="icon-message"
+          :value="Number(noticeNum)"
+          dot-class="notice-dot"
+        >
           <template #default>
             <LSIcon
               v-if="badgeIconName"
@@ -82,7 +93,6 @@ function loadMore() {
 .ls-bell-message {
   position: relative;
   display: inline-block;
-  overflow: hidden;
   font-size: 0;
   line-height: normal;
   vertical-align: middle;
