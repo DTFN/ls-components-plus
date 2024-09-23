@@ -277,7 +277,7 @@ defineExpose({
 
 <template>
   <div v-if="!isFirst" class="animate_fadeIn transition-all-300">
-    <FormCpo
+    <LSForm
       class="mb-6px"
       label-position="top"
       :show-btn-loading="false"
@@ -301,7 +301,7 @@ defineExpose({
       </div>
     </template>
 
-    <TableCpo
+    <LSTable
       class="table-cpo"
       :class="showOperate ? 'mt-16px' : 'mt-24px'"
       show-overflow-tooltip
@@ -377,7 +377,7 @@ defineExpose({
       <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
         <slot :name="slotName" :row="row" />
       </template>
-    </TableCpo>
+    </LSTable>
   </div>
   <el-skeleton v-else :rows="5" animated />
 </template>
