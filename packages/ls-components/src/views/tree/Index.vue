@@ -684,7 +684,8 @@ const canPrint = ref(true);
 
     <br />
 
-    <LSPrint title="打印测试" content="正在测试打印功能" btn-txt="打印2" :can-print="canPrint"> </LSPrint>
+    <LSPrint title="打印测试" content="正在测试打印功能" btn-txt="打印2" :can-print="canPrint" icon-name="Printer" type="primary">
+    </LSPrint>
   </div>
 </template>
 

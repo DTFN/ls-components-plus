@@ -6,7 +6,7 @@ export const lsPrintProps = buildProps({
     type: String,
     default: ''
   },
-  // 提示语
+  // 禁止使用时提示语
   content: {
     type: String,
     default: ''
