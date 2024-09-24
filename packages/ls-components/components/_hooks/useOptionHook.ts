@@ -12,10 +12,11 @@ import { merge } from 'lodash';
  */
 export default function () {
   const selData: any = {
+    allOption: [],
     options: [],
     maps: {}
   };
-  const getSelOption = async (apiFunc: Promise<any>, params?: any) => {
+  const getSelOption = async (apiFunc: Promise<any>, params?: any, all?: Array<OptionType>) => {
     const { labelKey = 'id', valueKey = 'name' } = params || {};
     if (apiFunc instanceof Function) {
       let data: any = [];
@@ -35,6 +36,7 @@ export default function () {
           label
         };
       });
+      selData.allOption = (all || [{ label: '全部', value: '' }]).concat(selData.options);
     }
     return selData;
   };
