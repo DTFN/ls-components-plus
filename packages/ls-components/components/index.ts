@@ -1,5 +1,6 @@
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import type { App, Plugin } from 'vue';
+import print from 'vue3-print-nb';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
 import { LSForm, LSFormItem } from './form/index';
@@ -14,6 +15,7 @@ import LSBreadcrumb from './breadcrumb/index';
 import LSBellMessage from './bellMessage/index';
 import LSLive from './live/index';
 import LSTree from './tree/index';
+import LSPrint from './print/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -31,7 +33,8 @@ const components: Record<string, Plugin> = {
   LSBreadcrumb,
   LSBellMessage,
   LSLive,
-  LSTree
+  LSTree,
+  LSPrint
 };
 
 const install = (app: App) => {
@@ -43,6 +46,8 @@ const install = (app: App) => {
     const cpo: any = components[key];
     app.component(cpo?.name, cpo);
   }
+
+  app.directive('print', print);
 };
 
 const LSWebPlus = {

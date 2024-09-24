@@ -668,6 +668,8 @@ function getTreeCheckedData(ids: any) {
   }
   return newIds;
 }
+
+const canPrint = ref(true);
 </script>
 
 <template>
@@ -679,6 +681,10 @@ function getTreeCheckedData(ids: any) {
       :default-checked-keys="checkedPermissionIds"
       direction="h"
     />
+
+    <br />
+
+    <LSPrint title="打印测试" content="正在测试打印功能" btn-txt="打印2" :can-print="canPrint"> </LSPrint>
   </div>
 </template>
 
