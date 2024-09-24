@@ -70,5 +70,13 @@ export const MENU_LIST = [
     path: '/chart',
     cpoPath: 'chart/Index',
     key: '9'
+  },
+  {
+    id: '10',
+    title: 'Tree 树',
+    name: 'Tree',
+    path: '/tree',
+    cpoPath: 'tree/Index',
+    key: '10'
   }
 ];

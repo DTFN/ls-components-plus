@@ -1,5 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
+// 如需查询和详情权限关联，需在permission字段前加p和d来区分，permission字段表示权限code
 export const lsTreeProps = buildProps({
   // 是否展开
   isExpand: {
@@ -25,10 +26,20 @@ export const lsTreeProps = buildProps({
       class: ''
     })
   },
-  // 隐藏节点key
-  hideNodeKey: {
+  // 需要隐藏节点code的前缀
+  hideNodePrefix: {
     type: String,
-    default: ''
+    default: 'I'
+  },
+  // 支持全选
+  isCheckAll: {
+    type: Boolean,
+    default: false
+  },
+  // 展示方式
+  direction: {
+    type: String as PropType<'horizontal' | 'vertical'>,
+    default: 'horizontal'
   }
 });
 

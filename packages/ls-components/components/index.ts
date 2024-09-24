@@ -13,6 +13,7 @@ import LSChart from './chart/index';
 import LSBreadcrumb from './breadcrumb/index';
 import LSBellMessage from './bellMessage/index';
 import LSLive from './live/index';
+import LSTree from './tree/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -29,7 +30,8 @@ const components: Record<string, Plugin> = {
   LSChart,
   LSBreadcrumb,
   LSBellMessage,
-  LSLive
+  LSLive,
+  LSTree
 };
 
 const install = (app: App) => {

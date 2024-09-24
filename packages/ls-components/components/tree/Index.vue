@@ -9,7 +9,7 @@ const props = defineProps(lsTreeProps);
 
 const ns = useNamespace('tree');
 const comClass: string = ns.b();
-const treeClass = ns.b('tree');
+const treeClass = ns.b('box');
 
 const defAttrs: any = ref({
   showCheckbox: true,
@@ -40,13 +40,14 @@ const treeStyle = computed(() => {
 
 watch(
   () => props.data,
-  newVal => {
+  async newVal => {
     if (newVal && newVal.length > 0) {
       isAllChecked.value = false;
       isIndeterminate.value = false;
       allNodeKeys.value = getAllNodeKeys();
-
       updateHideStyle();
+      await nextTick();
+      updateAllCheckStatu();
     }
   },
   {
@@ -110,12 +111,18 @@ function filterNode(value: any, data: any) {
 
 // 点击的节点复选框的数据
 function handleCheck(data: any, checkeds: any) {
-  lsTreeRef.value.setCheckedKeys(excutePowerTree(props.data, data, checkeds));
+  lsTreeRef.value.setCheckedNodes(excutePowerTree(props.data, data, checkeds));
   emitAll('handleCheck', data, checkeds);
 }
 
 // 每一个节点复选框变化监听
 function handleChekChange(data: any, checked: any) {
+  updateAllCheckStatu();
+
+  emitAll('handleChekChange', data, checked);
+}
+
+function updateAllCheckStatu() {
   const checkedData = lsTreeRef.value.getCheckedNodes(false, true);
   let ids: Array<number> = [];
   checkedData.forEach((item: any) => {
@@ -134,8 +141,6 @@ function handleChekChange(data: any, checked: any) {
     isAllChecked.value = false;
     isIndeterminate.value = false;
   }
-
-  emitAll('handleChekChange', data, checked);
 }
 
 // 更新样式
@@ -158,7 +163,7 @@ defineExpose({
 
 <template>
   <div :class="comClass">
-    <el-checkbox v-if="isAllChecked" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
+    <el-checkbox v-if="isCheckAll" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
       全选
     </el-checkbox>
     <el-tree
@@ -178,7 +183,7 @@ defineExpose({
           class="custom-tree-node"
           :class="{
             'last-child-node': node.isLeaf && data.parentId > 0,
-            'hide-child-node': data.permission?.startsWith(hideNodeKey)
+            'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
           }"
         >
           <span>{{ node.label }}</span>
@@ -195,12 +200,11 @@ defineExpose({
 :deep() .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before {
   background-color: #aaaaaa !important;
 }
-.ls-tree-wrap {
+.ls-tree {
   position: relative;
   width: 100%;
-
-  // min-height: 500px;
   margin-top: 6px;
+  background-color: #ffffff;
   .ls-tree-box {
     padding-bottom: 12px;
     overflow: auto;

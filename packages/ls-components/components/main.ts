@@ -17,6 +17,7 @@ export { default as LSChart } from '@cpo/chart/Index.vue';
 export { default as LSBreadcrumb } from '@cpo/breadcrumb/Index.vue';
 export { default as LSBellMessage } from '@cpo/bellMessage/Index.vue';
 export { default as LSLive } from '@cpo/live/Index.vue';
+export { default as LSTree } from '@cpo/tree/Index.vue';
 
 export type {} from './components.ts';
 
