@@ -38,8 +38,8 @@ export const lsTreeProps = buildProps({
   },
   // 展示方式
   direction: {
-    type: String as PropType<'horizontal' | 'vertical'>,
-    default: 'horizontal'
+    type: String as PropType<'h' | 'v'>,
+    default: 'v'
   }
 });
 

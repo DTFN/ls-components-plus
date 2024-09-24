@@ -47,7 +47,9 @@ watch(
       allNodeKeys.value = getAllNodeKeys();
       updateHideStyle();
       await nextTick();
-      updateAllCheckStatu();
+      lsTreeRef.value!.filter();
+      updateAllCheckStatus();
+      updateStyle();
     }
   },
   {
@@ -89,6 +91,7 @@ async function updateHideStyle() {
     vnode.style.height = 0;
     if (vnode?.parentNode?.parentNode?.previousElementSibling) {
       vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.opacity = 0;
+      vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.visibility = 'hidden';
     }
   }
 }
@@ -103,6 +106,10 @@ function handleCheckAllChange() {
 
 // 筛选
 function filterNode(value: any, data: any) {
+  const { permission } = data || {};
+  if (permission?.startsWith(props.hideNodePrefix)) {
+    return false;
+  }
   if (!value) return true;
   const { label } = props.dataProps || {};
   if (!label) return true;
@@ -117,12 +124,12 @@ function handleCheck(data: any, checkeds: any) {
 
 // 每一个节点复选框变化监听
 function handleChekChange(data: any, checked: any) {
-  updateAllCheckStatu();
+  updateAllCheckStatus();
 
   emitAll('handleChekChange', data, checked);
 }
 
-function updateAllCheckStatu() {
+function updateAllCheckStatus() {
   const checkedData = lsTreeRef.value.getCheckedNodes(false, true);
   let ids: Array<number> = [];
   checkedData.forEach((item: any) => {
@@ -145,16 +152,20 @@ function updateAllCheckStatu() {
 
 // 更新样式
 function updateStyle() {
-  const lastChilds: any = document.getElementsByClassName('last-child-node');
-  for (let i = 0; i < lastChilds.length; i++) {
-    lastChilds[i].parentNode.style.cssFloat = 'left';
-    lastChilds[i].parentNode.style.styleFloat = 'left';
+  if (props.direction == 'h') {
+    const treeNodes = document.getElementsByClassName('el-tree-node');
+    for (let i = 0; i < treeNodes.length; i++) {
+      const element = treeNodes[i] as HTMLElement;
+      if (element) {
+        const iconNode = element.querySelector('.el-tree-node__content .el-icon') as HTMLElement | null;
+        if (iconNode && getComputedStyle(iconNode).visibility === 'hidden') {
+          element.style.display = 'inline-block';
+          element.style.verticalAlign = 'middle';
+        }
+      }
+    }
   }
 }
-
-onMounted(() => {
-  updateStyle();
-});
 
 defineExpose({
   lsTreeRef
@@ -182,7 +193,6 @@ defineExpose({
         <span
           class="custom-tree-node"
           :class="{
-            'last-child-node': node.isLeaf && data.parentId > 0,
             'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
           }"
         >
