@@ -2,6 +2,9 @@ import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
 
 import useRouterHook from '@cpo/_hooks/useRouterHook';
+import useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
+import useWSHook from '@cpo/_hooks/useWSHook';
+import useOptionHook from '@cpo/_hooks/useOptionHook';
 
 export { default } from './index';
 
@@ -21,4 +24,4 @@ export { default as LSTree } from '@cpo/tree/Index.vue';
 
 export type {} from './components.ts';
 
-export { useRouterHook };
+export { useRouterHook, useColorthiefHook, useWSHook, useOptionHook };
