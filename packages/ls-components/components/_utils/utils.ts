@@ -179,3 +179,16 @@ export function formatChartAxis(max: any, min: any, fixed?: number) {
     aInterval: interval
   };
 }
+
+export function isValidJSON(str: any) {
+  try {
+    str = JSON.parse(str);
+    if (str !== null && typeof str === 'object') {
+      return str.constructor === Object;
+    } else {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+}

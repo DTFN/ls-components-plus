@@ -16,6 +16,7 @@ import LSBellMessage from './bellMessage/index';
 import LSLive from './live/index';
 import LSTree from './tree/index';
 import LSPrint from './print/index';
+import LSContainerBox from './containerBox/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -34,7 +35,8 @@ const components: Record<string, Plugin> = {
   LSBellMessage,
   LSLive,
   LSTree,
-  LSPrint
+  LSPrint,
+  LSContainerBox
 };
 
 const install = (app: App) => {

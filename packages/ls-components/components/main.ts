@@ -5,6 +5,7 @@ import useRouterHook from '@cpo/_hooks/useRouterHook';
 import useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
 import useWSHook from '@cpo/_hooks/useWSHook';
 import useOptionHook from '@cpo/_hooks/useOptionHook';
+import lsValidate from '@cpo/_utils/validate';
 
 export { default } from './index';
 
@@ -22,7 +23,8 @@ export { default as LSBellMessage } from '@cpo/bellMessage/Index.vue';
 export { default as LSLive } from '@cpo/live/Index.vue';
 export { default as LSTree } from '@cpo/tree/Index.vue';
 export { default as LSPrint } from '@cpo/print/Index.vue';
+export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
 
 export type {} from './components.ts';
 
-export { useRouterHook, useColorthiefHook, useWSHook, useOptionHook };
+export { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, lsValidate };
