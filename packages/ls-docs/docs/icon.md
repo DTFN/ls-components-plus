@@ -2,18 +2,25 @@
 outline: deep
 ---
 
-# Button 按钮
+# Icon 图标
 
-常用的操作按钮。
+基于Element Plus Icon、iconify、svg三种类型提供了图标使用集合。
 
-The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
+## 使用方式
+
+### 1. Element Plus Icon
+
+### 2. iconify
+
+### 3. svg
+
+## API
+
+### 1. Attributes
+
+### 2. Slots
 
 ::: details 点我查看代码
-
-<!-- ```js
-console.log('Hello, VitePress!')
-```
-::: -->
 
 ```ts:line-numbers {1}
 <template>
@@ -65,27 +72,5 @@ import {
 } from '@element-plus/icons-vue'
 </script>
 ```
-
-:::
-
-<script setup>
-import { useData } from 'vitepress'
-
-const { page, frontmatter } = useData()
-</script>
-
-## Results
-
-### Page Data
-
-<pre>{{ page }}</pre>
-
-### Page Frontmatter
-
-<pre>{{ frontmatter }}</pre>
-
-## More
-
-Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
 
 [[toc]]

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSButton">
 import { lsBtnProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import LSIcon from '@cpo/icon';
+import LSIcon from '@cpo/icon/Index.vue';
 
 const slots = useSlots();
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import LSConfirm from '@cpo/confirm';
 import axios from 'axios';
 
 const visible = ref(false);

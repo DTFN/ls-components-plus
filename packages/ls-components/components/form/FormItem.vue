@@ -171,7 +171,7 @@ defineExpose({
         v-else-if="type === 'textarea'"
         v-model.trim="modelValue"
         type="textarea"
-        rows="4"
+        :rows="4"
         show-word-limit
         maxlength="100"
         :placeholder="`请输入${label}`"

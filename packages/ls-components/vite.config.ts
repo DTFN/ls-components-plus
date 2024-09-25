@@ -21,29 +21,22 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         '@cpo': cpoSrc
       }
     },
-    // build: {
-    //   minify: 'esbuild',
-
-    //   rollupOptions: {
-    //     output: {
-    //       chunkFileNames: 'js/[name]-[hash].js', // 引入文件名的名称
-    //       entryFileNames: 'js/[name]-[hash].js', // 包的入口文件名称
-    //       assetFileNames: '[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
-    //       manualChunks(id) {
-    //         try {
-    //           if (id.includes('node_modules')) {
-    //             const name = id.split('node_modules/')[1].split('/');
-
-    //             if (name[0] === '.pnpm') return name[1];
-    //             else return name[0];
-    //           }
-    //         } catch (error) {
-    //           console.error(error);
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
+    build: {
+      outDir: 'lib',
+      lib: {
+        entry: path.resolve(__dirname, './components/main.ts'),
+        name: 'index',
+        fileName: 'index'
+      },
+      rollupOptions: {
+        external: ['vue'],
+        output: {
+          globals: {
+            vue: 'Vue'
+          }
+        }
+      }
+    },
     esbuild: {
       pure: viteEnv.VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : []
     },

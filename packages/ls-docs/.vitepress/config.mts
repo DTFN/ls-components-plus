@@ -1,8 +1,16 @@
-import { defineConfig } from 'vitepress';
+import { defineConfig, loadEnv } from 'vitepress';
 import { resolve } from 'path';
 import dayjs from 'dayjs';
 import nav from './nav/index';
 import sidebar from './sidebar/index';
+import { wrapperEnv } from '../build/getEnv';
+import { createVitePlugins } from '../build/plugins';
+
+const root = process.cwd();
+const NODE_ENV: any = process.env.NODE_ENV;
+const env = loadEnv(NODE_ENV, root);
+const viteEnv = wrapperEnv(env);
+const plugins: any = createVitePlugins(viteEnv);
 
 const __APP_INFO__ = {
   lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -10,7 +18,7 @@ const __APP_INFO__ = {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  outDir: resolve('../../../dist/docs'),
+  outDir: resolve('../dist/'),
   title: '前端组件库（Vue3）',
   description: '前端组件库（Vue3）及公共方法使用手册',
   // cleanUrls: true,
@@ -102,4 +110,25 @@ export default defineConfig({
       next: '下一页',
     },
   },
+
+  vite: {
+    plugins: [plugins],
+    resolve: {
+      alias: {
+        '@docs': resolve(__dirname, '../docs'),
+        '@exp': resolve(__dirname, '../examples'),
+      }
+    },
+    esbuild: {
+      pure: ['console.log'],
+      drop: ['debugger']
+    },
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
+    },
+    server: {
+      host: '0.0.0.0',
+      port: 9093,
+    }
+  }
 })
