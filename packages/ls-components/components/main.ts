@@ -6,6 +6,7 @@ import useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
 import useWSHook from '@cpo/_hooks/useWSHook';
 import useOptionHook from '@cpo/_hooks/useOptionHook';
 import lsValidate from '@cpo/_utils/validate';
+import vAuth from '@cpo/_directives/auth';
 
 export { default } from './index';
 
@@ -27,4 +28,4 @@ export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
 
 export type {} from './components.ts';
 
-export { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, lsValidate };
+export { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, lsValidate, vAuth };

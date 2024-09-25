@@ -4,9 +4,9 @@
  * show 为是否显示
  */
 export default {
-  permissions: [],
+  permissions: [] as (string | number)[],
   mounted(el: any, binding: any) {
-    const permissions = this.permissions;
+    const permissions = binding.dir.permissions;
     const { code, show } = binding.value;
     const comment = document.createComment('v-auth');
     const tabId = el.getAttribute('aria-labelledby');
@@ -16,16 +16,16 @@ export default {
       el._auths.elTabId = tabId;
       el._auths.comment2 = comment2;
     }
-    if ((code && permissions && permissions.includes(code as never)) || !show) {
+    if ((code && permissions && !permissions.includes(code as never)) || !show) {
       el.parentNode.insertBefore(comment, el);
       el.remove();
     }
   },
   updated(el: any, binding: any) {
-    const permissions = this.permissions;
+    const permissions = binding.dir.permissions;
     const { code, show } = binding.value;
     const { comment, parentNode, elTabId } = el._auths;
-    if ((code && permissions && permissions.includes(code as never)) || !show) {
+    if ((code && permissions && !permissions.includes(code as never)) || !show) {
       if (elTabId) {
         const { comment2 } = el._auths;
         const tabItemNode = parentNode.parentNode.querySelector(`#${elTabId}`);

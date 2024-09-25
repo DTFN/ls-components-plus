@@ -22,6 +22,12 @@ onMounted(() => {
   liveRef.value && liveRef.value.createPlayer(liveUrl);
   liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
 });
+
+const isShow = ref(false);
+
+setTimeout(() => {
+  isShow.value = true;
+}, 2000);
 </script>
 
 <template>
@@ -77,6 +83,10 @@ onMounted(() => {
 
     <br />
     <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :loop="false" />
+
+    <br />
+
+    <LSButton v-auth="{ code: 'c', show: isShow }">test1</LSButton>
   </div>
 </template>
 
