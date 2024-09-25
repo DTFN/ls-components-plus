@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Upload 上传
+# Detail 详情
 
 This page demonstrates usage of some of the runtime APIs provided by VitePress.
 
@@ -14,4 +14,4 @@ import { useData } from 'vitepress'
 
 const { theme, page, frontmatter } = useData()
 </script>
-
+```

@@ -9,6 +9,7 @@ outline: deep
 The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
 
 ::: details 点我查看代码
+
 <!-- ```js
 console.log('Hello, VitePress!')
 ```
@@ -64,6 +65,7 @@ import {
 } from '@element-plus/icons-vue'
 </script>
 ```
+
 :::
 
 <script setup>
@@ -75,9 +77,11 @@ const { page, frontmatter } = useData()
 ## Results
 
 ### Page Data
+
 <pre>{{ page }}</pre>
 
 ### Page Frontmatter
+
 <pre>{{ frontmatter }}</pre>
 
 ## More

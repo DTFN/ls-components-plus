@@ -7,6 +7,7 @@ outline: deep
 由输入框、选择器、单选框、多选框等我们业务中常用的控件组成，具有数据收集、校验和提交功能的表单。
 
 ::: details 点我查看代码
+
 <!-- ```js
 console.log('Hello, VitePress!')
 ```
@@ -99,6 +100,7 @@ const onSubmit = () => {
 }
 </script>
 ```
+
 :::
 
 <script setup>

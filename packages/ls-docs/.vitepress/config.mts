@@ -1,77 +1,105 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
+import { resolve } from 'path';
+import dayjs from 'dayjs';
+import nav from './nav/index';
+import sidebar from './sidebar/index';
+
+const __APP_INFO__ = {
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+};
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'LS Web Components',
-  description: 'A VitePress Site',
-  cleanUrls: true,
+  outDir: resolve('../../../dist/docs'),
+  title: '前端组件库（Vue3）',
+  description: '前端组件库（Vue3）及公共方法使用手册',
+  // cleanUrls: true,
   lastUpdated: true,
 
   lang: 'cn-ZH',
 
   head: [['link', { rel: 'icon', href: '/favicon.png' }]],
 
+  markdown: {
+    lineNumbers: true,
+    codeTransformers: [
+      {
+        postprocess(code) {
+          return code.replace(/\[\!\!code/g, '[!code')
+        }
+      }
+    ],
+    image: {
+      lazyLoading: true
+    },
+    config: (md) => {
+      md.renderer.rules.heading_close = (tokens, idx, options, env, slf) => {
+          let htmlResult = slf.renderToken(tokens, idx, options);
+          if (tokens[idx].tag === 'h1') htmlResult += `<ArticleMetadata />`; 
+          return htmlResult;
+      }
+    },
+  },
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
 
     logo: '/logo.png',
+
+    lastUpdated: {
+      text: '上次更新时间',
+      formatOptions: {
+        dateStyle: 'short', // 可选值full、long、medium、short
+        timeStyle: 'medium' // 可选值full、long、medium、short
+      },
+    },
+
     siteTitle: false,
 
     search: {
       provider: 'local',
-      // options: {
-      //   locales: {
-      //     placeholder: '搜索'
-      //   }
-      // }
+      options: {
+        locales: {
+          zh: {
+            translations: {
+              button: {
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
+              },
+              modal: {
+                noResultsText: '无法找到相关结果',
+                resetButtonTitle: '清除查询条件',
+                footer: {
+                  selectText: '选择',
+                  navigateText: '切换'
+                },
+              },
+            },
+          },
+        },
+      },
     },
 
-    nav: [
-      { text: '指南', link: '/docs/guide/guide1' },
-      { text: '组件', link: '/docs/component/component1' }
-    ],
+    nav,
 
-    sidebar: {
-      '/docs/guide': [
-        {
-          text: '指南',
-          items: [
-            { text: '介绍', link: '/docs/guide/guide1' },
-            { text: '快速开始', link: '/docs/guide/guide2' },
-            { text: '页面3', link: '/docs/guide/guide3' },
-          ]
-        }
-      ],
-      '/docs/component': [
-        {
-          text: 'Basic 基础组件',
-          items: [
-            { text: 'Button 按钮', link: '/docs/component/component1' }
-          ]
-        },
-        {
-          text: 'Form 表单组件',
-          items: [
-            { text: 'Form 表单', link: '/docs/component/component2' },
-            { text: 'Upload 上传', link: '/docs/component/component3' },
-          ]
-        },
-        {
-          text: 'Data 数据展示',
-          items: [
-            { text: 'Table 表格', link: '/docs/component/component4' },
-            { text: 'Detail 详情', link: '/docs/component/component5' },
-          ]
-        }
-      ]
+    sidebar,
+
+    footer: {
+      message: '零数科技前端团队',
+      copyright: '© 2024 lingshu Tech Ltd. All Rights Reserved'
     },
+    sidebarMenuLabel: '目录',
+
+    returnToTopLabel: '返回顶部',
 
     outline: {
-      label: '页面导航'
-    }
+      level: [2, 3],
+      label: '当前页大纲'
+    },
 
-    // socialLinks: [
-    //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    // ]
-  }
+    docFooter: {
+      prev: '上一页',
+      next: '下一页',
+    },
+  },
 })

@@ -17,3 +17,4 @@ import { useData } from 'vitepress'
 
 const { theme, page, frontmatter } = useData()
 </script>
+```
