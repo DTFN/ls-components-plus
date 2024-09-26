@@ -5,45 +5,28 @@ import LSIcon from '@cpo/icon/Index.vue';
 
 const slots = useSlots();
 
-const props = defineProps(lsBtnProp);
+defineProps(lsBtnProp);
 
 const ns = useNamespace('button');
 const comClass: string = ns.b();
-const btnColor = computed(() => {
-  return props.iconColor || '';
-});
 </script>
 
 <template>
-  <el-button v-if="slots.default" v-bind="$attrs" :class="comClass">
-    <LSIcon
-      v-if="iconName || slots.icon"
-      :type="iconType"
-      :name="iconName"
-      :color="btnColor"
-      :width="iconWidth"
-      :height="iconHeight"
-      :size="iconSize"
-    >
-      <slot name="icon"></slot>
-    </LSIcon>
-    <span>
-      <slot></slot>
-    </span>
-  </el-button>
+  <el-button v-if="$attrs.icon && !slots.default" />
   <el-button v-else v-bind="$attrs" :class="comClass">
     <LSIcon
-      v-if="iconName || slots.icon"
-      class="only-icon"
+      v-if="!$attrs.icon && (iconName || slots.icon)"
+      :class="[!slots.default ? 'only-icon' : '']"
       :type="iconType"
       :name="iconName"
-      :color="btnColor"
+      :color="iconColor"
       :width="iconWidth"
       :height="iconHeight"
       :size="iconSize"
     >
       <slot name="icon"></slot>
     </LSIcon>
+    <slot v-if="slots.default"></slot>
   </el-button>
 </template>
 

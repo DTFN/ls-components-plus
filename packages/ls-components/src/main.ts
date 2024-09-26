@@ -3,12 +3,12 @@ import { setupRouter } from '@/router/index';
 import { createApp } from 'vue';
 import App from './App.vue';
 
-// import LSWebPlus, { vAuth } from '@cpo/main';
+import LSWebPlus, { vAuth } from '@cpo/main';
 
-import LSWebPlus, { vAuth } from '../lib/';
+// import LSWebPlus, { vAuth } from '../lib/';
 
 import 'element-plus/dist/index.css';
-import '../lib/lsWebPlus.css';
+// import '../lib/lsWebPlus.css';
 
 const app = createApp(App);
 

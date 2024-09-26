@@ -9,6 +9,44 @@ outline: deep
 
 ## 使用方式
 
+### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
+
+<br />
+
+<LSIcon name="Notification" color="red" size="20" />
+
+```html
+<LSIcon name="Notification" color="red" size="20" />
+```
+
+### 2. [iconify](https://icon-sets.iconify.design/?category=General)
+
+<br />
+
+<LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
+
+```html
+<LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
+```
+
+### 3. svg
+
+<br />
+
+<LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
+
+```ts
+import svgIcon from '/public/vue.svg';
+```
+
+```html
+<LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
+```
+
+## API
+
+### 1. Attributes
+
 <script setup>
   import svgIcon from '/public/vue.svg';
   import { ref } from 'vue';
@@ -72,30 +110,4 @@ outline: deep
     }
   ])
 </script>
-
-### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
-
-<LSIcon name="Notification" color="red" size="20" />
-```html
-<LSIcon name="Notification" color="red" size="20" />
-```
-
-### 2. [iconify](https://icon-sets.iconify.design/?category=General)
-
-<LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
-```html
-<LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
-```
-
-### 3. svg
-
-<LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
-```html
-<LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
-```
-
-## API
-
-### 1. Attributes
-
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />

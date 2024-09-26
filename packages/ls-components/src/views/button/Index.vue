@@ -32,7 +32,7 @@ setTimeout(() => {
 
 <template>
   <div>
-    <LSButton :icon="Edit"></LSButton>
+    <LSButton :icon="Edit" />
     <LSButton :loading="true">按钮1</LSButton>
     <LSButton icon-name="mingcute:look-left-fill" :icon-type="1"></LSButton>
     <LSButton icon-name="iconoir:fish" :icon-type="1" icon-color="blue" :icon-width="30" :icon-height="30">按钮2</LSButton>
