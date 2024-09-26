@@ -34,12 +34,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           globals: {
             vue: 'Vue',
             vueRouter: 'VueRouter'
-          }
+          },
+          assetFileNames: 'lsWebPlus.css'
         }
       }
     },
     esbuild: {
-      pure: viteEnv.VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : []
+      pure: viteEnv.VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : [],
+      keepNames: true
     },
     // 依赖预加载
     optimizeDeps: {

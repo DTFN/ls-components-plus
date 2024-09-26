@@ -11,6 +11,8 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import { ViteEnv } from '../typings/global';
+import FilesLoader from 'vite-plugin-files-loader';
+import svgLoader from 'vite-svg-loader';
 
 const pathSrc = resolve(__dirname, '../typings');
 
@@ -54,7 +56,9 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
       resolvers: [ElementPlusResolver()],
       dirs: ['src/components'],
       dts: resolve(pathSrc, 'components.d.ts')
-    })
+    }),
+    FilesLoader(),
+    svgLoader()
   ];
 };
 

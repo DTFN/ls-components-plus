@@ -19,8 +19,10 @@ import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
 
-// import LSWebPlus from '../../../ls-components/lib/index'
-// console.log(LSWebPlus)
+import LSWebPlus from '../../../ls-components/lib/';
+import '../../../ls-components/lib/lsWebPlus.css';
+
+import ApiIntro from './components/ApiIntro.vue';
 
 export default Object.assign({}, Theme, {
   Layout: () => {
@@ -37,6 +39,8 @@ export default Object.assign({}, Theme, {
   },
   enhanceApp({ app }: { app: App }) {
     app.component('ArticleMetadata', ArticleMetadata);
+    app.component('ApiIntro', ApiIntro);
+    app.use(LSWebPlus);
   }
 });
 

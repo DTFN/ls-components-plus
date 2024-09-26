@@ -49,9 +49,6 @@ const btnColor = computed(() => {
 
 <style lang="scss" scoped>
 .ls-button {
-  span {
-    line-height: normal;
-  }
   .ls-icon {
     margin-right: 6px;
     &.only-icon {
