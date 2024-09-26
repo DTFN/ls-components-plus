@@ -68,22 +68,62 @@ import SvgIconDataIcv from '/public/data_icv.svg';
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. slots
-
-<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData2" />
-
 ## ButtonGroup API
 
 ### 1. Attributes
 
-### 2. slots
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
 <script setup>
   import { ref } from 'vue';
   import { Edit } from '@element-plus/icons-vue'
   import SvgIconDataIcv from '/public/data_icv.svg';
-  import { tableColumn, tableSlotColumn } from './constant';
+  import { tableColumn } from './constant';
 
-  const tableData = ref([]);
-  const tableData2 = ref([]);
+  const tableData = ref([
+    {
+      name: 'iconType',
+      desc: '图标类型， 默认el-icon，1：iconify，2：svg',
+      type: 'string / number',
+      value: '-'
+    },
+    {
+      name: 'iconName',
+      desc: '图标名称',
+      type: 'string / object',
+      value: '-'
+    },
+    {
+      name: 'iconColor',
+      desc: '图标颜色, 默认跟随按钮',
+      type: 'string',
+      value: '-'
+    },
+    {
+      name: 'iconWidth',
+      desc: '图标宽度，适用于iconify和svg',
+      type: 'string / number',
+      value: 16
+    },
+    {
+      name: 'iconHeight',
+      desc: '图标高度，适用于iconify和svg',
+      type: 'string / number',
+      value: 16
+    },
+    {
+      name: 'iconSize',
+      desc: '图标大小，适用于el-icon',
+      type: 'string / number',
+      value: 16
+    }
+  ]);
+  const tableData2 = ref([
+    {
+      name: 'separator',
+      desc: '按钮之间分割符号 1: | 2: #',
+      type: 'string / number',
+      value: 1
+    }
+  ]);
 </script>

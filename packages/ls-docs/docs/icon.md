@@ -77,19 +77,19 @@ import svgIcon from '/public/vue.svg';
       name: 'width',
       desc: '图标宽度，适用于iconify和svg',
       type: 'string / number',
-      value: '-'
+      value: 16
     },
     {
       name: 'height',
       desc: '图标高度，适用于iconify和svg',
       type: 'string / number',
-      value: '-'
+      value: 16
     },
     {
       name: 'size',
       desc: '图标大小，适用于el-icon',
       type: 'string / number',
-      value: '-'
+      value: 16
     }
   ])
 </script>
