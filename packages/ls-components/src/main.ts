@@ -5,6 +5,8 @@ import App from './App.vue';
 
 import LSWebPlus, { vAuth } from '@cpo/main';
 
+// import LSWebPlus, { vAuth } from '../lib/';
+
 import 'element-plus/dist/index.css';
 
 const app = createApp(App);
@@ -18,11 +20,11 @@ function createDirective() {
 const setupAll = () => {
   setupElement(app);
   setupRouter(app);
-  app.mount('#app');
-
   app.use(LSWebPlus);
 
   createDirective();
+
+  app.mount('#app');
 };
 
 setupAll();

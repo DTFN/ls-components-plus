@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSList">
 // 公共列表页面
-import useTableListHook from './_hooks/useTableListHook.ts';
+import useTableListHook from '@cpo/_hooks/useTableListHook';
+import { ElDivider, ElMessageBox } from 'element-plus';
 
 interface TableOperateType {
   fixed?: string;

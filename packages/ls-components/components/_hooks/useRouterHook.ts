@@ -1,5 +1,5 @@
 import { MenuItemType, MenuItem3Type, ConfigItemType, MenuItemsType } from '@cpo/menu/types';
-import { LocationQueryRaw, RouteRecordRaw } from 'vue-router';
+import { LocationQueryRaw, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
 interface JumpParamsType {
   name?: string | symbol;

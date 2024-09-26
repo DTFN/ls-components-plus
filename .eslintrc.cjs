@@ -21,7 +21,17 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.vue', '*.ts']
+      files: ['./packages/ls-components/lib/*'],
+      rules: {
+        'prettier/prettier': 'off',
+        'no-var': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-this-alias': 'off',
+        '@typescript-eslint/prefer-ts-expect-error': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        'vue/return-in-computed-property': 'off',
+        'vue/no-ref-as-operand': 'off'
+      }
     }
   ],
   // 继承某些已有的规则

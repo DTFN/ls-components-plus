@@ -19,6 +19,9 @@ import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
 
+// import LSWebPlus from '../../../ls-components/lib/index'
+// console.log(LSWebPlus)
+
 export default Object.assign({}, Theme, {
   Layout: () => {
     const props: Record<string, any> = {};

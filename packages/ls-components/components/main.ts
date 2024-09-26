@@ -8,8 +8,6 @@ import useOptionHook from '@cpo/_hooks/useOptionHook';
 import lsValidate from '@cpo/_utils/validate';
 import vAuth from '@cpo/_directives/auth';
 
-export { default } from './index';
-
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue';
 export { default as LSButton } from '@cpo/button/Button.vue';
 export { default as LSDescriptions } from '@cpo/descriptions/Index.vue';
@@ -25,6 +23,8 @@ export { default as LSLive } from '@cpo/live/Index.vue';
 export { default as LSTree } from '@cpo/tree/Index.vue';
 export { default as LSPrint } from '@cpo/print/Index.vue';
 export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
+
+export { default } from './index';
 
 export type {} from './components.ts';
 

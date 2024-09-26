@@ -29,10 +29,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         fileName: 'index'
       },
       rollupOptions: {
-        external: ['vue'],
+        external: ['vue', 'vue-router'],
         output: {
           globals: {
-            vue: 'Vue'
+            vue: 'Vue',
+            vueRouter: 'VueRouter'
           }
         }
       }

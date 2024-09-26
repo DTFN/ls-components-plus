@@ -1,7 +1,7 @@
 /dist/*
 .local
 /node_modules/**
-
+**/lib/**
 **/*.svg
 **/*.sh
 
@@ -9,3 +9,4 @@
 stats.html
 .npmrc
 packages/ls-components/public/
+packages/ls-components/lib/*
