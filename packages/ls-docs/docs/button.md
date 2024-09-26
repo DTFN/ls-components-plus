@@ -9,7 +9,7 @@ outline: deep
 
 ## 使用方式
 
-### 1. 单按钮，保留原有el-button所有属性和方法
+### 1. 单按钮，保留原有el-button属性和方法
 
 <br />
 
@@ -34,11 +34,45 @@ import SvgIconDataIcv from '/public/data_icv.svg';
 <LSButton> <SvgIconDataIcv color="red" /> 测试 </LSButton>
 ```
 
-### 2. 按钮组
+### 2. 按钮组，保留原有el-button-group属性和方法
 
 <br />
 
-## API
+<LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
+  <LSButton :icon="Edit" link>按钮3</LSButton>
+  <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
+  <LSButton link>按钮5</LSButton>
+</LSButtonGroup>
+
+<LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
+  <LSButton :icon="Edit" link>按钮6</LSButton>
+  <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
+</LSButtonGroup>
+
+```html
+<LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
+  <LSButton :icon="Edit" link>按钮3</LSButton>
+  <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
+  <LSButton link>按钮5</LSButton>
+</LSButtonGroup>
+
+<LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
+  <LSButton :icon="Edit" link>按钮6</LSButton>
+  <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
+</LSButtonGroup>
+```
+
+## Button API
+
+### 1. Attributes
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
+### 2. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData2" />
+
+## ButtonGroup API
 
 ### 1. Attributes
 
@@ -48,4 +82,8 @@ import SvgIconDataIcv from '/public/data_icv.svg';
   import { ref } from 'vue';
   import { Edit } from '@element-plus/icons-vue'
   import SvgIconDataIcv from '/public/data_icv.svg';
+  import { tableColumn, tableSlotColumn } from './constant';
+
+  const tableData = ref([]);
+  const tableData2 = ref([]);
 </script>

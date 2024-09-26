@@ -47,30 +47,13 @@ import svgIcon from '/public/vue.svg';
 
 ### 1. Attributes
 
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
 <script setup>
   import svgIcon from '/public/vue.svg';
   import { ref } from 'vue';
+  import { tableColumn } from './constant'
 
-  const tableColumn = ref([
-    {
-      prop: 'name',
-      label: '属性名',
-      width: 160
-    },
-    {
-      prop: 'desc',
-      label: '说明',
-    },
-    {
-      prop: 'type',
-      label: 'Type',
-      width: 160
-    },
-    {
-      prop: 'value',
-      label: '默认值'
-    }
-  ]);
   const tableData = ref([
     {
       name: 'type',
@@ -110,4 +93,3 @@ import svgIcon from '/public/vue.svg';
     }
   ])
 </script>
-<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />

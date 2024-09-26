@@ -56,6 +56,7 @@ const btnClass = computed(() => {
     &-1 {
       :deep() .el-button {
         &::after {
+          top: -1px;
           content: '|';
         }
       }
