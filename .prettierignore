@@ -10,3 +10,4 @@ stats.html
 .npmrc
 packages/ls-components/public/
 packages/ls-components/lib/*
+packages/ls-docs/public/
