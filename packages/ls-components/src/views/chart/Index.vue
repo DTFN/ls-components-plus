@@ -543,6 +543,8 @@ function changeChartStyle() {
         height="400"
       ></LSChart>
     </div>
+
+    <LSBackTop :target="'.right_content'"></LSBackTop>
   </div>
 </template>
 
