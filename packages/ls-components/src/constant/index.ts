@@ -78,5 +78,13 @@ export const MENU_LIST = [
     path: '/tree',
     cpoPath: 'tree/Index',
     key: '10'
+  },
+  {
+    id: '11',
+    title: 'FlowBox 流程容器',
+    name: 'FlowBox',
+    path: '/flowBox',
+    cpoPath: 'flowBox/Index',
+    key: '11'
   }
 ];

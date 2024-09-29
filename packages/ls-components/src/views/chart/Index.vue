@@ -323,6 +323,35 @@ const customOptionPie = ref({
     }
   ]
 });
+// 饼图圈内增加内容
+const customOptionPie2 = ref({
+  graphic: [
+    {
+      type: 'text',
+      left: 'center', // 水平居中
+      // top: 'center', // 垂直居中
+      top: '40%',
+      style: {
+        text: '中心内容', // 显示的文本
+        textAlign: 'center',
+        fill: '#000', // 文本颜色
+        fontSize: 20
+      }
+    },
+    {
+      type: 'text',
+      left: 'center', // 水平居中
+      // top: 'center', // 垂直居中
+      top: '50%',
+      style: {
+        text: '100%', // 显示的文本
+        textAlign: 'center',
+        fill: '#000', // 文本颜色
+        fontSize: 20
+      }
+    }
+  ]
+});
 const templateAllPie: any = ref({
   template1: {},
   template2: {
@@ -486,6 +515,7 @@ function changeChartStyle() {
         template="pie"
         :data="{ seriesData: seriesDataPie }"
         :template-patch="templateAllPie.template2"
+        :custom-option="customOptionPie2"
         :style="{ marginTop: '16px' }"
         height="400"
       ></LSChart>

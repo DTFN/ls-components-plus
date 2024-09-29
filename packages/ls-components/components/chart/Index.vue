@@ -2,7 +2,14 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import * as echarts from 'echarts/core';
 import { LineChart, PieChart, BarChart, GaugeChart } from 'echarts/charts';
-import { TooltipComponent, GridComponent, LegendComponent, ToolboxComponent, DataZoomComponent } from 'echarts/components';
+import {
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  ToolboxComponent,
+  DataZoomComponent,
+  GraphicComponent
+} from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { lsChartProps } from './types';
@@ -20,7 +27,8 @@ echarts.use([
   UniversalTransition,
   CanvasRenderer,
   BarChart,
-  GaugeChart
+  GaugeChart,
+  GraphicComponent
 ]);
 
 const ns = useNamespace('chart');

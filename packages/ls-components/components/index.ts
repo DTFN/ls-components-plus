@@ -17,6 +17,7 @@ import LSLive from './live/index';
 import LSTree from './tree/index';
 import LSPrint from './print/index';
 import LSContainerBox from './containerBox/index';
+import LSFlowBox from './flowBox/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -36,7 +37,8 @@ const components: Record<string, Plugin> = {
   LSLive,
   LSTree,
   LSPrint,
-  LSContainerBox
+  LSContainerBox,
+  LSFlowBox
 };
 
 const install = (app: App) => {

@@ -23,6 +23,7 @@ export { default as LSLive } from '@cpo/live/Index.vue';
 export { default as LSTree } from '@cpo/tree/Index.vue';
 export { default as LSPrint } from '@cpo/print/Index.vue';
 export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
+export { default as LSFlowBox } from '@cpo/flowBox/Index.vue';
 
 export { default } from './index';
 

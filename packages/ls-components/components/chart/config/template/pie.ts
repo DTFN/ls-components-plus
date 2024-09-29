@@ -75,6 +75,7 @@ const setLegend = ({
  * @param {labelFormatter} 标签内容格式器，支持字符串模板和回调函数两种形式，字符串模板与回调函数返回的字符串均支持用 \n 换行
  * @param {innerRadius} 嵌套环形内饼图的半径
  * @param {innerLabelColor} 嵌套环形内饼图标签文字的颜色
+ * @param {selectedMode} 选中模式的配置，表示是否支持多个选中，默认关闭，支持布尔值和字符串，字符串取值可选'single'，'multiple'，'series' 分别表示单选，多选以及选择整个系列。
  * @returnsc
  */
 const setSeries = (
@@ -94,7 +95,8 @@ const setSeries = (
     labelShowItem = true,
     labelFormatter = '',
     innerRadius = [0, '30%'],
-    innerLabelColor = '#ffffff'
+    innerLabelColor = '#ffffff',
+    selectedMode = ''
   }
 ) => {
   let data1: any = [];
@@ -155,6 +157,7 @@ const setSeries = (
     {
       type: 'pie',
       data: data1,
+      selectedMode,
       radius,
       roseType,
       percentPrecision,
