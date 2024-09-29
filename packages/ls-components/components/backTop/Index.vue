@@ -8,7 +8,7 @@ const optClass: string = ns.b('opt');
 
 const slots = useSlots();
 
-defineProps(lsBackTopProps);
+const props = defineProps(lsBackTopProps);
 
 const lsBackTopRef = ref();
 
@@ -19,7 +19,7 @@ const defAttrs: any = ref({
 const aniClass = ref('');
 
 function onClickFunc(): void {
-  if (!slots.default) {
+  if (props.aniSwitch) {
     aniClass.value = 'launch';
     const timer = setTimeout(() => {
       aniClass.value = '';
@@ -39,7 +39,7 @@ function onClickFunc(): void {
     >
       <slot v-if="slots.default"></slot>
       <div v-else :class="optClass">
-        <LSIcon :type="1" name="iconoir:rocket" width="40" height="40" />
+        <LSIcon :type="1" name="iconoir:rocket" width="46" height="46" />
       </div>
     </el-backtop>
   </div>
@@ -51,13 +51,19 @@ function onClickFunc(): void {
   .ls-back-top-opt {
     position: relative;
     background-color: transparent;
+    :deep() .icon-iconify {
+      &:hover {
+        width: 49px;
+        height: 49px;
+      }
+    }
   }
   .def-el-backtop {
     background-color: transparent;
     box-shadow: none;
   }
   .launch {
-    animation: launch-ani 0.5s ease-in 0.1s 1 backwards;
+    animation: launch-ani 0.5s ease-in-out 0.1s 1 backwards;
   }
 }
 
