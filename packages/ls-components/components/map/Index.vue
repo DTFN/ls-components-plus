@@ -13,6 +13,7 @@ const props = defineProps(lsMapProps);
 const containerId = ref(`lsMapContainer${new Date().getTime()}`);
 
 const mapObj: any = ref(null);
+const aMap: any = ref(null);
 
 watch(
   () => props.securityCode,
@@ -36,8 +37,9 @@ function initMap() {
     version: '2.0', // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
     plugins: ['AMap.DistrictSearch'] // 需要使用的的插件列表，如比例尺'AMap.Scale'等
   }).then(AMap => {
-    const district = new AMap.DistrictSearch({ subdistrict: 0, level: 'district', extensions: 'all' });
+    aMap.value = AMap;
     if (props.searchWord) {
+      const district = new AMap.DistrictSearch({ subdistrict: 0, level: 'district', extensions: 'all' });
       district.search(props.searchWord, function (status: any, result: any) {
         createMap(AMap, result);
       });
@@ -48,7 +50,7 @@ function initMap() {
 }
 
 function createMap(AMap: any, result?: any) {
-  mapObj.value = new AMap.Map('container', {
+  mapObj.value = new AMap.Map(containerId.value, {
     center: props.center,
     zoom: props.zoom,
     zooms: props.zooms,
@@ -101,28 +103,31 @@ function addMarker(AMap: any, map: any) {
     if (props.showMarkerDialog && props.markerDialogContent) {
       const infoWindow = new AMap.InfoWindow({
         isCustom: true,
-        content: props.markerDialogContent.join(),
-        anchor: 'middle-left',
-        offset: new AMap.Pixel(80, 0)
+        content: props.markerDialogContent,
+        anchor: props.markerDialogAnchor,
+        offset: new AMap.Pixel(props.markerDialogOffset[0], props.markerDialogOffset[1])
       });
 
       // 鼠标移入
       markerInstance.on('mouseover', () => {
-        infoWindow.open(map, markerInstance.getPosition());
+        infoWindow.open(map.value, markerInstance.getPosition());
       });
       // 鼠标移出
       markerInstance.on('mouseout', () => {
         infoWindow.close();
       });
     }
-    map.add(markerInstance);
+    map.value.add(markerInstance);
   });
 }
 
 watch(
   () => props.markerList,
-  () => {
-    initMap();
+  async () => {
+    await nextTick();
+    if (aMap.value && mapObj.value) {
+      props.showMarker && addMarker(aMap.value, mapObj);
+    }
   },
   {
     deep: true

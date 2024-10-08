@@ -1,5 +1,16 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
+type AnchorType =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'middle-left'
+  | 'center'
+  | 'middle-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
+
 export const lsMapProps = buildProps({
   // 0：高德 1：腾讯
   type: {
@@ -19,15 +30,15 @@ export const lsMapProps = buildProps({
     default: ''
   },
   center: {
-    type: Array,
-    default: () => []
+    type: [Array, null],
+    default: () => null
   },
   zoom: {
     type: Number,
     default: 16
   },
   zooms: {
-    type: Number,
+    type: Array<number>,
     default: [10, 20]
   },
   // 绘制区域color
@@ -39,6 +50,11 @@ export const lsMapProps = buildProps({
   showMarker: {
     type: Boolean,
     default: true
+  },
+  // 标记列表 lnglat array [经度,纬度]
+  markerList: {
+    type: Array<any>,
+    default: () => []
   },
   markerIcon: {
     type: Object,
@@ -54,14 +70,18 @@ export const lsMapProps = buildProps({
     type: Boolean,
     default: false
   },
-  // 标记列表 lnglat 坐标位置
-  markerList: {
-    type: Array<any>,
-    default: () => []
-  },
   // 弹窗内容 html标签格式 样式自定义
   markerDialogContent: {
-    type: Array<any>,
-    default: []
+    type: String,
+    default: ''
+  },
+  //  'top-left'、'top-center'、'top-right'、'middle-left'、'center'、'middle-right'、'bottom-left'、'bottom-center'、'bottom-right'
+  markerDialogAnchor: {
+    type: String as PropType<AnchorType>,
+    default: 'middle-left'
+  },
+  markerDialogOffset: {
+    type: Array,
+    default: () => [30, 0]
   }
 });
