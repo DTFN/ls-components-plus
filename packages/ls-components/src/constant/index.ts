@@ -94,5 +94,13 @@ export const MENU_LIST = [
     path: '/map',
     cpoPath: 'map/Index',
     key: '12'
+  },
+  {
+    id: '13',
+    title: 'Editor 富文本编辑器',
+    name: 'Editor',
+    path: '/editor',
+    cpoPath: 'editor/Index',
+    key: '13'
   }
 ];

@@ -1,0 +1,46 @@
+import { buildProps } from '@cpo/_utils/runtime';
+import { IToolbarConfig } from '@wangeditor/editor';
+
+type modeType = 'default' | 'simple';
+
+export const lsEditorProps = buildProps({
+  valueHtml: {
+    type: String,
+    default: ''
+  },
+  // 编辑器模式
+  mode: {
+    type: String as PropType<modeType>,
+    default: 'default'
+  },
+  toolbarConfig: {
+    type: Object as Partial<IToolbarConfig>,
+    default: () => {
+      return {};
+    }
+  },
+  editorConfig: {
+    type: Object,
+    default: () => {
+      return {};
+    }
+  },
+  uploadServer: {
+    type: String,
+    default: ''
+  },
+  uploadFieldName: {
+    type: String,
+    default: 'file_' + new Date().getTime()
+  }
+});
+
+export const lsEditorEmits = [
+  'handleCreated',
+  'handleChange',
+  'handleDestroyed',
+  'handleFocus',
+  'handleBlur',
+  'customAlert',
+  'customPaste'
+];

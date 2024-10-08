@@ -26,6 +26,7 @@ export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
 export { default as LSFlowBox } from '@cpo/flowBox/Index.vue';
 export { default as LSBackTop } from '@cpo/backTop/Index.vue';
 export { default as LSMap } from '@cpo/map/Index.vue';
+export { default as LSEditor } from '@cpo/editor/Index.vue';
 
 export { default } from './index';
 

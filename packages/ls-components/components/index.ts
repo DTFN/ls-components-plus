@@ -20,6 +20,7 @@ import LSContainerBox from './containerBox/index';
 import LSFlowBox from './flowBox/index';
 import LSBackTop from './backTop/index';
 import LSMap from './map/index';
+import LSEditor from './editor/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -42,7 +43,8 @@ const components: Record<string, Plugin> = {
   LSContainerBox,
   LSFlowBox,
   LSBackTop,
-  LSMap
+  LSMap,
+  LSEditor
 };
 
 const install = (app: App) => {
