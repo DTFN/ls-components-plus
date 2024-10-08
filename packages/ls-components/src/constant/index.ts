@@ -86,5 +86,13 @@ export const MENU_LIST = [
     path: '/flowBox',
     cpoPath: 'flowBox/Index',
     key: '11'
+  },
+  {
+    id: '12',
+    title: 'Map 地图',
+    name: 'Map',
+    path: '/map',
+    cpoPath: 'map/Index',
+    key: '12'
   }
 ];

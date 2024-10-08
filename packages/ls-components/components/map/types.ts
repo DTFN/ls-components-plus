@@ -1,6 +1,11 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 export const lsMapProps = buildProps({
+  // 0：高德 1：腾讯
+  type: {
+    type: Number,
+    default: 0
+  },
   securityCode: {
     type: String,
     required: true

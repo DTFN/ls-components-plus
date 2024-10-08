@@ -39,37 +39,45 @@ function initMap() {
     const district = new AMap.DistrictSearch({ subdistrict: 0, level: 'district', extensions: 'all' });
     if (props.searchWord) {
       district.search(props.searchWord, function (status: any, result: any) {
-        mapObj.value = new AMap.Map('container', {
-          center: props.center,
-          zoom: props.zoom,
-          zooms: props.zooms,
-          expandZoomRange: true
-        });
-        mapObj.value && createArea(AMap, mapObj, result);
+        createMap(AMap, result);
       });
+    } else {
+      createMap(AMap);
     }
   });
 }
 
-function createArea(AMap: any, map: any, result: any) {
-  const outer = [
-    new AMap.LngLat(-360, 90, true),
-    new AMap.LngLat(-360, -90, true),
-    new AMap.LngLat(360, -90, true),
-    new AMap.LngLat(360, 90, true)
-  ];
-  const holes = result?.districtList[0]?.boundaries || [];
-  const pathArray = [outer];
-  pathArray.push.apply(pathArray, holes);
-  const polygon = new AMap.Polygon({
-    pathL: pathArray,
-    strokeColor: props.areaColor,
-    strokeWeight: 0,
-    fillColor: props.areaColor,
-    fillOpacity: 1
+function createMap(AMap: any, result?: any) {
+  mapObj.value = new AMap.Map('container', {
+    center: props.center,
+    zoom: props.zoom,
+    zooms: props.zooms,
+    expandZoomRange: true
   });
-  polygon.setPath(pathArray);
-  map.value.add(polygon);
+  mapObj.value && createArea(AMap, mapObj, result);
+}
+
+function createArea(AMap: any, map: any, result?: any) {
+  if (result) {
+    const outer = [
+      new AMap.LngLat(-360, 90, true),
+      new AMap.LngLat(-360, -90, true),
+      new AMap.LngLat(360, -90, true),
+      new AMap.LngLat(360, 90, true)
+    ];
+    const holes = result?.districtList[0]?.boundaries || [];
+    const pathArray = [outer];
+    pathArray.push.apply(pathArray, holes);
+    const polygon = new AMap.Polygon({
+      pathL: pathArray,
+      strokeColor: props.areaColor,
+      strokeWeight: 0,
+      fillColor: props.areaColor,
+      fillOpacity: 1
+    });
+    polygon.setPath(pathArray);
+    map.value.add(polygon);
+  }
 
   props.showMarker && addMarker(AMap, map);
 }
@@ -117,7 +125,7 @@ watch(
     initMap();
   },
   {
-    deep: true // 开启深度监听 immediate: true // 值如果是true会打开首次监听 } );
+    deep: true
   }
 );
 

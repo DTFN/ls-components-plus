@@ -19,6 +19,7 @@ import LSPrint from './print/index';
 import LSContainerBox from './containerBox/index';
 import LSFlowBox from './flowBox/index';
 import LSBackTop from './backTop/index';
+import LSMap from './map/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -40,7 +41,8 @@ const components: Record<string, Plugin> = {
   LSPrint,
   LSContainerBox,
   LSFlowBox,
-  LSBackTop
+  LSBackTop,
+  LSMap
 };
 
 const install = (app: App) => {
