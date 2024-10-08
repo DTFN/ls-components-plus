@@ -102,5 +102,13 @@ export const MENU_LIST = [
     path: '/editor',
     cpoPath: 'editor/Index',
     key: '13'
+  },
+  {
+    id: '14',
+    title: 'JsonEditor json编辑器',
+    name: 'JsonEditor',
+    path: '/jsonEditor',
+    cpoPath: 'jsonEditor/Index',
+    key: '14'
   }
 ];

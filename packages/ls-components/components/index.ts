@@ -21,6 +21,7 @@ import LSFlowBox from './flowBox/index';
 import LSBackTop from './backTop/index';
 import LSMap from './map/index';
 import LSEditor from './editor/index';
+import LSJsonEditor from './jsonEditor/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -44,7 +45,8 @@ const components: Record<string, Plugin> = {
   LSFlowBox,
   LSBackTop,
   LSMap,
-  LSEditor
+  LSEditor,
+  LSJsonEditor
 };
 
 const install = (app: App) => {
