@@ -42,7 +42,7 @@ setTimeout(() => {
 
     <br />
 
-    <LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
+    <LSButtonGroup type="primary" separator="|" :separator-color="separatorColor" :separator-size="12">
       <LSButton :icon="Edit" link>按钮3</LSButton>
       <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
       <LSButton link>按钮5</LSButton>
@@ -50,7 +50,7 @@ setTimeout(() => {
 
     <br />
 
-    <LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
+    <LSButtonGroup type="primary" separator="#" :separator-color="'green'" :separator-size="16">
       <LSButton :icon="Edit" link>按钮6</LSButton>
       <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
       <LSButton link>

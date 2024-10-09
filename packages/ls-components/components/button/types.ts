@@ -29,9 +29,16 @@ export const lsBtnProp = buildProps({
 });
 
 export const lsBtnGroupProp = buildProps({
-  // 按钮之间分割符号 1: | 2: #
   separator: {
     type: Number,
     default: 1
+  },
+  separatorColor: {
+    type: String,
+    default: '#333'
+  },
+  separatorSize: {
+    type: [String, Number],
+    default: '12'
   }
 });

@@ -33,7 +33,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         output: {
           globals: {
             vue: 'Vue',
-            vueRouter: 'VueRouter'
+            'vue-router': 'VueRouter'
           },
           assetFileNames: 'lsWebPlus.css'
         }
