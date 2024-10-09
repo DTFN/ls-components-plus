@@ -67,6 +67,7 @@ const separatorStyle = computed(() => {
   display: inline-block;
   margin-right: 4px;
   margin-left: 8px;
+  overflow: hidden;
   vertical-align: middle;
 }
 </style>

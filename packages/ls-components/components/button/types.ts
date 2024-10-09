@@ -30,8 +30,8 @@ export const lsBtnProp = buildProps({
 
 export const lsBtnGroupProp = buildProps({
   separator: {
-    type: Number,
-    default: 1
+    type: String,
+    default: ''
   },
   separatorColor: {
     type: String,

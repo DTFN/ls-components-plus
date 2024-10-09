@@ -4,7 +4,7 @@ outline: deep
 
 # Button 按钮
 
-::: warning 结合 el-button 和 icon 组件封装了常用方式。
+::: warning 结合 el-button、el-button-group、LSIcon 组件进行二次封装。
 :::
 
 ## 使用方式
@@ -38,27 +38,27 @@ import SvgIconDataIcv from '/public/data_icv.svg';
 
 <br />
 
-<LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
+<LSButtonGroup type="primary" separator="|" separator-color="red" :separator-size="12">
   <LSButton :icon="Edit" link>按钮3</LSButton>
-  <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
+  <LSButton :icon-name="'iconoir:fish'" :icon-type="1" link>按钮4</LSButton>
   <LSButton link>按钮5</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
+<LSButtonGroup type="primary" separator="#" separator-color="green" :separator-size="16">
   <LSButton :icon="Edit" link>按钮6</LSButton>
-  <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
+  <LSButton :icon-name="'iconoir:fish'" :icon-type="1" link>按钮7</LSButton>
 </LSButtonGroup>
 
 ```html
-<LSButtonGroup type="primary" :separator="1" :separator-color="separatorColor" :separator-size="12">
+<LSButtonGroup type="primary" separator="|" separator-color="red" :separator-size="12">
   <LSButton :icon="Edit" link>按钮3</LSButton>
-  <LSButton :icon-name="iconName" :icon-type="1" link>按钮4</LSButton>
+  <LSButton :icon-name="'iconoir:fish'" :icon-type="1" link>按钮4</LSButton>
   <LSButton link>按钮5</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup type="primary" :separator="2" :separator-color="'green'" :separator-size="16">
+<LSButtonGroup type="primary" separator="#" separator-color="green" :separator-size="16">
   <LSButton :icon="Edit" link>按钮6</LSButton>
-  <LSButton :icon-name="iconName" :icon-type="1" link>按钮7</LSButton>
+  <LSButton :icon-name="'iconoir:fish'" :icon-type="1" link>按钮7</LSButton>
 </LSButtonGroup>
 ```
 
@@ -121,9 +121,21 @@ import SvgIconDataIcv from '/public/data_icv.svg';
   const tableData2 = ref([
     {
       name: 'separator',
-      desc: '按钮之间分割符号 1: | 2: #',
+      desc: '按钮之间分割符号',
+      type: 'string',
+      value: '-'
+    },
+    {
+      name: 'separatorColor',
+      desc: '按钮之间分割符号颜色',
+      type: 'string',
+      value: '#333'
+    },
+    {
+      name: 'separatorSize',
+      desc: '按钮之间分割符号大小',
       type: 'string / number',
-      value: 1
+      value: '12'
     }
   ]);
 </script>
