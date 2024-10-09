@@ -242,6 +242,17 @@ function formValidateFunc() {
 <br />
 <LSUpload :action="action" :item="item4"></LSUpload>
 
+```js
+const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const item4 = ref({
+  textPreview: ['pdf']
+});
+```
+
+```html
+<LSUpload :action="action" :item="item4"></LSUpload>
+```
+
 ## API
 
 ### 1. Attributes，需以item为json格式传值，保留了el-upload属性和方法
@@ -272,8 +283,7 @@ function formValidateFunc() {
     }
   })
   const item4 = ref({
-    textPreview: true,
-    xlsxLocalSource: true
+    textPreview: ['pdf'],
   })
   function httpResponseFunc(res) {
     const {
@@ -410,14 +420,8 @@ function formValidateFunc() {
     {
       name: 'textPreview',
       desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx',
-      type: 'boolean',
-      value: false
-    },
-    {
-      name: 'xlsxLocalSource',
-      desc: '是否本地加载Luckysheet资源，配合textPreview一起使用，true：将资源放入public即可，false：需在index.html中引入资源',
-      type: 'boolean',
-      value: false
+      type: 'array',
+      value: '-'
     }
   ])
 

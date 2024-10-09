@@ -441,16 +441,19 @@ function onPreviewAction(file: UploadFile) {
   const { raw, url, blob, name }: any = file;
   const { type }: any = raw || {};
   if (raw) {
-    if (textPreview.value) {
+    if (textPreview.value && textPreview.value.length > 0) {
       if (type?.startsWith('image')) {
         configs.typePreview = 'image';
         configs.sourcePreview = isPicCard.value ? [url] : [blob];
         configs.showPreview = true;
-      } else if (type == 'application/pdf') {
+      } else if (textPreview.value.includes('pdf') && type == 'application/pdf') {
         configs.typePreview = 'pdf';
         configs.sourcePreview = blob;
         configs.showPreview = true;
-      } else if (['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)) {
+      } else if (
+        textPreview.value.includes('xlsx') &&
+        ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)
+      ) {
         configs.typePreview = 'xlsx';
         fetch(blob)
           .then((response: any) => response.blob())
@@ -458,7 +461,10 @@ function onPreviewAction(file: UploadFile) {
             configs.sourcePreview = new File([data], name, { type });
             configs.showPreview = true;
           });
-      } else if (type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      } else if (
+        textPreview.value.includes('docx') &&
+        type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ) {
         configs.typePreview = 'docx';
         fetch(blob)
           .then(response => response.blob())

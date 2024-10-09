@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import dayjs from 'dayjs';
 import nav from './nav/index';
 import sidebar from './sidebar/index';
+import head from './head/index';
 import { wrapperEnv } from '../build/getEnv';
 import { createVitePlugins } from '../build/plugins';
 
@@ -26,7 +27,7 @@ export default defineConfig({
 
   lang: 'cn-ZH',
 
-  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  head,
 
   markdown: {
     lineNumbers: true,

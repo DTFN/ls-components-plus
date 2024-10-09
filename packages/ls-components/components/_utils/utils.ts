@@ -108,6 +108,7 @@ export const loadJs = (list: Array<any> = []) => {
         };
         script.onerror = function () {
           reject({});
+          script.remove();
         };
       })
     );

@@ -30,7 +30,7 @@ interface itemType {
   formValidateFunc?: Function;
   httpRequestFunc?: Function;
   // docx、pdf、xlsx
-  textPreview?: boolean;
+  textPreview?: Array<string>;
 }
 
 export const lsUploadProps = buildProps({
