@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { table } from 'console';
 import { ElTable, ElTableColumn } from 'element-plus';
 
 const props = defineProps({

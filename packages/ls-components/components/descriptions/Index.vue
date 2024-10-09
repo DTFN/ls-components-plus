@@ -75,7 +75,7 @@ function updateLabelStyle(color: string, type: number) {
               :color="item.iconColor"
               :width="item.iconWidth || 16"
               :height="item.iconHeight || 16"
-              :size="item.iconHeight || 16"
+              :size="item.iconSize || 16"
             >
               <slot name="icon"></slot>
             </LSIcon>
@@ -107,6 +107,9 @@ function updateLabelStyle(color: string, type: number) {
         width: 25%;
       }
     }
+  }
+  :deep .el-descriptions__header {
+    margin-bottom: 0;
   }
   :deep(.el-descriptions__body) {
     th {
