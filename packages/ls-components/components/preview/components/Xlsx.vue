@@ -28,6 +28,17 @@ watch(
   }
 );
 
+function isLuckySheet() {
+  const scripts = document.scripts;
+  for (let i = 0; i < scripts.length; i++) {
+    const element = scripts[i];
+    if (element.src.includes('luckysheet')) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const closeFunc = () => {
   props.onClose && props.onClose();
   emits('update:source', []);
@@ -38,7 +49,9 @@ async function initXlsx(val: File | string) {
     return;
   }
   try {
-    await loadJs(jsList);
+    if (!isLuckySheet()) {
+      await loadJs(jsList);
+    }
     LuckyExcel.transformExcelToLucky(
       val,
       function (exportJson: { sheets: string | any[] | null; info: { name: { creator: any } } }) {
@@ -121,7 +134,9 @@ async function initXlsx(val: File | string) {
 }
 
 onBeforeUnmount(() => {
-  removeJs(jsList);
+  if (!isLuckySheet()) {
+    removeJs(jsList);
+  }
 });
 </script>
 

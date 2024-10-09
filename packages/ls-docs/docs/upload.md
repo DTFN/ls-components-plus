@@ -245,7 +245,7 @@ function formValidateFunc() {
 ```js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const item4 = ref({
-  textPreview: ['pdf']
+  textPreview: ['pdf', 'xlsx']
 });
 ```
 
@@ -283,7 +283,7 @@ const item4 = ref({
     }
   })
   const item4 = ref({
-    textPreview: ['pdf'],
+    textPreview: ['pdf', 'xlsx'],
   })
   function httpResponseFunc(res) {
     const {

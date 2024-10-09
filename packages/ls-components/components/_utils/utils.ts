@@ -107,8 +107,8 @@ export const loadJs = (list: Array<any> = []) => {
           resolve({});
         };
         script.onerror = function () {
-          reject({});
           script.remove();
+          reject({});
         };
       })
     );
