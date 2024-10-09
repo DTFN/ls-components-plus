@@ -10,8 +10,10 @@ const comClass: string = ns.b();
 const props = defineProps(lsJsonEditorProps);
 
 const defAttrs: any = ref({
-  mode: 'tree',
-  height: 600
+  mode: 'text',
+  height: 600,
+  navigationBar: false,
+  readOnly: true
 });
 
 const jsonModel: any = ref({});
@@ -34,4 +36,19 @@ watch(
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ls-json-editor {
+  :deep() .vue-ts-json-editor {
+    .jse-last,
+    .jse-search,
+    .jse-separator {
+      display: none !important;
+    }
+    .jse-button {
+      &:nth-of-type(2) {
+        border-right: 1px solid #ffffff !important;
+      }
+    }
+  }
+}
+</style>

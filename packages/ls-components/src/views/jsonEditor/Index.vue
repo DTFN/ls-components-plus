@@ -12,7 +12,7 @@ const jsonValue = ref({
 
 <template>
   <div>
-    <LSJsonEditor mode="tree" :json-value="jsonValue" />
+    <LSJsonEditor mode="text" :json-value="jsonValue" />
   </div>
 </template>
 
