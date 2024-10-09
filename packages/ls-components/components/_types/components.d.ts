@@ -33,6 +33,7 @@ type FormItemsType = {
   type: FormItemType;
   label: string;
   prop: string;
+  props?: any;
   rules?: FormRules;
   className?: string;
   labelClass?: string;

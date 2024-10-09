@@ -112,3 +112,11 @@ export const MENU_LIST = [
     key: '14'
   }
 ];
+
+export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`);
+export const MonthDayOptions = MonthDays.map((item: string, i: number) => {
+  return {
+    value: i + 1,
+    label: item
+  };
+});

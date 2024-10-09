@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { MonthDayOptions } from '@/constant';
+
 const FormRef = ref();
 const FormRef1 = ref();
 const loading = ref(false);
@@ -42,6 +44,25 @@ const formItems = ref<FormItemsType[]>([
         pattern: /^[A-Z0-9@]*$/i,
         message: '8-24位数字大小写字母组合',
         trigger: 'blur'
+      }
+    ]
+  },
+  {
+    type: 'select',
+    label: '日期',
+    prop: 'dateList',
+    attrs: {
+      placeholder: '请选择日期，支持多选',
+      multiple: true,
+      clearable: true,
+      'popper-class': 'ls-sel-calendar-popper'
+    },
+    options: MonthDayOptions,
+    rules: [
+      {
+        required: true,
+        message: '请选择日期，支持多选',
+        trigger: 'change'
       }
     ]
   }
