@@ -11,29 +11,9 @@ export const lsBellMessageProps = buildProps({
     type: Number,
     default: 99
   },
-  badgeIconType: {
-    type: Number,
-    default: 1
-  },
-  badgeIconName: {
-    type: String,
-    default: ''
-  },
-  badgeIconColor: {
-    type: String,
-    default: ''
-  },
-  badgeIconWidth: {
-    type: [String, Number],
-    default: '16'
-  },
-  badgeIconHeight: {
-    type: [String, Number],
-    default: '16'
-  },
-  badgeIconSize: {
-    type: [String, Number],
-    default: '16'
+  iconConfig: {
+    type: Object,
+    default: () => ({})
   },
   loading: {
     type: Boolean,

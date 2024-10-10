@@ -18,7 +18,7 @@ import { useData } from 'vitepress';
 import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
-
+import 'element-plus/dist/index.css';
 import LSWebPlus from '../../../ls-components/lib/';
 import '../../../ls-components/lib/lsWebPlus.css';
 

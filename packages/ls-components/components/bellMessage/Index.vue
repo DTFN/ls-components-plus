@@ -45,15 +45,7 @@ function loadMore() {
           dot-class="notice-dot"
         >
           <template #default>
-            <LSIcon
-              v-if="badgeIconName"
-              :type="badgeIconType"
-              :name="badgeIconName"
-              :color="badgeIconColor"
-              :width="badgeIconWidth"
-              :height="badgeIconHeight"
-              :size="badgeIconSize"
-            />
+            <LSIcon v-if="iconConfig.name" v-bind="iconConfig" />
             <el-icon v-else><BellFilled /></el-icon>
           </template>
         </el-badge>

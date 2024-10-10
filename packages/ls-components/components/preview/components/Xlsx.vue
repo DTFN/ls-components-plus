@@ -5,6 +5,13 @@ import { loadJs, removeJs } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import LuckyExcel from 'luckyexcel';
 
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/assets/iconfont/iconfont.css
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js
+// https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js
+
 const jsList = [
   { id: 'luckysheet1', src: '/luckysheet/plugins/js/plugin.js' },
   { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' }

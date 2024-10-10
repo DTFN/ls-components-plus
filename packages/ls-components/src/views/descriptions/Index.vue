@@ -3,20 +3,17 @@ const iconColor = ref('red');
 
 const list1 = ref([
   {
-    iconColor,
-    iconType: 1,
-    iconName: 'iconoir:fish',
+    iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
     label: '养殖品种',
     value: '舟山鲈鱼'
   },
   {
-    iconType: 1,
-    iconName: 'game-icons:whale-tail',
+    iconConfig: { type: 1, name: 'game-icons:whale-tail' },
     label: '尾数范围',
     value: '56024 - 93366 尾'
   },
   {
-    iconName: 'Edit',
+    iconConfig: { name: 'Edit' },
     label: '批次数量',
     value: '5'
   }

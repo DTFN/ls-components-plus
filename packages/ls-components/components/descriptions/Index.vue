@@ -66,17 +66,9 @@ function updateLabelStyle(color: string, type: number) {
         <slot name="extra"></slot>
       </template>
       <el-descriptions-item v-for="(item, i) in list" :key="i" :label="item?.label">
-        <template #label v-if="item.iconName">
+        <template #label>
           <div class="cell-item">
-            <LSIcon
-              v-if="item.iconName || slots.icon"
-              :type="item.iconType"
-              :name="item.iconName"
-              :color="item.iconColor"
-              :width="item.iconWidth || 16"
-              :height="item.iconHeight || 16"
-              :size="item.iconSize || 16"
-            >
+            <LSIcon v-if="item.iconConfig?.name || slots.icon" v-bind="item.iconConfig">
               <slot name="icon"></slot>
             </LSIcon>
             {{ item?.label }}

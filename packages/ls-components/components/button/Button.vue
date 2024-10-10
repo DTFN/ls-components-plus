@@ -30,14 +30,9 @@ const separatorStyle = computed(() => {
   <template v-else>
     <el-button v-bind="$attrs" :class="comClass">
       <LSIcon
-        v-if="!$attrs.icon && (iconName || slots.icon)"
+        v-if="!$attrs.icon && (iconConfig?.name || slots.icon)"
         :class="[!slots.default ? 'only-icon' : '']"
-        :type="iconType"
-        :name="iconName"
-        :color="iconColor"
-        :width="iconWidth"
-        :height="iconHeight"
-        :size="iconSize"
+        v-bind="iconConfig"
       >
         <slot name="icon"></slot>
       </LSIcon>

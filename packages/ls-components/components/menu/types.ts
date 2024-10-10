@@ -40,7 +40,7 @@ interface MenuBaseType {
   path: string;
   key?: string;
   cpoPath?: string;
-  icon?: string;
+  iconConfig?: object;
   leaf?: boolean;
   hideMenu?: boolean;
   redirect?: string;

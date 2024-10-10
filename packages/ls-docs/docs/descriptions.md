@@ -19,20 +19,17 @@ import { ref } from 'vue';
 const iconColor = ref('red');
 const list1 = ref([
   {
-    iconColor,
-    iconType: 1,
-    iconName: 'iconoir:fish',
+    iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
     label: '养殖品种',
     value: '舟山鲈鱼'
   },
   {
-    iconType: 1,
-    iconName: 'game-icons:whale-tail',
+    iconConfig: { type: 1, name: 'game-icons:whale-tail' },
     label: '尾数范围',
     value: '56024 - 93366 尾'
   },
   {
-    iconName: 'Edit',
+    iconConfig: { name: 'Edit' },
     label: '批次数量',
     value: '5'
   }
@@ -121,20 +118,17 @@ import { ref } from 'vue';
 const iconColor = ref('red');
 const list1 = ref([
   {
-    iconColor,
-    iconType: 1,
-    iconName: 'iconoir:fish',
+    iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
     label: '养殖品种',
     value: '舟山鲈鱼'
   },
   {
-    iconType: 1,
-    iconName: 'game-icons:whale-tail',
+    iconConfig: { type: 1, name: 'game-icons:whale-tail'},
     label: '尾数范围',
     value: '56024 - 93366 尾'
   },
   {
-    iconName: 'Edit',
+    iconConfig: { name: 'Edit'},
     label: '批次数量',
     value: '5'
   }
@@ -220,40 +214,10 @@ const tableData1 = ref([
     value: '-'
   },
   {
-    name: 'iconType',
-    desc: '图标类型， 默认el-icon，1：iconify，2：svg',
-    type: 'string / number',
-    value: '-'
-  },
-  {
-    name: 'iconName',
-    desc: '图标名称，展示在label左侧',
-    type: 'string',
-    value: '-'
-  },
-  {
-    name: 'iconColor',
-    desc: '图标颜色',
-    type: 'string',
-    value: '-'
-  },
-  {
-    name: 'iconWidth',
-    desc: '图标宽度，适用iconify',
-    type: 'string / number',
-    value: '-'
-  },
-  {
-    name: 'iconHeight',
-    desc: '图标高度，适用iconify',
-    type: 'string / number',
-    value: '-'
-  },
-  {
-    name: 'iconSize',
-    desc: '图标大小，适用el-icon',
-    type: 'string / number',
-    value: '-'
+    name: 'iconConfig',
+    desc: '图标配置，具体配置参考LSIcon',
+    type: 'json',
+    value: '{}'
   }
 ])
 </script>

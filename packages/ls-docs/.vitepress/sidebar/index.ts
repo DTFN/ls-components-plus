@@ -14,14 +14,14 @@ export default {
     {
       text: 'Form 表单组件',
       items: [
-        { text: 'Form 表单', link: '/docs/component2' },
+        { text: 'Form 表单', link: '/docs/form' },
         { text: 'Upload 上传', link: '/docs/upload' }
       ]
     },
     {
       text: 'Data 数据展示',
       items: [
-        { text: 'Table 表格', link: '/docs/component4' },
+        { text: 'Table 表格', link: '/docs/table' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' }
       ]
     },
@@ -32,6 +32,10 @@ export default {
         { text: 'Breadcrumb 面包屑', link: '/docs/breadcrumb' },
         { text: 'Menu 菜单', link: '/docs/menu' }
       ]
+    },
+    {
+      text: 'Feedback 反馈组件',
+      items: [{ text: 'Confirm 确认框', link: '/docs/confirm' }]
     }
   ]
 };
