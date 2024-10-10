@@ -21,7 +21,7 @@ const MENU_CONFIG_LIST = [
     title: '渔场概览',
     name: 'FisheryOverview',
     path: 'fishery-overview',
-    icon: 'House',
+    iconConfig: { name: 'House', color: 'red', size: 16 },
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
@@ -29,19 +29,9 @@ const MENU_CONFIG_LIST = [
     link: 'https://www.lingshu.net/'
   },
   {
-    title: '生产概览',
-    name: 'ProduceOverview',
-    path: 'produce-overview',
-    // icon: 'Monitor',
-    key: '10',
-    cpoPath: 'produceOverview/Index',
-    pCode: 'c1012'
-  },
-  {
     title: '养殖单元管理',
     name: '',
     path: '',
-    icon: 'location',
     key: '2',
     cpoPath: '',
     pCode: 'c2',
@@ -128,7 +118,6 @@ const MENU_CONFIG_LIST = [
     title: '规划管理',
     name: 'PlanManager',
     path: 'plan-manager',
-    icon: 'Reading',
     key: '8',
     cpoPath: 'planManager/Index',
     pCode: 'c7',
@@ -216,7 +205,7 @@ const MENU_CONFIG_LIST = [
     title: '渔场概览',
     name: 'FisheryOverview',
     path: 'fishery-overview',
-    icon: 'House',
+    iconConfig: { name: 'House', color: 'red', size: 16 },
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
@@ -224,19 +213,9 @@ const MENU_CONFIG_LIST = [
     link: 'https://www.lingshu.net/'
   },
   {
-    title: '生产概览',
-    name: 'ProduceOverview',
-    path: 'produce-overview',
-    // icon: 'Monitor',
-    key: '10',
-    cpoPath: 'produceOverview/Index',
-    pCode: 'c1012'
-  },
-  {
     title: '养殖单元管理',
     name: '',
     path: '',
-    icon: 'location',
     key: '2',
     cpoPath: '',
     pCode: 'c2',
@@ -323,7 +302,6 @@ const MENU_CONFIG_LIST = [
     title: '规划管理',
     name: 'PlanManager',
     path: 'plan-manager',
-    icon: 'Reading',
     key: '8',
     cpoPath: 'planManager/Index',
     pCode: 'c7',
