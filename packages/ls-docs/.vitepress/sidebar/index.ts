@@ -24,6 +24,14 @@ export default {
         { text: 'Table 表格', link: '/docs/component4' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' }
       ]
+    },
+    {
+      text: 'Navigation 导航',
+      items: [
+        { text: 'Backtop 回到顶部', link: '/docs/backtop' },
+        { text: 'Breadcrumb 面包屑', link: '/docs/breadcrumb' },
+        { text: 'Menu 菜单', link: '/docs/menu' }
+      ]
     }
   ]
 };

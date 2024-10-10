@@ -2,6 +2,11 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBackTopProps } from './types';
 
+defineOptions({
+  name: 'LSBackTop',
+  inheritAttrs: false
+});
+
 const ns = useNamespace('back-top');
 const comClass: string = ns.b();
 const optClass: string = ns.b('opt');

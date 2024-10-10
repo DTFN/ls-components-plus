@@ -17,7 +17,7 @@ function isBCList(obj: unknown): obj is Array<JumpParamsType> {
 }
 
 const updateBCList = () => {
-  const { bcList }: RouteMeta = currentRouter.value.meta;
+  const { bcList }: RouteMeta = currentRouter?.value?.meta || {};
   if (isBCList(bcList)) {
     return bcList;
   }
