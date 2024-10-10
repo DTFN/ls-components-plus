@@ -153,7 +153,7 @@ function updateAllCheckStatus() {
 // 更新样式
 function updateStyle() {
   if (props.direction == 'h') {
-    const treeNodes = document.getElementsByClassName('el-tree-node');
+    const treeNodes = lsTreeRef.value?.el$?.getElementsByClassName('el-tree-node');
     for (let i = 0; i < treeNodes.length; i++) {
       const element = treeNodes[i] as HTMLElement;
       if (element) {
