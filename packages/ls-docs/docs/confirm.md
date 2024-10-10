@@ -141,6 +141,10 @@ function onConfirm3(data) {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
+### 2. Methods，通过emit抛出的可使用方法
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+
 <script setup>
 import { tableColumn } from './constant';
 import { ref } from 'vue';
@@ -188,6 +192,105 @@ const tableData = ref([
     desc: '类型: 支持 success | info | warning | error',
     type: 'string',
     value: '-'
+  },
+  {
+    name: 'message',
+    desc: '内容,',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'confirmBtnTxt',
+    desc: '确认按钮文案',
+    type: 'string',
+    value: '确定'
+  },
+  {
+    name: 'cancelBtnTxt',
+    desc:'取消按钮文案',
+    type: 'string',
+    value: '取消'
+  },
+  {
+    name: 'showCancelBtn',
+    desc: '是否显示取消按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'showConfirmBtn',
+    desc: '是否显示确认按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'center',
+    desc: '是否居中',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'draggable',
+    desc: '是否可拖拽',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'useHtml',
+    desc: '是否使用html，为true时，message可以是html字符串',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'showClose',
+    desc: '是否显示关闭按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'customClass',
+    desc: '自定义类名',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'closeOnClickModal',
+    desc: '点击蒙层是否允许关闭',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'closeOnPressEscape',
+    desc: '是否可以通过按下 ESC 关闭',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'appendTo',
+    desc: '挂载的目标节点',
+    type: 'string / HTMLElement',
+    value: 'body'
+  },
+  {
+    name: 'requestApi',
+    desc: '异步请求接口',
+    type: 'Promise',
+    value: '-'
   }
-])
+]);
+
+const tableData2 = ref([
+  {
+    name: 'onConfirm',
+    desc: '点击确认时触发, 参数data为请求接口返回的数据',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'onCancel',
+    desc: '点击取消时触发',
+    type: 'function',
+    value: '-'
+  }
+]);
 </script>

@@ -93,7 +93,10 @@ const transform = reactive({
   deg: 0,
   offsetX: 0,
   offsetY: 0,
-  enableTransition: false
+  enableTransition: false,
+  width: 'auto',
+  height: 'auto',
+  objectFit: 'none'
 });
 const isSingle = computed(() => {
   const { source } = props;
@@ -109,7 +112,7 @@ const currentImg = computed(() => {
   return props.source[activeIndex.value];
 });
 const imgStyle = computed(() => {
-  const { scale, deg, offsetX, offsetY, enableTransition } = transform;
+  const { scale, deg, offsetX, offsetY, enableTransition, width, height, objectFit } = transform;
   let translateX = offsetX / scale;
   let translateY = offsetY / scale;
 
@@ -128,13 +131,16 @@ const imgStyle = computed(() => {
       break;
   }
 
-  const style: CSSProperties = {
+  const style: CSSProperties | any = {
     transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
     transition: enableTransition ? 'transform .3s' : ''
   };
   if (mode.value.name === modes.CONTAIN.name) {
     style.maxWidth = style.maxHeight = '100%';
   }
+  style.width = width;
+  style.height = height;
+  style.objectFit = objectFit;
   return style;
 });
 const computedZIndex = computed(() => {
@@ -239,7 +245,23 @@ function reset() {
     deg: 0,
     offsetX: 0,
     offsetY: 0,
-    enableTransition: false
+    enableTransition: false,
+    width: 'auto',
+    height: 'auto',
+    objectFit: 'none'
+  });
+}
+
+function fullScreen() {
+  Object.assign(transform, {
+    scale: 1,
+    deg: 0,
+    offsetX: 0,
+    offsetY: 0,
+    enableTransition: false,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
   });
 }
 
@@ -252,7 +274,11 @@ function toggleMode() {
   const index = modeValues.findIndex(i => i.name === currentMode);
   const nextIndex = (index + 1) % modeNames.length;
   mode.value = modes[modeNames[nextIndex]];
-  reset();
+  if (currentMode === modes.CONTAIN.name) {
+    fullScreen();
+  } else {
+    reset();
+  }
 }
 
 function setActiveItem(index: number) {
@@ -307,7 +333,7 @@ watch(currentImg, () => {
 });
 
 watch(activeIndex, val => {
-  reset();
+  // reset();
   emits('switch', val);
 });
 

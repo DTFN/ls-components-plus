@@ -218,6 +218,18 @@ const tableData1 = ref([
     desc: '图标配置，具体配置参考LSIcon',
     type: 'json',
     value: '{}'
+  },
+  {
+    name: 'label',
+    desc: '左侧label名称',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'value',
+    desc: '右侧内容值',
+    type: 'string / number',
+    value: '-'
   }
 ])
 </script>

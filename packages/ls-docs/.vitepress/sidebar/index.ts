@@ -22,7 +22,8 @@ export default {
       text: 'Data 数据展示',
       items: [
         { text: 'Table 表格', link: '/docs/table' },
-        { text: 'Descriptions 描述', link: '/docs/descriptions' }
+        { text: 'Descriptions 描述', link: '/docs/descriptions' },
+        { text: 'Preview 预览', link: '/docs/preview' }
       ]
     },
     {
