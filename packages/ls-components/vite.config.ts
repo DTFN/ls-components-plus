@@ -40,7 +40,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }
     },
     esbuild: {
-      pure: viteEnv.VITE_DROP_CONSOLE ? ['console.log', 'debugger'] : [],
+      pure: ['console.log', 'debugger'],
       keepNames: true
     },
     // 依赖预加载

@@ -94,7 +94,6 @@ function scalePdf(val: number) {
 const noMore = ref(false);
 const count = ref(0);
 const load = () => {
-  console.log(1231231);
   if (count.value >= allPages.value) {
     noMore.value = true;
     return;

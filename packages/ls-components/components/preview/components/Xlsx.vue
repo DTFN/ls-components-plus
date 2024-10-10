@@ -167,6 +167,25 @@ onBeforeUnmount(() => {
 .ls-xlsx {
   position: relative;
   height: 100%;
+  :deep() table {
+    display: table !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+    outline: 0 !important;
+    tr {
+      background-color: transparent !important;
+      border: none !important;
+      transition: none !important;
+    }
+    th,
+    td {
+      padding: 0 !important;
+      font-size: initial !important;
+      border: none !important;
+    }
+  }
 }
 .luckysheet-wrap {
   position: relative;
