@@ -13,6 +13,8 @@ outline: deep
 
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 
+::: details 点我查看代码
+
 ```js
 import { ref } from 'vue';
 
@@ -158,6 +160,8 @@ const MENU_CONFIG_LIST = [
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 ```
 
+:::
+
 ## 创建路由数据
 
 ::: warning 通过以下方式动态创建路由，适用带权限控制项目
@@ -181,10 +185,6 @@ router.addRoute({
 });
 (menus || []).forEach((item: any) => {
   router.addRoute('Layout', item);
-});
-
-router.push({
-  path: location.pathname || '/'
 });
 ```
 

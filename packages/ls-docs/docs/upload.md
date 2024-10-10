@@ -172,6 +172,8 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
   </el-form-item>
 </el-form>
 
+::: details 点我查看代码
+
 ```js
 import { ref } from 'vue';
 import axios from 'axios';
@@ -236,6 +238,8 @@ function formValidateFunc() {
   </el-form-item>
 </el-form>
 ```
+
+:::
 
 ### 8.文本预览
 
