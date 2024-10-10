@@ -25,7 +25,6 @@ const MENU_CONFIG_LIST = [
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
-    jumpType: 1,
     link: 'https://www.lingshu.net/'
   },
   {
@@ -159,7 +158,10 @@ const MENU_CONFIG_LIST = [
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 ```
 
-### 创建路由数据
+## 创建路由数据
+
+::: warning 通过以下方式动态创建路由，适用带权限控制项目
+:::
 
 ```js
 import { useRouterHook } from '组件库';
@@ -209,7 +211,6 @@ const MENU_CONFIG_LIST = [
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
-    jumpType: 1,
     link: 'https://www.lingshu.net/'
   },
   {
@@ -353,7 +354,7 @@ const tableData = ref([
   },
   {
     name: 'permissionList',
-    desc: '权限列表',
+    desc: '权限列表，内部存放code码，当needPermission为true时生效',
     type: 'array',
     value: '-'
   }
@@ -383,7 +384,49 @@ const tableData2 = ref([
     desc: '菜单名称前面的图标配置，具体配置参考LSIcon',
     type: 'json',
     value: '-'
-  }
+  },
+  {
+    name: 'key',
+    desc: '菜单key, 参考el-menu',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'cpoPath',
+    desc: 'view层组件对应路径',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name:'pCode',
+    desc: '权限code',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'link',
+    desc: '外链地址，配置之后就不在走路由跳转',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'leaf',
+    desc: '是否为叶子菜单，如果是叶子菜单，那么改菜单下的children菜单配置不显示',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'hideMenu',
+    desc: '是否隐藏该菜单',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'children',
+    desc: '子菜单配置',
+    type: 'array',
+    value: '-'
+  },
 ])
 </script>
 

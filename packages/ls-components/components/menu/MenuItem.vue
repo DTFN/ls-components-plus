@@ -6,11 +6,11 @@ import useRouterHook from '@cpo/_hooks/useRouterHook';
 const { jumpRouteCom } = useRouterHook();
 
 const jumpRoute = (item: any) => {
-  const { jumpType } = item || {};
-  if (!jumpType) {
+  const { link } = item || {};
+  if (!link) {
     jumpRouteCom(item);
   } else {
-    window.open(item.link, '_blank');
+    window.open(link, '_blank');
   }
 };
 

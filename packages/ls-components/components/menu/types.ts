@@ -2,7 +2,6 @@ import { buildProps } from '@cpo/_utils/runtime';
 import { LocationQueryRaw } from 'vue-router';
 
 export const lsMenuProps = buildProps({
-  // jumpType: 1 打开新页面 default router.push
   menuConfigList: {
     type: Array<any>,
     default: () => []

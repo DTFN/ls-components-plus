@@ -10,7 +10,6 @@ const MENU_CONFIG_LIST = [
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
-    jumpType: 1,
     link: 'https://www.lingshu.net/'
   },
   {
