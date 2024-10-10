@@ -42,10 +42,8 @@ function initMenuSider() {
   if (!isInit.value) {
     return;
   }
-  const {
-    meta: { key = '1' }
-  }: any = currentRouter.value;
-  selectedKeys.value = key;
+  const { meta }: any = currentRouter?.value || {};
+  selectedKeys.value = meta?.key || '1';
 }
 
 onMounted(() => {

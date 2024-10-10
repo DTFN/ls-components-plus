@@ -21,7 +21,7 @@ defineProps(lsIconProps);
       :height="height"
       :fill="color"
     ></component>
-    <el-icon v-else-if="name" :size="size" :color="color"><component :is="name" /></el-icon>
+    <el-icon v-else-if="name" :size="size" :color="color"><component :is="name" :color="color" /></el-icon>
     <slot v-if="slots.default"></slot>
   </div>
 </template>
