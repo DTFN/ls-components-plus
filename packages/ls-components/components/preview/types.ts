@@ -1,5 +1,5 @@
 import { buildProps, definePropType, mutable } from '@cpo/_utils/runtime';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { PageViewport } from 'pdfjs-dist';
 import type {
   DocumentInitParameters,
@@ -177,9 +177,13 @@ export interface PDFInfo {
   outline: any;
 }
 
+type PreviewType = 'image' | 'docx' | 'xlsx' | 'pdf';
+
 export const lsPreviewProp = {
   type: {
-    type: String
+    type: String as PropType<PreviewType>,
+    require: true,
+    default: ''
   },
   source: {},
   zoomSize: {

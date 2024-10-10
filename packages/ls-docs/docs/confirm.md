@@ -182,6 +182,12 @@ function onConfirm3(data) {
 
 const tableData = ref([
   {
+    name: 'model-value / v-mode',
+    desc: '是否显示',
+    type: 'boolean',
+    value: '-'
+  },
+  {
     name: 'title',
     desc: '标题',
     type: 'string',

@@ -4,7 +4,7 @@ outline: deep
 
 # Preview 预览
 
-::: warning 支持图片、docx、xlsx、pdf类型文件预览。
+::: warning 支持图片（image）、文档（docx）、表格（xlsx）、pdf类型文件预览。
 :::
 
 ## 使用方式
@@ -125,7 +125,40 @@ function openViewerPdf() {
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
 <LSPreview v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
 
+```js
+import { ref } from 'vue';
+import xlsx from '/files/222.xlsx?url';
+
+const source4 = ref();
+const showViewer4 = ref(false);
+function closeViewer4() {
+  showViewer4.value = false;
+}
+function openViewerXlsx() {
+  axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
+    source4.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
+    showViewer4.value = true;
+  });
+}
+```
+
+```html
+<LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
+<LSPreview v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+```
+
+## API
+
+### 1. Attributes
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
+### 2. Methods，以属性方式传入
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+
 <script setup>
+import { tableColumn } from './constant';
 import { ref } from 'vue';
 import axios from 'axios';
 import docx from '/files/测试.docx?url';
@@ -179,5 +212,47 @@ function openViewerXlsx() {
     showViewer4.value = true;
   });
 }
+
+const tableData = ref([
+  {
+    name: 'model-value / v-mode',
+    desc: '是否显示',
+    type: 'boolean',
+    value: '-'
+  },
+  {
+    name: 'type',
+    desc: '预览类型: 支持 image | docx | pdf | xlsx',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'source',
+    desc: '预览资源, image时类型为array，docx时类型为arraybuffer，pdf时类型为string，xlsx时类型为File',
+    type: 'array / arraybuffer / File / string',
+    value: '-'
+  },
+  {
+    name: 'needLoading',
+    desc: '是否需要loading',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'loadingOption',
+    desc: 'loading配置, 参考ElLoading配置',
+    type: 'object',
+    value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
+  }
+]);
+
+const tableData2 = ref([
+  {
+    name: 'on-close',
+    desc: '关闭时触发',
+    type: 'function',
+    value: '-'
+  }
+])
 
 </script>

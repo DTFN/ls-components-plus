@@ -23,7 +23,8 @@ export default {
       items: [
         { text: 'Table 表格', link: '/docs/table' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' },
-        { text: 'Preview 预览', link: '/docs/preview' }
+        { text: 'Preview 预览', link: '/docs/preview' },
+        { text: 'Tree 权限树', link: '/docs/tree' }
       ]
     },
     {
