@@ -15,6 +15,13 @@ const containerId = ref(`lsMapContainer${new Date().getTime()}`);
 const mapObj: any = ref(null);
 const aMap: any = ref(null);
 
+const comStyle = computed(() => {
+  return {
+    width: `${props.width}`,
+    height: `${props.height}`
+  };
+});
+
 watch(
   () => props.securityCode,
   val => {
@@ -144,13 +151,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div :id="containerId" :class="comClass"></div>
+  <div :id="containerId" :class="comClass" :style="comStyle"></div>
 </template>
 
 <style lang="scss" scoped>
 .ls-map {
   width: 100%;
-  min-height: 500px;
 }
 :deep() .amap-logo {
   display: none !important;

@@ -12,11 +12,6 @@ type AnchorType =
   | 'bottom-right';
 
 export const lsMapProps = buildProps({
-  // 0：高德 1：腾讯
-  type: {
-    type: Number,
-    default: 0
-  },
   securityCode: {
     type: String,
     required: true
@@ -24,6 +19,14 @@ export const lsMapProps = buildProps({
   mapKey: {
     type: String,
     required: true
+  },
+  width: {
+    type: String,
+    default: '100%'
+  },
+  height: {
+    type: String,
+    default: '300px'
   },
   searchWord: {
     type: String,
@@ -35,7 +38,7 @@ export const lsMapProps = buildProps({
   },
   zoom: {
     type: Number,
-    default: 16
+    default: 14
   },
   zooms: {
     type: Array<number>,

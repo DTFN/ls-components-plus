@@ -307,7 +307,9 @@ function getTreeCheckedData(ids) {
 ### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
 #### 1.1 data
+
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
 ### 2. Methods，通过emit抛出的可使用方法
