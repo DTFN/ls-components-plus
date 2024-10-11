@@ -143,10 +143,10 @@ function onConfirm3(data) {
 
 ### 2. Methods，通过emit抛出的可使用方法
 
-<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn, tableMethodColumn } from './constant';
 import { ref } from 'vue';
 import axios from 'axios';
 const visible = ref(false);
@@ -290,7 +290,7 @@ const tableData2 = ref([
     name: 'onConfirm',
     desc: '点击确认时触发, 参数data为请求接口返回的数据',
     type: 'function',
-    value: '-'
+    value: 'data'
   },
   {
     name: 'onCancel',

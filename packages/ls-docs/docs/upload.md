@@ -265,13 +265,13 @@ const item4 = ref({
 
 ### 2. Methods，通过emit抛出的可使用方法
 
-<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
   import { ElForm, ElFormItem } from 'element-plus';
-  import { tableColumn } from './constant';
+  import { tableColumn, tableMethodColumn } from './constant';
 
   const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
   const item1 = ref({
@@ -434,19 +434,19 @@ const item4 = ref({
       name: 'on-change-func',
       desc: '文件更新上传回调方法，增加blob返回数据',
       type: 'function',
-      value: '-'
+      value: 'file'
     },
     {
       name: 'http-response-func',
       desc: '覆盖上传方法回调函数，返回值为接口调用结果，常用于手动上传，配合httpRequestFunc使用',
       type: 'function',
-      value: '-'
+      value: 'data'
     },
     {
       name: 'upload-error-func',
       desc: '获取上传前置报错信息，处理form表单验证等问题',
       type: 'function',
-      value: '-'
+      value: 'msg'
     }
   ])
 </script>

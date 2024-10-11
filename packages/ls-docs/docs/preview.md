@@ -155,10 +155,10 @@ function openViewerXlsx() {
 
 ### 2. Methods，以属性方式传入
 
-<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn, tableMethodColumn } from './constant';
 import { ref } from 'vue';
 import axios from 'axios';
 import docx from '/files/测试.docx?url';

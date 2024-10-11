@@ -684,7 +684,7 @@ const canPrint = ref(true);
 
     <LSTree
       :data="treeData"
-      :is-check-all="true"
+      :is-check-all="false"
       :show-checkbox="true"
       :default-checked-keys="checkedPermissionIds"
       direction="v"
