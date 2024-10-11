@@ -27,6 +27,8 @@ const markerDialogContent = ref(`<div class='point-wrap'>
       :marker-dialog-content="markerDialogContent"
       marker-dialog-anchor="top-right"
       :marker-dialog-offset="[0, 20]"
+      width="600px"
+      height="400px"
     />
   </div>
 </template>

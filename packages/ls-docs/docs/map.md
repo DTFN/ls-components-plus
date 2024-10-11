@@ -19,6 +19,7 @@ outline: deep
   :marker-dialog-content="markerDialogContent"
   marker-dialog-anchor="top-right"
   :marker-dialog-offset="[0, 20]"
+  height="360px"
 />
 
 ::: details 点我查看代码
@@ -51,6 +52,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
   :marker-dialog-content="markerDialogContent"
   marker-dialog-anchor="top-right"
   :marker-dialog-offset="[0, 20]"
+  height="360px"
 />
 ```
 
@@ -111,7 +113,60 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 
 
 const tableData = ref([
-  
+  {
+    name: 'securityCode',
+    desc: '你申请的安全密钥',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'mapKey',
+    desc: '申请好的Web端开发者Key，首次调用 load 时必填',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'width',
+    desc: '地图宽度, 需带单位',
+    type: 'string',
+    value: '100%'
+  },
+  {
+    name: 'height',
+    desc: '地图高度, 需带单位',
+    type: 'string',
+    value: '300px'
+  },
+  {
+    name: 'searchWord',
+    desc: '搜索关键字, 只展示搜索结果的区域，其他区域覆盖不展示',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'center',
+    desc: '初始展示地图区域的中心点',
+    type: 'array',
+    value: '-'
+  },
+  {
+    name: 'zoom',
+    desc: '初始展示地图区域的缩放级别',
+    type: 'number',
+    value: '14'
+  },
+  {
+    name: 'zooms',
+    desc: '地图缩放范围',
+    type: 'array',
+    value: '[10, 20]'
+  },
+  {
+    name: 'areaColor',
+    desc: '地图覆盖区域的颜色',
+    type: 'string',
+    value: '#9BCFFA'
+  }
 ])
 </script>
 
