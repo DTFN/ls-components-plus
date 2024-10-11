@@ -184,6 +184,44 @@ const tableData = ref([
     desc: '标记图标',
     type: 'object',
     value: '蓝色小图标'
+  },
+  {
+    name: 'markerIconSize',
+    desc: '标记图标大小, 数组形式为[宽度, 高度]',
+    type: 'array',
+    value: '[19, 32]'
+  },
+  {
+    name: 'showMarkerDialog',
+    desc: '鼠标移入标记是否显示弹窗数据',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'markerDialogContent',
+    desc: '标记弹窗内容, html格式的字符串',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'markerDialogAnchor',
+    desc: `标记弹窗展示位置， 可选值为: 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'middle-left'
+  | 'center'
+  | 'middle-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right'`,
+    type: 'string',
+    value: 'middle-left'
+  },
+  {
+    nanme: 'markerDialogOffset',
+    desc: '标记弹窗偏移量， 数组形式为[水平偏移量, 垂直偏移量]',
+    type: 'array',
+    value: '[30, 0]'
   }
 ])
 </script>
