@@ -166,6 +166,24 @@ const tableData = ref([
     desc: '地图覆盖区域的颜色',
     type: 'string',
     value: '#9BCFFA'
+  },
+  {
+    name: 'showMarker',
+    desc: '是否展示标记点',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'markerList',
+    desc: `标记点经纬度列表, 支持多个标记点, 格式为:[{ lnglat: ['121.922823', '30.898127'] }]`,
+    type: 'array',
+    value: '[]'
+  },
+  {
+    name: 'markerIcon',
+    desc: '标记图标',
+    type: 'object',
+    value: '蓝色小图标'
   }
 ])
 </script>

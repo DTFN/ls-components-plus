@@ -52,7 +52,7 @@ export const lsMapProps = buildProps({
   // 是否显示标记
   showMarker: {
     type: Boolean,
-    default: true
+    default: false
   },
   // 标记列表 lnglat array [经度,纬度]
   markerList: {
