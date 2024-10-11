@@ -218,7 +218,7 @@ const tableData = ref([
     value: 'middle-left'
   },
   {
-    nanme: 'markerDialogOffset',
+    name: 'markerDialogOffset',
     desc: '标记弹窗偏移量， 数组形式为[水平偏移量, 垂直偏移量]',
     type: 'array',
     value: '[30, 0]'

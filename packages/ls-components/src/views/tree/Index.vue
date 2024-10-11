@@ -675,6 +675,7 @@ const canPrint = ref(true);
 <template>
   <div>
     <LSTree
+      id="treeV"
       :data="treeData"
       :is-check-all="true"
       :show-checkbox="true"
@@ -692,9 +693,27 @@ const canPrint = ref(true);
 
     <br />
 
-    <LSPrint title="打印测试" content="正在测试打印功能" btn-txt="打印2" :can-print="canPrint" icon-name="Printer" type="primary">
-      <div>测试打印功能</div>
+    <LSPrint content="正在测试打印功能" btn-txt="打印" :can-print="canPrint" :icon-config="{ name: 'Printer' }" type="primary">
+      <LSTree
+        :data="treeData"
+        :is-check-all="false"
+        :show-checkbox="true"
+        :default-checked-keys="checkedPermissionIds"
+        direction="v"
+      />
     </LSPrint>
+
+    <LSPrint
+      :print-obj="{
+        id: '#treeV',
+        popTitle: '打印测试2'
+      }"
+      content="正在测试打印功能2"
+      btn-txt="打印3"
+      :can-print="false"
+      :icon-config="{ name: 'Printer' }"
+      type="primary"
+    />
   </div>
 </template>
 

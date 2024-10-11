@@ -39,6 +39,10 @@ export default {
     {
       text: 'Feedback 反馈组件',
       items: [{ text: 'Confirm 确认框', link: '/docs/confirm' }]
+    },
+    {
+      text: 'Other 其它组件',
+      items: [{ text: 'Print 打印', link: '/docs/print' }]
     }
   ]
 };

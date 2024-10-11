@@ -2,7 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsPrintProps } from './types';
 
-const props = defineProps(lsPrintProps);
+defineProps(lsPrintProps);
 
 const ns = useNamespace('print');
 const comClass: string = ns.b();
@@ -14,17 +14,6 @@ const printParams = ref({
   popTitle: ''
 });
 const PAGE_HEIGHT = 1124;
-
-watch(
-  () => props.title,
-  () => {
-    printParams.value.popTitle = props.title;
-  },
-  {
-    immediate: true,
-    deep: true
-  }
-);
 
 /**
  * 打印预览
@@ -50,7 +39,7 @@ const printPre = () => {
 <template>
   <div :class="comClass">
     <el-tooltip :content="content" placement="top" :disabled="canPrint">
-      <LSButton v-bind="$attrs" @click="printPre" v-print="printParams" :disabled="!canPrint">
+      <LSButton v-bind="$attrs" @click="printPre" v-print="Object.assign(printParams, printObj)" :disabled="!canPrint">
         <span>{{ btnTxt }}</span>
       </LSButton>
     </el-tooltip>
