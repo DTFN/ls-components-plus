@@ -33,6 +33,10 @@ outline: deep
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
+#### 1.1 printObj 常用参数为id，其他参数请参考[官网api](https://www.npmjs.com/package/vue3-print-nb)
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
+
 <script setup>
 import { tableColumn } from './constant';
 import { ref } from 'vue';
@@ -46,6 +50,39 @@ const tableData = ref([
     desc: '打印对象参数配置',
     type: 'object',
     value: '{}'
+  },
+  {
+    name: 'iconConfig',
+    desc: '按钮文案前图标配置，具体配置参考LSIcon',
+    type: 'json',
+    value: '{}'
+  },
+  {
+    name: 'btnTxt',
+    desc: '按钮文案',
+    type:'string',
+    value: '打印'
+  },
+  {
+    name: 'content',
+    desc: '打印按钮禁止使用时，鼠标移入提示文案',
+    type:'string',
+    value: ''
+  },
+  {
+    name: 'canPrint',
+    desc: '是否允许打印',
+    type:'boolean',
+    value: 'true'
+  }
+])
+
+const tableData2 = ref([
+  {
+    name: 'id',
+    desc: '打印区域id，适用普通打印',
+    type: 'string',
+    value: ''
   }
 ])
 </script>
