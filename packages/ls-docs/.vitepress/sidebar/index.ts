@@ -25,7 +25,8 @@ export default {
         { text: 'Descriptions 描述', link: '/docs/descriptions' },
         { text: 'Preview 预览', link: '/docs/preview' },
         { text: 'Tree 权限树', link: '/docs/tree' },
-        { text: 'map 地图', link: '/docs/map' }
+        { text: 'map 地图', link: '/docs/map' },
+        { text: 'live 直播/视频', link: '/docs/live' }
       ]
     },
     {
