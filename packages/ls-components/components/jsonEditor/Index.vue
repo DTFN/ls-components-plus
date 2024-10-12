@@ -9,6 +9,8 @@ const comClass: string = ns.b();
 
 const props = defineProps(lsJsonEditorProps);
 
+const attrs = useAttrs();
+
 const defAttrs: any = ref({
   mode: 'text',
   height: 600,
@@ -17,6 +19,22 @@ const defAttrs: any = ref({
 });
 
 const jsonModel: any = ref({});
+const editorCss = ref('');
+
+const bindAttrs = computed(() => {
+  const curAttrs = Object.assign(defAttrs.value, attrs);
+  if (typeof curAttrs['read-only'] !== 'undefined') {
+    curAttrs.readOnly = curAttrs['read-only'];
+  }
+  if (typeof curAttrs['navigation-bar'] !== 'undefined') {
+    curAttrs.navigationBar = curAttrs['navigation-bar'];
+  }
+  if (!curAttrs.readOnly) {
+    curAttrs.mode = 'tree';
+    editorCss.value = 'editor-status';
+  }
+  return curAttrs;
+});
 
 watch(
   () => props.jsonValue,
@@ -28,11 +46,19 @@ watch(
     deep: true
   }
 );
+
+function getJsonValue() {
+  return jsonModel;
+}
+
+defineExpose({
+  getJsonValue
+});
 </script>
 
 <template>
   <div :class="comClass">
-    <json-editor v-bind="Object.assign(defAttrs, $attrs)" v-model="jsonModel" />
+    <json-editor v-bind="bindAttrs" v-model="jsonModel" :class="editorCss" />
   </div>
 </template>
 
@@ -47,6 +73,16 @@ watch(
     .jse-button {
       &:nth-of-type(2) {
         border-right: 1px solid #ffffff !important;
+      }
+    }
+  }
+  .editor-status {
+    :deep() .jse-first {
+      display: none !important;
+    }
+    :deep() .jse-button {
+      &:nth-of-type(2) {
+        margin-left: calc(0.5 * var(--jse-padding, 10px)) !important;
       }
     }
   }
