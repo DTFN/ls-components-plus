@@ -10,8 +10,7 @@ const boxClass: string = ns.b('box');
 const wrapClass: string = ns.b('wrap');
 
 const printParams = ref({
-  id: 'lsPrintDom',
-  popTitle: ''
+  id: `lsPrint${new Date().getTime()}`
 });
 const PAGE_HEIGHT = 1124;
 
@@ -44,7 +43,7 @@ const printPre = () => {
       </LSButton>
     </el-tooltip>
     <div :class="boxClass">
-      <div id="lsPrintDom" :class="wrapClass">
+      <div :id="printParams.id" :class="wrapClass">
         <slot></slot>
       </div>
     </div>

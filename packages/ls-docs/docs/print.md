@@ -13,26 +13,19 @@ outline: deep
 
 <br />
 
-<LSPrint content="正在测试打印功能" btn-txt="普通打印" :can-print="canPrint" icon-name="Printer" type="primary" />
+<div id="printDom">普通打印内容</div>
+
+<LSPrint content="禁止普通打印内容" btn-txt="普通打印" :can-print="canPrint" :icon-config="{ name: 'Printer' }" type="primary" :print-obj="{ id: '#printDom', }" />
 
 ### 2. 内嵌打印
 
 <br />
 
-<LSPrint content="正在测试打印功能" btn-txt="内嵌打印" :can-print="canPrint" icon-name="Printer" type="primary">
-  测试打印功能
+<LSPrint content="禁止内嵌打印内容" btn-txt="内嵌打印" :can-print="canPrint" :icon-config="{ name: 'Printer', color: 'red' }" type="primary">
+ <LSButton>
+  内嵌打印内容
+ </LSButton>
 </LSPrint>
-
-```js
-import { ref } from 'vue';
-const canPrint = ref(true);
-```
-
-```html
-<LSPrint content="正在测试打印功能" btn-txt="内嵌打印" :can-print="canPrint" icon-name="Printer" type="primary">
-  测试打印功能
-</LSPrint>
-```
 
 ## API
 

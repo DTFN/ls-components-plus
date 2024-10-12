@@ -710,10 +710,20 @@ const canPrint = ref(true);
       }"
       content="正在测试打印功能2"
       btn-txt="打印3"
-      :can-print="false"
+      :can-print="true"
       :icon-config="{ name: 'Printer' }"
       type="primary"
     />
+
+    <LSPrint
+      content="禁止内嵌打印内容"
+      btn-txt="内嵌打印"
+      :can-print="canPrint"
+      :icon-config="{ name: 'Printer', color: 'red' }"
+      type="primary"
+    >
+      <LSButton> 内嵌打印内容 </LSButton>
+    </LSPrint>
   </div>
 </template>
 
