@@ -11,7 +11,7 @@ function onClick() {
 
 <template>
   <div>
-    <LSEditor ref="lsEditorRef" :upload-server="uploadServer" />
+    <LSEditor ref="lsEditorRef" :upload-server="uploadServer" height="400px" />
 
     <LSButton type="primary" @click="onClick"> 提交 </LSButton>
   </div>

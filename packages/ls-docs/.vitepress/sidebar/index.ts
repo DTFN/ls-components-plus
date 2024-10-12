@@ -27,7 +27,8 @@ export default {
         { text: 'Tree 权限树', link: '/docs/tree' },
         { text: 'map 地图', link: '/docs/map' },
         { text: 'live 直播/视频', link: '/docs/live' },
-        { text: 'json编辑器', link: '/docs/jsonEditor' }
+        { text: 'json编辑器', link: '/docs/jsonEditor' },
+        { text: 'Editor 编辑器', link: '/docs/editor' }
       ]
     },
     {

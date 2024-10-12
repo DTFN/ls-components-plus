@@ -8,6 +8,10 @@ export const lsEditorProps = buildProps({
     type: String,
     default: ''
   },
+  height: {
+    type: String,
+    default: '300px'
+  },
   // 编辑器模式
   mode: {
     type: String as PropType<modeType>,

@@ -28,6 +28,12 @@ const defEditorConfig: Partial<IEditorConfig> = {
   }
 };
 
+const editorStyle = computed(() => {
+  return {
+    height: props?.height || '300px'
+  };
+});
+
 const valueModel = ref('');
 
 watch(
@@ -100,6 +106,7 @@ defineExpose({
       class="editor-wrap"
       v-model="valueModel"
       :default-config="Object.assign(defEditorConfig, editorConfig)"
+      :style="editorStyle"
       :mode="mode"
       @on-created="handleCreated"
       @on-change="handleChange"
@@ -120,7 +127,6 @@ defineExpose({
   border-bottom: 1px solid $color-text5;
 }
 .editor-wrap {
-  height: 500px !important;
   :deep() .w-e-text-container {
     h1 {
       margin-block: 0.67em 0.67em !important;
