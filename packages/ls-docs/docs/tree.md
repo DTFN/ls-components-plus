@@ -661,6 +661,7 @@ const tableData4 = ref([
     name: 'lsTreeRef',
     desc: 'tree组件实例',
     type: 'ref',
+    value: '-'
   }
 ])
 </script>

@@ -66,5 +66,9 @@ export const tableExposesColumn = ref([
     prop: 'type',
     label: '类型',
     width: 160
+  },
+  {
+    prop: 'value',
+    label: '参数类型'
   }
 ]);

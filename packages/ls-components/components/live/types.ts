@@ -3,7 +3,7 @@ import { buildProps } from '@cpo/_utils/runtime';
 export const lsLiveProps = buildProps({
   // 媒体类型 flv or mp4
   type: {
-    type: String,
+    type: String as PropType<'flv' | 'mp4'>,
     default: 'flv'
   },
   // 是否是直播流
