@@ -49,10 +49,14 @@ import svgIcon from '/public/vue.svg';
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
+### 2. Slot
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData2" />
+
 <script setup>
 import svgIcon from '/public/vue.svg';
 import { ref } from 'vue';
-import { tableColumn } from './constant'
+import { tableColumn, tableSlotColumn } from './constant'
 
 const tableData = ref([
   {
@@ -90,6 +94,13 @@ const tableData = ref([
     desc: '图标大小，适用于el-icon',
     type: 'string / number',
     value: 16
+  }
+])
+
+const tableData2 = ref([
+  {
+    name: 'default',
+    desc: '添加默认插槽',
   }
 ])
 </script>

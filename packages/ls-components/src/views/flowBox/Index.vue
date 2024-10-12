@@ -34,7 +34,7 @@ const list = ref([
 
 <template>
   <div>
-    <LSFlowBox :list="list">
+    <LSFlowBox :list="list" width="380px" height="360px">
       <template v-for="item in list" #[item.slotName] :key="item.slotName">
         <div class="flow-box-item">{{ item.slotName }}</div>
       </template>

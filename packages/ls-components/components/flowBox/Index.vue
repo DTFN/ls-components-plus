@@ -8,7 +8,31 @@ const itemClass: string = ns.b('item');
 const itemLineClass: string = ns.b('item-line');
 const itemArrowClass: string = ns.b('item-arrow');
 
-defineProps(lsFlowBoxProps);
+const lsFlowBoxRef = ref();
+
+const flowBoxStyle = ref({});
+
+const props = defineProps(lsFlowBoxProps);
+
+watch(
+  () => props.list,
+  val => {
+    if (val && val.length > 0) {
+      updateFlowBoxStyle();
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+function updateFlowBoxStyle() {
+  flowBoxStyle.value = {
+    width: `${props.width}`,
+    height: `${props.height}`
+  };
+}
 
 function setItemStyle(item: any) {
   const styleVal: any = {};
@@ -109,7 +133,7 @@ function setItemArrowStyle(item: any) {
 </script>
 
 <template>
-  <div v-if="list && list.length > 0" :class="comClass">
+  <div ref="lsFlowBoxRef" v-if="list && list.length > 0" :class="comClass" :style="flowBoxStyle">
     <div v-for="item in list" :key="item.slotName" :class="itemClass" :style="setItemStyle(item)">
       <slot :name="item.slotName"></slot>
       <div v-if="item.linePos && item.lineLength" :class="itemLineClass" :style="setItemLineStyle(item)">

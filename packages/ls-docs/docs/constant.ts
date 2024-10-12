@@ -43,8 +43,7 @@ export const tableMethodColumn = ref([
 export const tableSlotColumn = ref([
   {
     prop: 'name',
-    label: '插槽名',
-    width: 160
+    label: '插槽名'
   },
   {
     prop: 'desc',

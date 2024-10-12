@@ -72,8 +72,12 @@ const canPrint = ref(true);
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
+### 2. Slot
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData3" />
+
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn, tableSlotColumn } from './constant';
 import { ref } from 'vue';
 
 const canPrint = ref(true);
@@ -118,6 +122,13 @@ const tableData2 = ref([
     desc: '打印区域id，适用普通打印',
     type: 'string',
     value: ''
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'default',
+    desc: '添加默认插槽',
   }
 ])
 </script>
