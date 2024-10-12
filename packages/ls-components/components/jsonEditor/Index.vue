@@ -48,7 +48,7 @@ watch(
 );
 
 function getJsonValue() {
-  return jsonModel;
+  return jsonModel.value;
 }
 
 defineExpose({
