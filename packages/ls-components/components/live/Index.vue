@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import flvjs from 'flv.js';
 import { lsLiveProps } from './types';
+import { merge } from 'lodash-es';
 
 const props = defineProps(lsLiveProps);
 
@@ -121,7 +122,7 @@ defineExpose({
 
 <template>
   <div :class="comClass">
-    <video v-bind="Object.assign(defAttrs, $attrs)" width="100%" class="ls-video" ref="lsLiveRef"></video>
+    <video v-bind="merge(defAttrs, $attrs)" width="100%" class="ls-video" ref="lsLiveRef"></video>
   </div>
 </template>
 

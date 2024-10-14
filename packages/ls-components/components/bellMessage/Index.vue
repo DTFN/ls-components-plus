@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSBellMessage">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBellMessageProps, emitNames } from './types';
+import { merge } from 'lodash-es';
 
 const emitAll = defineEmits(emitNames);
 
@@ -36,14 +37,9 @@ function loadMore() {
 
 <template>
   <div :class="comClass">
-    <el-popover v-bind="Object.assign(defAttrs, $attrs)" popper-class="ls-bell-message-popover">
+    <el-popover v-bind="merge(defAttrs, $attrs)" popper-class="ls-bell-message-popover">
       <template #reference>
-        <el-badge
-          v-bind="Object.assign(defBadgeAttrs, $attrs)"
-          class="icon-message"
-          :value="Number(noticeNum)"
-          dot-class="notice-dot"
-        >
+        <el-badge v-bind="merge(defBadgeAttrs, $attrs)" class="icon-message" :value="Number(noticeNum)" dot-class="notice-dot">
           <template #default>
             <LSIcon v-if="iconConfig.name" v-bind="iconConfig" />
             <el-icon v-else><BellFilled /></el-icon>

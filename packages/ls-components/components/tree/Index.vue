@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsTreeProps } from './types';
 import { excutePowerTree } from '@cpo/_utils/power';
+import { merge } from 'lodash-es';
 
 const emitAll = defineEmits(emitNames);
 
@@ -181,7 +182,7 @@ defineExpose({
       ref="lsTreeRef"
       :class="[treeClass, !isExpand && 'expand-disabled']"
       :style="treeStyle"
-      v-bind="Object.assign(defAttrs, $attrs)"
+      v-bind="merge(defAttrs, $attrs)"
       :data="data"
       :props="dataProps"
       :expand-on-click-node="isExpand"

@@ -63,6 +63,7 @@ import { previewEmits, imageViewerProps } from '../types';
 import type { CSSProperties } from 'vue';
 import type { ImageViewerAction, ImageViewerMode } from '../types';
 import LSIcon from '@cpo/icon/Index.vue';
+import { merge } from 'lodash-es';
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
@@ -240,7 +241,7 @@ function handleMouseDown(e: MouseEvent) {
 }
 
 function reset() {
-  Object.assign(transform, {
+  merge(transform, {
     scale: 1,
     deg: 0,
     offsetX: 0,
@@ -253,7 +254,7 @@ function reset() {
 }
 
 function fullScreen() {
-  Object.assign(transform, {
+  merge(transform, {
     scale: 1,
     deg: 0,
     offsetX: 0,

@@ -35,16 +35,10 @@ export const lsEditorProps = buildProps({
   },
   uploadFieldName: {
     type: String,
-    default: 'file_' + new Date().getTime()
+    default: 'file'
+  },
+  uploadToken: {
+    type: String,
+    default: ''
   }
 });
-
-export const lsEditorEmits = [
-  'handleCreated',
-  'handleChange',
-  'handleDestroyed',
-  'handleFocus',
-  'handleBlur',
-  'customAlert',
-  'customPaste'
-];

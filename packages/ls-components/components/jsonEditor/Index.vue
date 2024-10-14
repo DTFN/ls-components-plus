@@ -3,6 +3,7 @@
 import JsonEditor from 'vue3-ts-jsoneditor';
 import { lsJsonEditorProps } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { merge } from 'lodash-es';
 
 const ns = useNamespace('json-editor');
 const comClass: string = ns.b();
@@ -22,7 +23,7 @@ const jsonModel: any = ref({});
 const editorCss = ref('');
 
 const bindAttrs = computed(() => {
-  const curAttrs = Object.assign(defAttrs.value, attrs);
+  const curAttrs = merge(defAttrs.value, attrs);
   if (typeof curAttrs['read-only'] !== 'undefined') {
     curAttrs.readOnly = curAttrs['read-only'];
   }

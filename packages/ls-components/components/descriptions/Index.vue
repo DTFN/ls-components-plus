@@ -3,6 +3,7 @@ import LSIcon from '@cpo/icon/Index.vue';
 import dayjs from 'dayjs';
 import { lsDescProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { merge } from 'lodash-es';
 
 const slots = useSlots();
 
@@ -58,7 +59,7 @@ function updateLabelStyle(color: string, type: number) {
 
 <template>
   <div ref="lsDescRef" :class="[comClass, `column-${$attrs.column || 1}`]">
-    <el-descriptions v-bind="Object.assign(defAttrs, $attrs)" border>
+    <el-descriptions v-bind="merge(defAttrs, $attrs)" border>
       <template #title>
         <slot name="title"></slot>
       </template>

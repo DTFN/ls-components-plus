@@ -2,7 +2,7 @@
   <div :class="[comClass, isDrag ? 'ls-upload-drag' : '']">
     <el-upload
       ref="uploadRef"
-      v-bind="Object.assign(defAttrs, $attrs)"
+      v-bind="merge(defAttrs, $attrs)"
       :on-exceed="onExceedAction"
       :before-upload="beforeUploadAction"
       :on-change="onChangeAction"
@@ -102,6 +102,7 @@ import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'ele
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
+import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSUpload',

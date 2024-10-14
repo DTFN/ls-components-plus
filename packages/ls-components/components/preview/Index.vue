@@ -6,6 +6,7 @@ import LSXlsx from './components/Xlsx.vue';
 import LSPdf from './components/Pdf.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
+import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSPreview',
@@ -103,7 +104,7 @@ onBeforeUnmount(() => {
   <div v-if="previewVisible" :class="comClass">
     <component
       :is="curCpo.name"
-      v-bind="Object.assign(defAttrs, $attrs)"
+      v-bind="merge(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"
     ></component>

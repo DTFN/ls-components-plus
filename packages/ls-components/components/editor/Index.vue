@@ -2,15 +2,14 @@
 import '@wangeditor/editor/dist/css/style.css';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-import { lsEditorEmits, lsEditorProps } from './types';
+import { lsEditorProps } from './types';
 import { IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
+import { merge } from 'lodash-es';
 
 const ns = useNamespace('editor');
 const comClass: string = ns.b();
 
 const props = defineProps(lsEditorProps);
-
-const emits = defineEmits(lsEditorEmits);
 
 const editorRef = shallowRef();
 
@@ -23,7 +22,15 @@ const defEditorConfig: Partial<IEditorConfig> = {
   MENU_CONF: {
     uploadImage: {
       server: props.uploadServer,
-      fieldName: props.uploadFieldName
+      fieldName: props.uploadFieldName,
+      headers: {
+        token: props.uploadToken
+      },
+      customInsert(res: any, insertFn: any) {
+        // res 即服务端的返回结果 从 res 中找到 data alt href ，然后插入图片
+        const { data = '', alt = '', href = '' } = res || {};
+        insertFn(data, alt, href);
+      }
     }
   }
 };
@@ -47,42 +54,6 @@ watch(
   }
 );
 
-function handleCreated(editor: any) {
-  // console.log(editor);
-  editorRef.value = editor;
-  emits('handleCreated', editor);
-}
-
-function handleChange(editor: any) {
-  // console.log(editor.getHtml());
-  emits('handleChange', editor);
-}
-
-function handleDestroyed(editor: any) {
-  // console.log(editor);
-  emits('handleDestroyed', editor);
-}
-
-function handleFocus(editor: any) {
-  // console.log(editor);
-  emits('handleFocus', editor);
-}
-
-function handleBlur(editor: any) {
-  // console.log(editor);
-  emits('handleBlur', editor);
-}
-
-function customAlert(info: string, type: string) {
-  // console.log(info, type);
-  emits('customAlert', info, type);
-}
-
-function customPaste(editor: any, event: any, callback: any) {
-  // console.log(editor, event, callback);
-  emits('customPaste', editor, event, callback);
-}
-
 onBeforeUnmount(() => {
   const editor = editorRef.value;
   if (editor == null) return;
@@ -96,25 +67,13 @@ defineExpose({
 
 <template>
   <div :class="comClass">
-    <Toolbar
-      class="tool-bar-wrap"
-      :editor="editorRef"
-      :default-config="Object.assign(defToolbarConfig, toolbarConfig)"
-      :mode="mode"
-    />
+    <Toolbar class="tool-bar-wrap" :editor="editorRef" :default-config="merge(defToolbarConfig, toolbarConfig)" :mode="mode" />
     <Editor
       class="editor-wrap"
       v-model="valueModel"
-      :default-config="Object.assign(defEditorConfig, editorConfig)"
+      :default-config="merge(defEditorConfig, editorConfig)"
       :style="editorStyle"
       :mode="mode"
-      @on-created="handleCreated"
-      @on-change="handleChange"
-      @on-destroyed="handleDestroyed"
-      @on-focus="handleFocus"
-      @on-blur="handleBlur"
-      @custom-alert="customAlert"
-      @custom-paste="customPaste"
     />
   </div>
 </template>

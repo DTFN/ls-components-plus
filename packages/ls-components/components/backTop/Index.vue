@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSBackTop">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBackTopProps } from './types';
+import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSBackTop',
@@ -37,11 +38,7 @@ function onClickFunc(): void {
 
 <template>
   <div ref="lsBackTopRef" :class="comClass">
-    <el-backtop
-      v-bind="Object.assign(defAttrs, $attrs)"
-      :class="[!slots.default ? 'def-el-backtop' : '', aniClass]"
-      @click="onClickFunc"
-    >
+    <el-backtop v-bind="merge(defAttrs, $attrs)" :class="[!slots.default ? 'def-el-backtop' : '', aniClass]" @click="onClickFunc">
       <slot v-if="slots.default"></slot>
       <div v-else :class="optClass">
         <LSIcon :type="1" name="iconoir:rocket" width="46" height="46" />

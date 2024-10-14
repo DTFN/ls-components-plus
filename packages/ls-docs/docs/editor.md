@@ -13,19 +13,26 @@ outline: deep
 
 <br />
 
-<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :editor-config="editorConfig" height="300px" />
+<LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" />
 
 ```js
 import { ref } from 'vue';
-const uploadServer = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
+const uploadToken =
+  'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi57O757uf566h55CG5ZGYIiwiZW5jcnlwdGVkUHdkIjoiJDJhJDEwJGIzYXZkYk9OWkdreElPUWF6by9GNHVzUk1pNEZ4QjlwT3lzNWJNaW8yMmdvNVNyMDNaRElPIiwidXNlclR5cGUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlBFUl9VU0VSX01HVCJ9LHsiYXV0aG9yaXR5IjoiUEVSX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfRVFVSVBfTUdUIn0seyJhdXRob3JpdHkiOiJQRVJfT1ZFUl9WSUVXIn0seyJhdXRob3JpdHkiOiJQRVJfUkVNT1RFX0dVSURBTkNFIn0seyJhdXRob3JpdHkiOiJQRVJfT05MSU5FX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfSU5GT19WSUVXIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODg3MDU4MiwiZXhwIjoxNzMxNDYyNTgyfQ.oflBeBsWuCLifqP9u43eRducrJeQz7JR0IVjTITqTwM';
+const valueHtml = ref(`<div>测试内容</div>`);
+```
+
+```html
+<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" />
+```
+
+### 2. 自定义配置，以下例子为上传图片，更多自定义配置参考[wangeditor](https://www.wangeditor.com/)
+
+```js
 // 如上传接口返回格式如下，则无需配置：
 // {
-//     "errno": 0, // 注意：值是数字，不能是字符串
-//     "data": {
-//         "url": "xxx", // 图片 src ，必须
-//         "alt": "yyy", // 图片描述文字，非必须
-//         "href": "zzz" // 图片的链接，非必须
-//     }
+//     "data": 图片 src ，必须
 // }
 // 否则需单独配置插入图片
 const editorConfig = {
@@ -33,11 +40,7 @@ const editorConfig = {
     uploadImage: {
       // 自定义插入图片
       customInsert(res, insertFn) {
-        // TS 语法
-        // customInsert(res, insertFn) {                  // JS 语法
-        // res 即服务端的返回结果
-
-        // 从 res 中找到 url alt href ，然后插入图片
+        // res 即服务端的返回结果 从 res 中找到 url alt href ，然后插入图片
         insertFn(url, alt, href);
       }
     }
@@ -45,11 +48,7 @@ const editorConfig = {
 };
 ```
 
-```html
-<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :editor-config="editorConfig" height="300px" />
-```
-
-### 2. 内容获取
+### 3. 内容获取
 
 <br />
 
@@ -62,7 +61,7 @@ const editorConfig = {
 ```js
 import { ref } from 'vue';
 const lsEditorRef = ref();
-const uploadServer = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+
 const content = ref('');
 const contentHtml = ref('');
 
@@ -79,33 +78,41 @@ function getContent() {
 <div>HTML: {{ contentHtml }}</div>
 ```
 
+## API
+
+### 1. Attributes
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
+### 2. Exposes
+
+<ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
+
 <script setup>
+import { tableColumn, tableExposesColumn } from './constant';
 import { ref } from 'vue';
 const lsEditorRef = ref();
-const uploadServer = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
+const uploadToken =
+  'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi57O757uf566h55CG5ZGYIiwiZW5jcnlwdGVkUHdkIjoiJDJhJDEwJGIzYXZkYk9OWkdreElPUWF6by9GNHVzUk1pNEZ4QjlwT3lzNWJNaW8yMmdvNVNyMDNaRElPIiwidXNlclR5cGUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlBFUl9VU0VSX01HVCJ9LHsiYXV0aG9yaXR5IjoiUEVSX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfRVFVSVBfTUdUIn0seyJhdXRob3JpdHkiOiJQRVJfT1ZFUl9WSUVXIn0seyJhdXRob3JpdHkiOiJQRVJfUkVNT1RFX0dVSURBTkNFIn0seyJhdXRob3JpdHkiOiJQRVJfT05MSU5FX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfSU5GT19WSUVXIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODg3MDU4MiwiZXhwIjoxNzMxNDYyNTgyfQ.oflBeBsWuCLifqP9u43eRducrJeQz7JR0IVjTITqTwM';
+
+const valueHtml = ref(`<div>测试内容</div>`)
 const content = ref('');
 const contentHtml = ref('');
-// 如上传接口返回格式如下，则无需配置： 
+
+// 如上传接口返回格式如下，则无需配置：
 // {
-//     "errno": 0, // 注意：值是数字，不能是字符串
-//     "data": {
-//         "url": "xxx", // 图片 src ，必须
-//         "alt": "yyy", // 图片描述文字，非必须
-//         "href": "zzz" // 图片的链接，非必须
-//     }
+//     "data": 图片 src ，必须
 // }
 // 否则需单独配置插入图片
 const editorConfig = {
   MENU_CONF: {
     uploadImage: {
       // 自定义插入图片
-      customInsert(res, insertFn) {  // TS 语法
-      // customInsert(res, insertFn) {                  // JS 语法
-          // res 即服务端的返回结果
-
-          // 从 res 中找到 url alt href ，然后插入图片
-          insertFn(url, alt, href)
-      },
+      customInsert(res, insertFn) {
+        // res 即服务端的返回结果 从 res 中找到 url alt href ，然后插入图片
+        insertFn(url, alt, href);
+      }
     }
   }
 }
@@ -115,4 +122,64 @@ function getContent() {
   content.value = editor.getText();
   contentHtml.value = editor.getHtml()
 }
+
+const tableData = ref([
+  {
+    name: 'valueHtml',
+    desc: '富文本内容，用于回显',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'height',
+    desc: '富文本编辑区域高度',
+    type: 'string',
+    value: '300px'
+  },
+  {
+    name: 'mode',
+    desc: '富文本展示模式',
+    type: 'string',
+    value: 'default'
+  },
+  {
+    name: 'toolbarConfig',
+    desc: '富文本工具栏配置，同wangeditor一致',
+    type: 'json',
+    value: '{}'
+  },
+  {
+    name: 'editorConfig',
+    desc: '富文本编辑器配置，同wangeditor一致',
+    type: 'json',
+    value: '{}'
+  },
+  {
+    name: 'uploadServer',
+    desc: '上传图片服务器地址',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'uploadToken',
+    desc: '上传图片所需token，如接口不需要则不传',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'uploadFieldName',
+    desc: '上传图片所需参数名',
+    type: 'string',
+    value: 'file'
+  }
+])
+
+const tableData2 = ref([
+  {
+    name: 'editorRef',
+    desc: '富文本实例对象',
+    type: 'ref',
+    value: '-'
+  }
+])
 </script>

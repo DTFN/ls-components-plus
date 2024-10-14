@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSPrint">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsPrintProps } from './types';
+import { merge } from 'lodash-es';
 
 defineProps(lsPrintProps);
 
@@ -38,7 +39,7 @@ const printPre = () => {
 <template>
   <div :class="comClass">
     <el-tooltip :content="content" placement="top" :disabled="canPrint">
-      <LSButton v-bind="$attrs" @click="printPre" v-print="Object.assign(printParams, printObj)" :disabled="!canPrint">
+      <LSButton v-bind="$attrs" @click="printPre" v-print="merge(printParams, printObj)" :disabled="!canPrint">
         <span>{{ btnTxt }}</span>
       </LSButton>
     </el-tooltip>

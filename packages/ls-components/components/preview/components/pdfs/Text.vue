@@ -5,6 +5,7 @@ import { onMounted, ref, watch } from 'vue';
 import type { PDFPageProxy, PageViewport } from 'pdfjs-dist';
 import type { HighlightEventPayload, HighlightOptions, TextLayerLoadedEventPayload } from '../../types';
 import { findMatches, highlightMatches, resetDivs } from './highlight';
+import { merge } from 'lodash-es';
 
 const props = defineProps<{
   page?: PDFPageProxy;
@@ -23,7 +24,7 @@ const endContent = ref<HTMLDivElement>();
 let textDivs: HTMLElement[] = [];
 
 function getHighlightOptionsWithDefaults(): HighlightOptions {
-  return Object.assign(
+  return merge(
     {},
     {
       ignoreCase: true,

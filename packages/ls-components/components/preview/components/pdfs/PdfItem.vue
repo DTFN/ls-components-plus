@@ -13,6 +13,7 @@ import type {
 import Annotation from './Annotation.vue';
 import Text from './Text.vue';
 import XFA from './XFA.vue';
+import { merge } from 'lodash-es';
 interface InternalProps {
   page: PDFPageProxy | undefined;
   document: PDFDocumentProxy | undefined;
@@ -100,7 +101,7 @@ const tlayerProps = computed(() => {
 });
 
 function getWatermarkOptionsWithDefaults(): WatermarkOptions {
-  return Object.assign(
+  return merge(
     {},
     {
       columns: 4,
