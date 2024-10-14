@@ -28,8 +28,16 @@ export default {
         { text: 'map 地图', link: '/docs/map' },
         { text: 'live 直播/视频', link: '/docs/live' },
         { text: 'json编辑器', link: '/docs/jsonEditor' },
-        { text: 'Editor 编辑器', link: '/docs/editor' },
-        { text: 'Chart 图表', link: 'docs/chart' }
+        { text: 'Editor 编辑器', link: '/docs/editor' }
+      ]
+    },
+    {
+      text: 'Chart 图表',
+      items: [
+        { text: 'chart 介绍', link: '/docs/charts/' },
+        { text: 'Bar 柱状图', link: '/docs/charts/bar' },
+        { text: 'Line 折线图', link: '/docs/charts/line' },
+        { text: 'Pie 饼图', link: '/docs/charts/pie' }
       ]
     },
     {

@@ -222,7 +222,7 @@ const tableData = ref([
   },
   {
     name: 'type',
-    desc: '预览类型: 支持 image | docx | pdf | xlsx',
+    desc: '预览类型: 支持 image / docx / pdf / xlsx',
     type: 'string',
     value: '-'
   },

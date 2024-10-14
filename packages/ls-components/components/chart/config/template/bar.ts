@@ -1,3 +1,4 @@
+import { formatChartAxis, numberFixed } from '@cpo/_utils/utils';
 import {
   BAR_COLOR_MAP,
   BG_COLOR_MAP,
@@ -96,8 +97,8 @@ const setGrid = (templatePatch: any) => {
 };
 
 const setAxis = (data: any, templatePatch: any, axisType: any) => {
-  const { axisData } = data;
-  const { axis = 'x', theme } = templatePatch;
+  const { axisData, seriesData } = data;
+  const { axis = 'x', theme, dynamicAxis, type = 'simple' } = templatePatch;
   const params: any = {
     type: axis == axisType ? 'category' : 'value',
     axisTick: {
@@ -121,6 +122,22 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
     }
   };
   axis == axisType && (params.data = axisData);
+  if (axis !== axisType && dynamicAxis && ['simple', 'multiBar'].includes(type)) {
+    let mathData: any = [];
+    if (type === 'simple') {
+      mathData = (seriesData || []).map((item: any) => numberFixed(item));
+    } else if (type === 'multiBar') {
+      mathData = seriesData.reduce((acc: any, item: any) => acc.concat(item.data), []);
+    }
+    const max = Math.max(...mathData);
+    const min = Math.min(...mathData);
+    const { aInterval, aMax, aMin } = formatChartAxis(max, min);
+
+    params.min = aMin;
+    params.max = aMax;
+    params.interval = aInterval;
+  }
+
   return [params];
 };
 

@@ -195,7 +195,7 @@ const tableData = ref([
   },
   {
     name: 'type',
-    desc: '类型: 支持 success | info | warning | error',
+    desc: '类型: 支持 success / info / warning / error',
     type: 'string',
     value: '-'
   },

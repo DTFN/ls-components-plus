@@ -271,7 +271,7 @@ const tableData2 = ref([
   },
   {
     name: 'arrowPos',
-    desc: '箭头位置方向, 支持 left | top | right | bottom',
+    desc: '箭头位置方向, 支持 left / top / right / bottom',
     type: 'string',
     value: '-'
   },
@@ -301,7 +301,7 @@ const tableData2 = ref([
   },
   {
     name: 'boxPos',
-    desc: '盒子位置方向, 支持 left | top | right | bottom',
+    desc: '盒子位置方向, 支持 left / top / right / bottom',
     type: 'string',
     value: '-'
   },

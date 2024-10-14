@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Chart 图表
+# 柱状图
 
-::: warning 基于[echarts](https://echarts.apache.org/zh/option.html#title)二次封装。
+::: warning 快速创建常用类型的柱状图。
 :::
 
 ## 使用方式
@@ -37,7 +37,7 @@ outline: deep
   </el-form-item>
 </el-form>
 
-### 1. 柱状图
+### 1. templatePatchSimple
 
 <LSChart
   template="bar"
@@ -51,7 +51,7 @@ outline: deep
 ```js
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 0]
+  seriesData: [120.1, 200, 150, 80, 70, 110, 0]
 }
 const templateAll: any = ref({
   templatePatchSimple: {
@@ -78,6 +78,8 @@ const customOption = ref({
 ```
 
 :::
+
+### 2. templatePatchNegative
 
 <LSChart
   template="bar"
@@ -110,6 +112,8 @@ const templateAll = ref({
 ```
 
 :::
+
+### 3. templatePatchWaterfall
 
 <LSChart
   template="bar"
@@ -159,11 +163,112 @@ const templateAll = ref({
 
 :::
 
-### 2. 折线图
+### 4. templatePatchCategory
 
-### 3. 饼图
+<LSChart
+  template="bar"
+  :data="dataCategory"
+  :template-patch="templateAll.templatePatchCategory"
+/>
+
+::: details 点我查看代码
+
+```js
+const dataCategory = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 0, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 0, 90, 230, 210]
+    },
+    {
+      name: '联盟广告',
+      data: [220, 182, 191, 234, 290, 0, 310]
+    },
+    {
+      name: '视频广告',
+      data: [150, 212, 201, 0, 190, 330, 410]
+    }
+  ]
+};
+const templateAll = ref({
+  templatePatchCategory: {
+    type: 'categoryStack',
+    tooltip: 'shadow',
+    legend: ['直接访问', '邮件营销', '联盟广告', '视频广告']
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataCategory" :template-patch="templateAll.templatePatchCategory" />
+```
+
+:::
+
+### 5. templatePatchMultiBar
+
+<LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchMultiBar" />
+
+::: details 点我查看代码
+
+```js
+const dataMultiBar = {
+  axisData: ['2012', '2013', '2014', '2015', '2016'],
+  seriesData: [
+    {
+      name: 'Forest',
+      data: [320, 332, 301, 0, 390]
+    },
+    {
+      name: 'Steppe',
+      data: [220, 182, 0, 234, 290]
+    },
+    {
+      name: 'Desert',
+      data: [150, 232, 201, 154, 0]
+    },
+    {
+      name: 'Wetland',
+      data: [98, 0, 101, 99, 40]
+    }
+  ]
+};
+const templateAll = ref({
+  templatePatchMultiBar: {
+    type: 'multiBar',
+    tooltip: 'cross',
+    dataZoom: 'horizontal',
+    labelPosition: 'top',
+    legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchMultiBar" />
+```
+
+:::
+
+## API
+
+### 1. Attributes
+
+#### 1.1 templatePatch 公共参数 templatePatch 对应的配置项
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
+
+#### 1.2 data 公共参数 data 对应的配置项
+
+<ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
 <script setup>
+import { tableColumn } from '../constant';
 import { ref } from 'vue';
 import { ElForm, ElFormItem, ElRadioGroup, ElRadio, ElSelect, ElOption } from 'element-plus';
 
@@ -230,7 +335,9 @@ const templateAll = ref({
 
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 0]
+  // seriesData: [120, 200, 150, 80, 70, 110, 0]
+
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, 120.2]
 };
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -305,247 +412,6 @@ const dataMultiBar = {
   ]
 };
 
-// 折线图
-const temperatureData = [
-  {
-    propertyValue: '73.55',
-    propertyTime: 1726174800000
-  },
-  {
-    propertyValue: '75.72',
-    propertyTime: 1726178400000
-  },
-  {
-    propertyValue: '76.77',
-    propertyTime: 1726182000000
-  },
-  {
-    propertyValue: '75.68',
-    propertyTime: 1726185600000
-  },
-  {
-    propertyValue: '76.13',
-    propertyTime: 1726189200000
-  },
-  {
-    propertyValue: '74.85',
-    propertyTime: 1726192800000
-  },
-  {
-    propertyValue: '75.95',
-    propertyTime: 1726196400000
-  },
-  {
-    propertyValue: '75.80',
-    propertyTime: 1726200000000
-  },
-  {
-    propertyValue: '74.35',
-    propertyTime: 1726203600000
-  },
-  {
-    propertyValue: '74.33',
-    propertyTime: 1726207200000
-  },
-  {
-    propertyValue: '74.02',
-    propertyTime: 1726210800000
-  },
-  {
-    propertyValue: '76.27',
-    propertyTime: 1726214400000
-  }
-];
-const humidity = [
-  {
-    propertyValue: '30.67',
-    propertyTime: 1726174800000
-  },
-  {
-    propertyValue: '28.82',
-    propertyTime: 1726178400000
-  },
-  {
-    propertyValue: '29.82',
-    propertyTime: 1726182000000
-  },
-  {
-    propertyValue: '29.25',
-    propertyTime: 1726185600000
-  },
-  {
-    propertyValue: '30.52',
-    propertyTime: 1726189200000
-  },
-  {
-    propertyValue: '29.65',
-    propertyTime: 1726192800000
-  },
-  {
-    propertyValue: '29.70',
-    propertyTime: 1726196400000
-  },
-  {
-    propertyValue: '30.18',
-    propertyTime: 1726200000000
-  },
-  {
-    propertyValue: '29.47',
-    propertyTime: 1726203600000
-  },
-  {
-    propertyValue: '29.33',
-    propertyTime: 1726207200000
-  },
-  {
-    propertyValue: '30.58',
-    propertyTime: 1726210800000
-  },
-  {
-    propertyValue: '29.13',
-    propertyTime: 1726214400000
-  }
-];
-const templateAllLine = ref({
-  templateSimpleLine: {
-    labelPosition: 'top',
-    tooltip: 'cross'
-  },
-  templateMultipleLine: {
-    labelPosition: 'top',
-    type: 'multiple',
-    smooth: true,
-    areaStyle: {},
-    tooltip: 'cross',
-    legend: ['Email', 'name', 'address'],
-    dataZoom: 'horizontal'
-    // dynamicAxis: true
-  },
-  templateLineBar: {
-    labelPosition: 'top',
-    type: 'multiple',
-    smooth: true,
-    lineBar: true
-    // dynamicAxis: true
-  },
-  templateDynamicLine: {
-    labelPosition: 'top',
-    type: 'multiple',
-    tooltip: 'cross',
-    dynamicAxis: true
-  }
-});
-
-const dataSimpleLine = {
-  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
-const dataMultipleLine = {
-  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-  seriesData: [
-    {
-      name: 'Email',
-      type: 'line',
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: 'name',
-      type: 'line',
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: 'address',
-      type: 'line',
-      data: [22, 66, 99, 234, 33, 56, 310]
-    }
-  ]
-};
-const dataLineBarLine = {
-  axisData: temperatureData.map(item => item.propertyTime),
-  seriesData: [
-    {
-      type: 'line',
-      data: temperatureData.map(item => item.propertyValue)
-    },
-    {
-      type: 'bar',
-      data: humidity.map(item => item.propertyValue)
-    }
-  ]
-};
-const dynamicLine = {
-  axisData: temperatureData.map(item => item.propertyTime),
-  seriesData: [
-    {
-      type: 'line',
-      data: temperatureData.map(item => item.propertyValue)
-    }
-  ]
-};
-
-// 饼图
-const customOptionPie = ref({
-  series: [
-    {
-      roseType: 'area'
-    }
-  ]
-});
-// 饼图圈内增加内容
-const customOptionPie2 = ref({
-  graphic: [
-    {
-      type: 'text',
-      left: 'center', // 水平居中
-      // top: 'center', // 垂直居中
-      top: '40%',
-      style: {
-        text: '中心内容', // 显示的文本
-        textAlign: 'center',
-        fill: '#000', // 文本颜色
-        fontSize: 20
-      }
-    },
-    {
-      type: 'text',
-      left: 'center', // 水平居中
-      // top: 'center', // 垂直居中
-      top: '50%',
-      style: {
-        text: '100%', // 显示的文本
-        textAlign: 'center',
-        fill: '#000', // 文本颜色
-        fontSize: 20
-      }
-    }
-  ]
-});
-const templateAllPie = ref({
-  template1: {},
-  template2: {
-    radius: ['45%', '60%']
-  },
-  template3: {
-    radius: ['10%', '60%'],
-    roseType: 'radius'
-  },
-  template4: {
-    radius: ['45%', '60%'],
-    innerRadius: [0, '35%']
-  }
-});
-const seriesDataPie = [
-  { value: 1048, name: '图例 A' },
-  { value: 735, name: '图例 B' },
-  { value: 580, name: '图例 C' },
-  { value: 484, name: '图例 D' },
-  { value: 300, name: '图例 E' }
-];
-const innerDataPie = [
-  { value: 1548, name: '图例 1' },
-  { value: 775, name: '图例 2' },
-  { value: 679, name: '图例 3' }
-];
 function changeChartStyle() {
   [
     'templatePatchSimple',
@@ -558,17 +424,91 @@ function changeChartStyle() {
     templateAll.value[item].axis = formInline.value.axis;
     templateAll.value[item].labelPosition = formInline.value.pos;
   });
-
-  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item) => {
-    templateAllLine.value[item].theme = formInline.value.themeModel;
-    templateAllLine.value[item].axis = formInline.value.axis;
-    templateAllLine.value[item].labelPosition = formInline.value.pos;
-  });
-
-  ['template1', 'template2', 'template3', 'template4'].forEach((item) => {
-    templateAllPie.value[item].theme = formInline.value.themeModel;
-  });
 }
+
+const tableData = ref([
+  {
+    name: 'type',
+    desc: '模板类型，可选项：simple / multiBar / negative / waterfall / categoryStack',
+    type: 'string',
+    value: 'simple'
+  },
+  {
+    name: 'axis',
+    desc: '基于x或y展示数据, 可选项：x / y',
+    type: 'string',
+    value: 'x'
+  },
+  {
+    name: 'tooltip',
+    desc: '鼠标移入是否显示数据提示，可选项：line / shadow / cross / none',
+    type: 'string',
+    value: 'shadow'
+  },
+  {
+    name: 'tooltipFormatter',
+    desc: '自定义鼠标移入数据提示样式',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'legend',
+    desc: '显示标志的内容',
+    type: 'array',
+    value: '-'
+  },
+  {
+    name: 'theme',
+    desc: '主题类型，可选项：default / dark',
+    type: 'string',
+    value: 'default' 
+  },
+  {
+    name: 'barColorList',
+    desc: '自定义柱状色值,根据主题自动适配，也可以自己传值',
+    type: 'array',
+    value: '[#2285FF, #FF7D00, #00CDDC, #FB466C]'
+  },
+  {
+    name: 'dataZoom',
+    desc: '是否支持鼠标缩放, 请同axis方向保持一致，可选项：horizontal / vertical',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'showBarFont',
+    desc: '是否显示柱状数据值',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'labelPosition',
+    desc: '柱状数据值显示位置，showBarFont为true时有效，可选项：top / left / right / bottom / inside / insideLeft / insideRight / insideTop / insideBottom / insideTopLeft / insideBottomLeft / insideTopRight / insideBottomRight，（基于negative, waterfall类型存在以下特殊配置：both, insideBoth）',
+    type: 'string',
+    value: 'inside'
+  },
+  {
+    name: 'dynamicAxis',
+    desc: '是否动态计算坐标轴数据，支持 simple / multiBar 类型',
+    type: 'boolean',
+    value: 'false'
+  }
+])
+
+const tableData2 = ref([
+  {
+    name: 'axisData',
+    desc: '对应axis坐标轴数据，若axis为x，那么该数据展示在x轴上',
+    type: 'array',
+    value: '-' 
+  },
+  {
+    name: 'seriesData',
+    desc: '展示区域数据。除了simple是简单数组类型[xxx, xxx]，其余固定模板类型需为数组对象，即[{ name: xxx, data: [] } ]',
+    type: 'array',
+    value: '-'
+  }
+])
 </script>
 
 <style lang="scss" scoped>

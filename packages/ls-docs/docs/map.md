@@ -206,14 +206,14 @@ const tableData = ref([
   {
     name: 'markerDialogAnchor',
     desc: `标记弹窗展示位置， 可选值为: 'top-left'
-  | 'top-center'
-  | 'top-right'
-  | 'middle-left'
-  | 'center'
-  | 'middle-right'
-  | 'bottom-left'
-  | 'bottom-center'
-  | 'bottom-right'`,
+  / 'top-center'
+  / 'top-right'
+  / 'middle-left'
+  / 'center'
+  / 'middle-right'
+  / 'bottom-left'
+  / 'bottom-center'
+  / 'bottom-right'`,
     type: 'string',
     value: 'middle-left'
   },

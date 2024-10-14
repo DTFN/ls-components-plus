@@ -32,13 +32,15 @@ const templateAll: any = ref({
   templatePatchSimple: {
     labelPosition: 'top',
     showBackground: true,
-    showBarFont: false
+    showBarFont: false,
+    dynamicAxis: true
   },
   templatePatchNegative: {
     labelPosition: 'both',
     type: 'negative',
     tooltip: 'shadow',
-    legend: ['收入', '支出']
+    legend: ['收入', '支出'],
+    dynamicAxis: true
   },
   templatePatchWaterfall: {
     type: 'waterfall',
@@ -56,13 +58,15 @@ const templateAll: any = ref({
     tooltip: 'cross',
     dataZoom: 'horizontal',
     labelPosition: 'top',
-    legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
+    legend: ['Forest', 'Steppe', 'Desert', 'Wetland'],
+    dynamicAxis: true
   }
 });
 
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 0]
+  // seriesData: [120, 200, 150, 80, 70, 110, 0]
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, 120.2]
 };
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
