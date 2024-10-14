@@ -47,7 +47,8 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        { text: 'Flowbox 流式盒子', link: '/docs/flowBox' }
+        { text: 'Flowbox 流式盒子', link: '/docs/flowBox' },
+        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' }
       ]
     }
   ]
