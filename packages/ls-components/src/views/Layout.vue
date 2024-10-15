@@ -43,13 +43,21 @@ const readMsg = (id: string) => {
     return item;
   });
 };
+
+const readAll = () => {
+  list.value = list.value.map((item: any) => {
+    item.readStatus = 1;
+    return item;
+  });
+  noticeNum.value = 0;
+};
 </script>
 
 <template>
   <section class="main_container">
     <header class="main_header">
       Demo展示
-      <LSBellMessage :notice-num="noticeNum" :list="list" @read-msg="readMsg" @load-more="loadMore" />
+      <LSBellMessage :notice-num="noticeNum" :list="list" @read-msg="readMsg" @read-all="readAll" @load-more="loadMore" />
     </header>
     <section class="main_content">
       <!-- <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>

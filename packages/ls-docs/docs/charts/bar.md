@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 柱状图
+# Bar 柱状图
 
 ::: warning 快速创建常用类型的柱状图。
 :::

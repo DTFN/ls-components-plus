@@ -50,7 +50,10 @@ export default {
     },
     {
       text: 'Feedback 反馈组件',
-      items: [{ text: 'Confirm 确认框', link: '/docs/confirm' }]
+      items: [
+        { text: 'Confirm 确认框', link: '/docs/confirm' },
+        { text: 'BellMessage 消息通知', link: '/docs/bellMessage' }
+      ]
     },
     {
       text: 'Other 其它组件',
