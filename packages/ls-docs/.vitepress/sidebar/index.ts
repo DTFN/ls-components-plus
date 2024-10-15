@@ -63,5 +63,11 @@ export default {
         { text: 'ContainerBox 适配容器', link: '/docs/containerBox' }
       ]
     }
+  ],
+  '/tools/': [
+    {
+      text: '指令',
+      items: [{ text: '权限', link: '/tools/directives/auth' }]
+    }
   ]
 };
