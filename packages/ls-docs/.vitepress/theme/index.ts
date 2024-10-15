@@ -19,7 +19,7 @@ import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
 import 'element-plus/dist/index.css';
-import LSWebPlus from '../../../ls-components/lib/';
+import LSWebPlus, { vAuth } from '../../../ls-components/lib/';
 import '../../../ls-components/lib/lsWebPlus.css';
 
 import ApiIntro from './components/ApiIntro.vue';
@@ -41,6 +41,9 @@ export default Object.assign({}, Theme, {
     app.component('ArticleMetadata', ArticleMetadata);
     app.component('ApiIntro', ApiIntro);
     app.use(LSWebPlus);
+
+    vAuth.permissions = ['a', 'b', 'c'];
+    app.directive('auth', vAuth);
   }
 });
 

@@ -77,7 +77,7 @@ const canPrint = ref(true);
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData3" />
 
 <script setup>
-import { tableColumn, tableSlotColumn } from './constant';
+import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
 
 const canPrint = ref(true);

@@ -77,7 +77,7 @@ const readAll = () => {
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
 <script setup>
-import { tableColumn, tableMethodColumn } from './constant';
+import { tableColumn, tableMethodColumn } from '../constant';
 import { ref } from 'vue';
 
 const noticeNum = ref(1);

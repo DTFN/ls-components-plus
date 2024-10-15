@@ -89,7 +89,7 @@ function getContent() {
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn, tableExposesColumn } from './constant';
+import { tableColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
 const lsEditorRef = ref();
 const uploadServer = ref('http://192.168.1.161:8080/fss/upload');

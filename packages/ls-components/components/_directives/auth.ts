@@ -16,7 +16,7 @@ export default {
       el._auths.elTabId = tabId;
       el._auths.comment2 = comment2;
     }
-    if ((code && permissions && !permissions.includes(code as never)) || !show) {
+    if ((code && permissions && !permissions.includes(code as never)) || (typeof show !== 'undefined' && !show)) {
       el.parentNode.insertBefore(comment, el);
       el.remove();
     }
@@ -25,7 +25,7 @@ export default {
     const permissions = binding.dir.permissions;
     const { code, show } = binding.value;
     const { comment, parentNode, elTabId } = el._auths;
-    if ((code && permissions && !permissions.includes(code as never)) || !show) {
+    if ((code && permissions && !permissions.includes(code as never)) || (typeof show !== 'undefined' && !show)) {
       if (elTabId) {
         const { comment2 } = el._auths;
         const tabItemNode = parentNode.parentNode.querySelector(`#${elTabId}`);

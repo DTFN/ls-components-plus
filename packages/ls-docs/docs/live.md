@@ -71,7 +71,7 @@ onMounted(() => {
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn, tableExposesColumn } from './constant'
+import { tableColumn, tableExposesColumn } from '../constant'
 import { ref, onMounted } from 'vue';
 const liveRef = ref();
 const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv');

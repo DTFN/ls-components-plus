@@ -158,7 +158,7 @@ function openViewerXlsx() {
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn, tableMethodColumn } from './constant';
+import { tableColumn, tableMethodColumn } from '../constant';
 import { ref } from 'vue';
 import axios from 'axios';
 import docx from '/files/测试.docx?url';
