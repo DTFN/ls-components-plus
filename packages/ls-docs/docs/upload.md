@@ -271,7 +271,7 @@ const item4 = ref({
   import { ref } from 'vue';
   import axios from 'axios';
   import { ElForm, ElFormItem } from 'element-plus';
-  import { tableColumn, tableMethodColumn } from './constant';
+  import { tableColumn, tableMethodColumn } from '../constant';
 
   const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
   const item1 = ref({

@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 export const tableColumn = ref([
   {
     prop: 'name',

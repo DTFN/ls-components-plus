@@ -50,7 +50,10 @@ export default {
     },
     {
       text: 'Feedback 反馈组件',
-      items: [{ text: 'Confirm 确认框', link: '/docs/confirm' }]
+      items: [
+        { text: 'Confirm 确认框', link: '/docs/confirm' },
+        { text: 'BellMessage 消息通知', link: '/docs/bellMessage' }
+      ]
     },
     {
       text: 'Other 其它组件',
@@ -59,6 +62,12 @@ export default {
         { text: 'Flowbox 流式盒子', link: '/docs/flowBox' },
         { text: 'ContainerBox 适配容器', link: '/docs/containerBox' }
       ]
+    }
+  ],
+  '/tools/': [
+    {
+      text: '指令',
+      items: [{ text: '权限', link: '/tools/directives/auth' }]
     }
   ]
 };

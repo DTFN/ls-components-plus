@@ -200,7 +200,7 @@ router.addRoute({
 
 <script setup>
 import { ref } from 'vue';
-import { tableColumn } from './constant';
+import { tableColumn } from '../constant';
 
 const MENU_CONFIG_LIST = [
   {

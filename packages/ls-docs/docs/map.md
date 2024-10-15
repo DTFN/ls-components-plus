@@ -94,7 +94,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn } from '../constant';
 import { ref } from 'vue';
 
 const markerList = ref([

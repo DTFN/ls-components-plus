@@ -17,7 +17,7 @@ export const lsBellMessageProps = buildProps({
   },
   loading: {
     type: Boolean,
-    default: false
+    default: true
   },
   noMore: {
     type: Boolean,

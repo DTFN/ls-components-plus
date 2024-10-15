@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# 柱状图
+# Bar 柱状图
 
 ::: warning 快速创建常用类型的柱状图。
 :::
@@ -268,7 +268,7 @@ const templateAll = ref({
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn } from '../constant';
+import { tableColumn } from '../../constant';
 import { ref } from 'vue';
 import { ElForm, ElFormItem, ElRadioGroup, ElRadio, ElSelect, ElOption } from 'element-plus';
 

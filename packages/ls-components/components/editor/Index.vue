@@ -1,15 +1,15 @@
 <script setup lang="ts" name="LSEditor">
-import '@wangeditor/editor/dist/css/style.css';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-import { lsEditorProps } from './types';
 import { IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { lsEditorProps, lsEditorEmits } from './types';
 import { merge } from 'lodash-es';
 
 const ns = useNamespace('editor');
 const comClass: string = ns.b();
 
 const props = defineProps(lsEditorProps);
+const emits = defineEmits(lsEditorEmits);
 
 const editorRef = shallowRef();
 
@@ -60,6 +60,29 @@ onBeforeUnmount(() => {
   editor.destroy();
 });
 
+const handleCreated = (editor: any) => {
+  editorRef.value = editor;
+  emits('handleCreated', editor);
+};
+const handleChange = (editor: any) => {
+  emits('handleChange', editor);
+};
+const handleDestroyed = (editor: any) => {
+  emits('handleDestroyed', editor);
+};
+const handleFocus = (editor: any) => {
+  emits('handleFocus', editor);
+};
+const handleBlur = (editor: any) => {
+  emits('handleBlur', editor);
+};
+const customAlert = (info: any, type: any) => {
+  emits('customAlert', info, type);
+};
+const customPaste = (editor: any, event: any, callback: any) => {
+  emits('customPaste', editor, event, callback);
+};
+
 defineExpose({
   editorRef
 });
@@ -74,10 +97,20 @@ defineExpose({
       :default-config="merge(defEditorConfig, editorConfig)"
       :style="editorStyle"
       :mode="mode"
+      @on-created="handleCreated"
+      @on-change="handleChange"
+      @on-destroyed="handleDestroyed"
+      @on-focus="handleFocus"
+      @on-blur="handleBlur"
+      @custom-alert="customAlert"
+      @custom-paste="customPaste"
     />
   </div>
 </template>
 
+<style>
+@import '@wangeditor/editor/dist/css/style.css';
+</style>
 <style lang="scss" scoped>
 .ls-editor {
   border: 1px solid $color-text5;

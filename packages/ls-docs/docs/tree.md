@@ -321,7 +321,7 @@ function getTreeCheckedData(ids) {
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData4" />
 
 <script setup>
-import { tableColumn, tableMethodColumn, tableExposesColumn } from './constant';
+import { tableColumn, tableMethodColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
 import { isEmpty } from '../.vitepress/utils/';
 

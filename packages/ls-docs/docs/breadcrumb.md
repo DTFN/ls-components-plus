@@ -74,7 +74,7 @@ const defineBCList = ref([
 
 <script setup>
 import { ref } from 'vue';
-import { tableColumn } from './constant';
+import { tableColumn } from '../constant';
 
 const defineBCList = ref([
   {

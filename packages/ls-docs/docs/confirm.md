@@ -146,7 +146,7 @@ function onConfirm3(data) {
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn, tableMethodColumn } from './constant';
+import { tableColumn, tableMethodColumn } from '../constant';
 import { ref } from 'vue';
 import axios from 'axios';
 const visible = ref(false);

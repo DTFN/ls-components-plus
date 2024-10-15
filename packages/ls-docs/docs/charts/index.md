@@ -18,7 +18,7 @@ outline: deep
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn, tableExposesColumn } from '../constant';
+import { tableColumn, tableExposesColumn } from '../../constant';
 import { ref } from 'vue';
 
 const tableData = ref([

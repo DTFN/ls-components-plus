@@ -56,7 +56,7 @@ import svgIcon from '/public/vue.svg';
 <script setup>
 import svgIcon from '/public/vue.svg';
 import { ref } from 'vue';
-import { tableColumn, tableSlotColumn } from './constant'
+import { tableColumn, tableSlotColumn } from '../constant'
 
 const tableData = ref([
   {

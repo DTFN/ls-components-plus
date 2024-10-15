@@ -76,7 +76,7 @@ import SvgIconDataIcv from '/public/data_icv.svg';
   import { ref } from 'vue';
   import { Edit } from '@element-plus/icons-vue'
   import SvgIconDataIcv from '/public/data_icv.svg';
-  import { tableColumn } from './constant';
+  import { tableColumn } from '../constant';
 
   const tableData = ref([
     {

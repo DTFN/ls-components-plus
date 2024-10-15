@@ -47,7 +47,7 @@ outline: deep
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn } from '../constant';
 import { ref } from 'vue';
 
 const tableData = ref([

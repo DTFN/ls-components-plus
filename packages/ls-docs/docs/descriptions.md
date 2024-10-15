@@ -113,7 +113,7 @@ const list2 = ref([
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData1" />
 
 <script setup>
-import { tableColumn } from './constant';
+import { tableColumn } from '../constant';
 import { ref } from 'vue';
 const iconColor = ref('red');
 const list1 = ref([

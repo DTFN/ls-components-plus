@@ -406,7 +406,7 @@ const templateAllLine = ref({
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
 <script setup>
-import { tableColumn } from '../constant';
+import { tableColumn } from '../../constant';
 import { ref } from 'vue';
 import { ElForm, ElFormItem, ElRadioGroup, ElRadio, ElSelect, ElOption } from 'element-plus';
 
