@@ -19,15 +19,11 @@ export const lsEditorProps = buildProps({
   },
   toolbarConfig: {
     type: Object as Partial<IToolbarConfig>,
-    default: () => {
-      return {};
-    }
+    default: () => ({})
   },
   editorConfig: {
     type: Object,
-    default: () => {
-      return {};
-    }
+    default: () => ({})
   },
   uploadServer: {
     type: String,
@@ -42,3 +38,13 @@ export const lsEditorProps = buildProps({
     default: ''
   }
 });
+
+export const lsEditorEmits = [
+  'handleCreated',
+  'handleChange',
+  'handleDestroyed',
+  'handleFocus',
+  'handleBlur',
+  'customAlert',
+  'customPaste'
+];
