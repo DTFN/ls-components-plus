@@ -66,8 +66,25 @@ export default {
   ],
   '/tools/': [
     {
-      text: '指令',
-      items: [{ text: '权限', link: '/tools/directives/auth' }]
+      text: 'directives',
+      items: [{ text: 'auth', link: '/tools/directives/auth' }]
+    },
+    {
+      text: 'hooks',
+      items: [
+        { text: 'useRouterHook', link: '/tools/hooks/useRouterHook' },
+        { text: 'useColorthiefHook', link: '/tools/hooks/useColorthiefHook' },
+        { text: 'useWSHook', link: '/tools/hooks/useWSHook' },
+        { text: 'useOptionHook', link: '/tools/hooks/useOptionHook' },
+        { text: 'useTableListHook', link: '/tools/hooks/useTableListHook' }
+      ]
+    },
+    {
+      text: 'validate',
+      item: [
+        { text: 'validate', link: '/tools/validate' },
+        { text: 'check', link: '/tools/check' }
+      ]
     }
   ]
 };

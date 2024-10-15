@@ -101,3 +101,44 @@ export const isArrayBuffer = (data: any) => {
 export const isFile = (data: any) => {
   return data instanceof File;
 };
+
+export function isValidJSON(str: any) {
+  try {
+    str = JSON.parse(str);
+    if (str !== null && typeof str === 'object') {
+      return str.constructor === Object;
+    } else {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+}
+
+export default {
+  isArray,
+  isNull,
+  isBoolean,
+  isObject,
+  isPromise,
+  isString,
+  isNumber,
+  isRegExp,
+  isDate,
+  isHex,
+  isRgb,
+  isRgba,
+  isColor,
+  isUndefined,
+  isFunction,
+  isEmptyObject,
+  isExist,
+  isWindow,
+  isComponentInstance,
+  isArrayChildren,
+  isQuarter,
+  isFirefox,
+  isArrayBuffer,
+  isFile,
+  isValidJSON
+};

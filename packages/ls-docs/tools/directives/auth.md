@@ -52,6 +52,17 @@ import { ref } from 'vue';
 const isShow = ref(false);
 
 const tableData = ref([
-
+  {
+    name: 'code',
+    desc: '权限code',
+    type: 'string',
+    default: '-',
+  },
+  {
+    name: 'show',
+    desc: '其他条件判断配置',
+    type: 'boolean',
+    default: '-',
+  }
 ])
 </script>
