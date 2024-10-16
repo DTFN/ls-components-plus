@@ -207,7 +207,7 @@ defineExpose({
 
       <template v-for="item in tableColumn" :key="item.prop">
         <el-table-column v-bind="item">
-          <template #default="{ row }">
+          <template #default="{ row, column, $index }">
             <!-- 日期 -->
             <template v-if="item.type === 'date'">
               {{ formatDate(get(row, item.prop), item.dateTemplate) }}
@@ -229,8 +229,18 @@ defineExpose({
 
             <!-- 自定义 -->
             <template v-else-if="item.type === 'slot'">
-              <slot :name="item.prop" :row="row" />
+              <slot :name="item.prop" :row="row" :column="column" :index="$index" />
             </template>
+          </template>
+
+          <!-- 自定义表头的内容 -->
+          <template v-if="item.headerSlot" #header="{ column, $index }">
+            <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
+          </template>
+
+          <!-- 自定义 filter 图标	-->
+          <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
+            <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
           </template>
         </el-table-column>
       </template>
@@ -241,6 +251,10 @@ defineExpose({
       <template v-if="showEmpty" #empty>
         <el-empty v-if="!$slots.empty" description="暂无数据" />
         <slot name="empty" />
+      </template>
+
+      <template v-if="$slots.append" #append>
+        <slot name="append" />
       </template>
     </el-table>
 

@@ -4,7 +4,7 @@ export const tableColumn = ref([
   {
     prop: 'name',
     label: '属性名',
-    width: 160
+    width: 200
   },
   {
     prop: 'desc',
@@ -57,7 +57,7 @@ export const tableExposesColumn = ref([
   {
     prop: 'name',
     label: '名称',
-    width: 160
+    width: 200
   },
   {
     prop: 'desc',
