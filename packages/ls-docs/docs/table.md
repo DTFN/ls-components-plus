@@ -162,11 +162,58 @@ const data_1 = [
 :::details 点我查看代码
 
 ```js
+function getData() {
+  let list = [];
+  for (let i = 0; i < 100; i++) {
+    list.push({
+      id: i,
+      code1: '字段1----' + i,
+      code2: '字段2----' + i,
+      code3: '字段3----' + i
+    });
+  }
+  return list;
+}
+const data = ref(getData());
+const column_2 = [
+  {
+    label: '字段1',
+    prop: 'code1'
+  },
+  {
+    label: '字段2',
+    prop: 'code2'
+  },
+  {
+    label: '字段3',
+    prop: 'code3'
+  }
+];
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = data.value.length;
+const data_2 = computed(() => data.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value));
+const currentRow = ref(null);
 
+function handleCurrentChange(row) {
+  if (row) {
+    currentRow.value = row;
+  }
+}
 ```
 
 ```html
-
+<LSTable
+  v-model:current-page="currentPage"
+  v-model:page-size="pageSize"
+  :show-radio="true"
+  :table-column="column_2"
+  :table-data="data_2"
+  :total="total"
+  :current-row="currentRow"
+  @current-change="handleCurrentChange"
+>
+</LSTable>
 ```
 
 :::
@@ -188,11 +235,59 @@ const data_1 = [
 :::details 点我查看代码
 
 ```js
-
+function getData() {
+  let list = [];
+  for (let i = 0; i < 100; i++) {
+    list.push({
+      id: i,
+      code1: '字段1----' + i,
+      code2: '字段2----' + i,
+      code3: '字段3----' + i
+    });
+  }
+  return list;
+}
+const data = ref(getData());
+const column_2 = [
+  {
+    label: '字段1',
+    prop: 'code1'
+  },
+  {
+    label: '字段2',
+    prop: 'code2'
+  },
+  {
+    label: '字段3',
+    prop: 'code3'
+  }
+];
+const currentPage_1 = ref(1);
+const pageSize_1 = ref(10);
+const data_3 = computed(() =>
+  data.value.slice((currentPage_1.value - 1) * pageSize_1.value, currentPage_1.value * pageSize_1.value)
+);
+const selection = ref([
+  {
+    id: 2,
+    code1: '字段1----2',
+    code2: '字段2----2',
+    code3: '字段3----2'
+  }
+]);
 ```
 
 ```html
-
+<LSTable
+  v-model:current-page="currentPage_1"
+  v-model:page-size="pageSize_1"
+  v-model:selection="selection"
+  :show-select="true"
+  :table-column="column_2"
+  :table-data="data_3"
+  :total="total"
+>
+</LSTable>
 ```
 
 :::
