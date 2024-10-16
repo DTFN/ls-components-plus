@@ -80,10 +80,10 @@ export default {
       ]
     },
     {
-      text: 'validate',
-      item: [
-        { text: 'validate', link: '/tools/validate' },
-        { text: 'check', link: '/tools/check' }
+      text: 'utils',
+      items: [
+        { text: 'validate', link: '/tools/utils/validate' },
+        { text: 'check', link: '/tools/utils/check' }
       ]
     }
   ]

@@ -1,13 +1,13 @@
 import { isValidJSON } from './utils';
 
+export const intRule = /^[1-9]\d*$/; // 正整数
+export const intRule_msg = '输入数值必须是正整数！';
+
 export const numbers01 = /^(?!0+(\.0+)?$)\d+(\.\d{1})?$/; // 大于0的数字且最多支持一位小数
 export const numbers01_msg = '输入数值必须大于0且只支持一位小数！';
 
 export const numbers02 = /^(?!0+(\.0+)?$)\d+(\.\d{1,2})?$/; // 大于0的数字且最多支持两位小数
 export const numbers02_msg = '输入数值必须大于0且只支持两位小数！';
-
-export const numbers03 = /^[1-9]\d*$/; // 正整数
-export const numbers03_msg = '输入数值必须是正整数！';
 
 export const numbers04 = /^[0-9]\d*$/; // 数字
 export const numbers04_msg = '输入数值必须是数字！';
@@ -36,10 +36,13 @@ const emailRule =
 const phoneRule = /^(?:(?:\+|00)86)?1(?:(?:3[\d])|(?:4[5-79])|(?:5[0-35-9])|(?:6[5-7])|(?:7[0-8])|(?:8[\d])|(?:9[1589]))\d{8}$/;
 
 /**
- * 验证数字范围正整数
+ * 验证数字范围只能是正整数
+ * @param rule
+ * @param value
+ * @param callback
  */
-export const validatorNumberRange = (rule: any, value: any, callback: any) => {
-  const rules = numbers03;
+export const validatorIntRange = (rule: any, value: any, callback: any) => {
+  const rules = intRule;
   const { max, min } = value || {};
   const { msg, msg2, required } = rule;
 
@@ -53,7 +56,34 @@ export const validatorNumberRange = (rule: any, value: any, callback: any) => {
     if ((max === 0 || min === 0) && msg2) {
       callback(new Error(msg2));
     } else {
-      callback(new Error(numbers03_msg));
+      callback(new Error(intRule_msg));
+    }
+  } else if (Number(min) >= Number(max)) {
+    callback(new Error('最小值必须小于最大值'));
+  } else {
+    callback();
+  }
+};
+
+/**
+ * 验证数字范围最多一位小数
+ */
+export const validatorNumberRange = (rule: any, value: any, callback: any) => {
+  const rules = numbers01;
+  const { max, min } = value || {};
+  const { msg, msg2, required } = rule;
+
+  if ((!max || !min) && min !== 0 && max !== 0) {
+    if (required) {
+      callback(new Error(msg));
+    } else {
+      callback();
+    }
+  } else if (!rules.test(max) || !rules.test(min)) {
+    if ((max === 0 || min === 0) && msg2) {
+      callback(new Error(msg2));
+    } else {
+      callback(new Error(numbers01_msg));
     }
   } else if (Number(min) >= Number(max)) {
     callback(new Error('最小值必须小于最大值'));
@@ -68,20 +98,24 @@ export const validatorNumberRange = (rule: any, value: any, callback: any) => {
 export const validatorNumberFloat2Range = (rule: any, value: any, callback: any) => {
   const rules = numbers02;
   const { max, min } = value || {};
-  const { msg, required } = rule;
+  const { msg, msg2, required } = rule;
 
-  if (!required && !min && !min) {
-    callback();
-  } else {
-    if (!max || !min) {
+  if ((!max || !min) && min !== 0 && max !== 0) {
+    if (required) {
       callback(new Error(msg));
-    } else if (!rules.test(max) || !rules.test(min)) {
-      callback(new Error(numbers02_msg));
-    } else if (Number(min) >= Number(max)) {
-      callback(new Error('最小值必须小于最大值'));
     } else {
       callback();
     }
+  } else if (!rules.test(max) || !rules.test(min)) {
+    if ((max === 0 || min === 0) && msg2) {
+      callback(new Error(msg2));
+    } else {
+      callback(new Error(numbers02_msg));
+    }
+  } else if (Number(min) >= Number(max)) {
+    callback(new Error('最小值必须小于最大值'));
+  } else {
+    callback();
   }
 };
 
@@ -114,7 +148,7 @@ export const validatorNumberFloat2 = (rule: any, value: any, callback: any) => {
  * @param callback
  */
 export const validatorNumberInt = (rule: any, value: any, callback: any) => {
-  const rules = numbers03;
+  const rules = intRule;
   const { msg, required, maxVal } = rule;
   if (!value) {
     if (required) {
@@ -123,7 +157,7 @@ export const validatorNumberInt = (rule: any, value: any, callback: any) => {
       callback();
     }
   } else if (!rules.test(value)) {
-    callback(new Error(numbers03_msg));
+    callback(new Error(intRule_msg));
   } else if (value > maxVal) {
     callback(new Error(`输入数字不能超过${maxVal}`));
   } else {
@@ -240,8 +274,10 @@ export const validatorAccount = (rule: any, value: any, callback: any) => {
 };
 
 export default {
+  validatorIntRange,
   validatorNumberRange,
   validatorNumberFloat2Range,
+  validatorNumberFloat2,
   validatorNumberInt,
   validatorJson,
   validatorString01,
