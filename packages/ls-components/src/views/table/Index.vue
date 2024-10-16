@@ -151,7 +151,6 @@ const selection = ref<any[]>([
 ]);
 
 function handleCurrentChange(row: any) {
-  console.log('Current row:', row);
   if (row) {
     currentRow.value = row;
   }

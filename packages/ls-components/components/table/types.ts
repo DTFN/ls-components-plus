@@ -43,7 +43,7 @@ export const lsTableProps = buildProps({
   // 分页页数选项
   pageSizes: {
     type: Array<number>,
-    default: () => [10, 20, 30, 40, 50]
+    default: () => [10, 20, 30, 40, 50, 100]
   },
   // 分页其余配置项
   paginationOptions: {
@@ -60,7 +60,7 @@ export const lsTableProps = buildProps({
     type: Boolean,
     default: false
   },
-  // Index 标签
+  // Index 显示的标题
   tableIndexLabel: {
     type: String,
     default: '序号'
