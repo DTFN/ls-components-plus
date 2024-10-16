@@ -25,7 +25,7 @@ export const tableMethodColumn = ref([
   {
     prop: 'name',
     label: '方法名',
-    width: 160
+    width: 220
   },
   {
     prop: 'desc',
@@ -34,7 +34,7 @@ export const tableMethodColumn = ref([
   {
     prop: 'type',
     label: '类型',
-    width: 160
+    width: 220
   },
   {
     prop: 'value',

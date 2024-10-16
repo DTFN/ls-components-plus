@@ -127,7 +127,7 @@ export const validatorNumberFloat2Range = (rule: any, value: any, callback: any)
  */
 export const validatorNumberFloat2 = (rule: any, value: any, callback: any) => {
   const rules = numbers02;
-  const { msg, required } = rule;
+  const { msg, required, maxVal } = rule;
   if (!value) {
     if (required) {
       callback(new Error(msg));
@@ -136,6 +136,26 @@ export const validatorNumberFloat2 = (rule: any, value: any, callback: any) => {
     }
   } else if (!rules.test(value)) {
     callback(new Error(numbers02_msg));
+  } else if (value > maxVal) {
+    callback(new Error(`输入数字不能超过${maxVal}`));
+  } else {
+    callback();
+  }
+};
+
+export const validatorNumber = (rule: any, value: any, callback: any) => {
+  const rules = numbers01;
+  const { msg, required, maxVal } = rule;
+  if (!value) {
+    if (required) {
+      callback(new Error(msg));
+    } else {
+      callback();
+    }
+  } else if (!rules.test(value)) {
+    callback(new Error(numbers01_msg));
+  } else if (value > maxVal) {
+    callback(new Error(`输入数字不能超过${maxVal}`));
   } else {
     callback();
   }
@@ -147,7 +167,7 @@ export const validatorNumberFloat2 = (rule: any, value: any, callback: any) => {
  * @param value
  * @param callback
  */
-export const validatorNumberInt = (rule: any, value: any, callback: any) => {
+export const validatorInt = (rule: any, value: any, callback: any) => {
   const rules = intRule;
   const { msg, required, maxVal } = rule;
   if (!value) {
@@ -192,7 +212,7 @@ export const validatorJson = (rule: any, value: any, callback: any) => {
  * @param value
  * @param callback
  */
-export const validatorString01 = (rule: any, value: any, callback: any) => {
+export const validatorWord1 = (rule: any, value: any, callback: any) => {
   const rules = string01;
   const { msg, required } = rule;
   if (!value) {
@@ -214,7 +234,7 @@ export const validatorString01 = (rule: any, value: any, callback: any) => {
  * @param value
  * @param callback
  */
-export const validatorString02 = (rule: any, value: any, callback: any) => {
+export const validatorWord2 = (rule: any, value: any, callback: any) => {
   const rules = string02;
   const { msg, required } = rule;
   if (!value) {
@@ -278,10 +298,11 @@ export default {
   validatorNumberRange,
   validatorNumberFloat2Range,
   validatorNumberFloat2,
-  validatorNumberInt,
+  validatorInt,
+  validatorNumber,
   validatorJson,
-  validatorString01,
-  validatorString02,
+  validatorWord1,
+  validatorWord2,
   validateArray,
   validatorAccount
 };
