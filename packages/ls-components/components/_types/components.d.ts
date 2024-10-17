@@ -1,5 +1,4 @@
 type FormItemType =
-  | 'title'
   | 'label'
   | 'input'
   | 'textarea'
