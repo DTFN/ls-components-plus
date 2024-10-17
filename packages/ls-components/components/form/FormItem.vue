@@ -3,38 +3,14 @@
  * Form item 组件
  * !!!最多支持101个 el-form-item
  */
-import type { CheckboxValueType, FormRules } from 'element-plus';
 import { isEqual } from 'lodash-es';
 import { ref } from 'vue';
 import { isEmpty } from '../_utils/utils';
+import { FormItemPropsType } from './types';
 
-interface PropsType {
-  isValue?: boolean; // 是否初始化modelValue值为value的值
-  value?: any;
-  type: FormItemType;
-  label: string;
-  prop: string | string[];
-  rules?: FormRules;
-  className?: string;
-  labelClass?: string;
-  subhead?: string;
-  tooltip?: string;
-  options?: OptionType[];
-  attrs?: {
-    [key: string]: any;
-  };
-  listeners?: {
-    [key: string]: any;
-  };
-  colon?: boolean;
-  read?: boolean;
-  labelNumber?: boolean;
-}
-
-const props: PropsType = withDefaults(defineProps<PropsType>(), {
+const props = withDefaults(defineProps<FormItemPropsType>(), {
   read: false,
-  isValue: false,
-  isNumberRule: true
+  isValue: false
 });
 
 const emits = defineEmits<{
@@ -51,7 +27,7 @@ const selectCheckAll = ref(false);
 const selectIndeterminate = ref(false);
 
 // 下拉框全选事件
-function handleSelectCheckAll(val: CheckboxValueType) {
+function handleSelectCheckAll(val: any) {
   selectIndeterminate.value = false;
 
   if (val && props.options && props.options.length) modelValue.value = props.options.map(_ => _.value);
@@ -85,7 +61,7 @@ watch(
 watch(
   [() => modelValue, () => props.type, () => props.attrs, () => props.options],
   ([newVal, type, attrs, options]: any) => {
-    if (type === 'select' && options && !isEmpty(options)) {
+    if (type === 'select' && options && options.length && !isEmpty(options)) {
       const values = options.map((_: any) => _.value);
 
       if (attrs && attrs.multiple) {
@@ -106,8 +82,13 @@ watch(
           selectCheckAll.value = isAll;
           selectIndeterminate.value = !isAll;
         }
+      } else if (attrs && attrs.filterable && attrs['allow-create']) {
+        // 添加选项
+        modelValue.value = newVal.value;
       } else {
-        if (!isEmpty(newVal.value) && !values.includes(newVal.value)) modelValue.value = '';
+        if (!isEmpty(values) && !isEmpty(newVal.value)) {
+          if (!values.includes(newVal.value)) modelValue.value = '';
+        }
       }
     }
   },
@@ -127,22 +108,29 @@ defineExpose({
 
   <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="rules" :class="className">
     <template v-if="labelClass || tooltip" #label>
-      <div class="flex items-center">
+      <div class="form-item-label">
         <span :class="labelClass">{{ label }}</span>
 
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
-          <i class="i-ep-warning-filled ml-4px mr-4px" />
+          <el-icon class="ml-4"><WarningFilled /></el-icon>
         </el-tooltip>
 
         <span v-if="colon" :class="labelClass">：</span>
       </div>
     </template>
 
-    <template v-if="read && type !== 'switch' && isEmpty(modelValue)">
+    <template v-if="read && readLabel">
+      <span>{{ isEmpty(modelValue) ? '--' : modelValue }}</span>
+    </template>
+
+    <template v-else-if="read && type !== 'switch' && isEmpty(modelValue)">
       <span>--</span>
     </template>
 
     <template v-else>
+      <!-- 前置插槽 -->
+      <slot :name="`${prop}-prepend`" />
+
       <span v-if="type === 'label'">
         <template v-if="isEmpty(modelValue)"> -- </template>
         <template v-if="labelNumber">
@@ -246,22 +234,13 @@ defineExpose({
       <!-- 开关 -->
       <el-switch v-else-if="type === 'switch'" v-model="modelValue" v-bind="attrs" v-on="listeners || {}" />
 
-      <!-- 上传组件 -->
-      <!-- <Upload
-        v-else-if="type === 'upload'"
-        v-model:file-list="modelValue"
-        accept="image/jpeg,image/png,.jpg,.jpeg,.png"
-        type="image"
-        :url="attrs && attrs.url"
-        v-bind="attrs"
-        v-on="listeners || {}"
-      >
-        <template v-if="attrs && attrs.tip" #tip>
-          <div>
-            {{ attrs && attrs.tip }}
-          </div>
-        </template>
-      </Upload> -->
+      <!-- 自定义 -->
+      <template v-else-if="type === 'itemSlot'">
+        <slot :name="`${prop}-slot`" />
+      </template>
+
+      <!-- 后置插槽 -->
+      <slot :name="`${prop}-append`" />
     </template>
   </el-form-item>
 </template>
@@ -271,15 +250,25 @@ defineExpose({
   padding: 0 !important;
 }
 .el-select {
-  --el-select-width: 220px;
+  --el-select-width: 240px;
 }
 .el-input {
-  --el-input-width: 220px;
+  --el-input-width: 240px;
 }
 .el-input-number {
+  --el-input-width: 240px;
+
   width: var(--el-input-width);
   &:deep() .el-input__inner {
     text-align: left;
+  }
+}
+:deep() .el-date-editor {
+  --el-date-editor-width: 240px;
+}
+:deep() .el-cascader {
+  .el-input {
+    --el-input-width: 240px;
   }
 }
 .el-textarea {
@@ -315,6 +304,10 @@ defineExpose({
       }
     }
   }
+}
+.form-item-label {
+  display: flex;
+  align-items: center;
 }
 </style>
 

@@ -4,16 +4,13 @@ type FormItemType =
   | 'input'
   | 'textarea'
   | 'number'
-  | 'figure'
   | 'select'
-  | 'year'
-  | 'month'
   | 'date'
   | 'cascader'
   | 'multipleCascader'
   | 'switch'
-  | 'upload'
-  | 'slot';
+  | 'slot'
+  | 'itemSlot';
 
 type ObjType = {
   [key: string | number]: any;
@@ -32,12 +29,11 @@ type OptionType = {
 type FormItemsType = {
   type: FormItemType;
   label: string;
-  prop: string;
+  prop: string | string[];
   props?: any;
-  rules?: FormRules;
+  rules?: any;
   className?: string;
   labelClass?: string;
-  subhead?: string;
   tooltip?: string;
   isRow?: boolean;
   options?: OptionType[];
@@ -47,6 +43,9 @@ type FormItemsType = {
   listeners?: {
     [key: string]: any;
   };
+  colon?: boolean;
+  read?: boolean;
+  readLabel?: boolean;
   labelNumber?: boolean;
 };
 
