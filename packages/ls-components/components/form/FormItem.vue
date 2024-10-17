@@ -6,12 +6,9 @@
 import { isEqual } from 'lodash-es';
 import { ref } from 'vue';
 import { isEmpty } from '../_utils/utils';
-import { FormItemPropsType } from './types';
+import { lsFormItemProps } from './types';
 
-const props = withDefaults(defineProps<FormItemPropsType>(), {
-  read: false,
-  isValue: false
-});
+const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];

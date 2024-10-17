@@ -263,6 +263,100 @@ function onLogin(val: any) {
   }, 2000);
   // });
 }
+
+const formData_2 = ref<any>({
+  label: '嵌套表单',
+  item_1: [
+    {
+      name: undefined,
+      age: undefined
+    }
+  ],
+  item_2: [
+    {
+      type: undefined,
+      open: false
+    }
+  ]
+});
+
+const formItems_2 = [
+  {
+    type: 'label',
+    label: '标题',
+    prop: 'label'
+  },
+  {
+    type: 'itemSlot',
+    label: '第一段',
+    prop: 'item_1'
+  },
+  {
+    type: 'slot',
+    label: '第二段',
+    prop: 'item_2'
+  }
+];
+
+const item_1_form = [
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    required: true
+  },
+  {
+    type: 'number',
+    label: '年龄',
+    prop: 'age'
+  }
+];
+
+const item_2_form = [
+  {
+    type: 'select',
+    label: '类型',
+    prop: 'type',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur'
+    },
+    options: [
+      {
+        label: '选项1',
+        value: 1
+      }
+    ]
+  },
+  {
+    type: 'switch',
+    label: '开启',
+    prop: 'open'
+  }
+];
+
+function addItem_1() {
+  formData_2.value.item_1.push({
+    name: undefined,
+    age: undefined
+  });
+}
+
+function addItem_2() {
+  formData_2.value.item_2.push({
+    type: undefined,
+    open: false
+  });
+}
+
+function removeItem_1(index: number) {
+  formData_2.value.item_1.splice(index, 1);
+}
+
+function removeItem_2(index: number) {
+  formData_2.value.item_2.splice(index, 1);
+}
 </script>
 
 <template>
@@ -300,6 +394,44 @@ function onLogin(val: any) {
 
     <template #param11>
       <div>自定义区域</div>
+    </template>
+  </LSForm>
+
+  <LSForm v-model:form-data="formData_2" :form-items="formItems_2">
+    <template #item_1-slot>
+      <div>
+        <div v-for="(item, index) in formData_2.item_1" :key="index" class="item-center mb-24">
+          <LSFormItem
+            v-for="(fItem, i) in item_1_form"
+            :key="i + '-' + index"
+            v-bind="fItem"
+            class="mr-24"
+            v-model="formData_2.item_1[index][fItem.prop]"
+            :prop="['item_1', index, fItem.prop]"
+          ></LSFormItem>
+          <el-button type="danger" class="ml-12" @click="removeItem_1(index)">删除</el-button>
+        </div>
+        <el-button type="primary" class="mt-12" @click="addItem_1">添加</el-button>
+      </div>
+    </template>
+
+    <template #item_2>
+      <el-form-item label="第二段：" prop="item_2">
+        <div>
+          <div v-for="(item, index) in formData_2.item_2" :key="index" class="item-center mb-24">
+            <LSFormItem
+              v-for="(fItem, i) in item_2_form"
+              :key="i + '-' + index"
+              v-bind="fItem"
+              class="mr-24"
+              v-model="formData_2.item_2[index][fItem.prop]"
+              :prop="['item_2', index, fItem.prop]"
+            ></LSFormItem>
+            <el-button type="danger" class="ml-12" @click="removeItem_2(index)">删除</el-button>
+          </div>
+          <el-button type="primary" class="mt-12" @click="addItem_2">添加</el-button>
+        </div>
+      </el-form-item>
     </template>
   </LSForm>
 

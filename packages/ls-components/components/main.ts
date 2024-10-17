@@ -33,6 +33,9 @@ export { default as LSMap } from '@cpo/map/Index.vue';
 export { default as LSEditor } from '@cpo/editor/Index.vue';
 export { default as LSJsonEditor } from '@cpo/jsonEditor/Index.vue';
 export { default as LSDialog } from '@cpo/dialog/Index.vue';
+export { default as LSTable } from '@cpo/table/Table.vue';
+export { default as LSItem } from '@cpo/form/FormItem.vue';
+export { default as LSForm } from '@cpo/form/Form.vue';
 
 export { default } from './index';
 

@@ -1,5 +1,4 @@
 import { buildProps } from '@cpo/_utils/runtime';
-import type { FormRules } from 'element-plus';
 
 export const lsFormProps = buildProps({
   formData: {
@@ -38,7 +37,7 @@ export const lsFormProps = buildProps({
   },
   confirmText: {
     type: String,
-    default: '查询'
+    default: '确认'
   },
   confirmClassName: {
     type: String,
@@ -54,39 +53,80 @@ export const lsFormProps = buildProps({
   }
 } as const);
 
-export type FormItemType =
-  | 'title'
-  | 'label'
-  | 'input'
-  | 'textarea'
-  | 'number'
-  | 'select'
-  | 'date'
-  | 'cascader'
-  | 'multipleCascader'
-  | 'switch'
-  | 'slot'
-  | 'itemSlot';
-
-export interface FormItemPropsType {
-  isValue?: boolean; // 是否初始化modelValue值为value的值默认false
-  value?: any;
-  type: FormItemType;
-  label: string;
-  prop: string | string[];
-  rules?: FormRules;
-  className?: string;
-  labelClass?: string;
-  tooltip?: string;
-  options?: OptionType[];
-  attrs?: {
-    [key: string]: any;
-  };
-  listeners?: {
-    [key: string]: any;
-  };
-  colon?: boolean;
-  read?: boolean;
-  readLabel?: boolean;
-  labelNumber?: boolean;
-}
+export const lsFormItemProps = buildProps({
+  isValue: {
+    type: Boolean,
+    default: false
+  },
+  value: {
+    type: [String, Number, Boolean, Object, Array]
+  },
+  type: {
+    type: String,
+    values: [
+      'label',
+      'input',
+      'textarea',
+      'number',
+      'select',
+      'date',
+      'cascader',
+      'multipleCascader',
+      'switch',
+      'slot',
+      'itemSlot'
+    ]
+  },
+  label: {
+    type: String,
+    default: ''
+  },
+  prop: {
+    type: [String, Array<string>],
+    default: ''
+  },
+  rules: {
+    type: Object,
+    default: () => {}
+  },
+  className: {
+    type: String,
+    default: ''
+  },
+  labelClass: {
+    type: String,
+    default: ''
+  },
+  tooltip: {
+    type: String,
+    default: ''
+  },
+  options: {
+    type: Array<any>,
+    default: () => []
+  },
+  attrs: {
+    type: Object,
+    default: () => {}
+  },
+  listeners: {
+    type: Object,
+    default: () => {}
+  },
+  colon: {
+    type: Boolean,
+    default: true
+  },
+  read: {
+    type: Boolean,
+    default: false
+  },
+  readLabel: {
+    type: Boolean,
+    default: false
+  },
+  labelNumber: {
+    type: Boolean,
+    default: false
+  }
+} as const);
