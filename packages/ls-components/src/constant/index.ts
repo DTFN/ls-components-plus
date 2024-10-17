@@ -110,6 +110,14 @@ export const MENU_LIST = [
     path: '/jsonEditor',
     cpoPath: 'jsonEditor/Index',
     key: '14'
+  },
+  {
+    id: '15',
+    title: 'Dialog 弹窗',
+    name: 'Dialog',
+    path: '/dialog',
+    cpoPath: 'dialog/Index',
+    key: '15'
   }
 ];
 

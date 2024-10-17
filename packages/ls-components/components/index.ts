@@ -22,6 +22,7 @@ import LSBackTop from './backTop/index';
 import LSMap from './map/index';
 import LSEditor from './editor/index';
 import LSJsonEditor from './jsonEditor/index';
+import LSDialog from './dialog/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -46,7 +47,8 @@ const components: Record<string, Plugin> = {
   LSBackTop,
   LSMap,
   LSEditor,
-  LSJsonEditor
+  LSJsonEditor,
+  LSDialog
 };
 
 const install = (app: App) => {
