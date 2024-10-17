@@ -118,6 +118,14 @@ export const MENU_LIST = [
     path: '/dialog',
     cpoPath: 'dialog/Index',
     key: '15'
+  },
+  {
+    id: '16',
+    title: 'Layout 布局',
+    name: 'LSLayout',
+    path: '/lsLayout',
+    cpoPath: 'lsLayout/Index',
+    key: '16'
   }
 ];
 

@@ -33,6 +33,7 @@ export { default as LSMap } from '@cpo/map/Index.vue';
 export { default as LSEditor } from '@cpo/editor/Index.vue';
 export { default as LSJsonEditor } from '@cpo/jsonEditor/Index.vue';
 export { default as LSDialog } from '@cpo/dialog/Index.vue';
+export { default as LSLayout } from '@cpo/layout/Index.vue';
 
 export { default } from './index';
 
