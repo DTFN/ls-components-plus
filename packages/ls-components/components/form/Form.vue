@@ -19,7 +19,7 @@ const buttonsAttrs = computed(() => {
   if (attrs.inline) {
     if (attrs['label-position'] === 'top') {
       return {
-        class: ''
+        class: 'form-item-buttons '
       };
     }
     return {};
@@ -150,7 +150,7 @@ defineExpose({
 
     <slot />
 
-    <el-form-item v-if="showButtons" class="form-item-buttons" v-bind="buttonsAttrs">
+    <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
       <el-button type="primary" :class="confirmClassName" :loading="loading && showBtnLoading" @click="submitForm(FormRef)">
         {{ confirmText }}
       </el-button>

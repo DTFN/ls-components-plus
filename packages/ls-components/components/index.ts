@@ -24,6 +24,7 @@ import LSEditor from './editor/index';
 import LSJsonEditor from './jsonEditor/index';
 import LSDialog from './dialog/index';
 import LSLayout from './layout/index';
+import LSList from './list/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -50,7 +51,8 @@ const components: Record<string, Plugin> = {
   LSEditor,
   LSJsonEditor,
   LSDialog,
-  LSLayout
+  LSLayout,
+  LSList
 };
 
 const install = (app: App) => {

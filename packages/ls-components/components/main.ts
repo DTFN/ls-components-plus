@@ -38,6 +38,7 @@ export { default as LSLayout } from '@cpo/layout/Index.vue';
 export { default as LSTable } from '@cpo/table/Table.vue';
 export { default as LSItem } from '@cpo/form/FormItem.vue';
 export { default as LSForm } from '@cpo/form/Form.vue';
+export { default as LSList } from '@cpo/list/List.vue';
 
 export { default } from './index';
 

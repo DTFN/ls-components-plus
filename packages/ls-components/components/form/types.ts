@@ -31,6 +31,10 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: true
   },
+  buttonsClass: {
+    type: String,
+    default: ''
+  },
   showReset: {
     type: Boolean,
     default: true

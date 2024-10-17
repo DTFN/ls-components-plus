@@ -126,6 +126,14 @@ export const MENU_LIST = [
     path: '/lsLayout',
     cpoPath: 'lsLayout/Index',
     key: '16'
+  },
+  {
+    id: '17',
+    title: 'List 列表',
+    name: 'List',
+    path: '/list',
+    cpoPath: 'list/Index',
+    key: '17'
   }
 ];
 

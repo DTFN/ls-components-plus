@@ -405,7 +405,7 @@ function removeItem_2(index) {
 <script setup>
 import { ElFormItem,ElButton } from 'element-plus';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 const formData_1 = ref({
   name: undefined,
@@ -694,6 +694,12 @@ const attrTableData=[
     desc: '是否展示confirm和reset按钮',
    type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'buttonsClass',
+    desc: '展示confirm和reset按钮区域的样式',
+   type: 'string',
+    value: '-'
   },
   {
     name: 'showReset',
