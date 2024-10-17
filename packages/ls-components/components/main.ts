@@ -1,5 +1,6 @@
 import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
+import '@cpo/_style/container.scss';
 
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
