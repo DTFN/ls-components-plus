@@ -1,4 +1,4 @@
-export default [
+const head: any = [
   ['link', { rel: 'icon', href: '/favicon.png' }],
   ['link', { href: 'https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css' }],
   ['link', { href: 'https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css' }],
@@ -7,3 +7,4 @@ export default [
   ['script', { src: 'https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js' }],
   ['script', { src: 'https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js' }]
 ];
+export default head;

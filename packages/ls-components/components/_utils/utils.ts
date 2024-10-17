@@ -94,6 +94,11 @@ export function validateFileType(accept: string, rawFile: File): boolean {
   return isValidType;
 }
 
+/**
+ * 动态加载js
+ * @param list
+ * @returns
+ */
 export const loadJs = (list: Array<any> = []) => {
   const pAll: any = [];
   list.forEach((item: any) => {
@@ -121,6 +126,43 @@ export const removeJs = (list: Array<any> = []) => {
     const script = document.getElementById(item.id);
     if (script) {
       script.remove();
+    }
+  });
+};
+
+/**
+ * 动态加载css
+ * @param list
+ * @returns
+ */
+export const loadCss = (list: Array<any> = []) => {
+  const pAll: any = [];
+  list.forEach((item: any) => {
+    pAll.push(
+      new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.id = item.id;
+        link.rel = 'stylesheet';
+        link.href = item.src;
+        document.body.appendChild(link);
+        link.onload = function () {
+          resolve({});
+        };
+        link.onerror = function () {
+          link.remove();
+          reject({});
+        };
+      })
+    );
+  });
+  return Promise.all(pAll);
+};
+
+export const removeCss = (list: Array<any> = []) => {
+  list.forEach((item: any) => {
+    const link = document.getElementById(item.id);
+    if (link) {
+      link.remove();
     }
   });
 };

@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { previewEmits, xlsxProps } from '../types';
-import { loadJs, removeJs } from '@cpo/_utils/utils';
+import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import LuckyExcel from 'luckyexcel';
 
@@ -15,6 +15,13 @@ import LuckyExcel from 'luckyexcel';
 const jsList = [
   { id: 'luckysheet1', src: '/luckysheet/plugins/js/plugin.js' },
   { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' }
+];
+
+const cssList = [
+  { id: 'luckysheetCss1', src: '/luckysheet/plugins/css/pluginsCss.css' },
+  { id: 'luckysheetCss2', src: '/luckysheet/plugins/plugins.css' },
+  { id: 'luckysheetCss3', src: '/luckysheet/css/luckysheet.css' },
+  { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' }
 ];
 
 const ns = useNamespace('xlsx');
@@ -57,6 +64,7 @@ async function initXlsx(val: File | string) {
   }
   try {
     if (!isLuckySheet()) {
+      await loadCss(cssList);
       await loadJs(jsList);
     }
     LuckyExcel.transformExcelToLucky(
@@ -142,6 +150,7 @@ async function initXlsx(val: File | string) {
 
 onBeforeUnmount(() => {
   if (!isLuckySheet()) {
+    removeCss(cssList);
     removeJs(jsList);
   }
 });
@@ -155,13 +164,6 @@ onBeforeUnmount(() => {
     <div id="luckysheet" class="luckysheet-wrap"></div>
   </div>
 </template>
-
-<style type="text/css">
-@import '/luckysheet/plugins/css/pluginsCss.css';
-@import '/luckysheet/plugins/plugins.css';
-@import '/luckysheet/css/luckysheet.css';
-@import '/luckysheet/assets/iconfont/iconfont.css';
-</style>
 
 <style lang="scss" scoped>
 .ls-xlsx {
