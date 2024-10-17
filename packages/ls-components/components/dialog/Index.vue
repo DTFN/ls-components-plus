@@ -8,9 +8,13 @@ defineOptions({
   inheritAttrs: false
 });
 
-defineProps(lsDialogProp);
+const props = defineProps(lsDialogProp);
 
 const emits = defineEmits(lsEmitNames);
+
+const visible = defineModel({
+  type: Boolean
+});
 
 const ns = useNamespace('dialog');
 const comClass: string = ns.b();
@@ -21,7 +25,27 @@ const defAttrs = ref({
   closeOnPressEscape: false
 });
 
+const curBtnCancelConfig = computed(() => {
+  return merge(
+    {
+      txt: '取消'
+    },
+    props.btnCancelConfig
+  );
+});
+
+const curBtnConfirmConfig = computed(() => {
+  return merge(
+    {
+      type: 'primary',
+      txt: '确定'
+    },
+    props.btnConfirmConfig
+  );
+});
+
 function handleClose() {
+  visible.value = false;
   emits('onCancel');
 }
 
@@ -32,18 +56,18 @@ function handleConfirm() {
 
 <template>
   <div :class="comClass">
-    <el-dialog v-bind="merge(defAttrs, $attrs)">
+    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)">
       <slot></slot>
       <template #header>
         <slot name="header"></slot>
       </template>
       <template v-if="hasFooter" #footer>
         <div class="dialog-footer">
-          <LSButton v-if="hasCancelBtn" v-bind="btnCancelConfig" :disabled="loading" @click="handleClose">
-            {{ btnCancelConfig.text }}
+          <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleClose">
+            {{ curBtnCancelConfig.txt }}
           </LSButton>
-          <LSButton v-bind="btnConfirmConfig" type="primary" :loading="loading" :disabled="loading" @click="handleConfirm">
-            {{ btnConfirmConfig.text }}
+          <LSButton v-bind="curBtnConfirmConfig" :loading="loading" :disabled="loading" @click="handleConfirm">
+            {{ curBtnConfirmConfig.txt }}
           </LSButton>
         </div>
       </template>

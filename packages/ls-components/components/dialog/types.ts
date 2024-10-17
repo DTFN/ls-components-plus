@@ -15,15 +15,11 @@ export const lsDialogProp = buildProps({
   },
   btnCancelConfig: {
     type: Object,
-    default: () => ({
-      text: '取消'
-    })
+    default: () => ({})
   },
   btnConfirmConfig: {
     type: Object,
-    default: () => ({
-      text: '确认'
-    })
+    default: () => ({})
   }
 });
 

@@ -52,7 +52,8 @@ export default {
       text: 'Feedback 反馈组件',
       items: [
         { text: 'Confirm 确认框', link: '/docs/confirm' },
-        { text: 'BellMessage 消息通知', link: '/docs/bellMessage' }
+        { text: 'BellMessage 消息通知', link: '/docs/bellMessage' },
+        { text: 'Dialog 弹框', link: '/docs/dialog' }
       ]
     },
     {
