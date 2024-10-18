@@ -135,12 +135,12 @@ export const lsFormItemProps = buildProps({
     type: Boolean,
     default: false
   },
-  readLabel: {
-    type: Boolean,
-    default: false
-  },
   labelNumber: {
     type: Boolean,
     default: false
+  },
+  dateFormat: {
+    type: String,
+    default: 'YYYY-MM-DD HH:mm:ss'
   }
 } as const);

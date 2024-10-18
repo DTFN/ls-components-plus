@@ -12,10 +12,15 @@ outline: deep
 ### 1. 基础表单
 
 <br>
+<div>
+<el-switch v-model="read"></el-switch>
+<span>只读</span>
+</div>
 <LSForm
  class="demo-form_1"
  v-model:form-data="formData_1"
  :form-items="formItems_1"
+ :read="read"
  @submit="submitFn"
 >
   <template #type-append>
@@ -403,13 +408,17 @@ function removeItem_2(index) {
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData_1" />
 
 <script setup>
-import { ElFormItem,ElButton } from 'element-plus';
+import { ElFormItem,ElButton,ElSwitch } from 'element-plus';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
 import { ref } from 'vue';
+
+const read=ref(false)
 
 const formData_1 = ref({
   name: undefined,
   type: undefined,
+  type1: undefined,
+  type2: undefined,
   count: undefined,
   date: undefined,
   datetime: undefined,
@@ -461,6 +470,68 @@ const formItems_1 = [
     ],
   },
   {
+    type: 'radio',
+    label: '活动类型',
+    prop: 'type1',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur',
+    },
+    attrs: {
+      multiple: true,
+    },
+    options: [
+      {
+        label: '体育',
+        value: 1,
+      },
+      {
+        label: '唱歌',
+        value: 2,
+      },
+      {
+        label: '美食',
+        value: 3,
+      },
+      {
+        label: '摄影',
+        value: 4,
+      },
+    ],
+  },
+  {
+    type: 'checkbox',
+    label: '活动类型',
+    prop: 'type2',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur',
+    },
+    attrs: {
+      multiple: true,
+    },
+    options: [
+      {
+        label: '体育',
+        value: 1,
+      },
+      {
+        label: '唱歌',
+        value: 2,
+      },
+      {
+        label: '美食',
+        value: 3,
+      },
+      {
+        label: '摄影',
+        value: 4,
+      },
+    ],
+  },
+  {
     type: 'number',
     label: '活动人数',
     prop: 'count',
@@ -478,6 +549,7 @@ const formItems_1 = [
     type: 'date',
     label: '活动日期',
     prop: 'date',
+    dateFormat:'YYYY-MM-DD',
     rules: {
       required: true,
       message: '请选择活动日期',
@@ -684,6 +756,12 @@ const attrTableData=[
     value: 'true'
   },
   {
+    name: 'read',
+    desc: '是否只读',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
     name: 'disabled',
     desc: '是否禁用',
     type: 'boolean',
@@ -866,16 +944,22 @@ const attrTableData_1=[
     value: 'false'
   },
   {
-    name: 'readLabel',
-    desc: '只读显示文本内容',
+    name: 'disabled',
+    desc: '是否禁用',
     type: 'boolean',
     value: 'false'
   },
   {
     name: 'labelNumber',
-    desc: '文本内容是否是数字',
+    desc: 'type为Label时，文本内容是否是数字',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'dateFormat',
+    desc: 'type为date时，文本内容日期时间格式',
+    type: 'string',
+    value: 'YYYY-MM-DD HH:mm:ss'
   },
 ]
 
@@ -906,6 +990,14 @@ const formItemTypeData=[
   {
     name:'number',
     desc:'数字输入（el-input-number）'
+  },
+  {
+    name:'radio',
+    desc:'单选框（el-radio'
+  },
+  {
+    name:'checkbox',
+    desc:'复选框（el-checkbox'
   },
   {
     name:'select',

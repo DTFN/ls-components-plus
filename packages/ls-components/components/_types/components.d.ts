@@ -47,8 +47,8 @@ type FormItemsType = {
   colon?: boolean;
   disabled?: boolean;
   read?: boolean;
-  readLabel?: boolean;
   labelNumber?: boolean;
+  dateFormat?: string;
 };
 
 interface PageType {

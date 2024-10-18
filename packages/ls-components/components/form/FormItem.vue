@@ -115,7 +115,7 @@ function readValue(type: string | undefined) {
     case 'switch':
       return val ? '是' : '否';
     case 'date':
-      return val ? dayjs(val).format('YYYY-MM-DD HH:mm:ss') : '--';
+      return val ? dayjs(val).format(props.dateFormat) : '--';
     case 'radio':
       return getOptionsLabel(val, props.options);
     case 'checkbox':
