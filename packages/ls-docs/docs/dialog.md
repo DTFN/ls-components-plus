@@ -14,16 +14,7 @@ outline: deep
 <br />
 <LSButton type="primary" @click="visible = true">基础用法</LSButton>
 
-<LSDialog
-v-model="visible"
-:loading="loading"
-title="基础用法Title"
-@on-confirm="onConfirm"
-
->
-
-  <div>基础用法</div>
-</LSDialog>
+<LSDialog v-model="visible" :loading="loading" title="基础用法Title" @on-confirm="onConfirm"> <div>基础用法</div> </LSDialog>
 
 ::: details 点我查看代码
 
@@ -63,17 +54,7 @@ const onConfirm = () => {
 
 <LSButton type="primary" @click="visible2 = true">自定义按钮</LSButton>
 
-<LSDialog
-v-model="visible2"
-:loading="loading"
-title="自定义按钮Title"
-:btn-confirm-config="btnConfirmConfig"
-@on-confirm="onConfirm"
-
->
-
-  <div>自定义按钮</div> 
-</LSDialog>
+<LSDialog v-model="visible2" :loading="loading" title="自定义按钮Title" :btn-confirm-config="btnConfirmConfig" @on-confirm="onConfirm"> <div>自定义按钮</div> </LSDialog>
 
 ::: details 点我查看代码
 
