@@ -1043,6 +1043,14 @@ const slotTableData_1=[
     name: '[prop]-append',
     desc: '后置自定义内容',
   },
+  {
+    name: '[prop]-slot',
+    desc: 'type是itemSlot时，FormItem内自定义内容',
+  },
+  {
+    name: '[prop]-read-slot',
+    desc: 'read时，展示文本内容的自定义内容',
+  },
 ]
 
 // Exposes

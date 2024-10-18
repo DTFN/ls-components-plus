@@ -283,7 +283,9 @@ defineExpose({
       v-bind="formAttrs"
       @submit="submitForm"
       @reset="resetForm"
-    />
+    >
+      <slot name="form-append"></slot>
+    </LSForm>
 
     <template v-if="showOperate">
       <!-- 操作按钮区域 -->
@@ -361,8 +363,9 @@ defineExpose({
                 link
                 type="primary"
                 @click="onEdit(row[tableRowKey], row)"
-                >编辑</el-button
               >
+                编辑
+              </el-button>
 
               <el-popconfirm
                 v-if="showTableDel(row)"
@@ -393,7 +396,7 @@ defineExpose({
       </el-table-column>
 
       <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
-        <slot :name="slotName" :row="row" />
+        <slot v-if="slotName !== 'form-append'" :name="slotName" :row="row" />
       </template>
     </LSTable>
   </div>

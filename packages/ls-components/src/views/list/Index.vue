@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ElDivider } from 'element-plus';
+
 const formData = ref({
   name: undefined,
   type: undefined
@@ -58,22 +60,11 @@ function dealData(res: any) {
   };
 }
 
-const a = ref(true);
 const b = ref(false);
 const spacer = h(ElDivider, { direction: 'vertical' });
 </script>
 
 <template>
-  <el-space :size="20" :spacer="spacer">
-    <div v-if="a">dasdsad</div>
-
-    <template v-if="b">
-      <el-button type="text">第二个</el-button>
-    </template>
-
-    <el-button type="text">第3个</el-button>
-  </el-space>
-
   <LSList
     :list-api="listApi"
     :form-data="formData"
@@ -85,15 +76,31 @@ const spacer = h(ElDivider, { direction: 'vertical' });
     :disabled-table-switch="(row: any) => row.name === '测试1'"
     :deal-data="dealData"
   >
-    <template #table-operate-prepend>
-      <div v-if="a">dasdsad</div>
-
-      <template v-if="b">
-        <el-button type="text">第二个</el-button>
-      </template>
-
-      <el-button type="text">第3个</el-button>
+    <template #form-append>
+      <div>dasdsad</div>
     </template>
+
+    <template #table-operate-prepend>
+      <el-space :size="0" :spacer="spacer">
+        <el-button link type="primary"> 配置 </el-button>
+
+        <el-button v-if="b" link type="primary"> 查看配置 </el-button>
+
+        <el-button link type="primary"> 测试 </el-button>
+      </el-space>
+    </template>
+
+    <template #table-operate-append>
+      <el-space :size="0" :spacer="spacer">
+        <el-button link type="primary"> 配置 </el-button>
+
+        <el-button v-if="b" link type="primary"> 查看配置 </el-button>
+
+        <el-button link type="primary"> 测试 </el-button>
+      </el-space>
+    </template>
+
+    <el-table-column label="333">33333333333</el-table-column>
   </LSList>
 </template>
 

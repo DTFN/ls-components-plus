@@ -212,11 +212,35 @@ const attrTableData=[
     type: 'Function',
     value: '-'
   },
+  {
+    name: 'dealDelParams',
+    desc: '处理删除接口参数，返回参数',
+    type: 'Function',
+    value: '-'
+  },
    {
     name: 'switchApi',
     desc: '开关切换接口请求方法，返回一个Promise',
     type: 'Function',
     value: '-'
+  },
+  {
+    name: 'dealSwitchParams',
+    desc: '处理开关接口参数，返回参数',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'showForm',
+    desc: '是否显示表单',
+    type: 'boolean',
+    value: 'true' 
+  },
+  {
+    name: 'formClass',
+    desc: '表单样式',
+    type: 'string',
+    value: '-' 
   },
   {
     name: 'formData',
@@ -237,10 +261,22 @@ const attrTableData=[
     value: '-'
   },
   {
+    name: 'queryFn',
+    desc: '查询事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+  {
     name: 'tableColumn',
     desc: '表格列数据',
     type: 'array',
     value: '[]'
+  },
+   {
+    name: 'tableRowKey',
+    desc: '表格接口相关默认获取值字段',
+    type: 'string',
+    value: 'id'
   },
   {
     name: 'tableAttrs',
@@ -261,6 +297,18 @@ const attrTableData=[
     value: 'true'
   },
   {
+    name: 'showOperateDivider',
+    desc: '操作按钮区域是否显示分割线',
+    type: 'boolean',
+    value: 'true'
+  },
+   {
+    name: 'operateClass',
+    desc: '操作按钮展示区域样式',
+    type: 'string',
+    value: '-'
+  },
+  {
     name: 'showAdd',
     desc: '是否显示添加按钮',
     type: 'boolean',
@@ -273,6 +321,12 @@ const attrTableData=[
     value: '添加'
   },
   {
+    name: 'addFn',
+    desc: '添加按钮点击事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+  {
     name: 'showTableSwitch',
     desc: '是否显示表格开关切换',
     type: 'boolean',
@@ -280,9 +334,21 @@ const attrTableData=[
   },
   {
     name: 'switchProp',
-    desc: '表格开关切换字段名',
+    desc: '表格开关切换值获取字段名',
     type: 'string',
     value: 'status'
+  },
+  {
+    name: 'tableSwitchColumn',
+    desc: '表格开关切换列配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'disabledTableSwitch',
+    desc: '表格开关切换是否禁用',
+    type: 'boolean/Function',
+    value: 'false'
   },
   {
     name: 'showTableOperate',
@@ -290,32 +356,154 @@ const attrTableData=[
     type: 'boolean',
     value: 'true'
   },
+   {
+    name: 'tableOperateColumn',
+    desc: '表格操作列配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableDetailFn',
+    desc: '表格查看按钮点击事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+   {
+    name: 'tableEditFn',
+    desc: '表格编辑按钮点击事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'showTableDetail',
+    desc: '表格查看按钮是否展示',
+    type: 'boolean/Function',
+    value: 'true'
+  },
+  {
+    name: 'disabledTableDetail',
+    desc: '表格查看按钮是否禁用',
+    type: 'boolean/Function',
+    value: 'false'
+  },
+  {
+    name: 'showTableEdit',
+    desc: '表格编辑按钮是否展示',
+    type: 'boolean/Function',
+    value: 'true'
+  },
+  {
+    name: 'disabledTableEdit',
+    desc: '表格编辑按钮是否禁用',
+    type: 'boolean/Function',
+    value: 'false'
+  },
+  {
+    name: 'showTableDel',
+    desc: '表格删按钮是否展示',
+    type: 'boolean/Function',
+    value: 'true'
+  },
+  {
+    name: 'disabledTableDel',
+    desc: '表格删除按钮是否禁用',
+    type: 'boolean/Function',
+    value: 'false'
+  },
+  {
+    name: 'addRoutePath',
+    desc: '添加页面路由地址',
+    type: 'string',
+    value: '默认: 当前页路由地址/add'
+  },
+   {
+    name: 'detailRoutePath',
+    desc: '详情页面路由地址',
+    type: 'string',
+    value: '默认: 当前页路由地址/detail/:id'
+  },
+   {
+    name: 'editRoutePath',
+    desc: '编辑页面路由地址',
+    type: 'string',
+    value: '默认: 当前页路由地址/edit/:id'
+  },
 ]
 
 // 事件
 const eventsTableData=[
   {
-    name: '-',
-    desc: '-',
-    type: '-',
-    value: '-'
+    name: 'submitForm',
+    desc: '表单查询事件',
+    type: 'Function',
+    value: 'object：表单数据'
   },
 ]
 
 // 插槽
 const slotTableData=[
   {
-    name: '-',
-    desc: '-',
+    name: 'form-append',
+    desc: '表单新增后置内容，LSForm组件其它插槽不支持，LSTable插槽支持',
+  },
+  {
+    name: 'operate',
+    desc: '页面操作区域自定义内容',
+  },
+  {
+    name: 'operate-prepend',
+    desc: '页面操作区域前置添加内容',
+  },
+  {
+    name: 'operate-append',
+    desc: '页面操作区域后置添加内容',
+  },
+  {
+    name: 'table-operate-prepend',
+    desc: '表格操作列区域前置添加内容,插入内容如有v-if判断用el-space组件包裹',
+  },
+  {
+    name: 'table-operate-append',
+    desc: '表格操作列区域后置添加内容，插入内容如有v-if判断用el-space组件包裹',
   },
 ]
 
 // Exposes
 const exposesTableData=[
   {
-    name: '-',
-    desc: '-',
-    type: '-',
+    name: 'loadData',
+    desc: '表单查询事件',
+    type: 'Function',
+    value: 'showLoading：是否显示加载，默认true，firstLoad: 是否首次加载,默认false'
+  },
+  {
+    name: 'handleReset',
+    desc: '表单重置事件',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'isFirst',
+    desc: '是否首次加载',
+    type: 'boolean',
+    value: '-'
+  },
+  {
+    name: 'loading',
+    desc: '加载中',
+    type: 'boolean',
+    value: '-'
+  },
+  {
+    name: 'total',
+    desc: '表格数据总数量',
+    type: 'number',
+    value: '-'
+  },
+  {
+    name: 'currentPage',
+    desc: '当前页',
+    type: 'number',
     value: '-'
   },
 ]
