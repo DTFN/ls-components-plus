@@ -26,12 +26,11 @@ function dropdownCommand(val: any) {
     <span class="el-dropdown-link">
       <el-avatar :size="30" :src="userIcon || defUserIcon" alt="" />
       <div class="name">{{ userName }}</div>
-      <LSIcon :name="commandStatus ? 'ArrowUp' : 'ArrowDown'" />
+      <LSIcon v-if="commandList.length > 0" :name="commandStatus ? 'ArrowUp' : 'ArrowDown'" />
     </span>
-    <template #dropdown>
+    <template v-if="commandList.length > 0" #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item v-for="item in commandList" :key="item.key" :command="item.key">{{ item.name }}</el-dropdown-item>
-        <el-dropdown-item command="logout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

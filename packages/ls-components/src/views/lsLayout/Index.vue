@@ -282,7 +282,14 @@ function goBack() {
 
 <template>
   <div>
-    <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="Layout 测试" :command-list="commandList">
+    <LSLayout
+      header-height="50px"
+      aside-width="220px"
+      :logo="logo"
+      title="Layout 测试"
+      :user-name="'userName'"
+      :command-list="commandList"
+    >
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
@@ -346,6 +353,7 @@ function goBack() {
       :show-logo="false"
       :command-list="commandList"
     >
+      <template #header> header test </template>
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>

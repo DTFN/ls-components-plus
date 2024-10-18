@@ -8,7 +8,8 @@ export default {
       text: 'Basic 基础组件',
       items: [
         { text: 'Icon 图标', link: '/docs/icon' },
-        { text: 'Button 按钮', link: '/docs/button' }
+        { text: 'Button 按钮', link: '/docs/button' },
+        { text: 'Layout 布局', link: '/docs/layout' }
       ]
     },
     {

@@ -432,7 +432,6 @@ const tableData2 = ref([
 
 <style lang="scss" scoped>
 .menu-wrap {
-  border: 1px solid #eee;
   width: 200px;
   padding: 0;
   :deep() ul {
