@@ -26,9 +26,13 @@ export const lsLayoutProp = buildProps({
     type: String,
     default: '200px'
   },
-  showAsideCommand: {
+  showLogo: {
     type: Boolean,
     default: true
+  },
+  logo: {
+    type: String,
+    default: ''
   }
 });
 

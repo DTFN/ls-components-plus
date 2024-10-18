@@ -347,13 +347,12 @@ function goBack() {
       header-height="50px"
       aside-width="220px"
       :logo="logo"
+      :show-logo="true"
       title="Layout 测试3"
       mode="3"
-      :show-command="false"
-      :show-logo="false"
       :command-list="commandList"
     >
-      <template #header> header test </template>
+      <!-- <template #header> header test </template> -->
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>

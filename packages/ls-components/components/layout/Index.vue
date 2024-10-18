@@ -2,7 +2,6 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsLayoutProp } from './types';
 import Header from './components/Header.vue';
-import CommandList from './components/CommandList.vue';
 
 defineOptions({
   name: 'LSLayout',
@@ -52,7 +51,15 @@ function onDropdownCommand2(val: string) {
     <el-container v-if="[1, 2].includes(Number(mode))">
       <el-header :height="headerHeight">
         <slot v-if="slots.header" name="header"></slot>
-        <Header v-else v-bind="$attrs" :height="headerHeight" @on-dropdown-command2="onDropdownCommand2">
+        <Header
+          v-else
+          v-bind="$attrs"
+          :mode="mode"
+          :logo="logo"
+          :show-logo="showLogo"
+          :height="headerHeight"
+          @on-dropdown-command2="onDropdownCommand2"
+        >
           <template #left>
             <slot name="headerLeft"></slot>
           </template>
@@ -77,13 +84,21 @@ function onDropdownCommand2(val: string) {
     </el-container>
     <el-container v-else-if="[3].includes(Number(mode))">
       <el-aside :width="asideWidth" class="ls-layout-aside3">
-        <CommandList v-if="showAsideCommand" v-bind="$attrs" @on-dropdown-command="onDropdownCommand2" />
+        <img v-if="showLogo" class="ls-layout-logo" :src="logo" alt="" />
         <slot name="aside"></slot>
       </el-aside>
       <el-container>
         <el-header :height="headerHeight">
           <slot v-if="slots.header" name="header"></slot>
-          <Header v-else v-bind="$attrs" :height="headerHeight" @on-dropdown-command2="onDropdownCommand2">
+          <Header
+            v-else
+            v-bind="$attrs"
+            :mode="mode"
+            :logo="logo"
+            :show-logo="showLogo"
+            :height="headerHeight"
+            @on-dropdown-command2="onDropdownCommand2"
+          >
             <template #left>
               <slot name="headerLeft"></slot>
             </template>
@@ -159,6 +174,13 @@ function onDropdownCommand2(val: string) {
       .el-dropdown-link {
         justify-content: center;
       }
+    }
+    .ls-layout-logo {
+      box-sizing: border-box;
+      display: block;
+      width: 96%;
+      padding: 18px 24px;
+      margin: auto;
     }
   }
 }

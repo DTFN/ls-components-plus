@@ -18,6 +18,7 @@ outline: deep
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" style="width: 220px" />
 </template>
 <template #section>
+
 <div class="ls-main-container">
 <div class="ls-main-title">列表区域</div>
 <div class="ls-search-wrap">
@@ -400,11 +401,10 @@ function onCommand(key) {
   :logo="logo"
   title="布局模式三"
   mode="3"
-  :show-command="false"
-  :show-logo="false"
+  :command-list="commandList"
 >
   <template #aside>
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" style="width: 220px" />
   </template>
   <template #headerLeft>
     <LSIcon name="House" color="red" />
@@ -554,17 +554,9 @@ const MENU_CONFIG_LIST = [
 ```
 
 ```html
-<LSLayout
-  header-height="50px"
-  aside-width="220px"
-  :logo="logo"
-  title="布局模式三"
-  mode="3"
-  :show-command="false"
-  :show-logo="false"
->
+<LSLayout header-height="50px" aside-width="220px" :logo="logo" title="布局模式三" mode="3" :command-list="commandList">
   <template #aside>
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" style="width: 220px" />
   </template>
   <template #headerLeft>
     <LSIcon name="House" color="red" />

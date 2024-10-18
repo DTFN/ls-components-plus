@@ -48,7 +48,7 @@ const editorConfig = {
 };
 ```
 
-### 3. 内容获取
+### 3. 内容获取， 判断是否为空 [isEmpty](https://www.wangeditor.com/v5/API.html#isempty) 方法
 
 <br />
 

@@ -29,7 +29,7 @@ function onDropdownCommand(val: string) {
   <div :class="comClass" :style="headerStyle">
     <div class="head-left">
       <slot name="left"></slot>
-      <img v-if="showLogo" :src="logo" :style="{ height: `${logoHeight}px` }" alt="" />
+      <img v-if="[1, 2].includes(Number(mode)) && showLogo" :src="logo" :style="{ height: `${logoHeight}px` }" alt="" />
     </div>
     <div class="title">{{ title }}</div>
     <div class="head-right">
