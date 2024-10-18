@@ -265,6 +265,10 @@ const tableData = ref([
     defaultValue: '2'
   }
 ]);
+
+function goBack() {
+  history.back();
+}
 </script>
 
 <template>
@@ -274,7 +278,7 @@ const tableData = ref([
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
       <template #section>
-        <div class="ls-main-container">
+        <div v-if="false" class="ls-main-container">
           <div class="ls-main-title">列表区域</div>
           <div class="ls-search-wrap">
             <LSForm
@@ -299,6 +303,24 @@ const tableData = ref([
             </LSTable>
           </div>
         </div>
+
+        <el-page-header title="返回" @back="goBack">
+          <template #content>
+            <span class="header-title"> 详情测试 </span>
+          </template>
+          <div class="main-container">
+            <div class="ls-edit-from-wrap">
+              <LSForm
+                ref="FormRef"
+                confirm-text="查询"
+                :form-data="formData"
+                :form-items="formItems"
+                :hide-required-asterisk="true"
+                :ready-only="true"
+              ></LSForm>
+            </div>
+          </div>
+        </el-page-header>
       </template>
     </LSLayout>
   </div>
