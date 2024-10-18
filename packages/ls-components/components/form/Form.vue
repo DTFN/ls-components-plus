@@ -114,9 +114,9 @@ defineExpose({
               v-else
               :is-value="true"
               :value="get(form, item.prop)"
-              v-bind="item"
               :colon="colon"
-              :read="disabled"
+              :read="read"
+              v-bind="item"
               @update:value="updateFormData"
             >
               <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>
@@ -136,9 +136,9 @@ defineExpose({
           v-else
           :is-value="true"
           :value="get(form, item.prop)"
-          v-bind="item"
           :colon="colon"
-          :read="disabled"
+          :read="read"
+          v-bind="item"
           @update:value="updateFormData"
         >
           <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>

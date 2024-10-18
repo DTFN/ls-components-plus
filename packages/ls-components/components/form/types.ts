@@ -23,6 +23,10 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: true
   },
+  read: {
+    type: Boolean,
+    default: false
+  },
   disabled: {
     type: Boolean,
     default: false
@@ -72,6 +76,8 @@ export const lsFormItemProps = buildProps({
       'input',
       'textarea',
       'number',
+      'radio',
+      'checkbox',
       'select',
       'date',
       'cascader',
@@ -120,6 +126,10 @@ export const lsFormItemProps = buildProps({
   colon: {
     type: Boolean,
     default: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   },
   read: {
     type: Boolean,

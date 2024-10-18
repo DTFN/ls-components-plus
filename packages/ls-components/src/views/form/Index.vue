@@ -126,6 +126,43 @@ const formItems1 = ref<FormItemsType[]>([
     }
   },
   {
+    type: 'radio',
+    label: '单选',
+    prop: 'param41',
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ],
+    attrs: {
+      multiple: true
+    }
+  },
+  {
+    type: 'checkbox',
+    label: '多选',
+    prop: 'param42',
+    disabled: true,
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ],
+    attrs: {
+      multiple: true
+    }
+  },
+  {
     type: 'date',
     label: '日期',
     prop: 'param5'
@@ -357,6 +394,8 @@ function removeItem_1(index: number) {
 function removeItem_2(index: number) {
   formData_2.value.item_2.splice(index, 1);
 }
+
+const read = ref(false);
 </script>
 
 <template>
@@ -379,7 +418,9 @@ function removeItem_2(index: number) {
   <div>--------------------------------------------------------------------------------------------</div>
   <br />
 
-  <LSForm ref="FormRef1" v-model:form-data="formData1" :form-items="formItems1" :column="2" :loading="loading">
+  <el-switch v-model="read"></el-switch>
+
+  <LSForm ref="FormRef1" :read="read" v-model:form-data="formData1" :form-items="formItems1" :column="2" :loading="loading">
     <template #param9-prepend>
       <div>注意事项</div>
     </template>
@@ -392,7 +433,7 @@ function removeItem_2(index: number) {
       <div>插入控件区域</div>
     </template>
 
-    <template #param11>
+    <template #param1-read-slot>
       <div>自定义区域</div>
     </template>
   </LSForm>

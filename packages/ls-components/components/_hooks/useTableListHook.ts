@@ -1,5 +1,9 @@
 // 列表页面获取数据的hook
-export default function (requestFn: Function | undefined, requestParams: any, noAuto?: boolean) {
+export default function (
+  requestFn: Function | undefined,
+  requestParams: any,
+  config?: { autoFetch?: boolean; dealData?: Function }
+) {
   // 初始化
   const isFirst = ref(true);
   // 加载状态
@@ -14,6 +18,8 @@ export default function (requestFn: Function | undefined, requestParams: any, no
   const tableData = ref([]);
   // 总数
   const total = ref(0);
+
+  const { autoFetch = true, dealData } = config || {};
 
   // 加载数据
   const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
@@ -31,10 +37,15 @@ export default function (requestFn: Function | undefined, requestParams: any, no
       ...requestParams
     })
       .then((res: any) => {
-        const { records = [], total: count } = res || {};
-
-        tableData.value = records || [];
-        total.value = Number(count);
+        if (dealData && typeof dealData === 'function') {
+          const { data, total: count = 0 } = dealData(res);
+          tableData.value = data || [];
+          total.value = Number(count || 0);
+        } else {
+          const { records = [], total: count } = res || {};
+          tableData.value = records || [];
+          total.value = Number(count || 0);
+        }
       })
       .catch((err: string) => {
         console.log(`useTableHook error: ${err}`);
@@ -76,7 +87,7 @@ export default function (requestFn: Function | undefined, requestParams: any, no
 
   // 渲染后自动获取列表
   onMounted(() => {
-    if (!noAuto) {
+    if (autoFetch) {
       isFirst.value = true;
       loadData();
     }

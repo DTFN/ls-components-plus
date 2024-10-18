@@ -3,6 +3,8 @@ type FormItemType =
   | 'input'
   | 'textarea'
   | 'number'
+  | 'radio'
+  | 'checkbox'
   | 'select'
   | 'date'
   | 'cascader'
@@ -43,6 +45,7 @@ type FormItemsType = {
     [key: string]: any;
   };
   colon?: boolean;
+  disabled?: boolean;
   read?: boolean;
   readLabel?: boolean;
   labelNumber?: boolean;

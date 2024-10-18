@@ -7,6 +7,7 @@ import { isEqual } from 'lodash-es';
 import { ref } from 'vue';
 import { isEmpty } from '../_utils/utils';
 import { lsFormItemProps } from './types';
+import dayjs from 'dayjs';
 
 const props = defineProps(lsFormItemProps);
 
@@ -95,6 +96,37 @@ watch(
   }
 );
 
+// 获取Options label
+function getOptionsLabel(value: string | string[], options: any[], multiple?: boolean) {
+  let val = '--';
+  if (options && !isEmpty(value)) {
+    if (multiple && Array.isArray(value)) {
+      val = value.map((item: any) => options.find(_ => _.value === item)?.label).join(',');
+    } else {
+      val = options.find(_ => _.value === value)?.label;
+    }
+  }
+  return val;
+}
+
+function readValue(type: string | undefined) {
+  const val = modelValue.value;
+  switch (type) {
+    case 'switch':
+      return val ? '是' : '否';
+    case 'date':
+      return val ? dayjs(val).format('YYYY-MM-DD HH:mm:ss') : '--';
+    case 'radio':
+      return getOptionsLabel(val, props.options);
+    case 'checkbox':
+      return getOptionsLabel(val, props.options, true);
+    case 'select':
+      return getOptionsLabel(val, props.options, props.attrs?.multiple);
+    default:
+      return isEmpty(val) ? '--' : val;
+  }
+}
+
 defineExpose({
   FormItemRef
 });
@@ -116,18 +148,15 @@ defineExpose({
       </div>
     </template>
 
-    <template v-if="read && readLabel">
-      <span>{{ isEmpty(modelValue) ? '--' : modelValue }}</span>
-    </template>
+    <!-- 前置插槽 -->
+    <slot :name="`${prop}-prepend`" />
 
-    <template v-else-if="read && type !== 'switch' && isEmpty(modelValue)">
-      <span>--</span>
+    <template v-if="read">
+      <slot v-if="$slots[`${prop}-read-slot`]" :name="`${prop}-read-slot`" />
+      <span v-else>{{ readValue(type) }}</span>
     </template>
 
     <template v-else>
-      <!-- 前置插槽 -->
-      <slot :name="`${prop}-prepend`" />
-
       <span v-if="type === 'label'">
         <template v-if="isEmpty(modelValue)"> -- </template>
         <template v-if="labelNumber">
@@ -147,6 +176,7 @@ defineExpose({
         v-model.trim="modelValue"
         :clearable="true"
         :placeholder="`请输入${label}`"
+        :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
       />
@@ -160,6 +190,7 @@ defineExpose({
         show-word-limit
         maxlength="100"
         :placeholder="`请输入${label}`"
+        :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
       />
@@ -172,9 +203,40 @@ defineExpose({
         :max="1000000000000000"
         :min="0"
         :controls="false"
+        :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
       />
+
+      <!-- 单选按钮 -->
+      <el-radio-group
+        v-else-if="type === 'radio'"
+        v-model="modelValue"
+        :disabled="disabled"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      >
+        <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
+          {{ option.label }}
+        </el-radio>
+      </el-radio-group>
+
+      <!-- 多选框 -->
+      <el-checkbox-group
+        v-else-if="type === 'checkbox'"
+        v-model="modelValue"
+        :disabled="disabled"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      >
+        <el-checkbox
+          v-for="(option, i) in options"
+          :key="i"
+          :value="option.value"
+          :label="option.label"
+          :disabled="option.disabled"
+        />
+      </el-checkbox-group>
 
       <!-- 选择框 -->
       <el-select
@@ -182,6 +244,7 @@ defineExpose({
         v-model="modelValue"
         :clearable="true"
         :placeholder="`请选择${label}`"
+        :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
       >
@@ -191,7 +254,13 @@ defineExpose({
             全部
           </el-checkbox>
         </template>
-        <el-option v-for="(option, i) in options" :key="`${i}-${option.value}`" :label="option.label" :value="option.value" />
+        <el-option
+          v-for="(option, i) in options"
+          :key="`${i}-${option.value}`"
+          :label="option.label"
+          :value="option.value"
+          :disabled="option.disabled"
+        />
       </el-select>
 
       <!-- 日期 -->
@@ -201,6 +270,7 @@ defineExpose({
         type="date"
         :clearable="true"
         :placeholder="`请选择${label}`"
+        :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
       />
@@ -235,10 +305,10 @@ defineExpose({
       <template v-else-if="type === 'itemSlot'">
         <slot :name="`${prop}-slot`" />
       </template>
-
-      <!-- 后置插槽 -->
-      <slot :name="`${prop}-append`" />
     </template>
+
+    <!-- 后置插槽 -->
+    <slot :name="`${prop}-append`" />
   </el-form-item>
 </template>
 
