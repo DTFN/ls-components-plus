@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import logo from '@/assets/logo.png';
 import { MENU_LIST } from '@/constant';
 
 // function jumpRoute(path: string) {
@@ -54,27 +55,27 @@ const readAll = () => {
 </script>
 
 <template>
-  <section class="main_container">
-    <header class="main_header">
-      Demo展示
-      <LSBellMessage :notice-num="noticeNum" :list="list" @read-msg="readMsg" @read-all="readAll" @load-more="loadMore" />
-    </header>
-    <section class="main_content">
-      <!-- <el-menu :default-active="$route.path" active-text-color="#006eff" class="left_menu" router>
-        <el-menu-item v-for="item in dataList" :key="item.id" :index="item.path" @click="jumpRoute(item.path)">
-          <span>{{ item.title }}</span>
-        </el-menu-item>
-      </el-menu> -->
-
+  <LSLayout header-height="50px" :logo="logo" title="组件案例">
+    <template #aside>
       <LSMenu :menu-config-list="MENU_LIST" style="width: 200px" />
-      <section class="right_content">
-        <el-config-provider :value-on-clear="undefined" :empty-values="[undefined, null]">
-          <LSBreadcrumb />
-          <router-view />
-        </el-config-provider>
-      </section>
-    </section>
-  </section>
+    </template>
+    <template #headerRight>
+      <LSBellMessage
+        :notice-num="noticeNum"
+        :list="list"
+        @read-msg="readMsg"
+        @read-all="readAll"
+        @load-more="loadMore"
+        style="margin-right: 18px"
+      />
+    </template>
+    <template #section>
+      <el-config-provider :value-on-clear="undefined" :empty-values="[undefined, null]">
+        <LSBreadcrumb />
+        <router-view />
+      </el-config-provider>
+    </template>
+  </LSLayout>
 </template>
 
 <style scoped>

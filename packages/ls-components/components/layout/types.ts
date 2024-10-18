@@ -1,24 +1,49 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 export const lsLayoutProp = buildProps({
+  /**
+   * 1. header+aside+main
+   * 2. header+main
+   * 3. aside+header+main
+   */
   mode: {
-    type: Number,
+    type: [String, Number],
     default: 1
   },
   headerHeight: {
     type: String,
     default: '60px'
   },
+  showFooter: {
+    type: Boolean,
+    default: false
+  },
+  footerHeight: {
+    type: String,
+    default: '60px'
+  },
   asideWidth: {
     type: String,
     default: '200px'
+  },
+  showAsideCommand: {
+    type: Boolean,
+    default: true
   }
 });
 
 export const lsHeaderProp = buildProps({
+  mode: {
+    type: [String, Number],
+    default: 1
+  },
   title: {
     type: String,
     default: ''
+  },
+  showLogo: {
+    type: Boolean,
+    default: true
   },
   logo: {
     type: String,
@@ -27,6 +52,10 @@ export const lsHeaderProp = buildProps({
   height: {
     type: String,
     default: '60px'
+  },
+  showCommand: {
+    type: Boolean,
+    default: true
   },
   userName: {
     type: String,
@@ -45,4 +74,4 @@ export const lsHeaderProp = buildProps({
   }
 });
 
-export const lsEmitNames = ['onCommand'];
+export const lsEmitNames = ['onCommand', 'onDropdownCommand', 'onDropdownCommand2'];

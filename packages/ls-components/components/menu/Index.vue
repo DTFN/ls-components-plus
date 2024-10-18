@@ -67,7 +67,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .ls-menu {
   &.el-menu {
-    height: 100%;
+    height: auto;
     border-right: 0;
     :deep(.el-sub-menu) {
       .el-menu--inline {

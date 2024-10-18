@@ -147,6 +147,8 @@ const formItems = ref<FormItemsType[]>([
     type: 'input',
     label: '用户名',
     prop: 'username',
+    read: true,
+    readLabel: true,
     rules: [
       {
         required: true,
@@ -266,6 +268,13 @@ const tableData = ref([
   }
 ]);
 
+const commandList = ref([
+  {
+    key: 'test',
+    name: '测试Command'
+  }
+]);
+
 function goBack() {
   history.back();
 }
@@ -273,7 +282,7 @@ function goBack() {
 
 <template>
   <div>
-    <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="Layout 测试">
+    <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="Layout 测试" :command-list="commandList">
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
@@ -316,12 +325,34 @@ function goBack() {
                 :form-data="formData"
                 :form-items="formItems"
                 :hide-required-asterisk="true"
-                :ready-only="true"
+                :ready="true"
+                :show-buttons="false"
               ></LSForm>
             </div>
           </div>
         </el-page-header>
       </template>
+    </LSLayout>
+    <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="Layout 测试2" mode="2" :command-list="commandList">
+      <template #section> Layout 测试2 </template>
+    </LSLayout>
+    <LSLayout
+      header-height="50px"
+      aside-width="220px"
+      :logo="logo"
+      title="Layout 测试3"
+      mode="3"
+      :show-command="false"
+      :show-logo="false"
+      :command-list="commandList"
+    >
+      <template #aside>
+        <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
+      </template>
+      <template #headerLeft>
+        <LSIcon name="House" color="red" />
+      </template>
+      <template #section> Layout 测试3 </template>
     </LSLayout>
   </div>
 </template>

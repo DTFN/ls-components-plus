@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsLayoutProp } from './types';
 import Header from './components/Header.vue';
+import CommandList from './components/CommandList.vue';
 
 defineOptions({
   name: 'LSLayout',
@@ -20,31 +21,48 @@ const containerWrap: string = ns.b('container-wrap');
 const containerSection: string = ns.b('container-section');
 
 const containerWrapStyle = computed(() => {
+  if (props.showFooter) {
+    return {
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`
+    };
+  }
   return {
     height: `calc(100vh - ${props.headerHeight})`
   };
 });
 
 const containerSectionStyle = computed(() => {
+  if (props.showFooter) {
+    return {
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`
+    };
+  }
   return {
     minHeight: `calc(100vh - ${props.headerHeight})`
   };
 });
 
-function onCommand(val: string) {
+function onDropdownCommand2(val: string) {
   emits('onCommand', val);
 }
 </script>
 
 <template>
   <div :class="comClass">
-    <el-container>
+    <el-container v-if="[1, 2].includes(Number(mode))">
       <el-header :height="headerHeight">
         <slot v-if="slots.header" name="header"></slot>
-        <Header v-else v-bind="$attrs" :height="headerHeight" @on-command="onCommand" />
+        <Header v-else v-bind="$attrs" :height="headerHeight" @on-dropdown-command2="onDropdownCommand2">
+          <template #left>
+            <slot name="headerLeft"></slot>
+          </template>
+          <template #right>
+            <slot name="headerRight"></slot>
+          </template>
+        </Header>
       </el-header>
       <el-container :class="containerWrap" :style="containerWrapStyle">
-        <el-aside :width="asideWidth">
+        <el-aside v-if="mode != 2" :width="asideWidth">
           <slot name="aside"></slot>
         </el-aside>
         <el-main>
@@ -52,6 +70,36 @@ function onCommand(val: string) {
             <slot name="section"></slot>
           </section>
         </el-main>
+      </el-container>
+      <el-footer v-if="showFooter" :height="footerHeight">
+        <slot name="footer"></slot>
+      </el-footer>
+    </el-container>
+    <el-container v-else-if="[3].includes(Number(mode))">
+      <el-aside :width="asideWidth" class="ls-layout-aside3">
+        <CommandList v-if="showAsideCommand" v-bind="$attrs" @on-dropdown-command="onDropdownCommand2" />
+        <slot name="aside"></slot>
+      </el-aside>
+      <el-container>
+        <el-header :height="headerHeight">
+          <slot v-if="slots.header" name="header"></slot>
+          <Header v-else v-bind="$attrs" :height="headerHeight" @on-dropdown-command2="onDropdownCommand2">
+            <template #left>
+              <slot name="headerLeft"></slot>
+            </template>
+            <template #right>
+              <slot name="headerRight"></slot>
+            </template>
+          </Header>
+        </el-header>
+        <el-main>
+          <section :class="containerSection" :style="containerSectionStyle">
+            <slot name="section"></slot>
+          </section>
+        </el-main>
+        <el-footer v-if="showFooter" :height="footerHeight">
+          <slot name="footer"></slot>
+        </el-footer>
       </el-container>
     </el-container>
   </div>
@@ -86,6 +134,7 @@ function onCommand(val: string) {
     position: relative;
     box-sizing: border-box;
     height: 100%;
+    overflow-x: hidden;
     background: #ffffff;
     box-shadow: 2px 0 8px 0 rgb(0 0 0 / 10%);
   }
@@ -99,6 +148,18 @@ function onCommand(val: string) {
   .ls-layout-container-section {
     box-sizing: border-box;
     padding: 24px 40px;
+  }
+  .ls-layout-aside3 {
+    z-index: 999;
+    height: 100vh;
+    :deep(.el-dropdown) {
+      box-sizing: border-box;
+      display: block;
+      padding: 24px 0;
+      .el-dropdown-link {
+        justify-content: center;
+      }
+    }
   }
 }
 </style>
