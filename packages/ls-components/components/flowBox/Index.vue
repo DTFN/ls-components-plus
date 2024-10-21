@@ -159,7 +159,7 @@ function setItemArrowStyle(item: any) {
     color: #ffffff;
     background-color: $color-brand5;
     border-radius: 6px;
-    :deep() div {
+    :deep(div) {
       border-radius: 6px;
     }
     .ls-flow-box-item-line {

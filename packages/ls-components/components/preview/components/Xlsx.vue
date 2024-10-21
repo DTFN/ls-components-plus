@@ -169,7 +169,7 @@ onBeforeUnmount(() => {
 .ls-xlsx {
   position: relative;
   height: 100%;
-  :deep() table {
+  :deep(table) {
     display: table !important;
     width: 100% !important;
     height: 100% !important;
@@ -199,20 +199,20 @@ onBeforeUnmount(() => {
   padding: 0;
   margin: 0;
   transform: translateY(-50%);
-  :deep() .img-list {
+  :deep(.img-list) {
     pointer-events: none;
   }
 
   // luckysheet 双击不展示编辑状态框
-  :deep() .luckysheet-input-box {
+  :deep(.luckysheet-input-box) {
     display: none !important;
   }
-  :deep() .luckysheet-loading-image {
+  :deep(.luckysheet-loading-image) {
     display: none !important;
   }
 
   // 禁止操作
-  :deep() .luckysheet-cell-main {
+  :deep(.luckysheet-cell-main) {
     // 不展示当前选中的框
     .luckysheet-cell-selected,
     .luckysheet-modal-dialog-border {

@@ -178,7 +178,7 @@ function loadError() {
   border-color: #ffffff;
 }
 .ls-pdf {
-  :deep() .pdf-canvas {
+  :deep(.pdf-canvas) {
     position: relative !important;
     margin: auto !important;
   }

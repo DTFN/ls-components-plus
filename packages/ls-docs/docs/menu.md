@@ -434,11 +434,11 @@ const tableData2 = ref([
 .menu-wrap {
   width: 200px;
   padding: 0;
-  :deep() ul {
+  :deep(ul) {
     padding: 0;
     margin: 0;
   }
-  :deep() li {
+  :deep(li) {
     margin: 0;
   }
 }

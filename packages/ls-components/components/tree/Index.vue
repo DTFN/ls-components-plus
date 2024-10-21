@@ -205,10 +205,10 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-:deep() .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
+:deep(.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after) {
   border-color: #aaaaaa !important;
 }
-:deep() .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before {
+:deep(.el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before) {
   background-color: #aaaaaa !important;
 }
 .ls-tree {
@@ -232,10 +232,10 @@ defineExpose({
       /* 滚动条里面轨道 */
       background: #ffffff;
     }
-    :deep() .el-tree-node__expand-icon {
+    :deep(.el-tree-node__expand-icon) {
       margin-left: 12px;
     }
-    :deep() .el-tree__empty-text {
+    :deep(.el-tree__empty-text) {
       top: 11px;
       margin-left: 30px;
       word-break: keep-all;
@@ -244,10 +244,10 @@ defineExpose({
 
   // 禁用收缩样式
   .expand-disabled {
-    :deep() .el-tree-node__expand-icon {
+    :deep(.el-tree-node__expand-icon) {
       display: none;
     }
-    :deep() .el-checkbox {
+    :deep(.el-checkbox) {
       margin-left: 12px;
     }
   }

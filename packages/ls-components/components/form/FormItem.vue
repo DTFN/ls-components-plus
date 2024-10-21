@@ -313,7 +313,7 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-:deep() .el-select-dropdown__header {
+:deep(.el-select-dropdown__header) {
   padding: 0 !important;
 }
 .el-select {
@@ -326,20 +326,20 @@ defineExpose({
   --el-input-width: 240px;
 
   width: var(--el-input-width);
-  &:deep() .el-input__inner {
+  &:deep(.el-input__inner) {
     text-align: left;
   }
 }
-:deep() .el-date-editor {
+:deep(.el-date-editor) {
   --el-date-editor-width: 240px;
 }
-:deep() .el-cascader {
+:deep(.el-cascader) {
   .el-input {
     --el-input-width: 240px;
   }
 }
 .el-textarea {
-  &:deep() .el-textarea__inner {
+  &:deep(.el-textarea__inner) {
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -362,7 +362,7 @@ defineExpose({
 }
 .dark {
   .el-textarea {
-    &:deep() .el-textarea__inner {
+    &:deep(.el-textarea__inner) {
       &::-webkit-scrollbar-thumb {
         background-color: rgb(255 255 255 / 20%);
         &:hover {

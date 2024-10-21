@@ -107,7 +107,7 @@ onMounted(() => {
   width: 100%;
   height: 390px;
 }
-:deep() .point-wrap {
+:deep(.point-wrap) {
   position: relative;
   box-sizing: border-box;
   min-width: 129px;

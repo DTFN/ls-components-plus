@@ -74,7 +74,7 @@ onMounted(() => {
         background-color: #f4f4f4;
       }
     }
-    :deep() .el-menu-item {
+    :deep(.el-menu-item) {
       position: relative;
       &:hover {
         background-color: var(--el-fill-color-light);
@@ -94,30 +94,28 @@ onMounted(() => {
       }
     }
   }
-  :deep() {
-    .el-sub-menu {
-      .el-menu-item {
-        span {
-          position: relative;
-          display: inline-block;
-          padding-left: 10px;
-          &::before {
-            position: absolute;
-            top: 50%;
-            left: -10px;
-            width: 5px;
-            height: 5px;
-            content: '';
-            background: #303133;
-            border-radius: 100%;
-            transform: translateY(-50%);
-          }
+  :deep(.el-sub-menu) {
+    .el-menu-item {
+      span {
+        position: relative;
+        display: inline-block;
+        padding-left: 10px;
+        &::before {
+          position: absolute;
+          top: 50%;
+          left: -10px;
+          width: 5px;
+          height: 5px;
+          content: '';
+          background: #303133;
+          border-radius: 100%;
+          transform: translateY(-50%);
         }
-        &.is-active {
-          span {
-            &::before {
-              background: var(--el-color-primary);
-            }
+      }
+      &.is-active {
+        span {
+          &::before {
+            background: var(--el-color-primary);
           }
         }
       }

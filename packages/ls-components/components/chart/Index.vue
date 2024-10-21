@@ -104,7 +104,7 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-:deep() .ls-bar-tooltip-wrap {
+:deep(.ls-bar-tooltip-wrap) {
   position: relative;
   box-sizing: border-box;
   min-width: 120px;

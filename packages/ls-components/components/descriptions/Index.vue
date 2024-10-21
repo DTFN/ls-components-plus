@@ -113,20 +113,18 @@ function updateLabelStyle(color: string, type: number) {
       word-break: break-all;
       vertical-align: middle;
     }
+    .el-descriptions__label {
+      padding: 2vh 11px !important;
+    }
+    .el-descriptions__table.is-bordered .el-descriptions__cell {
+      border: 1px solid #dcdfe6 !important;
+    }
   }
   :deep(.cell-item) {
     display: flex;
     align-items: center;
     .ls-icon {
       margin-right: 8px;
-    }
-  }
-  :deep() .el-descriptions__body {
-    .el-descriptions__label {
-      padding: 2vh 11px !important;
-    }
-    .el-descriptions__table.is-bordered .el-descriptions__cell {
-      border: 1px solid #dcdfe6 !important;
     }
   }
 }

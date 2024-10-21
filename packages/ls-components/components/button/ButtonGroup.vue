@@ -22,7 +22,7 @@ provide(lsBtnKey, props);
   position: relative;
   display: flex;
   align-items: center;
-  :deep() .ls-button {
+  :deep(.ls-button) {
     &:last-child {
       .separator {
         display: none;

@@ -702,14 +702,14 @@ function closePreview() {
     }
   }
   &.ls-upload-drag {
-    :deep() .el-upload-list--picture-card {
+    :deep(.el-upload-list--picture-card) {
       width: 100%;
       .el-upload {
         width: 100%;
         height: auto;
       }
     }
-    :deep() .el-upload-list {
+    :deep(.el-upload-list) {
       margin-top: 24px;
     }
   }

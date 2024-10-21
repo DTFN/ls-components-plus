@@ -158,10 +158,10 @@ onUnmounted(() => {
 .ls-map {
   width: 100%;
 }
-:deep() .amap-logo {
+:deep(.amap-logo) {
   display: none !important;
 }
-:deep() .amap-copyright {
+:deep(.amap-copyright) {
   display: none !important;
 }
 </style>

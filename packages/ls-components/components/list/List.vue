@@ -404,13 +404,13 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-:deep() .el-divider--horizontal {
+:deep(.el-divider--horizontal) {
   margin: 0;
 }
-:deep() .mt-16px {
+:deep(.mt-16px) {
   margin-top: 16px;
 }
-:deep() .mt-24px {
+:deep(.mt-24px) {
   margin-top: 24px;
 }
 .ls-table-cpo {

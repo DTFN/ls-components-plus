@@ -65,7 +65,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .ls-json-editor {
-  :deep() .vue-ts-json-editor {
+  :deep(.vue-ts-json-editor) {
     .jse-last,
     .jse-search,
     .jse-separator {
@@ -78,10 +78,10 @@ defineExpose({
     }
   }
   .editor-status {
-    :deep() .jse-first {
+    :deep(.jse-first) {
       display: none !important;
     }
-    :deep() .jse-button {
+    :deep(.jse-button) {
       &:nth-of-type(2) {
         margin-left: calc(0.5 * var(--jse-padding, 10px)) !important;
       }

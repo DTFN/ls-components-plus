@@ -53,7 +53,7 @@ function onClickFunc(): void {
   .ls-back-top-opt {
     position: relative;
     background-color: transparent;
-    :deep() .icon-iconify {
+    :deep(.icon-iconify) {
       &:hover {
         width: 49px;
         height: 49px;

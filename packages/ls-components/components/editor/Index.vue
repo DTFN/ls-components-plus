@@ -119,7 +119,7 @@ defineExpose({
   border-bottom: 1px solid $color-text5;
 }
 .editor-wrap {
-  :deep() .w-e-text-container {
+  :deep(.w-e-text-container) {
     h1 {
       margin-block: 0.67em 0.67em !important;
       font-size: 2em !important;

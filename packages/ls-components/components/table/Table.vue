@@ -275,11 +275,11 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-:deep() .el-empty {
+:deep(.el-empty) {
   --el-empty-padding: 24px 0 10px 0;
   --el-empty-description-margin-top: 10px;
 }
-:deep() .el-radio {
+:deep(.el-radio) {
   height: 23px;
 }
 .el-pagination {
