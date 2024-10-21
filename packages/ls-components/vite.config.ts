@@ -23,17 +23,30 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     build: {
       outDir: 'lib',
+      cssCodeSplit: true,
+      // minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
       lib: {
         entry: path.resolve(__dirname, './components/main.ts'),
         name: 'index',
         fileName: 'index'
       },
       rollupOptions: {
-        external: ['vue', 'vue-router'],
+        external: ['vue', 'vue-router', 'axios', 'echarts', 'element-plus', 'pdfjs-dist'],
         output: {
+          exports: 'named',
           globals: {
             vue: 'Vue',
-            'vue-router': 'VueRouter'
+            'vue-router': 'VueRouter',
+            axios: 'axios',
+            echarts: 'echarts',
+            'element-plus': 'element-plus',
+            'pdfjs-dist': 'pdfjs-dist'
           },
           assetFileNames: 'lsWebPlus.css'
         }

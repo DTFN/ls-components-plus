@@ -9,6 +9,8 @@ outline: deep
 
 ## 使用方式
 
+#### 下载依赖 vue3-print-nb, 注册依赖 app.directive('print', print);
+
 ### 1. 普通打印
 
 <br />

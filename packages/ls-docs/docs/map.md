@@ -57,7 +57,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 ```
 
 ```scss
-:deep() .point-wrap {
+:deep(.point-wrap) {
   position: relative;
   box-sizing: border-box;
   min-width: 129px;
@@ -227,7 +227,7 @@ const tableData = ref([
 </script>
 
 <style lang="scss" scoped>
-:deep() .point-wrap {
+:deep(.point-wrap) {
   position: relative;
   box-sizing: border-box;
   min-width: 129px;

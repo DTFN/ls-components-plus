@@ -71,11 +71,11 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         // 自动导入 Element Plus 组件 (采用scss样式配色系统)
         ElementPlusResolver({
           importStyle: 'sass' // 自定义主题颜色
-        }),
-        // 自动注册图标组件
-        IconsResolver({
-          enabledCollections: ['ep']
         })
+        // 自动注册图标组件
+        // IconsResolver({
+        //   enabledCollections: ['ep']
+        // })
       ],
       dirs: ['src/components'],
       dts: path.resolve(pathSrc, 'components.d.ts')

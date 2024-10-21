@@ -34,7 +34,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 </template>
 
 <style lang="scss" scoped>
-:deep() .point-wrap {
+:deep(.point-wrap) {
   position: relative;
   box-sizing: border-box;
   min-width: 129px;

@@ -1,6 +1,5 @@
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import type { App, Plugin } from 'vue';
-import print from 'vue3-print-nb';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
 import { LSForm, LSFormItem } from './form/index';
@@ -64,8 +63,6 @@ const install = (app: App) => {
     const cpo: any = components[key];
     app.component(cpo?.name, cpo);
   }
-
-  app.directive('print', print);
 };
 
 const LSWebPlus = {
