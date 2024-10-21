@@ -581,8 +581,12 @@ const MENU_CONFIG_LIST = [
 
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="slotTableData" />
 
+### 4. 公共样式
+
+<ApiIntro :tableColumn="tableStyleColumn" :tableData="styleTableData" />
+
 <script setup>
-import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant'
+import { tableColumn, tableMethodColumn, tableSlotColumn, tableStyleColumn } from '../constant'
 import { ref } from 'vue';
 import { ElPageHeader } from 'element-plus';
 import logo from '/logo.png';
@@ -978,7 +982,29 @@ const slotTableData = ref([
     name: 'footer',
     desc: '底部插槽，可自定义底部内容，showFooter 为 true 时生效',
   }
+])
 
+const styleTableData = ref([
+  {
+    name: 'ls-main-container',
+    desc: '内容区域最外层样式',
+  },
+  {
+    name: 'ls-main-title',
+    desc: '内容区域标题样式，常用于列表页',
+  },
+  {
+    name: 'ls-search-wrap',
+    desc: '内容区域，搜索区样式，作用于搜索区域外层',
+  },
+  {
+    name: 'ls-detail-title',
+    desc: '详情页标题样式，常用于详情页，跟在返回之后',
+  },
+  {
+    name: 'ls-edit-from-wrap',
+    desc: '详情页内容区域样式，常用于表单外层',
+  }
 ])
 </script>
 

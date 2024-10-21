@@ -74,3 +74,15 @@ export const tableExposesColumn = ref([
     label: '参数类型'
   }
 ]);
+
+export const tableStyleColumn = ref([
+  {
+    prop: 'name',
+    label: '名称',
+    width: 200
+  },
+  {
+    prop: 'desc',
+    label: '说明'
+  }
+]);
