@@ -55,6 +55,7 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         'vue-router',
         'pinia'
       ],
+      ignore: ['h'],
       resolvers: [
         ElementPlusResolver({
           importStyle: 'sass' // 自定义主题颜色

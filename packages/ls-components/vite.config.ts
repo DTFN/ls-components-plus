@@ -49,7 +49,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     build: {
       outDir: 'lib',
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       terserOptions: {
         compress: {
           drop_console: true,

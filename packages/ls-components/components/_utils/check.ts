@@ -24,9 +24,9 @@ export function isObject(obj: any): obj is Record<string, unknown> {
   return opt.call(obj) === '[object Object]';
 }
 
-export const isPromise = <T>(obj: unknown): obj is Promise<T> => {
+export function isPromise<T>(obj: unknown): obj is Promise<T> {
   return opt.call(obj) === '[object Promise]';
-};
+}
 
 export function isString(obj: any): obj is string {
   return opt.call(obj) === '[object String]';
@@ -80,27 +80,29 @@ export function isWindow(el: any): el is Window {
   return el === window;
 }
 
-export const isComponentInstance = (value: any): value is ComponentPublicInstance => {
+export function isComponentInstance(value: any): value is ComponentPublicInstance {
   return value?.$ !== undefined;
-};
+}
 
-export const isArrayChildren = (children: VNodeNormalizedChildren): children is VNode[] => {
+export function isArrayChildren(children: VNodeNormalizedChildren): children is VNode[] {
   return isArray(children);
-};
+}
 
-export const isQuarter = (fromat: string) => {
+export function isQuarter(fromat: string) {
   return /\[Q]Q/.test(fromat);
-};
+}
 
-export const isFirefox = (): boolean => isClient && /firefox/i.test(window.navigator.userAgent);
+export function isFirefox(): boolean {
+  return isClient && /firefox/i.test(window.navigator.userAgent);
+}
 
-export const isArrayBuffer = (data: any) => {
-  return data instanceof ArrayBuffer || ArrayBuffer.isView(data);
-};
+export function isArrayBuffer(arrayBuffer: any) {
+  return arrayBuffer instanceof ArrayBuffer || ArrayBuffer.isView(arrayBuffer);
+}
 
-export const isFile = (data: any) => {
-  return data instanceof File;
-};
+export function isFile(file: any) {
+  return file instanceof File;
+}
 
 export function isValidJSON(str: any) {
   try {

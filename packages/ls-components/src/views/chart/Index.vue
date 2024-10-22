@@ -548,7 +548,7 @@ function changeChartStyle() {
       ></LSChart>
     </div>
 
-    <LSBackTop :target="'.right_content'" :ani-switch="true"> </LSBackTop>
+    <LSBackTop :target="'.el-main'" :ani-switch="true"> </LSBackTop>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElDivider } from 'element-plus';
+import { h } from 'vue';
 
 const formData = ref({
   name: undefined,

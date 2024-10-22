@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouterHook } from '@cpo/main';
+import { useRouterHook } from '../../../lib/hooks';
 
 const MENU_CONFIG_LIST = [
   {

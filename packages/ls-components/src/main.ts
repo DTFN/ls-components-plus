@@ -5,13 +5,14 @@ import App from './App.vue';
 
 import print from 'vue3-print-nb';
 
-// import LSWebPlus, { vAuth } from '@cpo/main';
+// import LSWebPlus from '@cpo/main';
 
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '@cpo/main';
 
-// import LSWebPlus, { vAuth } from '../lib/';
+import LSWebPlus from '../lib/index';
+import { vAuth } from '../lib/directives';
 
-import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '../lib/';
+// import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '../lib/';
 
 import 'element-plus/dist/index.css';
 import '../lib/index.css';
@@ -29,12 +30,12 @@ const setupAll = () => {
   setupElement(app);
   setupRouter(app);
 
-  // app.use(LSWebPlus);
-  app.component('LSButton', LSButton);
-  app.component('LSMenu', LSMenu);
-  app.component('LSBellMessage', LSBellMessage);
-  app.component('LSBreadcrumb', LSBreadcrumb);
-  app.component('LSLayout', LSLayout);
+  app.use(LSWebPlus);
+  // app.component('LSButton', LSButton);
+  // app.component('LSMenu', LSMenu);
+  // app.component('LSBellMessage', LSBellMessage);
+  // app.component('LSBreadcrumb', LSBreadcrumb);
+  // app.component('LSLayout', LSLayout);
 
   createDirective();
 

@@ -1,5 +1,6 @@
 <script setup lang="ts" name="LSList">
 // 公共列表页面
+import { h } from 'vue';
 import useTableListHook from '@cpo/_hooks/useTableListHook';
 import { ElMessage, ElDivider, ElMessageBox } from 'element-plus';
 import { lsListProps } from './types';
