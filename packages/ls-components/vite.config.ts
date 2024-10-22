@@ -4,9 +4,29 @@ import path from 'path';
 import { wrapperEnv } from './build/getEnv';
 import { createProxy } from './build/proxy';
 import { createVitePlugins } from './build/plugins';
+// import { readdirSync, statSync } from 'fs';
 
 const pathSrc = path.resolve(__dirname, 'src');
 const cpoSrc = path.resolve(__dirname, 'components');
+
+// function getComponentEntries(cpoPath: string) {
+//   const resolve = (dir: string) => path.join(__dirname, './', dir);
+//   let files = readdirSync(resolve(cpoPath));
+//   const componentEntries = files.reduce((fileObj: any, item: any) => {
+//     const join = (path as any).join;
+//     const itemPath = join(cpoPath, item);
+//     const isDir = statSync(itemPath).isDirectory();
+//     const [name, suffix] = item.split('.');
+
+//     if (isDir && !item.startsWith('_')) {
+//       fileObj[item] = resolve(join(itemPath, 'index.ts'));
+//     } else if (suffix === 'ts') {
+//       fileObj[name] = resolve(`${itemPath}`);
+//     }
+//     return fileObj;
+//   }, {});
+//   return componentEntries;
+// }
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const root = process.cwd();
@@ -23,8 +43,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     build: {
       outDir: 'lib',
-      cssCodeSplit: true,
-      // minify: 'terser',
       terserOptions: {
         compress: {
           drop_console: true,
@@ -33,11 +51,29 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       },
       lib: {
         entry: path.resolve(__dirname, './components/main.ts'),
+        // entry: getComponentEntries('components'),
         name: 'index',
-        fileName: 'index'
+        fileName: 'index',
+        // fileName: '[name]/index'
+        // formats: ['es', 'cjs']
+        formats: ['es', 'umd']
       },
       rollupOptions: {
-        external: ['vue', 'vue-router', 'axios', 'echarts', 'element-plus', 'pdfjs-dist'],
+        external: [
+          'vue',
+          'vue-router',
+          'axios',
+          'echarts',
+          'element-plus',
+          'pdfjs-dist',
+          '@wangeditor/editor',
+          '@wangeditor/editor-for-vue',
+          '@element-plus/icons-vue',
+          '@iconify/vue',
+          'luckyexcel',
+          /echarts\/.+/,
+          /pdfjs-dist\/.+/
+        ],
         output: {
           exports: 'named',
           globals: {
@@ -46,9 +82,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             axios: 'axios',
             echarts: 'echarts',
             'element-plus': 'element-plus',
-            'pdfjs-dist': 'pdfjs-dist'
+            'pdfjs-dist': 'pdfjs-dist',
+            '@wangeditor/editor': '@wangeditor/editor',
+            '@wangeditor/editor-for-vue': '@wangeditor/editor-for-vue',
+            '@element-plus/icons-vue': '@element-plus/icons-vue',
+            '@iconify/vue': '@iconify/vue',
+            luckyexcel: 'luckyexcel'
           },
-          assetFileNames: 'lsWebPlus.css'
+          assetFileNames: 'index.css'
         }
       }
     },

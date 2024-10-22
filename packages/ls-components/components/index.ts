@@ -20,7 +20,6 @@ import LSFlowBox from './flowBox/index';
 import LSBackTop from './backTop/index';
 import LSMap from './map/index';
 import LSEditor from './editor/index';
-import LSJsonEditor from './jsonEditor/index';
 import LSDialog from './dialog/index';
 import LSLayout from './layout/index';
 import LSList from './list/index';
@@ -48,7 +47,6 @@ const components: Record<string, Plugin> = {
   LSBackTop,
   LSMap,
   LSEditor,
-  LSJsonEditor,
   LSDialog,
   LSLayout,
   LSList
