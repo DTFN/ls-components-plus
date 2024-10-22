@@ -11,7 +11,7 @@ const cpoSrc = path.resolve(__dirname, 'components');
 
 function getComponentEntries(cpoPath: string) {
   const resolve = (dir: string) => path.join(__dirname, './', dir);
-  const comList = ['_directives'];
+  const comList = ['_directives', '_hooks', '_utils'];
   let files = readdirSync(resolve(cpoPath));
   const componentEntries = files.reduce((fileObj: any, item: any) => {
     const join = (path as any).join;

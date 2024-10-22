@@ -2,15 +2,6 @@ import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
 import '@cpo/_style/container.scss';
 
-// import _useRouterHook from '@cpo/_hooks/useRouterHook';
-// import _useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
-// import _useWSHook from '@cpo/_hooks/useWSHook';
-// import _useOptionHook from '@cpo/_hooks/useOptionHook';
-// import _useTableListHook from '@cpo/_hooks/useTableListHook';
-// import _lsValidate from '@cpo/_utils/validate';
-// import _lsCheck from '@cpo/_utils/check';
-// import _vAuth from '@cpo/_directives/auth';
-
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue';
 export { default as LSButton } from '@cpo/button/Button.vue';
 export { default as LSDescriptions } from '@cpo/descriptions/Index.vue';
