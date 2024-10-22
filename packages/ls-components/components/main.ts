@@ -2,16 +2,14 @@ import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
 import '@cpo/_style/container.scss';
 
-import _useRouterHook from '@cpo/_hooks/useRouterHook';
-import _useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
-import _useWSHook from '@cpo/_hooks/useWSHook';
-import _useOptionHook from '@cpo/_hooks/useOptionHook';
-import _useTableListHook from '@cpo/_hooks/useTableListHook';
-
-import _lsValidate from '@cpo/_utils/validate';
-import _lsCheck from '@cpo/_utils/check';
-
-import _vAuth from '@cpo/_directives/auth';
+// import _useRouterHook from '@cpo/_hooks/useRouterHook';
+// import _useColorthiefHook from '@cpo/_hooks/useColorthiefHook';
+// import _useWSHook from '@cpo/_hooks/useWSHook';
+// import _useOptionHook from '@cpo/_hooks/useOptionHook';
+// import _useTableListHook from '@cpo/_hooks/useTableListHook';
+// import _lsValidate from '@cpo/_utils/validate';
+// import _lsCheck from '@cpo/_utils/check';
+// import _vAuth from '@cpo/_directives/auth';
 
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue';
 export { default as LSButton } from '@cpo/button/Button.vue';
@@ -40,13 +38,3 @@ export { default as LSForm } from '@cpo/form/Form.vue';
 export { default as LSList } from '@cpo/list/List.vue';
 
 export { default } from './index';
-
-export const useRouterHook = _useRouterHook;
-export const useColorthiefHook = _useColorthiefHook;
-export const useWSHook = _useWSHook;
-export const useOptionHook = _useOptionHook;
-export const useTableListHook = _useTableListHook;
-
-export const lsValidate = _lsValidate;
-export const lsCheck = _lsCheck;
-export const vAuth = _vAuth;
