@@ -11,8 +11,8 @@ outline: deep
 
 ### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
 
-<br />
-
+::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
+:::
 <LSIcon name="Notification" color="red" size="20" />
 
 ```html
@@ -21,8 +21,8 @@ outline: deep
 
 ### 2. [iconify](https://icon-sets.iconify.design/?category=General)
 
-<br />
-
+::: tip 需安装依赖 [@iconify/vue](https://www.npmjs.com/package/@iconify/vue)。
+:::
 <LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
 
 ```html

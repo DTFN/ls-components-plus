@@ -76,6 +76,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           '@iconify/vue',
           'luckyexcel',
           'lodash',
+          'vue3-ts-jsoneditor',
           /echarts\/.+/,
           /pdfjs-dist\/.+/
         ],
@@ -93,7 +94,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             '@element-plus/icons-vue': '@element-plus/icons-vue',
             '@iconify/vue': '@iconify/vue',
             luckyexcel: 'luckyexcel',
-            lodash: 'lodash'
+            lodash: 'lodash',
+            'vue3-ts-jsoneditor': 'vue3-ts-jsoneditor'
           },
           assetFileNames: 'index.css',
           preserveModules: true

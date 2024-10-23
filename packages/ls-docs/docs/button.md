@@ -4,7 +4,7 @@ outline: deep
 
 # Button 按钮
 
-::: warning 结合 el-button、el-button-group、LSIcon 组件进行二次封装。
+::: warning 结合 el-button、el-button-group 组件进行二次封装。
 :::
 
 ## 使用方式

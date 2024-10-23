@@ -9,7 +9,8 @@ outline: deep
 
 ## 使用方式
 
-#### 下载依赖 vue3-print-nb, 注册依赖 app.directive('print', print);
+:::tip 下载依赖 [vue3-print-nb](https://www.npmjs.com/package/vue3-print-nb), 并注册依赖指令 app.directive('print', print);
+:::
 
 ### 1. 普通打印
 

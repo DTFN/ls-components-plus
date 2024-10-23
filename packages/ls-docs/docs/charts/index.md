@@ -7,6 +7,9 @@ outline: deep
 ::: warning 基于[echarts](https://echarts.apache.org/zh/option.html#title)二次封装， 目前支持bar、line、pie部分类型快速创建。
 :::
 
+::: tip 需安装依赖 [echarts](https://www.npmjs.com/package/echarts)
+:::
+
 ## API
 
 ### 1 Attributes 公共参数

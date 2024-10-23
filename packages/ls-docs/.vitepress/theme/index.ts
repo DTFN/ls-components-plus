@@ -18,9 +18,11 @@ import { useData } from 'vitepress';
 import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
+import print from 'vue3-print-nb';
 import 'element-plus/dist/index.css';
-import LSWebPlus, { vAuth } from '../../../ls-components/lib/';
-import '../../../ls-components/lib/lsWebPlus.css';
+import LSWebPlus from '../../../ls-components/lib/index';
+import { vAuth } from '../../../ls-components/lib/directives';
+import '../../../ls-components/lib/index.css';
 
 import ApiIntro from './components/ApiIntro.vue';
 
@@ -40,10 +42,12 @@ export default Object.assign({}, Theme, {
   enhanceApp({ app }: { app: App }) {
     app.component('ArticleMetadata', ArticleMetadata);
     app.component('ApiIntro', ApiIntro);
-    app.use(LSWebPlus);
+
+    app.directive('print', print);
 
     vAuth.permissions = ['a', 'b', 'c'];
     app.directive('auth', vAuth);
+    app.use(LSWebPlus);
   }
 });
 

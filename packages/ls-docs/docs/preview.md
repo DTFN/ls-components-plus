@@ -72,6 +72,9 @@ function openViewerDocx() {
 
 ### 3. Pdf预览
 
+::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist)。
+:::
+
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <LSPreview v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
@@ -98,6 +101,9 @@ function openViewerPdf() {
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
+
+::: tip 需安装依赖 [luckyexcel](https://www.npmjs.com/package/luckyexcel)。
+:::
 
 #### 4.1 在index.html文件中引入资源
 

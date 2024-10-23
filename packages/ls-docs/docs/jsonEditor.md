@@ -9,6 +9,9 @@ outline: deep
 
 ## 使用方式
 
+::: tip 需安装依赖 [vue3-ts-jsoneditor](https://www.npmjs.com/package/vue3-ts-jsoneditor) 。
+:::
+
 ### 1. 预览模式
 
 <br />

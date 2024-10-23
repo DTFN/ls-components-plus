@@ -49,6 +49,7 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         'vue-router',
         'pinia'
       ],
+      ignore: ['h'],
       resolvers: [ElementPlusResolver()],
       dts: resolve(pathSrc, 'auto-imports.d.ts')
     }),

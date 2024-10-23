@@ -28,7 +28,7 @@ const { createWebSocket, wsOpen, wsClose, wsData, wsSend } = useWSHook();
 
 <script setup>
 import { tableColumn, tableMethodColumn } from '../../constant';
-import { useWSHook } from '../../../ls-components/lib/';
+import { useWSHook } from '../../../ls-components/lib/hooks';
 import { onMounted, ref } from 'vue';
 
 const { createWebSocket, wsOpen, wsClose, wsData, wsSend } = useWSHook();

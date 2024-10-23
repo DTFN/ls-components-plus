@@ -104,6 +104,14 @@ export const MENU_LIST = [
     key: '13'
   },
   {
+    id: '14',
+    title: 'JsonEditor json编辑器',
+    name: 'JsonEditor',
+    path: '/jsonEditor',
+    cpoPath: 'jsonEditor/Index',
+    key: '14'
+  },
+  {
     id: '15',
     title: 'Dialog 弹窗',
     name: 'Dialog',

@@ -9,6 +9,9 @@ outline: deep
 
 ## 使用方式
 
+::: tip 需安装依赖 [@wangeditor/editor](https://www.npmjs.com/package/@wangeditor/editor) 和 [@wangeditor/editor-for-vue](https://www.npmjs.com/package/@wangeditor/editor-for-vue)。
+:::
+
 ### 1. 基础用法
 
 <br />
