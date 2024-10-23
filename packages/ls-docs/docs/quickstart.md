@@ -52,7 +52,7 @@ AutoImport({
 import 'element-plus/dist/index.css';
 
 // 组件库样式，文件教大，发布时压缩大小
-import '@lingshugroup/web-plus/lib/index.css';
+import '@lingshugroup/web-plus/index.css';
 
 // 根据业务需求按需引入以下组件
 import LSIcon from '@lingshugroup/web-plus/icon';
@@ -123,7 +123,7 @@ import LSContainerBox from '@lingshugroup/web-plus/containerBox';
 ### 2. 全局引入组件（不推荐）
 
 ::: tip 全局引入时需要安装所有第三方依赖，否则无法使用，具体依赖如下：
-echarts、pdfjs-dist、@wangeditor/editor、@wangeditor/editor-for-vue、@element-plus/icons-vue、@iconify/vue、luckyexcel、vue3-ts-jsoneditor
+echarts、pdfjs-dist(4.6.82)、@wangeditor/editor、@wangeditor/editor-for-vue、@element-plus/icons-vue、@iconify/vue、luckyexcel、vue3-ts-jsoneditor
 :::
 
 ```js
@@ -131,7 +131,7 @@ echarts、pdfjs-dist、@wangeditor/editor、@wangeditor/editor-for-vue、@elemen
 import 'element-plus/dist/index.css';
 
 // 组件库样式，文件教大，发布时压缩大小
-import '@lingshugroup/web-plus/lib/index.css';
+import '@lingshugroup/web-plus/index.css';
 
 // 全局引入
 import LSWebPlus from '@lingshugroup/web-plus';

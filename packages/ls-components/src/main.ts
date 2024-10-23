@@ -9,8 +9,12 @@ import print from 'vue3-print-nb';
 
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '@cpo/main';
 
-import LSWebPlus from '../lib/index';
-import { vAuth } from '../lib/directives';
+// import LSWebPlus from '../lib/index';
+// import { vAuth } from '../lib/directives';
+
+import LSWebPlus from '@lingshugroup/web-plus';
+import '@lingshugroup/web-plus/index.css';
+import { vAuth } from '@lingshugroup/web-plus/directives';
 
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '../lib/';
 

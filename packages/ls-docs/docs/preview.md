@@ -72,7 +72,7 @@ function openViewerDocx() {
 
 ### 3. Pdf预览
 
-::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist)。
+::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.6.82。
 :::
 
 <br />

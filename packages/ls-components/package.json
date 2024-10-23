@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/web-plus",
-  "version": "0.0.8-beta",
+  "version": "0.0.9-beta",
   "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
   "main": "./lib/index/index.cjs",
@@ -118,7 +118,7 @@
       "import": "./lib/tree/index.js",
       "require": "./lib/tree/index.cjs"
     },
-    "./lib/index.css": "./lib/index.css"
+    "./index.css": "./lib/index.css"
   },
   "scripts": {
     "dev": "vite",
