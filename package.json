@@ -67,6 +67,7 @@
     "luckyexcel": "^1.0.1",
     "pdfjs-dist": "^4.6.82",
     "pinia": "^2.2.2",
+    "vitepress": "^1.4.1",
     "vue": "^3.4.38",
     "vue-router": "^4.4.3",
     "vue3-print-nb": "^0.1.4",

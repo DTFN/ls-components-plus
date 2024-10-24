@@ -591,6 +591,8 @@ import { ref } from 'vue';
 import { ElPageHeader } from 'element-plus';
 import logo from '/logo.png';
 
+defineOptions({ name: 'LSLayout', components: { ElPageHeader } });
+
 const MENU_CONFIG_LIST = [
   {
     title: '渔场概览',

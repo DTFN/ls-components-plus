@@ -130,6 +130,15 @@ export default defineConfig({
     server: {
       host: '0.0.0.0',
       port: 9093,
+    },
+    ssr: {
+      noExternal: [
+        'vue3-print-nb',
+        'element-plus',
+        '@wangeditor/editor',
+        '@wangeditor/editor-for-vue',
+        '@lingshugroup/web-plus'
+      ]
     }
   }
 })

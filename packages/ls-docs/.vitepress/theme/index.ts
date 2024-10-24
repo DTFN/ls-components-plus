@@ -17,7 +17,7 @@ import { h, App } from 'vue';
 import { useData } from 'vitepress';
 import Theme from 'vitepress/theme';
 import './style.scss';
-import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
+import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
 import ApiIntro from './components/ApiIntro.vue';
 import print from 'vue3-print-nb';
 
@@ -27,8 +27,8 @@ import 'element-plus/dist/index.css';
 // import { vAuth } from '../../../ls-components/lib/directives';
 // import '../../../ls-components/lib/index.css';
 
-import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
+// import LSWebPlus from '@lingshugroup/web-plus';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
 export default Object.assign({}, Theme, {
@@ -50,9 +50,9 @@ export default Object.assign({}, Theme, {
 
     app.directive('print', print);
 
-    vAuth.permissions = ['a', 'b', 'c'];
-    app.directive('auth', vAuth);
-    app.use(LSWebPlus);
+    // vAuth.permissions = ['a', 'b', 'c'];
+    // app.directive('auth', vAuth);
+    // app.use(LSWebPlus);
   }
 });
 

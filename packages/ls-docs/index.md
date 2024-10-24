@@ -3,5 +3,9 @@ outline: deep
 ---
 
 <script setup>
-location.replace(`${location.origin}/docs/quickstart.html`)
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  location.replace(`${location.origin}/docs/quickstart.html`)
+})
 </script>
