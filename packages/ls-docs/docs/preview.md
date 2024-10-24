@@ -15,7 +15,9 @@ outline: deep
 
 <LSButton type="primary" @click="openViewerImg">图片预览</LSButton>
 
-<LSPreview v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+<ClientOnly>
+  <LSPreview v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -44,7 +46,9 @@ function openViewerImg() {
 
 <br />
 <LSButton type="primary" @click="openViewerDocx">Docx预览</LSButton>
-<LSPreview v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+<ClientOnly>
+  <LSPreview v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -77,7 +81,9 @@ function openViewerDocx() {
 
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreview v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+<ClientOnly>
+  <LSPreview v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -129,7 +135,9 @@ function openViewerPdf() {
 :::
 
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
+<ClientOnly>
 <LSPreview v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';

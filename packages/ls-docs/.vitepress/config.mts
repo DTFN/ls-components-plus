@@ -137,7 +137,9 @@ export default defineConfig({
         'element-plus',
         '@wangeditor/editor',
         '@wangeditor/editor-for-vue',
-        '@lingshugroup/web-plus'
+        '@lingshugroup/web-plus',
+        'lodash',
+        'pdfjs-dist'
       ]
     }
   }

@@ -40,7 +40,6 @@ outline: deep
           :table-column="tableColumnDemo"
           :table-data="tableDataDemo"
         >
-<el-table-column prop="operate" label="操作" width="120px"> </el-table-column>
 </LSTable>
 </div>
 </div>
@@ -590,8 +589,6 @@ import { tableColumn, tableMethodColumn, tableSlotColumn, tableStyleColumn } fro
 import { ref } from 'vue';
 import { ElPageHeader } from 'element-plus';
 import logo from '/logo.png';
-
-defineOptions({ name: 'LSLayout', components: { ElPageHeader } });
 
 const MENU_CONFIG_LIST = [
   {

@@ -12,7 +12,9 @@ outline: deep
 ### 1. 普通覆盖
 
 <br />
-<LSUpload :action="action"></LSUpload>
+<ClientOnly>
+  <LSUpload :action="action"></LSUpload>
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -26,7 +28,9 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 ### 2. 普通非覆盖
 
 <br />
-<LSUpload :action="action" :item="item1"></LSUpload>
+<ClientOnly>
+  <LSUpload :action="action" :item="item1"></LSUpload>
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -43,7 +47,9 @@ const item1 = ref({
 ### 3. 限制上传文件格式和大小
 
 <br />
-<LSUpload :action="action" :item="item2"></LSUpload>
+<ClientOnly>
+  <LSUpload :action="action" :item="item2"></LSUpload>
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -60,7 +66,9 @@ const item2 = ref({
 ### 4.手动上传
 
 <br />
-<LSUpload action="#" :auto-upload="false" :item="item3" @http-response-func="httpResponseFunc"></LSUpload>
+<ClientOnly>
+  <LSUpload action="#" :auto-upload="false" :item="item3" @http-response-func="httpResponseFunc"></LSUpload>
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -85,7 +93,9 @@ function httpResponseFunc(res) {
 ### 5.支持拖拽上传
 
 <br />
-<LSUpload :action="action" :drag="true"></LSUpload>
+<ClientOnly>
+  <LSUpload :action="action" :drag="true"></LSUpload>
+</ClientOnly>
 
 ```js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
@@ -98,7 +108,10 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 ### 6.图片上传
 
 <br />
-<LSUpload list-type="picture-card" :action="action"> </LSUpload>
+
+<ClientOnly>
+  <LSUpload list-type="picture-card" :action="action"> </LSUpload>
+</ClientOnly>
 
 ```js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
@@ -144,33 +157,36 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
     </LSUpload>
   </template>
 </LSForm> -->
-<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleFormRef" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="文件上传：" prop="fileId">
-    <LSUpload
-      :action="action"
-      :item="{
-        limitFile: ['png', 'JPG'],
-        limitFileMsg: '上传文件必须为PNG，JPG',
-        limitSize: 10,
-        limitSizeMsg: '文件大小不能超过10M',
-        isToast: false,
-        formRuleFunc: () => rules['fileId'][0],
-        formValidateFunc
-      }"
-      @upload-error-func="uploadErrorFunc"
-    >
-      <template #trigger>
-        <LSButton class="ls-upload-btn-com ls-upload-btn-default">上传</LSButton>
-      </template>
-      <template #tip>
-        <div class="ls-tip">上传文件大小能超过10M</div>
-      </template>
-    </LSUpload>
-  </el-form-item>
-  <el-form-item>
-    <LSButton type="primary" @click="submitForm()">提交</LSButton>
-  </el-form-item>
-</el-form>
+
+<ClientOnly>
+  <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleFormRef" label-width="100px" class="demo-ruleForm">
+    <el-form-item label="文件上传：" prop="fileId">
+      <LSUpload
+        :action="action"
+        :item="{
+          limitFile: ['png', 'JPG'],
+          limitFileMsg: '上传文件必须为PNG，JPG',
+          limitSize: 10,
+          limitSizeMsg: '文件大小不能超过10M',
+          isToast: false,
+          formRuleFunc: () => rules['fileId'][0],
+          formValidateFunc
+        }"
+        @upload-error-func="uploadErrorFunc"
+      >
+        <template #trigger>
+          <LSButton class="ls-upload-btn-com ls-upload-btn-default">上传</LSButton>
+        </template>
+        <template #tip>
+          <div class="ls-tip">上传文件大小能超过10M</div>
+        </template>
+      </LSUpload>
+    </el-form-item>
+    <el-form-item>
+      <LSButton type="primary" @click="submitForm()">提交</LSButton>
+    </el-form-item>
+  </el-form>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -244,7 +260,10 @@ function formValidateFunc() {
 ### 8.文本预览
 
 <br />
-<LSUpload :action="action" :item="item4"></LSUpload>
+
+<ClientOnly>
+  <LSUpload :action="action" :item="item4"></LSUpload>
+</ClientOnly>
 
 ```js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
