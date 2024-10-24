@@ -17,7 +17,7 @@ export default function () {
     maps: {}
   };
   const getSelOption = async (apiFunc: Promise<any>, params?: any, all?: Array<OptionType>) => {
-    const { labelKey = 'id', valueKey = 'name' } = params || {};
+    const { labelKey = 'name', valueKey = 'id' } = params || {};
     if (apiFunc instanceof Function) {
       let data: any = [];
       if (params) {
@@ -26,8 +26,8 @@ export default function () {
         data = await apiFunc();
       }
       selData.options = (data || []).map((item: any) => {
-        const value = item[labelKey];
-        const label = item[valueKey];
+        const value = item[valueKey];
+        const label = item[labelKey];
         selData.maps[value] = {
           label
         };

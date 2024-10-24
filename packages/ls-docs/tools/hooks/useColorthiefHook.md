@@ -4,7 +4,7 @@ outline: deep
 
 # useColorthiefHook
 
-::: warning 根据icon图片获取相对应的背景色。
+::: warning 根据icon图片获取某区域范围的背景色。
 :::
 
 ## 使用方式
@@ -14,8 +14,8 @@ icon: <img :src="imageUrl" :style="{ width: '60px', height: '20px', display: 'bl
 bgColor: <span :style="{ backgroundColor: bgColor, width: '60px', height: '60px', display: 'block' }"></span>
 
 ```js
-import { useColorthiefHook } from '@lingshugroup/web-plus';
 import { onMounted, ref } from 'vue';
+import { useColorthiefHook } from '@lingshugroup/web-plus/hooks';
 
 import imageUrl from '/logo.png';
 

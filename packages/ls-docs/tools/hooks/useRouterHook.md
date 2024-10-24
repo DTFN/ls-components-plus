@@ -10,9 +10,24 @@ outline: deep
 ## 使用方式
 
 ```js
-import { useRouterHook } from '@lingshugroup/web-plus';
+import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 
 const { route, router, jumpRouteCom, getRouteQuery, getMenusByAuth } = useRouterHook();
+
+// name方式
+jumpRouteCom({
+  name,
+  query
+});
+
+// path方式
+jumpRouteCom(
+  {
+    path,
+    query
+  },
+  1
+);
 ```
 
 ## API

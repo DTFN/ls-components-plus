@@ -10,7 +10,7 @@ outline: deep
 ## 使用方式
 
 ```js
-import { lsCheck } from '@lingshugroup/web-plus';
+import { lsCheck } from '@lingshugroup/web-plus/utils';
 import { onMounted, ref } from 'vue';
 
 const {

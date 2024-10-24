@@ -10,10 +10,16 @@ outline: deep
 ## 使用方式
 
 ```js
-import { useWSHook } from '@lingshugroup/web-plus';
+import { useWSHook } from '@lingshugroup/web-plus/hooks';
 import { onMounted, ref } from 'vue';
 
 const { createWebSocket, wsOpen, wsClose, wsData, wsSend } = useWSHook();
+
+createWebSocket(path, callback);
+
+function callback() {
+  console.log(wsData.value);
+}
 ```
 
 ## API
@@ -37,7 +43,7 @@ const tableData = ref([
   {
     name: 'wsData',
     desc: 'websocket返回数据',
-    type: 'json',
+    type: 'ref<json>',
     value: '{}'
   }
 ])
@@ -52,19 +58,19 @@ const tableMethodData = ref([
   {
     name: 'wsOpen',
     desc: 'websocket打开方法',
-    type: 'function',
+    type: 'ref<function>',
     value: '-'
   },
   {
     name: 'wsClose',
     desc: 'websocket关闭方法',
-    type: 'function',
+    type: 'ref<function>',
     value: '-'
   },
   {
     name: 'wsSend',
     desc: 'websocket发送方法',
-    type: 'function',
+    type: 'ref<function>',
     value: '-'
   }
 ])

@@ -10,7 +10,7 @@ outline: deep
 ## 使用方式
 
 ```js
-import { useTableListHook } from '@lingshugroup/web-plus';
+import { useTableListHook } from '@lingshugroup/web-plus/hooks';
 import { onMounted, ref } from 'vue';
 
 const {
