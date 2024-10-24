@@ -18,13 +18,18 @@ import { useData } from 'vitepress';
 import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; //字数阅读时间
-import print from 'vue3-print-nb';
-import 'element-plus/dist/index.css';
-import LSWebPlus from '../../../ls-components/lib/index';
-import { vAuth } from '../../../ls-components/lib/directives';
-import '../../../ls-components/lib/index.css';
-
 import ApiIntro from './components/ApiIntro.vue';
+import print from 'vue3-print-nb';
+
+import 'element-plus/dist/index.css';
+
+// import LSWebPlus from '../../../ls-components/lib/index';
+// import { vAuth } from '../../../ls-components/lib/directives';
+// import '../../../ls-components/lib/index.css';
+
+import LSWebPlus from '@lingshugroup/web-plus';
+import { vAuth } from '@lingshugroup/web-plus/directives';
+import '@lingshugroup/web-plus/index.css';
 
 export default Object.assign({}, Theme, {
   Layout: () => {

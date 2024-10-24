@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev",
-    "test": "NODE_ENV=test && vitepress test",
-    "pre": "NODE_ENV=pre && vitepress preview",
-    "prod": "NODE_ENV=prod && vitepress build"
+    "build": "vitepress build"
   },
   "keywords": [],
   "author": "",

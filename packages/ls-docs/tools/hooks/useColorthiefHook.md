@@ -43,7 +43,7 @@ bgColor: <span :style="{ backgroundColor: bgColor, width: '60px', height: '60px'
 
 <script setup>
 import { tableColumn, tableMethodColumn } from '../../constant';
-import { useColorthiefHook } from '../../../ls-components/lib/hooks';
+import { useColorthiefHook } from '@lingshugroup/web-plus/hooks';
 import { onMounted, ref } from 'vue';
 
 import imageUrl from '/logo.png';
