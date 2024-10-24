@@ -19,7 +19,7 @@ const __APP_INFO__ = {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  outDir: resolve('./dist/'),
+  outDir: resolve('../../dist/'),
   title: '前端组件库（Vue3）',
   description: '前端组件库（Vue3）及公共方法使用手册',
   // cleanUrls: true,
