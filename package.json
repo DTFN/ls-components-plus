@@ -7,7 +7,6 @@
     "dev:ls-components": "pnpm -r --filter @lingshugroup/web-plus run dev",
     "build:ls-components": "pnpm -r --filter @lingshugroup/web-plus run build",
     "dev:ls-docs": "pnpm -r --filter ls-docs run dev",
-    "build-dev:ls-docs": "pnpm -r --filter ls-docs run build:dev",
     "build-test:ls-docs": "pnpm -r --filter ls-docs run build:test",
     "build-pre:ls-docs": "pnpm -r --filter ls-docs run build:pre",
     "build-prod:ls-docs": "pnpm -r --filter ls-docs run build:prod",

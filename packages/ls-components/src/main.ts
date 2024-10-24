@@ -19,7 +19,7 @@ import { vAuth } from '@lingshugroup/web-plus/directives';
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '../lib/';
 
 import 'element-plus/dist/index.css';
-import '../lib/index.css';
+// import '../lib/index.css';
 
 const app = createApp(App);
 
