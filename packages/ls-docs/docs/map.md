@@ -9,18 +9,9 @@ outline: deep
 
 ## 使用方式
 
-<LSMap
-  security-code="847006cb1fd3e4d32dd34094f8b95f24"
-  map-key="ae35d805016e3178c4a68e8bd616bfb8"
-  :center="['121.923553', '30.893751']"
-  :show-marker="true"
-  :marker-list="markerList"
-  :show-marker-dialog="true"
-  :marker-dialog-content="markerDialogContent"
-  marker-dialog-anchor="top-right"
-  :marker-dialog-offset="[0, 20]"
-  height="360px"
-/>
+<ClientOnly>
+  <LSMap security-code="847006cb1fd3e4d32dd34094f8b95f24" map-key="ae35d805016e3178c4a68e8bd616bfb8" :center="['121.923553', '30.893751']" :show-marker="true" :marker-list="markerList" :show-marker-dialog="true" :marker-dialog-content="markerDialogContent" marker-dialog-anchor="top-right" :marker-dialog-offset="[0, 20]" height="360px" />
+</ClientOnly>
 
 ::: details 点我查看代码
 

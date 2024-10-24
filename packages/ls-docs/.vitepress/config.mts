@@ -139,7 +139,11 @@ export default defineConfig({
         '@wangeditor/editor-for-vue',
         '@lingshugroup/web-plus',
         'lodash',
-        'pdfjs-dist'
+        'pdfjs-dist',
+        'echarts',
+        'vue3-ts-jsoneditor',
+        'luckyexcel',
+        '@amap/amap-jsapi-loader'
       ]
     }
   }

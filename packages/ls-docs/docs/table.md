@@ -12,6 +12,7 @@ outline: deep
 ### 1. 基础表格
 
 <br>
+<ClientOnly>
 <LSTable
   :show-pagination="false"
   :table-column="column_1"
@@ -29,6 +30,7 @@ outline: deep
     </div>
   </template>
 </LSTable>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -147,6 +149,7 @@ const data_1 = [
 ### 2. 单选表格
 
 <br/>
+<ClientOnly>
 <LSTable
   v-model:current-page="currentPage"
   v-model:page-size="pageSize"
@@ -158,6 +161,7 @@ const data_1 = [
   @current-change="handleCurrentChange"
 >
 </LSTable>
+</ClientOnly>
 
 :::details 点我查看代码
 
@@ -221,6 +225,7 @@ function handleCurrentChange(row) {
 ### 3. 多选表格
 
 <br/>
+<ClientOnly>
 <LSTable
   v-model:current-page="currentPage_1"
   v-model:page-size="pageSize_1"
@@ -231,6 +236,7 @@ function handleCurrentChange(row) {
   :total="total"
   >
 </LSTable>
+</ClientOnly>
   
 :::details 点我查看代码
 
