@@ -9,13 +9,13 @@ outline: deep
 
 ## 使用方式
 
-<LSBellMessage :notice-num="noticeNum" :list="list" @read-msg="readMsg" @load-more="loadMore" />
+<LSBellMessage :loading="loading" :notice-num="noticeNum" :list="list" @read-msg="readMsg" @load-more="loadMore" />
 
 ::: details 点我查看代码
 
 ```js
 import { ref } from 'vue';
-
+const loading = ref(true);
 const noticeNum = ref(1);
 const list = ref([
   {
@@ -33,6 +33,10 @@ const list = ref([
     readStatus: 1
   }
 ]);
+
+setTimeout(() => {
+  loading.value = false;
+}, 1000);
 
 const loadMore = () => {
   list.value = list.value.concat(list.value);
@@ -80,6 +84,7 @@ const readAll = () => {
 import { tableColumn, tableMethodColumn } from '../constant';
 import { ref } from 'vue';
 
+const loading = ref(true);
 const noticeNum = ref(1);
 const list = ref([
   {
@@ -118,6 +123,10 @@ const readAll = () => {
   });
   noticeNum.value = 0;
 };
+
+setTimeout(() => {
+  loading.value = false;
+}, 3000)
 
 const tableData = ref([
   {

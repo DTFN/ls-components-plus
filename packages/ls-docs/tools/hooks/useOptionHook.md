@@ -73,7 +73,7 @@ onMounted(async () => {
 const tableData = ref([
   {
     name: 'getSelOption',
-    desc: '根据请求数据，获取下拉框数据，参数：1.请求接口方法 2.请求参数，其中labelKey，valueKey对应label和value，默认为id，name 3.全部数组值',
+    desc: `根据请求数据，获取下拉框数据，参数：1.请求接口方法 2.请求参数，其中labelKey，valueKey对应label和value，默认为id，name 3.展示全部所传数组值，默认[{ label: '全部', value: '' }]`,
     type: 'Promise',
     value: '{ allOption, options, maps }'
   },
