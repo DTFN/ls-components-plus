@@ -76,9 +76,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           '@iconify/vue',
           'luckyexcel',
           'lodash',
-          'vue3-ts-jsoneditor',
-          /echarts\/.+/,
-          /pdfjs-dist\/.+/
+          'vue3-ts-jsoneditor'
         ],
         output: {
           exports: 'named',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouterHook } from '../../../lib/hooks';
+import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 
 const MENU_CONFIG_LIST = [
   {
