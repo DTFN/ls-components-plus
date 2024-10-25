@@ -91,7 +91,9 @@ function initBox() {
         instance.confirmButtonLoading = false;
         done();
       } else {
-        done();
+        if (!instance.confirmButtonLoading) {
+          done();
+        }
       }
     }
   })
