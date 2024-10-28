@@ -78,7 +78,11 @@ const formData1 = ref({
   param7: [],
   param8: false,
   param9: '文本域',
-  param10: '插入控件'
+  param10: '插入控件',
+  params99: {
+    start: '0',
+    end: '100'
+  }
 });
 
 const formItems1 = ref<FormItemsType[]>([
@@ -106,6 +110,11 @@ const formItems1 = ref<FormItemsType[]>([
         value: '2'
       }
     ]
+    // rules: {
+    //   required: true,
+    //   message: '请选择',
+    //   trigger: 'blur'
+    // }
   },
   {
     type: 'select',
@@ -142,6 +151,11 @@ const formItems1 = ref<FormItemsType[]>([
     attrs: {
       multiple: true
     }
+    // rules: {
+    //   required: true,
+    //   message: '请选择',
+    //   trigger: 'blur'
+    // }
   },
   {
     type: 'checkbox',
@@ -171,6 +185,12 @@ const formItems1 = ref<FormItemsType[]>([
     type: 'cascader',
     label: '级联',
     prop: 'param6',
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    },
     options: [
       {
         value: 'guide',
@@ -263,12 +283,36 @@ const formItems1 = ref<FormItemsType[]>([
           }
         ]
       }
-    ]
+    ],
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    }
   },
   {
     type: 'switch',
     label: '开关',
     prop: 'param8'
+  },
+  {
+    type: 'inputRange',
+    label: '范围',
+    prop: 'params99',
+    attrs: {
+      start: {
+        placeholder: '开始取值范围'
+      },
+      end: {
+        placeholder: '截止取值范围'
+      }
+    }
+  },
+  {
+    type: 'inputNumberRange',
+    label: '数字范围',
+    prop: 'params999'
   },
   {
     type: 'textarea',
@@ -396,21 +440,26 @@ function removeItem_2(index: number) {
 }
 
 const read = ref(false);
+
+function onSubmit(res: any) {
+  console.log('onSubmit', res);
+}
 </script>
 
 <template>
   <LSForm
     ref="FormRef"
-    inline
     label-position="top"
+    inline
+    require-asterisk-position="left"
     :loading="loading"
     :colon="false"
     :show-buttons="true"
-    :show-reset="false"
+    :show-reset="true"
     confirm-text="登录"
     :form-data="formData"
     :form-items="formItems"
-    :hide-required-asterisk="true"
+    :hide-required-asterisk="false"
     @submit="onLogin"
   />
 
@@ -419,8 +468,17 @@ const read = ref(false);
   <br />
 
   <el-switch v-model="read"></el-switch>
+  <LSForm
+    ref="FormRef1"
+    :read="read"
+    v-model:form-data="formData1"
+    :form-items="formItems1"
+    :column="2"
+    :loading="loading"
+    @submit="onSubmit"
+  >
+    <template #param1-input-prepend> 必填 </template>
 
-  <LSForm ref="FormRef1" :read="read" v-model:form-data="formData1" :form-items="formItems1" :column="2" :loading="loading">
     <template #param9-prepend>
       <div>注意事项</div>
     </template>

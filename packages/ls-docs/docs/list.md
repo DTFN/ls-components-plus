@@ -201,6 +201,12 @@ const attrTableData=[
     value: '-'
   },
   {
+    name: 'dealParams',
+    desc: '处理列表接口参数，返回参数',
+    type: 'Function',
+    value: '-'
+  },
+  {
     name: 'dealData',
     desc: '处理列表返回数据方法,return {data: [], total: 0}',
     type: 'Function',
@@ -465,6 +471,10 @@ const slotTableData=[
   {
     name: 'table-operate-append',
     desc: '表格操作列区域后置添加内容，插入内容如有v-if判断用el-space组件包裹',
+  },
+  {
+    name: 'table-append',
+    desc: '表格后置新增列区域',
   },
 ]
 

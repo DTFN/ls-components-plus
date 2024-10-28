@@ -10,6 +10,8 @@ type FormItemType =
   | 'cascader'
   | 'multipleCascader'
   | 'switch'
+  | 'inputRange'
+  | 'inputNumberRange'
   | 'slot'
   | 'itemSlot';
 

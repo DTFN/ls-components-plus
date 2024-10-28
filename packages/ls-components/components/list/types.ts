@@ -5,6 +5,10 @@ export const lsListProps = buildProps({
   listApi: {
     type: Function
   },
+  // 处理列表接口参数
+  dealParams: {
+    type: Function
+  },
   // 处理列表返回数据
   dealData: {
     type: Function

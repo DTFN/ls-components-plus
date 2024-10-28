@@ -400,7 +400,7 @@ const data_1=[
   {
     name:'王五',
     address:'深圳市',
-    date:'2024-10-16 10:28:11',
+    date:'',
     status:'info',
     value:88
   },
@@ -625,6 +625,24 @@ const attrTableData=[
     desc: '是否显示空状态',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'labelEmptyClass',
+    desc: '空字段内容占位符的样式',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'emptyLabel',
+    desc: '空状态时展示文本',
+    type: 'string',
+    value: '暂无数据'
   },
 ]
 

@@ -124,5 +124,17 @@ export const lsTableProps = buildProps({
   showEmpty: {
     type: Boolean,
     default: true
+  },
+  labelEmpty: {
+    type: String,
+    default: '--'
+  },
+  labelEmptyClass: {
+    type: String,
+    default: ''
+  },
+  emptyLabel: {
+    type: String,
+    default: '暂无数据'
   }
 } as const);

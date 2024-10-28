@@ -58,6 +58,10 @@ export const lsFormProps = buildProps({
   labelWidth: {
     type: [String, Number],
     default: 'auto'
+  },
+  labelEmpty: {
+    type: String,
+    default: '--'
   }
 } as const);
 
@@ -83,6 +87,8 @@ export const lsFormItemProps = buildProps({
       'cascader',
       'multipleCascader',
       'switch',
+      'inputRange',
+      'inputNumberRange',
       'slot',
       'itemSlot'
     ]
@@ -135,6 +141,10 @@ export const lsFormItemProps = buildProps({
     type: Boolean,
     default: false
   },
+  labelEmpty: {
+    type: String,
+    default: '--'
+  },
   labelNumber: {
     type: Boolean,
     default: false
@@ -142,5 +152,16 @@ export const lsFormItemProps = buildProps({
   dateFormat: {
     type: String,
     default: 'YYYY-MM-DD HH:mm:ss'
+  },
+  formatReadValue: {
+    type: Function
+  },
+  rangeSeparator: {
+    type: String,
+    default: '~'
+  },
+  rangeProps: {
+    type: Array<String>,
+    default: () => ['start', 'end']
   }
 } as const);

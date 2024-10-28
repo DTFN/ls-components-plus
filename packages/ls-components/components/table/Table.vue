@@ -107,7 +107,7 @@ function indexMethod(index: number) {
 
 // 日期转换
 function formatDate(val: string | null | undefined, template?: string) {
-  if (!val) return '--';
+  if (!val) return props.labelEmpty || '--';
   return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
@@ -161,6 +161,31 @@ const attrsProps = computed(() => {
     if (!newAttrs['onSelect']) newAttrs['onSelect'] = handleSelect;
     if (!newAttrs['onSelectAll']) newAttrs['onSelectAll'] = handleSelectAll;
   }
+  if (attrs && attrs.hasOwnProperty('show-overflow-tooltip')) {
+    if (typeof attrs['show-overflow-tooltip'] === 'boolean') {
+      if (attrs['show-overflow-tooltip'] === true) {
+        newAttrs['show-overflow-tooltip'] = {
+          popperClass: 'table-popper-css'
+        };
+      }
+    } else if (typeof attrs['show-overflow-tooltip'] === 'object') {
+      const tooltip: any = attrs['show-overflow-tooltip'] || {};
+      const popperClass = `table-popper-css ${tooltip && tooltip?.popperClass}`;
+      newAttrs['show-overflow-tooltip'] = {
+        ...tooltip,
+        popperClass
+      };
+    } else {
+      newAttrs['show-overflow-tooltip'] = {
+        popperClass: 'table-popper-css'
+      };
+    }
+  } else {
+    newAttrs['show-overflow-tooltip'] = {
+      popperClass: 'table-popper-css'
+    };
+  }
+
   return newAttrs;
 });
 
@@ -222,7 +247,8 @@ defineExpose({
 
             <!-- 数字 -->
             <template v-else-if="item.type === 'number'">
-              <el-text :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
+              <template v-if="isEmpty(get(row, item.prop))">{{ labelEmpty || '--' }}</template>
+              <el-text v-else :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
                 {{ get(row, item.prop) }}
               </el-text>
             </template>
@@ -230,6 +256,12 @@ defineExpose({
             <!-- 自定义 -->
             <template v-else-if="item.type === 'slot'">
               <slot :name="item.prop" :row="row" :column="column" :index="$index" />
+            </template>
+
+            <template v-else-if="isEmpty(get(row, item.prop))">
+              <div :class="labelEmptyClass">
+                {{ labelEmpty || '--' }}
+              </div>
             </template>
           </template>
 
@@ -249,7 +281,7 @@ defineExpose({
       <slot></slot>
 
       <template v-if="showEmpty" #empty>
-        <el-empty v-if="!$slots.empty" description="暂无数据" />
+        <el-empty v-if="!$slots.empty" :description="emptyLabel" />
         <slot name="empty" />
       </template>
 
@@ -285,5 +317,8 @@ defineExpose({
 .el-pagination {
   justify-content: flex-end;
   margin-top: 24px;
+}
+:deep(.table-popper-css) {
+  max-width: 60%;
 }
 </style>

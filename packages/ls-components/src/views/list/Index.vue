@@ -25,6 +25,11 @@ const tableColumn = [
     prop: 'type'
   },
   {
+    label: '自定义',
+    prop: 'slot',
+    type: 'slot'
+  },
+  {
     label: '创建时间',
     prop: 'createTime'
   }
@@ -36,7 +41,7 @@ function listApi() {
       resolve([
         {
           id: 1,
-          name: '测试1',
+          name: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
           type: '1',
           createTime: '2022-01-01',
           status: 1
@@ -44,7 +49,7 @@ function listApi() {
         {
           id: 2,
           name: '测试2',
-          type: '1',
+          type: '',
           createTime: '2022-01-01',
           status: 0
         }
@@ -76,9 +81,10 @@ const spacer = h(ElDivider, { direction: 'vertical' });
     :disabled-table-del="(row: any) => row.name === '测试1'"
     :disabled-table-switch="(row: any) => row.name === '测试1'"
     :deal-data="dealData"
+    :table-operate-column="{ minWidth: 120 }"
   >
-    <template #form-append>
-      <div>dasdsad</div>
+    <template #slot>
+      <div>dsadsad</div>
     </template>
 
     <template #table-operate-prepend>
@@ -100,8 +106,6 @@ const spacer = h(ElDivider, { direction: 'vertical' });
         <el-button link type="primary"> 测试 </el-button>
       </el-space>
     </template>
-
-    <el-table-column label="333">33333333333</el-table-column>
   </LSList>
 </template>
 

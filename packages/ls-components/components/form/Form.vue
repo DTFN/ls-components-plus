@@ -16,15 +16,18 @@ const emit = defineEmits<{
 
 const attrs = useAttrs();
 const buttonsAttrs = computed(() => {
-  if (attrs.inline) {
-    if (attrs['label-position'] === 'top') {
+  if (attrs && attrs.hasOwnProperty('inline')) {
+    if (typeof attrs.inline === 'boolean' && attrs.inline === false) {
+      return {};
+    }
+    if (attrs && attrs['label-position'] === 'top') {
       return {
         class: 'form-item-buttons '
       };
     }
     return {};
   } else {
-    if (attrs['label-position'] === 'top') {
+    if (attrs && attrs['label-position'] === 'top') {
       return {
         'label-position': 'top'
       };
@@ -99,7 +102,9 @@ defineExpose({
   <el-form
     ref="FormRef"
     label-position="left"
+    require-asterisk-position="right"
     :label-width="labelWidth"
+    :hide-required-asterisk="read ? true : false"
     v-bind="$attrs"
     :model="form"
     :disabled="loading || disabled"
@@ -116,6 +121,7 @@ defineExpose({
               :value="get(form, item.prop)"
               :colon="colon"
               :read="read"
+              :label-empty="labelEmpty"
               v-bind="item"
               @update:value="updateFormData"
             >
@@ -138,6 +144,7 @@ defineExpose({
           :value="get(form, item.prop)"
           :colon="colon"
           :read="read"
+          :label-empty="labelEmpty"
           v-bind="item"
           @update:value="updateFormData"
         >

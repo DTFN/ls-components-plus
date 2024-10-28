@@ -2,7 +2,7 @@
 export default function (
   requestFn: Function | undefined,
   requestParams: any,
-  config?: { autoFetch?: boolean; dealData?: Function }
+  config?: { autoFetch?: boolean; dealData?: Function; dealParams?: Function }
 ) {
   // 初始化
   const isFirst = ref(true);
@@ -19,7 +19,7 @@ export default function (
   // 总数
   const total = ref(0);
 
-  const { autoFetch = true, dealData } = config || {};
+  const { autoFetch = true, dealData, dealParams } = config || {};
 
   // 加载数据
   const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
@@ -31,11 +31,17 @@ export default function (
       isFirst.value = true;
     }
 
-    requestFn({
+    let params = {
       currentPage: currentPage.value,
       pageSize: pageSize.value,
       ...requestParams
-    })
+    };
+
+    if (dealParams) {
+      params = dealParams(params);
+    }
+
+    requestFn(params)
       .then((res: any) => {
         if (dealData && typeof dealData === 'function') {
           const { data, total: count = 0 } = dealData(res);

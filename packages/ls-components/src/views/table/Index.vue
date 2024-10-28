@@ -23,7 +23,7 @@ const tableDataRef = ref([
   },
   {
     id: '2',
-    code: 'EquipmentCategoryEnum',
+    code: 'EquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnumEquipmentCategoryEnum',
     name: '机组类别',
     defaultValue: '1'
   },
@@ -65,9 +65,9 @@ const tableDataRef = ref([
   },
   {
     id: '9',
-    code: 'PressureParamsTypeEnum',
-    name: '汽轮机压力参数',
-    defaultValue: '0'
+    code: '',
+    name: '',
+    defaultValue: -1
   },
   {
     id: '10',
@@ -167,6 +167,7 @@ function handleCurrentChange(row: any) {
     :show-radio="false"
     :table-column="tableColumn"
     :table-data="tableDataRef"
+    show-overflow-tooltip
   >
     <el-table-column prop="operate" label="操作" width="100px">
       <template #default="{ row }">

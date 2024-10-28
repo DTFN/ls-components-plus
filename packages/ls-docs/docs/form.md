@@ -165,6 +165,11 @@ const formItems_1 = [
     ]
   },
   {
+    type: 'inputNumberRange',
+    label: '活动人数范围',
+    prop: 'numberRange'
+  },
+  {
     type: 'switch',
     label: '是否开启',
     prop: 'open'
@@ -614,6 +619,11 @@ const formItems_1 = [
     ],
   },
   {
+    type: 'inputNumberRange',
+    label: '活动人数范围',
+    prop: 'numberRange'
+  },
+  {
     type: 'switch',
     label: '是否开启',
     prop: 'open',
@@ -809,6 +819,12 @@ const attrTableData=[
     type: 'string/number',
     value: 'auto'
   },
+  {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
 ]
 
 // 事件
@@ -950,6 +966,12 @@ const attrTableData_1=[
     value: 'false'
   },
   {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
     name: 'labelNumber',
     desc: 'type为Label时，文本内容是否是数字',
     type: 'boolean',
@@ -960,6 +982,24 @@ const attrTableData_1=[
     desc: 'type为date时，文本内容日期时间格式',
     type: 'string',
     value: 'YYYY-MM-DD HH:mm:ss'
+  },
+  {
+    name: 'formatReadValue',
+    desc: '只读模式时处理显示文本的方法',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'rangeSeparator',
+    desc: 'type是inputRange和inputNumberRange时取值范围时的分隔符',
+    type: 'string',
+    value: '~'
+  },
+  {
+    name: 'rangeProps',
+    desc: 'type是inputRange和inputNumberRange时的前后字段名',
+    type: 'string[]',
+    value: `['start', 'end']`
   },
 ]
 
@@ -993,11 +1033,11 @@ const formItemTypeData=[
   },
   {
     name:'radio',
-    desc:'单选框（el-radio'
+    desc:'单选框（el-radio）'
   },
   {
     name:'checkbox',
-    desc:'复选框（el-checkbox'
+    desc:'复选框（el-checkbox）'
   },
   {
     name:'select',
@@ -1018,6 +1058,14 @@ const formItemTypeData=[
   {
     name:'switch',
     desc:'开关（el-switch）'
+  },
+  {
+    name:'inputRange',
+    desc:'取值范围'
+  },
+  {
+    name:'inputNumberRange',
+    desc:'数字取值范围'
   },
   {
     name:'slot',

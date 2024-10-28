@@ -2,7 +2,7 @@
 // 公共列表页面
 import { h } from 'vue';
 import useTableListHook from '@cpo/_hooks/useTableListHook';
-import { ElMessage, ElDivider, ElMessageBox } from 'element-plus';
+import { ElSpace, ElButton, ElSwitch, ElMessage, ElDivider, ElMessageBox } from 'element-plus';
 import { lsListProps } from './types';
 import LSForm from '@cpo/form/Form.vue';
 import LSTable from '@cpo/table/Table.vue';
@@ -18,7 +18,7 @@ const emits = defineEmits<{
 
 /** 表格数据 */
 const { isFirst, loading, tableData, total, currentPage, handleCurrentPageChange, handleSizeChange, handleReset, loadData } =
-  useTableListHook(props.listApi, props.formData, { dealData: props?.dealData });
+  useTableListHook(props.listApi, props.formData, { dealData: props?.dealData, dealParams: props?.dealParams });
 
 // 查询
 function submitForm(val: any) {
@@ -309,7 +309,7 @@ defineExpose({
     <LSTable
       class="ls-table-cpo"
       :class="[showOperate ? 'mt-16px' : 'mt-24px']"
-      show-overflow-tooltip
+      :show-overflow-tooltip="true"
       :loading="loading"
       :total="total"
       :table-data="tableData"
@@ -396,8 +396,24 @@ defineExpose({
         </template>
       </el-table-column>
 
-      <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
-        <slot v-if="slotName !== 'form-append'" :name="slotName" :row="row" />
+      <slot name="table-append"></slot>
+
+      <template v-for="(slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
+        <slot
+          v-if="
+            ![
+              'default',
+              'form-append',
+              'operate-prepend',
+              'operate-append',
+              'table-operate-prepend',
+              'table-operate-append',
+              'table-append'
+            ].includes(`${slotName}`)
+          "
+          :name="slotName"
+          :row="row"
+        />
       </template>
     </LSTable>
   </div>
