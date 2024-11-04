@@ -12,6 +12,7 @@ outline: deep
 ### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
 
 ::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
+并注册需要用到的icon图标，注册方式请查看ElIcon文档
 :::
 <LSIcon name="Notification" color="red" size="20" />
 

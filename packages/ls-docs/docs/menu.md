@@ -168,10 +168,10 @@ const MENU_CONFIG_LIST = [
 :::
 
 ```js
-import { useRouterHook } from '组件库';
+import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 const router = useRouter();
 
-const { getMenusByAuth }: any = useRouterHook();
+const { getMenusByAuth, jumpRouteCom }: any = useRouterHook();
 
 const routesModule = import.meta.glob('/src/views/**/*.vue');
 const menus = getMenusByAuth(MENU_CONFIG_LIST, routesModule, '/src/views');
@@ -186,6 +186,27 @@ router.addRoute({
 (menus || []).forEach((item: any) => {
   router.addRoute('Layout', item);
 });
+if (location.pathname == '/') {
+  jumpRouteCom(
+    {
+      path: menus[0]?.path
+    },
+    1
+  );
+} else {
+  const searchParams = new URLSearchParams(location.search);
+  const query: any = {};
+  for (let key of searchParams) {
+    query[key[0]] = key[1];
+  }
+  jumpRouteCom(
+    {
+      path: location.pathname.replace('/', ''),
+      query
+    },
+    1
+  );
+}
 ```
 
 ## API
