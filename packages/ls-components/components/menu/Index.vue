@@ -76,6 +76,9 @@ onMounted(() => {
     }
     :deep(.el-menu-item) {
       position: relative;
+      .ls-icon {
+        margin-right: 6px;
+      }
       &:hover {
         background-color: var(--el-fill-color-light);
         outline: none;
