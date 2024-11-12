@@ -1,0 +1,7 @@
+/dist/*
+/public/*
+public/*
+stats.html
+packages/ls-components/components/_plugins/
+packages/ls-components/public/
+

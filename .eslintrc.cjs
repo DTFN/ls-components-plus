@@ -19,12 +19,23 @@ module.exports = {
       jsx: true
     }
   },
-  // 继承某些已有的规则
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'plugin:prettier/recommended'
+  overrides: [
+    {
+      files: ['packages/ls-components/lib/**/*.js'],
+      rules: {
+        'prettier/prettier': 'off',
+        'no-var': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-this-alias': 'off',
+        '@typescript-eslint/prefer-ts-expect-error': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
+        'vue/return-in-computed-property': 'off',
+        'vue/no-ref-as-operand': 'off'
+      }
+    }
   ],
+  // 继承某些已有的规则
+  extends: ['plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
   /**
    * "off" 或 0    ==>  关闭规则
    * "warn" 或 1   ==>  打开的规则作为警告（不影响代码执行）
@@ -42,7 +53,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
     '@typescript-eslint/no-empty-function': 'off', // 禁止空函数
     '@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
-    '@typescript-eslint/ban-ts-comment': 'error', // 禁止 @ts-<directive> 使用注释或要求在指令后进行描述
+    '@typescript-eslint/ban-ts-comment': 'off', // 禁止 @ts-<directive> 使用注释或要求在指令后进行描述
     '@typescript-eslint/no-inferrable-types': 'off', // 可以轻松推断的显式类型可能会增加不必要的冗长
     '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间
     '@typescript-eslint/no-explicit-any': 'off', // 禁止使用 any 类型
@@ -62,4 +73,4 @@ module.exports = {
     'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词
     'vue/no-setup-props-destructure': 'off' // 禁止解构 props 传递给 setup
   }
-}
+};

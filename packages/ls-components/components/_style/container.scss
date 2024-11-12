@@ -1,0 +1,30 @@
+@charset 'utf-8';
+.ls-main-container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.ls-main-title {
+  height: 25px;
+  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+  color: rgb(16 16 16 / 100%);
+}
+.ls-search-wrap {
+  padding: 16px 24px 0;
+  margin-bottom: 24px;
+  background-color: rgb(255 255 255 / 100%);
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 10%);
+}
+.ls-detail-title {
+  font-weight: bold;
+  color: rgb(16 16 16);
+}
+.ls-edit-from-wrap {
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 10%);
+}

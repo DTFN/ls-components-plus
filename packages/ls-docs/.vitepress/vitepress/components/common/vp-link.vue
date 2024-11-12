@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps<{
-  href?: string
-  noIcon?: boolean
-}>()
+  href?: string;
+  noIcon?: boolean;
+}>();
 
-const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
+const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href));
 </script>
 
 <template>
@@ -30,7 +30,6 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
   display: flex;
   align-items: center;
 }
-
 .el-icon {
   margin-left: 4px;
 }

@@ -2,17 +2,12 @@
   "name": "ls-docs",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "vitepress dev",
-    "test": "NODE_ENV=test && vitepress test",
-    "pre": "NODE_ENV=pre && vitepress preview",
-    "prod": "NODE_ENV=prod && vitepress build"
+    "build": "vitepress build"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "vitepress": "^1.3.1"
-  }
+  "license": "MIT"
 }

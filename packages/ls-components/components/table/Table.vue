@@ -1,158 +1,324 @@
-<script setup lang="ts">
-import dayjs from 'dayjs'
-import { get } from 'lodash-es'
+<script setup lang="ts" name="LSTable">
+import dayjs from 'dayjs';
+import { get } from 'lodash-es';
+import { lsTableProps } from './types';
+import { isEmpty } from '../_utils/utils';
 
-const props = withDefaults(
-  defineProps<{
-    tableColumn: any[]
-    tableData: any[]
-    // 总条数
-    total?: number
-    // 当前页码
-    currentPage?: number
-    // 是否展示Loading状态
-    loading?: boolean
-    // 是否展示分页
-    showPagination?: boolean
-    // 是否展示多选框
-    showSelect?: boolean
-    // 是否展示序号
-    showTableIndex?: boolean
-    tableIndexfixed?: boolean
-    tableIndexLabel?: string
-    // 每页页数
-    pageSizes?: number[]
-    // 是否用默认Empty组件
-    showEmpty?: boolean
-    // 多选框属性
-    tableSelectProps?: ObjType
-  }>(),
-  {
-    loading: false,
-    showPagination: true,
-    showSelect: false,
-    total: 0,
-    currentPage: 1,
-    showTableIndex: true,
-    tableIndexfixed: false,
-    tableIndexLabel: '序号',
-    pageSizes: () => [10, 20, 30, 50],
-    showEmpty: true,
-  },
-)
+defineOptions({
+  inheritAttrs: false // 禁用属性透传
+});
+
+const props = defineProps(lsTableProps);
 
 const emit = defineEmits<{
-  sizeChange: [pageSize: number]
-  currentChange: [currentPage: number]
-}>()
+  sizeChange: [pageSize: number];
+  currentPageChange: [currentPage: number];
+  'update:page-size': [pageSize: number];
+  'update:current-page': [currentPage: number];
+  'update:selection': [selection: any[]];
+}>();
 
-const TableRef = ref()
+const attrs = useAttrs();
+const TableRef = ref();
+const currentPage = ref(1);
+const pageSize = ref(10);
+const selectionData = ref<any[]>([]);
 
-// Table 公共组件
-const currentPage = ref(1)
-const pageSize = ref(10)
+watch(
+  () => props.currentPage,
+  newVal => {
+    if (newVal !== currentPage.value) {
+      const val = Math.max(1, Math.min(newVal, Math.ceil(props.total / pageSize.value)));
+      currentPage.value = val;
+      if (val !== newVal) {
+        emit('update:current-page', val);
+      }
+    }
+  },
+  {
+    immediate: true
+  }
+);
 
-watch(() => props.currentPage, (newVal) => {
-  if (newVal !== currentPage.value)
-    currentPage.value = newVal
-})
+watch(
+  [() => props.pageSize, () => props.pageSizes],
+  ([val_1, val_2]) => {
+    let val = val_1;
+    if (!isEmpty(val_2)) {
+      val = val_2.includes(val_1) ? val_1 : val_2[0];
+    }
+    pageSize.value = val;
+    if (val !== val_1) {
+      emit('update:page-size', val);
+    }
+  },
+  {
+    immediate: true
+  }
+);
 
-function handleSizeChange(val: number) {
-  pageSize.value = val
-  emit('sizeChange', val)
-}
+watch(
+  () => props.selection,
+  newVal => {
+    selectionData.value = newVal || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
-function handleCurrentChange(val: number) {
-  currentPage.value = val
-  emit('currentChange', val)
-}
+// 数据变动 选中状态更新
+watch(
+  [() => props.tableData, () => props.showSelect, () => props.selection],
+  ([tableData, showSelect, selection]) => {
+    if (showSelect && tableData && tableData.length > 0) {
+      nextTick(() => {
+        tableData.forEach((item: any) => {
+          const checked = (selection || []).some(selectItem => selectItem.id === item.id);
+          if (checked) {
+            TableRef.value.toggleRowSelection(item, true);
+          }
+        });
+      });
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+// 多选数据
+watch(
+  () => selectionData.value,
+  newVal => {
+    emit('update:selection', newVal);
+  },
+  {
+    deep: true
+  }
+);
 
 // 序号
 function indexMethod(index: number) {
-  return (currentPage.value - 1) * pageSize.value + index + 1
+  return (currentPage.value - 1) * pageSize.value + index + 1;
 }
 
 // 日期转换
-function formatDate(val: string, template?: string) {
-  if (!val)
-    return '--'
-
-  return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss')
+function formatDate(val: string | null | undefined, template?: string) {
+  if (!val) return props.labelEmpty || '--';
+  return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
+// 每页条数
+function handleSizeChange(val: number) {
+  pageSize.value = val;
+  emit('sizeChange', val);
+  emit('update:page-size', val);
+}
+
+// 当前页
+function handleCurrentPageChange(val: number) {
+  currentPage.value = val;
+  emit('currentPageChange', val);
+  emit('update:current-page', val);
+}
+
+// 单列选中监听
+function handleSelect(selection: any[], row: any) {
+  const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
+  const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
+  if (filterIndex > -1) {
+    selectionData.value.push(row);
+  } else {
+    selectionData.value.splice(index, 1);
+  }
+}
+
+// 全部选中和取消选中监听
+function handleSelectAll(selection: any[]) {
+  const isSelectAll = selection.length > 0 ? true : false;
+  if (props.tableData.length > 0) {
+    props.tableData.forEach((item: any) => {
+      const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
+      if (isSelectAll) {
+        if (filterIndex < 0) {
+          selectionData.value.push(item);
+        }
+      } else {
+        if (filterIndex > 0) {
+          selectionData.value.splice(filterIndex, 1);
+        }
+      }
+    });
+  }
+}
+
+const attrsProps = computed(() => {
+  const newAttrs = { ...attrs };
+  if (props.showSelect) {
+    if (!newAttrs['onSelect']) newAttrs['onSelect'] = handleSelect;
+    if (!newAttrs['onSelectAll']) newAttrs['onSelectAll'] = handleSelectAll;
+  }
+  if (attrs && attrs.hasOwnProperty('show-overflow-tooltip')) {
+    if (typeof attrs['show-overflow-tooltip'] === 'boolean') {
+      if (attrs['show-overflow-tooltip'] === true) {
+        newAttrs['show-overflow-tooltip'] = {
+          popperClass: 'table-popper-css'
+        };
+      }
+    } else if (typeof attrs['show-overflow-tooltip'] === 'object') {
+      const tooltip: any = attrs['show-overflow-tooltip'] || {};
+      const popperClass = `table-popper-css ${tooltip && tooltip?.popperClass}`;
+      newAttrs['show-overflow-tooltip'] = {
+        ...tooltip,
+        popperClass
+      };
+    } else {
+      newAttrs['show-overflow-tooltip'] = {
+        popperClass: 'table-popper-css'
+      };
+    }
+  } else {
+    newAttrs['show-overflow-tooltip'] = {
+      popperClass: 'table-popper-css'
+    };
+  }
+
+  return newAttrs;
+});
+
 defineExpose({
-  TableRef,
-})
+  TableRef
+});
 </script>
 
 <template>
-  <el-table
-    ref="TableRef" v-loading="loading"
-    class="ls-table bg-transparent"
-    style="width: 100%"
-    v-bind="$attrs" :data="tableData"
-  >
-    <!-- 多选 -->
-    <el-table-column v-if="showSelect" type="selection" width="55" v-bind="tableSelectProps" />
+  <div class="ls-table-wrap">
+    <el-table ref="TableRef" v-loading="loading" style="width: 100%" v-bind="attrsProps" :data="tableData">
+      <!-- 前置插槽  -->
+      <slot name="prepend"></slot>
 
-    <!-- 序号 -->
-    <el-table-column v-if="showTableIndex" :fixed="tableIndexfixed" :label="tableIndexLabel" type="index" min-width="60" :index="indexMethod" />
-
-    <template v-for="item in tableColumn" :key="item.prop">
-      <el-table-column
-        v-bind="item"
-      >
+      <!-- 单选 -->
+      <el-table-column v-if="showRadio" width="60" v-bind="radioColumnOptions">
         <template #default="{ row }">
-          <!-- 日期 -->
-          <template v-if="item.type === 'date'">
-            {{ formatDate(get(row, item.prop), item.dateTemplate) }}
-          </template>
-
-          <!-- 状态 -->
-          <template v-else-if="item.type === 'status'">
-            <el-text :type="item.value[get(row, item.prop)]?.type">
-              {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
-            </el-text>
-          </template>
-
-          <!-- 数字 -->
-          <template v-else-if="item.type === 'number'">
-            <el-text :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
-              {{ get(row, item.prop) }}
-            </el-text>
-          </template>
-
-          <!-- 自定义 -->
-          <template v-else-if="item.type === 'slot'">
-            <slot :name="item.prop" :row="row" />
-          </template>
+          <el-radio :model-value="currentRow ? currentRow[radioProp] : void 0" :label="row[radioProp]">
+            {{ showRadioLabel ? row[radioProp] : '' }}
+          </el-radio>
         </template>
       </el-table-column>
-    </template>
-    <slot />
 
-    <template v-if="showEmpty" #empty>
-      <el-empty description="暂无数据" />
-    </template>
-  </el-table>
+      <!-- 多选 -->
+      <el-table-column v-if="showSelect" width="60" v-bind="selectColumnOptions" type="selection" />
 
-  <el-pagination
-    v-if="showPagination"
-    v-model:current-page="currentPage"
-    v-model:page-size="pageSize"
-    class="flex justify-end pt-20px"
-    layout="total, prev, pager, next,sizes"
-    :disabled="loading"
-    :page-sizes="pageSizes"
-    :total="total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
+      <!-- 展开行 -->
+      <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">
+        <template #default="{ row }">
+          <slot name="expand" :row="row"></slot>
+        </template>
+      </el-table-column>
+
+      <!-- 序号 -->
+      <el-table-column
+        v-if="showTableIndex"
+        width="60"
+        :fixed="tableIndexfixed"
+        :label="tableIndexLabel"
+        :index="indexMethod"
+        v-bind="indexColumnOptions"
+        type="index"
+      />
+
+      <template v-for="item in tableColumn" :key="item.prop">
+        <el-table-column v-bind="item">
+          <template #default="{ row, column, $index }">
+            <!-- 日期 -->
+            <template v-if="item.type === 'date'">
+              {{ formatDate(get(row, item.prop), item.dateTemplate) }}
+            </template>
+
+            <!-- 状态 -->
+            <template v-else-if="item.type === 'status'">
+              <el-text :type="item.value[get(row, item.prop)]?.type">
+                {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
+              </el-text>
+            </template>
+
+            <!-- 数字 -->
+            <template v-else-if="item.type === 'number'">
+              <template v-if="isEmpty(get(row, item.prop))">{{ labelEmpty || '--' }}</template>
+              <el-text v-else :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
+                {{ get(row, item.prop) }}
+              </el-text>
+            </template>
+
+            <!-- 自定义 -->
+            <template v-else-if="item.type === 'slot'">
+              <slot :name="item.prop" :row="row" :column="column" :index="$index" />
+            </template>
+
+            <template v-else-if="isEmpty(get(row, item.prop))">
+              <div :class="labelEmptyClass">
+                {{ labelEmpty || '--' }}
+              </div>
+            </template>
+          </template>
+
+          <!-- 自定义表头的内容 -->
+          <template v-if="item.headerSlot" #header="{ column, $index }">
+            <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
+          </template>
+
+          <!-- 自定义 filter 图标	-->
+          <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
+            <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
+          </template>
+        </el-table-column>
+      </template>
+
+      <!-- 后置插槽 -->
+      <slot></slot>
+
+      <template v-if="showEmpty" #empty>
+        <el-empty v-if="!$slots.empty" :description="emptyLabel" />
+        <slot name="empty" />
+      </template>
+
+      <template v-if="$slots.append" #append>
+        <slot name="append" />
+      </template>
+    </el-table>
+
+    <el-pagination
+      v-if="showPagination"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      layout="total, prev, pager, next,sizes"
+      :class="paginationClass"
+      :disabled="loading"
+      :page-sizes="pageSizes"
+      :total="total"
+      v-bind="paginationOptions"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentPageChange"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
-:deep() .el-empty {
+:deep(.el-empty) {
   --el-empty-padding: 24px 0 10px 0;
   --el-empty-description-margin-top: 10px;
+}
+:deep(.el-radio) {
+  height: 23px;
+}
+.el-pagination {
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+:deep(.table-popper-css) {
+  max-width: 60%;
 }
 </style>

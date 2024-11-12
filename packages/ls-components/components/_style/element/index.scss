@@ -1,29 +1,62 @@
-@forward 'element-plus/theme-chalk/src/common/var.scss' with(
-  $colors:(
-    'primary':(
-      // 主色
-      'base':#006eff
-    ),
-    'success':(
-      // 成功色
-      'base':#00b42a
-    ),
-    'warning':(
-      // 警告色
-      'base':#ff7d00
-    ),
-    'danger':(
-      // 危险色
-      'base':#f53f3f
-    ),
-    'info':(
-      // 信息色
-      'base':#909399
-    ),
-    'error':(
-      // 错误色
-      'base':#f53f3f
+@forward 'element-plus/theme-chalk/src/common/var.scss'
+  with(
+    $colors: (
+      'primary': (
+        // 主色
+        'base': #006eff
+      ),
+      'success': (
+        // 成功色
+        'base': #00b42a
+      ),
+      'warning': (
+        // 警告色
+        'base': #ff7d00
+      ),
+      'danger': (
+        // 危险色
+        'base': #f53f3f
+      ),
+      'info': (
+        // 信息色
+        'base': #909399
+      ),
+      'error': (
+        // 错误色
+        'base': #f53f3f
+      )
     )
-  )
-)
+  );
 
+// 选择框固定日期样式
+.ls-sel-calendar-popper {
+  width: calc(40% - 152px);
+  min-width: 348px !important;
+  .el-scrollbar__wrap {
+    height: auto;
+    max-height: initial !important;
+  }
+  .el-select-dropdown {
+    width: 100%;
+  }
+  .el-select-dropdown__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    background-color: #f4f4f4;
+    .el-select-dropdown__item {
+      box-sizing: border-box;
+      width: 25%;
+      height: 80px;
+      line-height: 80px;
+      text-align: center;
+      background-color: #ffffff;
+      border-right: 1px solid #dcdfe6;
+      border-bottom: 1px solid #dcdfe6;
+      &:nth-of-type(4n + 4) {
+        border-right: 0;
+      }
+    }
+  }
+}

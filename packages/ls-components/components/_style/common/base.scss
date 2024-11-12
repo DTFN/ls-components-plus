@@ -1,0 +1,56 @@
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+a,
+em,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+form,
+label,
+footer,
+header,
+section {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+body {
+  font-family: PingFangSC-Regular, PingFang, 'Microsoft YaHei', 'SF Pro', 'Segoe UI';
+  font-size: 12px;
+  color: $color-text1;
+}
+a,
+a:hover {
+  text-decoration: none;
+}
+ul,
+li,
+ol {
+  list-style: none;
+}
+.v-modal {
+  background: $color-text1 !important;
+  opacity: 0.8 !important;
+}
+
+// lucktsheet
+.luckysheet-modal-dialog-slider-imageCtrl,
+.luckysheet-modal-dialog-controll {
+  display: none !important;
+}

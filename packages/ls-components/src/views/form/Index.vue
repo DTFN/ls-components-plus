@@ -1,27 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import Form from '../../../components/form/Form.vue';
-const FormRef = ref()
-const loading = ref(false)
+import { MonthDayOptions } from '@/constant';
+
+const FormRef = ref();
+const FormRef1 = ref();
+const loading = ref(false);
 const formData = ref({
   username: '',
-  password: '',
-})
-
+  password: ''
+});
 const formItems = ref<FormItemsType[]>([
   {
     type: 'input',
     label: '用户名',
     prop: 'username',
-    rules: [{
-      required: true,
-      message: '请输入用户名',
-      trigger: 'blur',
-    }, {
-      pattern: /^[A-Z0-9]{4,36}$/i,
-      message: '4-36位数字字母组合',
-      trigger: 'blur',
-    }],
+    rules: [
+      {
+        required: true,
+        message: '请输入用户名',
+        trigger: 'blur'
+      },
+      {
+        pattern: /^[A-Z0-9]{4,36}$/i,
+        message: '4-36位数字字母组合',
+        trigger: 'blur'
+      }
+    ]
   },
   {
     type: 'input',
@@ -29,134 +32,509 @@ const formItems = ref<FormItemsType[]>([
     prop: 'password',
     attrs: {
       'show-password': true,
-      'maxlength': 24,
+      maxlength: 24
     },
-    rules: [{
-      required: true,
-      message: '请输入用户密码',
-      trigger: 'blur',
-    }, {
-      pattern: /^[A-Z0-9@]*$/i,
-      message: '8-24位数字大小写字母组合',
-      trigger: 'blur',
-    }],
+    rules: [
+      {
+        required: true,
+        message: '请输入用户密码',
+        trigger: 'blur'
+      },
+      {
+        pattern: /^[A-Z0-9@]*$/i,
+        message: '8-24位数字大小写字母组合',
+        trigger: 'blur'
+      }
+    ]
   },
-])
+  {
+    type: 'select',
+    label: '日期',
+    prop: 'dateList',
+    attrs: {
+      placeholder: '请选择日期，支持多选',
+      multiple: true,
+      clearable: true,
+      'popper-class': 'ls-sel-calendar-popper'
+    },
+    options: MonthDayOptions,
+    rules: [
+      {
+        required: true,
+        message: '请选择日期，支持多选',
+        trigger: 'change'
+      }
+    ]
+  }
+]);
 
-function onLogin() {
-  if (loading.value)
-    return
-  FormRef.value.validate().then((res: any) => {
-    loading.value = true
-    setTimeout(() => {
-      loading.value = false
-      console.log('submit success!')
-      console.log('username:', res.username, ', password:', res.password)
-    }, 2000)
-  })
+const formData1 = ref({
+  param1: '输入框',
+  param2: undefined,
+  param3: undefined,
+  param4: undefined,
+  param5: '',
+  param6: [],
+  param7: [],
+  param8: false,
+  param9: '文本域',
+  param10: '插入控件',
+  params99: {
+    start: '0',
+    end: '100'
+  }
+});
+
+const formItems1 = ref<FormItemsType[]>([
+  {
+    type: 'input',
+    label: '输入框',
+    prop: 'param1'
+  },
+  {
+    type: 'number',
+    label: '数字',
+    prop: 'param2'
+  },
+  {
+    type: 'select',
+    label: '下拉选择框',
+    prop: 'param3',
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ]
+    // rules: {
+    //   required: true,
+    //   message: '请选择',
+    //   trigger: 'blur'
+    // }
+  },
+  {
+    type: 'select',
+    label: '多选下拉选择框',
+    prop: 'param4',
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ],
+    attrs: {
+      multiple: true
+    }
+  },
+  {
+    type: 'radio',
+    label: '单选',
+    prop: 'param41',
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ],
+    attrs: {
+      multiple: true
+    }
+    // rules: {
+    //   required: true,
+    //   message: '请选择',
+    //   trigger: 'blur'
+    // }
+  },
+  {
+    type: 'checkbox',
+    label: '多选',
+    prop: 'param42',
+    disabled: true,
+    options: [
+      {
+        label: '选项1',
+        value: '1'
+      },
+      {
+        label: '选项2',
+        value: '2'
+      }
+    ],
+    attrs: {
+      multiple: true
+    }
+  },
+  {
+    type: 'date',
+    label: '日期',
+    prop: 'param5'
+  },
+  {
+    type: 'cascader',
+    label: '级联',
+    prop: 'param6',
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    },
+    options: [
+      {
+        value: 'guide',
+        label: 'Guide',
+        children: [
+          {
+            value: 'disciplines',
+            label: 'Disciplines',
+            children: [
+              {
+                value: 'consistency',
+                label: 'Consistency'
+              },
+              {
+                value: 'feedback',
+                label: 'Feedback'
+              },
+              {
+                value: 'efficiency',
+                label: 'Efficiency'
+              },
+              {
+                value: 'controllability',
+                label: 'Controllability'
+              }
+            ]
+          },
+          {
+            value: 'navigation',
+            label: 'Navigation',
+            children: [
+              {
+                value: 'side nav',
+                label: 'Side Navigation'
+              },
+              {
+                value: 'top nav',
+                label: 'Top Navigation'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    type: 'multipleCascader',
+    label: '多选级联',
+    prop: 'param7',
+    options: [
+      {
+        value: 'guide',
+        label: 'Guide',
+        children: [
+          {
+            value: 'disciplines',
+            label: 'Disciplines',
+            children: [
+              {
+                value: 'consistency',
+                label: 'Consistency'
+              },
+              {
+                value: 'feedback',
+                label: 'Feedback'
+              },
+              {
+                value: 'efficiency',
+                label: 'Efficiency'
+              },
+              {
+                value: 'controllability',
+                label: 'Controllability'
+              }
+            ]
+          },
+          {
+            value: 'navigation',
+            label: 'Navigation',
+            children: [
+              {
+                value: 'side nav',
+                label: 'Side Navigation'
+              },
+              {
+                value: 'top nav',
+                label: 'Top Navigation'
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    }
+  },
+  {
+    type: 'switch',
+    label: '开关',
+    prop: 'param8'
+  },
+  {
+    type: 'inputRange',
+    label: '范围',
+    prop: 'params99',
+    attrs: {
+      start: {
+        placeholder: '开始取值范围'
+      },
+      end: {
+        placeholder: '截止取值范围'
+      }
+    }
+  },
+  {
+    type: 'inputNumberRange',
+    label: '数字范围',
+    prop: 'params999'
+  },
+  {
+    type: 'textarea',
+    label: '文本域',
+    prop: 'param9'
+  },
+  {
+    type: 'itemSlot',
+    label: '插入控件',
+    prop: 'param10',
+    isRow: true,
+    tooltip: '提示语'
+  },
+  {
+    type: 'slot',
+    label: '自定义',
+    prop: 'param11',
+    isRow: true
+  }
+]);
+
+function onLogin(val: any) {
+  if (loading.value) return;
+  // FormRef.value.validate().then((res: any) => {
+  loading.value = true;
+  setTimeout(() => {
+    loading.value = false;
+    console.log('submit success!', val);
+  }, 2000);
+  // });
 }
 
-import { reactive } from 'vue';
+const formData_2 = ref<any>({
+  label: '嵌套表单',
+  item_1: [
+    {
+      name: undefined,
+      age: undefined
+    }
+  ],
+  item_2: [
+    {
+      type: undefined,
+      open: false
+    }
+  ]
+});
 
-// do not use same name with ref
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+const formItems_2 = [
+  {
+    type: 'label',
+    label: '标题',
+    prop: 'label'
+  },
+  {
+    type: 'itemSlot',
+    label: '第一段',
+    prop: 'item_1'
+  },
+  {
+    type: 'slot',
+    label: '第二段',
+    prop: 'item_2'
+  }
+];
 
-const onSubmit = () => {
-  console.log('submit!')
+const item_1_form = [
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    required: true
+  },
+  {
+    type: 'number',
+    label: '年龄',
+    prop: 'age'
+  }
+];
+
+const item_2_form = [
+  {
+    type: 'select',
+    label: '类型',
+    prop: 'type',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur'
+    },
+    options: [
+      {
+        label: '选项1',
+        value: 1
+      }
+    ]
+  },
+  {
+    type: 'switch',
+    label: '开启',
+    prop: 'open'
+  }
+];
+
+function addItem_1() {
+  formData_2.value.item_1.push({
+    name: undefined,
+    age: undefined
+  });
+}
+
+function addItem_2() {
+  formData_2.value.item_2.push({
+    type: undefined,
+    open: false
+  });
+}
+
+function removeItem_1(index: number) {
+  formData_2.value.item_1.splice(index, 1);
+}
+
+function removeItem_2(index: number) {
+  formData_2.value.item_2.splice(index, 1);
+}
+
+const read = ref(false);
+
+function onSubmit(res: any) {
+  console.log('onSubmit', res);
 }
 </script>
 
 <template>
-  <Form
+  <LSForm
     ref="FormRef"
     label-position="top"
+    inline
+    require-asterisk-position="left"
     :loading="loading"
     :colon="false"
-    :show-buttons="false"
+    :show-buttons="true"
+    :show-reset="true"
+    confirm-text="登录"
     :form-data="formData"
     :form-items="formItems"
-    :hide-required-asterisk="true"
+    :hide-required-asterisk="false"
+    @submit="onLogin"
   />
-  <el-button
-    type="primary"
-    :loading="loading"
-    :disabled="loading"
-    @click="onLogin"
-  >登 录</el-button>
+
+  <br />
   <div>--------------------------------------------------------------------------------------------</div>
-  <el-form :model="form" label-width="auto" style="max-width: 600px">
-    <el-form-item label="Activity name">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item label="Activity zone">
-      <el-select v-model="form.region" placeholder="please select your zone">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Activity time">
-      <el-col :span="11">
-        <el-date-picker
-          v-model="form.date1"
-          type="date"
-          placeholder="Pick a date"
-          style="width: 100%"
-        />
-      </el-col>
-      <el-col :span="2" class="text-center">
-        <span class="text-gray-500">-</span>
-      </el-col>
-      <el-col :span="11">
-        <el-time-picker
-          v-model="form.date2"
-          placeholder="Pick a time"
-          style="width: 100%"
-        />
-      </el-col>
-    </el-form-item>
-    <el-form-item label="Instant delivery">
-      <el-switch v-model="form.delivery" />
-    </el-form-item>
-    <el-form-item label="Activity type">
-      <el-checkbox-group v-model="form.type">
-        <el-checkbox value="Online activities" name="type">
-          Online activities
-        </el-checkbox>
-        <el-checkbox value="Promotion activities" name="type">
-          Promotion activities
-        </el-checkbox>
-        <el-checkbox value="Offline activities" name="type">
-          Offline activities
-        </el-checkbox>
-        <el-checkbox value="Simple brand exposure" name="type">
-          Simple brand exposure
-        </el-checkbox>
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item label="Resources">
-      <el-radio-group v-model="form.resource">
-        <el-radio value="Sponsor">Sponsor</el-radio>
-        <el-radio value="Venue">Venue</el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="Activity form">
-      <el-input v-model="form.desc" type="textarea" />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">Create</el-button>
-      <el-button>Cancel</el-button>
-    </el-form-item>
-  </el-form>
+  <br />
+
+  <el-switch v-model="read"></el-switch>
+  <LSForm
+    ref="FormRef1"
+    :read="read"
+    v-model:form-data="formData1"
+    :form-items="formItems1"
+    :column="2"
+    :loading="loading"
+    @submit="onSubmit"
+  >
+    <template #param1-input-prepend> 必填 </template>
+
+    <template #param9-prepend>
+      <div>注意事项</div>
+    </template>
+
+    <template #param9-append>
+      <div>备注事项</div>
+    </template>
+
+    <template #param10-slot>
+      <div>插入控件区域</div>
+    </template>
+
+    <template #param1-read-slot>
+      <div>自定义区域</div>
+    </template>
+  </LSForm>
+
+  <LSForm v-model:form-data="formData_2" :form-items="formItems_2">
+    <template #item_1-slot>
+      <div>
+        <div v-for="(item, index) in formData_2.item_1" :key="index" class="item-center mb-24">
+          <LSFormItem
+            v-for="(fItem, i) in item_1_form"
+            :key="i + '-' + index"
+            v-bind="fItem"
+            class="mr-24"
+            v-model="formData_2.item_1[index][fItem.prop]"
+            :prop="['item_1', index, fItem.prop]"
+          ></LSFormItem>
+          <el-button type="danger" class="ml-12" @click="removeItem_1(index)">删除</el-button>
+        </div>
+        <el-button type="primary" class="mt-12" @click="addItem_1">添加</el-button>
+      </div>
+    </template>
+
+    <template #item_2>
+      <el-form-item label="第二段：" prop="item_2">
+        <div>
+          <div v-for="(item, index) in formData_2.item_2" :key="index" class="item-center mb-24">
+            <LSFormItem
+              v-for="(fItem, i) in item_2_form"
+              :key="i + '-' + index"
+              v-bind="fItem"
+              class="mr-24"
+              v-model="formData_2.item_2[index][fItem.prop]"
+              :prop="['item_2', index, fItem.prop]"
+            ></LSFormItem>
+            <el-button type="danger" class="ml-12" @click="removeItem_2(index)">删除</el-button>
+          </div>
+          <el-button type="primary" class="mt-12" @click="addItem_2">添加</el-button>
+        </div>
+      </el-form-item>
+    </template>
+  </LSForm>
+
+  <!-- <el-button type="primary" :loading="loading" :disabled="loading" @click="onLogin">登 录</el-button> -->
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

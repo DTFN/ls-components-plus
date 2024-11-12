@@ -1,5 +1,40 @@
-# Vue 3 + TypeScript + Vite
+<p align="center">
+  <img width="260" src="https://offcial-website-res.oss-cn-beijing.aliyuncs.com/dev/logo.png">
+</p>
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# 前端组件库
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+适用于 vue3.x
+
+## 链接
+
+[文档地址](https://) [vue3.x](https://cn.vuejs.org/guide/introduction.html) [element-plus](https://element-plus.org/zh-CN/component/overview.html)
+
+## 更新记录
+
+#### 1. menu组件刷新加载案例完善
+
+#### 2. 菜单icon增加间距
+
+## 安装
+
+```shell
+npm install @lingshugroup/web-plus
+```
+
+## 浏览器要求
+
+现代浏览器
+
+## 补充
+
+大部分组件基于 `element-plus` 的二次开发，个别组件基于其他第三方组件二次开发
+
+`LSChart` 组件基于 `ECharts` 的二次开发
+`LSMap` 组件基于高德地图 `AMap` 的二次开发
+
+`node` 版本：18+
+
+## 协议
+
+[MIT](LICENSE)

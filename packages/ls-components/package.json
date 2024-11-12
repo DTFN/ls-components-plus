@@ -1,14 +1,147 @@
 {
-  "name": "ls-components",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@lingshugroup/web-plus",
+  "version": "1.0.0",
+  "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
+  "main": "./lib/index/index.cjs",
+  "module": "./lib/index/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index/index.js",
+      "require": "./lib/index/index.cjs"
+    },
+    "./directives": {
+      "import": "./lib/directives/index.js",
+      "require": "./lib/directives/index.cjs"
+    },
+    "./hooks": {
+      "import": "./lib/hooks/index.js",
+      "require": "./lib/hooks/index.cjs"
+    },
+    "./utils": {
+      "import": "./lib/utils/index.js",
+      "require": "./lib/utils/index.cjs"
+    },
+    "./backTop": {
+      "import": "./lib/backTop/index.js",
+      "require": "./lib/backTop/index.cjs"
+    },
+    "./bellMessage": {
+      "import": "./lib/bellMessage/index.js",
+      "require": "./lib/bellMessage/index.cjs"
+    },
+    "./breadcrumb": {
+      "import": "./lib/breadcrumb/index.js",
+      "require": "./lib/breadcrumb/index.cjs"
+    },
+    "./button": {
+      "import": "./lib/button/index.js",
+      "require": "./lib/button/index.cjs"
+    },
+    "./chart": {
+      "import": "./lib/chart/index.js",
+      "require": "./lib/chart/index.cjs"
+    },
+    "./confirm": {
+      "import": "./lib/confirm/index.js",
+      "require": "./lib/confirm/index.cjs"
+    },
+    "./containerBox": {
+      "import": "./lib/containerBox/index.js",
+      "require": "./lib/containerBox/index.cjs"
+    },
+    "./descriptions": {
+      "import": "./lib/descriptions/index.js",
+      "require": "./lib/descriptions/index.cjs"
+    },
+    "./dialog": {
+      "import": "./lib/dialog/index.js",
+      "require": "./lib/dialog/index.cjs"
+    },
+    "./editor": {
+      "import": "./lib/editor/index.js",
+      "require": "./lib/editor/index.cjs"
+    },
+    "./flowBox": {
+      "import": "./lib/flowBox/index.js",
+      "require": "./lib/flowBox/index.cjs"
+    },
+    "./form": {
+      "import": "./lib/form/index.js",
+      "require": "./lib/form/index.cjs"
+    },
+    "./icon": {
+      "import": "./lib/icon/index.js",
+      "require": "./lib/icon/index.cjs"
+    },
+    "./jsonEditor": {
+      "import": "./lib/jsonEditor/index.js",
+      "require": "./lib/jsonEditor/index.cjs"
+    },
+    "./layout": {
+      "import": "./lib/layout/index.js",
+      "require": "./lib/layout/index.cjs"
+    },
+    "./list": {
+      "import": "./lib/list/index.js",
+      "require": "./lib/list/index.cjs"
+    },
+    "./live": {
+      "import": "./lib/live/index.js",
+      "require": "./lib/live/index.cjs"
+    },
+    "./map": {
+      "import": "./lib/map/index.js",
+      "require": "./lib/map/index.cjs"
+    },
+    "./menu": {
+      "import": "./lib/menu/index.js",
+      "require": "./lib/menu/index.cjs"
+    },
+    "./preview": {
+      "import": "./lib/preview/index.js",
+      "require": "./lib/preview/index.cjs"
+    },
+    "./print": {
+      "import": "./lib/print/index.js",
+      "require": "./lib/print/index.cjs"
+    },
+    "./table": {
+      "import": "./lib/table/index.js",
+      "require": "./lib/table/index.cjs"
+    },
+    "./upload": {
+      "import": "./lib/upload/index.js",
+      "require": "./lib/upload/index.cjs"
+    },
+    "./tree": {
+      "import": "./lib/tree/index.js",
+      "require": "./lib/tree/index.cjs"
+    },
+    "./index.css": "./lib/index.css"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "pinia": "^2.1.7"
-  }
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",
+  "keywords": [
+    "lingshu",
+    "vue3",
+    "web",
+    "ui",
+    "components"
+  ]
 }

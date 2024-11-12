@@ -1,79 +1,103 @@
 // 列表页面获取数据的hook
-export default function (requestFn: Function | undefined, requestParams: any) {
+export default function (
+  requestFn: Function | undefined,
+  requestParams: any,
+  config?: { autoFetch?: boolean; dealData?: Function; dealParams?: Function }
+) {
   // 初始化
-  const isFirst = ref(true)
+  const isFirst = ref(true);
   // 加载状态
-  const loading = ref(false)
+  const loading = ref(false);
   // 当前页
-  const currentPage = ref(1)
+  const currentPage = ref(1);
   // 每页大小
-  const pageSize = ref(10)
+  const pageSize = ref(10);
   // 大小切换范围
-  const pageSizes = [10, 20, 30, 50]
+  const pageSizes = [10, 20, 30, 50];
   // 列表
-  const tableData = ref([])
+  const tableData = ref([]);
   // 总数
-  const total = ref(0)
+  const total = ref(0);
+
+  const { autoFetch = true, dealData, dealParams } = config || {};
 
   // 加载数据
-  const loadData = (showLoading = true) => {
-    if (!requestFn)
-      return
+  const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
+    if (!requestFn) return;
 
-    if (showLoading)
-      loading.value = true
+    if (showLoading) loading.value = true;
 
-    requestFn({
+    if (firstLoad) {
+      isFirst.value = true;
+    }
+
+    let params = {
       currentPage: currentPage.value,
       pageSize: pageSize.value,
-      ...requestParams,
-    })
-      .then((res: any) => {
-        const { records = [], total: count } = res || {}
+      ...requestParams
+    };
 
-        tableData.value = records || []
-        total.value = Number(count)
+    if (dealParams) {
+      params = dealParams(params);
+    }
+
+    requestFn(params)
+      .then((res: any) => {
+        if (dealData && typeof dealData === 'function') {
+          const { data, total: count = 0 } = dealData(res);
+          tableData.value = data || [];
+          total.value = Number(count || 0);
+        } else {
+          const { records = [], total: count } = res || {};
+          tableData.value = records || [];
+          total.value = Number(count || 0);
+        }
       })
-      .catch ((err: string) => {
-        console.log(`useTableHook error: ${err}`)
+      .catch((err: string) => {
+        console.log(`useTableHook error: ${err}`);
       })
-      .finally (() => {
-        loading.value = false
-        setTimeout(() => {
-          isFirst.value = false
-        }, 400)
-      })
-  }
+      .finally(() => {
+        loading.value = false;
+
+        if (isFirst.value) {
+          setTimeout(() => {
+            isFirst.value = false;
+          }, 200);
+        }
+      });
+  };
 
   // 切换页数
-  const handleCurrentChange = (page: number) => {
-    currentPage.value = page
-    loadData()
-  }
+  const handleCurrentPageChange = (page: number) => {
+    currentPage.value = page;
+    loadData();
+  };
 
   // 切换大小
   const handleSizeChange = (size: number) => {
-    pageSize.value = size
-    currentPage.value = 1
-    loadData()
-  }
+    pageSize.value = size;
+    currentPage.value = 1;
+    loadData();
+  };
 
   // 重置列表
   const handleReset = () => {
     // 分页数据重置
-    currentPage.value = 1
+    currentPage.value = 1;
 
     // 重新加载列表
     nextTick(() => {
-      loadData()
-    })
-  }
+      loadData();
+    });
+  };
 
   // 渲染后自动获取列表
   onMounted(() => {
-    isFirst.value = true
-    loadData()
-  })
+    if (autoFetch) {
+      isFirst.value = true;
+      loadData();
+    }
+  });
 
   return {
     isFirst,
@@ -83,9 +107,9 @@ export default function (requestFn: Function | undefined, requestParams: any) {
     currentPage,
     tableData,
     total,
-    handleCurrentChange,
+    handleCurrentPageChange,
     handleSizeChange,
     handleReset,
-    loadData,
-  }
+    loadData
+  };
 }

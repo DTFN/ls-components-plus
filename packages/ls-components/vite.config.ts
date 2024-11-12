@@ -1,63 +1,112 @@
 // https://vitejs.dev/config/
-import vue from '@vitejs/plugin-vue'
-import path from 'node:path'
-import { visualizer } from 'rollup-plugin-visualizer'
-import AutoImport from 'unplugin-auto-import/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import Icons from 'unplugin-icons/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import Components from 'unplugin-vue-components/vite'
-import type { ConfigEnv, UserConfig } from 'vite'
-import { defineConfig, loadEnv } from 'vite'
-import viteCompression from 'vite-plugin-compression'
-import simpleHtmlPlugin from 'vite-plugin-simple-html'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { defineConfig, loadEnv, ConfigEnv, UserConfig } from 'vite';
+import path from 'path';
+import { wrapperEnv } from './build/getEnv';
+import { createProxy } from './build/proxy';
+import { createVitePlugins } from './build/plugins';
+import { readdirSync, statSync } from 'fs';
 
-const pathSrc = path.resolve(__dirname, 'src')
+const pathSrc = path.resolve(__dirname, 'src');
+const cpoSrc = path.resolve(__dirname, 'components');
+
+function getComponentEntries(cpoPath: string) {
+  const resolve = (dir: string) => path.join(__dirname, './', dir);
+  const comList = ['_directives', '_hooks', '_utils'];
+  let files = readdirSync(resolve(cpoPath));
+  const componentEntries = files.reduce((fileObj: any, item: any) => {
+    const join = (path as any).join;
+    const itemPath = join(cpoPath, item);
+    const isDir = statSync(itemPath).isDirectory();
+    const [name] = item.split('.');
+    if (isDir) {
+      let temp = '';
+      if (!item.startsWith('_')) {
+        temp = name;
+      } else if (comList.includes(item)) {
+        temp = item.replace('_', '');
+      }
+      temp && (fileObj[temp] = resolve(join(itemPath, 'index.ts')));
+    } else if (name === 'main') {
+      fileObj['index'] = resolve(`${itemPath}`);
+    }
+    return fileObj;
+  }, {});
+  return componentEntries;
+}
 
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
-  const root = process.cwd()
-  const env = loadEnv(mode, root)
+  const root = process.cwd();
+  const env = loadEnv(mode, root);
+  const viteEnv = wrapperEnv(env);
 
   return {
     base: '/',
     resolve: {
       alias: {
-        '@': pathSrc
-      },
+        '@': pathSrc,
+        '@cpo': cpoSrc
+      }
     },
     build: {
-      minify: 'esbuild',
-
-      rollupOptions: {
-        output: {
-          chunkFileNames: 'js/[name]-[hash].js', // 引入文件名的名称
-          entryFileNames: 'js/[name]-[hash].js', // 包的入口文件名称
-          assetFileNames: '[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
-          manualChunks(id) {
-            try {
-              if (id.includes('node_modules')) {
-                const name = id.split('node_modules/')[1].split('/')
-
-                if (name[0] === '.pnpm')
-                  return name[1]
-                else
-                  return name[0]
-              }
-            }
-            catch (error) {
-              console.error(error)
-            }
-          },
-        },
+      outDir: 'lib',
+      cssCodeSplit: false,
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
       },
+      lib: {
+        entry: getComponentEntries('components'),
+        name: '[name]',
+        fileName: '[name]/index',
+        formats: ['es', 'cjs']
+      },
+      rollupOptions: {
+        external: [
+          'vue',
+          'vue-router',
+          'axios',
+          'echarts',
+          'element-plus',
+          'pdfjs-dist',
+          '@wangeditor/editor',
+          '@wangeditor/editor-for-vue',
+          '@element-plus/icons-vue',
+          '@iconify/vue',
+          'luckyexcel',
+          'lodash',
+          'vue3-ts-jsoneditor'
+        ],
+        output: {
+          exports: 'named',
+          globals: {
+            vue: 'Vue',
+            'vue-router': 'VueRouter',
+            axios: 'axios',
+            echarts: 'echarts',
+            'element-plus': 'element-plus',
+            'pdfjs-dist': 'pdfjs-dist',
+            '@wangeditor/editor': '@wangeditor/editor',
+            '@wangeditor/editor-for-vue': '@wangeditor/editor-for-vue',
+            '@element-plus/icons-vue': '@element-plus/icons-vue',
+            '@iconify/vue': '@iconify/vue',
+            luckyexcel: 'luckyexcel',
+            lodash: 'lodash',
+            'vue3-ts-jsoneditor': 'vue3-ts-jsoneditor'
+          },
+          assetFileNames: 'index.css',
+          preserveModules: true
+        }
+      }
     },
     esbuild: {
-      drop: mode === 'dev' ? [] : ['console', 'debugger'],
+      pure: ['console.log', 'debugger'],
+      keepNames: true
     },
     // 依赖预加载
     optimizeDeps: {
-      include: ['element-plus/es/**', '@vueuse/core', '@element-plus/icons-vue'],
+      include: ['element-plus/es/**', '@vueuse/core', '@element-plus/icons-vue']
     },
     // scss 全局变量
     css: {
@@ -65,86 +114,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         scss: {
           // @use "src/style/element/index.scss" as *; 自定义主题颜色
           // additionalData: `@use "src/style/var.scss" as *;`,
-          additionalData: `@use "components/_style/element/index.scss" as *;`,
-        },
-      },
+          additionalData: `@use "@cpo/_style/common/variable.scss" as *; @use "@cpo/_style/common/utils.scss" as *; @use "@cpo/_style/element/index.scss" as *;`
+        }
+      }
     },
     // 插件
-    plugins: [
-      vue(),
-      AutoImport({
-        imports: ['vue', 'vue-router', '@vueuse/core'],
-        dts: 'auto-imports.d.ts',
-        vueTemplate: true,
-        resolvers: [
-          // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
-          ElementPlusResolver(
-            {
-              importStyle: 'sass', // 自定义主题颜色
-            },
-          ),
-          // 自动导入图标组件
-          IconsResolver({
-            prefix: 'Icon',
-          }),
-        ],
-      }),
-      Components({
-        dts: 'components.d.ts',
-        resolvers: [
-          // 自动注册图标组件
-          IconsResolver({
-            enabledCollections: ['ep'],
-          }),
-          // 自动导入 Element Plus 组件 (采用scss样式配色系统)
-          ElementPlusResolver(
-            {
-              importStyle: 'sass', // 自定义主题颜色
-            },
-          ),
-        ],
-      }),
-      Icons({
-        autoInstall: true,
-      }),
-      simpleHtmlPlugin({
-        inject: {
-          data: {
-            title: env.VITE_APP_TITLE,
-          },
-        },
-        minify: true,
-      }),
-      createSvgIconsPlugin({
-        // 指定需要缓存的图标文件夹
-        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
-        // 指定symbolId格式
-        symbolId: 'icon-[name]',
-      }),
-      // 打包压缩
-      viteCompression(
-        {
-          verbose: true, // 是否在控制台中输出压缩结果
-          disable: false, // 是否禁用压缩
-          threshold: 10240, // 如果体积大于阈值，将被压缩，单位为b
-          algorithm: 'gzip', // 压缩算法，可选['gzip'，' brotliccompress '，'deflate '，'deflateRaw']
-          ext: '.gz', // 添加的压缩文件扩展名
-          deleteOriginFile: false, // 源文件压缩后是否删除(!!!!删除之后部署页面打不开)
-        },
-      ),
-      // 打包体积分析
-      visualizer({
-        filename: './bundle-stats.html', // 输出HTML报告的路径
-        open: false, // 是否自动打开报告页面
-        gzipSize: true, // 是否显示gzip压缩后的大小
-        brotliSize: true, // 是否显示brotli压缩后的大小
-      }),
-    ],
+    plugins: [createVitePlugins(viteEnv)],
     server: {
       host: '0.0.0.0',
-      hmr: true,
-      strictPort: false,
-      port: 8080
-    },
-  }
-})
+      port: viteEnv.VITE_PORT,
+      open: viteEnv.VITE_OPEN,
+      proxy: createProxy(viteEnv.VITE_PROXY)
+    }
+  };
+});
