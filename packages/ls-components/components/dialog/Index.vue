@@ -22,7 +22,8 @@ const comClass: string = ns.b();
 const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
-  closeOnPressEscape: false
+  closeOnPressEscape: false,
+  zIndex: 2000
 });
 
 const curBtnCancelConfig = computed(() => {

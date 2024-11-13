@@ -12,6 +12,7 @@ const emit = defineEmits<{
   submit: [form: any];
   reset: [form: any];
   'update:form-data': [formData: any];
+  changeSelect: [value: any, prop: string];
 }>();
 
 const attrs = useAttrs();
@@ -91,6 +92,10 @@ watch(
   }
 );
 
+function changeSelect(value: any, prop: string) {
+  emit('changeSelect', value, prop);
+}
+
 defineExpose({
   FormRef,
   validate,
@@ -108,6 +113,7 @@ defineExpose({
     v-bind="$attrs"
     :model="form"
     :disabled="loading || disabled"
+    :class="[read ? 'show-label' : '']"
   >
     <template v-if="column > 1">
       <el-row :gutter="10">
@@ -124,6 +130,7 @@ defineExpose({
               :label-empty="labelEmpty"
               v-bind="item"
               @update:value="updateFormData"
+              @change-select="changeSelect"
             >
               <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>
                 <slot :name="slotName" />
@@ -147,6 +154,7 @@ defineExpose({
           :label-empty="labelEmpty"
           v-bind="item"
           @update:value="updateFormData"
+          @change-select="changeSelect"
         >
           <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>
             <slot :name="slotName" />
@@ -171,5 +179,29 @@ defineExpose({
 .form-item-buttons {
   display: flex !important;
   align-items: flex-end;
+}
+.show-label {
+  margin-bottom: 0;
+  border-collapse: collapse;
+  border-top: 1px solid #dcdfe6;
+  border-right: 1px solid #dcdfe6;
+  border-left: 1px solid #dcdfe6;
+  :deep() .el-form-item {
+    margin-bottom: 0;
+    background: var(--bg-color-primary);
+    border-bottom: 1px solid #dcdfe6;
+    .el-form-item__label {
+      height: 100%;
+      padding: 0 11px;
+      font-weight: bold;
+      line-height: 48px;
+    }
+    .el-form-item__content {
+      padding: 0 11px;
+      word-break: break-all;
+      background: #ffffff;
+      border-left: 1px solid #dcdfe6;
+    }
+  }
 }
 </style>

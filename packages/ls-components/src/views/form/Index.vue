@@ -444,6 +444,10 @@ const read = ref(false);
 function onSubmit(res: any) {
   console.log('onSubmit', res);
 }
+
+function changeSelect(value: any, prop: string) {
+  console.log('changeSelect', value, prop);
+}
 </script>
 
 <template>
@@ -476,6 +480,7 @@ function onSubmit(res: any) {
     :column="2"
     :loading="loading"
     @submit="onSubmit"
+    @change-select="changeSelect"
   >
     <template #param1-input-prepend> 必填 </template>
 
