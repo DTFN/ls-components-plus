@@ -13,6 +13,7 @@ const props = defineProps(lsMenuProps);
 
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
+const lsComMenu = ref();
 
 watch(
   () => props.permissionList,
@@ -53,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-menu v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
+  <el-menu ref="lsComMenu" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
     <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
@@ -120,6 +121,20 @@ onMounted(() => {
           &::before {
             background: var(--el-color-primary);
           }
+        }
+      }
+    }
+  }
+  :deep(> .el-menu-item),
+  :deep(.el-sub-menu__title) {
+    &:hover {
+      background-color: var(--el-fill-color-light);
+      outline: none;
+      .ls-icon,
+      span {
+        color: v-bind(hoverColor);
+        svg {
+          color: v-bind(hoverColor);
         }
       }
     }

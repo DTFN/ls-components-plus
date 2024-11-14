@@ -13,6 +13,7 @@ const emit = defineEmits<{
   reset: [form: any];
   'update:form-data': [formData: any];
   changeSelect: [value: any, prop: string];
+  changeRadio: [value: any, prop: string];
 }>();
 
 const attrs = useAttrs();
@@ -96,6 +97,10 @@ function changeSelect(value: any, prop: string) {
   emit('changeSelect', value, prop);
 }
 
+function changeRadio(value: any, prop: string) {
+  emit('changeRadio', value, prop);
+}
+
 defineExpose({
   FormRef,
   validate,
@@ -113,7 +118,7 @@ defineExpose({
     v-bind="$attrs"
     :model="form"
     :disabled="loading || disabled"
-    :class="[read ? 'show-label' : '']"
+    :class="[detailCss ? 'show-label' : '']"
   >
     <template v-if="column > 1">
       <el-row :gutter="10">
@@ -131,9 +136,10 @@ defineExpose({
               v-bind="item"
               @update:value="updateFormData"
               @change-select="changeSelect"
+              @change-radio="changeRadio"
             >
-              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>
-                <slot :name="slotName" />
+              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
+                <slot :name="slotName" :row="{ ...row }" />
               </template>
             </FormItem>
           </el-col>
@@ -144,7 +150,6 @@ defineExpose({
     <template v-else>
       <template v-for="item in formItems" :key="item.prop">
         <slot v-if="item.type === 'slot'" :name="item.prop" />
-
         <FormItem
           v-else
           :is-value="true"
@@ -155,9 +160,10 @@ defineExpose({
           v-bind="item"
           @update:value="updateFormData"
           @change-select="changeSelect"
+          @change-radio="changeRadio"
         >
-          <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]>
-            <slot :name="slotName" />
+          <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
+            <slot :name="slotName" :row="{ ...row }" />
           </template>
         </FormItem>
       </template>

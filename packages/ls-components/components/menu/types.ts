@@ -13,6 +13,10 @@ export const lsMenuProps = buildProps({
   permissionList: {
     type: Array<string | number>,
     default: () => []
+  },
+  hoverColor: {
+    type: String,
+    default: ''
   }
 });
 

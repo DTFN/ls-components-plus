@@ -180,7 +180,7 @@ function setDefineBCList(name: string, query: any) {
   <div>
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" />
   </div>
 </template>
 

@@ -62,6 +62,10 @@ export const lsFormProps = buildProps({
   labelEmpty: {
     type: String,
     default: '--'
+  },
+  detailCss: {
+    type: Boolean,
+    default: false
   }
 } as const);
 
@@ -163,5 +167,9 @@ export const lsFormItemProps = buildProps({
   rangeProps: {
     type: Array<String>,
     default: () => ['start', 'end']
+  },
+  radioType: {
+    type: String,
+    default: ''
   }
 } as const);
