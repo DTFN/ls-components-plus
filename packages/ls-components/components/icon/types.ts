@@ -26,5 +26,9 @@ export const lsIconProps = buildProps({
   size: {
     type: [String, Number],
     default: '16'
+  },
+  src: {
+    type: String,
+    default: ''
   }
 });

@@ -378,6 +378,12 @@ const tableData = ref([
     desc: '权限列表，内部存放code码，当needPermission为true时生效',
     type: 'array',
     value: '-'
+  },
+  {
+    name: 'hoverColor',
+    desc: '菜单hover时的颜色',
+    type: 'string',
+    value: '-'
   }
 ])
 

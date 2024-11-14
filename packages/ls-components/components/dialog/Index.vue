@@ -58,7 +58,9 @@ function handleConfirm() {
 <template>
   <div :class="comClass">
     <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)">
-      <slot></slot>
+      <el-scrollbar max-height="600px">
+        <slot></slot>
+      </el-scrollbar>
       <template #header>
         <slot name="header"></slot>
       </template>
@@ -79,5 +81,8 @@ function handleConfirm() {
 <style lang="scss" scoped>
 .ls-dialog {
   position: relative;
+  :deep(.el-dialog) {
+    max-height: 80%;
+  }
 }
 </style>
