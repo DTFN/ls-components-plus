@@ -14,6 +14,8 @@ const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];
+  changeSelect: [value: any, prop: string];
+  changeRadio: [value: any, prop: string];
 }>();
 
 const modelValue = defineModel<any>();
@@ -207,6 +209,14 @@ function readValue(type: string | undefined) {
   }
 }
 
+function changeSelect(value: any, prop: string) {
+  emits('changeSelect', value, prop);
+}
+
+function changeRadio(value: any, prop: string) {
+  emits('changeRadio', value, prop);
+}
+
 defineExpose({
   FormItemRef
 });
@@ -297,7 +307,7 @@ defineExpose({
         v-else-if="type === 'number'"
         v-model.trim="modelValue"
         :placeholder="`请输入${label}`"
-        :max="1000000000000000"
+        :max="99999999"
         :min="0"
         :controls="false"
         :disabled="disabled"
@@ -312,10 +322,18 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="changeRadio(modelValue, prop as string)"
       >
-        <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
-          {{ option.label }}
-        </el-radio>
+        <template v-if="!radioType">
+          <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
+            {{ option.label }}
+          </el-radio>
+        </template>
+        <template v-else-if="radioType === 'button'">
+          <el-radio-button v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
+            {{ option.label }}
+          </el-radio-button>
+        </template>
       </el-radio-group>
 
       <!-- 多选框 -->
@@ -344,6 +362,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="changeSelect(modelValue, prop as string)"
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
@@ -441,9 +460,7 @@ defineExpose({
       </div>
 
       <!-- 自定义 -->
-      <template v-else-if="type === 'itemSlot'">
-        <slot :name="`${prop}-slot`" />
-      </template>
+      <slot v-else-if="type === 'itemSlot'" :name="`${prop}-slot`" :row="{ prop }"></slot>
     </template>
 
     <!-- 后置插槽 -->

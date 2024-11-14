@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouterHook } from '@lingshugroup/web-plus/hooks';
+import logo from '@/assets/logo.png';
 
 const MENU_CONFIG_LIST = [
   {
@@ -16,6 +17,7 @@ const MENU_CONFIG_LIST = [
     title: '养殖单元管理',
     name: '',
     path: '',
+    iconConfig: { type: 2, name: 'img', src: logo, width: 32, height: 16 },
     key: '2',
     cpoPath: '',
     pCode: 'c2',
@@ -180,7 +182,7 @@ function setDefineBCList(name: string, query: any) {
   <div>
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" />
   </div>
 </template>
 

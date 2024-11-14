@@ -62,7 +62,7 @@ import { tableColumn, tableSlotColumn } from '../constant'
 const tableData = ref([
   {
     name: 'type',
-    desc: '图标类型， 默认el-icon，1：iconify，2：svg',
+    desc: '图标类型， 默认el-icon，1：iconify / img，2：svg',
     type: 'string / number',
     value: '-'
   },

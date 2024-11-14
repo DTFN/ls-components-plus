@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { get } from 'lodash-es';
 import { lsTableProps } from './types';
 import { isEmpty } from '../_utils/utils';
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 
 defineOptions({
   inheritAttrs: false // 禁用属性透传
@@ -111,19 +112,19 @@ function formatDate(val: string | null | undefined, template?: string) {
   return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
-// 每页条数
-function handleSizeChange(val: number) {
-  pageSize.value = val;
-  emit('sizeChange', val);
-  emit('update:page-size', val);
-}
+// // 每页条数
+// function handleSizeChange(val: number) {
+//   pageSize.value = val;
+//   emit('sizeChange', val);
+//   emit('update:page-size', val);
+// }
 
-// 当前页
-function handleCurrentPageChange(val: number) {
-  currentPage.value = val;
-  emit('currentPageChange', val);
-  emit('update:current-page', val);
-}
+// // 当前页
+// function handleCurrentPageChange(val: number) {
+//   currentPage.value = val;
+//   emit('currentPageChange', val);
+//   emit('update:current-page', val);
+// }
 
 // 单列选中监听
 function handleSelect(selection: any[], row: any) {
@@ -195,115 +196,115 @@ defineExpose({
 </script>
 
 <template>
-  <div class="ls-table-wrap">
-    <el-table ref="TableRef" v-loading="loading" style="width: 100%" v-bind="attrsProps" :data="tableData">
-      <!-- 前置插槽  -->
-      <slot name="prepend"></slot>
+  <el-config-provider :locale="zhCn">
+    <div class="ls-table-wrap">
+      <el-table ref="TableRef" v-loading="loading" style="width: 100%" v-bind="attrsProps" :data="tableData">
+        <!-- 前置插槽  -->
+        <slot name="prepend"></slot>
 
-      <!-- 单选 -->
-      <el-table-column v-if="showRadio" width="60" v-bind="radioColumnOptions">
-        <template #default="{ row }">
-          <el-radio :model-value="currentRow ? currentRow[radioProp] : void 0" :label="row[radioProp]">
-            {{ showRadioLabel ? row[radioProp] : '' }}
-          </el-radio>
-        </template>
-      </el-table-column>
-
-      <!-- 多选 -->
-      <el-table-column v-if="showSelect" width="60" v-bind="selectColumnOptions" type="selection" />
-
-      <!-- 展开行 -->
-      <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">
-        <template #default="{ row }">
-          <slot name="expand" :row="row"></slot>
-        </template>
-      </el-table-column>
-
-      <!-- 序号 -->
-      <el-table-column
-        v-if="showTableIndex"
-        width="60"
-        :fixed="tableIndexfixed"
-        :label="tableIndexLabel"
-        :index="indexMethod"
-        v-bind="indexColumnOptions"
-        type="index"
-      />
-
-      <template v-for="item in tableColumn" :key="item.prop">
-        <el-table-column v-bind="item">
-          <template #default="{ row, column, $index }">
-            <!-- 日期 -->
-            <template v-if="item.type === 'date'">
-              {{ formatDate(get(row, item.prop), item.dateTemplate) }}
-            </template>
-
-            <!-- 状态 -->
-            <template v-else-if="item.type === 'status'">
-              <el-text :type="item.value[get(row, item.prop)]?.type">
-                {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
-              </el-text>
-            </template>
-
-            <!-- 数字 -->
-            <template v-else-if="item.type === 'number'">
-              <template v-if="isEmpty(get(row, item.prop))">{{ labelEmpty || '--' }}</template>
-              <el-text v-else :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
-                {{ get(row, item.prop) }}
-              </el-text>
-            </template>
-
-            <!-- 自定义 -->
-            <template v-else-if="item.type === 'slot'">
-              <slot :name="item.prop" :row="row" :column="column" :index="$index" />
-            </template>
-
-            <template v-else-if="isEmpty(get(row, item.prop))">
-              <div :class="labelEmptyClass">
-                {{ labelEmpty || '--' }}
-              </div>
-            </template>
-          </template>
-
-          <!-- 自定义表头的内容 -->
-          <template v-if="item.headerSlot" #header="{ column, $index }">
-            <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
-          </template>
-
-          <!-- 自定义 filter 图标	-->
-          <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
-            <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
+        <!-- 单选 -->
+        <el-table-column v-if="showRadio" width="60" v-bind="radioColumnOptions">
+          <template #default="{ row }">
+            <el-radio :model-value="currentRow ? currentRow[radioProp] : void 0" :label="row[radioProp]">
+              {{ showRadioLabel ? row[radioProp] : '' }}
+            </el-radio>
           </template>
         </el-table-column>
-      </template>
 
-      <!-- 后置插槽 -->
-      <slot></slot>
+        <!-- 多选 -->
+        <el-table-column v-if="showSelect" width="60" v-bind="selectColumnOptions" type="selection" />
 
-      <template v-if="showEmpty" #empty>
-        <el-empty v-if="!$slots.empty" :description="emptyLabel" />
-        <slot name="empty" />
-      </template>
+        <!-- 展开行 -->
+        <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">
+          <template #default="{ row }">
+            <slot name="expand" :row="row"></slot>
+          </template>
+        </el-table-column>
 
-      <template v-if="$slots.append" #append>
-        <slot name="append" />
-      </template>
-    </el-table>
+        <!-- 序号 -->
+        <el-table-column
+          v-if="showTableIndex"
+          width="60"
+          :fixed="tableIndexfixed"
+          :label="tableIndexLabel"
+          :index="indexMethod"
+          v-bind="indexColumnOptions"
+          type="index"
+        />
 
-    <el-pagination
-      v-if="showPagination"
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      layout="total, prev, pager, next,sizes"
-      :class="paginationClass"
-      :disabled="loading"
-      :page-sizes="pageSizes"
-      :total="total"
-      v-bind="paginationOptions"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentPageChange"
-    />
-  </div>
+        <template v-for="item in tableColumn" :key="item.prop">
+          <el-table-column v-bind="item">
+            <template #default="{ row, column, $index }">
+              <!-- 日期 -->
+              <template v-if="item.type === 'date'">
+                {{ formatDate(get(row, item.prop), item.dateTemplate) }}
+              </template>
+
+              <!-- 状态 -->
+              <template v-else-if="item.type === 'status'">
+                <el-text :type="item.value[get(row, item.prop)]?.type">
+                  {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
+                </el-text>
+              </template>
+
+              <!-- 数字 -->
+              <template v-else-if="item.type === 'number'">
+                <template v-if="isEmpty(get(row, item.prop))">{{ labelEmpty || '--' }}</template>
+                <el-text v-else :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
+                  {{ get(row, item.prop) }}
+                </el-text>
+              </template>
+
+              <!-- 自定义 -->
+              <template v-else-if="item.type === 'slot'">
+                <slot :name="item.prop" :row="row" :column="column" :index="$index" />
+              </template>
+
+              <template v-else-if="isEmpty(get(row, item.prop))">
+                <div :class="labelEmptyClass">
+                  {{ labelEmpty || '--' }}
+                </div>
+              </template>
+            </template>
+
+            <!-- 自定义表头的内容 -->
+            <template v-if="item.headerSlot" #header="{ column, $index }">
+              <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
+            </template>
+
+            <!-- 自定义 filter 图标	-->
+            <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
+              <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
+            </template>
+          </el-table-column>
+        </template>
+
+        <!-- 后置插槽 -->
+        <slot></slot>
+
+        <template v-if="showEmpty" #empty>
+          <el-empty v-if="!$slots.empty" :description="emptyLabel" />
+          <slot name="empty" />
+        </template>
+
+        <template v-if="$slots.append" #append>
+          <slot name="append" />
+        </template>
+      </el-table>
+
+      <el-pagination
+        v-if="showPagination"
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :class="paginationClass"
+        :disabled="loading"
+        :page-sizes="pageSizes"
+        :total="total"
+        v-bind="paginationOptions"
+      />
+    </div>
+  </el-config-provider>
 </template>
 
 <style scoped lang="scss">
@@ -314,7 +315,7 @@ defineExpose({
 :deep(.el-radio) {
   height: 23px;
 }
-.el-pagination {
+:deep(.el-pagination) {
   justify-content: flex-end;
   margin-top: 24px;
 }

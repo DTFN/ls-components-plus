@@ -65,6 +65,11 @@ const formItems = ref<FormItemsType[]>([
         trigger: 'change'
       }
     ]
+  },
+  {
+    type: 'itemSlot',
+    prop: 'slotTest',
+    label: '自定义插槽'
   }
 ]);
 
@@ -109,7 +114,12 @@ const formItems1 = ref<FormItemsType[]>([
         label: '选项2',
         value: '2'
       }
-    ]
+    ],
+    listeners: {
+      change: (value: any) => {
+        console.log(value);
+      }
+    }
     // rules: {
     //   required: true,
     //   message: '请选择',
@@ -150,7 +160,13 @@ const formItems1 = ref<FormItemsType[]>([
     ],
     attrs: {
       multiple: true
-    }
+    },
+    listeners: {
+      change: (value: any) => {
+        console.log(value);
+      }
+    },
+    radioType: 'button'
     // rules: {
     //   required: true,
     //   message: '请选择',
@@ -444,6 +460,13 @@ const read = ref(false);
 function onSubmit(res: any) {
   console.log('onSubmit', res);
 }
+
+function changeSelect(value: any, prop: string) {
+  console.log('changeSelect', value, prop);
+}
+function changeRadio(value: any, prop: string) {
+  console.log('changeRadio', value, prop);
+}
 </script>
 
 <template>
@@ -461,7 +484,9 @@ function onSubmit(res: any) {
     :form-items="formItems"
     :hide-required-asterisk="false"
     @submit="onLogin"
-  />
+  >
+    <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
+  </LSForm>
 
   <br />
   <div>--------------------------------------------------------------------------------------------</div>
@@ -476,6 +501,8 @@ function onSubmit(res: any) {
     :column="2"
     :loading="loading"
     @submit="onSubmit"
+    @change-select="changeSelect"
+    @change-radio="changeRadio"
   >
     <template #param1-input-prepend> 必填 </template>
 
