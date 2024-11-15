@@ -57,7 +57,7 @@ function handleConfirm() {
 
 <template>
   <div :class="comClass">
-    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)">
+    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
       <el-scrollbar max-height="600px">
         <slot></slot>
       </el-scrollbar>
