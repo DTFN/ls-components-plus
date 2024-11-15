@@ -63,7 +63,7 @@ export const lsFormProps = buildProps({
     type: String,
     default: '--'
   },
-  detailCss: {
+  hasDefReadStyle: {
     type: Boolean,
     default: false
   }

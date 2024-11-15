@@ -826,8 +826,8 @@ const attrTableData=[
     value: '--'
   },
   {
-    name: 'detailCss',
-    desc: '表单详情样式，锦鲤专用',
+    name: 'hasDefReadStyle',
+    desc: '表单详情默认样式，锦鲤适用',
     type: 'boolean',
     value: false
   }
