@@ -825,6 +825,12 @@ const attrTableData=[
     type: 'string',
     value: '--'
   },
+  {
+    name: 'detailCss',
+    desc: '表单详情样式，锦鲤专用',
+    type: 'boolean',
+    value: false
+  }
 ]
 
 // 事件
