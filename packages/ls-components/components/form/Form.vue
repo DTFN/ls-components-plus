@@ -118,7 +118,7 @@ defineExpose({
     v-bind="$attrs"
     :model="form"
     :disabled="loading || disabled"
-    :class="[detailCss ? 'show-label' : '']"
+    :class="[read && hasDefReadStyle ? 'show-label' : '']"
   >
     <template v-if="column > 1">
       <el-row :gutter="10">

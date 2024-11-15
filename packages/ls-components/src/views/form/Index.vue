@@ -500,6 +500,7 @@ function changeRadio(value: any, prop: string) {
     :form-items="formItems1"
     :column="2"
     :loading="loading"
+    has-def-read-style
     @submit="onSubmit"
     @change-select="changeSelect"
     @change-radio="changeRadio"
