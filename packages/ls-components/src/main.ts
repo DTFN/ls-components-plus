@@ -5,7 +5,7 @@ import App from './App.vue';
 
 import print from 'vue3-print-nb';
 
-import LSWebPlus from '@cpo/main';
+// import LSWebPlus from '@cpo/main';
 
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '@cpo/main';
 
@@ -13,13 +13,13 @@ import LSWebPlus from '@cpo/main';
 // import { vAuth } from '../lib/directives';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
-import '@lingshugroup/web-plus/index.css';
 import { vAuth } from '@lingshugroup/web-plus/directives';
+import '@lingshugroup/web-plus/index.css';
 
-// import { LSForm, LSFormItem } from '../lib/form/';
-// import LSDialog from '../lib/dialog/';
-// import LSMenu from '../lib/menu/';
-// import LSLayout from '../lib/layout/';
+import { LSForm, LSFormItem } from '../lib/form/';
+import LSDialog from '../lib/dialog/';
+import LSMenu from '../lib/menu/';
+import LSLayout from '../lib/layout/';
 
 import 'element-plus/dist/index.css';
 // import '../lib/index.css';
@@ -37,12 +37,12 @@ const setupAll = () => {
   setupElement(app);
   setupRouter(app);
 
-  app.use(LSWebPlus);
-  // app.component('LSDialog', LSDialog);
-  // app.component('LSForm', LSForm);
-  // app.component('LSFormItem', LSFormItem);
-  // app.component('LSMenu', LSMenu);
-  // app.component('LSLayout', LSLayout);
+  // app.use(LSWebPlus);
+  app.component('LSDialog', LSDialog);
+  app.component('LSForm', LSForm);
+  app.component('LSFormItem', LSFormItem);
+  app.component('LSMenu', LSMenu);
+  app.component('LSLayout', LSLayout);
 
   createDirective();
 
