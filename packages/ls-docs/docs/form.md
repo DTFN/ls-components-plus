@@ -846,6 +846,12 @@ const eventsTableData=[
     desc: '重置时触发',
     type: 'Function',
     value: '表单数据对象'
+  },
+  {
+    name: 'onChange',
+    desc: '表单select/radio切换时触发',
+    type: 'Function',
+    value: 'value: 选中值, prop：form中的prop名'
   }
 ]
 
