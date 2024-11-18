@@ -112,8 +112,12 @@ const list2 = ref([
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData1" />
 
+### 2. Slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData2" />
+
 <script setup>
-import { tableColumn } from '../constant';
+import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
 const iconColor = ref('red');
 const list1 = ref([
@@ -230,6 +234,13 @@ const tableData1 = ref([
     desc: '右侧内容值',
     type: 'string / number',
     value: '-'
+  }
+])
+
+const tableData2 = ref([
+  {
+    name: '[slotName]',
+    desc: 'type=slot, 可配置插槽',
   }
 ])
 </script>

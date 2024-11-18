@@ -31,6 +31,8 @@ interface itemType {
   httpRequestFunc?: Function;
   // docx、pdf、xlsx
   textPreview?: Array<string>;
+  // 是否是头像模式
+  profile?: string;
 }
 
 export const lsUploadProps = buildProps({

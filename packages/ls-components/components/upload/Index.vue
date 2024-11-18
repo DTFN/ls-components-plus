@@ -1,5 +1,5 @@
 <template>
-  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '']">
+  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '']">
     <el-upload
       ref="uploadRef"
       v-bind="merge(defAttrs, $attrs)"
@@ -13,28 +13,30 @@
       :on-progress="onProgressAction"
     >
       <template #trigger>
-        <template v-if="!slots.trigger">
-          <template v-if="isDrag">
-            <LSButton v-if="uploading" text :loading="uploading"></LSButton>
-            <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
-            <div class="ls-drag">
-              <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
-              <template v-if="!uploading">
-                &nbsp;&nbsp;/&nbsp;&nbsp;
-                <div class="drag-txt ls-color-text2">拖拽到此区域</div>
-              </template>
-            </div>
-          </template>
-          <template v-else>
-            <div v-if="isPicCard" class="btn-picture-card">
+        <template v-if="!isProfile">
+          <template v-if="!slots.trigger">
+            <template v-if="isDrag">
               <LSButton v-if="uploading" text :loading="uploading"></LSButton>
-              <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
-              <div>{{ btnText }}</div>
-            </div>
-            <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
+              <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
+              <div class="ls-drag">
+                <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
+                <template v-if="!uploading">
+                  &nbsp;&nbsp;/&nbsp;&nbsp;
+                  <div class="drag-txt ls-color-text2">拖拽到此区域</div>
+                </template>
+              </div>
+            </template>
+            <template v-else>
+              <div v-if="isPicCard" class="btn-picture-card">
+                <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+                <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
+                <div>{{ btnText }}</div>
+              </div>
+              <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
+            </template>
           </template>
+          <slot v-else name="trigger"> </slot>
         </template>
-        <slot v-else name="trigger"> </slot>
       </template>
 
       <template #default>
@@ -174,6 +176,9 @@ const limitSizeMsg = computed(() => {
 });
 const limitNumMsg = computed(() => {
   return props?.item?.limitNumMsg || '';
+});
+const isProfile = computed(() => {
+  return props?.item?.profile || false;
 });
 const isDrag = computed(() => {
   return attrs.drag;
@@ -441,6 +446,7 @@ function onPreviewAction(file: UploadFile) {
   }
   const { raw, url, blob, name }: any = file;
   const { type }: any = raw || {};
+  console.log(raw);
   if (raw) {
     if (textPreview.value && textPreview.value.length > 0) {
       if (type?.startsWith('image')) {
@@ -482,6 +488,10 @@ function onPreviewAction(file: UploadFile) {
         configs.showPreview = true;
       }
     }
+  } else if (isPicCard.value) {
+    configs.typePreview = 'image';
+    configs.sourcePreview = [url];
+    configs.showPreview = true;
   }
 }
 
@@ -711,6 +721,41 @@ function closePreview() {
     }
     :deep(.el-upload-list) {
       margin-top: 24px;
+    }
+  }
+  &.ls-profile {
+    :deep(.el-upload-list--picture-card) {
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      border-radius: 50%;
+      box-shadow: 0 0 2px #73767a;
+      .el-upload-list__item {
+        background-color: transparent;
+        &.is-success {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          object-fit: cover;
+          border: 0;
+          border-radius: 0;
+        }
+      }
+    }
+    :deep(.el-upload--picture-card) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      opacity: 0;
+    }
+    :deep(.el-upload-list__item-actions) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
     }
   }
 }

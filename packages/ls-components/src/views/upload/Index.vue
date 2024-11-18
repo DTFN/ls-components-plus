@@ -13,6 +13,14 @@ const item2 = ref({
   }
 });
 
+const logoImg = new URL('@/assets/logo.png', import.meta.url).href;
+const fileList = ref<any[]>([
+  {
+    name: 'food.jpeg',
+    url: logoImg
+  }
+]);
+
 function httpResponseFunc(res: any) {
   const {
     data: { code, data }
@@ -79,6 +87,9 @@ function formValidateFunc() {
     <br />
 
     <LSUpload list-type="picture-card" :action="action"> </LSUpload>
+
+    <br />
+    <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
 
     <br />
     <LSUpload list-type="picture-card" :action="action" :drag="true" :auto-upload="false" :item="{ isCover: false }"> </LSUpload>
