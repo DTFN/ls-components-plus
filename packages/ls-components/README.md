@@ -14,6 +14,8 @@
 
 #### 1. upload组件增加上传头像功能
 
+#### 2. descriptions 支持六栏
+
 ## 安装
 
 ```shell

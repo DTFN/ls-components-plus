@@ -89,7 +89,11 @@ function formValidateFunc() {
     <LSUpload list-type="picture-card" :action="action"> </LSUpload>
 
     <br />
-    <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
+    <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList">
+      <template #tip>
+        <div>12312312</div>
+      </template>
+    </LSUpload>
 
     <br />
     <LSUpload list-type="picture-card" :action="action" :drag="true" :auto-upload="false" :item="{ isCover: false }"> </LSUpload>

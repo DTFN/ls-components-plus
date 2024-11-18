@@ -78,6 +78,10 @@ const list2 = ref([
     <br />
 
     <LSDescriptions :list="list2" :column="2"></LSDescriptions>
+
+    <br />
+
+    <LSDescriptions :list="list2" :column="3" direction="vertical"></LSDescriptions>
   </div>
 </template>
 
