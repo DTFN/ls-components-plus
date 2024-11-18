@@ -3,6 +3,7 @@ import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsTreeProps } from './types';
 import { excutePowerTree } from '@cpo/_utils/power';
 import { merge } from 'lodash-es';
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 
 const emitAll = defineEmits(emitNames);
 
@@ -174,34 +175,36 @@ defineExpose({
 </script>
 
 <template>
-  <div :class="comClass">
-    <el-checkbox v-if="isCheckAll" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
-      全选
-    </el-checkbox>
-    <el-tree
-      ref="lsTreeRef"
-      :class="[treeClass, !isExpand && 'expand-disabled']"
-      :style="treeStyle"
-      v-bind="merge(defAttrs, $attrs)"
-      :data="data"
-      :props="dataProps"
-      :expand-on-click-node="isExpand"
-      :filter-node-method="filterNode"
-      @check="handleCheck"
-      @check-change="handleChekChange"
-    >
-      <template #default="{ node, data }">
-        <span
-          class="custom-tree-node"
-          :class="{
-            'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
-          }"
-        >
-          <span>{{ node.label }}</span>
-        </span>
-      </template>
-    </el-tree>
-  </div>
+  <el-config-provider :locale="zhCn" :value-on-clear="undefined" :empty-values="[undefined, null]">
+    <div :class="comClass">
+      <el-checkbox v-if="isCheckAll" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
+        全选
+      </el-checkbox>
+      <el-tree
+        ref="lsTreeRef"
+        :class="[treeClass, !isExpand && 'expand-disabled']"
+        :style="treeStyle"
+        v-bind="merge(defAttrs, $attrs)"
+        :data="data"
+        :props="dataProps"
+        :expand-on-click-node="isExpand"
+        :filter-node-method="filterNode"
+        @check="handleCheck"
+        @check-change="handleChekChange"
+      >
+        <template #default="{ node, data }">
+          <span
+            class="custom-tree-node"
+            :class="{
+              'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
+            }"
+          >
+            <span>{{ node.label }}</span>
+          </span>
+        </template>
+      </el-tree>
+    </div>
+  </el-config-provider>
 </template>
 
 <style lang="scss" scoped>
