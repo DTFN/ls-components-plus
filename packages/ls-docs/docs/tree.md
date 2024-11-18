@@ -301,7 +301,7 @@ function getTreeCheckedData(ids) {
 ```html
 <LSTree :data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" direction="v" />
 
-<LSTree :data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" direction="h" />
+<LSTree :data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" direction="h" />
 ```
 
 :::

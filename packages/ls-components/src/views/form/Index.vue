@@ -76,7 +76,7 @@ const formItems = ref<FormItemsType[]>([
 const formData1 = ref({
   param1: '输入框',
   param2: undefined,
-  param3: undefined,
+  param3: '',
   param4: undefined,
   param5: '',
   param6: [],
@@ -106,6 +106,10 @@ const formItems1 = ref<FormItemsType[]>([
     label: '下拉选择框',
     prop: 'param3',
     options: [
+      {
+        label: '全部',
+        value: ''
+      },
       {
         label: '选项1',
         value: '1'
