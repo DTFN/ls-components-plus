@@ -6,9 +6,9 @@ import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读�
 import ApiIntro from './components/ApiIntro.vue';
 import print from 'vue3-print-nb';
 
-import LSWebPlus from '../../../ls-components/lib/index';
+// import LSWebPlus from '../../../ls-components/lib/index';
 // import { vAuth } from '../../../ls-components/lib/directives';
-import '../../../ls-components/lib/index.css';
+// import '../../../ls-components/lib/index.css';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
 import { vAuth } from '@lingshugroup/web-plus/directives';
@@ -68,7 +68,7 @@ export default Object.assign({}, Theme, {
 
     vAuth.permissions = ['a', 'b', 'c'];
     app.directive('auth', vAuth);
-    app.use(LSWebPlus);
+    // app.use(LSWebPlus);
 
     // [
     //   LSIcon,
@@ -101,10 +101,10 @@ export default Object.assign({}, Theme, {
     //   app.component(item.name, item);
     // });
 
-    // if (!import.meta.env.SSR) {
-    //   import('@lingshugroup/web-plus').then(module => {
-    //     app.use(module.default.install);
-    //   });
-    // }
+    if (!import.meta.env.SSR) {
+      import('@lingshugroup/web-plus').then(module => {
+        app.use(module.default.install);
+      });
+    }
   }
 });
