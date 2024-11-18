@@ -12,7 +12,9 @@
 
 ## 更新记录
 
-#### 1. dialog组件，关闭事件完善;增加footer插槽，支持自定义footer
+#### 1. upload组件增加上传头像功能
+
+#### 2. descriptions 支持六栏
 
 #### 2. form组件，二次封装，支持新增type
 

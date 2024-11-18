@@ -101,6 +101,13 @@ function updateLabelStyle(color: string, type: number) {
       }
     }
   }
+  &.column-3 {
+    :deep(.el-descriptions__body) {
+      td {
+        width: 16.666%;
+      }
+    }
+  }
   :deep .el-descriptions__header {
     margin-bottom: 0;
   }
