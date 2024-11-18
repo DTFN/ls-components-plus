@@ -662,7 +662,7 @@ const columnTableData=[
   },
   {
     name: 'value',
-    desc: `type 为 value 时，{[key]: {type:['','success','warning','info','primary','danger'],label:'展示文字内容'},default:{label:'默认展示文字内容'}}`,
+    desc: `type 为 status 时，{[key]: {type:['','success','warning','info','primary','danger'],label:'展示文字内容'},default:{label:'默认展示文字内容'}}`,
     type: 'object',
     value: '-'
   },

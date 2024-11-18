@@ -1086,6 +1086,10 @@ const formItemTypeData=[
   {
     name:'itemSlot',
     desc:'el-form-item 内自定义内容'
+  },
+  {
+    name:'扩展type',
+    desc:'支持扩展，二次封装，<LSForm>{{扩展插槽，插槽名是新增type}}</LSForm>'
   }
 ]
 

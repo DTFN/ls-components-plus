@@ -16,6 +16,8 @@
 
 #### 2. descriptions 支持六栏
 
+#### 2. form组件，二次封装，支持新增type
+
 ## 安装
 
 ```shell
