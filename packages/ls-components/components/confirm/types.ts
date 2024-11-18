@@ -66,6 +66,10 @@ export const lsConfirmProps = buildProps({
   requestApi: {
     type: [Function, null],
     default: null
+  },
+  requestParams: {
+    type: Object,
+    default: () => ({})
   }
 });
 

@@ -58,6 +58,8 @@ const handleClick = (val: number) => {
       :message="message"
       :use-html="useHtml"
       :request-api="requestApi"
+      type="warning"
+      :request-params="{ id: 111 }"
       @on-confirm="onConfirm"
       @on-cancel="onCancel"
     >

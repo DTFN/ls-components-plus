@@ -83,7 +83,7 @@ function initBox() {
         instance.confirmButtonLoading = true;
         if (props.requestApi && typeof props.requestApi === 'function') {
           try {
-            requestData.value = await props.requestApi();
+            requestData.value = await props.requestApi(props.requestParams);
           } catch (error) {
             requestData.value = error;
           }
