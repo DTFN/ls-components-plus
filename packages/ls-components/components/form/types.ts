@@ -53,7 +53,7 @@ export const lsFormProps = buildProps({
   },
   colon: {
     type: Boolean,
-    default: true
+    default: false
   },
   labelWidth: {
     type: [String, Number],
@@ -88,6 +88,7 @@ export const lsFormItemProps = buildProps({
       'checkbox',
       'select',
       'date',
+      'datetimerange',
       'cascader',
       'multipleCascader',
       'switch',
