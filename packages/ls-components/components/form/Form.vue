@@ -13,8 +13,7 @@ const emit = defineEmits<{
   submit: [form: any];
   reset: [form: any];
   'update:form-data': [formData: any];
-  changeSelect: [value: any, prop: string];
-  changeRadio: [value: any, prop: string];
+  onChange: [value: any, prop: string];
 }>();
 
 const attrs = useAttrs();
@@ -94,12 +93,8 @@ watch(
   }
 );
 
-function changeSelect(value: any, prop: string) {
-  emit('changeSelect', value, prop);
-}
-
-function changeRadio(value: any, prop: string) {
-  emit('changeRadio', value, prop);
+function onChange(value: any, prop: string) {
+  emit('onChange', value, prop);
 }
 
 defineExpose({
@@ -110,78 +105,78 @@ defineExpose({
 </script>
 
 <template>
-  <el-config-provider :locale="zhCn" :value-on-clear="undefined" :empty-values="[undefined, null]">
-    <el-form
-      ref="FormRef"
-      label-position="left"
-      require-asterisk-position="right"
-      :label-width="labelWidth"
-      :hide-required-asterisk="read ? true : false"
-      v-bind="$attrs"
-      :model="form"
-      :disabled="loading || disabled"
-      :class="[read && hasDefReadStyle ? 'show-label' : '']"
-    >
-      <template v-if="column > 1">
-        <el-row :gutter="10">
-          <template v-for="item in formItems" :key="item.prop">
-            <el-col :span="item.isRow ? 24 : 24 / column">
-              <slot v-if="item.type === 'slot'" :name="item.prop" />
+  <div class="ls-form">
+    <el-config-provider :locale="zhCn" :value-on-clear="undefined" :empty-values="[undefined, null]">
+      <el-form
+        ref="FormRef"
+        label-position="left"
+        require-asterisk-position="right"
+        :label-width="labelWidth"
+        :hide-required-asterisk="read ? true : false"
+        v-bind="$attrs"
+        :model="form"
+        :disabled="loading || disabled"
+        :class="[read && hasDefReadStyle ? 'show-label' : '']"
+      >
+        <template v-if="column > 1">
+          <el-row :gutter="10">
+            <template v-for="item in formItems" :key="item.prop">
+              <el-col :span="item.isRow ? 24 : 24 / column">
+                <slot v-if="item.type === 'slot'" :name="item.prop" />
 
-              <FormItem
-                v-else
-                :is-value="true"
-                :value="get(form, item.prop)"
-                :colon="colon"
-                :read="read"
-                :label-empty="labelEmpty"
-                v-bind="item"
-                @update:value="updateFormData"
-                @change-select="changeSelect"
-                @change-radio="changeRadio"
-              >
-                <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
-                  <slot :name="slotName" :row="{ ...row }" />
-                </template>
-              </FormItem>
-            </el-col>
-          </template>
-        </el-row>
-      </template>
-
-      <template v-else>
-        <template v-for="item in formItems" :key="item.prop">
-          <slot v-if="item.type === 'slot'" :name="item.prop" />
-          <FormItem
-            v-else
-            :is-value="true"
-            :value="get(form, item.prop)"
-            :colon="colon"
-            :read="read"
-            :label-empty="labelEmpty"
-            v-bind="item"
-            @update:value="updateFormData"
-            @change-select="changeSelect"
-            @change-radio="changeRadio"
-          >
-            <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
-              <slot :name="slotName" :row="{ ...row }" />
+                <FormItem
+                  v-else
+                  :is-value="true"
+                  :value="get(form, item.prop)"
+                  :colon="colon"
+                  :read="read"
+                  :label-empty="labelEmpty"
+                  v-bind="item"
+                  @update:value="updateFormData"
+                  @on-change="onChange"
+                >
+                  <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
+                    <slot :name="slotName" :row="{ ...row }" />
+                  </template>
+                </FormItem>
+              </el-col>
             </template>
-          </FormItem>
+          </el-row>
         </template>
-      </template>
 
-      <slot />
+        <template v-else>
+          <template v-for="item in formItems" :key="item.prop">
+            <slot v-if="item.type === 'slot'" :name="item.prop" />
+            <FormItem
+              v-else
+              :is-value="true"
+              :value="get(form, item.prop)"
+              :colon="colon"
+              :read="read"
+              :label-empty="labelEmpty"
+              v-bind="item"
+              @update:value="updateFormData"
+              @on-change="onChange"
+            >
+              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
+                <slot :name="slotName" :row="{ ...row }" />
+              </template>
+            </FormItem>
+          </template>
+        </template>
 
-      <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
-        <el-button type="primary" :class="confirmClassName" :loading="loading && showBtnLoading" @click="submitForm(FormRef)">
-          {{ confirmText }}
-        </el-button>
+        <slot />
 
-        <el-button v-if="showReset" @click="resetForm(FormRef)"> 重置 </el-button>
-      </el-form-item>
-    </el-form>
-  </el-config-provider>
+        <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
+          <el-button type="primary" :class="confirmClassName" :loading="loading && showBtnLoading" @click="submitForm(FormRef)">
+            {{ confirmText }}
+          </el-button>
+
+          <el-button v-if="showReset" @click="resetForm(FormRef)"> 重置 </el-button>
+        </el-form-item>
+      </el-form>
+    </el-config-provider>
+  </div>
 </template>
 
 <style scoped lang="scss">

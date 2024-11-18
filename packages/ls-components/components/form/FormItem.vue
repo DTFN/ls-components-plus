@@ -14,8 +14,7 @@ const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];
-  changeSelect: [value: any, prop: string];
-  changeRadio: [value: any, prop: string];
+  onChange: [value: any, prop: string];
 }>();
 
 const modelValue = defineModel<any>();
@@ -209,12 +208,8 @@ function readValue(type: string | undefined) {
   }
 }
 
-function changeSelect(value: any, prop: string) {
-  emits('changeSelect', value, prop);
-}
-
-function changeRadio(value: any, prop: string) {
-  emits('changeRadio', value, prop);
+function onChange(value: any, prop: string) {
+  emits('onChange', value, prop);
 }
 
 defineExpose({
@@ -322,7 +317,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="changeRadio(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string)"
       >
         <template v-if="!radioType">
           <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
@@ -362,7 +357,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="changeSelect(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string)"
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
