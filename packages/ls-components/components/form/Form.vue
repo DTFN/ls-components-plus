@@ -13,8 +13,7 @@ const emit = defineEmits<{
   submit: [form: any];
   reset: [form: any];
   'update:form-data': [formData: any];
-  changeSelect: [value: any, prop: string];
-  changeRadio: [value: any, prop: string];
+  onChange: [value: any, prop: string];
 }>();
 
 const attrs = useAttrs();
@@ -94,12 +93,8 @@ watch(
   }
 );
 
-function changeSelect(value: any, prop: string) {
-  emit('changeSelect', value, prop);
-}
-
-function changeRadio(value: any, prop: string) {
-  emit('changeRadio', value, prop);
+function onChange(value: any, prop: string) {
+  emit('onChange', value, prop);
 }
 
 defineExpose({
@@ -137,8 +132,7 @@ defineExpose({
                 :label-empty="labelEmpty"
                 v-bind="item"
                 @update:value="updateFormData"
-                @change-select="changeSelect"
-                @change-radio="changeRadio"
+                @on-change="onChange"
               >
                 <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
                   <slot :name="slotName" :row="{ ...row }" />
@@ -161,8 +155,7 @@ defineExpose({
             :label-empty="labelEmpty"
             v-bind="item"
             @update:value="updateFormData"
-            @change-select="changeSelect"
-            @change-radio="changeRadio"
+            @on-change="onChange"
           >
             <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
               <slot :name="slotName" :row="{ ...row }" />

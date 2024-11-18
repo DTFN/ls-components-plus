@@ -105,8 +105,12 @@ const onConfirm = () => {
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
+### 3. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData3" />
+
 <script setup>
-import { tableColumn, tableMethodColumn } from '../constant';
+import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
 
 const visible = ref(false);
@@ -174,6 +178,13 @@ const tableData2 = ref([
     desc: '点击确认时触发',
     type: 'function',
     value: '-'
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'footer',
+    desc: '底部栏插槽，可自定义底部栏内容，内容放置最左边',
   }
 ])
 </script>
