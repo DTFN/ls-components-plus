@@ -112,19 +112,19 @@ function formatDate(val: string | null | undefined, template?: string) {
   return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
-// // 每页条数
-// function handleSizeChange(val: number) {
-//   pageSize.value = val;
-//   emit('sizeChange', val);
-//   emit('update:page-size', val);
-// }
+// 每页条数
+function handleSizeChange(val: number) {
+  pageSize.value = val;
+  emit('sizeChange', val);
+  emit('update:page-size', val);
+}
 
-// // 当前页
-// function handleCurrentPageChange(val: number) {
-//   currentPage.value = val;
-//   emit('currentPageChange', val);
-//   emit('update:current-page', val);
-// }
+// 当前页
+function handleCurrentPageChange(val: number) {
+  currentPage.value = val;
+  emit('currentPageChange', val);
+  emit('update:current-page', val);
+}
 
 // 单列选中监听
 function handleSelect(selection: any[], row: any) {
@@ -196,8 +196,8 @@ defineExpose({
 </script>
 
 <template>
-  <el-config-provider :locale="zhCn">
-    <div class="ls-table-wrap">
+  <div class="ls-table-wrap">
+    <el-config-provider :locale="zhCn">
       <el-table ref="TableRef" v-loading="loading" style="width: 100%" v-bind="attrsProps" :data="tableData">
         <!-- 前置插槽  -->
         <slot name="prepend"></slot>
@@ -302,9 +302,11 @@ defineExpose({
         :page-sizes="pageSizes"
         :total="total"
         v-bind="paginationOptions"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentPageChange"
       />
-    </div>
-  </el-config-provider>
+    </el-config-provider>
+  </div>
 </template>
 
 <style scoped lang="scss">
