@@ -14,6 +14,8 @@
 
 #### 1. dialog组件，关闭事件完善;增加footer插槽，支持自定义footer
 
+#### 2. form组件，二次封装，支持新增type
+
 ## 安装
 
 ```shell

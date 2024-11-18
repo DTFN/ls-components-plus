@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MonthDayOptions } from '@/constant';
-
+import LSFormText from './text.vue';
 const FormRef = ref();
 const FormRef1 = ref();
 const loading = ref(false);
@@ -67,9 +67,19 @@ const formItems = ref<FormItemsType[]>([
     ]
   },
   {
+    type: 'textarea',
+    label: '文本域',
+    prop: 'textarea'
+  },
+  {
     type: 'itemSlot',
     prop: 'slotTest',
     label: '自定义插槽'
+  },
+  {
+    type: 'div-item',
+    prop: 'slot1111',
+    label: 'hhhhh'
   }
 ]);
 
@@ -95,6 +105,11 @@ const formItems1 = ref<FormItemsType[]>([
     type: 'input',
     label: '输入框',
     prop: 'param1'
+  },
+  {
+    type: 'input',
+    label: '输入框',
+    prop: 'param111'
   },
   {
     type: 'number',
@@ -123,12 +138,12 @@ const formItems1 = ref<FormItemsType[]>([
       change: (value: any) => {
         console.log(value);
       }
+    },
+    rules: {
+      required: true,
+      message: '请选择',
+      trigger: 'blur'
     }
-    // rules: {
-    //   required: true,
-    //   message: '请选择',
-    //   trigger: 'blur'
-    // }
   },
   {
     type: 'select',
@@ -197,7 +212,7 @@ const formItems1 = ref<FormItemsType[]>([
     }
   },
   {
-    type: 'date',
+    type: 'datetimerange',
     label: '日期',
     prop: 'param5'
   },
@@ -351,6 +366,11 @@ const formItems1 = ref<FormItemsType[]>([
     label: '自定义',
     prop: 'param11',
     isRow: true
+  },
+  {
+    type: 'div-item',
+    prop: 'slot1111',
+    label: 'hhhhh'
   }
 ]);
 
@@ -474,7 +494,7 @@ function changeRadio(value: any, prop: string) {
 </script>
 
 <template>
-  <LSForm
+  <LSFormText
     ref="FormRef"
     label-position="top"
     inline
@@ -490,19 +510,19 @@ function changeRadio(value: any, prop: string) {
     @submit="onLogin"
   >
     <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
-  </LSForm>
+  </LSFormText>
 
   <br />
   <div>--------------------------------------------------------------------------------------------</div>
   <br />
 
   <el-switch v-model="read"></el-switch>
-  <LSForm
+  <LSFormText
     ref="FormRef1"
     :read="read"
     v-model:form-data="formData1"
     :form-items="formItems1"
-    :column="2"
+    :column="1"
     :loading="loading"
     has-def-read-style
     @submit="onSubmit"
@@ -526,7 +546,7 @@ function changeRadio(value: any, prop: string) {
     <template #param1-read-slot>
       <div>自定义区域</div>
     </template>
-  </LSForm>
+  </LSFormText>
 
   <LSForm v-model:form-data="formData_2" :form-items="formItems_2">
     <template #item_1-slot>

@@ -43,6 +43,26 @@ const buttonsAttrs = computed(() => {
 
 const FormRef = ref<FormInstance>();
 
+// 表单项类型
+const ITEM_TYPES = [
+  'label',
+  'input',
+  'textarea',
+  'number',
+  'radio',
+  'checkbox',
+  'select',
+  'date',
+  'datetimerange',
+  'cascader',
+  'multipleCascader',
+  'switch',
+  'inputRange',
+  'inputNumberRange',
+  'slot',
+  'itemSlot'
+];
+
 let form = reactive<{ [key: string]: any }>({});
 
 // 重置
@@ -125,7 +145,7 @@ defineExpose({
                 <slot v-if="item.type === 'slot'" :name="item.prop" />
 
                 <FormItem
-                  v-else
+                  v-else-if="ITEM_TYPES.includes(item.type)"
                   :is-value="true"
                   :value="get(form, item.prop)"
                   :colon="colon"
@@ -139,6 +159,8 @@ defineExpose({
                     <slot :name="slotName" :row="{ ...row }" />
                   </template>
                 </FormItem>
+
+                <slot v-else :name="item.type" :row="{ ...item }" />
               </el-col>
             </template>
           </el-row>
@@ -147,8 +169,9 @@ defineExpose({
         <template v-else>
           <template v-for="item in formItems" :key="item.prop">
             <slot v-if="item.type === 'slot'" :name="item.prop" />
+
             <FormItem
-              v-else
+              v-else-if="ITEM_TYPES.includes(item.type)"
               :is-value="true"
               :value="get(form, item.prop)"
               :colon="colon"
@@ -162,6 +185,8 @@ defineExpose({
                 <slot :name="slotName" :row="{ ...row }" />
               </template>
             </FormItem>
+
+            <slot v-else :name="item.type" :row="{ ...item }" />
           </template>
         </template>
 

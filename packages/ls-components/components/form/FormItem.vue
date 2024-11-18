@@ -386,6 +386,18 @@ defineExpose({
         v-on="listeners || {}"
       />
 
+      <!-- 日期时间范围选择器 -->
+      <el-date-picker
+        v-else-if="type === 'datetimerange'"
+        v-model="modelValue"
+        type="datetimerange"
+        :clearable="true"
+        start-placeholder="开始时间"
+        end-placeholder="结束时间"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
       <!-- 级联 -->
       <el-cascader
         v-else-if="type === 'cascader'"
@@ -468,13 +480,13 @@ defineExpose({
   padding: 0 !important;
 }
 .el-select {
-  --el-select-width: 240px;
+  --el-select-width: 424px;
 }
 .el-input {
-  --el-input-width: 240px;
+  --el-input-width: 424px;
 }
 .el-input-number {
-  --el-input-width: 240px;
+  --el-input-width: 424px;
 
   width: var(--el-input-width);
   &:deep(.el-input__inner) {
@@ -482,14 +494,17 @@ defineExpose({
   }
 }
 :deep(.el-date-editor) {
-  --el-date-editor-width: 240px;
+  --el-date-editor-width: 424px;
 }
 :deep(.el-cascader) {
   .el-input {
-    --el-input-width: 240px;
+    --el-input-width: 424px;
   }
 }
 .el-textarea {
+  --el-input-width: 424px;
+
+  width: var(--el-input-width);
   &:deep(.el-textarea__inner) {
     padding-bottom: 20px !important;
     &::-webkit-scrollbar {
