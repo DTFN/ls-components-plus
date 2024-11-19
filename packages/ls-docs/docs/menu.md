@@ -223,9 +223,13 @@ if (location.pathname == '/') {
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
+### 3. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData4" />
+
 <script setup>
 import { ref } from 'vue';
-import { tableColumn, tableMethodColumn } from '../constant';
+import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant';
 
 const MENU_CONFIG_LIST = [
   {
@@ -472,6 +476,13 @@ const tableData3 = ref([
     desc: '点击菜单自定义处理方法，defJump为true生效',
     type: 'function',
     value: 'value'
+  }
+])
+
+const tableData4 = ref([
+  {
+    name: '[iconSlot]',
+    desc: '菜单栏左边icon插槽',
   }
 ])
 </script>

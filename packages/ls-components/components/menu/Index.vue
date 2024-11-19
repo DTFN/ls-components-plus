@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSMenu">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsMenuProps } from './types';
+import { lsMenuProps, lsEmitNames } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import MenuItem from './MenuItem.vue';
 
@@ -10,6 +10,8 @@ const ns = useNamespace('menu');
 const comClass: string = ns.b();
 
 const props = defineProps(lsMenuProps);
+
+const emits = defineEmits(lsEmitNames);
 
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
@@ -47,6 +49,10 @@ function initMenuSider() {
   selectedKeys.value = meta?.key || '1';
 }
 
+function onJump(item: any) {
+  emits('onJump', item);
+}
+
 onMounted(() => {
   isInit.value = true;
   initMenuSider();
@@ -61,7 +67,10 @@ onMounted(() => {
       :item="item"
       :permission-list="permissionList"
       :need-permission="needPermission"
-    />
+      @on-jump="onJump"
+    >
+      <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
+    </MenuItem>
   </el-menu>
 </template>
 

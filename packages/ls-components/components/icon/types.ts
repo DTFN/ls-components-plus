@@ -30,5 +30,9 @@ export const lsIconProps = buildProps({
   src: {
     type: String,
     default: ''
+  },
+  symbolId: {
+    type: [String, Number],
+    default: ''
   }
 });

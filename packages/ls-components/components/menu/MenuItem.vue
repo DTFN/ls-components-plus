@@ -27,7 +27,11 @@ defineProps(lsMenuItemProps);
   <template v-if="!needPermission || permissionList.includes(item.pCode)">
     <!-- 单个菜单项 -->
     <el-menu-item v-if="!item.children || item.leaf" :index="item['key']" @click="jumpRoute(item)">
-      <LSIcon v-bind="item.iconConfig" />
+      <LSIcon v-bind="item.iconConfig">
+        <template v-if="item.iconSlot" #default>
+          <slot :name="item.iconSlot"> </slot>
+        </template>
+      </LSIcon>
       <span>{{ item.title }}</span>
     </el-menu-item>
     <!-- 子菜单 -->

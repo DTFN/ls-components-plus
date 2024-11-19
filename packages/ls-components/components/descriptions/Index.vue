@@ -69,7 +69,14 @@ async function updateLabelStyle(color: string, type: number) {
 </script>
 
 <template>
-  <div ref="lsDescRef" :class="[comClass, `column-${$attrs.column || 1}`, slots.title || slots.extra ? '' : 'no-header']">
+  <div
+    ref="lsDescRef"
+    :class="[
+      comClass,
+      `column-${$attrs.column || 1}`,
+      $attrs.title || $attrs.extra || slots.title || slots.extra ? '' : 'no-header'
+    ]"
+  >
     <el-descriptions v-bind="merge(defAttrs, $attrs)" border>
       <template #title>
         <slot name="title"></slot>

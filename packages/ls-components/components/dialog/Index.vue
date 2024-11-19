@@ -48,7 +48,6 @@ const curBtnConfirmConfig = computed(() => {
 });
 
 function handleClose() {
-  console.log(111);
   visible.value = false;
   emits('onCancel');
 }
