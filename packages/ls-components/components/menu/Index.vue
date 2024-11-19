@@ -68,7 +68,9 @@ onMounted(() => {
       :permission-list="permissionList"
       :need-permission="needPermission"
       @on-jump="onJump"
-    />
+    >
+      <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
+    </MenuItem>
   </el-menu>
 </template>
 

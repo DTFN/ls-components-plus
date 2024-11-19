@@ -108,9 +108,9 @@ const MENU_CONFIG_LIST = [
     path: 'plan-manager',
     key: '8',
     cpoPath: 'planManager/Index',
-    iconConfig: { type: 2, name: vueSvg, width: 32, height: 16 },
     pCode: 'c7',
     leaf: true,
+    iconSlot: 'icon7',
     children: [
       {
         title: '新增规划',
@@ -189,7 +189,11 @@ function onJump(res: any) {
   <div>
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" @on-jump="onJump" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" @on-jump="onJump">
+      <template #icon7>
+        <vueSvg />
+      </template>
+    </LSMenu>
   </div>
 </template>
 
