@@ -148,7 +148,7 @@ function handleSelectAll(selection: any[]) {
           selectionData.value.push(item);
         }
       } else {
-        if (filterIndex > 0) {
+        if (filterIndex >= 0) {
           selectionData.value.splice(filterIndex, 1);
         }
       }
