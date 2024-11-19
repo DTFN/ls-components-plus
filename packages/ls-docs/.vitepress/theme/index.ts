@@ -68,7 +68,6 @@ export default Object.assign({}, Theme, {
 
     vAuth.permissions = ['a', 'b', 'c'];
     app.directive('auth', vAuth);
-    // app.use(LSWebPlus);
 
     // [
     //   LSIcon,
@@ -106,5 +105,6 @@ export default Object.assign({}, Theme, {
         app.use(module.default.install);
       });
     }
+    // app.use(LSWebPlus);
   }
 });

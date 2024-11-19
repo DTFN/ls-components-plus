@@ -21,7 +21,6 @@ watch(
   () => props.labelColor,
   async val => {
     if (val) {
-      await nextTick();
       updateLabelStyle(val, 1);
     }
   },
@@ -35,7 +34,6 @@ watch(
   () => props.labelBgColor,
   async val => {
     if (val) {
-      await nextTick();
       updateLabelStyle(val, 2);
     }
   },
@@ -45,7 +43,20 @@ watch(
   }
 );
 
-function updateLabelStyle(color: string, type: number) {
+watch(
+  () => props.list,
+  () => {
+    updateLabelStyle(props.labelColor, 2);
+    updateLabelStyle(props.labelBgColor, 2);
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+async function updateLabelStyle(color: string, type: number) {
+  await nextTick();
   const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
   doms.forEach((element: any) => {
     if (type === 1) {
@@ -58,7 +69,7 @@ function updateLabelStyle(color: string, type: number) {
 </script>
 
 <template>
-  <div ref="lsDescRef" :class="[comClass, `column-${$attrs.column || 1}`]">
+  <div ref="lsDescRef" :class="[comClass, `column-${$attrs.column || 1}`, slots.title || slots.extra ? '' : 'no-header']">
     <el-descriptions v-bind="merge(defAttrs, $attrs)" border>
       <template #title>
         <slot name="title"></slot>
@@ -108,9 +119,6 @@ function updateLabelStyle(color: string, type: number) {
       }
     }
   }
-  :deep .el-descriptions__header {
-    margin-bottom: 0;
-  }
   :deep(.el-descriptions__body) {
     th {
       font-weight: bold;
@@ -119,9 +127,6 @@ function updateLabelStyle(color: string, type: number) {
       width: 50%;
       word-break: break-all;
       vertical-align: middle;
-    }
-    .el-descriptions__label {
-      padding: 2vh 11px !important;
     }
     .el-descriptions__table.is-bordered .el-descriptions__cell {
       border: 1px solid #dcdfe6 !important;
@@ -132,6 +137,11 @@ function updateLabelStyle(color: string, type: number) {
     align-items: center;
     .ls-icon {
       margin-right: 8px;
+    }
+  }
+  &.no-header {
+    :deep .el-descriptions__header {
+      margin-bottom: 0;
     }
   }
 }
