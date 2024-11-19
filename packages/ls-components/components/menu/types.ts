@@ -87,3 +87,5 @@ export type GroupOptionType = {
   groupId: number;
   groupName: string;
 };
+
+export const lsEmitNames = ['onJump'];

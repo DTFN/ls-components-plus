@@ -20,7 +20,7 @@ const handleClick = (val: number) => {
   type.value = val;
   if (val == 1) {
     title.value = '标题 1';
-    message.value = '内容 1';
+    message.value = '内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1内容 1';
     setTimeout(() => {
       title.value = '标题 111111';
     }, 1000);
@@ -38,7 +38,7 @@ const handleClick = (val: number) => {
     setTimeout(() => {
       message.value = '内容 3';
     }, 1000);
-    requestApi.value = () => axios.get('https://jsonplaceholder.typicode.com/posts/1');
+    requestApi.value = (params: any) => axios.post('https://jsonplaceholder.typicode.com/posts/1', params);
   }
   visible.value = true;
 };

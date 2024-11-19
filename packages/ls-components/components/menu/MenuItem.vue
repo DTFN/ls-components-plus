@@ -1,16 +1,22 @@
 <script setup lang="ts" name="LSMenuItem">
 import LSIcon from '@cpo/icon/Index.vue';
-import { lsMenuItemProps } from './types';
+import { lsEmitNames, lsMenuItemProps } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
 const { jumpRouteCom } = useRouterHook();
 
+const emits = defineEmits(lsEmitNames);
+
 const jumpRoute = (item: any) => {
-  const { link } = item || {};
-  if (!link) {
-    jumpRouteCom(item);
+  const { link, defJump } = item || {};
+  if (defJump) {
+    emits('onJump', item);
   } else {
-    window.open(link, '_blank');
+    if (!link) {
+      jumpRouteCom(item);
+    } else {
+      window.open(link, '_blank');
+    }
   }
 };
 

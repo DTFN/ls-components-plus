@@ -219,9 +219,13 @@ if (location.pathname == '/') {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
+### 2. Methods，通过emit抛出的可使用方法
+
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
+
 <script setup>
 import { ref } from 'vue';
-import { tableColumn } from '../constant';
+import { tableColumn, tableMethodColumn } from '../constant';
 
 const MENU_CONFIG_LIST = [
   {
@@ -454,6 +458,21 @@ const tableData2 = ref([
     type: 'array',
     value: '-'
   },
+  {
+    name: 'defJump',
+    desc: '菜单点击自定义处理',
+    type: 'boolean',
+    value: false
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'onJump',
+    desc: '点击菜单自定义处理方法，defJump为true生效',
+    type: 'function',
+    value: 'value'
+  }
 ])
 </script>
 
