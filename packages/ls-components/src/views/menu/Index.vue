@@ -32,6 +32,7 @@ const MENU_CONFIG_LIST = [
         cpoPath: 'pondManager/Group',
         pCode: 'c21',
         leaf: true,
+        defJump: true,
         children: [
           {
             title: '养殖区域详情',

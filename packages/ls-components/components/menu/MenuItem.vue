@@ -21,6 +21,10 @@ const jumpRoute = (item: any) => {
 };
 
 defineProps(lsMenuItemProps);
+
+function onJump(item: any) {
+  emits('onJump', item);
+}
 </script>
 
 <template id="menu-item">
@@ -37,7 +41,11 @@ defineProps(lsMenuItemProps);
     <!-- 子菜单 -->
     <el-sub-menu v-else :index="item['key']">
       <template #title>
-        <LSIcon v-bind="item.iconConfig" />
+        <LSIcon v-bind="item.iconConfig">
+          <template v-if="item.iconSlot" #default>
+            <slot :name="item.iconSlot"> </slot>
+          </template>
+        </LSIcon>
         <span>{{ item.title }}</span>
       </template>
       <MenuItem
@@ -46,6 +54,7 @@ defineProps(lsMenuItemProps);
         :item="child"
         :permission-list="permissionList"
         :need-permission="needPermission"
+        @on-jump="onJump"
       />
     </el-sub-menu>
   </template>
