@@ -83,6 +83,9 @@ onMounted(() => {
       .el-menu--inline {
         background-color: #f4f4f4;
       }
+      .ls-icon {
+        margin-right: 6px;
+      }
     }
     :deep(.el-menu-item) {
       position: relative;
