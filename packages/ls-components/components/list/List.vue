@@ -324,6 +324,7 @@ defineExpose({
       <el-table-column v-if="showTableSwitch" :prop="switchProp" label="是否开启" width="100" v-bind="tableSwitchColumn">
         <template #default="{ row }">
           <el-switch
+            class="ls-list-table__switch"
             :model-value="row[switchProp] ? 1 : 0"
             :active-value="1"
             :inactive-value="0"
@@ -346,7 +347,7 @@ defineExpose({
         <template #default="{ row }">
           <div class="flex items-center">
             <el-space :size="0" :spacer="spacer">
-              <slot name="table-operate-prepend" />
+              <slot name="table-operate-prepend" :row="row" />
 
               <el-button
                 v-if="showTableDetail(row)"
@@ -390,13 +391,13 @@ defineExpose({
                 </template>
               </el-popconfirm>
 
-              <slot name="table-operate-append" />
+              <slot name="table-operate-append" :row="row" />
             </el-space>
           </div>
         </template>
       </el-table-column>
 
-      <slot name="table-append"></slot>
+      <slot name="table-append" />
 
       <template v-for="(slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
         <slot
@@ -456,6 +457,9 @@ defineExpose({
 }
 .justify-center {
   justify-content: center;
+}
+.ls-list-table__switch {
+  height: 18px;
 }
 .transition-all-300 {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
