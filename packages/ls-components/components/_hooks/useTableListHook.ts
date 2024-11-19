@@ -25,7 +25,13 @@ export default function (
   const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
     if (!requestFn) return;
 
-    if (showLoading) loading.value = true;
+    if (showLoading && loading.value) {
+      return;
+    }
+
+    if (showLoading) {
+      loading.value = true;
+    }
 
     if (firstLoad) {
       isFirst.value = true;
@@ -66,6 +72,16 @@ export default function (
         }
       });
   };
+
+  // 监听当前页
+  watch(currentPage, newVal => {
+    handleCurrentPageChange(newVal);
+  });
+
+  // 监听每页条数
+  watch(pageSize, newVal => {
+    handleSizeChange(newVal);
+  });
 
   // 切换页数
   const handleCurrentPageChange = (page: number) => {
