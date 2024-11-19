@@ -118,6 +118,10 @@ export const lsFormItemProps = buildProps({
     type: String,
     default: ''
   },
+  labelIconClass: {
+    type: String,
+    default: ''
+  },
   tooltip: {
     type: String,
     default: ''

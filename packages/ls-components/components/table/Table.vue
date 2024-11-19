@@ -25,6 +25,7 @@ const currentPage = ref(1);
 const pageSize = ref(10);
 const selectionData = ref<any[]>([]);
 
+// 传入当前页
 watch(
   () => props.currentPage,
   newVal => {
@@ -41,6 +42,7 @@ watch(
   }
 );
 
+// 传入每页条数
 watch(
   [() => props.pageSize, () => props.pageSizes],
   ([val_1, val_2]) => {
@@ -58,6 +60,7 @@ watch(
   }
 );
 
+// 选中数据
 watch(
   () => props.selection,
   newVal => {
@@ -101,6 +104,18 @@ watch(
   }
 );
 
+// 当前页
+watch(currentPage, newVal => {
+  emit('currentPageChange', newVal);
+  emit('update:current-page', newVal);
+});
+
+// 每页条数
+watch(pageSize, newVal => {
+  emit('sizeChange', newVal);
+  emit('update:page-size', newVal);
+});
+
 // 序号
 function indexMethod(index: number) {
   return (currentPage.value - 1) * pageSize.value + index + 1;
@@ -112,19 +127,19 @@ function formatDate(val: string | null | undefined, template?: string) {
   return dayjs(val).format(template || 'YYYY-MM-DD HH:mm:ss');
 }
 
-// 每页条数
-function handleSizeChange(val: number) {
-  pageSize.value = val;
-  emit('sizeChange', val);
-  emit('update:page-size', val);
-}
+// // 每页条数
+// function handleSizeChange(val: number) {
+//   pageSize.value = val;
+//   emit('sizeChange', val);
+//   emit('update:page-size', val);
+// }
 
-// 当前页
-function handleCurrentPageChange(val: number) {
-  currentPage.value = val;
-  emit('currentPageChange', val);
-  emit('update:current-page', val);
-}
+// // 当前页
+// function handleCurrentPageChange(val: number) {
+//   currentPage.value = val;
+//   emit('currentPageChange', val);
+//   emit('update:current-page', val);
+// }
 
 // 单列选中监听
 function handleSelect(selection: any[], row: any) {
@@ -302,8 +317,6 @@ defineExpose({
         :page-sizes="pageSizes"
         :total="total"
         v-bind="paginationOptions"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentPageChange"
       />
     </el-config-provider>
   </div>

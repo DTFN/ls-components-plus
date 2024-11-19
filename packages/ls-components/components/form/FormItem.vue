@@ -226,7 +226,9 @@ defineExpose({
         <span :class="labelClass">{{ label }}</span>
 
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
-          <el-icon class="ml-4"><WarningFilled /></el-icon>
+          <el-icon class="ml-4" :class="labelIconClass">
+            <slot v-if="$slots[`${prop}-label-icon`]" :name="`${prop}-label-icon`" />
+          </el-icon>
         </el-tooltip>
 
         <span v-if="colon" :class="labelClass">：</span>

@@ -17,8 +17,11 @@ const emits = defineEmits<{
 }>();
 
 /** 表格数据 */
-const { isFirst, loading, tableData, total, currentPage, handleCurrentPageChange, handleSizeChange, handleReset, loadData } =
-  useTableListHook(props.listApi, props.formData, { dealData: props?.dealData, dealParams: props?.dealParams });
+const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, loadData } = useTableListHook(
+  props.listApi,
+  props.formData,
+  { dealData: props?.dealData, dealParams: props?.dealParams }
+);
 
 // 查询
 function submitForm(val: any) {
@@ -262,8 +265,9 @@ defineExpose({
   handleReset,
   isFirst,
   loading,
-  total,
-  currentPage
+  currentPage,
+  pageSize,
+  total
 });
 </script>
 
@@ -314,11 +318,10 @@ defineExpose({
       :total="total"
       :table-data="tableData"
       :table-column="tableColumn"
-      :current-page="currentPage"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
       v-bind="tableAttrs"
       v-on="tableListeners || {}"
-      @size-change="handleSizeChange"
-      @current-page-change="handleCurrentPageChange"
     >
       <!-- 开关列 -->
       <el-table-column v-if="showTableSwitch" :prop="switchProp" label="是否开启" width="100" v-bind="tableSwitchColumn">
