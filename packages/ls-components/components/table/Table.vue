@@ -341,6 +341,9 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+.ls-table-wrap {
+  width: 100%;
+}
 :deep(.el-empty) {
   --el-empty-padding: 24px 0 10px 0;
   --el-empty-description-margin-top: 10px;
