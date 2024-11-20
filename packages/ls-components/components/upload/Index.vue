@@ -446,7 +446,6 @@ function onPreviewAction(file: UploadFile) {
   }
   const { raw, url, blob, name }: any = file;
   const { type }: any = raw || {};
-  console.log(raw);
   if (raw) {
     if (textPreview.value && textPreview.value.length > 0) {
       if (type?.startsWith('image')) {
@@ -562,6 +561,10 @@ function closePreview() {
   configs.showPreview = false;
   configs.sourcePreview = '';
 }
+
+defineExpose({
+  uploadRef
+});
 </script>
 
 <style lang="scss" scoped>

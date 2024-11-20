@@ -31,7 +31,19 @@ function mockData() {
 }
 
 onMounted(async () => {
-  const { allOption, options, maps } = await getSelOption(mockData);
+  const { allOption, options, maps } = await getSelOption(
+    mockData,
+    {
+      labelKey: 'name',
+      valueKey: 'id'
+    },
+    [
+      {
+        label: '全部',
+        value: ''
+      }
+    ]
+  );
   console.log(allOption, options, maps);
 });
 ```
