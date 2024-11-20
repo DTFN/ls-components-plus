@@ -13,6 +13,10 @@ export const lsListProps = buildProps({
   dealData: {
     type: Function
   },
+  // 列表hook配置
+  listHookConfig: {
+    type: Object
+  },
   // 删除api
   delApi: {
     type: Function
