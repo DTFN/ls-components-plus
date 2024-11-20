@@ -16,6 +16,8 @@
 
 #### 2. Dialog 增加内容区域loading
 
+#### 3. Auth指令修复el-tab类型
+
 ## 安装
 
 ```shell

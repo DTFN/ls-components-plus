@@ -467,6 +467,12 @@ const tableData2 = ref([
     desc: '菜单点击自定义处理',
     type: 'boolean',
     value: false
+  },
+  {
+    name: 'iconSlot',
+    desc: '菜单栏左边icon插槽名',
+    type: 'string',
+    value: '-'
   }
 ])
 
@@ -482,7 +488,7 @@ const tableData3 = ref([
 const tableData4 = ref([
   {
     name: '[iconSlot]',
-    desc: '菜单栏左边icon插槽',
+    desc: '菜单栏左边icon插槽, 即属性定义的icon插槽名',
   }
 ])
 </script>
