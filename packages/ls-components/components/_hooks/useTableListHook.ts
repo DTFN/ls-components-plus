@@ -7,7 +7,9 @@ export default function (
   config?: {
     currentPageProp?: number; // 当前页码
     pageSizeProp?: number; // 每页条数
+    pageSizesProp?: number[]; // 每页条数范围
     isDelayLoader?: boolean; // 是否使用延迟加载器
+    delayLoaderTime?: number; // 延迟加载时间
     isFullDose?: boolean; // 是否全量数据
     hasPanigation?: boolean; // 是否有分页
     autoFetch?: boolean; // 是否自动获取数据
@@ -19,13 +21,15 @@ export default function (
   const {
     currentPageProp = 1,
     pageSizeProp = 10,
+    pageSizesProp = [10, 20, 30, 40, 50, 100],
     isDelayLoader = false,
+    delayLoaderTime = 300,
     isFullDose = false,
     autoFetch = true,
     hasPanigation = true,
-    callbackAfter,
     dealParams,
-    dealData
+    dealData,
+    callbackAfter
   } = config || {};
 
   // 初始化
@@ -37,7 +41,7 @@ export default function (
   // 每页大小
   const pageSize = ref(pageSizeProp);
   // 大小切换范围
-  const pageSizes = [10, 20, 30, 50];
+  const pageSizes = ref(pageSizesProp);
   // 列表
   const tableData = ref([]);
   // 全量数据的存储
@@ -119,7 +123,7 @@ export default function (
     });
 
   // 延迟加载数据配置
-  const delayLoaderData = useDelayLoader(2000, data => {
+  const delayLoaderData = useDelayLoader(delayLoaderTime || 300, data => {
     disposeResponseData(data);
   });
 
