@@ -66,16 +66,27 @@ const formItems = ref<FormItemsType[]>([
     label: '自定义插槽'
   }
 ]);
+
+const contentLoading = ref(false);
+
+function testDialog() {
+  contentLoading.value = true;
+  visible.value = true;
+  setTimeout(() => {
+    contentLoading.value = false;
+  }, 2000);
+}
 </script>
 
 <template>
   <div>
-    <LSButton type="primary" @click="visible = true">测试弹窗</LSButton>
+    <LSButton type="primary" @click="testDialog">测试弹窗</LSButton>
 
     <LSDialog
       v-model="visible"
       :loading="loading"
       title="弹窗Title"
+      :content-loading="contentLoading"
       :btn-confirm-config="btnConfirmConfig"
       @on-confirm="onConfirm"
     >

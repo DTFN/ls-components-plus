@@ -25,7 +25,8 @@ const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
   closeOnPressEscape: false,
-  zIndex: 2000
+  zIndex: 2000,
+  maxHeight: '600px'
 });
 
 const curBtnCancelConfig = computed(() => {
@@ -60,7 +61,7 @@ function handleConfirm() {
 <template>
   <div :class="comClass">
     <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
-      <el-scrollbar max-height="600px">
+      <el-scrollbar v-bind="merge(defAttrs, $attrs)" v-loading="contentLoading">
         <slot></slot>
       </el-scrollbar>
       <template #header>

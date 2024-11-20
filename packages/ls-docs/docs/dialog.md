@@ -163,6 +163,12 @@ const tableData = ref([
     desc: '确认按钮配置，具体配置参考LSButton',
     type: 'object',
     value: `{txt: '确认', type: 'primary'}`
+  },
+  {
+    name: 'contentLoading',
+    desc: '内容区域loading',
+    type: 'Boolean',
+    value: false
   }
 ])
 
