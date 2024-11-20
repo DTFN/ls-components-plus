@@ -171,32 +171,50 @@ function handleSelectAll(selection: any[]) {
   }
 }
 
+// 表格属性
 const attrsProps = computed(() => {
   const newAttrs = { ...attrs };
+
+  // 设置表格布局方式,默认为auto
+  if (!newAttrs['table-layout']) {
+    newAttrs['table-layout'] = 'auto';
+  }
+
+  // 多选功能
   if (props.showSelect) {
+    // 添加选择事件处理
     if (!newAttrs['onSelect']) newAttrs['onSelect'] = handleSelect;
     if (!newAttrs['onSelectAll']) newAttrs['onSelectAll'] = handleSelectAll;
   }
+
+  // 处理文字溢出提示
   if (attrs && attrs.hasOwnProperty('show-overflow-tooltip')) {
+    // 布尔值true时使用默认配置
     if (typeof attrs['show-overflow-tooltip'] === 'boolean') {
       if (attrs['show-overflow-tooltip'] === true) {
         newAttrs['show-overflow-tooltip'] = {
           popperClass: 'table-popper-css'
         };
       }
-    } else if (typeof attrs['show-overflow-tooltip'] === 'object') {
+    }
+    // 对象配置时合并配置
+    else if (typeof attrs['show-overflow-tooltip'] === 'object') {
       const tooltip: any = attrs['show-overflow-tooltip'] || {};
       const popperClass = `table-popper-css ${tooltip && tooltip?.popperClass}`;
       newAttrs['show-overflow-tooltip'] = {
         ...tooltip,
         popperClass
       };
-    } else {
+    }
+    // 其他情况使用默认配置
+    else {
       newAttrs['show-overflow-tooltip'] = {
         popperClass: 'table-popper-css'
       };
     }
-  } else {
+  }
+  // 未配置时使用默认配置
+  else {
     newAttrs['show-overflow-tooltip'] = {
       popperClass: 'table-popper-css'
     };
