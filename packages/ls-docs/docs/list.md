@@ -212,7 +212,13 @@ const attrTableData=[
     type: 'Function',
     value: '-'
   },
-   {
+  {
+    name: 'listHookConfig',
+    desc: '列表请求配置，支持currentPageProp(当前页码)、pageSizeProp(每页条数)、isDelayLoader(是否使用延迟加载器)、isFullDose(是否全量数据)、hasPanigation(是否有分页)、autoFetch(是否自动获取数据)、dealData(处理返回数据的方法)、dealParams(处理请求参数的方法)、callbackAfter(请求完成后的回调)',
+    type: 'object',
+    value: '{currentPageProp?: number, pageSizeProp?: number, isDelayLoader?: boolean, isFullDose?: boolean, hasPanigation?: boolean, autoFetch?: boolean, dealData?: Function, dealParams?: Function, callbackAfter?: Function}'
+  },
+  {
     name: 'delApi',
     desc: '删除接口请求方法，返回一个Promise',
     type: 'Function',

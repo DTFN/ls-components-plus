@@ -20,7 +20,7 @@ const emits = defineEmits<{
 const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, loadData } = useTableListHook(
   props.listApi,
   props.formData,
-  { dealData: props?.dealData, dealParams: props?.dealParams }
+  { dealData: props?.dealData, dealParams: props?.dealParams, ...props?.listHookConfig }
 );
 
 // 查询
