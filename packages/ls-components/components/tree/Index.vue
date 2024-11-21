@@ -16,9 +16,7 @@ const treeClass = ns.b('box');
 const defAttrs: any = ref({
   showCheckbox: true,
   defaultExpandAll: true,
-  nodeKey: 'id',
-  checkStrictly: false,
-  defaultCheckedKeys: []
+  nodeKey: 'id'
 });
 
 const lsTreeRef = ref();

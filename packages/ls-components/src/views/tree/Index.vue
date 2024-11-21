@@ -642,8 +642,12 @@ const roleData = ref([
 ]);
 
 const checkedPermissionIds = ref();
-
-checkedPermissionIds.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
+setTimeout(() => {
+  checkedPermissionIds.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
+  setTimeout(() => {
+    checkedPermissionIds.value = [];
+  }, 2000);
+}, 2000);
 
 // 筛选去掉父级id
 function getTreeCheckedData(ids: any) {
@@ -683,13 +687,7 @@ const canPrint = ref(true);
       direction="h"
     />
 
-    <LSTree
-      :data="treeData"
-      :is-check-all="false"
-      :show-checkbox="true"
-      :default-checked-keys="checkedPermissionIds"
-      direction="v"
-    />
+    <LSTree :data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
     <br />
 
