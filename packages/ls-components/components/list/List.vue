@@ -16,6 +16,28 @@ const emits = defineEmits<{
   submitForm: [formData: any];
 }>();
 
+// 获取插槽
+const slots = useSlots();
+
+// 获取表单插槽
+const formSlots = computed(() => {
+  return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-form-slot'));
+});
+
+// 获取表格插槽
+const tableSlots = computed(() => {
+  return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-table-slot'));
+});
+
+// 获取插槽名称
+function getSlotName(slotName: any, isForm: boolean = false) {
+  if (slotName) {
+    const index = slotName.toString().lastIndexOf(`${isForm ? '-form-slot' : '-table-slot'}`);
+    return index !== -1 ? slotName.toString().slice(0, index) : slotName;
+  }
+  return '';
+}
+
 /** 表格数据 */
 const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, loadData } = useTableListHook(
   props.listApi,
@@ -35,7 +57,7 @@ function submitForm(val: any) {
 
 // 重置
 function resetForm(val: any) {
-  console.log('resetForm', val);
+  console.warn('resetForm', val);
   handleReset();
 }
 
@@ -107,7 +129,7 @@ function onDel(id: any, row: any) {
         loadData();
       })
       .catch((err: any) => {
-        console.log(err);
+        console.warn(err);
       })
       .finally(() => {
         delLoading.value = false;
@@ -289,7 +311,13 @@ defineExpose({
       @submit="submitForm"
       @reset="resetForm"
     >
-      <slot name="form-append"></slot>
+      <template #default="scoope: any">
+        <slot name="form-append" v-bind="scoope" />
+      </template>
+
+      <template v-for="slotName in formSlots" :key="slotName" #[getSlotName(slotName,true)]="scoope: any">
+        <slot :name="slotName" v-bind="scoope" />
+      </template>
     </LSForm>
 
     <template v-if="showOperate">
@@ -301,7 +329,7 @@ defineExpose({
         <div class="mt-24px flex items-center justify-start" :class="operateClass">
           <slot name="operate-prepend" />
 
-          <el-button v-if="showAdd" type="primary" :disabled="loading" @click="onAdd">
+          <el-button v-if="showAdd" type="primary" :disabled="loading || disabledAddBtn" @click="onAdd">
             {{ addBtnText }}
           </el-button>
 
@@ -400,24 +428,10 @@ defineExpose({
         </template>
       </el-table-column>
 
-      <slot name="table-append" />
+      <slot name="table-append" :table-data="tableData" />
 
-      <template v-for="(slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
-        <slot
-          v-if="
-            ![
-              'default',
-              'form-append',
-              'operate-prepend',
-              'operate-append',
-              'table-operate-prepend',
-              'table-operate-append',
-              'table-append'
-            ].includes(`${slotName}`)
-          "
-          :name="slotName"
-          :row="row"
-        />
+      <template v-for="slotName in tableSlots" :key="slotName" #[getSlotName(slotName,false)]="scoope: any">
+        <slot :name="slotName" v-bind="scoope" />
       </template>
     </LSTable>
   </div>

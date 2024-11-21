@@ -212,13 +212,24 @@ function onChange(value: any, prop: string) {
   emits('onChange', value, prop);
 }
 
+// 修改modelValue
+function updateModelValue(val: any) {
+  modelValue.value = val;
+}
+
 defineExpose({
   FormItemRef
 });
 </script>
 
 <template>
-  <slot v-if="type === 'slot'" :name="prop"></slot>
+  <slot
+    v-if="type === 'slot'"
+    :name="prop"
+    :slot-row="{ ...props }"
+    :value="modelValue"
+    :update-model-value="updateModelValue"
+  ></slot>
 
   <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="rules" :class="className">
     <template v-if="labelClass || tooltip" #label>
@@ -227,7 +238,8 @@ defineExpose({
 
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
           <el-icon class="ml-4" :class="labelIconClass">
-            <slot v-if="$slots[`${prop}-label-icon`]" :name="`${prop}-label-icon`" />
+            <slot v-if="$slots[`tooltip-icon`]" :name="`tooltip-icon`" :slot-row="{ ...props }" />
+            <slot v-else-if="$slots[`${prop}-label-icon`]" :name="`${prop}-label-icon`" :slot-row="{ ...props }" />
           </el-icon>
         </el-tooltip>
 
@@ -236,11 +248,29 @@ defineExpose({
     </template>
 
     <!-- 前置插槽 -->
-    <slot :name="`${prop}-prepend`" />
+    <slot :name="`${prop}-prepend`" :slot-row="{ props }" />
 
     <!-- 只读 -->
     <template v-if="read">
-      <slot v-if="$slots[`${prop}-read-slot`]" :name="`${prop}-read-slot`" :value="readValue(type)" />
+      <slot
+        v-if="type === 'itemSlot' && $slots[`${prop}-slot`]"
+        :name="`${prop}-slot`"
+        :slot-row="{ ...props }"
+        :value="modelValue"
+        :update-model-value="updateModelValue"
+      ></slot>
+      <slot
+        v-else-if="$slots[`${prop}-read-slot`]"
+        :name="`${prop}-read-slot`"
+        :value="readValue(type)"
+        :slot-row="{ ...props }"
+      />
+      <slot
+        v-else-if="$slots[`${type}-read-slot`]"
+        :name="`${type}-read-slot`"
+        :value="readValue(type)"
+        :slot-row="{ ...props }"
+      />
       <div v-else class="ls-read-text-container">{{ readValue(type) }}</div>
     </template>
 
@@ -269,19 +299,19 @@ defineExpose({
         v-on="listeners || {}"
       >
         <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
-          <slot :name="`${prop}-input-prefix`" />
+          <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
         </template>
 
         <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
-          <slot :name="`${prop}-input-suffix`" />
+          <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
         </template>
 
         <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
-          <slot :name="`${prop}-input-prepend`" />
+          <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
         </template>
 
         <template v-if="$slots[`${prop}-input-append`]" #append>
-          <slot :name="`${prop}-input-append`" />
+          <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
         </template>
       </el-input>
 
@@ -306,7 +336,6 @@ defineExpose({
         :placeholder="`请输入${label}`"
         :max="99999999"
         :min="0"
-        :controls="false"
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
@@ -469,11 +498,17 @@ defineExpose({
       </div>
 
       <!-- 自定义 -->
-      <slot v-else-if="type === 'itemSlot'" :name="`${prop}-slot`" :row="{ prop }"></slot>
+      <slot
+        v-else-if="type === 'itemSlot'"
+        :name="`${prop}-slot`"
+        :slot-row="{ ...props }"
+        :value="modelValue"
+        :update-model-value="updateModelValue"
+      />
     </template>
 
     <!-- 后置插槽 -->
-    <slot :name="`${prop}-append`" />
+    <slot :name="`${prop}-append`" :slot-row="{ ...props }" />
   </el-form-item>
 </template>
 
@@ -491,9 +526,6 @@ defineExpose({
   --el-input-width: 424px;
 
   width: var(--el-input-width);
-  &:deep(.el-input__inner) {
-    text-align: left;
-  }
 }
 :deep(.el-date-editor) {
   --el-date-editor-width: 424px;

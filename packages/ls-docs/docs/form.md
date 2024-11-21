@@ -1081,7 +1081,7 @@ const formItemTypeData=[
   },
   {
     name:'slot',
-    desc:'自定义内容'
+    desc:'自定义内容（建议使用LSFormItem插入）'
   },
   {
     name:'itemSlot',
@@ -1097,23 +1097,31 @@ const formItemTypeData=[
 const slotTableData_1=[
   {
     name: '[prop]',
-    desc: '自定义内容,插槽名 跟 prop 一致',
+    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue方法',
   },
   {
     name: '[prop]-prepend',
-    desc: '前置自定义内容',
+    desc: '前置自定义内容，返回slotRow',
   },
   {
     name: '[prop]-append',
-    desc: '后置自定义内容',
+    desc: '后置自定义内容，返回slotRow',
   },
   {
     name: '[prop]-slot',
-    desc: 'type是itemSlot时，FormItem内自定义内容',
+    desc: 'type是itemSlot时，FormItem内自定义内容，返回slotRow、value和updateModelValue方法',
   },
   {
     name: '[prop]-read-slot',
-    desc: 'read时，展示文本内容的自定义内容',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[type]-read-slot',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[prop]-label-icon/tooltip-icon',
+    desc: 'label 右侧图标,tooltip时展示',
   },
 ]
 
