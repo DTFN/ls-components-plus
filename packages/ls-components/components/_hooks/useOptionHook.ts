@@ -21,7 +21,10 @@ export default function () {
     if (apiFunc instanceof Function) {
       let data: any = [];
       if (params) {
-        data = (await apiFunc(params)).records;
+        const tempParams = merge({}, params);
+        delete tempParams['labelKey'];
+        delete tempParams['valueKey'];
+        data = (await apiFunc(tempParams)).records;
       } else {
         data = await apiFunc();
       }
