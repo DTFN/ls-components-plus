@@ -327,6 +327,12 @@ const attrTableData=[
     value: 'true'
   },
   {
+    name: 'disabledAddBtn',
+    desc: '添加按钮是否禁用',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
     name: 'addBtnText',
     desc: '添加按钮文字',
     type: 'string',
@@ -482,6 +488,14 @@ const slotTableData=[
     name: 'table-append',
     desc: '表格后置新增列区域',
   },
+  {
+    name: '原插槽名称加上 -form-slot',
+    desc: 'LSForm组件插槽',
+  },
+  {
+    name: '原插槽名称加上 -table-slot',
+    desc: 'LSTable组件插槽',
+  },
 ]
 
 // Exposes
@@ -522,6 +536,12 @@ const exposesTableData=[
     type: 'number',
     value: '-'
   },
+  {
+    name: 'pageSize',
+    desc: '每页条数',
+    type: 'number',
+    value: '-'
+  }
 ]
 </script>
 

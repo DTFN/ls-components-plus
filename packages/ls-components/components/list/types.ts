@@ -101,6 +101,11 @@ export const lsListProps = buildProps({
     type: Boolean,
     default: true
   },
+  // 添加按钮是否禁用
+  disabledAddBtn: {
+    type: Boolean,
+    default: false
+  },
   // 添加按钮文字
   addBtnText: {
     type: String,

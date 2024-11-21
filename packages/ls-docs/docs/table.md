@@ -684,6 +684,18 @@ const columnTableData=[
     type: 'boolean',
     value: 'false'
   },
+  {
+    name: 'className',
+    desc: 'type 为 status 时，状态文本的样式',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'statusStyle',
+    desc: '状态文本样式，default: 默认样式，dot: 展示圆点，follow: 文字颜色跟随圆点颜色',
+    type: 'object',
+    value: 'default'
+  },
 ]
 
 // 事件

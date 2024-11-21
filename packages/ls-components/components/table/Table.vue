@@ -223,6 +223,23 @@ const attrsProps = computed(() => {
   return newAttrs;
 });
 
+// 获取状态type
+function getStatusType(value: any, row: any, prop: any) {
+  return value[get(row, prop)]?.type;
+}
+
+// 获取状态class
+function getStatusClass(statusStyle: string = 'default', type?: string, className?: string) {
+  const classes = [];
+  if (['dot', 'follow'].includes(statusStyle)) {
+    classes.push(`ls-table-status`);
+    classes.push(`ls-table-status--${type || 'default'}`);
+  }
+  if (className) classes.push(className);
+
+  return classes.join(' ');
+}
+
 defineExpose({
   TableRef
 });
@@ -275,7 +292,12 @@ defineExpose({
 
               <!-- 状态 -->
               <template v-else-if="item.type === 'status'">
-                <el-text :type="item.value[get(row, item.prop)]?.type">
+                <el-text
+                  :type="
+                    ['default', 'follow'].includes(item.statusStyle || 'default') && getStatusType(item.value, row, item.prop)
+                  "
+                  :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
+                >
                   {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
                 </el-text>
               </template>
@@ -341,6 +363,38 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
+.ls-table-wrap {
+  width: 100%;
+}
+.ls-table-status {
+  display: flex;
+  align-items: center;
+  &::before {
+    width: 8px;
+    height: 8px;
+    margin-right: 6px;
+    content: '';
+    border-radius: 100%;
+  }
+  &.ls-table-status--default::before {
+    background-color: var(--el-text-color);
+  }
+  &.ls-table-status--success::before {
+    background-color: var(--el-color-success);
+  }
+  &.ls-table-status--warning::before {
+    background-color: var(--el-color-warning);
+  }
+  &.ls-table-status--danger::before {
+    background-color: var(--el-color-danger);
+  }
+  &.ls-table-status--info::before {
+    background-color: var(--el-color-info);
+  }
+  &.ls-table-status--primary::before {
+    background-color: var(--el-color-primary);
+  }
+}
 :deep(.el-empty) {
   --el-empty-padding: 24px 0 10px 0;
   --el-empty-description-margin-top: 10px;

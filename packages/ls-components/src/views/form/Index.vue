@@ -104,7 +104,8 @@ const formItems1 = ref<FormItemsType[]>([
   {
     type: 'input',
     label: '输入框',
-    prop: 'param1'
+    prop: 'param1',
+    tooltip: '提示语'
   },
   {
     type: 'input',
@@ -545,6 +546,10 @@ function changeRadio(value: any, prop: string) {
 
     <template #param1-read-slot>
       <div>自定义区域</div>
+    </template>
+
+    <template #param1-label-icon>
+      <el-icon><WarningFilled /></el-icon>
     </template>
   </LSFormText>
 
