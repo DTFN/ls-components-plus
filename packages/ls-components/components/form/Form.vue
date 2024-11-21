@@ -77,7 +77,7 @@ async function submitForm(formEl: FormInstance | undefined) {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) emit('submit', form);
-    else console.log('error submit!', fields);
+    else console.warn('error submit!', fields);
   });
 }
 
@@ -90,7 +90,7 @@ function validate() {
       if (valid) {
         resolve(form);
       } else {
-        console.log('error submit!', fields);
+        console.warn('error submit!', fields);
         reject(fields);
       }
     });
@@ -142,7 +142,7 @@ defineExpose({
           <el-row :gutter="10">
             <template v-for="item in formItems" :key="item.prop">
               <el-col :span="item.isRow ? 24 : 24 / column">
-                <slot v-if="item.type === 'slot'" :name="item.prop" />
+                <slot v-if="item.type === 'slot'" :name="item.prop" :slot-row="{ ...item }" />
 
                 <FormItem
                   v-else-if="ITEM_TYPES.includes(item.type)"
@@ -155,12 +155,12 @@ defineExpose({
                   @update:value="updateFormData"
                   @on-change="onChange"
                 >
-                  <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
-                    <slot :name="slotName" :row="{ ...row }" />
+                  <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
+                    <slot :name="slotName" v-bind="scoope" />
                   </template>
                 </FormItem>
 
-                <slot v-else :name="item.type" :row="{ ...item }" />
+                <slot v-else :name="item.type" :slot-row="{ ...item }" />
               </el-col>
             </template>
           </el-row>
@@ -168,7 +168,7 @@ defineExpose({
 
         <template v-else>
           <template v-for="item in formItems" :key="item.prop">
-            <slot v-if="item.type === 'slot'" :name="item.prop" />
+            <slot v-if="item.type === 'slot'" :name="item.prop" :slot-row="{ ...item }" />
 
             <FormItem
               v-else-if="ITEM_TYPES.includes(item.type)"
@@ -181,12 +181,12 @@ defineExpose({
               @update:value="updateFormData"
               @on-change="onChange"
             >
-              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }: any">
-                <slot :name="slotName" :row="{ ...row }" />
+              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
+                <slot :name="slotName" v-bind="scoope" />
               </template>
             </FormItem>
 
-            <slot v-else :name="item.type" :row="{ ...item }" />
+            <slot v-else :name="item.type" :slot-row="{ ...item }" />
           </template>
         </template>
 
