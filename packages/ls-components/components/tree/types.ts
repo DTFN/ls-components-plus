@@ -12,11 +12,6 @@ export const lsTreeProps = buildProps({
     type: String,
     default: ''
   },
-  // 数据源
-  data: {
-    type: Array,
-    default: () => []
-  },
   // 默认属性结构
   dataProps: {
     type: Object,
@@ -40,6 +35,30 @@ export const lsTreeProps = buildProps({
   direction: {
     type: String as PropType<'h' | 'v'>,
     default: 'v'
+  },
+  showCheckbox: {
+    type: Boolean,
+    default: true
+  },
+  defaultExpandAll: {
+    type: Boolean,
+    default: true
+  },
+  nodeKey: {
+    type: String,
+    default: 'id'
+  },
+  isCheckStrictly: {
+    type: Boolean,
+    default: false
+  },
+  treeData: {
+    type: Array,
+    default: () => []
+  },
+  defaultCheckedKeys: {
+    type: Array<any>,
+    default: () => []
   }
 });
 

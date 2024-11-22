@@ -577,7 +577,7 @@ const tableData = ref([
     value: '-'
   },
   {
-    name: 'data',
+    name: 'treeData',
     desc: '树形结构数据',
     type: 'array',
     value: '[]'

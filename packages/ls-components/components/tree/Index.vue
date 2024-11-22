@@ -2,8 +2,6 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsTreeProps } from './types';
 import { excutePowerTree } from '@cpo/_utils/power';
-import { merge } from 'lodash-es';
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 
 const emitAll = defineEmits(emitNames);
 
@@ -12,14 +10,6 @@ const props = defineProps(lsTreeProps);
 const ns = useNamespace('tree');
 const comClass: string = ns.b();
 const treeClass = ns.b('box');
-
-const defAttrs: any = ref({
-  showCheckbox: true,
-  defaultExpandAll: true,
-  nodeKey: 'id',
-  checkStrictly: false,
-  defaultCheckedKeys: []
-});
 
 const lsTreeRef = ref();
 
@@ -40,8 +30,12 @@ const treeStyle = computed(() => {
   }
 });
 
+const curData: any = computed(() => {
+  return props.treeData;
+});
+
 watch(
-  () => props.data,
+  () => curData.value,
   async newVal => {
     if (newVal && newVal.length > 0) {
       isAllChecked.value = false;
@@ -62,7 +56,7 @@ watch(
 
 // 获取所有节点的key值
 function getAllNodeKeys() {
-  return props.data.reduce((keys: any, node: any) => {
+  return curData.value.reduce((keys: any, node: any) => {
     keys.push(node.id);
     if (node.children) {
       keys.push(...getAllChildKeys(node.children));
@@ -120,7 +114,7 @@ function filterNode(value: any, data: any) {
 
 // 点击的节点复选框的数据
 function handleCheck(data: any, checkeds: any) {
-  lsTreeRef.value.setCheckedNodes(excutePowerTree(props.data, data, checkeds));
+  lsTreeRef.value.setCheckedNodes(excutePowerTree(curData.value, data, checkeds));
   emitAll('handleCheck', data, checkeds);
 }
 
@@ -175,36 +169,38 @@ defineExpose({
 </script>
 
 <template>
-  <el-config-provider :locale="zhCn" :value-on-clear="undefined" :empty-values="[undefined, null]">
-    <div :class="comClass">
-      <el-checkbox v-if="isCheckAll" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
-        全选
-      </el-checkbox>
-      <el-tree
-        ref="lsTreeRef"
-        :class="[treeClass, !isExpand && 'expand-disabled']"
-        :style="treeStyle"
-        v-bind="merge(defAttrs, $attrs)"
-        :data="data"
-        :props="dataProps"
-        :expand-on-click-node="isExpand"
-        :filter-node-method="filterNode"
-        @check="handleCheck"
-        @check-change="handleChekChange"
-      >
-        <template #default="{ node, data }">
-          <span
-            class="custom-tree-node"
-            :class="{
-              'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
-            }"
-          >
-            <span>{{ node.label }}</span>
-          </span>
-        </template>
-      </el-tree>
-    </div>
-  </el-config-provider>
+  <div :class="comClass">
+    <el-checkbox v-if="isCheckAll" v-model="isAllChecked" :indeterminate="isIndeterminate" @change="handleCheckAllChange">
+      全选
+    </el-checkbox>
+    <el-tree
+      ref="lsTreeRef"
+      :show-checkbox="showCheckbox"
+      :default-expand-all="defaultExpandAll"
+      :node-key="nodeKey"
+      :check-strictly="isCheckStrictly"
+      :style="treeStyle"
+      :class="[treeClass, !isExpand && 'expand-disabled']"
+      :data="treeData"
+      :props="dataProps"
+      :default-checked-keys="defaultCheckedKeys"
+      :expand-on-click-node="isExpand"
+      :filter-node-method="filterNode"
+      @check="handleCheck"
+      @check-change="handleChekChange"
+    >
+      <template #default="{ node, data }">
+        <span
+          class="custom-tree-node"
+          :class="{
+            'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
+          }"
+        >
+          <span>{{ node.label }}</span>
+        </span>
+      </template>
+    </el-tree>
+  </div>
 </template>
 
 <style lang="scss" scoped>

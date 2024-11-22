@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import LSImage from './components/Image.vue';
-import LSDocx from './components/Docx.vue';
-import LSXlsx from './components/Xlsx.vue';
-import LSPdf from './components/Pdf.vue';
+// import LSImage from './components/Image.vue';
+// import LSDocx from './components/Docx.vue';
+// import LSXlsx from './components/Xlsx.vue';
+// import LSPdf from './components/Pdf.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 import { merge } from 'lodash-es';
 
+const LSImage = defineAsyncComponent(() => import('./components/Image.vue'));
+const LSDocx = defineAsyncComponent(() => import('./components/Docx.vue'));
+const LSXlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
+const LSPdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
+
 defineOptions({
   name: 'LSPreview',
-  components: {
-    LSImage,
-    LSDocx,
-    LSXlsx,
-    LSPdf
-  },
+  // components: {
+  //   LSImage,
+  //   LSDocx,
+  //   LSXlsx,
+  //   LSPdf
+  // },
   inheritAttrs: false
 });
 
@@ -37,17 +42,17 @@ const defAttrs: any = reactive({
 });
 const ns = useNamespace('preview');
 const comClass: string = ns.b();
-const cpoMap: any = reactive({
-  image: LSImage,
-  docx: LSDocx,
-  xlsx: LSXlsx,
-  pdf: LSPdf
-});
+// const cpoMap: any = reactive({
+//   image: LSImage,
+//   docx: LSDocx,
+//   xlsx: LSXlsx,
+//   pdf: LSPdf
+// });
 const loadInstance: any = ref();
 
-const curCpo = computed(() => {
-  return type?.value && cpoMap[type?.value];
-});
+// const curCpo = computed(() => {
+//   return type?.value && cpoMap[type?.value];
+// });
 
 watch(
   () => previewVisible?.value,
@@ -102,12 +107,10 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <component
-      :is="curCpo.name"
-      v-bind="merge(defAttrs, $attrs)"
-      @load-complete="loadComplete"
-      @load-error="loadError"
-    ></component>
+    <LSImage v-if="type == 'image'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <LSDocx v-if="type == 'docx'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <LSXlsx v-if="type == 'xlsx'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <LSPdf v-if="type == 'pdf'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
   </div>
 </template>
 
