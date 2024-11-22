@@ -22,6 +22,14 @@ function onClick() {
   const editor = lsEditorRef.value.editorRef;
   console.log(editor.getHtml());
 }
+const formData = ref({
+  content: '<div>测试内容</div>'
+});
+onMounted(() => {
+  setTimeout(() => {
+    formData.value.content = `<div>222222222222222222222</div>`;
+  }, 2000);
+});
 </script>
 
 <template>
@@ -31,6 +39,7 @@ function onClick() {
       :upload-server="uploadServer"
       :upload-token="uploadToken"
       :editor-config="editorConfig"
+      :value-html="formData.content"
       height="400px"
     />
 

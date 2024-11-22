@@ -644,8 +644,10 @@ const roleData = ref([
 const checkedPermissionIds = ref();
 setTimeout(() => {
   checkedPermissionIds.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
+  // console.log(checkedPermissionIds.value);
   setTimeout(() => {
-    checkedPermissionIds.value = [];
+    checkedPermissionIds.value = [20101];
+    // console.log(checkedPermissionIds.value);
   }, 2000);
 }, 2000);
 
@@ -674,26 +676,33 @@ function getTreeCheckedData(ids: any) {
 }
 
 const canPrint = ref(true);
+
+const visible = ref(false);
 </script>
 
 <template>
   <div>
     <LSTree
-      id="treeV"
-      :data="treeData"
+      :tree-data="treeData"
       :is-check-all="true"
       :show-checkbox="true"
       :default-checked-keys="checkedPermissionIds"
       direction="h"
     />
 
-    <LSTree :data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+    <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+
+    <br />
+    <LSButton @click="visible = true">测试</LSButton>
+    <LSDialog v-model="visible" title="基础用法Title">
+      <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+    </LSDialog>
 
     <br />
 
     <LSPrint content="正在测试打印功能" btn-txt="打印" :can-print="canPrint" :icon-config="{ name: 'Printer' }" type="primary">
       <LSTree
-        :data="treeData"
+        :tree-data="treeData"
         :is-check-all="false"
         :show-checkbox="true"
         :default-checked-keys="checkedPermissionIds"
