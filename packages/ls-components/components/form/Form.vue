@@ -160,7 +160,13 @@ defineExpose({
                   </template>
                 </FormItem>
 
-                <slot v-else :name="item.type" :slot-row="{ ...item }" />
+                <slot
+                  v-else
+                  :name="item.type"
+                  :slot-row="{ ...item }"
+                  :value="get(form, item.prop)"
+                  :update-form-data="updateFormData"
+                />
               </el-col>
             </template>
           </el-row>
@@ -186,7 +192,13 @@ defineExpose({
               </template>
             </FormItem>
 
-            <slot v-else :name="item.type" :slot-row="{ ...item }" />
+            <slot
+              v-else
+              :name="item.type"
+              :slot-row="{ ...item }"
+              :value="get(form, item.prop)"
+              :update-form-data="updateFormData"
+            />
           </template>
         </template>
 
