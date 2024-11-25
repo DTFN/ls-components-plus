@@ -294,7 +294,7 @@ defineExpose({
               <template v-else-if="item.type === 'status'">
                 <el-text
                   :type="
-                    ['default', 'follow'].includes(item.statusStyle || 'default') && getStatusType(item.value, row, item.prop)
+                    ['default', 'follow'].includes(item.statusStyle || 'default') ? getStatusType(item.value, row, item.prop) : ''
                   "
                   :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
                 >
