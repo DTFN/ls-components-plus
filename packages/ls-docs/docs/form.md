@@ -1013,6 +1013,18 @@ const attrTableData_1=[
     type: 'string[]',
     value: `['start', 'end']`
   },
+  {
+    name: 'isRow',
+    desc: '是否为一行',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'selectAll',
+    desc: 'select 多选时是否支持全选',
+    type: 'boolean',
+    value: 'true'
+  }
 ]
 
 const formItemTypeColumn=[
