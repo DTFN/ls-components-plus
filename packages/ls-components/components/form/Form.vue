@@ -120,7 +120,8 @@ function onChange(value: any, prop: string) {
 defineExpose({
   FormRef,
   validate,
-  submitForm
+  submitForm,
+  resetForm
 });
 </script>
 

@@ -391,7 +391,7 @@ defineExpose({
         @change="onChange(modelValue, prop as string)"
       >
         <!-- 多选和有数据下支持全选 -->
-        <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
+        <template v-if="attrs && attrs.multiple && !isEmpty(options) && selectAll" #header>
           <el-checkbox v-model="selectCheckAll" :indeterminate="selectIndeterminate" @change="handleSelectCheckAll">
             全部
           </el-checkbox>
