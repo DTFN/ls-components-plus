@@ -176,5 +176,13 @@ export const lsFormItemProps = buildProps({
   radioType: {
     type: String,
     default: ''
+  },
+  isRow: {
+    type: Boolean,
+    default: false
+  },
+  selectAll: {
+    type: Boolean,
+    default: true
   }
 } as const);
