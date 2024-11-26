@@ -387,7 +387,7 @@ defineExpose({
                 type="primary"
                 @click="onDetail(row[tableRowKey], row)"
               >
-                查看
+                {{ tableDetailText || '查看' }}
               </el-button>
 
               <el-button
@@ -397,7 +397,7 @@ defineExpose({
                 type="primary"
                 @click="onEdit(row[tableRowKey], row)"
               >
-                编辑
+                {{ tableEditText || '编辑' }}
               </el-button>
 
               <el-popconfirm
@@ -417,7 +417,7 @@ defineExpose({
                     :disabled="delLoading || disabledTableDel(row)"
                     :loading="delLoading && delId === row[tableRowKey]"
                   >
-                    {{ delLoading && delId === row[tableRowKey] ? '' : '删除' }}
+                    {{ delLoading && delId === row[tableRowKey] ? '' : tableDelText || '删除' }}
                   </el-button>
                 </template>
               </el-popconfirm>
