@@ -446,6 +446,24 @@ const attrTableData=[
     type: 'string',
     value: '默认: 当前页路由地址/edit/:id'
   },
+  {
+    name: 'tableDetailText',
+    desc: '表格查看按钮文案',
+    type: 'string',
+    value: '查看'
+  },
+  {
+    name: 'tableEditText',
+    desc: '表格编辑按钮文案',
+    type: 'string',
+    value: '编辑'
+  },
+  {
+    name: 'tableDelText',
+    desc: '表格删除按钮文案',
+    type: 'string',
+    value: '删除'
+  }
 ]
 
 // 事件

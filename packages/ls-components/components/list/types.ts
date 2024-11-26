@@ -197,5 +197,20 @@ export const lsListProps = buildProps({
   editRoutePath: {
     type: String,
     default: ''
+  },
+  // 表格查看按钮文案
+  tableDetailText: {
+    type: String,
+    default: '查看'
+  },
+  // 表格编辑按钮文案
+  tableEditText: {
+    type: String,
+    default: '编辑'
+  },
+  // 表格删除按钮文案
+  tableDelText: {
+    type: String,
+    default: '删除'
   }
 } as const);
