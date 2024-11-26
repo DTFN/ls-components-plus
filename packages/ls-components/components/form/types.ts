@@ -47,6 +47,10 @@ export const lsFormProps = buildProps({
     type: String,
     default: '确认'
   },
+  resetText: {
+    type: String,
+    default: '重置'
+  },
   confirmClassName: {
     type: String,
     default: ''

@@ -802,6 +802,12 @@ const attrTableData=[
     value: '确认'
   },
   {
+    name: 'resetText',
+    desc: 'reset 文案',
+    type: 'string',
+    value: '重置'
+  },
+  {
     name: 'confirmClassName',
     desc: 'confirm 按钮 className',
     type: 'string',

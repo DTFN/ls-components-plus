@@ -210,7 +210,7 @@ defineExpose({
             {{ confirmText }}
           </el-button>
 
-          <el-button v-if="showReset" @click="resetForm(FormRef)"> 重置 </el-button>
+          <el-button v-if="showReset" @click="resetForm(FormRef)">{{ resetText || '重置' }}</el-button>
         </el-form-item>
       </el-form>
     </el-config-provider>
