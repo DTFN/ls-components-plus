@@ -139,6 +139,13 @@ onMounted(() => {
   }
   :deep(> .el-menu-item),
   :deep(.el-sub-menu__title) {
+    & [class^='ls-icon'],
+    [class^='el-icon'] {
+      width: auto;
+    }
+    & [class^='el-icon'] {
+      margin-right: 0;
+    }
     &:hover {
       background-color: var(--el-fill-color-light);
       outline: none;

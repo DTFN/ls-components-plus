@@ -68,6 +68,8 @@ const separatorStyle = computed(() => {
   }
 }
 .separator {
+  position: relative;
+  top: -1px;
   display: inline-block;
   margin-right: 4px;
   margin-left: 8px;
