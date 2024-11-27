@@ -22,6 +22,7 @@ interface itemType {
   limitFile?: Array<string>;
   limitFileMsg?: string;
   limitSize?: number;
+  limitUnit?: 'GB' | 'MB' | 'KB';
   limitSizeMsg?: string;
   limitNumMsg?: string;
   isToast?: boolean;

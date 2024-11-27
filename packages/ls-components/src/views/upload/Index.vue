@@ -89,7 +89,12 @@ function formValidateFunc() {
     <LSUpload list-type="picture-card" :action="action" :item="{ hideCoverBtn: true }"> </LSUpload>
 
     <br />
-    <LSUpload list-type="picture-card" :action="action" :auto-upload="false" :item="{ profile: true, defProfile: logoImg }">
+    <LSUpload
+      list-type="picture-card"
+      :action="action"
+      :auto-upload="false"
+      :item="{ profile: true, defProfile: logoImg, limitSize: 100, limitUnit: 'KB' }"
+    >
       <template #tip>
         <div>12312312</div>
       </template>

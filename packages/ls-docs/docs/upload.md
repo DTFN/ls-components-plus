@@ -416,9 +416,15 @@ const fileList = ref([{ name: '', url: '' }]);
     },
     {
       name: 'limitSize',
-      desc: '文件大小限制，默认2M, 以M为单位',
+      desc: '文件大小限制，默认2MB, 以MB为单位',
       type: 'number',
       value: '-'
+    },
+    {
+      name: 'limitUnit',
+      desc: '文件大小限制单位, 默认为MB，支持類型 GB/MB/KB',
+      type: 'string',
+      value: 'MB'
     },
     {
       name: 'limitSizeMsg',
