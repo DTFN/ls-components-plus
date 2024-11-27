@@ -147,16 +147,39 @@ function getOptionsLabel(value: string | string[], options: any[], multiple?: bo
 function seachCascaderOptions(value: string[], options: any[], index: number = 0, val: string = '') {
   let valStr = val;
   if (!isEmpty(value) && !isEmpty(options)) {
+    const valueField = props.attrs?.props?.value || 'value';
+    const labelField = props.attrs?.props?.label || 'label';
     const f_v = value[index];
     if (!isEmpty(f_v)) {
-      const f_o = options.find(_ => _.value === f_v);
-      if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
-        valStr = `${f_o?.label}`;
+      const checkStrictly = props.attrs?.props?.checkStrictly;
+      if (checkStrictly) {
+        const findOption: any = (opts: any[], targetValue: string) => {
+          for (const opt of opts) {
+            if (opt[valueField] === targetValue) {
+              return opt;
+            }
+            if (opt.children) {
+              const found = findOption(opt.children, targetValue);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+
+        const foundOption = findOption(options, f_v);
+        if (foundOption) {
+          valStr = foundOption[labelField];
+        }
       } else {
-        valStr = `${valStr ? `${valStr}/` : ''}${f_o?.label}`;
-      }
-      if (!isEmpty(f_o?.children)) {
-        valStr = seachCascaderOptions(value, f_o?.children, index + 1, valStr);
+        const f_o = options.find(_ => _[valueField] === f_v);
+        if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+          valStr = `${f_o?.[labelField]}`;
+        } else {
+          valStr = `${valStr ? `${valStr}/` : ''}${f_o?.[labelField]}`;
+        }
+        if (!isEmpty(f_o?.children)) {
+          valStr = seachCascaderOptions(value, f_o?.children, index + 1, valStr);
+        }
       }
     }
   }
@@ -169,8 +192,9 @@ function getCascaderOptionsLabel(value: string[], options: any[], multiple?: boo
   if (options && !isEmpty(value)) {
     if (multiple) {
       val = '';
+      const checkStrictly = props.attrs?.props?.checkStrictly;
       value.forEach((item: any) => {
-        val = `${val ? `${val},` : ''}${seachCascaderOptions(item, options)}`;
+        val = `${val ? `${val},` : ''}${seachCascaderOptions(checkStrictly ? [item] : item, options)}`;
       });
     } else {
       val = seachCascaderOptions(value, options);
