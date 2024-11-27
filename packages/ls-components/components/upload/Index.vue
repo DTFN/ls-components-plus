@@ -141,6 +141,17 @@ const props = defineProps(lsUploadProps);
 
 const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
 
+watch(
+  () => attrs['file-list'],
+  (val: any) => {
+    configs.uploadFileList = val || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const isToast = computed(() => {
   return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
 });
@@ -461,7 +472,7 @@ function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
 function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
   configs.initUploadStatus = !fileList.length;
   configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
-    if (item.uid === file.uid) {
+    if (item.uid === file.uid || item.name === file.name) {
       return null;
     }
     return item;

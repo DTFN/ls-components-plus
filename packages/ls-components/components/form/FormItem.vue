@@ -297,6 +297,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       >
         <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
           <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />

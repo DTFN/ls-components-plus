@@ -422,7 +422,7 @@ const fileList = ref([{ name: '', url: '' }]);
     },
     {
       name: 'limitUnit',
-      desc: '文件大小限制单位, 默认为MB，支持類型 GB/MB/KB',
+      desc: '文件大小限制单位, 默认为MB，支持类型 GB/MB/KB',
       type: 'string',
       value: 'MB'
     },

@@ -14,12 +14,12 @@ const item2 = ref({
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;
-// const fileList = ref<any[]>([
-//   {
-//     name: 'food.jpeg',
-//     url: logoImg
-//   }
-// ]);
+const fileList = ref<any[]>([
+  {
+    name: 'food.jpeg',
+    url: logoImg
+  }
+]);
 
 function httpResponseFunc(res: any) {
   const {
@@ -94,6 +94,7 @@ function formValidateFunc() {
       :action="action"
       :auto-upload="false"
       :item="{ profile: true, defProfile: logoImg, limitSize: 100, limitUnit: 'KB' }"
+      :file-list="fileList"
     >
       <template #tip>
         <div>12312312</div>
