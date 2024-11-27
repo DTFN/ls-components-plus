@@ -106,8 +106,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     // 依赖预加载
     optimizeDeps: {
-      include: ['element-plus/es/**', '@vueuse/core', '@element-plus/icons-vue'],
-      exclude: ['pdfjs-dist']
+      include: ['element-plus/es/**', '@vueuse/core', '@element-plus/icons-vue']
     },
     // scss 全局变量
     css: {
