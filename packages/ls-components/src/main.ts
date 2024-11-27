@@ -5,13 +5,12 @@ import App from './App.vue';
 
 import print from 'vue3-print-nb';
 
-import LSWebPlus from '@cpo/main';
-
 // import { LSButton, LSMenu, LSBellMessage, LSBreadcrumb, LSLayout, vAuth } from '@cpo/main';
 
 // import LSWebPlus from '../lib/index';
 // import { vAuth } from '../lib/directives';
 
+import LSWebPlus from '@cpo/main';
 // import LSWebPlus from '@lingshugroup/web-plus';
 import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
