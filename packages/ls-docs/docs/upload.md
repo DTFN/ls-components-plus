@@ -473,6 +473,18 @@ const fileList = ref([{ name: '', url: '' }]);
       desc: '用户头像模式',
       type: 'boolean',
       value: false
+    },
+    {
+      name: 'defProfile',
+      desc: '用户头像模式时，默认展示图片样式',
+      type: 'string',
+      value: '-'
+    },
+    {
+      name: 'hideCoverBtn',
+      desc: '覆盖模式，上传图片后是否隐藏上传按钮',
+      type: 'boolean',
+      value: false
     }
   ])
 

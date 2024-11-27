@@ -33,6 +33,10 @@ interface itemType {
   textPreview?: Array<string>;
   // 是否是头像模式
   profile?: string;
+  // 默认展示的头像图片
+  defProfile?: string;
+  // 覆盖上传后是否隐藏上传按钮
+  hideCoverBtn?: boolean;
 }
 
 export const lsUploadProps = buildProps({

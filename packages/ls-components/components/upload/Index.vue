@@ -1,5 +1,5 @@
 <template>
-  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '']">
+  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '', isHideCover ? 'hide-cover-btn' : '']">
     <el-upload
       ref="uploadRef"
       v-bind="merge(defAttrs, $attrs)"
@@ -37,12 +37,15 @@
           </template>
           <slot v-else name="trigger"> </slot>
         </template>
+        <template v-else-if="item.defProfile && configs.uploadFileList.length < 1">
+          <el-avatar :size="60" :src="item.defProfile" fit="contain" />
+        </template>
       </template>
 
       <template #default>
         <template v-if="!slots.default">
           <div
-            v-if="!autoUpload"
+            v-if="!autoUpload && (isDefault || isDrag)"
             class="upload-btn-handle"
             :class="[isDrag ? 'drag-css' : 'nor-css', !isCover || isMultiple ? 'multi-css' : '']"
           >
@@ -162,6 +165,9 @@ const listType = computed(() => {
 const isPicCard = computed(() => {
   return listType.value === UPLOAD_TYPE_MAP.picCard;
 });
+const isDefault = computed(() => {
+  return !listType.value || listType.value == 'text';
+});
 const limitFile = computed(() => {
   return props?.item?.limitFile || [];
 });
@@ -182,6 +188,9 @@ const isProfile = computed(() => {
 });
 const isDrag = computed(() => {
   return attrs.drag;
+});
+const isHideCover = computed(() => {
+  return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0;
 });
 const btnText = computed(() => {
   const hint = isPicCard.value ? '图片' : '文件';
@@ -438,6 +447,12 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
   if (props.onRemove) {
     return props.onRemove(file, fileList);
   }
+  configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
+    if (item.uid === file.uid) {
+      return null;
+    }
+    return item;
+  });
 }
 
 function onPreviewAction(file: UploadFile) {
@@ -735,7 +750,9 @@ defineExpose({
       box-shadow: 0 0 2px #73767a;
       .el-upload-list__item {
         background-color: transparent;
-        &.is-success {
+        &.is-success,
+        &.is-ready {
+          z-index: 2;
           width: 100%;
           height: 100%;
           margin: 0;
@@ -752,13 +769,20 @@ defineExpose({
       width: 100%;
       height: 100%;
       border: 0;
-      opacity: 0;
     }
     :deep(.el-upload-list__item-actions) {
       position: absolute;
       top: 0;
       left: 0;
       z-index: 1;
+    }
+    :deep(.el-upload-list__item-status-label) {
+      display: none;
+    }
+  }
+  &.hide-cover-btn {
+    :deep(.el-upload--picture-card) {
+      display: none;
     }
   }
 }
