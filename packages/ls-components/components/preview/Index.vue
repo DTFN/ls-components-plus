@@ -8,11 +8,6 @@ import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 import { merge } from 'lodash-es';
 
-const LSImage = defineAsyncComponent(() => import('./components/Image.vue'));
-const LSDocx = defineAsyncComponent(() => import('./components/Docx.vue'));
-const LSXlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
-const LSPdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
-
 defineOptions({
   name: 'LSPreview',
   // components: {
@@ -42,17 +37,17 @@ const defAttrs: any = reactive({
 });
 const ns = useNamespace('preview');
 const comClass: string = ns.b();
-// const cpoMap: any = reactive({
-//   image: LSImage,
-//   docx: LSDocx,
-//   xlsx: LSXlsx,
-//   pdf: LSPdf
-// });
+const cpoMap: any = shallowRef({
+  image: null,
+  docx: null,
+  xlsx: null,
+  pdf: null
+});
 const loadInstance: any = ref();
 
-// const curCpo = computed(() => {
-//   return type?.value && cpoMap[type?.value];
-// });
+const curCpo = computed(() => {
+  return type?.value && cpoMap[type?.value];
+});
 
 watch(
   () => previewVisible?.value,
@@ -80,6 +75,22 @@ watch(
 
 function openLoading() {
   props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+  switch (props.type) {
+    case 'image':
+      cpoMap.image = defineAsyncComponent(() => import('./components/Image.vue'));
+      break;
+    case 'docx':
+      cpoMap.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
+      break;
+    case 'xlsx':
+      cpoMap.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
+      break;
+    case 'pdf':
+      cpoMap.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
+      break;
+    default:
+      break;
+  }
 }
 
 const closeLoading = () => {
@@ -107,10 +118,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <LSImage v-if="type == 'image'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
-    <LSDocx v-if="type == 'docx'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
-    <LSXlsx v-if="type == 'xlsx'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
-    <LSPdf v-if="type == 'pdf'" v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <component
+      v-if="curCpo"
+      :is="curCpo"
+      v-bind="merge(defAttrs, $attrs)"
+      @load-complete="loadComplete"
+      @load-error="loadError"
+    ></component>
   </div>
 </template>
 
