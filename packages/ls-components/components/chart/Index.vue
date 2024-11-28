@@ -67,6 +67,7 @@ async function setChartOption() {
       customOption: props.customOption
     });
   } else {
+    console.log(props.customOption);
     chartOption.value = props.customOption;
   }
   if (echartObj.value) {

@@ -503,6 +503,27 @@ function changeChartStyle() {
         height="400"
       />
 
+      <LSChart
+        :data="dataSimpleLine"
+        :template-patch="templateAllLine.templateSimpleLine"
+        :custom-option="{
+          xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [150, 230, 224, 218, 135, 147, 260],
+              type: 'line'
+            }
+          ]
+        }"
+        :style="{ marginTop: '16px' }"
+      />
+
       <el-divider content-position="left">饼图</el-divider>
 
       <LSChart
