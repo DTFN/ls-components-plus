@@ -62,7 +62,7 @@ function formValidateFunc() {
 
 <template>
   <div>
-    <LSUpload :action="action"></LSUpload>
+    <LSUpload :action="action" :disabled="true"></LSUpload>
 
     <br />
 

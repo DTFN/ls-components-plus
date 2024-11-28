@@ -16,7 +16,7 @@
         <template v-if="!isProfile">
           <template v-if="!slots.trigger">
             <template v-if="isDrag">
-              <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+              <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
               <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
               <div class="ls-drag">
                 <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
@@ -28,11 +28,11 @@
             </template>
             <template v-else>
               <div v-if="isPicCard" class="btn-picture-card">
-                <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+                <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
                 <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
                 <div>{{ btnText }}</div>
               </div>
-              <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
+              <LSButton v-else plain icon="upload" :loading="uploading" :disabled="disabled">{{ btnText }}</LSButton>
             </template>
           </template>
           <slot v-else name="trigger"> </slot>
@@ -55,6 +55,7 @@
               class="ls-upload-btn-com ls-upload-btn-comfirm"
               :class="{ 'is-ready': hasReadyFile() }"
               :loading="uploading"
+              :disabled="disabled"
               @click="comfirmUpload"
               >开始上传
             </LSButton>
@@ -62,6 +63,8 @@
               <LSButton
                 v-if="!isCover || isMultiple"
                 type="primary"
+                :loading="uploading"
+                :disabled="disabled"
                 @click="cancelUpload"
                 class="ls-upload-btn-com ls-upload-btn-cancel"
                 >取消上传</LSButton
@@ -71,6 +74,7 @@
                 :class="{ 'is-ready': hasReadyFile() }"
                 type="primary"
                 :loading="uploading"
+                :disabled="disabled"
                 @click="comfirmUpload"
                 >开始上传</LSButton
               >
@@ -126,7 +130,7 @@ const uploading = ref(false);
 const defAttrs: any = reactive({
   isCover: true,
   accept: '',
-  disabled: uploading
+  disabled: false
 });
 const configs: configsType = reactive({
   uploadFileList: [],
@@ -205,6 +209,9 @@ const isDrag = computed(() => {
 });
 const isHideCover = computed(() => {
   return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0;
+});
+const disabled = computed(() => {
+  return attrs.disabled;
 });
 const btnText = computed(() => {
   const hint = isPicCard.value ? '图片' : '文件';
