@@ -21,13 +21,29 @@ const visible = defineModel({
 const ns = useNamespace('dialog');
 const comClass: string = ns.b();
 
+const lsDialogRef = ref();
+
 const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
   closeOnPressEscape: false,
-  zIndex: 2000,
-  maxHeight: '600px'
+  zIndex: 2000
 });
+
+const sHeight = ref(0);
+
+watch(
+  () => visible?.value,
+  val => {
+    if (val) {
+      updateHeight();
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 const curBtnCancelConfig = computed(() => {
   return merge(
@@ -42,7 +58,7 @@ const curBtnConfirmConfig = computed(() => {
   return merge(
     {
       type: 'primary',
-      txt: '确定'
+      txt: '确认'
     },
     props.btnConfirmConfig
   );
@@ -56,12 +72,21 @@ function handleClose() {
 function handleConfirm() {
   emits('onConfirm');
 }
+
+async function updateHeight() {
+  await nextTick();
+  sHeight.value = parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - 108;
+}
+
+defineExpose({
+  updateHeight
+});
 </script>
 
 <template>
-  <div :class="comClass">
+  <div ref="lsDialogRef" :class="comClass">
     <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
-      <el-scrollbar v-bind="merge(defAttrs, $attrs)" v-loading="contentLoading">
+      <el-scrollbar v-bind="merge(defAttrs, $attrs)" :height="sHeight" v-loading="contentLoading">
         <slot></slot>
       </el-scrollbar>
       <template #header>
@@ -86,7 +111,7 @@ function handleConfirm() {
 .ls-dialog {
   position: relative;
   :deep(.el-dialog) {
-    max-height: 80%;
+    max-height: 78%;
   }
 }
 </style>
