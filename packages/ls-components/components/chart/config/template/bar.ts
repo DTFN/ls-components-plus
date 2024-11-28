@@ -16,7 +16,7 @@ const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
     legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
-  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value}</span>` : '';
+  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value || '-'}</span>` : '';
   const badgeHtml =
     value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
@@ -58,11 +58,11 @@ const setTooltip = (templatePatch: any) => {
 };
 
 const setLegend = (templatePatch: any) => {
-  const { legend, theme } = templatePatch;
+  const { legend, legendIcon = 'rect', theme } = templatePatch;
   return {
     type: 'scroll',
     data: legend || [],
-    icon: 'rect',
+    icon: legendIcon,
     itemWidth: 12,
     itemHeight: 10,
     textStyle: {

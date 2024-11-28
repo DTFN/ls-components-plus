@@ -67,13 +67,16 @@ async function setChartOption() {
       customOption: props.customOption
     });
   } else {
-    console.log(props.customOption);
     chartOption.value = props.customOption;
   }
   if (echartObj.value) {
     echartObj.value.setOption(chartOption.value, {
       notMerge: true
     });
+  } else {
+    await nextTick();
+    initChart();
+    setChartOption();
   }
 }
 
@@ -124,6 +127,9 @@ defineExpose({
     &:last-child {
       margin-bottom: 0;
     }
+  }
+  .serise-name {
+    margin-right: 16px;
   }
   .serise-name,
   .value {

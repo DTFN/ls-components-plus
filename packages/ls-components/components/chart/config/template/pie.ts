@@ -36,7 +36,8 @@ const setLegend = ({
   legendRight: right = 'auto',
   legendTop: top = 'auto',
   legendBottom: bottom = 'auto',
-  legendTextColor: color = '#2C2C2C'
+  legendTextColor: color = '#2C2C2C',
+  legendIcon = 'rect'
 }) => {
   return {
     type,
@@ -46,7 +47,7 @@ const setLegend = ({
     right,
     top,
     bottom,
-    icon: 'rect',
+    icon: legendIcon,
     itemGap: 20,
     itemWidth: 14,
     itemHeight: 10,

@@ -15,7 +15,7 @@ const setTooltipFormat = (data: any, legend: any, i: any, defBarColor: any) => {
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
     legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
-  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value}</span>` : '';
+  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value || '-'}</span>` : '';
   const badgeHtml =
     value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
@@ -57,11 +57,11 @@ const setTooltip = (templatePatch: any) => {
 };
 
 const setLegend = (templatePatch: any) => {
-  const { legend, theme } = templatePatch;
+  const { legend, legendIcon = 'rect', theme } = templatePatch;
   return {
     type: 'scroll',
     data: legend || [],
-    icon: 'rect',
+    icon: legendIcon,
     itemWidth: 12,
     itemHeight: 10,
     textStyle: {
@@ -241,7 +241,11 @@ const setSeries = (data: any, templatePatch: any) => {
           focus: 'series'
         },
         smooth,
-        areaStyle: areaStyle ? { ...areaStyle, opacity: 0.2 } : undefined,
+        areaStyle: areaStyle
+          ? areaStyle
+          : {
+              opacity: 0.2
+            },
         label: {
           show: showBarFont,
           position: labelPosition
@@ -250,6 +254,7 @@ const setSeries = (data: any, templatePatch: any) => {
         backgroundStyle: {
           color: BG_BAR_COLOR_MAP[theme || DEF_THEME]
         },
+        itemStyle: item.itemStyle || {},
         data: item.data || []
       };
       if (lineBar) {
@@ -278,7 +283,7 @@ const setSeries = (data: any, templatePatch: any) => {
         data: seriesData || [],
         smooth,
         // 设置填充透明度
-        areaStyle: areaStyle ? { ...areaStyle, opacity: 0.2 } : undefined,
+        areaStyle: areaStyle ? areaStyle : { opacity: 0.2 },
         type: 'line'
       }
     ];

@@ -66,7 +66,7 @@ const templateAll: any = ref({
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   // seriesData: [120, 200, 150, 80, 70, 110, 0]
-  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, 120.2]
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null]
 };
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -254,6 +254,7 @@ const templateAllLine: any = ref({
     areaStyle: {},
     tooltip: 'cross',
     legend: ['Email', 'name', 'address'],
+    legendIcon: 'circle',
     dataZoom: 'horizontal'
     // dynamicAxis: true
   },
@@ -274,7 +275,7 @@ const templateAllLine: any = ref({
 
 const dataSimpleLine: any = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 130]
+  seriesData: [null, 200, 150, 80, 70, 110, 130]
 };
 const dataMultipleLine: any = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -314,7 +315,10 @@ const dynamicLine: any = {
   seriesData: [
     {
       type: 'line',
-      data: temperatureData.map(item => item.propertyValue)
+      data: temperatureData.map(item => item.propertyValue),
+      itemStyle: {
+        color: 'rgba(232, 41, 41, 1)'
+      }
     }
   ]
 };
@@ -522,6 +526,8 @@ function changeChartStyle() {
           ]
         }"
         :style="{ marginTop: '16px' }"
+        width="800"
+        height="400"
       />
 
       <el-divider content-position="left">饼图</el-divider>

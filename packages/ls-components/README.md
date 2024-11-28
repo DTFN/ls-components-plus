@@ -14,6 +14,10 @@
 
 #### 1. dialog 滚动条高度适配
 
+#### 2. upload disabled
+
+#### 3. chart 提示框间距，
+
 ## 安装
 
 ```shell
