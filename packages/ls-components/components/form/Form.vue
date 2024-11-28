@@ -143,7 +143,13 @@ defineExpose({
           <el-row :gutter="10">
             <template v-for="item in formItems" :key="item.prop">
               <el-col :span="item.isRow ? 24 : 24 / column">
-                <slot v-if="item.type === 'slot'" :name="item.prop" :slot-row="{ ...item }" />
+                <slot
+                  v-if="item.type === 'slot'"
+                  :name="item.prop"
+                  :slot-row="{ ...item }"
+                  :value="get(form, item.prop)"
+                  :update-form-data="updateFormData"
+                />
 
                 <FormItem
                   v-else-if="ITEM_TYPES.includes(item.type)"
@@ -175,7 +181,13 @@ defineExpose({
 
         <template v-else>
           <template v-for="item in formItems" :key="item.prop">
-            <slot v-if="item.type === 'slot'" :name="item.prop" :slot-row="{ ...item }" />
+            <slot
+              v-if="item.type === 'slot'"
+              :name="item.prop"
+              :slot-row="{ ...item }"
+              :value="get(form, item.prop)"
+              :update-form-data="updateFormData"
+            />
 
             <FormItem
               v-else-if="ITEM_TYPES.includes(item.type)"
