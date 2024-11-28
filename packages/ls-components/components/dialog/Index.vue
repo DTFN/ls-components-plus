@@ -75,7 +75,8 @@ function handleConfirm() {
 
 async function updateHeight() {
   await nextTick();
-  sHeight.value = parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - 108;
+  const h = props.hasFooter ? 108 : 60;
+  sHeight.value = parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - h;
 }
 
 defineExpose({
@@ -86,7 +87,7 @@ defineExpose({
 <template>
   <div ref="lsDialogRef" :class="comClass">
     <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
-      <el-scrollbar v-bind="merge(defAttrs, $attrs)" :height="sHeight" v-loading="contentLoading">
+      <el-scrollbar v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
         <slot></slot>
       </el-scrollbar>
       <template #header>
