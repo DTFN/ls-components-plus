@@ -141,6 +141,17 @@ const props = defineProps(lsUploadProps);
 
 const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
 
+watch(
+  () => attrs['file-list'],
+  (val: any) => {
+    configs.uploadFileList = val || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const isToast = computed(() => {
   return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
 });
@@ -179,6 +190,9 @@ const limitSize = computed(() => {
 });
 const limitSizeMsg = computed(() => {
   return props?.item?.limitSizeMsg || '';
+});
+const limitUnit = computed(() => {
+  return props?.item?.limitUnit || 'MB';
 });
 const limitNumMsg = computed(() => {
   return props?.item?.limitNumMsg || '';
@@ -223,7 +237,7 @@ const tipText = computed(() => {
   if (isPicCard.value) {
     text = '文件须为图片格式，';
   }
-  return `${text}文件大小不超过${limitSize.value}M`;
+  return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`;
 });
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
@@ -319,7 +333,20 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
   let isSuccess: Boolean = true;
   const { size, name } = file;
   const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name);
-  const isLimitSize = size / 1024 / 1024 > limitSize.value;
+
+  let isLimitSize = false;
+  switch (limitUnit.value) {
+    case 'KB':
+      isLimitSize = size / 1024 > limitSize.value;
+      break;
+    case 'MB':
+      isLimitSize = size / 1024 / 1024 > limitSize.value;
+      break;
+    default:
+      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value;
+      break;
+  }
+
   if (isLimitFile) {
     const msg =
       limitFileMsg.value ||
@@ -337,7 +364,7 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
     isSuccess = false;
   }
   if (isLimitSize) {
-    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}MB！`;
+    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`;
     if (isToast.value && showMsg) {
       setTimeout(() => {
         ElMessage.error(msg);
@@ -444,15 +471,15 @@ function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
 
 function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
   configs.initUploadStatus = !fileList.length;
-  if (props.onRemove) {
-    return props.onRemove(file, fileList);
-  }
   configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
-    if (item.uid === file.uid) {
+    if (item.uid === file.uid || item.name === file.name) {
       return null;
     }
     return item;
   });
+  if (props.onRemove) {
+    return props.onRemove(file, fileList);
+  }
 }
 
 function onPreviewAction(file: UploadFile) {
