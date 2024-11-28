@@ -218,7 +218,15 @@ defineExpose({
         <slot />
 
         <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
-          <el-button type="primary" :class="confirmClassName" :loading="loading && showBtnLoading" @click="submitForm(FormRef)">
+          <slot v-if="$slots['buttons-prepend']" name="buttons-prepend" />
+
+          <el-button
+            v-if="showSubmit"
+            type="primary"
+            :class="confirmClassName"
+            :loading="loading && showBtnLoading"
+            @click="submitForm(FormRef)"
+          >
             {{ confirmText }}
           </el-button>
 
