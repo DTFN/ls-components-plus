@@ -796,6 +796,12 @@ const attrTableData=[
     value: 'true'
   },
   {
+    name: 'showSubmit',
+    desc: '是否显示confirm按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
     name: 'confirmText',
     desc: 'confirm 文案',
     type: 'string',
@@ -866,6 +872,10 @@ const slotTableData=[
   {
     name: 'default',
     desc: '后置自定义内容',
+  },
+  {
+    name: 'buttons-prepend',
+    desc: '按钮前置自定义内容',
   },
 ]
 
@@ -1140,6 +1150,22 @@ const slotTableData_1=[
   {
     name: '[prop]-label-icon/tooltip-icon',
     desc: 'label 右侧图标,tooltip时展示',
+  },
+  {
+    name: '[prop]-input-prefix',
+    desc: 'type为input/inputRange/inputNumberRange时，input 前置自定义内容',
+  },
+  {
+    name: '[prop]-input-suffix',
+    desc: 'type为input/inputRange/inputNumberRange时，input 后置自定义内容',
+  },
+  {
+    name: '[prop]-input-prepend',
+    desc: 'type为input/inputRange时，input 前置自定义内容',
+  },
+  {
+    name: '[prop]-input-append',
+    desc: 'type为input/inputRange时，input 后置自定义内容',
   },
 ]
 

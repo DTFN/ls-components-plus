@@ -500,7 +500,23 @@ defineExpose({
           :disabled="disabled"
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
-        />
+        >
+          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
+            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
+            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
+            <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-append`]" #append>
+            <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
+          </template>
+        </el-input>
       </div>
 
       <!-- 数字取值范围 -->
@@ -521,7 +537,15 @@ defineExpose({
           :disabled="disabled"
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
-        />
+        >
+          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
+            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
+            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          </template>
+        </el-input-number>
       </div>
 
       <!-- 自定义 -->
