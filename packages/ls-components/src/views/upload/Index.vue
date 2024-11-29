@@ -14,12 +14,17 @@ const item2 = ref({
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;
+const defImg = new URL('@/assets/default_head.png', import.meta.url).href;
 const fileList = ref<any[]>([
   {
     name: 'food.jpeg',
-    url: logoImg
+    url: defImg
   }
 ]);
+
+function testFunc() {
+  fileList.value = [];
+}
 
 function httpResponseFunc(res: any) {
   const {
@@ -100,6 +105,8 @@ function formValidateFunc() {
         <div>12312312</div>
       </template>
     </LSUpload>
+
+    <LSButton @click="testFunc">Test</LSButton>
 
     <br />
     <LSUpload list-type="picture-card" :action="action" :drag="true" :auto-upload="false" :item="{ isCover: false }"> </LSUpload>
