@@ -12,11 +12,7 @@
 
 ## 更新记录
 
-#### 1. dialog 滚动条高度适配
-
-#### 2. upload disabled
-
-#### 3. chart 提示框间距，
+#### 1. chart 提示框badge样式修改
 
 ## 安装
 

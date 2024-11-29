@@ -40,6 +40,7 @@ const templateAll: any = ref({
     type: 'negative',
     tooltip: 'shadow',
     legend: ['收入', '支出'],
+    legendIcon: 'circle',
     dynamicAxis: true
   },
   templatePatchWaterfall: {

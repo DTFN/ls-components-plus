@@ -147,6 +147,10 @@ defineExpose({
       width: 12px;
       height: 10px;
       margin-right: 4px;
+      &.circle {
+        width: 10px;
+        border-radius: 50%;
+      }
     }
   }
   &.dark {
