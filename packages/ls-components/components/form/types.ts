@@ -43,6 +43,10 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: true
   },
+  showSubmit: {
+    type: Boolean,
+    default: true
+  },
   confirmText: {
     type: String,
     default: '确认'
