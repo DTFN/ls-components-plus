@@ -71,7 +71,13 @@ export const lsFormProps = buildProps({
     type: String,
     default: '--'
   },
+  // 详情样式，锦鲤适用
   hasDefReadStyle: {
+    type: Boolean,
+    default: false
+  },
+  // 隐藏某一列，锦鲤适用
+  hideColumn: {
     type: Boolean,
     default: false
   }
