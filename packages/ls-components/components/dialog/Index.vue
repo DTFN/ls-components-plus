@@ -119,6 +119,25 @@ defineExpose({
     overflow: hidden;
     .el-dialog__body {
       max-height: 63vh !important;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 4px;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(#909399, 0.3);
+        border-radius: 4px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(#909399, 0.5);
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 4px;
+      }
     }
   }
 }

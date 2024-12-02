@@ -93,7 +93,7 @@ function testDialog() {
       <template #header>
         <div>弹窗头部</div>
       </template>
-      <div>弹窗内容弹窗内</div>
+      <div style="height: 600px">弹窗内容弹窗内</div>
       <LSForm
         ref="FormRef"
         label-position="top"
