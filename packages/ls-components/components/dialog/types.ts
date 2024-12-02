@@ -24,6 +24,10 @@ export const lsDialogProp = buildProps({
   contentLoading: {
     type: Boolean,
     default: false
+  },
+  openScroll: {
+    type: Boolean,
+    default: false
   }
 });
 

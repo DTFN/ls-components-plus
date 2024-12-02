@@ -87,9 +87,12 @@ defineExpose({
 <template>
   <div ref="lsDialogRef" :class="comClass">
     <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
-      <el-scrollbar v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
+      <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
         <slot></slot>
       </el-scrollbar>
+      <div v-else class="content-wrap">
+        <slot></slot>
+      </div>
       <template #header>
         <slot name="header"></slot>
       </template>
@@ -113,6 +116,10 @@ defineExpose({
   position: relative;
   :deep(.el-dialog) {
     max-height: 78%;
+    overflow: hidden;
+    .el-dialog__body {
+      max-height: 63vh !important;
+    }
   }
 }
 </style>
