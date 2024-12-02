@@ -85,7 +85,7 @@
       </template>
 
       <template #tip>
-        <div v-if="!slots.tip" class="ls-tip">{{ tipText }}</div>
+        <div v-if="!slots.tip" class="ls-tip">{{ tipContent || tipText }}</div>
         <slot v-else name="tip"> </slot>
       </template>
 
@@ -245,6 +245,9 @@ const tipText = computed(() => {
     text = '文件须为图片格式，';
   }
   return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`;
+});
+const tipContent = computed(() => {
+  return props?.item?.tipContent || '';
 });
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
@@ -676,6 +679,9 @@ defineExpose({
     }
   }
   :deep(.el-upload-list) {
+    .el-upload-list__item {
+      transition: none !important;
+    }
     .el-upload-list__item-name {
       padding-left: 0;
       font-size: $font-size-content-small;
@@ -694,6 +700,9 @@ defineExpose({
       .el-upload-list__item .el-progress__text {
         top: -25px;
       }
+    }
+    .el-icon--close-tip {
+      display: none;
     }
   }
   :deep(.btn-picture-card) {

@@ -4,7 +4,8 @@ import axios from 'axios';
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const item1 = ref({
   isCover: false,
-  limitFile: ['png', 'docx']
+  limitFile: ['png', 'docx'],
+  tipContent: '上傳文件不超過2m'
 });
 
 const item2 = ref({
