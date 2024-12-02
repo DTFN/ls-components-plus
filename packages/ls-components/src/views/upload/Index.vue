@@ -4,7 +4,8 @@ import axios from 'axios';
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const item1 = ref({
   isCover: false,
-  limitFile: ['png', 'docx']
+  limitFile: ['png', 'docx'],
+  tipContent: '上傳文件不超過2m'
 });
 
 const item2 = ref({
@@ -14,12 +15,17 @@ const item2 = ref({
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;
+const defImg = new URL('@/assets/default_head.png', import.meta.url).href;
 const fileList = ref<any[]>([
   {
     name: 'food.jpeg',
-    url: logoImg
+    url: defImg
   }
 ]);
+
+function testFunc() {
+  fileList.value = [];
+}
 
 function httpResponseFunc(res: any) {
   const {
@@ -62,7 +68,7 @@ function formValidateFunc() {
 
 <template>
   <div>
-    <LSUpload :action="action"></LSUpload>
+    <LSUpload :action="action" :disabled="true"></LSUpload>
 
     <br />
 
@@ -100,6 +106,8 @@ function formValidateFunc() {
         <div>12312312</div>
       </template>
     </LSUpload>
+
+    <LSButton @click="testFunc">Test</LSButton>
 
     <br />
     <LSUpload list-type="picture-card" :action="action" :drag="true" :auto-upload="false" :item="{ isCover: false }"> </LSUpload>

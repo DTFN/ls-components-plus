@@ -2,7 +2,7 @@
   <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '', isHideCover ? 'hide-cover-btn' : '']">
     <el-upload
       ref="uploadRef"
-      v-bind="merge(defAttrs, $attrs)"
+      v-bind="Object.assign(defAttrs, $attrs)"
       :on-exceed="onExceedAction"
       :before-upload="beforeUploadAction"
       :on-change="onChangeAction"
@@ -16,7 +16,7 @@
         <template v-if="!isProfile">
           <template v-if="!slots.trigger">
             <template v-if="isDrag">
-              <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+              <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
               <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
               <div class="ls-drag">
                 <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
@@ -28,11 +28,11 @@
             </template>
             <template v-else>
               <div v-if="isPicCard" class="btn-picture-card">
-                <LSButton v-if="uploading" text :loading="uploading"></LSButton>
+                <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
                 <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
                 <div>{{ btnText }}</div>
               </div>
-              <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
+              <LSButton v-else plain icon="upload" :loading="uploading" :disabled="disabled">{{ btnText }}</LSButton>
             </template>
           </template>
           <slot v-else name="trigger"> </slot>
@@ -55,6 +55,7 @@
               class="ls-upload-btn-com ls-upload-btn-comfirm"
               :class="{ 'is-ready': hasReadyFile() }"
               :loading="uploading"
+              :disabled="disabled"
               @click="comfirmUpload"
               >开始上传
             </LSButton>
@@ -62,6 +63,8 @@
               <LSButton
                 v-if="!isCover || isMultiple"
                 type="primary"
+                :loading="uploading"
+                :disabled="disabled"
                 @click="cancelUpload"
                 class="ls-upload-btn-com ls-upload-btn-cancel"
                 >取消上传</LSButton
@@ -71,6 +74,7 @@
                 :class="{ 'is-ready': hasReadyFile() }"
                 type="primary"
                 :loading="uploading"
+                :disabled="disabled"
                 @click="comfirmUpload"
                 >开始上传</LSButton
               >
@@ -81,7 +85,7 @@
       </template>
 
       <template #tip>
-        <div v-if="!slots.tip" class="ls-tip">{{ tipText }}</div>
+        <div v-if="!slots.tip" class="ls-tip">{{ tipContent || tipText }}</div>
         <slot v-else name="tip"> </slot>
       </template>
 
@@ -107,7 +111,7 @@ import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'ele
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
-import { merge } from 'lodash-es';
+// import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSUpload',
@@ -126,7 +130,7 @@ const uploading = ref(false);
 const defAttrs: any = reactive({
   isCover: true,
   accept: '',
-  disabled: uploading
+  disabled: false
 });
 const configs: configsType = reactive({
   uploadFileList: [],
@@ -206,6 +210,9 @@ const isDrag = computed(() => {
 const isHideCover = computed(() => {
   return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0;
 });
+const disabled = computed(() => {
+  return attrs.disabled;
+});
 const btnText = computed(() => {
   const hint = isPicCard.value ? '图片' : '文件';
   let text = `选择${hint}`;
@@ -238,6 +245,9 @@ const tipText = computed(() => {
     text = '文件须为图片格式，';
   }
   return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`;
+});
+const tipContent = computed(() => {
+  return props?.item?.tipContent || '';
 });
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
@@ -669,6 +679,9 @@ defineExpose({
     }
   }
   :deep(.el-upload-list) {
+    .el-upload-list__item {
+      transition: none !important;
+    }
     .el-upload-list__item-name {
       padding-left: 0;
       font-size: $font-size-content-small;
@@ -687,6 +700,9 @@ defineExpose({
       .el-upload-list__item .el-progress__text {
         top: -25px;
       }
+    }
+    .el-icon--close-tip {
+      display: none;
     }
   }
   :deep(.btn-picture-card) {

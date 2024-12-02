@@ -90,11 +90,10 @@ function testDialog() {
       :btn-confirm-config="btnConfirmConfig"
       @on-confirm="onConfirm"
     >
-      <div>弹窗内容</div>
       <template #header>
         <div>弹窗头部</div>
       </template>
-
+      <div style="height: 600px">弹窗内容弹窗内</div>
       <LSForm
         ref="FormRef"
         label-position="top"

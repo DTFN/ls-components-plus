@@ -38,6 +38,8 @@ interface itemType {
   defProfile?: string;
   // 覆盖上传后是否隐藏上传按钮
   hideCoverBtn?: boolean;
+  // tip提示
+  tipContent?: string;
 }
 
 export const lsUploadProps = buildProps({

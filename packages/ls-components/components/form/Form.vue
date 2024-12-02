@@ -142,7 +142,7 @@ defineExpose({
         <template v-if="column > 1">
           <el-row :gutter="10">
             <template v-for="item in formItems" :key="item.prop">
-              <el-col :span="item.isRow ? 24 : 24 / column">
+              <el-col v-if="!item.hideColumn" :span="item.isRow ? 24 : 24 / column">
                 <slot
                   v-if="item.type === 'slot'"
                   :name="item.prop"
@@ -181,37 +181,39 @@ defineExpose({
 
         <template v-else>
           <template v-for="item in formItems" :key="item.prop">
-            <slot
-              v-if="item.type === 'slot'"
-              :name="item.prop"
-              :slot-row="{ ...item }"
-              :value="get(form, item.prop)"
-              :update-form-data="updateFormData"
-            />
+            <template v-if="!item.hideColumn">
+              <slot
+                v-if="item.type === 'slot'"
+                :name="item.prop"
+                :slot-row="{ ...item }"
+                :value="get(form, item.prop)"
+                :update-form-data="updateFormData"
+              />
 
-            <FormItem
-              v-else-if="ITEM_TYPES.includes(item.type)"
-              :is-value="true"
-              :value="get(form, item.prop)"
-              :colon="colon"
-              :read="read"
-              :label-empty="labelEmpty"
-              v-bind="item"
-              @update:value="updateFormData"
-              @on-change="onChange"
-            >
-              <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
-                <slot :name="slotName" v-bind="scoope" />
-              </template>
-            </FormItem>
+              <FormItem
+                v-else-if="ITEM_TYPES.includes(item.type)"
+                :is-value="true"
+                :value="get(form, item.prop)"
+                :colon="colon"
+                :read="read"
+                :label-empty="labelEmpty"
+                v-bind="item"
+                @update:value="updateFormData"
+                @on-change="onChange"
+              >
+                <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
+                  <slot :name="slotName" v-bind="scoope" />
+                </template>
+              </FormItem>
 
-            <slot
-              v-else
-              :name="item.type"
-              :slot-row="{ ...item }"
-              :value="get(form, item.prop)"
-              :update-form-data="updateFormData"
-            />
+              <slot
+                v-else
+                :name="item.type"
+                :slot-row="{ ...item }"
+                :value="get(form, item.prop)"
+                :update-form-data="updateFormData"
+              />
+            </template>
           </template>
         </template>
 

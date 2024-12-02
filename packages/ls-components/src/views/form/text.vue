@@ -2,7 +2,7 @@
 
 <template>
   <LSForm v-bind="$attrs">
-    <template #div-item="{ row }">
+    <!-- <template #div-item="{ row }">
       <el-form-item :label="row.label" :prop="row.prop">
         <div>{{ row.label }}</div>
       </el-form-item>
@@ -10,7 +10,7 @@
 
     <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
       <slot :name="slotName" :row="{ ...row }" />
-    </template>
+    </template> -->
   </LSForm>
 </template>
 

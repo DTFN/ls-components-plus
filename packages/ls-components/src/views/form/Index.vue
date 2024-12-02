@@ -518,6 +518,8 @@ function changeRadio(value: any, prop: string) {
   <br />
 
   <el-switch v-model="read"></el-switch>
+
+  {{ formData1 }}
   <LSFormText
     ref="FormRef1"
     :read="read"

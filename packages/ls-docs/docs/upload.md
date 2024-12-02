@@ -491,6 +491,12 @@ const fileList = ref([{ name: '', url: '' }]);
       desc: '覆盖模式，上传图片后是否隐藏上传按钮',
       type: 'boolean',
       value: false
+    },
+    {
+      name: 'tipContent',
+      desc: 'tip文案',
+      type: 'string',
+      value: '-'
     }
   ])
 

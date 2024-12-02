@@ -463,6 +463,7 @@ defineExpose({
         :options="options"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       />
 
       <!-- 多选级联 -->
@@ -475,6 +476,7 @@ defineExpose({
         v-bind="attrs"
         :props="cascaderProps"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       />
 
       <!-- 开关 -->
