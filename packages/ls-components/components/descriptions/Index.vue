@@ -136,6 +136,7 @@ async function updateLabelStyle(color: string, type: number) {
       vertical-align: middle;
     }
     .el-descriptions__table.is-bordered .el-descriptions__cell {
+      vertical-align: top;
       border: 1px solid #dcdfe6 !important;
     }
   }
