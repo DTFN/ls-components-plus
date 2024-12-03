@@ -54,6 +54,8 @@ const ITEM_TYPES = [
   'select',
   'date',
   'datetimerange',
+  'timePicker',
+  'timeSelect',
   'cascader',
   'multipleCascader',
   'switch',
