@@ -103,6 +103,8 @@ export const lsFormItemProps = buildProps({
       'select',
       'date',
       'datetimerange',
+      'timePicker',
+      'timeSelect',
       'cascader',
       'multipleCascader',
       'switch',

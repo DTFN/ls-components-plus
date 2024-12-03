@@ -144,63 +144,73 @@ function getOptionsLabel(value: string | string[], options: any[], multiple?: bo
   return val;
 }
 
-function seachCascaderOptions(value: string[], options: any[], index: number = 0, val: string = '') {
+function getCascaderOptionsLabel(value: string | number, options: any[], val: string = '') {
   let valStr = val;
   if (!isEmpty(value) && !isEmpty(options)) {
+    let showAllLevels = true;
+    if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+      showAllLevels = false;
+    }
     const valueField = props.attrs?.props?.value || 'value';
     const labelField = props.attrs?.props?.label || 'label';
-    const f_v = value[index];
-    if (!isEmpty(f_v)) {
-      const checkStrictly = props.attrs?.props?.checkStrictly;
-      if (checkStrictly) {
-        const findOption: any = (opts: any[], targetValue: string) => {
-          for (const opt of opts) {
-            if (opt[valueField] === targetValue) {
-              return opt;
-            }
-            if (opt.children) {
-              const found = findOption(opt.children, targetValue);
-              if (found) return found;
-            }
-          }
-          return null;
-        };
 
-        const foundOption = findOption(options, f_v);
-        if (foundOption) {
-          valStr = foundOption[labelField];
-        }
-      } else {
-        const f_o = options.find(_ => _[valueField] === f_v);
-        if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
-          valStr = `${f_o?.[labelField]}`;
+    for (const item of options) {
+      if (item[valueField] === value) {
+        if (showAllLevels) {
+          valStr = `${valStr ? `${valStr}/` : ''}${item?.[labelField]}`;
         } else {
-          valStr = `${valStr ? `${valStr}/` : ''}${f_o?.[labelField]}`;
+          valStr = item?.[labelField];
         }
-        if (!isEmpty(f_o?.children)) {
-          valStr = seachCascaderOptions(value, f_o?.children, index + 1, valStr);
-        }
+        break;
+      } else if (!isEmpty(item?.children)) {
+        valStr = getCascaderOptionsLabel(value, item?.children, valStr);
       }
     }
   }
   return valStr;
 }
 
+function seachCascaderOptions(value: (string | number)[], options: any[], val: string = '') {
+  let valStr = val;
+  if (!isEmpty(value) && !isEmpty(options)) {
+    value.forEach((item: any) => {
+      valStr = getCascaderOptionsLabel(item, options, valStr);
+    });
+  }
+  return valStr;
+}
+
 // 获取cascader Options label
-function getCascaderOptionsLabel(value: string[], options: any[], multiple?: boolean) {
+function getCascaderVal(value: number | string | string[], options: any[], multiple?: boolean) {
   let val = props?.labelEmpty;
   if (options && !isEmpty(value)) {
+    const newVal = Array.isArray(value) ? value : [value];
+
     if (multiple) {
       val = '';
       const checkStrictly = props.attrs?.props?.checkStrictly;
-      value.forEach((item: any) => {
-        val = `${val ? `${val},` : ''}${seachCascaderOptions(checkStrictly ? [item] : item, options)}`;
+      newVal.forEach((item: any) => {
+        console.log(checkStrictly, item);
+        const newItem = Array.isArray(item) ? item : [item];
+        val = `${val ? `${val},` : ''}${seachCascaderOptions(newItem, options)}`;
       });
+      if (isEmpty(val)) val = props?.labelEmpty;
     } else {
-      val = seachCascaderOptions(value, options);
+      val = seachCascaderOptions(newVal, options);
     }
   }
   return val;
+}
+
+// 获取日期值
+function getDateValue(val: Date | string | string[] | Date[]) {
+  if (isEmpty(val) && !dayjs(val as any).isValid()) return props?.labelEmpty;
+
+  if (Array.isArray(val)) {
+    return val.map(v => (props.dateFormat ? dayjs(v).format(props.dateFormat) : v)).join(` ${props.rangeSeparator} `);
+  }
+
+  return props.dateFormat ? dayjs(val).format(props.dateFormat) : val;
 }
 
 function readValue(type: string | undefined) {
@@ -212,7 +222,8 @@ function readValue(type: string | undefined) {
       case 'switch':
         return val ? '是' : '否';
       case 'date':
-        return val ? dayjs(val).format(props.dateFormat) : props?.labelEmpty;
+      case 'datetimerange':
+        return getDateValue(val);
       case 'radio':
         return getOptionsLabel(val, props.options);
       case 'checkbox':
@@ -220,9 +231,9 @@ function readValue(type: string | undefined) {
       case 'select':
         return getOptionsLabel(val, props.options, props.attrs?.multiple);
       case 'cascader':
-        return getCascaderOptionsLabel(val, props.options, props.attrs?.props?.multiple || false);
+        return getCascaderVal(val, props.options, props.attrs?.props?.multiple || false);
       case 'multipleCascader':
-        return getCascaderOptionsLabel(val, props.options, true);
+        return getCascaderVal(val, props.options, true);
       case 'inputRange':
       case 'inputNumberRange':
         return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${range_2.value || props?.labelEmpty}`;
@@ -446,10 +457,28 @@ defineExpose({
       <el-date-picker
         v-else-if="type === 'datetimerange'"
         v-model="modelValue"
-        type="datetimerange"
+        type="daterange"
         :clearable="true"
         start-placeholder="开始时间"
         end-placeholder="结束时间"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 时间选择器 -->
+      <el-time-picker
+        v-else-if="type === 'timePicker'"
+        v-model="modelValue"
+        :placeholder="`请选择${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 时间选择器 -->
+      <el-time-select
+        v-else-if="type === 'timeSelect'"
+        v-model="modelValue"
+        :placeholder="`请选择${label}`"
         v-bind="attrs"
         v-on="listeners || {}"
       />
@@ -567,19 +596,42 @@ defineExpose({
 :deep(.el-select-dropdown__header) {
   padding: 0 !important;
 }
-.el-select {
+:deep(.el-select) {
   --el-select-width: 424px;
 }
-.el-input {
+:deep(.el-input) {
   --el-input-width: 424px;
 }
-.el-input-number {
+:deep(.el-input-number) {
   --el-input-width: 424px;
 
   width: var(--el-input-width);
 }
+:deep(.el-input-group) {
+  width: var(--el-input-width);
+}
 :deep(.el-date-editor) {
   --el-date-editor-width: 424px;
+}
+:deep(.el-date-editor--datetimerange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--daterange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--monthrange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--yearrange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
 }
 :deep(.el-cascader) {
   .el-input {
