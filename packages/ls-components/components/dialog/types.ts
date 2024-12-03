@@ -20,6 +20,14 @@ export const lsDialogProp = buildProps({
   btnConfirmConfig: {
     type: Object,
     default: () => ({})
+  },
+  contentLoading: {
+    type: Boolean,
+    default: false
+  },
+  openScroll: {
+    type: Boolean,
+    default: false
   }
 });
 

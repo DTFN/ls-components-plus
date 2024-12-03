@@ -276,6 +276,24 @@ const item4 = ref({
 <LSUpload :action="action" :item="item4"></LSUpload>
 ```
 
+### 9.用户头像模式
+
+<br />
+<LSUpload list-type="picture-card" :action="action" :item="item5" v-model:file-list="fileList">
+  <template #tip>
+    <div>12312312</div>  
+  </template>
+</LSUpload>
+
+```js
+const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const fileList = ref([{ name: '', url: '' }]);
+```
+
+```html
+<LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
+```
+
 ## API
 
 ### 1. Attributes，需以item为json格式传值，保留了el-upload属性和方法
@@ -308,12 +326,16 @@ const item4 = ref({
   const item4 = ref({
     textPreview: ['pdf', 'xlsx'],
   })
+  const item5 = ref({ profile: true })
   function httpResponseFunc(res) {
     const {
       data: { code, data }
     } = res;
     console.log('httpResponseFunc', code, data);
   }
+  const fileList = ref([
+    {name:'', url: ''}
+  ])
 
   const ruleFormRef = ref();
   const ruleForm = ref({
@@ -394,9 +416,15 @@ const item4 = ref({
     },
     {
       name: 'limitSize',
-      desc: '文件大小限制，默认2M, 以M为单位',
+      desc: '文件大小限制，默认2MB, 以MB为单位',
       type: 'number',
       value: '-'
+    },
+    {
+      name: 'limitUnit',
+      desc: '文件大小限制单位, 默认为MB，支持类型 GB/MB/KB',
+      type: 'string',
+      value: 'MB'
     },
     {
       name: 'limitSizeMsg',
@@ -444,6 +472,30 @@ const item4 = ref({
       name: 'textPreview',
       desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx',
       type: 'array',
+      value: '-'
+    },
+    {
+      name: 'profile',
+      desc: '用户头像模式',
+      type: 'boolean',
+      value: false
+    },
+    {
+      name: 'defProfile',
+      desc: '用户头像模式时，默认展示图片样式',
+      type: 'string',
+      value: '-'
+    },
+    {
+      name: 'hideCoverBtn',
+      desc: '覆盖模式，上传图片后是否隐藏上传按钮',
+      type: 'boolean',
+      value: false
+    },
+    {
+      name: 'tipContent',
+      desc: 'tip文案',
+      type: 'string',
       value: '-'
     }
   ])

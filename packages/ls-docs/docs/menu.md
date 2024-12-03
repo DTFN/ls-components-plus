@@ -168,10 +168,10 @@ const MENU_CONFIG_LIST = [
 :::
 
 ```js
-import { useRouterHook } from '组件库';
+import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 const router = useRouter();
 
-const { getMenusByAuth }: any = useRouterHook();
+const { getMenusByAuth, jumpRouteCom }: any = useRouterHook();
 
 const routesModule = import.meta.glob('/src/views/**/*.vue');
 const menus = getMenusByAuth(MENU_CONFIG_LIST, routesModule, '/src/views');
@@ -186,6 +186,27 @@ router.addRoute({
 (menus || []).forEach((item: any) => {
   router.addRoute('Layout', item);
 });
+if (location.pathname == '/') {
+  jumpRouteCom(
+    {
+      path: menus[0]?.path
+    },
+    1
+  );
+} else {
+  const searchParams = new URLSearchParams(location.search);
+  const query: any = {};
+  for (let key of searchParams) {
+    query[key[0]] = key[1];
+  }
+  jumpRouteCom(
+    {
+      path: location.pathname.replace('/', ''),
+      query
+    },
+    1
+  );
+}
 ```
 
 ## API
@@ -198,9 +219,17 @@ router.addRoute({
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
+### 2. Methods，通过emit抛出的可使用方法
+
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
+
+### 3. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData4" />
+
 <script setup>
 import { ref } from 'vue';
-import { tableColumn } from '../constant';
+import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant';
 
 const MENU_CONFIG_LIST = [
   {
@@ -357,6 +386,12 @@ const tableData = ref([
     desc: '权限列表，内部存放code码，当needPermission为true时生效',
     type: 'array',
     value: '-'
+  },
+  {
+    name: 'hoverColor',
+    desc: '菜单hover时的颜色',
+    type: 'string',
+    value: '-'
   }
 ])
 
@@ -427,6 +462,34 @@ const tableData2 = ref([
     type: 'array',
     value: '-'
   },
+  {
+    name: 'defJump',
+    desc: '菜单点击自定义处理',
+    type: 'boolean',
+    value: false
+  },
+  {
+    name: 'iconSlot',
+    desc: '菜单栏左边icon插槽名',
+    type: 'string',
+    value: '-'
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'onJump',
+    desc: '点击菜单自定义处理方法，defJump为true生效',
+    type: 'function',
+    value: 'value'
+  }
+])
+
+const tableData4 = ref([
+  {
+    name: '[iconSlot]',
+    desc: '菜单栏左边icon插槽, 即属性定义的icon插槽名',
+  }
 ])
 </script>
 

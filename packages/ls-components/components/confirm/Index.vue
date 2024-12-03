@@ -14,7 +14,6 @@ const visible = defineModel({
   type: Boolean
 });
 
-const lsConfirmRef = ref();
 const requestData: Ref<any> = ref();
 
 watch(
@@ -74,7 +73,7 @@ function initBox() {
     showCancelButton: props.showCancelBtn,
     showConfirmButton: props.showConfirmBtn,
     showClose: props.showClose,
-    customClass: `${props.customClass} ls-confirm-box`,
+    customClass: `${comClass} ${props.customClass} ls-confirm-box`,
     closeOnClickModal: props.closeOnClickModal,
     closeOnPressEscape: props.closeOnPressEscape,
     appendTo: props.appendTo,
@@ -83,7 +82,7 @@ function initBox() {
         instance.confirmButtonLoading = true;
         if (props.requestApi && typeof props.requestApi === 'function') {
           try {
-            requestData.value = await props.requestApi();
+            requestData.value = await props.requestApi(props.requestParams);
           } catch (error) {
             requestData.value = error;
           }
@@ -109,14 +108,21 @@ function initBox() {
 </script>
 
 <template>
-  <div ref="lsConfirmRef" :class="comClass"></div>
+  <div style="display: none"></div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ls-confirm {
-  z-index: -1;
-  width: 0;
-  height: 0;
-  opacity: 0;
+  .el-message-box__container {
+    gap: 4px !important;
+    align-items: baseline !important;
+  }
+  .el-message-box__status.el-message-box-icon--warning {
+    top: 3px !important;
+    font-size: 16px !important;
+  }
+  .el-message-box__message p {
+    font-size: 14px !important;
+  }
 }
 </style>

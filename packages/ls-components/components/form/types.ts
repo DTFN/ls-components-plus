@@ -43,9 +43,17 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: true
   },
+  showSubmit: {
+    type: Boolean,
+    default: true
+  },
   confirmText: {
     type: String,
     default: '确认'
+  },
+  resetText: {
+    type: String,
+    default: '重置'
   },
   confirmClassName: {
     type: String,
@@ -53,11 +61,25 @@ export const lsFormProps = buildProps({
   },
   colon: {
     type: Boolean,
-    default: true
+    default: false
   },
   labelWidth: {
     type: [String, Number],
     default: 'auto'
+  },
+  labelEmpty: {
+    type: String,
+    default: '--'
+  },
+  // 详情样式，锦鲤适用
+  hasDefReadStyle: {
+    type: Boolean,
+    default: false
+  },
+  // 隐藏某一列，锦鲤适用
+  hideColumn: {
+    type: Boolean,
+    default: false
   }
 } as const);
 
@@ -80,9 +102,12 @@ export const lsFormItemProps = buildProps({
       'checkbox',
       'select',
       'date',
+      'datetimerange',
       'cascader',
       'multipleCascader',
       'switch',
+      'inputRange',
+      'inputNumberRange',
       'slot',
       'itemSlot'
     ]
@@ -104,6 +129,10 @@ export const lsFormItemProps = buildProps({
     default: ''
   },
   labelClass: {
+    type: String,
+    default: ''
+  },
+  labelIconClass: {
     type: String,
     default: ''
   },
@@ -135,6 +164,10 @@ export const lsFormItemProps = buildProps({
     type: Boolean,
     default: false
   },
+  labelEmpty: {
+    type: String,
+    default: '--'
+  },
   labelNumber: {
     type: Boolean,
     default: false
@@ -142,5 +175,28 @@ export const lsFormItemProps = buildProps({
   dateFormat: {
     type: String,
     default: 'YYYY-MM-DD HH:mm:ss'
+  },
+  formatReadValue: {
+    type: Function
+  },
+  rangeSeparator: {
+    type: String,
+    default: '~'
+  },
+  rangeProps: {
+    type: Array<String>,
+    default: () => ['start', 'end']
+  },
+  radioType: {
+    type: String,
+    default: ''
+  },
+  isRow: {
+    type: Boolean,
+    default: false
+  },
+  selectAll: {
+    type: Boolean,
+    default: true
   }
 } as const);

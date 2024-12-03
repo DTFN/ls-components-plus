@@ -18,6 +18,7 @@ const noticeNum = ref(1);
 const list: any = ref([
   {
     id: '1',
+    title: '角色权限变更',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 12:00:00',
@@ -63,6 +64,7 @@ const readAll = () => {
       <LSBellMessage
         :notice-num="noticeNum"
         :list="list"
+        :loading="false"
         @read-msg="readMsg"
         @read-all="readAll"
         @load-more="loadMore"

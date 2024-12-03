@@ -458,6 +458,12 @@ const tableData = ref([
     value: '-'
   },
   {
+    name: 'legendIcon',
+    desc: '显示标志的图标样式，可选项：circle / rect / roundRect / triangle / diamond / pin / arrow',
+    type: 'string',
+    value: 'rect'
+  },
+  {
     name: 'theme',
     desc: '主题类型，可选项：default / dark',
     type: 'string',

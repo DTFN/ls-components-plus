@@ -4,21 +4,32 @@
  * !!!最多支持101个 el-form-item
  */
 import { isEqual } from 'lodash-es';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { isEmpty } from '../_utils/utils';
 import { lsFormItemProps } from './types';
 import dayjs from 'dayjs';
+import { get, set } from 'lodash-es';
 
 const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];
+  onChange: [value: any, prop: string];
 }>();
 
-// 级联多选
-const cascaderProps = { multiple: true };
 const modelValue = defineModel<any>();
 const FormItemRef = ref();
+
+// 级联多选
+const cascaderProps = computed(() => {
+  let op = {};
+  if (props.type === 'multipleCascader') {
+    op = {
+      ...props.attrs?.props
+    };
+  }
+  return { ...op, multiple: true };
+});
 
 // 下拉框全选
 const selectCheckAll = ref(false);
@@ -31,6 +42,10 @@ function handleSelectCheckAll(val: any) {
   if (val && props.options && props.options.length) modelValue.value = props.options.map(_ => _.value);
   else modelValue.value = [];
 }
+
+// 范围
+const range_1 = ref();
+const range_2 = ref();
 
 // 只有isValue 的时候 才会去赋值给 modelValue
 watch(
@@ -47,7 +62,13 @@ watch(
 watch(
   () => modelValue,
   (newVal: any) => {
-    if (!isEmpty(props.prop)) emits('update:value', props.prop, newVal);
+    if (['inputRange', 'inputNumberRange'].includes(props.type || '')) {
+      range_1.value = get(newVal.value, props?.rangeProps[0] || 'start');
+      range_2.value = get(newVal.value, props?.rangeProps[1] || 'end');
+    }
+    if (!isEmpty(props.prop)) {
+      emits('update:value', props.prop, newVal);
+    }
   },
   {
     immediate: true,
@@ -96,9 +117,23 @@ watch(
   }
 );
 
+// 范围赋值
+watch(
+  [() => range_1.value, () => range_2.value],
+  ([val1, val2]) => {
+    let vals = {};
+    vals = set(vals, props?.rangeProps[0] || 'start', val1);
+    vals = set(vals, props?.rangeProps[1] || 'end', val2);
+    modelValue.value = vals;
+  },
+  {
+    deep: true
+  }
+);
+
 // 获取Options label
 function getOptionsLabel(value: string | string[], options: any[], multiple?: boolean) {
-  let val = '--';
+  let val = props?.labelEmpty;
   if (options && !isEmpty(value)) {
     if (multiple && Array.isArray(value)) {
       val = value.map((item: any) => options.find(_ => _.value === item)?.label).join(',');
@@ -109,22 +144,101 @@ function getOptionsLabel(value: string | string[], options: any[], multiple?: bo
   return val;
 }
 
+function seachCascaderOptions(value: string[], options: any[], index: number = 0, val: string = '') {
+  let valStr = val;
+  if (!isEmpty(value) && !isEmpty(options)) {
+    const valueField = props.attrs?.props?.value || 'value';
+    const labelField = props.attrs?.props?.label || 'label';
+    const f_v = value[index];
+    if (!isEmpty(f_v)) {
+      const checkStrictly = props.attrs?.props?.checkStrictly;
+      if (checkStrictly) {
+        const findOption: any = (opts: any[], targetValue: string) => {
+          for (const opt of opts) {
+            if (opt[valueField] === targetValue) {
+              return opt;
+            }
+            if (opt.children) {
+              const found = findOption(opt.children, targetValue);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+
+        const foundOption = findOption(options, f_v);
+        if (foundOption) {
+          valStr = foundOption[labelField];
+        }
+      } else {
+        const f_o = options.find(_ => _[valueField] === f_v);
+        if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+          valStr = `${f_o?.[labelField]}`;
+        } else {
+          valStr = `${valStr ? `${valStr}/` : ''}${f_o?.[labelField]}`;
+        }
+        if (!isEmpty(f_o?.children)) {
+          valStr = seachCascaderOptions(value, f_o?.children, index + 1, valStr);
+        }
+      }
+    }
+  }
+  return valStr;
+}
+
+// 获取cascader Options label
+function getCascaderOptionsLabel(value: string[], options: any[], multiple?: boolean) {
+  let val = props?.labelEmpty;
+  if (options && !isEmpty(value)) {
+    if (multiple) {
+      val = '';
+      const checkStrictly = props.attrs?.props?.checkStrictly;
+      value.forEach((item: any) => {
+        val = `${val ? `${val},` : ''}${seachCascaderOptions(checkStrictly ? [item] : item, options)}`;
+      });
+    } else {
+      val = seachCascaderOptions(value, options);
+    }
+  }
+  return val;
+}
+
 function readValue(type: string | undefined) {
   const val = modelValue.value;
-  switch (type) {
-    case 'switch':
-      return val ? '是' : '否';
-    case 'date':
-      return val ? dayjs(val).format(props.dateFormat) : '--';
-    case 'radio':
-      return getOptionsLabel(val, props.options);
-    case 'checkbox':
-      return getOptionsLabel(val, props.options, true);
-    case 'select':
-      return getOptionsLabel(val, props.options, props.attrs?.multiple);
-    default:
-      return isEmpty(val) ? '--' : val;
+  if (props?.formatReadValue) {
+    return props.formatReadValue(val);
+  } else {
+    switch (type) {
+      case 'switch':
+        return val ? '是' : '否';
+      case 'date':
+        return val ? dayjs(val).format(props.dateFormat) : props?.labelEmpty;
+      case 'radio':
+        return getOptionsLabel(val, props.options);
+      case 'checkbox':
+        return getOptionsLabel(val, props.options, true);
+      case 'select':
+        return getOptionsLabel(val, props.options, props.attrs?.multiple);
+      case 'cascader':
+        return getCascaderOptionsLabel(val, props.options, props.attrs?.props?.multiple || false);
+      case 'multipleCascader':
+        return getCascaderOptionsLabel(val, props.options, true);
+      case 'inputRange':
+      case 'inputNumberRange':
+        return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${range_2.value || props?.labelEmpty}`;
+      default:
+        return isEmpty(val) ? props?.labelEmpty : val;
+    }
   }
+}
+
+function onChange(value: any, prop: string) {
+  emits('onChange', value, prop);
+}
+
+// 修改modelValue
+function updateModelValue(val: any) {
+  modelValue.value = val;
 }
 
 defineExpose({
@@ -133,15 +247,24 @@ defineExpose({
 </script>
 
 <template>
-  <slot v-if="type === 'slot'" :name="prop"></slot>
+  <slot
+    v-if="type === 'slot'"
+    :name="prop"
+    :slot-row="{ ...props }"
+    :value="modelValue"
+    :update-model-value="updateModelValue"
+  ></slot>
 
   <el-form-item v-else ref="FormItemRef" :label="colon ? `${label}：` : label" :prop="prop" :rules="rules" :class="className">
     <template v-if="labelClass || tooltip" #label>
-      <div class="form-item-label">
+      <div class="ls-form-item-label">
         <span :class="labelClass">{{ label }}</span>
 
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
-          <el-icon class="ml-4"><WarningFilled /></el-icon>
+          <el-icon class="ml-4" :class="labelIconClass">
+            <slot v-if="$slots[`tooltip-icon`]" :name="`tooltip-icon`" :slot-row="{ ...props }" />
+            <slot v-else-if="$slots[`${prop}-label-icon`]" :name="`${prop}-label-icon`" :slot-row="{ ...props }" />
+          </el-icon>
         </el-tooltip>
 
         <span v-if="colon" :class="labelClass">：</span>
@@ -149,16 +272,35 @@ defineExpose({
     </template>
 
     <!-- 前置插槽 -->
-    <slot :name="`${prop}-prepend`" />
+    <slot :name="`${prop}-prepend`" :slot-row="{ props }" />
 
+    <!-- 只读 -->
     <template v-if="read">
-      <slot v-if="$slots[`${prop}-read-slot`]" :name="`${prop}-read-slot`" />
-      <span v-else>{{ readValue(type) }}</span>
+      <slot
+        v-if="type === 'itemSlot' && $slots[`${prop}-slot`]"
+        :name="`${prop}-slot`"
+        :slot-row="{ ...props }"
+        :value="modelValue"
+        :update-model-value="updateModelValue"
+      ></slot>
+      <slot
+        v-else-if="$slots[`${prop}-read-slot`]"
+        :name="`${prop}-read-slot`"
+        :value="readValue(type)"
+        :slot-row="{ ...props }"
+      />
+      <slot
+        v-else-if="$slots[`${type}-read-slot`]"
+        :name="`${type}-read-slot`"
+        :value="readValue(type)"
+        :slot-row="{ ...props }"
+      />
+      <div v-else class="ls-read-text-container">{{ readValue(type) }}</div>
     </template>
 
     <template v-else>
       <span v-if="type === 'label'">
-        <template v-if="isEmpty(modelValue)"> -- </template>
+        <template v-if="isEmpty(modelValue)"> {{ props?.labelEmpty || '--' }} </template>
         <template v-if="labelNumber">
           <!-- 数字 -->
           <el-text :type="Number(modelValue) < 0 ? 'danger' : ''">
@@ -179,7 +321,24 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-      />
+        @change="onChange(modelValue, prop as string)"
+      >
+        <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
+          <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+        </template>
+
+        <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
+          <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+        </template>
+
+        <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
+          <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
+        </template>
+
+        <template v-if="$slots[`${prop}-input-append`]" #append>
+          <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
+        </template>
+      </el-input>
 
       <!-- 文本域 -->
       <el-input
@@ -200,9 +359,8 @@ defineExpose({
         v-else-if="type === 'number'"
         v-model.trim="modelValue"
         :placeholder="`请输入${label}`"
-        :max="1000000000000000"
+        :max="99999999"
         :min="0"
-        :controls="false"
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
@@ -215,10 +373,18 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       >
-        <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
-          {{ option.label }}
-        </el-radio>
+        <template v-if="!radioType">
+          <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
+            {{ option.label }}
+          </el-radio>
+        </template>
+        <template v-else-if="radioType === 'button'">
+          <el-radio-button v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
+            {{ option.label }}
+          </el-radio-button>
+        </template>
       </el-radio-group>
 
       <!-- 多选框 -->
@@ -247,9 +413,10 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       >
         <!-- 多选和有数据下支持全选 -->
-        <template v-if="attrs && attrs.multiple && !isEmpty(options)" #header>
+        <template v-if="attrs && attrs.multiple && !isEmpty(options) && selectAll" #header>
           <el-checkbox v-model="selectCheckAll" :indeterminate="selectIndeterminate" @change="handleSelectCheckAll">
             全部
           </el-checkbox>
@@ -275,6 +442,18 @@ defineExpose({
         v-on="listeners || {}"
       />
 
+      <!-- 日期时间范围选择器 -->
+      <el-date-picker
+        v-else-if="type === 'datetimerange'"
+        v-model="modelValue"
+        type="datetimerange"
+        :clearable="true"
+        start-placeholder="开始时间"
+        end-placeholder="结束时间"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
       <!-- 级联 -->
       <el-cascader
         v-else-if="type === 'cascader'"
@@ -284,6 +463,7 @@ defineExpose({
         :options="options"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       />
 
       <!-- 多选级联 -->
@@ -296,19 +476,90 @@ defineExpose({
         v-bind="attrs"
         :props="cascaderProps"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string)"
       />
 
       <!-- 开关 -->
       <el-switch v-else-if="type === 'switch'" v-model="modelValue" v-bind="attrs" v-on="listeners || {}" />
 
+      <!-- 取值范围 -->
+      <div v-else-if="type === 'inputRange'" class="ls-input-range">
+        <el-input
+          v-model.trim="range_1"
+          :clearable="true"
+          :placeholder="`请输入起始${label}`"
+          :disabled="disabled"
+          v-bind="attrs && get(attrs || {}, rangeProps[0] || 'start')"
+          v-on="(listeners && get(listeners || {}, rangeProps[0] || 'start')) || {}"
+        />
+        &nbsp;&nbsp;{{ rangeSeparator }}&nbsp;&nbsp;
+        <el-input
+          v-model.trim="range_2"
+          :clearable="true"
+          :placeholder="`请输入截止${label}`"
+          :disabled="disabled"
+          v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
+          v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
+        >
+          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
+            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
+            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
+            <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-append`]" #append>
+            <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
+          </template>
+        </el-input>
+      </div>
+
+      <!-- 数字取值范围 -->
+      <div v-else-if="type === 'inputNumberRange'" class="ls-input-range">
+        <el-input-number
+          v-model.trim="range_1"
+          :clearable="true"
+          :placeholder="`请输入起始${label}`"
+          :disabled="disabled"
+          v-bind="attrs && get(attrs || {}, rangeProps[0] || 'start')"
+          v-on="(listeners && get(listeners || {}, rangeProps[0] || 'start')) || {}"
+        />
+        &nbsp;&nbsp;{{ rangeSeparator }}&nbsp;&nbsp;
+        <el-input-number
+          v-model.trim="range_2"
+          :clearable="true"
+          :placeholder="`请输入截止${label}`"
+          :disabled="disabled"
+          v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
+          v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
+        >
+          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
+            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          </template>
+
+          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
+            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          </template>
+        </el-input-number>
+      </div>
+
       <!-- 自定义 -->
-      <template v-else-if="type === 'itemSlot'">
-        <slot :name="`${prop}-slot`" />
-      </template>
+      <slot
+        v-else-if="type === 'itemSlot'"
+        :name="`${prop}-slot`"
+        :slot-row="{ ...props }"
+        :value="modelValue"
+        :update-model-value="updateModelValue"
+      />
     </template>
 
     <!-- 后置插槽 -->
-    <slot :name="`${prop}-append`" />
+    <slot :name="`${prop}-append`" :slot-row="{ ...props }" />
   </el-form-item>
 </template>
 
@@ -317,29 +568,30 @@ defineExpose({
   padding: 0 !important;
 }
 .el-select {
-  --el-select-width: 240px;
+  --el-select-width: 424px;
 }
 .el-input {
-  --el-input-width: 240px;
+  --el-input-width: 424px;
 }
 .el-input-number {
-  --el-input-width: 240px;
+  --el-input-width: 424px;
 
   width: var(--el-input-width);
-  &:deep(.el-input__inner) {
-    text-align: left;
-  }
 }
 :deep(.el-date-editor) {
-  --el-date-editor-width: 240px;
+  --el-date-editor-width: 424px;
 }
 :deep(.el-cascader) {
   .el-input {
-    --el-input-width: 240px;
+    --el-input-width: 424px;
   }
 }
 .el-textarea {
+  --el-input-width: 424px;
+
+  width: var(--el-input-width);
   &:deep(.el-textarea__inner) {
+    padding-bottom: 20px !important;
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -372,7 +624,17 @@ defineExpose({
     }
   }
 }
-.form-item-label {
+.ls-form-item-label {
+  display: flex;
+  align-items: center;
+}
+.ls-read-text-container {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+.ls-input-range {
   display: flex;
   align-items: center;
 }

@@ -165,6 +165,11 @@ const formItems_1 = [
     ]
   },
   {
+    type: 'inputNumberRange',
+    label: '活动人数范围',
+    prop: 'numberRange'
+  },
+  {
     type: 'switch',
     label: '是否开启',
     prop: 'open'
@@ -614,6 +619,11 @@ const formItems_1 = [
     ],
   },
   {
+    type: 'inputNumberRange',
+    label: '活动人数范围',
+    prop: 'numberRange'
+  },
+  {
     type: 'switch',
     label: '是否开启',
     prop: 'open',
@@ -786,10 +796,22 @@ const attrTableData=[
     value: 'true'
   },
   {
+    name: 'showSubmit',
+    desc: '是否显示confirm按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
     name: 'confirmText',
     desc: 'confirm 文案',
     type: 'string',
     value: '确认'
+  },
+  {
+    name: 'resetText',
+    desc: 'reset 文案',
+    type: 'string',
+    value: '重置'
   },
   {
     name: 'confirmClassName',
@@ -809,6 +831,18 @@ const attrTableData=[
     type: 'string/number',
     value: 'auto'
   },
+  {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'hasDefReadStyle',
+    desc: '表单详情默认样式，锦鲤适用',
+    type: 'boolean',
+    value: false
+  }
 ]
 
 // 事件
@@ -824,6 +858,12 @@ const eventsTableData=[
     desc: '重置时触发',
     type: 'Function',
     value: '表单数据对象'
+  },
+  {
+    name: 'onChange',
+    desc: '表单select/radio切换时触发',
+    type: 'Function',
+    value: 'value: 选中值, prop：form中的prop名'
   }
 ]
 
@@ -832,6 +872,10 @@ const slotTableData=[
   {
     name: 'default',
     desc: '后置自定义内容',
+  },
+  {
+    name: 'buttons-prepend',
+    desc: '按钮前置自定义内容',
   },
 ]
 
@@ -950,6 +994,12 @@ const attrTableData_1=[
     value: 'false'
   },
   {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
     name: 'labelNumber',
     desc: 'type为Label时，文本内容是否是数字',
     type: 'boolean',
@@ -961,6 +1011,36 @@ const attrTableData_1=[
     type: 'string',
     value: 'YYYY-MM-DD HH:mm:ss'
   },
+  {
+    name: 'formatReadValue',
+    desc: '只读模式时处理显示文本的方法',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'rangeSeparator',
+    desc: 'type是inputRange和inputNumberRange时取值范围时的分隔符',
+    type: 'string',
+    value: '~'
+  },
+  {
+    name: 'rangeProps',
+    desc: 'type是inputRange和inputNumberRange时的前后字段名',
+    type: 'string[]',
+    value: `['start', 'end']`
+  },
+  {
+    name: 'isRow',
+    desc: '是否为一行',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'selectAll',
+    desc: 'select 多选时是否支持全选',
+    type: 'boolean',
+    value: 'true'
+  }
 ]
 
 const formItemTypeColumn=[
@@ -993,11 +1073,11 @@ const formItemTypeData=[
   },
   {
     name:'radio',
-    desc:'单选框（el-radio'
+    desc:'单选框（el-radio）'
   },
   {
     name:'checkbox',
-    desc:'复选框（el-checkbox'
+    desc:'复选框（el-checkbox）'
   },
   {
     name:'select',
@@ -1020,12 +1100,24 @@ const formItemTypeData=[
     desc:'开关（el-switch）'
   },
   {
+    name:'inputRange',
+    desc:'取值范围'
+  },
+  {
+    name:'inputNumberRange',
+    desc:'数字取值范围'
+  },
+  {
     name:'slot',
-    desc:'自定义内容'
+    desc:'自定义内容（建议使用LSFormItem插入）'
   },
   {
     name:'itemSlot',
     desc:'el-form-item 内自定义内容'
+  },
+  {
+    name:'扩展type',
+    desc:'支持扩展，二次封装，<LSForm>{{扩展插槽，插槽名是新增type}}</LSForm>'
   }
 ]
 
@@ -1033,23 +1125,47 @@ const formItemTypeData=[
 const slotTableData_1=[
   {
     name: '[prop]',
-    desc: '自定义内容,插槽名 跟 prop 一致',
+    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue方法',
   },
   {
     name: '[prop]-prepend',
-    desc: '前置自定义内容',
+    desc: '前置自定义内容，返回slotRow',
   },
   {
     name: '[prop]-append',
-    desc: '后置自定义内容',
+    desc: '后置自定义内容，返回slotRow',
   },
   {
     name: '[prop]-slot',
-    desc: 'type是itemSlot时，FormItem内自定义内容',
+    desc: 'type是itemSlot时，FormItem内自定义内容，返回slotRow、value和updateModelValue方法',
   },
   {
     name: '[prop]-read-slot',
-    desc: 'read时，展示文本内容的自定义内容',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[type]-read-slot',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[prop]-label-icon/tooltip-icon',
+    desc: 'label 右侧图标,tooltip时展示',
+  },
+  {
+    name: '[prop]-input-prefix',
+    desc: 'type为input/inputRange/inputNumberRange时，input 前置自定义内容',
+  },
+  {
+    name: '[prop]-input-suffix',
+    desc: 'type为input/inputRange/inputNumberRange时，input 后置自定义内容',
+  },
+  {
+    name: '[prop]-input-prepend',
+    desc: 'type为input/inputRange时，input 前置自定义内容',
+  },
+  {
+    name: '[prop]-input-append',
+    desc: 'type为input/inputRange时，input 后置自定义内容',
   },
 ]
 

@@ -16,12 +16,15 @@ export default function () {
     options: [],
     maps: {}
   };
-  const getSelOption = async (apiFunc: Promise<any>, params?: any, all?: Array<OptionType>) => {
+  const getSelOption = async (apiFunc: any, params?: any, all?: Array<OptionType>) => {
     const { labelKey = 'name', valueKey = 'id' } = params || {};
     if (apiFunc instanceof Function) {
       let data: any = [];
       if (params) {
-        data = (await apiFunc(params)).records;
+        const tempParams = merge({}, params);
+        delete tempParams['labelKey'];
+        delete tempParams['valueKey'];
+        data = (await apiFunc(tempParams)).records;
       } else {
         data = await apiFunc();
       }

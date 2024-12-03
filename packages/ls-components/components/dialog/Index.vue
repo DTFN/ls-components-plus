@@ -12,6 +12,8 @@ const props = defineProps(lsDialogProp);
 
 const emits = defineEmits(lsEmitNames);
 
+const slots = useSlots();
+
 const visible = defineModel({
   type: Boolean
 });
@@ -19,11 +21,29 @@ const visible = defineModel({
 const ns = useNamespace('dialog');
 const comClass: string = ns.b();
 
+const lsDialogRef = ref();
+
 const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
-  closeOnPressEscape: false
+  closeOnPressEscape: false,
+  zIndex: 2000
 });
+
+const sHeight = ref(0);
+
+watch(
+  () => visible?.value,
+  val => {
+    if (val) {
+      updateHeight();
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 const curBtnCancelConfig = computed(() => {
   return merge(
@@ -38,7 +58,7 @@ const curBtnConfirmConfig = computed(() => {
   return merge(
     {
       type: 'primary',
-      txt: '确定'
+      txt: '确认'
     },
     props.btnConfirmConfig
   );
@@ -52,17 +72,33 @@ function handleClose() {
 function handleConfirm() {
   emits('onConfirm');
 }
+
+async function updateHeight() {
+  await nextTick();
+  const h = props.hasFooter ? 108 : 60;
+  sHeight.value = parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - h;
+}
+
+defineExpose({
+  updateHeight
+});
 </script>
 
 <template>
-  <div :class="comClass">
-    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)">
-      <slot></slot>
+  <div ref="lsDialogRef" :class="comClass">
+    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
+      <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
+        <slot></slot>
+      </el-scrollbar>
+      <div v-else class="content-wrap">
+        <slot></slot>
+      </div>
       <template #header>
         <slot name="header"></slot>
       </template>
       <template v-if="hasFooter" #footer>
         <div class="dialog-footer">
+          <slot v-if="slots.footer" name="footer"></slot>
           <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleClose">
             {{ curBtnCancelConfig.txt }}
           </LSButton>
@@ -78,5 +114,31 @@ function handleConfirm() {
 <style lang="scss" scoped>
 .ls-dialog {
   position: relative;
+  :deep(.el-dialog) {
+    max-height: 78%;
+    overflow: hidden;
+    .el-dialog__body {
+      max-height: 63vh !important;
+      overflow: auto;
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 4px;
+      }
+      &:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(#909399, 0.3);
+        border-radius: 4px;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(#909399, 0.5);
+      }
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 4px;
+      }
+    }
+  }
 }
 </style>

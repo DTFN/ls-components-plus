@@ -201,12 +201,24 @@ const attrTableData=[
     value: '-'
   },
   {
+    name: 'dealParams',
+    desc: '处理列表接口参数，返回参数',
+    type: 'Function',
+    value: '-'
+  },
+  {
     name: 'dealData',
     desc: '处理列表返回数据方法,return {data: [], total: 0}',
     type: 'Function',
     value: '-'
   },
-   {
+  {
+    name: 'listHookConfig',
+    desc: '列表请求配置，支持currentPageProp(当前页码)、pageSizeProp(每页条数)、pageSizesProp(每页条数范围)、isDelayLoader(是否使用延迟加载器)、delayLoaderTime(延迟加载时间)、isFullDose(是否全量数据)、hasPanigation(是否有分页)、autoFetch(是否自动获取数据)、dealData(处理返回数据的方法)、dealParams(处理请求参数的方法)、callbackAfter(请求完成后的回调)',
+    type: 'object',
+    value: '{currentPageProp: 1, pageSizeProp: 10, pageSizesProp: [10, 20, 30, 40, 50, 100], isDelayLoader: false, delayLoaderTime: 300, isFullDose: false, hasPanigation: true, autoFetch: true, dealData?: Function, dealParams?: Function, callbackAfter?: Function}'
+  },
+  {
     name: 'delApi',
     desc: '删除接口请求方法，返回一个Promise',
     type: 'Function',
@@ -313,6 +325,12 @@ const attrTableData=[
     desc: '是否显示添加按钮',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'disabledAddBtn',
+    desc: '添加按钮是否禁用',
+    type: 'boolean',
+    value: 'false'
   },
   {
     name: 'addBtnText',
@@ -428,6 +446,24 @@ const attrTableData=[
     type: 'string',
     value: '默认: 当前页路由地址/edit/:id'
   },
+  {
+    name: 'tableDetailText',
+    desc: '表格查看按钮文案',
+    type: 'string',
+    value: '查看'
+  },
+  {
+    name: 'tableEditText',
+    desc: '表格编辑按钮文案',
+    type: 'string',
+    value: '编辑'
+  },
+  {
+    name: 'tableDelText',
+    desc: '表格删除按钮文案',
+    type: 'string',
+    value: '删除'
+  }
 ]
 
 // 事件
@@ -465,6 +501,18 @@ const slotTableData=[
   {
     name: 'table-operate-append',
     desc: '表格操作列区域后置添加内容，插入内容如有v-if判断用el-space组件包裹',
+  },
+  {
+    name: 'table-append',
+    desc: '表格后置新增列区域',
+  },
+  {
+    name: '原插槽名称加上 -form-slot',
+    desc: 'LSForm组件插槽',
+  },
+  {
+    name: '原插槽名称加上 -table-slot',
+    desc: 'LSTable组件插槽',
   },
 ]
 
@@ -506,6 +554,12 @@ const exposesTableData=[
     type: 'number',
     value: '-'
   },
+  {
+    name: 'pageSize',
+    desc: '每页条数',
+    type: 'number',
+    value: '-'
+  }
 ]
 </script>
 

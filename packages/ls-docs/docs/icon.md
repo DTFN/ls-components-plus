@@ -12,6 +12,7 @@ outline: deep
 ### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
 
 ::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
+并注册需要用到的icon图标，注册方式请查看ElIcon文档
 :::
 <LSIcon name="Notification" color="red" size="20" />
 
@@ -61,7 +62,7 @@ import { tableColumn, tableSlotColumn } from '../constant'
 const tableData = ref([
   {
     name: 'type',
-    desc: '图标类型， 默认el-icon，1：iconify，2：svg',
+    desc: '图标类型， 默认el-icon，1：iconify，2：img',
     type: 'string / number',
     value: '-'
   },
@@ -94,6 +95,12 @@ const tableData = ref([
     desc: '图标大小，适用于el-icon',
     type: 'string / number',
     value: 16
+  },
+  {
+    name: 'src',
+    desc: 'img图片地址，type为2的时候使用',
+    type: 'string',
+    value: '-'
   }
 ])
 

@@ -73,6 +73,10 @@ async function setChartOption() {
     echartObj.value.setOption(chartOption.value, {
       notMerge: true
     });
+  } else {
+    await nextTick();
+    initChart();
+    setChartOption();
   }
 }
 
@@ -124,6 +128,9 @@ defineExpose({
       margin-bottom: 0;
     }
   }
+  .serise-name {
+    margin-right: 16px;
+  }
   .serise-name,
   .value {
     font-size: 12px;
@@ -140,6 +147,10 @@ defineExpose({
       width: 12px;
       height: 10px;
       margin-right: 4px;
+      &.circle {
+        width: 10px;
+        border-radius: 50%;
+      }
     }
   }
   &.dark {

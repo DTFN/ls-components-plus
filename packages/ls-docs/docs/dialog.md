@@ -105,8 +105,16 @@ const onConfirm = () => {
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
+### 3. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData3" />
+
+### 4. Exposes
+
+<ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData4" />
+
 <script setup>
-import { tableColumn, tableMethodColumn } from '../constant';
+import { tableColumn, tableMethodColumn, tableSlotColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
 
 const visible = ref(false);
@@ -159,6 +167,12 @@ const tableData = ref([
     desc: '确认按钮配置，具体配置参考LSButton',
     type: 'object',
     value: `{txt: '确认', type: 'primary'}`
+  },
+  {
+    name: 'contentLoading',
+    desc: '内容区域loading',
+    type: 'Boolean',
+    value: false
   }
 ])
 
@@ -172,6 +186,22 @@ const tableData2 = ref([
   {
     name: 'onConfirm',
     desc: '点击确认时触发',
+    type: 'function',
+    value: '-'
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'footer',
+    desc: '底部栏插槽，可自定义底部栏内容，内容放置最左边',
+  }
+])
+
+const tableData4 = ref([
+  {
+    name: 'updateHeight',
+    desc: '更新滚动区域高度',
     type: 'function',
     value: '-'
   }

@@ -17,6 +17,15 @@ export default {
       el._auths.comment2 = comment2;
     }
     if ((code && permissions && !permissions.includes(code as never)) || (typeof show !== 'undefined' && !show)) {
+      if (tabId) {
+        const tabItemNode = el.parentNode.parentNode.querySelector(`#${tabId}`);
+        if (tabItemNode) {
+          el._auths.tabItemNode = tabItemNode;
+          el._auths.tabItemParentNode = tabItemNode.parentNode;
+          tabItemNode.parentNode.insertBefore(el._auths.comment2, tabItemNode);
+          tabItemNode.remove();
+        }
+      }
       el.parentNode.insertBefore(comment, el);
       el.remove();
     }

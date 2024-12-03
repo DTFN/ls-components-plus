@@ -22,6 +22,7 @@ interface itemType {
   limitFile?: Array<string>;
   limitFileMsg?: string;
   limitSize?: number;
+  limitUnit?: 'GB' | 'MB' | 'KB';
   limitSizeMsg?: string;
   limitNumMsg?: string;
   isToast?: boolean;
@@ -31,6 +32,14 @@ interface itemType {
   httpRequestFunc?: Function;
   // docx、pdf、xlsx
   textPreview?: Array<string>;
+  // 是否是头像模式
+  profile?: string;
+  // 默认展示的头像图片
+  defProfile?: string;
+  // 覆盖上传后是否隐藏上传按钮
+  hideCoverBtn?: boolean;
+  // tip提示
+  tipContent?: string;
 }
 
 export const lsUploadProps = buildProps({

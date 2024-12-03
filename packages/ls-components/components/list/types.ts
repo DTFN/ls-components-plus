@@ -5,9 +5,17 @@ export const lsListProps = buildProps({
   listApi: {
     type: Function
   },
+  // 处理列表接口参数
+  dealParams: {
+    type: Function
+  },
   // 处理列表返回数据
   dealData: {
     type: Function
+  },
+  // 列表hook配置
+  listHookConfig: {
+    type: Object
   },
   // 删除api
   delApi: {
@@ -92,6 +100,11 @@ export const lsListProps = buildProps({
   showAdd: {
     type: Boolean,
     default: true
+  },
+  // 添加按钮是否禁用
+  disabledAddBtn: {
+    type: Boolean,
+    default: false
   },
   // 添加按钮文字
   addBtnText: {
@@ -184,5 +197,20 @@ export const lsListProps = buildProps({
   editRoutePath: {
     type: String,
     default: ''
+  },
+  // 表格查看按钮文案
+  tableDetailText: {
+    type: String,
+    default: '查看'
+  },
+  // 表格编辑按钮文案
+  tableEditText: {
+    type: String,
+    default: '编辑'
+  },
+  // 表格删除按钮文案
+  tableDelText: {
+    type: String,
+    default: '删除'
   }
 } as const);

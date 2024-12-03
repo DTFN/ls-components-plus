@@ -12,7 +12,16 @@ const ns = useNamespace('button');
 const comClass: string = ns.b();
 
 const lsBtnGroupProp: any = inject(lsBtnKey, undefined)!;
-const { separator, separatorColor, separatorSize } = toRefs(lsBtnGroupProp || {});
+
+const separator = ref('');
+const separatorColor = ref('');
+const separatorSize = ref('');
+
+if (lsBtnGroupProp) {
+  separator.value = lsBtnGroupProp.separator;
+  separatorColor.value = lsBtnGroupProp.separatorColor;
+  separatorSize.value = lsBtnGroupProp.separatorSize;
+}
 
 const separatorStyle = computed(() => {
   return {
@@ -59,6 +68,8 @@ const separatorStyle = computed(() => {
   }
 }
 .separator {
+  position: relative;
+  top: -1px;
   display: inline-block;
   margin-right: 4px;
   margin-left: 8px;

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRouterHook } from '@lingshugroup/web-plus/hooks';
+import logo from '@/assets/logo.png';
+import vueSvg from '@/assets/vue.svg';
 
 const MENU_CONFIG_LIST = [
   {
@@ -10,12 +12,14 @@ const MENU_CONFIG_LIST = [
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
-    link: 'https://www.lingshu.net/'
+    link: 'https://www.lingshu.net/',
+    defJump: true
   },
   {
     title: '养殖单元管理',
     name: '',
     path: '',
+    iconConfig: { type: 2, name: 'img', src: logo, width: 32, height: 16 },
     key: '2',
     cpoPath: '',
     pCode: 'c2',
@@ -28,6 +32,7 @@ const MENU_CONFIG_LIST = [
         cpoPath: 'pondManager/Group',
         pCode: 'c21',
         leaf: true,
+        defJump: true,
         children: [
           {
             title: '养殖区域详情',
@@ -106,6 +111,7 @@ const MENU_CONFIG_LIST = [
     cpoPath: 'planManager/Index',
     pCode: 'c7',
     leaf: true,
+    iconSlot: 'icon7',
     children: [
       {
         title: '新增规划',
@@ -174,13 +180,21 @@ function setDefineBCList(name: string, query: any) {
     defineBCList.value = [];
   }
 }
+
+function onJump(res: any) {
+  console.log(res);
+}
 </script>
 
 <template>
   <div>
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 200px" />
+    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" @on-jump="onJump">
+      <template #icon7>
+        <vueSvg />
+      </template>
+    </LSMenu>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MonthDayOptions } from '@/constant';
-
+import LSFormText from './text.vue';
 const FormRef = ref();
 const FormRef1 = ref();
 const loading = ref(false);
@@ -65,27 +65,52 @@ const formItems = ref<FormItemsType[]>([
         trigger: 'change'
       }
     ]
+  },
+  {
+    type: 'textarea',
+    label: '文本域',
+    prop: 'textarea'
+  },
+  {
+    type: 'itemSlot',
+    prop: 'slotTest',
+    label: '自定义插槽'
+  },
+  {
+    type: 'div-item',
+    prop: 'slot1111',
+    label: 'hhhhh'
   }
 ]);
 
 const formData1 = ref({
   param1: '输入框',
   param2: undefined,
-  param3: undefined,
+  param3: '',
   param4: undefined,
   param5: '',
   param6: [],
   param7: [],
   param8: false,
   param9: '文本域',
-  param10: '插入控件'
+  param10: '插入控件',
+  params99: {
+    start: '0',
+    end: '100'
+  }
 });
 
 const formItems1 = ref<FormItemsType[]>([
   {
     type: 'input',
     label: '输入框',
-    prop: 'param1'
+    prop: 'param1',
+    tooltip: '提示语'
+  },
+  {
+    type: 'input',
+    label: '输入框',
+    prop: 'param111'
   },
   {
     type: 'number',
@@ -98,6 +123,10 @@ const formItems1 = ref<FormItemsType[]>([
     prop: 'param3',
     options: [
       {
+        label: '全部',
+        value: ''
+      },
+      {
         label: '选项1',
         value: '1'
       },
@@ -105,7 +134,17 @@ const formItems1 = ref<FormItemsType[]>([
         label: '选项2',
         value: '2'
       }
-    ]
+    ],
+    listeners: {
+      change: (value: any) => {
+        console.log(value);
+      }
+    },
+    rules: {
+      required: true,
+      message: '请选择',
+      trigger: 'blur'
+    }
   },
   {
     type: 'select',
@@ -141,7 +180,18 @@ const formItems1 = ref<FormItemsType[]>([
     ],
     attrs: {
       multiple: true
-    }
+    },
+    listeners: {
+      change: (value: any) => {
+        console.log(value);
+      }
+    },
+    radioType: 'button'
+    // rules: {
+    //   required: true,
+    //   message: '请选择',
+    //   trigger: 'blur'
+    // }
   },
   {
     type: 'checkbox',
@@ -163,7 +213,7 @@ const formItems1 = ref<FormItemsType[]>([
     }
   },
   {
-    type: 'date',
+    type: 'datetimerange',
     label: '日期',
     prop: 'param5'
   },
@@ -171,6 +221,12 @@ const formItems1 = ref<FormItemsType[]>([
     type: 'cascader',
     label: '级联',
     prop: 'param6',
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    },
     options: [
       {
         value: 'guide',
@@ -263,12 +319,36 @@ const formItems1 = ref<FormItemsType[]>([
           }
         ]
       }
-    ]
+    ],
+    attrs: {
+      'show-all-levels': false,
+      props: {
+        checkStrictly: true
+      }
+    }
   },
   {
     type: 'switch',
     label: '开关',
     prop: 'param8'
+  },
+  {
+    type: 'inputRange',
+    label: '范围',
+    prop: 'params99',
+    attrs: {
+      start: {
+        placeholder: '开始取值范围'
+      },
+      end: {
+        placeholder: '截止取值范围'
+      }
+    }
+  },
+  {
+    type: 'inputNumberRange',
+    label: '数字范围',
+    prop: 'params999'
   },
   {
     type: 'textarea',
@@ -287,6 +367,11 @@ const formItems1 = ref<FormItemsType[]>([
     label: '自定义',
     prop: 'param11',
     isRow: true
+  },
+  {
+    type: 'div-item',
+    prop: 'slot1111',
+    label: 'hhhhh'
   }
 ]);
 
@@ -396,23 +481,37 @@ function removeItem_2(index: number) {
 }
 
 const read = ref(false);
+
+function onSubmit(res: any) {
+  console.log('onSubmit', res);
+}
+
+function changeSelect(value: any, prop: string) {
+  console.log('changeSelect', value, prop);
+}
+function changeRadio(value: any, prop: string) {
+  console.log('changeRadio', value, prop);
+}
 </script>
 
 <template>
-  <LSForm
+  <LSFormText
     ref="FormRef"
-    inline
     label-position="top"
+    inline
+    require-asterisk-position="left"
     :loading="loading"
     :colon="false"
     :show-buttons="true"
-    :show-reset="false"
+    :show-reset="true"
     confirm-text="登录"
     :form-data="formData"
     :form-items="formItems"
-    :hide-required-asterisk="true"
+    :hide-required-asterisk="false"
     @submit="onLogin"
-  />
+  >
+    <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
+  </LSFormText>
 
   <br />
   <div>--------------------------------------------------------------------------------------------</div>
@@ -420,7 +519,21 @@ const read = ref(false);
 
   <el-switch v-model="read"></el-switch>
 
-  <LSForm ref="FormRef1" :read="read" v-model:form-data="formData1" :form-items="formItems1" :column="2" :loading="loading">
+  {{ formData1 }}
+  <LSFormText
+    ref="FormRef1"
+    :read="read"
+    v-model:form-data="formData1"
+    :form-items="formItems1"
+    :column="1"
+    :loading="loading"
+    has-def-read-style
+    @submit="onSubmit"
+    @change-select="changeSelect"
+    @change-radio="changeRadio"
+  >
+    <template #param1-input-prepend> 必填 </template>
+
     <template #param9-prepend>
       <div>注意事项</div>
     </template>
@@ -436,7 +549,11 @@ const read = ref(false);
     <template #param1-read-slot>
       <div>自定义区域</div>
     </template>
-  </LSForm>
+
+    <template #param1-label-icon>
+      <el-icon><WarningFilled /></el-icon>
+    </template>
+  </LSFormText>
 
   <LSForm v-model:form-data="formData_2" :form-items="formItems_2">
     <template #item_1-slot>

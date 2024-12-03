@@ -20,6 +20,7 @@ const noticeNum = ref(1);
 const list = ref([
   {
     id: '1',
+    title: '角色TITLE1',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 12:00:00',
@@ -27,6 +28,7 @@ const list = ref([
   },
   {
     id: '2',
+    title: '角色TITLE2',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 13:00:00',
@@ -89,6 +91,7 @@ const noticeNum = ref(1);
 const list = ref([
   {
     id: '1',
+    title: '角色TITLE1',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 12:00:00',
@@ -96,6 +99,7 @@ const list = ref([
   },
   {
     id: '2',
+    title: '角色TITLE2',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 13:00:00',

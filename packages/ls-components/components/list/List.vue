@@ -2,7 +2,7 @@
 // 公共列表页面
 import { h } from 'vue';
 import useTableListHook from '@cpo/_hooks/useTableListHook';
-import { ElMessage, ElDivider, ElMessageBox } from 'element-plus';
+import { ElSpace, ElButton, ElSwitch, ElMessage, ElDivider, ElMessageBox } from 'element-plus';
 import { lsListProps } from './types';
 import LSForm from '@cpo/form/Form.vue';
 import LSTable from '@cpo/table/Table.vue';
@@ -16,9 +16,34 @@ const emits = defineEmits<{
   submitForm: [formData: any];
 }>();
 
+// 获取插槽
+const slots = useSlots();
+
+// 获取表单插槽
+const formSlots = computed(() => {
+  return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-form-slot'));
+});
+
+// 获取表格插槽
+const tableSlots = computed(() => {
+  return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-table-slot'));
+});
+
+// 获取插槽名称
+function getSlotName(slotName: any, isForm: boolean = false) {
+  if (slotName) {
+    const index = slotName.toString().lastIndexOf(`${isForm ? '-form-slot' : '-table-slot'}`);
+    return index !== -1 ? slotName.toString().slice(0, index) : slotName;
+  }
+  return '';
+}
+
 /** 表格数据 */
-const { isFirst, loading, tableData, total, currentPage, handleCurrentPageChange, handleSizeChange, handleReset, loadData } =
-  useTableListHook(props.listApi, props.formData, { dealData: props?.dealData });
+const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, loadData } = useTableListHook(
+  props.listApi,
+  props.formData,
+  { dealData: props?.dealData, dealParams: props?.dealParams, ...props?.listHookConfig }
+);
 
 // 查询
 function submitForm(val: any) {
@@ -32,7 +57,7 @@ function submitForm(val: any) {
 
 // 重置
 function resetForm(val: any) {
-  console.log('resetForm', val);
+  console.warn('resetForm', val);
   handleReset();
 }
 
@@ -104,7 +129,7 @@ function onDel(id: any, row: any) {
         loadData();
       })
       .catch((err: any) => {
-        console.log(err);
+        console.warn(err);
       })
       .finally(() => {
         delLoading.value = false;
@@ -262,8 +287,9 @@ defineExpose({
   handleReset,
   isFirst,
   loading,
-  total,
-  currentPage
+  currentPage,
+  pageSize,
+  total
 });
 </script>
 
@@ -285,7 +311,13 @@ defineExpose({
       @submit="submitForm"
       @reset="resetForm"
     >
-      <slot name="form-append"></slot>
+      <template #default="scoope: any">
+        <slot name="form-append" v-bind="scoope" />
+      </template>
+
+      <template v-for="slotName in formSlots" :key="slotName" #[getSlotName(slotName,true)]="scoope: any">
+        <slot :name="slotName" v-bind="scoope" />
+      </template>
     </LSForm>
 
     <template v-if="showOperate">
@@ -297,7 +329,7 @@ defineExpose({
         <div class="mt-24px flex items-center justify-start" :class="operateClass">
           <slot name="operate-prepend" />
 
-          <el-button v-if="showAdd" type="primary" :disabled="loading" @click="onAdd">
+          <el-button v-if="showAdd" type="primary" :disabled="loading || disabledAddBtn" @click="onAdd">
             {{ addBtnText }}
           </el-button>
 
@@ -309,21 +341,21 @@ defineExpose({
     <LSTable
       class="ls-table-cpo"
       :class="[showOperate ? 'mt-16px' : 'mt-24px']"
-      show-overflow-tooltip
+      :show-overflow-tooltip="true"
       :loading="loading"
       :total="total"
       :table-data="tableData"
       :table-column="tableColumn"
-      :current-page="currentPage"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
       v-bind="tableAttrs"
       v-on="tableListeners || {}"
-      @size-change="handleSizeChange"
-      @current-page-change="handleCurrentPageChange"
     >
       <!-- 开关列 -->
       <el-table-column v-if="showTableSwitch" :prop="switchProp" label="是否开启" width="100" v-bind="tableSwitchColumn">
         <template #default="{ row }">
           <el-switch
+            class="ls-list-table__switch"
             :model-value="row[switchProp] ? 1 : 0"
             :active-value="1"
             :inactive-value="0"
@@ -346,7 +378,7 @@ defineExpose({
         <template #default="{ row }">
           <div class="flex items-center">
             <el-space :size="0" :spacer="spacer">
-              <slot name="table-operate-prepend" />
+              <slot name="table-operate-prepend" :row="row" />
 
               <el-button
                 v-if="showTableDetail(row)"
@@ -355,7 +387,7 @@ defineExpose({
                 type="primary"
                 @click="onDetail(row[tableRowKey], row)"
               >
-                查看
+                {{ tableDetailText || '查看' }}
               </el-button>
 
               <el-button
@@ -365,7 +397,7 @@ defineExpose({
                 type="primary"
                 @click="onEdit(row[tableRowKey], row)"
               >
-                编辑
+                {{ tableEditText || '编辑' }}
               </el-button>
 
               <el-popconfirm
@@ -385,19 +417,21 @@ defineExpose({
                     :disabled="delLoading || disabledTableDel(row)"
                     :loading="delLoading && delId === row[tableRowKey]"
                   >
-                    {{ delLoading && delId === row[tableRowKey] ? '' : '删除' }}
+                    {{ delLoading && delId === row[tableRowKey] ? '' : tableDelText || '删除' }}
                   </el-button>
                 </template>
               </el-popconfirm>
 
-              <slot name="table-operate-append" />
+              <slot name="table-operate-append" :row="row" />
             </el-space>
           </div>
         </template>
       </el-table-column>
 
-      <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="{ row }">
-        <slot v-if="slotName !== 'form-append'" :name="slotName" :row="row" />
+      <slot name="table-append" :table-data="tableData" />
+
+      <template v-for="slotName in tableSlots" :key="slotName" #[getSlotName(slotName,false)]="scoope: any">
+        <slot :name="slotName" v-bind="scoope" />
       </template>
     </LSTable>
   </div>
@@ -440,6 +474,9 @@ defineExpose({
 }
 .justify-center {
   justify-content: center;
+}
+.ls-list-table__switch {
+  height: 18px;
 }
 .transition-all-300 {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

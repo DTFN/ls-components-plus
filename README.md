@@ -7,7 +7,7 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 ## 运行环境
 
 ```
-node v18 以上
+node v18 以上 / pnpm 9.0 以上
 ```
 
 ## 安装依赖

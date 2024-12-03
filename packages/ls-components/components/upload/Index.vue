@@ -1,8 +1,8 @@
 <template>
-  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '']">
+  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '', isHideCover ? 'hide-cover-btn' : '']">
     <el-upload
       ref="uploadRef"
-      v-bind="merge(defAttrs, $attrs)"
+      v-bind="Object.assign(defAttrs, $attrs)"
       :on-exceed="onExceedAction"
       :before-upload="beforeUploadAction"
       :on-change="onChangeAction"
@@ -13,34 +13,39 @@
       :on-progress="onProgressAction"
     >
       <template #trigger>
-        <template v-if="!slots.trigger">
-          <template v-if="isDrag">
-            <LSButton v-if="uploading" text :loading="uploading"></LSButton>
-            <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
-            <div class="ls-drag">
-              <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
-              <template v-if="!uploading">
-                &nbsp;&nbsp;/&nbsp;&nbsp;
-                <div class="drag-txt ls-color-text2">拖拽到此区域</div>
-              </template>
-            </div>
+        <template v-if="!isProfile">
+          <template v-if="!slots.trigger">
+            <template v-if="isDrag">
+              <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
+              <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
+              <div class="ls-drag">
+                <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
+                <template v-if="!uploading">
+                  &nbsp;&nbsp;/&nbsp;&nbsp;
+                  <div class="drag-txt ls-color-text2">拖拽到此区域</div>
+                </template>
+              </div>
+            </template>
+            <template v-else>
+              <div v-if="isPicCard" class="btn-picture-card">
+                <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
+                <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
+                <div>{{ btnText }}</div>
+              </div>
+              <LSButton v-else plain icon="upload" :loading="uploading" :disabled="disabled">{{ btnText }}</LSButton>
+            </template>
           </template>
-          <template v-else>
-            <div v-if="isPicCard" class="btn-picture-card">
-              <LSButton v-if="uploading" text :loading="uploading"></LSButton>
-              <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
-              <div>{{ btnText }}</div>
-            </div>
-            <LSButton v-else plain icon="upload" :loading="uploading">{{ btnText }}</LSButton>
-          </template>
+          <slot v-else name="trigger"> </slot>
         </template>
-        <slot v-else name="trigger"> </slot>
+        <template v-else-if="item.defProfile && configs.uploadFileList.length < 1">
+          <el-avatar :size="60" :src="item.defProfile" fit="contain" />
+        </template>
       </template>
 
       <template #default>
         <template v-if="!slots.default">
           <div
-            v-if="!autoUpload"
+            v-if="!autoUpload && (isDefault || isDrag)"
             class="upload-btn-handle"
             :class="[isDrag ? 'drag-css' : 'nor-css', !isCover || isMultiple ? 'multi-css' : '']"
           >
@@ -50,6 +55,7 @@
               class="ls-upload-btn-com ls-upload-btn-comfirm"
               :class="{ 'is-ready': hasReadyFile() }"
               :loading="uploading"
+              :disabled="disabled"
               @click="comfirmUpload"
               >开始上传
             </LSButton>
@@ -57,6 +63,8 @@
               <LSButton
                 v-if="!isCover || isMultiple"
                 type="primary"
+                :loading="uploading"
+                :disabled="disabled"
                 @click="cancelUpload"
                 class="ls-upload-btn-com ls-upload-btn-cancel"
                 >取消上传</LSButton
@@ -66,6 +74,7 @@
                 :class="{ 'is-ready': hasReadyFile() }"
                 type="primary"
                 :loading="uploading"
+                :disabled="disabled"
                 @click="comfirmUpload"
                 >开始上传</LSButton
               >
@@ -76,7 +85,7 @@
       </template>
 
       <template #tip>
-        <div v-if="!slots.tip" class="ls-tip">{{ tipText }}</div>
+        <div v-if="!slots.tip" class="ls-tip">{{ tipContent || tipText }}</div>
         <slot v-else name="tip"> </slot>
       </template>
 
@@ -102,7 +111,7 @@ import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'ele
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
-import { merge } from 'lodash-es';
+// import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSUpload',
@@ -121,7 +130,7 @@ const uploading = ref(false);
 const defAttrs: any = reactive({
   isCover: true,
   accept: '',
-  disabled: uploading
+  disabled: false
 });
 const configs: configsType = reactive({
   uploadFileList: [],
@@ -135,6 +144,17 @@ const configs: configsType = reactive({
 const props = defineProps(lsUploadProps);
 
 const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
+
+watch(
+  () => attrs['file-list'],
+  (val: any) => {
+    configs.uploadFileList = val || [];
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 
 const isToast = computed(() => {
   return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
@@ -160,6 +180,9 @@ const listType = computed(() => {
 const isPicCard = computed(() => {
   return listType.value === UPLOAD_TYPE_MAP.picCard;
 });
+const isDefault = computed(() => {
+  return !listType.value || listType.value == 'text';
+});
 const limitFile = computed(() => {
   return props?.item?.limitFile || [];
 });
@@ -172,11 +195,23 @@ const limitSize = computed(() => {
 const limitSizeMsg = computed(() => {
   return props?.item?.limitSizeMsg || '';
 });
+const limitUnit = computed(() => {
+  return props?.item?.limitUnit || 'MB';
+});
 const limitNumMsg = computed(() => {
   return props?.item?.limitNumMsg || '';
 });
+const isProfile = computed(() => {
+  return props?.item?.profile || false;
+});
 const isDrag = computed(() => {
   return attrs.drag;
+});
+const isHideCover = computed(() => {
+  return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0;
+});
+const disabled = computed(() => {
+  return attrs.disabled;
 });
 const btnText = computed(() => {
   const hint = isPicCard.value ? '图片' : '文件';
@@ -209,7 +244,10 @@ const tipText = computed(() => {
   if (isPicCard.value) {
     text = '文件须为图片格式，';
   }
-  return `${text}文件大小不超过${limitSize.value}M`;
+  return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`;
+});
+const tipContent = computed(() => {
+  return props?.item?.tipContent || '';
 });
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
@@ -305,7 +343,20 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
   let isSuccess: Boolean = true;
   const { size, name } = file;
   const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name);
-  const isLimitSize = size / 1024 / 1024 > limitSize.value;
+
+  let isLimitSize = false;
+  switch (limitUnit.value) {
+    case 'KB':
+      isLimitSize = size / 1024 > limitSize.value;
+      break;
+    case 'MB':
+      isLimitSize = size / 1024 / 1024 > limitSize.value;
+      break;
+    default:
+      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value;
+      break;
+  }
+
   if (isLimitFile) {
     const msg =
       limitFileMsg.value ||
@@ -323,7 +374,7 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
     isSuccess = false;
   }
   if (isLimitSize) {
-    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}MB！`;
+    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`;
     if (isToast.value && showMsg) {
       setTimeout(() => {
         ElMessage.error(msg);
@@ -430,6 +481,12 @@ function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
 
 function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
   configs.initUploadStatus = !fileList.length;
+  configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
+    if (item.uid === file.uid || item.name === file.name) {
+      return null;
+    }
+    return item;
+  });
   if (props.onRemove) {
     return props.onRemove(file, fileList);
   }
@@ -482,6 +539,10 @@ function onPreviewAction(file: UploadFile) {
         configs.showPreview = true;
       }
     }
+  } else if (isPicCard.value) {
+    configs.typePreview = 'image';
+    configs.sourcePreview = [url];
+    configs.showPreview = true;
   }
 }
 
@@ -552,6 +613,10 @@ function closePreview() {
   configs.showPreview = false;
   configs.sourcePreview = '';
 }
+
+defineExpose({
+  uploadRef
+});
 </script>
 
 <style lang="scss" scoped>
@@ -614,6 +679,9 @@ function closePreview() {
     }
   }
   :deep(.el-upload-list) {
+    .el-upload-list__item {
+      transition: none !important;
+    }
     .el-upload-list__item-name {
       padding-left: 0;
       font-size: $font-size-content-small;
@@ -632,6 +700,9 @@ function closePreview() {
       .el-upload-list__item .el-progress__text {
         top: -25px;
       }
+    }
+    .el-icon--close-tip {
+      display: none;
     }
   }
   :deep(.btn-picture-card) {
@@ -711,6 +782,50 @@ function closePreview() {
     }
     :deep(.el-upload-list) {
       margin-top: 24px;
+    }
+  }
+  &.ls-profile {
+    :deep(.el-upload-list--picture-card) {
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      border-radius: 50%;
+      box-shadow: 0 0 2px #73767a;
+      .el-upload-list__item {
+        background-color: transparent;
+        &.is-success,
+        &.is-ready {
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          object-fit: cover;
+          border: 0;
+          border-radius: 0;
+        }
+      }
+    }
+    :deep(.el-upload--picture-card) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    :deep(.el-upload-list__item-actions) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    :deep(.el-upload-list__item-status-label) {
+      display: none;
+    }
+  }
+  &.hide-cover-btn {
+    :deep(.el-upload--picture-card) {
+      display: none;
     }
   }
 }

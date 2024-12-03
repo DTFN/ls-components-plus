@@ -400,7 +400,7 @@ const data_1=[
   {
     name:'王五',
     address:'深圳市',
-    date:'2024-10-16 10:28:11',
+    date:'',
     status:'info',
     value:88
   },
@@ -626,6 +626,24 @@ const attrTableData=[
     type: 'boolean',
     value: 'true'
   },
+  {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'labelEmptyClass',
+    desc: '空字段内容占位符的样式',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'emptyLabel',
+    desc: '空状态时展示文本',
+    type: 'string',
+    value: '暂无数据'
+  },
 ]
 
 // column数据
@@ -644,7 +662,7 @@ const columnTableData=[
   },
   {
     name: 'value',
-    desc: `type 为 value 时，{[key]: {type:['','success','warning','info','primary','danger'],label:'展示文字内容'},default:{label:'默认展示文字内容'}}`,
+    desc: `type 为 status 时，{[key]: {type:['','success','warning','info','primary','danger'],label:'展示文字内容'},default:{label:'默认展示文字内容'}}`,
     type: 'object',
     value: '-'
   },
@@ -665,6 +683,18 @@ const columnTableData=[
     desc: '是否使用自定义 filter 图标插槽，slotName: [prop]-filter-icon',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'className',
+    desc: 'type 为 status 时，状态文本的样式',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'statusStyle',
+    desc: '状态文本样式，default: 默认样式，dot: 展示圆点，follow: 文字颜色跟随圆点颜色',
+    type: 'object',
+    value: 'default'
   },
 ]
 

@@ -13,6 +13,10 @@ export const lsMenuProps = buildProps({
   permissionList: {
     type: Array<string | number>,
     default: () => []
+  },
+  hoverColor: {
+    type: String,
+    default: ''
   }
 });
 
@@ -83,3 +87,5 @@ export type GroupOptionType = {
   groupId: number;
   groupName: string;
 };
+
+export const lsEmitNames = ['onJump'];

@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSMenu">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsMenuProps } from './types';
+import { lsMenuProps, lsEmitNames } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import MenuItem from './MenuItem.vue';
 
@@ -11,8 +11,11 @@ const comClass: string = ns.b();
 
 const props = defineProps(lsMenuProps);
 
+const emits = defineEmits(lsEmitNames);
+
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
+const lsComMenu = ref();
 
 watch(
   () => props.permissionList,
@@ -46,6 +49,10 @@ function initMenuSider() {
   selectedKeys.value = meta?.key || '1';
 }
 
+function onJump(item: any) {
+  emits('onJump', item);
+}
+
 onMounted(() => {
   isInit.value = true;
   initMenuSider();
@@ -53,14 +60,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-menu v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
+  <el-menu ref="lsComMenu" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
     <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
       :item="item"
       :permission-list="permissionList"
       :need-permission="needPermission"
-    />
+      @on-jump="onJump"
+    >
+      <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
+    </MenuItem>
   </el-menu>
 </template>
 
@@ -73,9 +83,15 @@ onMounted(() => {
       .el-menu--inline {
         background-color: #f4f4f4;
       }
+      .ls-icon {
+        margin-right: 6px;
+      }
     }
     :deep(.el-menu-item) {
       position: relative;
+      .ls-icon {
+        margin-right: 6px;
+      }
       &:hover {
         background-color: var(--el-fill-color-light);
         outline: none;
@@ -117,6 +133,27 @@ onMounted(() => {
           &::before {
             background: var(--el-color-primary);
           }
+        }
+      }
+    }
+  }
+  :deep(> .el-menu-item),
+  :deep(.el-sub-menu__title) {
+    & [class^='ls-icon'],
+    [class^='el-icon'] {
+      width: auto;
+    }
+    & [class^='el-icon'] {
+      margin-right: 0;
+    }
+    &:hover {
+      background-color: var(--el-fill-color-light);
+      outline: none;
+      .ls-icon,
+      span {
+        color: v-bind(hoverColor);
+        svg {
+          color: v-bind(hoverColor);
         }
       }
     }

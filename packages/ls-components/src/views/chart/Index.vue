@@ -40,6 +40,7 @@ const templateAll: any = ref({
     type: 'negative',
     tooltip: 'shadow',
     legend: ['收入', '支出'],
+    legendIcon: 'circle',
     dynamicAxis: true
   },
   templatePatchWaterfall: {
@@ -66,7 +67,7 @@ const templateAll: any = ref({
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   // seriesData: [120, 200, 150, 80, 70, 110, 0]
-  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, 120.2]
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null]
 };
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -254,6 +255,7 @@ const templateAllLine: any = ref({
     areaStyle: {},
     tooltip: 'cross',
     legend: ['Email', 'name', 'address'],
+    legendIcon: 'circle',
     dataZoom: 'horizontal'
     // dynamicAxis: true
   },
@@ -274,7 +276,7 @@ const templateAllLine: any = ref({
 
 const dataSimpleLine: any = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [120, 200, 150, 80, 70, 110, 130]
+  seriesData: [null, 200, 150, 80, 70, 110, 130]
 };
 const dataMultipleLine: any = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -314,7 +316,10 @@ const dynamicLine: any = {
   seriesData: [
     {
       type: 'line',
-      data: temperatureData.map(item => item.propertyValue)
+      data: temperatureData.map(item => item.propertyValue),
+      itemStyle: {
+        color: 'rgba(232, 41, 41, 1)'
+      }
     }
   ]
 };
@@ -498,6 +503,29 @@ function changeChartStyle() {
         template="line"
         :data="dynamicLine"
         :template-patch="templateAllLine.templateDynamicLine"
+        :style="{ marginTop: '16px' }"
+        width="800"
+        height="400"
+      />
+
+      <LSChart
+        :data="dataSimpleLine"
+        :template-patch="templateAllLine.templateSimpleLine"
+        :custom-option="{
+          xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [150, 230, 224, 218, 135, 147, 260],
+              type: 'line'
+            }
+          ]
+        }"
         :style="{ marginTop: '16px' }"
         width="800"
         height="400"

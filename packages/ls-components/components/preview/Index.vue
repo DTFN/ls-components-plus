@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import LSImage from './components/Image.vue';
-import LSDocx from './components/Docx.vue';
-import LSXlsx from './components/Xlsx.vue';
-import LSPdf from './components/Pdf.vue';
+// import LSImage from './components/Image.vue';
+// import LSDocx from './components/Docx.vue';
+// import LSXlsx from './components/Xlsx.vue';
+// import LSPdf from './components/Pdf.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSPreview',
-  components: {
-    LSImage,
-    LSDocx,
-    LSXlsx,
-    LSPdf
-  },
+  // components: {
+  //   LSImage,
+  //   LSDocx,
+  //   LSXlsx,
+  //   LSPdf
+  // },
   inheritAttrs: false
 });
 
@@ -37,11 +37,11 @@ const defAttrs: any = reactive({
 });
 const ns = useNamespace('preview');
 const comClass: string = ns.b();
-const cpoMap: any = reactive({
-  image: LSImage,
-  docx: LSDocx,
-  xlsx: LSXlsx,
-  pdf: LSPdf
+const cpoMap: any = shallowRef({
+  image: null,
+  docx: null,
+  xlsx: null,
+  pdf: null
 });
 const loadInstance: any = ref();
 
@@ -75,6 +75,22 @@ watch(
 
 function openLoading() {
   props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+  switch (props.type) {
+    case 'image':
+      cpoMap.image = defineAsyncComponent(() => import('./components/Image.vue'));
+      break;
+    case 'docx':
+      cpoMap.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
+      break;
+    case 'xlsx':
+      cpoMap.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
+      break;
+    case 'pdf':
+      cpoMap.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
+      break;
+    default:
+      break;
+  }
 }
 
 const closeLoading = () => {
@@ -103,7 +119,8 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="previewVisible" :class="comClass">
     <component
-      :is="curCpo.name"
+      v-if="curCpo"
+      :is="curCpo"
       v-bind="merge(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"

@@ -282,6 +282,12 @@ const tableData = ref([
     desc: '异步请求接口',
     type: 'Promise',
     value: '-'
+  },
+  {
+    name: 'requestParams',
+    desc: '异步请求参数',
+    type: 'json',
+    value: '{}'
   }
 ]);
 
