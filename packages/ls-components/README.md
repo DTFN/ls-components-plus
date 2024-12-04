@@ -12,9 +12,9 @@
 
 ## 更新记录
 
-#### 1. dialog更新滚动模式
+#### 1. xlsx字体模糊问题
 
-#### 2. upload更新tip和动画关闭
+#### 2. dialog 兼容append-to-body
 
 ## 安装
 
