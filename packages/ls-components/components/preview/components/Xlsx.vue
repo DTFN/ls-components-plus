@@ -268,6 +268,7 @@ onBeforeUnmount(() => {
   &.ls-xlsx__close {
     top: 40px;
     right: 40px;
+    z-index: 3;
     width: 40px;
     height: 40px;
     font-size: 40px;
