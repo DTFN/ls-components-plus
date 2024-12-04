@@ -14,6 +14,8 @@
 
 #### 1. xlsx字体模糊问题
 
+#### 2. dialog 兼容append-to-body
+
 ## 安装
 
 ```shell

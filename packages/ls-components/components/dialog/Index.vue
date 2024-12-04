@@ -125,6 +125,9 @@ defineExpose({
     .el-dialog__body {
       max-height: 63vh !important;
       overflow: auto;
+      .content-wrap {
+        padding-bottom: 1px;
+      }
       &::-webkit-scrollbar {
         width: 6px;
       }
