@@ -191,14 +191,13 @@ onBeforeUnmount(() => {
 }
 .luckysheet-wrap {
   position: relative;
-  top: 50%;
+  top: 0;
   left: 0;
   width: 100%;
   height: auto;
   min-height: 100%;
   padding: 0;
   margin: 0;
-  transform: translateY(-50%);
   :deep(.img-list) {
     pointer-events: none;
   }
@@ -234,6 +233,11 @@ onBeforeUnmount(() => {
     .luckysheet-modal-dialog-resize,
     .luckysheet-modal-dialog-controll {
       display: none !important;
+    }
+  }
+  :deep(.luckysheet-cols-menu-btn) {
+    &.luckysheet-mousedown-cancel {
+      opacity: 0;
     }
   }
 }
