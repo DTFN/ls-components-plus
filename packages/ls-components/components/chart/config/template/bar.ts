@@ -142,7 +142,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
 };
 
 const setDataZoom = (templatePatch: any) => {
-  const { dataZoom, theme } = templatePatch;
+  const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
   return dataZoom
     ? [
         {
@@ -152,11 +152,17 @@ const setDataZoom = (templatePatch: any) => {
           orient: dataZoom,
           showDataShadow: true,
           dataBackground: {
+            lineStyle: {
+              color: 'transparent'
+            },
             areaStyle: {
-              color: DATA_ZOOM_COLOR[theme || DEF_THEME][0]
+              color: dataZoomColorIn || DATA_ZOOM_COLOR[theme || DEF_THEME][0]
             }
           },
-          fillerColor: DATA_ZOOM_COLOR[theme || DEF_THEME][1],
+          fillerColor: dataZoomColorOut || DATA_ZOOM_COLOR[theme || DEF_THEME][1],
+          moveHandleStyle: {
+            opacity: 0
+          },
           borderColor: null,
           textStyle: {
             color: FONT_COLOR_MAP[theme || DEF_THEME]

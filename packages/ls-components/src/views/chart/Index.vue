@@ -256,7 +256,9 @@ const templateAllLine: any = ref({
     tooltip: 'cross',
     legend: ['Email', 'name', 'address'],
     legendIcon: 'circle',
-    dataZoom: 'horizontal'
+    dataZoom: 'horizontal',
+    dataZoomColorOut: 'green',
+    dataZoomColorIn: 'yellow'
     // dynamicAxis: true
   },
   templateLineBar: {
