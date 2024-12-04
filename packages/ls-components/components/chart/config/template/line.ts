@@ -230,22 +230,20 @@ const setSeries = (data: any, templatePatch: any) => {
     theme,
     name,
     lineBar,
-    axis
+    axis,
+    symbol = 'circle'
   } = templatePatch;
   if (type === 'multiple') {
     return (seriesData || []).map((item: any, i: number) => {
       const params: any = {
         name: item.name,
         type: item.type,
+        symbol,
         emphasis: item.emphasis || {
           focus: 'series'
         },
         smooth,
-        areaStyle: areaStyle
-          ? areaStyle
-          : {
-              opacity: 0.2
-            },
+        areaStyle: areaStyle ? areaStyle : null,
         label: {
           show: showBarFont,
           position: labelPosition
@@ -282,8 +280,9 @@ const setSeries = (data: any, templatePatch: any) => {
         },
         data: seriesData || [],
         smooth,
+        symbol,
         // 设置填充透明度
-        areaStyle: areaStyle ? areaStyle : { opacity: 0.2 },
+        areaStyle: areaStyle ? areaStyle : null,
         type: 'line'
       }
     ];
