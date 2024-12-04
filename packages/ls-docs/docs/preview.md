@@ -5,6 +5,10 @@ outline: deep
 # Preview 预览
 
 ::: warning 支持图片（image）、文档（docx）、表格（xlsx）、pdf类型文件预览。
+如果只需要图片预览，在配置文件添加
+optimizeDeps: {
+exclude: ['pdfjs-dist', 'luckyexcel']
+}，build中添加external: ['pdfjs-dist', 'luckyexcel']，不需要哪个依赖排除哪个即可
 :::
 
 ## 使用方式
