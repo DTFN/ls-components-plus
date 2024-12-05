@@ -165,7 +165,7 @@ const temperatureData = [
     propertyTime: 1726189200000
   },
   {
-    propertyValue: '74.85',
+    propertyValue: null,
     propertyTime: 1726192800000
   },
   {
@@ -173,7 +173,7 @@ const temperatureData = [
     propertyTime: 1726196400000
   },
   {
-    propertyValue: '75.80',
+    propertyValue: null,
     propertyTime: 1726200000000
   },
   {

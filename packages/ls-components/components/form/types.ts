@@ -200,5 +200,9 @@ export const lsFormItemProps = buildProps({
   selectAll: {
     type: Boolean,
     default: true
+  },
+  index: {
+    type: Number,
+    default: 0
   }
 } as const);

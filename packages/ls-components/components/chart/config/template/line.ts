@@ -168,6 +168,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
         } else {
           mathData = (seriesData || []).map((item: any) => numberFixed(item));
         }
+        mathData = mathData.filter((item: number) => item > 0);
         const max = Math.max(...mathData);
         const min = Math.min(...mathData);
         const { aInterval, aMax, aMin } = formatChartAxis(max, min);

@@ -13,7 +13,7 @@ const emit = defineEmits<{
   submit: [form: any];
   reset: [form: any];
   'update:form-data': [formData: any];
-  onChange: [value: any, prop: string];
+  onChange: [value: any, prop: string, index?: number];
 }>();
 
 const attrs = useAttrs();
@@ -115,8 +115,8 @@ watch(
   }
 );
 
-function onChange(value: any, prop: string) {
-  emit('onChange', value, prop);
+function onChange(value: any, prop: string, index?: number) {
+  emit('onChange', value, prop, index);
 }
 
 defineExpose({
@@ -143,7 +143,7 @@ defineExpose({
       >
         <template v-if="column > 1">
           <el-row :gutter="10">
-            <template v-for="item in formItems" :key="item.prop">
+            <template v-for="(item, i) in formItems" :key="item.prop">
               <el-col v-if="!item.hideColumn" :span="item.isRow ? 24 : 24 / column">
                 <slot
                   v-if="item.type === 'slot'"
@@ -160,6 +160,7 @@ defineExpose({
                   :colon="colon"
                   :read="read"
                   :label-empty="labelEmpty"
+                  :index="i"
                   v-bind="item"
                   @update:value="updateFormData"
                   @on-change="onChange"
@@ -182,7 +183,7 @@ defineExpose({
         </template>
 
         <template v-else>
-          <template v-for="item in formItems" :key="item.prop">
+          <template v-for="(item, i) in formItems" :key="item.prop">
             <template v-if="!item.hideColumn">
               <slot
                 v-if="item.type === 'slot'"
@@ -199,6 +200,7 @@ defineExpose({
                 :colon="colon"
                 :read="read"
                 :label-empty="labelEmpty"
+                :index="i"
                 v-bind="item"
                 @update:value="updateFormData"
                 @on-change="onChange"
