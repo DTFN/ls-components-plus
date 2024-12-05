@@ -481,6 +481,18 @@ const tableData = ref([
     type: 'string',
     value: '-'
   },
+   {
+    name: 'dataZoomColorOut',
+    desc: '缩放底部外层颜色',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'dataZoomColorIn',
+    desc: '缩放底部内层颜色',
+    type: 'string',
+    value: '-'
+  },
   {
     name: 'showBarFont',
     desc: '是否显示柱状数据值',

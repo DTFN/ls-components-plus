@@ -4,7 +4,7 @@ import {
   BG_COLOR_MAP,
   FONT_COLOR_MAP,
   DEF_THEME,
-  DATA_ZOOM_COLOR,
+  // DATA_ZOOM_COLOR,
   TOOLTIP_COLOR_MAP,
   BG_BAR_COLOR_MAP,
   SPLIT_LINE_COLOR
@@ -182,7 +182,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
 };
 
 const setDataZoom = (templatePatch: any) => {
-  const { dataZoom, theme } = templatePatch;
+  const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
   return dataZoom
     ? [
         {
@@ -192,12 +192,18 @@ const setDataZoom = (templatePatch: any) => {
           orient: dataZoom,
           showDataShadow: true,
           dataBackground: {
+            // lineStyle: {
+            //   color: 'transparent'
+            // },
             areaStyle: {
-              color: DATA_ZOOM_COLOR[theme || DEF_THEME][0]
+              color: dataZoomColorIn || '#d2dbee'
             }
           },
-          fillerColor: DATA_ZOOM_COLOR[theme || DEF_THEME][1],
-          borderColor: null,
+          fillerColor: dataZoomColorOut || 'rgba(207, 223, 243, 0.25)',
+          // moveHandleStyle: {
+          //   opacity: 0
+          // },
+          // borderColor: null,
           textStyle: {
             color: FONT_COLOR_MAP[theme || DEF_THEME]
           }
@@ -230,22 +236,20 @@ const setSeries = (data: any, templatePatch: any) => {
     theme,
     name,
     lineBar,
-    axis
+    axis,
+    symbol = 'circle'
   } = templatePatch;
   if (type === 'multiple') {
     return (seriesData || []).map((item: any, i: number) => {
       const params: any = {
         name: item.name,
         type: item.type,
+        symbol,
         emphasis: item.emphasis || {
           focus: 'series'
         },
         smooth,
-        areaStyle: areaStyle
-          ? areaStyle
-          : {
-              opacity: 0.2
-            },
+        areaStyle: areaStyle ? areaStyle : null,
         label: {
           show: showBarFont,
           position: labelPosition
@@ -282,8 +286,9 @@ const setSeries = (data: any, templatePatch: any) => {
         },
         data: seriesData || [],
         smooth,
+        symbol,
         // 设置填充透明度
-        areaStyle: areaStyle ? areaStyle : { opacity: 0.2 },
+        areaStyle: areaStyle ? areaStyle : null,
         type: 'line'
       }
     ];

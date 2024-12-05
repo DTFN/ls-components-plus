@@ -39,6 +39,9 @@ setTimeout(() => {
     <LSButton>
       <SvgIconDataIcv />
     </LSButton>
+    <LSButton type="primary" :icon-config="{ name: 'Plus' }">
+      <span>添加入池</span>
+    </LSButton>
 
     <br />
 

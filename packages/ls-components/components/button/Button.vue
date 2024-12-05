@@ -63,7 +63,8 @@ const separatorStyle = computed(() => {
     margin-right: 6px;
   }
   .ls-iconify,
-  .span {
+  :deep(span) {
+    line-height: normal;
     vertical-align: middle;
   }
 }

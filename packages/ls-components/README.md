@@ -12,9 +12,7 @@
 
 ## 更新记录
 
-#### 1. xlsx字体模糊问题
-
-#### 2. dialog 兼容append-to-body
+#### 1. chart异步兼容
 
 ## 安装
 

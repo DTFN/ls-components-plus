@@ -5,7 +5,7 @@ import {
   FONT_COLOR_MAP,
   SPLIT_LINE_COLOR,
   DEF_THEME,
-  DATA_ZOOM_COLOR,
+  // DATA_ZOOM_COLOR,
   LABEL_POSITION_MAP,
   BG_BAR_COLOR_MAP,
   TOOLTIP_COLOR_MAP
@@ -142,7 +142,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
 };
 
 const setDataZoom = (templatePatch: any) => {
-  const { dataZoom, theme } = templatePatch;
+  const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
   return dataZoom
     ? [
         {
@@ -152,12 +152,18 @@ const setDataZoom = (templatePatch: any) => {
           orient: dataZoom,
           showDataShadow: true,
           dataBackground: {
+            // lineStyle: {
+            //   color: 'transparent'
+            // },
             areaStyle: {
-              color: DATA_ZOOM_COLOR[theme || DEF_THEME][0]
+              color: dataZoomColorIn || '#d2dbee'
             }
           },
-          fillerColor: DATA_ZOOM_COLOR[theme || DEF_THEME][1],
-          borderColor: null,
+          fillerColor: dataZoomColorOut || 'rgba(207, 223, 243, 0.25)',
+          // moveHandleStyle: {
+          //   opacity: 0
+          // },
+          // borderColor: null,
           textStyle: {
             color: FONT_COLOR_MAP[theme || DEF_THEME]
           }
