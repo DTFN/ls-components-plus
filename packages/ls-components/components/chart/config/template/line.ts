@@ -4,7 +4,7 @@ import {
   BG_COLOR_MAP,
   FONT_COLOR_MAP,
   DEF_THEME,
-  DATA_ZOOM_COLOR,
+  // DATA_ZOOM_COLOR,
   TOOLTIP_COLOR_MAP,
   BG_BAR_COLOR_MAP,
   SPLIT_LINE_COLOR
@@ -192,18 +192,18 @@ const setDataZoom = (templatePatch: any) => {
           orient: dataZoom,
           showDataShadow: true,
           dataBackground: {
-            lineStyle: {
-              color: 'transparent'
-            },
+            // lineStyle: {
+            //   color: 'transparent'
+            // },
             areaStyle: {
-              color: dataZoomColorIn || DATA_ZOOM_COLOR[theme || DEF_THEME][0]
+              color: dataZoomColorIn || '#d2dbee'
             }
           },
-          fillerColor: dataZoomColorOut || DATA_ZOOM_COLOR[theme || DEF_THEME][1],
-          moveHandleStyle: {
-            opacity: 0
-          },
-          borderColor: null,
+          fillerColor: dataZoomColorOut || 'rgba(207, 223, 243, 0.25)',
+          // moveHandleStyle: {
+          //   opacity: 0
+          // },
+          // borderColor: null,
           textStyle: {
             color: FONT_COLOR_MAP[theme || DEF_THEME]
           }
