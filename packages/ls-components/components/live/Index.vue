@@ -6,6 +6,8 @@ import { merge } from 'lodash-es';
 
 const props = defineProps(lsLiveProps);
 
+const attrs = useAttrs();
+
 const ns = useNamespace('live');
 const comClass: string = ns.b();
 
@@ -21,6 +23,7 @@ const defAttrs = ref({
   // 是否静音
   muted: true
 });
+const isAutoplay = ref(attrs['autoplay']);
 
 // 销毁播放器
 function destoryPlayer() {
@@ -36,6 +39,9 @@ function destoryPlayer() {
 
 // 监听播放器
 function listenPlayer() {
+  if (!isAutoplay.value) {
+    return;
+  }
   if (player.value && props.type === 'flv') {
     player.value.on(flvjs.Events.ERROR, () => {
       // errorType: any, errorDetail: any, errorInfo: any
@@ -88,7 +94,11 @@ function createPlayer(liveUrl: string) {
     if (player.value && lsLiveRef.value) {
       player.value.attachMediaElement(lsLiveRef.value);
       player.value.load();
-      player.value.play();
+      if (isAutoplay.value) {
+        player.value.play();
+      } else {
+        player.value?.pause();
+      }
       listenPlayer();
     }
   } else {
@@ -109,6 +119,12 @@ function updateVisibilityStatus() {
 
 onMounted(() => {
   document.addEventListener('visibilitychange', updateVisibilityStatus);
+  lsLiveRef.value.addEventListener('play', () => {
+    isAutoplay.value = true;
+  });
+  lsLiveRef.value.addEventListener('pause', () => {
+    isAutoplay.value = false;
+  });
 });
 
 onUnmounted(() => {

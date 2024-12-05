@@ -85,7 +85,7 @@ setTimeout(() => {
     <LSLive ref="liveRef" class="live-wrap" />
 
     <br />
-    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :loop="false" />
+    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :autoplay="false" :loop="false" />
 
     <br />
 
