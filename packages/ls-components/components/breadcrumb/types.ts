@@ -5,5 +5,13 @@ export const lsBreadcrumbProp = buildProps({
   defineList: {
     type: Array,
     default: () => []
+  },
+  showPos: {
+    type: Boolean,
+    default: true
+  },
+  posTitle: {
+    type: String,
+    default: '当前位置'
   }
 });
