@@ -1088,6 +1088,18 @@ const formItemTypeData=[
     desc:'日期（el-date-picker）'
   },
   {
+    name:'datetimerange',
+    desc:'日期范围（el-date-picker）'
+  },
+  {
+    name:'timePicker',
+    desc:'时间（el-time-picker）'
+  },
+  {
+    name:'timeSelect',
+    desc:'时间选择（el-time-select）'
+  },
+  {
     name:'cascader',
     desc:'级联（el-cascader）'
   },
