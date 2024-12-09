@@ -156,7 +156,7 @@ export const lsFormItemProps = buildProps({
   },
   colon: {
     type: Boolean,
-    default: true
+    default: false
   },
   disabled: {
     type: Boolean,
@@ -204,5 +204,9 @@ export const lsFormItemProps = buildProps({
   index: {
     type: Number,
     default: 0
+  },
+  slotKey: {
+    type: String,
+    default: ''
   }
 } as const);
