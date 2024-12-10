@@ -188,9 +188,7 @@ function getCascaderVal(value: number | string | string[], options: any[], multi
 
     if (multiple) {
       val = '';
-      const checkStrictly = props.attrs?.props?.checkStrictly;
       newVal.forEach((item: any) => {
-        console.log(checkStrictly, item);
         const newItem = Array.isArray(item) ? item : [item];
         val = `${val ? `${val},` : ''}${seachCascaderOptions(newItem, options)}`;
       });
@@ -695,12 +693,25 @@ defineExpose({
   align-items: center;
 }
 </style>
-
 <style lang="scss">
 .el-select-dropdown__header {
   padding: 5px 10px !important;
 }
 .el-divider--horizontal {
   margin: 0;
+}
+.el-form--inline {
+  .el-date-editor--datetimerange {
+    position: relative;
+  }
+  .el-date-editor--daterange {
+    position: relative;
+  }
+  .el-date-editor--monthrange {
+    position: relative;
+  }
+  .el-date-editor--yearrange {
+    position: relative;
+  }
 }
 </style>
