@@ -119,11 +119,13 @@ defineExpose({
 <style lang="scss">
 .ls-dialog {
   position: relative;
+  top: 50%;
+  margin: auto !important;
+  transform: translateY(-50%);
   &.el-dialog {
-    max-height: 78%;
     overflow: hidden;
     .el-dialog__body {
-      max-height: 63vh !important;
+      max-height: 78vh !important;
       overflow: auto;
       .content-wrap {
         padding-bottom: 1px;

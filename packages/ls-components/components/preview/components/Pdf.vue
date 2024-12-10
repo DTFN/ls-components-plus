@@ -55,10 +55,15 @@ const paginationTxt = computed(() => {
 async function initPdf() {
   if (props.source) {
     try {
-      const { pdf, processLoadingTask, pages }: any = usePDF(props.source);
+      const { pdf, processLoadingTask, pages }: any = usePDF(props.source, {
+        onError: loadError
+      });
       await processLoadingTask(props.source);
       pdfObj.value = pdf.value;
       allPages.value = pages.value;
+      loadComplete();
+    } catch {
+      loadError();
     } finally {
       isComplete.value = true;
     }
