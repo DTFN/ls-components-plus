@@ -43,7 +43,7 @@ function jumpLink(item: JumpParamsType) {
 
 <template>
   <div v-if="curBCList && curBCList.length > 0" :class="comClass">
-    <p class="pos">当前位置：</p>
+    <p v-if="props.showPos" class="pos">{{ posTitle }}：</p>
     <el-breadcrumb v-bind="$attrs">
       <el-breadcrumb-item v-for="(item, i) in curBCList" :key="i" :class="{ 'has-jump': item.name }" @click="jumpLink(item)">{{
         item.title
@@ -61,6 +61,7 @@ function jumpLink(item: JumpParamsType) {
   .el-breadcrumb,
   .pos {
     height: 20px;
+    font-size: 14px;
     line-height: 20px;
   }
   .el-breadcrumb__item {

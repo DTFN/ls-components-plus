@@ -201,6 +201,10 @@ export const lsFormItemProps = buildProps({
     type: Boolean,
     default: true
   },
+  index: {
+    type: Number,
+    default: 0
+  },
   slotKey: {
     type: String,
     default: ''

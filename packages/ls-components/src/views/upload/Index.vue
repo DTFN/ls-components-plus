@@ -11,7 +11,9 @@ const item1 = ref({
 const item2 = ref({
   httpRequestFunc: function (formData: any, uploadProcessObj: any) {
     return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
-  }
+  },
+  limitFile: ['pdf'],
+  textPreview: ['pdf']
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;

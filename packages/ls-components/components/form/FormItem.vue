@@ -14,7 +14,7 @@ const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];
-  onChange: [value: any, prop: string];
+  onChange: [value: any, prop: string, index: number];
 }>();
 
 const modelValue = defineModel<any>();
@@ -243,8 +243,8 @@ function readValue(type: string | undefined) {
   }
 }
 
-function onChange(value: any, prop: string) {
-  emits('onChange', value, prop);
+function onChange(value: any, prop: string, index: number) {
+  emits('onChange', value, prop, index);
 }
 
 // 修改modelValue
@@ -336,7 +336,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
           <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
@@ -388,7 +388,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <template v-if="!radioType">
           <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
@@ -428,7 +428,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options) && selectAll" #header>
@@ -496,7 +496,7 @@ defineExpose({
         :options="options"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       />
 
       <!-- 多选级联 -->
@@ -509,7 +509,7 @@ defineExpose({
         v-bind="attrs"
         :props="cascaderProps"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       />
 
       <!-- 开关 -->
