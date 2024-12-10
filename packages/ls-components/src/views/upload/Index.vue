@@ -5,7 +5,8 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 const item1 = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
-  tipContent: '上傳文件不超過2m'
+  tipContent: '上傳文件不超過2m',
+  textPreview: ['pdf']
 });
 
 const item2 = ref({
@@ -74,7 +75,7 @@ function formValidateFunc() {
 
     <br />
 
-    <LSUpload :action="action" :item="item1"></LSUpload>
+    <LSUpload :action="action" :item="item1" :file-list="[{ name: '1' }, { name: '2' }]"></LSUpload>
 
     <br />
 
