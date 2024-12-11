@@ -780,14 +780,20 @@ const attrTableData=[
   {
     name: 'showButtons',
     desc: '是否展示confirm和reset按钮',
-   type: 'boolean',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'buttonsClass',
     desc: '展示confirm和reset按钮区域的样式',
-   type: 'string',
+    type: 'string',
     value: '-'
+  },
+  {
+    name: 'buttonsLeft',
+    desc: 'confirm和reset按钮是否在最左侧',
+    type: 'boolean',
+    value: 'false'
   },
   {
     name: 'showReset',
