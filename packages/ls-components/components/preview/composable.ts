@@ -50,10 +50,10 @@ export function usePDF(
   const pages = shallowRef(0);
   const info = shallowRef<PDFInfo | {}>({});
 
-  function processLoadingTask(source: PDFSrc) {
+  function processLoadingTask(source: any) {
     if (pdfDoc.value) void pdfDoc.value.destroy();
 
-    const loadingTask = PDFJS.getDocument(source!);
+    const loadingTask = PDFJS.getDocument(source);
     if (options.onProgress) loadingTask.onProgress = options.onProgress;
 
     if (options.onPassword) {
