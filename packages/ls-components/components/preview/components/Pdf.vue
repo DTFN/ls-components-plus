@@ -139,7 +139,7 @@ function loadError() {
       <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
 
       <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
-        <LSIcon name="Close" :size="30" />
+        <LSIcon name="Close" :size="26" />
       </span>
     </div>
     <div class="pdf-content">
@@ -189,7 +189,7 @@ function loadError() {
     margin: auto !important;
   }
   .pdf-content {
-    margin-top: 3px;
+    margin-top: 40px;
   }
   .ls-pdf__btn {
     position: absolute;
@@ -214,7 +214,7 @@ function loadError() {
     }
   }
   .opt-wrap {
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1;
