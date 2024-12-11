@@ -89,6 +89,7 @@ function testDialog() {
       :content-loading="contentLoading"
       :btn-confirm-config="btnConfirmConfig"
       @on-confirm="onConfirm"
+      align-center
     >
       <template #header>
         <div>弹窗头部</div>

@@ -5,7 +5,8 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 const item1 = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
-  tipContent: '上傳文件不超過2m'
+  tipContent: '上傳文件不超過2m',
+  textPreview: ['pdf']
 });
 
 const item2 = ref({
@@ -66,6 +67,14 @@ function formValidateFunc() {
   ruleForm.value.fileId = '11111';
   ruleFormRef.value.validateField('fileId');
 }
+
+const fileList2: any = ref([]);
+function onChange2(file: any) {
+  fileList2.value.push({
+    name: file.name,
+    url: file.blob
+  });
+}
 </script>
 
 <template>
@@ -74,7 +83,7 @@ function formValidateFunc() {
 
     <br />
 
-    <LSUpload :action="action" :item="item1"></LSUpload>
+    <LSUpload :action="action" :item="item1" :file-list="fileList2" @on-change-func="onChange2"></LSUpload>
 
     <br />
 

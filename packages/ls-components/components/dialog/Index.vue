@@ -27,7 +27,8 @@ const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
   closeOnPressEscape: false,
-  zIndex: 2000
+  zIndex: 2000,
+  alignCenter: true
 });
 
 const sHeight = ref(0);
@@ -118,10 +119,6 @@ defineExpose({
 
 <style lang="scss">
 .ls-dialog {
-  position: relative;
-  top: 50%;
-  margin: auto !important;
-  transform: translateY(-50%);
   &.el-dialog {
     overflow: hidden;
     .el-dialog__body {

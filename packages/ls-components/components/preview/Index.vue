@@ -49,7 +49,8 @@ const curCpo = computed(() => {
   return type?.value && cpoMap.value[type?.value];
 });
 
-const errorMsg = ref();
+const errorMsg = ref('文件加载失败，请检查文件是否已损坏！');
+let timer: any = null;
 
 watch(
   () => previewVisible?.value,
@@ -76,7 +77,6 @@ watch(
 );
 
 function openLoading() {
-  errorMsg.value = '';
   props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
   switch (props.type) {
     case 'image':
@@ -94,9 +94,19 @@ function openLoading() {
     default:
       break;
   }
+
+  timer = setTimeout(() => {
+    if (!props.source) {
+      ElMessage.error('文件加载超时，请检查文件是否存在！');
+      closeLoading();
+      previewVisible.value = false;
+    }
+    clearTimeout(timer);
+  }, 6000);
 }
 
 const closeLoading = () => {
+  timer && clearTimeout(timer);
   props.needLoading && loadInstance.value && loadInstance.value.close();
 };
 
@@ -107,7 +117,6 @@ const loadComplete = () => {
 
 const loadError = () => {
   closeLoading();
-  errorMsg.value = '文件加载失败，请检查文件是否已损坏！';
   console.error(errorMsg.value);
   emits('loadError');
 };
@@ -142,7 +151,7 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: gray;
+  background-color: rgb(0 0 0 / 50%);
 }
 .file-wrapper {
   position: fixed;
