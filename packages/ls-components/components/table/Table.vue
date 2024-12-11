@@ -27,7 +27,7 @@ const selectionData = ref<any[]>([]);
 
 // 获取行唯一标识
 const rowKey = computed<string | ((row: any) => string)>(() => {
-  const rowKey: string | ((row: any) => string) = attrs?.rowKey || 'id';
+  const rowKey: string | ((row: any) => string) = attrs?.rowKey || attrs?.rowkey || attrs['row-key'] || 'id';
   return rowKey;
 });
 
