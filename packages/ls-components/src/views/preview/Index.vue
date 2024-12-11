@@ -2,7 +2,7 @@
 import axios from 'axios';
 import docx from '@/assets/files/测试.docx?url';
 import xlsx from '@/assets/files/222.xlsx?url';
-// import pdf from '@/assets/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf';
+import pdf from '@/assets/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf';
 
 const type = ref('image');
 const source: any = ref();
@@ -36,7 +36,7 @@ function openViewer(val: string) {
       });
       break;
     case 'pdf':
-      source.value = '';
+      source.value = pdf;
       break;
     default:
       break;

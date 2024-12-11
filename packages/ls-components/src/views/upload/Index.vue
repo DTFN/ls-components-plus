@@ -67,6 +67,14 @@ function formValidateFunc() {
   ruleForm.value.fileId = '11111';
   ruleFormRef.value.validateField('fileId');
 }
+
+const fileList2: any = ref([]);
+function onChange2(file: any) {
+  fileList2.value.push({
+    name: file.name,
+    url: file.blob
+  });
+}
 </script>
 
 <template>
@@ -75,7 +83,7 @@ function formValidateFunc() {
 
     <br />
 
-    <LSUpload :action="action" :item="item1" :file-list="[{ name: '1' }, { name: '2' }]"></LSUpload>
+    <LSUpload :action="action" :item="item1" :file-list="fileList2" @on-change-func="onChange2"></LSUpload>
 
     <br />
 
