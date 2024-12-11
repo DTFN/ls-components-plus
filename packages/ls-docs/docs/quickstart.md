@@ -123,7 +123,7 @@ import LSContainerBox from '@lingshugroup/web-plus/containerBox';
 ### 2. 全局引入组件（不推荐）
 
 ::: tip 全局引入时需要安装所有第三方依赖，否则无法使用，具体依赖如下：
-echarts、pdfjs-dist(4.6.82)、@wangeditor/editor、@wangeditor/editor-for-vue(5.1.12)、@element-plus/icons-vue、@iconify/vue、luckyexcel、vue3-ts-jsoneditor
+echarts、pdfjs-dist(4.8.69)、@wangeditor/editor、@wangeditor/editor-for-vue(5.1.12)、@element-plus/icons-vue、@iconify/vue、luckyexcel、vue3-ts-jsoneditor
 :::
 
 ```js

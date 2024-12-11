@@ -87,7 +87,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       pdfjs-dist:
-        specifier: ^4.6.82
+        specifier: 4.8.69
         version: 4.8.69
       pinia:
         specifier: ^2.2.2
@@ -2058,8 +2058,8 @@ packages:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
     engines: {node: '>=6'}
 
-  canvas@3.0.0-rc2:
-    resolution: {integrity: sha512-esx4bYDznnqgRX4G8kaEaf0W3q8xIc51WpmrIitDzmcoEgwnv9wSKdzT6UxWZ4wkVu5+ileofppX0TpyviJRdQ==}
+  canvas@3.0.0-rc3:
+    resolution: {integrity: sha512-LJVkMp4AH7/IRoLvhLS6R09uBt9O3O0mhCYL34AQV/+OC39jmTv22pJTF5Mgfa3V2JnzGl21MVrhEKmtmPtfQA==}
     engines: {node: ^18.12.0 || >= 20.9.0}
 
   caseless@0.12.0:
@@ -8062,7 +8062,7 @@ snapshots:
       - supports-color
     optional: true
 
-  canvas@3.0.0-rc2:
+  canvas@3.0.0-rc3:
     dependencies:
       node-addon-api: 7.1.1
       prebuild-install: 7.1.2
@@ -10398,7 +10398,7 @@ snapshots:
 
   pdfjs-dist@4.8.69:
     optionalDependencies:
-      canvas: 3.0.0-rc2
+      canvas: 3.0.0-rc3
       path2d: 0.2.2
 
   perfect-debounce@1.0.0: {}
