@@ -622,6 +622,7 @@ defineExpose({
 <style lang="scss" scoped>
 .ls-upload {
   position: relative;
+  width: 100%;
   font-size: $font-size-content-small;
   :deep(.ls-tip) {
     margin-top: 8px;
