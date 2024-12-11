@@ -54,10 +54,16 @@ export default function (
     if (hasPanigation) {
       // 有分页
       if (isFullDose) {
-        const newResData = resData || [];
-        tableData.value = newResData || [];
+        let newResData = resData || [];
+        let newTotal = newResData.length;
+        if (dealData && typeof dealData === 'function') {
+          const { data, total: count = 0 } = dealData(resData);
+          newResData = data || [];
+          newTotal = Number(count || 0);
+        }
         tableDataSource.value = newResData;
-        total.value = Number(newResData.length);
+        total.value = newTotal;
+        sliceTableData();
       } else if (dealData && typeof dealData === 'function') {
         const { data, total: count = 0 } = dealData(resData);
         tableData.value = data || [];
@@ -127,6 +133,11 @@ export default function (
     disposeResponseData(data);
   });
 
+  // 完整数据分页设置展示的数据
+  function sliceTableData() {
+    tableData.value = tableDataSource.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
+  }
+
   // 加载数据
   const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
     if (!requestFn) {
@@ -170,7 +181,7 @@ export default function (
   const handleCurrentPageChange = (page: number) => {
     currentPage.value = page;
     if (isFullDose) {
-      sliceTableData(tableData, tableDataSource, total, currentPage, pageSize);
+      sliceTableData();
     } else {
       loadData();
     }
@@ -182,7 +193,7 @@ export default function (
     currentPage.value = 1;
 
     if (isFullDose) {
-      sliceTableData(tableData, tableDataSource, total, currentPage, pageSize);
+      sliceTableData();
     } else {
       loadData();
     }
@@ -220,16 +231,4 @@ export default function (
     handleReset,
     loadData
   };
-}
-
-// 设置展示的数据
-function sliceTableData(
-  data: Ref<any[]>,
-  dataSource: Ref<any[]>,
-  total: Ref<number>,
-  pageNo: Ref<number>,
-  pageSize: Ref<number>
-) {
-  data.value = dataSource.value.slice((pageNo.value - 1) * pageSize.value, pageNo.value * pageSize.value);
-  total.value = data.value.length;
 }

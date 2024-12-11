@@ -559,6 +559,18 @@ const exposesTableData=[
     desc: '每页条数',
     type: 'number',
     value: '-'
+  },
+  {
+    name: 'FormRef',
+    desc: '表单组件实例',
+    type: 'Ref',
+    value: '-'
+  },
+  {
+    name: 'TableRef',
+    desc: '表格组件实例',
+    type: 'Ref',
+    value: '-'
   }
 ]
 </script>

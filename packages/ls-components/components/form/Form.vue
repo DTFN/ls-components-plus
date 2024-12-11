@@ -20,24 +20,30 @@ const attrs = useAttrs();
 const buttonsAttrs = computed(() => {
   if (attrs && attrs.hasOwnProperty('inline')) {
     if (typeof attrs.inline === 'boolean' && attrs.inline === false) {
-      return {};
+      return {
+        label: ''
+      };
     }
     if (attrs && attrs['label-position'] === 'top') {
       return {
+        label: '',
         class: 'form-item-buttons '
       };
     }
-    return {};
+    return {
+      label: ''
+    };
   } else {
     if (attrs && attrs['label-position'] === 'top') {
       return {
+        label: '',
         'label-position': 'top'
       };
     }
   }
 
   return {
-    label: ' '
+    label: ''
   };
 });
 
@@ -224,6 +230,10 @@ defineExpose({
         <slot />
 
         <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
+          <template v-if="!buttonsLeft" #label>
+            <span></span>
+          </template>
+
           <slot v-if="$slots['buttons-prepend']" name="buttons-prepend" />
 
           <el-button

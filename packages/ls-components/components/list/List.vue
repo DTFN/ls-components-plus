@@ -19,6 +19,9 @@ const emits = defineEmits<{
 // 获取插槽
 const slots = useSlots();
 
+const FormRef = ref();
+const TableRef = ref();
+
 // 获取表单插槽
 const formSlots = computed(() => {
   return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-form-slot'));
@@ -289,7 +292,9 @@ defineExpose({
   loading,
   currentPage,
   pageSize,
-  total
+  total,
+  FormRef,
+  TableRef
 });
 </script>
 
@@ -297,6 +302,7 @@ defineExpose({
   <div v-if="!isFirst" class="animate_fadeIn transition-all-300 ls-list-wrap">
     <LSForm
       v-if="showForm"
+      ref="FormRef"
       class="mb-6px ls-form-cpo"
       label-position="top"
       :class="formClass"
@@ -339,6 +345,7 @@ defineExpose({
     </template>
 
     <LSTable
+      ref="TableRef"
       class="ls-table-cpo"
       :class="[showOperate ? 'mt-16px' : 'mt-24px']"
       :show-overflow-tooltip="true"
