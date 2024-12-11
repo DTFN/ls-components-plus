@@ -125,9 +125,6 @@ function loadError() {
 
 <template>
   <div v-if="isComplete" :class="comClass">
-    <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
-      <LSIcon name="Close" :size="24" color="#FFF" />
-    </span>
     <div class="opt-wrap">
       <div v-if="showPagination" class="page-wrap">
         <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">上一页</LSButton
@@ -140,6 +137,10 @@ function loadError() {
         <LSButton type="primary" icon="Plus" size="small" :disabled="scale == 2" @click="scalePdf(1)" />
       </div>
       <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
+
+      <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+        <LSIcon name="Close" :size="30" />
+      </span>
     </div>
     <div class="pdf-content">
       <PdfItem
@@ -188,7 +189,7 @@ function loadError() {
     margin: auto !important;
   }
   .pdf-content {
-    margin-top: 12px;
+    margin-top: 3px;
   }
   .ls-pdf__btn {
     position: absolute;
@@ -206,21 +207,23 @@ function loadError() {
       cursor: pointer;
     }
     &.ls-pdf__close {
-      top: 40px;
-      right: 40px;
-      width: 40px;
-      height: 40px;
-      font-size: 40px;
-
-      @include op-icon;
+      top: 50%;
+      right: 12px;
+      z-index: 3;
+      transform: translateY(-50%);
     }
   }
   .opt-wrap {
     position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 12px;
+    width: 100%;
+    padding: 6px 0;
+    background-color: #ffffff;
     .page-wrap {
       position: relative;
       margin-right: 12px;
@@ -238,7 +241,7 @@ function loadError() {
       margin: 0 12px;
       font-size: 12px;
       font-weight: bold;
-      color: #ffffff;
+      color: #606266;
     }
   }
   .infinite-list-wrapper {
