@@ -167,16 +167,6 @@ export default function (
     });
   };
 
-  // 监听当前页
-  watch(currentPage, newVal => {
-    handleCurrentPageChange(newVal);
-  });
-
-  // 监听每页条数
-  watch(pageSize, newVal => {
-    handleSizeChange(newVal);
-  });
-
   // 切换页数
   const handleCurrentPageChange = (page: number) => {
     currentPage.value = page;
@@ -198,6 +188,16 @@ export default function (
       loadData();
     }
   };
+
+  // 监听当前页
+  watch(currentPage, newVal => {
+    handleCurrentPageChange(newVal);
+  });
+
+  // 监听每页条数
+  watch(pageSize, newVal => {
+    handleSizeChange(newVal);
+  });
 
   // 重置列表
   const handleReset = () => {
