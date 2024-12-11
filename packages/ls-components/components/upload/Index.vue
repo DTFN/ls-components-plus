@@ -702,7 +702,7 @@ defineExpose({
       }
     }
     .el-icon--close-tip {
-      display: none;
+      display: none !important;
     }
   }
   :deep(.btn-picture-card) {
