@@ -65,6 +65,16 @@ export const lsTableProps = buildProps({
     type: String,
     default: '序号'
   },
+  // Index 序号单页累加
+  tableIndexInPage: {
+    type: Boolean,
+    default: false
+  },
+  // Index 是否从0开始
+  tableIndexStart: {
+    type: Boolean,
+    default: false
+  },
   // Index 配置项
   indexColumnOptions: {
     type: Object,

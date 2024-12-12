@@ -1046,6 +1046,24 @@ const attrTableData_1=[
     desc: 'select 多选时是否支持全选',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'index',
+    desc: '索引(onChange 方法中使用)',
+    type: 'number',
+    value: '0'
+  },
+  {
+    name: 'slotKey',
+    desc: '插槽key(覆盖插槽名中的prop)',
+    type: 'string',
+    value: ''
+  },
+  {
+    name: 'levelMatch',
+    desc: '级联控件是否匹配层级（value 是否匹配 options 的层级）',
+    type: 'boolean', 
+    value: 'false'
   }
 ]
 
