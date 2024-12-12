@@ -131,7 +131,7 @@ watch(
   }
 );
 
-// 获取Options label
+// 获取Options label (select/radio/checkbox)
 function getOptionsLabel(value: string | string[], options: any[], multiple?: boolean) {
   let val = props?.labelEmpty;
   if (options && !isEmpty(value)) {
@@ -144,8 +144,10 @@ function getOptionsLabel(value: string | string[], options: any[], multiple?: bo
   return val;
 }
 
-function getCascaderOptionsLabel(value: string | number, options: any[], val: string = '') {
-  let valStr = val;
+// 获取cascader Options label 父子不关联
+function getCascaderOptionLabel(value: string | number, options: any[], parentLabel: string = '') {
+  let labelText = parentLabel;
+  let found = false;
   if (!isEmpty(value) && !isEmpty(options)) {
     let showAllLevels = true;
     if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
@@ -157,27 +159,80 @@ function getCascaderOptionsLabel(value: string | number, options: any[], val: st
     for (const item of options) {
       if (item[valueField] === value) {
         if (showAllLevels) {
-          valStr = `${valStr ? `${valStr}/` : ''}${item?.[labelField]}`;
+          labelText = `${labelText ? `${labelText}/` : ''}${item?.[labelField]}`;
         } else {
-          valStr = item?.[labelField];
+          labelText = item?.[labelField];
         }
-        break;
-      } else if (!isEmpty(item?.children)) {
-        valStr = getCascaderOptionsLabel(value, item?.children, valStr);
+        return {
+          labelText,
+          found: true
+        };
+      } else {
+        if (!isEmpty(item?.children) && !found) {
+          const res: any = getCascaderOptionLabel(value, item?.children, labelText);
+          labelText = res.labelText;
+          found = res.found;
+          if (found) {
+            return {
+              labelText,
+              found
+            };
+          }
+        }
       }
     }
   }
-  return valStr;
+  return {
+    labelText,
+    found
+  };
 }
 
-function seachCascaderOptions(value: (string | number)[], options: any[], val: string = '') {
-  let valStr = val;
+// 级联控件层级匹配获取OptionLabel
+function getCascaderOptionLabelLevelMatch(
+  value: (string | number)[],
+  options: any[],
+  parentLabel: string = '',
+  index: number = 0
+) {
+  let labelText = parentLabel;
   if (!isEmpty(value) && !isEmpty(options)) {
-    value.forEach((item: any) => {
-      valStr = getCascaderOptionsLabel(item, options, valStr);
-    });
+    let showAllLevels = true;
+    if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+      showAllLevels = false;
+    }
+    const valueField = props.attrs?.props?.value || 'value';
+    const labelField = props.attrs?.props?.label || 'label';
+    const findItem = options.find(item => item[valueField] === value[index]);
+    if (!isEmpty(findItem)) {
+      if (showAllLevels) {
+        labelText = `${labelText ? `${labelText}/` : ''}${findItem?.[labelField]}`;
+      } else {
+        labelText = findItem?.[labelField];
+      }
+
+      if (index < value.length - 1 && !isEmpty(findItem?.children)) {
+        labelText = getCascaderOptionLabelLevelMatch(value, findItem?.children, labelText, index + 1);
+      }
+    }
   }
-  return valStr;
+  return labelText;
+}
+
+// 获取cascader Options label
+function buildCascaderPathLabels(value: (string | number)[], options: any[], parentLabel: string = '') {
+  let labelText = parentLabel;
+  if (!isEmpty(value) && !isEmpty(options)) {
+    if (props?.levelMatch) {
+      labelText = getCascaderOptionLabelLevelMatch(value, options, labelText);
+    } else {
+      value.forEach((item: any) => {
+        const res: any = getCascaderOptionLabel(item, options, labelText);
+        labelText = res.labelText;
+      });
+    }
+  }
+  return labelText;
 }
 
 // 获取cascader Options label
@@ -190,11 +245,11 @@ function getCascaderVal(value: number | string | string[], options: any[], multi
       val = '';
       newVal.forEach((item: any) => {
         const newItem = Array.isArray(item) ? item : [item];
-        val = `${val ? `${val},` : ''}${seachCascaderOptions(newItem, options)}`;
+        val = `${val ? `${val},` : ''}${buildCascaderPathLabels(newItem, options)}`;
       });
       if (isEmpty(val)) val = props?.labelEmpty;
     } else {
-      val = seachCascaderOptions(newVal, options);
+      val = buildCascaderPathLabels(newVal, options);
     }
   }
   return val;
