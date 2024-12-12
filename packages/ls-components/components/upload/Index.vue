@@ -504,10 +504,14 @@ function onPreviewAction(file: UploadFile) {
         configs.typePreview = 'image';
         configs.sourcePreview = isPicCard.value ? [url] : [blob];
         configs.showPreview = true;
-      } else if (textPreview.value.includes('pdf') && type == 'application/pdf') {
-        configs.typePreview = 'pdf';
-        configs.sourcePreview = blob;
-        configs.showPreview = true;
+      } else if (type == 'application/pdf') {
+        if (textPreview.value.includes('pdf')) {
+          configs.typePreview = 'pdf';
+          configs.sourcePreview = blob;
+          configs.showPreview = true;
+        } else if (textPreview.value.includes('pdfNative')) {
+          blob && window.open(blob, '_blank');
+        }
       } else if (
         textPreview.value.includes('xlsx') &&
         ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)

@@ -38,6 +38,9 @@ function openViewer(val: string) {
     case 'pdf':
       source.value = pdf;
       break;
+    case 'pdfNative':
+      window.open(pdf, '_blank');
+      break;
     default:
       break;
   }
@@ -55,6 +58,8 @@ function openViewer(val: string) {
       <LSButton type="primary" @click="openViewer('xlsx')">Xlsx预览</LSButton>
 
       <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
+
+      <LSButton type="primary" @click="openViewer('pdfNative')">PDF预览2</LSButton>
     </div>
     <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" />
   </div>
