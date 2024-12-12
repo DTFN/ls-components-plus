@@ -470,7 +470,7 @@ const fileList = ref([{ name: '', url: '' }]);
     },
     {
       name: 'textPreview',
-      desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx',
+      desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx、pdfNative，pdfNative：为打开浏览器预览pdf文件',
       type: 'array',
       value: '-'
     },
