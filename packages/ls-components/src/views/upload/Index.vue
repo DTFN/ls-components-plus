@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
+import { ElMessageBox, UploadProps } from 'element-plus';
 
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const item1 = ref({
@@ -75,11 +76,32 @@ function onChange2(file: any) {
     url: file.blob
   });
 }
+
+const uploadRef = ref();
+const fileList3 = ref([]);
+function onSuccess() {
+  fileList3.value = [];
+}
+
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
+  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
+    () => true,
+    () => false
+  );
+};
 </script>
 
 <template>
   <div>
-    <LSUpload :action="action" :disabled="true"></LSUpload>
+    <LSUpload
+      ref="uploadRef"
+      :action="action"
+      :on-success="onSuccess"
+      :file-list="fileList3"
+      :limit="1"
+      multiple
+      :before-remove="beforeRemove"
+    ></LSUpload>
 
     <br />
 
