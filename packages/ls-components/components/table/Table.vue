@@ -140,7 +140,13 @@ watch(pageSize, newVal => {
 
 // 序号
 function indexMethod(index: number) {
-  return (currentPage.value - 1) * pageSize.value + index + 1;
+  if (props?.tableIndexInPage) {
+    return props?.tableIndexStart ? index : index + 1;
+  } else {
+    return props?.tableIndexStart
+      ? (currentPage.value - 1) * pageSize.value + index
+      : (currentPage.value - 1) * pageSize.value + index + 1;
+  }
 }
 
 // 日期转换

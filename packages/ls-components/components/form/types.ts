@@ -212,5 +212,9 @@ export const lsFormItemProps = buildProps({
   slotKey: {
     type: String,
     default: ''
+  },
+  levelMatch: {
+    type: Boolean,
+    default: false
   }
 } as const);

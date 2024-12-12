@@ -27,7 +27,6 @@ const {
 } = useTableListHook(requestFn, requestParams, {
   currentPageProp: 1,
   pageSizeProp: 10,
-  pageSizesProp: [10, 20, 30, 40, 50, 100],
   isDelayLoader: false,
   delayLoaderTime: 300,
   isFullDose: false,
@@ -37,7 +36,6 @@ const {
 
 // currentPageProp?: number; // 当前页码 默认1
 // pageSizeProp?: number; // 每页条数 默认10
-// pageSizesProp?: number[]; // 每页条数范围 默认[10, 20, 30, 40, 50, 100]
 // isDelayLoader?: boolean; // 是否使用延迟加载器 默认false
 // delayLoaderTime?: number; // 延迟加载时间 默认300
 // isFullDose?: boolean; // 是否全量数据 默认false
