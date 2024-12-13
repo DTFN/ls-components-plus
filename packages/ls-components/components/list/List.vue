@@ -285,6 +285,15 @@ function disabledTableDel(row: any) {
 
 const spacer = h(ElDivider, { direction: 'vertical' });
 
+// 是否隐藏骨架屏
+const hideSkeleton = computed(() => {
+  let show = props.showSkeleton;
+  if (show) {
+    return !isFirst.value;
+  }
+  return true;
+});
+
 defineExpose({
   loadData,
   handleReset,
@@ -299,7 +308,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="!isFirst" class="animate_fadeIn transition-all-300 ls-list-wrap">
+  <div v-if="hideSkeleton" class="animate_fadeIn transition-all-300 ls-list-wrap">
     <LSForm
       v-if="showForm"
       ref="FormRef"
@@ -414,7 +423,7 @@ defineExpose({
                 width="180"
                 confirm-button-text="确认"
                 cancel-button-text="取消"
-                :title="`是否删除当前列数据？`"
+                :title="`是否${tableDelText || '删除'}当前列数据？`"
                 @confirm="onDel(row[tableRowKey], row)"
               >
                 <template #reference>
@@ -442,7 +451,7 @@ defineExpose({
       </template>
     </LSTable>
   </div>
-  <el-skeleton v-else :rows="5" animated />
+  <el-skeleton v-else :rows="5" animated v-bind="skeletonAttrs" />
 </template>
 
 <style scoped lang="scss">

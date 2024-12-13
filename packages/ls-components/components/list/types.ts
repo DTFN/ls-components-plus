@@ -212,5 +212,15 @@ export const lsListProps = buildProps({
   tableDelText: {
     type: String,
     default: '删除'
+  },
+  // 表格骨架屏配置
+  skeletonAttrs: {
+    type: Object,
+    default: () => {}
+  },
+  // 表格骨架屏是否展示
+  showSkeleton: {
+    type: Boolean,
+    default: true
   }
 } as const);
