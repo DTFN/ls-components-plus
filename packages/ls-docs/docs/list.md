@@ -463,6 +463,18 @@ const attrTableData=[
     desc: '表格删除按钮文案',
     type: 'string',
     value: '删除'
+  },
+  {
+    name: 'showSkeleton',
+    desc: '是否显示骨架屏',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'skeletonAttrs',
+    desc: '骨架屏配置项',
+    type: 'object',
+    value: '-'
   }
 ]
 
