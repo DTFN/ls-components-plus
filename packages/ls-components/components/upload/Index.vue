@@ -9,7 +9,6 @@
       :on-success="onSuccessAction"
       :on-error="onErrorAction"
       :on-remove="onRemoveAction"
-      :on-preview="onPreviewAction"
       :on-progress="onProgressAction"
     >
       <template #trigger>
@@ -252,9 +251,9 @@ const tipContent = computed(() => {
 const httpRequestFunc = computed(() => {
   return props?.item?.httpRequestFunc;
 });
-const textPreview = computed(() => {
-  return props?.item?.textPreview;
-});
+// const textPreview = computed(() => {
+//   return props?.item?.textPreview;
+// });
 
 watch(
   [isCover, httpRequestFunc],
@@ -492,63 +491,63 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
   }
 }
 
-function onPreviewAction(file: UploadFile) {
-  if (props.onPreview) {
-    return props.onPreview(file);
-  }
-  const { raw, url, blob, name }: any = file;
-  const { type }: any = raw || {};
-  if (raw) {
-    if (textPreview.value && textPreview.value.length > 0) {
-      if (type?.startsWith('image')) {
-        configs.typePreview = 'image';
-        configs.sourcePreview = isPicCard.value ? [url] : [blob];
-        configs.showPreview = true;
-      } else if (type == 'application/pdf') {
-        if (textPreview.value.includes('pdf')) {
-          configs.typePreview = 'pdf';
-          configs.sourcePreview = blob;
-          configs.showPreview = true;
-        } else if (textPreview.value.includes('pdfNative')) {
-          blob && window.open(blob, '_blank');
-        }
-      } else if (
-        textPreview.value.includes('xlsx') &&
-        ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)
-      ) {
-        configs.typePreview = 'xlsx';
-        fetch(blob)
-          .then((response: any) => response.blob())
-          .then(data => {
-            configs.sourcePreview = new File([data], name, { type });
-            configs.showPreview = true;
-          });
-      } else if (
-        textPreview.value.includes('docx') &&
-        type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ) {
-        configs.typePreview = 'docx';
-        fetch(blob)
-          .then(response => response.blob())
-          .then(blob => blob.arrayBuffer())
-          .then(data => {
-            configs.sourcePreview = data;
-            configs.showPreview = true;
-          });
-      }
-    } else if (isPicCard.value) {
-      if (type?.startsWith('image')) {
-        configs.typePreview = 'image';
-        configs.sourcePreview = [url];
-        configs.showPreview = true;
-      }
-    }
-  } else if (isPicCard.value) {
-    configs.typePreview = 'image';
-    configs.sourcePreview = [url];
-    configs.showPreview = true;
-  }
-}
+// function onPreviewAction(file: UploadFile) {
+//   if (props.onPreview) {
+//     return props.onPreview(file);
+//   }
+//   const { raw, url, blob, name }: any = file;
+//   const { type }: any = raw || {};
+//   if (raw) {
+//     if (textPreview.value && textPreview.value.length > 0) {
+//       if (type?.startsWith('image')) {
+//         configs.typePreview = 'image';
+//         configs.sourcePreview = isPicCard.value ? [url] : [blob];
+//         configs.showPreview = true;
+//       } else if (type == 'application/pdf') {
+//         if (textPreview.value.includes('pdf')) {
+//           configs.typePreview = 'pdf';
+//           configs.sourcePreview = blob;
+//           configs.showPreview = true;
+//         } else if (textPreview.value.includes('pdfNative')) {
+//           blob && window.open(blob, '_blank');
+//         }
+//       } else if (
+//         textPreview.value.includes('xlsx') &&
+//         ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)
+//       ) {
+//         configs.typePreview = 'xlsx';
+//         fetch(blob)
+//           .then((response: any) => response.blob())
+//           .then(data => {
+//             configs.sourcePreview = new File([data], name, { type });
+//             configs.showPreview = true;
+//           });
+//       } else if (
+//         textPreview.value.includes('docx') &&
+//         type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+//       ) {
+//         configs.typePreview = 'docx';
+//         fetch(blob)
+//           .then(response => response.blob())
+//           .then(blob => blob.arrayBuffer())
+//           .then(data => {
+//             configs.sourcePreview = data;
+//             configs.showPreview = true;
+//           });
+//       }
+//     } else if (isPicCard.value) {
+//       if (type?.startsWith('image')) {
+//         configs.typePreview = 'image';
+//         configs.sourcePreview = [url];
+//         configs.showPreview = true;
+//       }
+//     }
+//   } else if (isPicCard.value) {
+//     configs.typePreview = 'image';
+//     configs.sourcePreview = [url];
+//     configs.showPreview = true;
+//   }
+// }
 
 async function httpRequestAction(data: any) {
   const { file } = data;

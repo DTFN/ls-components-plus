@@ -105,7 +105,13 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
 
     <br />
 
-    <LSUpload :action="action" :item="item1" :file-list="fileList2" @on-change-func="onChange2"></LSUpload>
+    <LSUpload
+      :action="action"
+      :item="item1"
+      :file-list="fileList2"
+      @on-change-func="onChange2"
+      :before-remove="beforeRemove"
+    ></LSUpload>
 
     <br />
 
