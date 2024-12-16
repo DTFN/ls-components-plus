@@ -20,7 +20,7 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 <LSButton type="primary" @click="openViewerImg">图片预览</LSButton>
 
 <ClientOnly>
-  <LSPreview v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+  <LSPreviewImage v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
 </ClientOnly>
 
 ```js
@@ -43,7 +43,7 @@ function openViewerImg() {
 
 ```html
 <LSButton type="primary" @click="openViewerImg">图片预览</LSButton>
-<LSPreview v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+<LSPreviewImage v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
 ```
 
 ### 2. Docx预览
@@ -51,7 +51,7 @@ function openViewerImg() {
 <br />
 <LSButton type="primary" @click="openViewerDocx">Docx预览</LSButton>
 <ClientOnly>
-  <LSPreview v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+  <LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
 </ClientOnly>
 
 ```js
@@ -75,7 +75,7 @@ function openViewerDocx() {
 
 ```html
 <LSButton type="primary" @click="openViewerDocx">Docx预览</LSButton>
-<LSPreview v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+<LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
 ```
 
 ### 3. Pdf预览
@@ -86,7 +86,7 @@ function openViewerDocx() {
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <ClientOnly>
-  <LSPreview v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
 </ClientOnly>
 
 ```js
@@ -107,7 +107,7 @@ function openViewerPdf() {
 
 ```html
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreview v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
@@ -140,7 +140,7 @@ function openViewerPdf() {
 
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
 <ClientOnly>
-<LSPreview v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
 </ClientOnly>
 
 ```js
@@ -162,7 +162,7 @@ function openViewerXlsx() {
 
 ```html
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
-<LSPreview v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
 ```
 
 ## API

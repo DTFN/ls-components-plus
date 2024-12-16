@@ -5,12 +5,17 @@ import xlsx from '@/assets/files/222.xlsx?url';
 import pdf from '@/assets/files/零数科技企业宣传册-2023.pdf';
 
 const type = ref('image');
-const source: any = ref();
-const showViewer = ref(false);
+const source: any = ref([]);
+const showViewerImage = ref(false);
+const showViewerDocx = ref(false);
+const showViewerPdf = ref(false);
+const showViewerXlsx = ref(false);
 
 function closeViewer() {
-  showViewer.value = false;
-  source.value = '';
+  showViewerImage.value = false;
+  showViewerDocx.value = false;
+  showViewerPdf.value = false;
+  showViewerXlsx.value = false;
 }
 
 function openViewer(val: string) {
@@ -24,22 +29,23 @@ function openViewer(val: string) {
           'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
         ];
       }, 1000);
+      showViewerImage.value = true;
       break;
     case 'docx':
       axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
         source.value = data.data;
       });
+      showViewerDocx.value = true;
       break;
     case 'xlsx':
       axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
         source.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
+        showViewerXlsx.value = true;
       });
       break;
     case 'pdf':
       source.value = pdf;
-      break;
-    case 'pdfNative':
-      window.open(pdf, '_blank');
+      showViewerPdf.value = true;
       break;
     case 'image2':
       type.value = 'image';
@@ -56,12 +62,12 @@ function openViewer(val: string) {
         )
         .then(data => {
           source.value = [URL.createObjectURL(data.data)];
+          showViewerImage.value = true;
         });
       break;
     default:
       break;
   }
-  showViewer.value = true;
 }
 </script>
 
@@ -77,10 +83,11 @@ function openViewer(val: string) {
       <LSButton type="primary" @click="openViewer('xlsx')">Xlsx预览</LSButton>
 
       <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
-
-      <LSButton type="primary" @click="openViewer('pdfNative')">PDF预览2</LSButton>
     </div>
-    <LSPreview v-model="showViewer" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewImage v-model="showViewerImage" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewPdf v-model="showViewerPdf" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" />
   </div>
 </template>
 

@@ -6,13 +6,15 @@ import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读�
 import ApiIntro from './components/ApiIntro.vue';
 import print from 'vue3-print-nb';
 
-// import LSWebPlus from '../../../ls-components/lib/index';
-// import { vAuth } from '../../../ls-components/lib/directives';
-// import '../../../ls-components/lib/index.css';
+import LSWebPlus from '../../../ls-components/lib/index';
+import { vAuth } from '../../../ls-components/lib/directives';
+import '../../../ls-components/lib/index.css';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
-import '@lingshugroup/web-plus/index.css';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
+// import '@lingshugroup/web-plus/index.css';
+
+
 import 'element-plus/dist/index.css';
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
@@ -24,7 +26,6 @@ import 'element-plus/dist/index.css';
 
 // import LSTable from '@lingshugroup/web-plus/table';
 // import LSDescriptions from '@lingshugroup/web-plus/descriptions';
-// import LSPreview from '@lingshugroup/web-plus/preview';
 // import LSTree from '@lingshugroup/web-plus/tree';
 // import LSMap from '@lingshugroup/web-plus/map';
 // import LSMap from '../../../ls-components/lib/map'
@@ -79,7 +80,6 @@ export default Object.assign({}, Theme, {
     //   LSUpload,
     //   LSTable,
     //   LSDescriptions,
-    // LSPreview,
     // LSTree,
     // LSMap,
     // LSLive,
@@ -100,11 +100,11 @@ export default Object.assign({}, Theme, {
     //   app.component(item.name, item);
     // });
 
-    if (!import.meta.env.SSR) {
-      import('@lingshugroup/web-plus').then(module => {
-        app.use(module.default.install);
-      });
-    }
-    // app.use(LSWebPlus);
+    // if (!import.meta.env.SSR) {
+    //   import('@lingshugroup/web-plus').then(module => {
+    //     app.use(module.default.install);
+    //   });
+    // }
+    app.use(LSWebPlus);
   }
 });
