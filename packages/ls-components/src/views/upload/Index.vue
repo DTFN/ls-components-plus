@@ -6,16 +6,14 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 const item1 = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
-  tipContent: '上傳文件不超過2m',
-  textPreview: ['pdf']
+  tipContent: '上傳文件不超過2m'
 });
 
 const item2 = ref({
   httpRequestFunc: function (formData: any, uploadProcessObj: any) {
     return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
   },
-  limitFile: ['pdf', 'jpg'],
-  textPreview: ['pdfNative']
+  limitFile: ['pdf', 'jpg']
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;

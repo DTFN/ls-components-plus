@@ -3,9 +3,9 @@ import type { App, Plugin } from 'vue';
 import { LSButton, LSButtonGroup } from './button/index';
 import LSDescriptions from './descriptions/index';
 import { LSForm, LSFormItem } from './form/index';
-import LSPreview from './preview/index';
 import LSTable from './table/index';
 import LSUpload from './upload/index';
+import LSPreview from './preview/index';
 import LSMenu from './menu/index';
 import LSIcon from './icon/index';
 import LSConfirm from './confirm/index';
@@ -16,14 +16,16 @@ import LSLive from './live/index';
 import LSTree from './tree/index';
 import LSPrint from './print/index';
 import LSContainerBox from './containerBox/index';
-import LSFlowBox from './flowBox/index';
 import LSBackTop from './backTop/index';
 import LSMap from './map/index';
 import LSEditor from './editor/index';
 import LSDialog from './dialog/index';
 import LSLayout from './layout/index';
 import LSList from './list/index';
-import LSJsonEditor from './jsonEditor/index';
+import LSPreviewImage from './preview_image/index';
+import LSPreviewDocx from './preview_docx/index';
+import LSPreviewPdf from './preview_pdf/index';
+import LSPreviewXlsx from './preview_xlsx/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -44,14 +46,16 @@ const components: Record<string, Plugin> = {
   LSTree,
   LSPrint,
   LSContainerBox,
-  LSFlowBox,
   LSBackTop,
   LSMap,
   LSEditor,
   LSDialog,
   LSLayout,
   LSList,
-  LSJsonEditor
+  LSPreviewImage,
+  LSPreviewDocx,
+  LSPreviewPdf,
+  LSPreviewXlsx
 };
 
 const install = (app: App) => {

@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/web-plus",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
   "main": "./lib/index/index.cjs",
@@ -62,10 +62,6 @@
       "import": "./lib/editor/index.js",
       "require": "./lib/editor/index.cjs"
     },
-    "./flowBox": {
-      "import": "./lib/flowBox/index.js",
-      "require": "./lib/flowBox/index.cjs"
-    },
     "./form": {
       "import": "./lib/form/index.js",
       "require": "./lib/form/index.cjs"
@@ -73,10 +69,6 @@
     "./icon": {
       "import": "./lib/icon/index.js",
       "require": "./lib/icon/index.cjs"
-    },
-    "./jsonEditor": {
-      "import": "./lib/jsonEditor/index.js",
-      "require": "./lib/jsonEditor/index.cjs"
     },
     "./layout": {
       "import": "./lib/layout/index.js",
@@ -101,6 +93,22 @@
     "./preview": {
       "import": "./lib/preview/index.js",
       "require": "./lib/preview/index.cjs"
+    },
+    "./previewImage": {
+      "import": "./lib/preview_image/index.js",
+      "require": "./lib/preview_image/index.cjs"
+    },
+    "./previewDocx": {
+      "import": "./lib/preview_docx/index.js",
+      "require": "./lib/preview_docx/index.cjs"
+    },
+    "./previewPdf": {
+      "import": "./lib/preview_pdf/index.js",
+      "require": "./lib/preview_pdf/index.cjs"
+    },
+    "./previewXlsx": {
+      "import": "./lib/preview_xlsx/index.js",
+      "require": "./lib/preview_xlsx/index.cjs"
     },
     "./print": {
       "import": "./lib/print/index.js",

@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-// import LSImage from './components/Image.vue';
-// import LSDocx from './components/Docx.vue';
-// import LSXlsx from './components/Xlsx.vue';
-// import LSPdf from './components/Pdf.vue';
+import LSPdf from './Pdf.vue';
 import { lsPreviewProp } from './types';
 import { ElLoading } from 'element-plus';
 import { merge } from 'lodash-es';
 
 defineOptions({
-  name: 'LSPreview',
-  // components: {
-  //   LSImage,
-  //   LSDocx,
-  //   LSXlsx,
-  //   LSPdf
-  // },
+  name: 'LSPreviewPdf',
+  components: {
+    LSPdf
+  },
   inheritAttrs: false
 });
 
@@ -25,7 +19,7 @@ const emits = defineEmits<{
 }>();
 
 const props = defineProps(lsPreviewProp);
-const { type, zoomSize } = toRefs(props);
+const { zoomSize } = toRefs(props);
 
 const previewVisible = defineModel({
   type: Boolean
@@ -37,17 +31,7 @@ const defAttrs: any = reactive({
 });
 const ns = useNamespace('preview');
 const comClass: string = ns.b();
-const cpoMap: any = shallowRef({
-  image: null,
-  docx: null,
-  xlsx: null,
-  pdf: null
-});
 const loadInstance: any = ref();
-
-const curCpo = computed(() => {
-  return type?.value && cpoMap.value[type?.value];
-});
 
 const errorMsg = ref('文件加载失败，请检查文件是否已损坏！');
 let timer: any = null;
@@ -78,22 +62,6 @@ watch(
 
 function openLoading() {
   props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
-  switch (props.type) {
-    case 'image':
-      cpoMap.value.image = defineAsyncComponent(() => import('./components/Image.vue'));
-      break;
-    case 'docx':
-      cpoMap.value.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
-      break;
-    case 'xlsx':
-      cpoMap.value.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
-      break;
-    case 'pdf':
-      cpoMap.value.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
-      break;
-    default:
-      break;
-  }
 
   timer = setTimeout(() => {
     if (!props.source) {
@@ -122,7 +90,7 @@ const loadError = () => {
 };
 
 onBeforeMount(() => {
-  previewVisible.value && props.type && openLoading();
+  previewVisible.value && openLoading();
 });
 
 onBeforeUnmount(() => {
@@ -132,13 +100,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <component
-      v-if="curCpo"
-      :is="curCpo"
-      v-bind="merge(defAttrs, $attrs)"
-      @load-complete="loadComplete"
-      @load-error="loadError"
-    ></component>
+    <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
   </div>
 </template>
 

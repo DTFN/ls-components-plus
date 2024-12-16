@@ -256,27 +256,7 @@ function formValidateFunc() {
 ```
 
 :::
-
-### 8.文本预览
-
-<br />
-
-<ClientOnly>
-  <LSUpload :action="action" :item="item4"></LSUpload>
-</ClientOnly>
-
-```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
-const item4 = ref({
-  textPreview: ['pdf', 'xlsx']
-});
-```
-
-```html
-<LSUpload :action="action" :item="item4"></LSUpload>
-```
-
-### 9.用户头像模式
+### 8.用户头像模式
 
 <br />
 <LSUpload list-type="picture-card" :action="action" :item="item5" v-model:file-list="fileList">
@@ -468,12 +448,13 @@ const fileList = ref([{ name: '', url: '' }]);
       type: 'string',
       value: '-'
     },
-    {
-      name: 'textPreview',
-      desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx、pdfNative，pdfNative：为打开浏览器预览pdf文件',
-      type: 'array',
-      value: '-'
-    },
+    // v1.0.34移除
+    // {
+    //   name: 'textPreview',
+    //   desc: '点击上传文本文件是否支持预览，支持格式：docx、pdf、xlsx、pdfNative，pdfNative：为打开浏览器预览pdf文件',
+    //   type: 'array',
+    //   value: '-'
+    // },
     {
       name: 'profile',
       desc: '用户头像模式',

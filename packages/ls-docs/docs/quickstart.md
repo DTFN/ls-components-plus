@@ -64,7 +64,17 @@ import LSUpload from '@lingshugroup/web-plus/upload';
 
 import LSTable from '@lingshugroup/web-plus/table';
 import LSDescriptions from '@lingshugroup/web-plus/descriptions';
+
+// v1.0.34+之后不建议使用
 import LSPreview from '@lingshugroup/web-plus/preview';
+
+/***** v1.0.34+ ****/
+import LSPreviewImage from '@lingshugroup/web-plus/previewImage';
+import LSPreviewDocx from '@lingshugroup/web-plus/previewDocx';
+import LSPreviewPdf from '@lingshugroup/web-plus/previewPdf';
+import LSPreviewXlsx from '@lingshugroup/web-plus/previewXlsx';
+/***** v1.0.34+ ****/
+
 import LSTree from '@lingshugroup/web-plus/tree';
 import LSMap from '@lingshugroup/web-plus/map';
 import LSLive from '@lingshugroup/web-plus/live';
@@ -97,6 +107,10 @@ import LSContainerBox from '@lingshugroup/web-plus/containerBox';
   LSTable,
   LSDescriptions,
   LSPreview,
+  LSPreviewImage,
+  LSPreviewDocx,
+  LSPreviewPdf,
+  LSPreviewXlsx,
   LSTree,
   LSMap,
   LSLive,
