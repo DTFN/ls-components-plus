@@ -16,6 +16,7 @@ function closeViewer() {
   showViewerDocx.value = false;
   showViewerPdf.value = false;
   showViewerXlsx.value = false;
+  source.value = '';
 }
 
 function openViewer(val: string) {
@@ -48,22 +49,23 @@ function openViewer(val: string) {
       showViewerPdf.value = true;
       break;
     case 'image2':
-      type.value = 'image';
-      axios
-        .get(
-          'http://192.168.3.37:8889/detector/api/v1/common/file/preview?fileName=20241212_ba6f326a10b042e98e13761e9cbedf2d.jpg&name=Mask+group+(5)+(1).jpg',
-          {
-            responseType: 'blob',
-            headers: {
-              authorization:
-                'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1Iiwic3ViIjoidGVzdEBAMSIsImlhdCI6MTczMzk5Nzk2MCwiZXhwIjoxNzMzOTk4NTY1fQ.WUzl6QnosXul_WIABozMGLZhvMoc3jCW1hpKVPsKSSwSrGJddFctomNel-JFhiS-rkzyXPf2bxxZag3DucZ71Q'
-            }
-          }
-        )
-        .then(data => {
-          source.value = [URL.createObjectURL(data.data)];
-          showViewerImage.value = true;
-        });
+      source.value = 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg';
+      showViewerImage.value = true;
+      // axios
+      //   .get(
+      //     'http://192.168.3.37:8889/detector/api/v1/common/file/preview?fileName=20241212_ba6f326a10b042e98e13761e9cbedf2d.jpg&name=Mask+group+(5)+(1).jpg',
+      //     {
+      //       responseType: 'blob',
+      //       headers: {
+      //         authorization:
+      //           'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1Iiwic3ViIjoidGVzdEBAMSIsImlhdCI6MTczMzk5Nzk2MCwiZXhwIjoxNzMzOTk4NTY1fQ.WUzl6QnosXul_WIABozMGLZhvMoc3jCW1hpKVPsKSSwSrGJddFctomNel-JFhiS-rkzyXPf2bxxZag3DucZ71Q'
+      //       }
+      //     }
+      //   )
+      //   .then(data => {
+      //     source.value = URL.createObjectURL(data.data);
+      //     showViewerImage.value = true;
+      //   });
       break;
     default:
       break;

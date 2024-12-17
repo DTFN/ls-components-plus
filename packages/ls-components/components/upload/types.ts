@@ -75,6 +75,10 @@ export const lsUploadProps = buildProps({
     type: Function,
     default: null
   },
+  onProgress: {
+    type: Function,
+    default: null
+  },
   httpRequest: {
     type: Function,
     default: null
