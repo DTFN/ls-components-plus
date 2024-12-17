@@ -10,6 +10,7 @@
       :on-error="onErrorAction"
       :on-remove="onRemoveAction"
       :on-progress="onProgressAction"
+      :on-preview="onPreviewAction"
     >
       <template #trigger>
         <template v-if="!isProfile">
@@ -106,7 +107,7 @@
 import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
 import type { configsType, UploadChangeFile } from './types';
 import { getVariable } from '@cpo/_utils/config';
-import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile } from 'element-plus';
+import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile, UploadProgressEvent } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
@@ -608,8 +609,17 @@ function cancelUpload() {
   });
 }
 
-function onProgressAction() {
+function onProgressAction(evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) {
   uploading.value = true;
+  if (props.onProgress) {
+    return props.onProgress(evt, uploadFile, uploadFiles);
+  }
+}
+
+function onPreviewAction(uploadFile: UploadFile) {
+  if (props.onPreview) {
+    return props.onPreview(uploadFile);
+  }
 }
 
 // function closePreview() {

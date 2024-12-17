@@ -107,4 +107,7 @@ const closeFunc = () => {
     @include op-icon;
   }
 }
+:deep(.docx-wrapper) {
+  background-color: transparent !important;
+}
 </style>

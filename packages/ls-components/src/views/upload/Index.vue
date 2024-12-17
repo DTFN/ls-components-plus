@@ -87,6 +87,10 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
     () => false
   );
 };
+
+function onPreview(file: any) {
+  console.log(file);
+}
 </script>
 
 <template>
@@ -113,7 +117,13 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
 
     <br />
 
-    <LSUpload :action="action" :auto-upload="false" :item="item2" @http-response-func="httpResponseFunc"></LSUpload>
+    <LSUpload
+      :action="action"
+      :auto-upload="false"
+      :item="item2"
+      @http-response-func="httpResponseFunc"
+      :on-preview="onPreview"
+    ></LSUpload>
 
     <br />
 

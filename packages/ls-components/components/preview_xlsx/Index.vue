@@ -33,7 +33,6 @@ const ns = useNamespace('preview');
 const comClass: string = ns.b();
 const loadInstance: any = ref();
 
-const errorMsg = ref('文件加载失败，请检查文件是否已损坏！');
 let timer: any = null;
 
 watch(
@@ -85,7 +84,6 @@ const loadComplete = () => {
 
 const loadError = () => {
   closeLoading();
-  console.error(errorMsg.value);
   emits('loadError');
 };
 

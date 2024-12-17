@@ -32,13 +32,26 @@
             </div>
           </div>
           <!-- CANVAS -->
-          <div :class="ns.e('canvas')">
+          <div v-if="source" :class="ns.e('canvas')">
+            <template v-if="isArray(source)">
+              <img
+                v-for="(url, i) in source"
+                v-show="i === activeIndex"
+                :ref="el => (imgRefs[i] = el as HTMLImageElement)"
+                :key="url"
+                :src="url"
+                :style="imgStyle"
+                :class="ns.e('img')"
+                @load="handleImgLoad"
+                @error="handleImgError"
+                @mousedown="handleMouseDown"
+              />
+            </template>
             <img
-              v-for="(url, i) in source"
-              v-show="i === activeIndex"
-              :ref="el => (imgRefs[i] = el as HTMLImageElement)"
-              :key="url"
-              :src="url"
+              v-else
+              :ref="el => (imgRefs[0] = el as HTMLImageElement)"
+              :key="source"
+              :src="source"
               :style="imgStyle"
               :class="ns.e('img')"
               @load="handleImgLoad"
@@ -59,7 +72,7 @@ import { throttle } from 'lodash-unified';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { useZIndex } from '@cpo/_hooks/useZIndex';
 import { EVENT_CODE } from '@cpo/_constants';
-import { isFirefox, isNumber } from '@cpo/_utils/check';
+import { isArray, isFirefox, isNumber, isString } from '@cpo/_utils/check';
 import { keysOf } from '@cpo/_utils/types';
 import { previewEmits, imageViewerProps } from './types';
 import type { CSSProperties } from 'vue';
@@ -103,7 +116,7 @@ const transform = reactive({
 });
 const isSingle = computed(() => {
   const { source } = props;
-  return source.length <= 1;
+  return isString(source) || source.length <= 1;
 });
 const isFirst = computed(() => {
   return activeIndex.value === 0;
