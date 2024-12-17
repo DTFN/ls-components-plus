@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as PDFJS from 'pdfjs-dist';
+import { TextLayer } from 'pdfjs-dist';
 import { onMounted, ref, watch } from 'vue';
 
 import type { PDFPageProxy, PageViewport } from 'pdfjs-dist';
@@ -61,7 +61,7 @@ function render() {
   const page = props.page;
   const viewport = props.viewport;
   const textStream = page?.streamTextContent({ includeMarkedContent: true, disableNormalization: true });
-  const textLayer = new PDFJS.TextLayer({ container: layer.value!, textContentSource: textStream!, viewport: viewport! });
+  const textLayer = new TextLayer({ container: layer.value!, textContentSource: textStream!, viewport: viewport! });
   textLayer.render().then(async () => {
     textDivs = textLayer.textDivs;
     const textContent = await page?.getTextContent();

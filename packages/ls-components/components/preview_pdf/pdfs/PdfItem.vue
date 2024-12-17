@@ -1,5 +1,5 @@
 <script setup lang="ts" name="LSPdf">
-import * as PDFJS from 'pdfjs-dist';
+import { AnnotationMode } from 'pdfjs-dist';
 import type { PDFDocumentLoadingTask, PDFPageProxy, PageViewport, RenderTask } from 'pdfjs-dist';
 import type { GetViewportParameters, PDFDocumentProxy, RenderParameters } from 'pdfjs-dist/types/src/display/api';
 import type {
@@ -237,7 +237,7 @@ function renderPage(pageNum: number) {
       const renderContext: RenderParameters = {
         canvasContext: canvas.getContext('2d')!,
         viewport,
-        annotationMode: props.hideForms ? PDFJS.AnnotationMode.ENABLE : PDFJS.AnnotationMode.ENABLE_FORMS,
+        annotationMode: props.hideForms ? AnnotationMode.ENABLE : AnnotationMode.ENABLE_FORMS,
         transform,
         intent: props.intent
       };

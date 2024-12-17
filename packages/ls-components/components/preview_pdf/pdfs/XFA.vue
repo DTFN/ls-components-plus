@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as PDFJS from 'pdfjs-dist';
+import { XfaLayer } from 'pdfjs-dist';
 import { onMounted, ref, toRaw, watch } from 'vue';
 
 import type { PDFDocumentProxy, PDFPageProxy, PageViewport } from 'pdfjs-dist';
@@ -35,7 +35,7 @@ async function render() {
       annotationStorage: pdf?.annotationStorage,
       xfaHtml: xfaHTML!
     };
-    PDFJS.XfaLayer.render(parameters);
+    XfaLayer.render(parameters);
     emit('xfaLoaded');
   }
 }
