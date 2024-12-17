@@ -1,21 +1,20 @@
 import { App } from 'vue';
-// import { useData } from 'vitepress';
 import Theme from 'vitepress/theme';
 import './style.scss';
 import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
 import ApiIntro from './components/ApiIntro.vue';
 import print from 'vue3-print-nb';
-
-import LSWebPlus from '../../../ls-components/lib/index';
-import { vAuth } from '../../../ls-components/lib/directives';
-import '../../../ls-components/lib/index.css';
-
-// import LSWebPlus from '@lingshugroup/web-plus';
-// import { vAuth } from '@lingshugroup/web-plus/directives';
-// import '@lingshugroup/web-plus/index.css';
-
+// import { defineClientComponent } from 'vitepress';
 
 import 'element-plus/dist/index.css';
+
+// import LSWebPlus from '../../../ls-components/lib/index';
+// import { vAuth } from '../../../ls-components/lib/directives';
+// import '../../../ls-components/lib/index.css';
+
+// import LSWebPlus from '@lingshugroup/web-plus';
+import { vAuth } from '@lingshugroup/web-plus/directives';
+import '@lingshugroup/web-plus/index.css';
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
 // import { LSButton, LSButtonGroup } from '@lingshugroup/web-plus/button';
@@ -28,9 +27,7 @@ import 'element-plus/dist/index.css';
 // import LSDescriptions from '@lingshugroup/web-plus/descriptions';
 // import LSTree from '@lingshugroup/web-plus/tree';
 // import LSMap from '@lingshugroup/web-plus/map';
-// import LSMap from '../../../ls-components/lib/map'
 // import LSLive from '@lingshugroup/web-plus/live';
-// import LSJsonEditor from '@lingshugroup/web-plus/jsonEditor';
 // import LSEditor from '@lingshugroup/web-plus/editor';
 // import LSList from '@lingshugroup/web-plus/list';
 
@@ -45,7 +42,6 @@ import 'element-plus/dist/index.css';
 // import LSDialog from '@lingshugroup/web-plus/dialog';
 
 // import LSPrint from '@lingshugroup/web-plus/print';
-// import LSFlowBox from '@lingshugroup/web-plus/flowBox';
 // import LSContainerBox from '@lingshugroup/web-plus/containerBox';
 
 export default Object.assign({}, Theme, {
@@ -61,50 +57,46 @@ export default Object.assign({}, Theme, {
 
   // return h(Theme.Layout, props);
   // },
-  enhanceApp({ app }: { app: App }) {
-    app.component('ArticleMetadata', ArticleMetadata);
-    app.component('ApiIntro', ApiIntro);
+  async enhanceApp({ app }: { app: App }) {
+      app.component('ArticleMetadata', ArticleMetadata);
+      app.component('ApiIntro', ApiIntro);
+  
+      app.directive('print', print);
+  
+      vAuth.permissions = ['a', 'b', 'c'];
+      app.directive('auth', vAuth);
+      // [
+      //   LSIcon,
+      //   LSButton,
+      //   LSButtonGroup,
+      //   LSLayout,
+      //   LSForm,
+      //   LSFormItem,
+      //   LSUpload,
+      //   LSTable,
+      //   LSDescriptions,
+      //   LSTree,
+      //   LSMap,
+        // LSLive,
+        // LSEditor,
+        // LSList,
+        // LSChart,
+        // LSBackTop,
+        // LSBreadcrumb,
+        // LSMenu,
+        // LSConfirm,
+        // LSBellMessage,
+        // LSDialog,
+        // LSPrint,
+        // LSContainerBox
+      // ].map(item => {
+      //   app.component(item.name, item);
+      // });
+      
+    if (!import.meta.env.SSR) {
+      const plugin = await import('@lingshugroup/web-plus')
+      app.use(plugin.default)
+    }
 
-    app.directive('print', print);
-
-    vAuth.permissions = ['a', 'b', 'c'];
-    app.directive('auth', vAuth);
-
-    // [
-    //   LSIcon,
-    //   LSButton,
-    //   LSButtonGroup,
-    //   LSLayout,
-    //   LSForm,
-    //   LSFormItem,
-    //   LSUpload,
-    //   LSTable,
-    //   LSDescriptions,
-    // LSTree,
-    // LSMap,
-    // LSLive,
-    // LSJsonEditor,
-    // LSEditor,
-    // LSList,
-    // LSChart,
-    // LSBackTop,
-    // LSBreadcrumb,
-    // LSMenu,
-    // LSConfirm,
-    // LSBellMessage,
-    // LSDialog,
-    // LSPrint,
-    // LSFlowBox,
-    // LSContainerBox
-    // ].map(item => {
-    //   app.component(item.name, item);
-    // });
-
-    // if (!import.meta.env.SSR) {
-    //   import('@lingshugroup/web-plus').then(module => {
-    //     app.use(module.default.install);
-    //   });
-    // }
-    app.use(LSWebPlus);
   }
 });

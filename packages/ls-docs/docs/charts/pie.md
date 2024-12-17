@@ -25,7 +25,9 @@ outline: deep
 
 ### 1. 案例一
 
+<ClientOnly>
 <LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template1" width="800" height="400" :custom-option="customOptionPie" ></LSChart>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -64,7 +66,9 @@ const customOptionPie = ref({
 
 ### 2. 案例二
 
+<ClientOnly>
 <LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template2" :custom-option="customOptionPie2" height="400" ></LSChart>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -125,7 +129,9 @@ const customOptionPie2 = ref({
 
 ### 3. 案例三
 
+<ClientOnly>
 <LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template3" height="400" ></LSChart>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -152,8 +158,9 @@ const templateAllPie = ref({
 :::
 
 ### 4. 案例四
-
+<ClientOnly>
 <LSChart template="pie" :data="{ seriesData: seriesDataPie, innerData: innerDataPie }" :template-patch="templateAllPie.template4" :custom-option="{ series: [ { cursor: 'move' } ] }" height="400" ></LSChart>
+</ClientOnly>
 
 ::: details 点我查看代码
 

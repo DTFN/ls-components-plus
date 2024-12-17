@@ -38,8 +38,9 @@ outline: deep
 </el-form>
 
 ### 1. templateSimpleLine
-
+<ClientOnly>
 <LSChart template="line" :data="dataSimpleLine" :template-patch="templateAllLine.templateSimpleLine" :custom-option="customOption" />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -81,7 +82,9 @@ const customOption = ref({
 
 ### 2. templateMultipleLine
 
+<ClientOnly>
 <LSChart template="line" :data="dataMultipleLine" :template-patch="templateAllLine.templateMultipleLine" />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -127,7 +130,9 @@ const templateAllLine = ref({
 
 ### 3. templateLineBar
 
+<ClientOnly>
 <LSChart template="line" :data="dataLineBarLine" :template-patch="templateAllLine.templateLineBar" />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -313,7 +318,9 @@ const templateAllLine = ref({
 
 ### 4. templateDynamicLine
 
+<ClientOnly>
 <LSChart template="line" :data="dynamicLine" :template-patch="templateAllLine.templateDynamicLine" width="800" height="400" />
+</ClientOnly>
 
 ::: details 点我查看代码
 

@@ -12,8 +12,9 @@ outline: deep
 ### 1. 直播类型
 
 <br />
-
+<ClientOnly>
 <LSLive ref="liveRef" class="live-wrap" />
+</ClientOnly>
 
 ```js
 import { ref, onMounted } from 'vue';
@@ -38,7 +39,9 @@ onMounted(() => {
 ### 2. 视频类型
 
 <br />
+<ClientOnly>
 <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :loop="false" />
+</ClientOnly>
 
 ```js
 import { ref, onMounted } from 'vue';

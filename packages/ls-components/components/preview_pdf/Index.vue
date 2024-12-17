@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSPreviewPdf">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSPdf from './Pdf.vue';
 import { lsPreviewProp } from './types';

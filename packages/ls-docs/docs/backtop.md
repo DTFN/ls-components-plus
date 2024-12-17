@@ -10,13 +10,14 @@ outline: deep
 ## 使用方式
 
 ### 往下滚动查看效果
-
+<ClientOnly>
 <div id="backtopContainer" class="backtop-container">
   <div class="backtop-scroll">
     往下滚动展示置顶按钮
   </div>
   <LSBackTop :target="'#backtopContainer'" :right="600" :bottom="300"> </LSBackTop>
 </div>
+</ClientOnly>
 
 ```html
 <div id="backtopContainer" class="backtop-container">
