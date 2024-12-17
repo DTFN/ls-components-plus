@@ -17,8 +17,9 @@ outline: deep
 <br />
 
 <div id="printDom">普通打印内容</div>
-
+<ClientOnly>
 <LSPrint content="禁止普通打印内容" btn-txt="普通打印" :can-print="canPrint" :icon-config="{ name: 'Printer' }" type="primary" :print-obj="{ id: '#printDom', }" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';
@@ -41,12 +42,13 @@ const canPrint = ref(true);
 ### 2. 内嵌打印
 
 <br />
-
+<ClientOnly>
 <LSPrint content="禁止内嵌打印内容" btn-txt="内嵌打印" :can-print="canPrint" :icon-config="{ name: 'Printer', color: 'red' }" type="primary">
  <div>
   内嵌打印内容
  </div>
 </LSPrint>
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';

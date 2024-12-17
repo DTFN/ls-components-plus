@@ -12,6 +12,7 @@ outline: deep
 ### 1. 基础用法
 
 <br>
+<ClientOnly>
 <LSList
   :list-api="listApi"
   :form-data="formData"
@@ -24,6 +25,7 @@ outline: deep
   :deal-data="dealData"
 >
 </LSList>
+</ClientOnly>
 
 ::: details 点我查看代码
 

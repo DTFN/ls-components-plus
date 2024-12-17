@@ -24,7 +24,7 @@ const comStyle = computed(() => {
 
 watch(
   () => props.securityCode,
-  val => {
+  (val: any) => {
     (window as any)._AMapSecurityConfig = {
       securityJsCode: val
     };

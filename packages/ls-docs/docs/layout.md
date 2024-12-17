@@ -50,7 +50,6 @@ outline: deep
 
 ```js
 import { ref } from 'vue';
-import { ElPageHeader } from 'element-plus';
 import logo from '/logo.png';
 
 const MENU_CONFIG_LIST = [
@@ -587,7 +586,6 @@ const MENU_CONFIG_LIST = [
 <script setup>
 import { tableColumn, tableMethodColumn, tableSlotColumn, tableStyleColumn } from '../constant'
 import { ref } from 'vue';
-import { ElPageHeader } from 'element-plus';
 import logo from '/logo.png';
 
 const MENU_CONFIG_LIST = [

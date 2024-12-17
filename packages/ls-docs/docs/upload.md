@@ -259,11 +259,13 @@ function formValidateFunc() {
 ### 8.用户头像模式
 
 <br />
+<ClientOnly>
 <LSUpload list-type="picture-card" :action="action" :item="item5" v-model:file-list="fileList">
   <template #tip>
     <div>12312312</div>  
   </template>
 </LSUpload>
+</ClientOnly>
 
 ```js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');

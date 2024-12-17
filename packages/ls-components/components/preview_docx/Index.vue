@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSPreviewDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSDocx from './Docx.vue';
 import { lsPreviewProp } from './types';

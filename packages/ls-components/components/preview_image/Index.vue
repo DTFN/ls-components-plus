@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSPreviewImage">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSImage from './Image.vue';
 import { lsPreviewProp } from './types';

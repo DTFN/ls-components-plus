@@ -12,24 +12,21 @@ outline: deep
 <LSButton type="primary" @click="getChecked">getChecked</LSButton>
 
 <ClientOnly>
-
 <LSTree
   ref="tree1Ref"
-  :data="treeData"
+  :tree-data="treeData"
   :is-check-all="true"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
   direction="v"
 />
-
 <LSTree
-  :data="treeData"
+  :tree-data="treeData"
   :is-check-all="false"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
   direction="h"
 />
-
 </ClientOnly>
 
 ::: details 点我查看代码

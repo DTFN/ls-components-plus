@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" name="LSPreviewXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSXlsx from './Xlsx.vue';
 import { lsPreviewProp } from './types';
