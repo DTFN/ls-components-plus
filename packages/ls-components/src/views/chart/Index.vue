@@ -165,7 +165,7 @@ const temperatureData = [
     propertyTime: 1726189200000
   },
   {
-    propertyValue: '74.85',
+    propertyValue: null,
     propertyTime: 1726192800000
   },
   {
@@ -173,7 +173,7 @@ const temperatureData = [
     propertyTime: 1726196400000
   },
   {
-    propertyValue: '75.80',
+    propertyValue: null,
     propertyTime: 1726200000000
   },
   {
@@ -243,6 +243,39 @@ const humidity = [
     propertyTime: 1726214400000
   }
 ];
+
+const lineData = {
+  axisData: [
+    '15时',
+    '16时',
+    '17时',
+    '18时',
+    '19时',
+    '20时',
+    '21时',
+    '22时',
+    '23时',
+    '00时',
+    '01时',
+    '02时',
+    '03时',
+    '04时',
+    '05时',
+    '06时',
+    '07时',
+    '08时',
+    '09时',
+    '10时',
+    '11时',
+    '12时',
+    '13时',
+    '14时'
+  ],
+  seriesData: [
+    7.4, 7.43, 7.38, 7.48, 7.57, 7.3, 7.62, 7.25, 7.55, 7.53, 7.47, 7.48, 7.48, 7.42, 7.43, 7.43, 7.53, 7.5, 7.63, 7.45, 7.43,
+    7.63, 7.48, 7.42
+  ]
+};
 const templateAllLine: any = ref({
   templateSimpleLine: {
     labelPosition: 'top',
@@ -256,7 +289,9 @@ const templateAllLine: any = ref({
     tooltip: 'cross',
     legend: ['Email', 'name', 'address'],
     legendIcon: 'circle',
-    dataZoom: 'horizontal'
+    dataZoom: 'horizontal',
+    dataZoomColorOut: 'green',
+    dataZoomColorIn: 'yellow'
     // dynamicAxis: true
   },
   templateLineBar: {
@@ -271,6 +306,16 @@ const templateAllLine: any = ref({
     type: 'multiple',
     tooltip: 'cross',
     dynamicAxis: true
+  },
+  templateDynamicLine2: {
+    // labelPosition: 'top',
+    // type: 'multiple',
+    barColorList: ['#416BE0', '#41CBE0', '#F39423', '#D9755A', '#91cc75', '#fac858', '#ea7ccc', '#9a60b4'],
+    dataZoom: 'horizontal',
+    showBarFont: false,
+    tooltip: 'line',
+    dynamicAxis: true,
+    legendIcon: 'circle'
   }
 });
 
@@ -528,6 +573,14 @@ function changeChartStyle() {
         }"
         :style="{ marginTop: '16px' }"
         width="800"
+        height="400"
+      />
+
+      <LSChart
+        template="line"
+        :data="lineData"
+        :template-patch="templateAllLine.templateDynamicLine2"
+        :style="{ marginTop: '16px' }"
         height="400"
       />
 

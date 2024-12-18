@@ -27,7 +27,8 @@ const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
   closeOnPressEscape: false,
-  zIndex: 2000
+  zIndex: 2000,
+  alignCenter: true
 });
 
 const sHeight = ref(0);
@@ -36,7 +37,7 @@ watch(
   () => visible?.value,
   val => {
     if (val) {
-      updateHeight();
+      props.openScroll && updateHeight();
     }
   },
   {
@@ -85,41 +86,47 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="lsDialogRef" :class="comClass">
-    <el-dialog v-model="visible" v-bind="merge(defAttrs, $attrs)" :show-close="!loading" @close="handleClose">
-      <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
-        <slot></slot>
-      </el-scrollbar>
-      <div v-else class="content-wrap">
-        <slot></slot>
+  <el-dialog
+    ref="lsDialogRef"
+    :class="comClass"
+    v-model="visible"
+    v-bind="merge(defAttrs, $attrs)"
+    :show-close="!loading"
+    @close="handleClose"
+  >
+    <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
+      <slot></slot>
+    </el-scrollbar>
+    <div v-else class="content-wrap">
+      <slot></slot>
+    </div>
+    <template #header>
+      <slot name="header"></slot>
+    </template>
+    <template v-if="hasFooter" #footer>
+      <div class="dialog-footer">
+        <slot v-if="slots.footer" name="footer"></slot>
+        <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleClose">
+          {{ curBtnCancelConfig.txt }}
+        </LSButton>
+        <LSButton v-bind="curBtnConfirmConfig" :loading="loading" :disabled="loading" @click="handleConfirm">
+          {{ curBtnConfirmConfig.txt }}
+        </LSButton>
       </div>
-      <template #header>
-        <slot name="header"></slot>
-      </template>
-      <template v-if="hasFooter" #footer>
-        <div class="dialog-footer">
-          <slot v-if="slots.footer" name="footer"></slot>
-          <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleClose">
-            {{ curBtnCancelConfig.txt }}
-          </LSButton>
-          <LSButton v-bind="curBtnConfirmConfig" :loading="loading" :disabled="loading" @click="handleConfirm">
-            {{ curBtnConfirmConfig.txt }}
-          </LSButton>
-        </div>
-      </template>
-    </el-dialog>
-  </div>
+    </template>
+  </el-dialog>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .ls-dialog {
-  position: relative;
-  :deep(.el-dialog) {
-    max-height: 78%;
+  &.el-dialog {
     overflow: hidden;
     .el-dialog__body {
-      max-height: 63vh !important;
+      max-height: 78vh !important;
       overflow: auto;
+      .content-wrap {
+        padding-bottom: 1px;
+      }
       &::-webkit-scrollbar {
         width: 6px;
       }

@@ -46,8 +46,11 @@ const cpoMap: any = shallowRef({
 const loadInstance: any = ref();
 
 const curCpo = computed(() => {
-  return type?.value && cpoMap[type?.value];
+  return type?.value && cpoMap.value[type?.value];
 });
+
+const errorMsg = ref('文件加载失败，请检查文件是否已损坏！');
+let timer: any = null;
 
 watch(
   () => previewVisible?.value,
@@ -77,23 +80,33 @@ function openLoading() {
   props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
   switch (props.type) {
     case 'image':
-      cpoMap.image = defineAsyncComponent(() => import('./components/Image.vue'));
+      cpoMap.value.image = defineAsyncComponent(() => import('./components/Image.vue'));
       break;
     case 'docx':
-      cpoMap.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
+      cpoMap.value.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
       break;
     case 'xlsx':
-      cpoMap.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
+      cpoMap.value.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
       break;
     case 'pdf':
-      cpoMap.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
+      cpoMap.value.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
       break;
     default:
       break;
   }
+
+  timer = setTimeout(() => {
+    if (!props.source) {
+      ElMessage.error('文件加载超时，请检查文件是否存在！');
+      closeLoading();
+      previewVisible.value = false;
+    }
+    clearTimeout(timer);
+  }, 6000);
 }
 
 const closeLoading = () => {
+  timer && clearTimeout(timer);
   props.needLoading && loadInstance.value && loadInstance.value.close();
 };
 
@@ -104,6 +117,7 @@ const loadComplete = () => {
 
 const loadError = () => {
   closeLoading();
+  console.error(errorMsg.value);
   emits('loadError');
 };
 
@@ -129,32 +143,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
-.ls-preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: gray;
-}
-.file-wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-:deep(.file-content) {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  .vue-office-docx {
-    height: auto;
-    margin: auto;
-  }
-}
+@forward '@cpo/_style/preview.scss';
 </style>

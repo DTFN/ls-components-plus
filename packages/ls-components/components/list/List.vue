@@ -19,6 +19,9 @@ const emits = defineEmits<{
 // 获取插槽
 const slots = useSlots();
 
+const FormRef = ref();
+const TableRef = ref();
+
 // 获取表单插槽
 const formSlots = computed(() => {
   return Object.keys(slots).filter(slotName => slotName.toString().endsWith('-form-slot'));
@@ -282,6 +285,15 @@ function disabledTableDel(row: any) {
 
 const spacer = h(ElDivider, { direction: 'vertical' });
 
+// 是否隐藏骨架屏
+const hideSkeleton = computed(() => {
+  let show = props.showSkeleton;
+  if (show) {
+    return !isFirst.value;
+  }
+  return true;
+});
+
 defineExpose({
   loadData,
   handleReset,
@@ -289,14 +301,17 @@ defineExpose({
   loading,
   currentPage,
   pageSize,
-  total
+  total,
+  FormRef,
+  TableRef
 });
 </script>
 
 <template>
-  <div v-if="!isFirst" class="animate_fadeIn transition-all-300 ls-list-wrap">
+  <div v-if="hideSkeleton" class="animate_fadeIn transition-all-300 ls-list-wrap">
     <LSForm
       v-if="showForm"
+      ref="FormRef"
       class="mb-6px ls-form-cpo"
       label-position="top"
       :class="formClass"
@@ -339,6 +354,7 @@ defineExpose({
     </template>
 
     <LSTable
+      ref="TableRef"
       class="ls-table-cpo"
       :class="[showOperate ? 'mt-16px' : 'mt-24px']"
       :show-overflow-tooltip="true"
@@ -407,7 +423,7 @@ defineExpose({
                 width="180"
                 confirm-button-text="确认"
                 cancel-button-text="取消"
-                :title="`是否删除当前列数据？`"
+                :title="`是否${tableDelText || '删除'}当前列数据？`"
                 @confirm="onDel(row[tableRowKey], row)"
               >
                 <template #reference>
@@ -435,7 +451,7 @@ defineExpose({
       </template>
     </LSTable>
   </div>
-  <el-skeleton v-else :rows="5" animated />
+  <el-skeleton v-else :rows="5" animated v-bind="skeletonAttrs" />
 </template>
 
 <style scoped lang="scss">

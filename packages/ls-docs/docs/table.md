@@ -644,6 +644,18 @@ const attrTableData=[
     type: 'string',
     value: '暂无数据'
   },
+  {
+    name: 'tableIndexInPage',
+    desc: 'Index 是否单页累加',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'tableIndexStart',
+    desc: 'Index 是否从0开始',
+    type: 'boolean',
+    value: 'false'
+  }
 ]
 
 // column数据

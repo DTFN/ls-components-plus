@@ -1,0 +1,29 @@
+@charset 'utf-8';
+.ls-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0 0 0 / 70%);
+}
+.file-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+:deep(.file-content) {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  .vue-office-docx {
+    height: auto;
+    margin: auto;
+  }
+}

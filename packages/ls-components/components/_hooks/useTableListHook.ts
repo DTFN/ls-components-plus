@@ -7,7 +7,6 @@ export default function (
   config?: {
     currentPageProp?: number; // 当前页码
     pageSizeProp?: number; // 每页条数
-    pageSizesProp?: number[]; // 每页条数范围
     isDelayLoader?: boolean; // 是否使用延迟加载器
     delayLoaderTime?: number; // 延迟加载时间
     isFullDose?: boolean; // 是否全量数据
@@ -21,7 +20,6 @@ export default function (
   const {
     currentPageProp = 1,
     pageSizeProp = 10,
-    pageSizesProp = [10, 20, 30, 40, 50, 100],
     isDelayLoader = false,
     delayLoaderTime = 300,
     isFullDose = false,
@@ -40,8 +38,6 @@ export default function (
   const currentPage = ref(currentPageProp);
   // 每页大小
   const pageSize = ref(pageSizeProp);
-  // 大小切换范围
-  const pageSizes = ref(pageSizesProp);
   // 列表
   const tableData = ref([]);
   // 全量数据的存储
@@ -54,10 +50,16 @@ export default function (
     if (hasPanigation) {
       // 有分页
       if (isFullDose) {
-        const newResData = resData || [];
-        tableData.value = newResData || [];
+        let newResData = resData || [];
+        let newTotal = newResData.length;
+        if (dealData && typeof dealData === 'function') {
+          const { data, total: count = 0 } = dealData(resData);
+          newResData = data || [];
+          newTotal = Number(count || 0);
+        }
         tableDataSource.value = newResData;
-        total.value = Number(newResData.length);
+        total.value = newTotal;
+        sliceTableData();
       } else if (dealData && typeof dealData === 'function') {
         const { data, total: count = 0 } = dealData(resData);
         tableData.value = data || [];
@@ -127,6 +129,11 @@ export default function (
     disposeResponseData(data);
   });
 
+  // 完整数据分页设置展示的数据
+  function sliceTableData() {
+    tableData.value = tableDataSource.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
+  }
+
   // 加载数据
   const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
     if (!requestFn) {
@@ -156,21 +163,11 @@ export default function (
     });
   };
 
-  // 监听当前页
-  watch(currentPage, newVal => {
-    handleCurrentPageChange(newVal);
-  });
-
-  // 监听每页条数
-  watch(pageSize, newVal => {
-    handleSizeChange(newVal);
-  });
-
   // 切换页数
   const handleCurrentPageChange = (page: number) => {
     currentPage.value = page;
     if (isFullDose) {
-      sliceTableData(tableData, tableDataSource, total, currentPage, pageSize);
+      sliceTableData();
     } else {
       loadData();
     }
@@ -182,11 +179,21 @@ export default function (
     currentPage.value = 1;
 
     if (isFullDose) {
-      sliceTableData(tableData, tableDataSource, total, currentPage, pageSize);
+      sliceTableData();
     } else {
       loadData();
     }
   };
+
+  // 监听当前页
+  watch(currentPage, newVal => {
+    handleCurrentPageChange(newVal);
+  });
+
+  // 监听每页条数
+  watch(pageSize, newVal => {
+    handleSizeChange(newVal);
+  });
 
   // 重置列表
   const handleReset = () => {
@@ -211,7 +218,6 @@ export default function (
     isFirst,
     loading: isDelayLoader ? delayLoaderData.loading : loading,
     pageSize,
-    pageSizes,
     currentPage,
     tableData,
     total,
@@ -220,16 +226,4 @@ export default function (
     handleReset,
     loadData
   };
-}
-
-// 设置展示的数据
-function sliceTableData(
-  data: Ref<any[]>,
-  dataSource: Ref<any[]>,
-  total: Ref<number>,
-  pageNo: Ref<number>,
-  pageSize: Ref<number>
-) {
-  data.value = dataSource.value.slice((pageNo.value - 1) * pageSize.value, pageNo.value * pageSize.value);
-  total.value = data.value.length;
 }

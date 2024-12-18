@@ -84,28 +84,30 @@ async function updateLabelStyle(color: string, type: number) {
       <template #extra>
         <slot name="extra"></slot>
       </template>
-      <el-descriptions-item v-for="(item, i) in list" :key="i" :label="item?.label">
-        <template #label>
-          <div class="cell-item">
-            <LSIcon v-if="item.iconConfig?.name || slots.icon" v-bind="item.iconConfig">
-              <slot name="icon"></slot>
-            </LSIcon>
-            {{ item?.label }}
-          </div>
-        </template>
-        <template v-if="item.type === 'date'">
-          {{ item.value ? dayjs(item.value).format(item.format || 'YYYY-MM-DD HH:mm:ss') : '--' }}
-        </template>
-        <template v-else-if="item.type === 'select'">
-          {{ item.propMap[item.value]?.label || '--' }}
-        </template>
-        <template v-else-if="item.type == 'slot'">
-          <slot :name="item.slotName" :data="item?.value"></slot>
-        </template>
-        <template v-else>
-          {{ item?.value || '--' }}
-        </template>
-      </el-descriptions-item>
+      <template v-for="(item, i) in list" :key="i">
+        <el-descriptions-item v-if="!item.hide" :label="item?.label">
+          <template #label>
+            <div class="cell-item">
+              <LSIcon v-if="item.iconConfig?.name || slots.icon" v-bind="item.iconConfig">
+                <slot name="icon"></slot>
+              </LSIcon>
+              {{ item?.label }}
+            </div>
+          </template>
+          <template v-if="item.type === 'date'">
+            {{ item.value ? dayjs(item.value).format(item.format || 'YYYY-MM-DD HH:mm:ss') : '--' }}
+          </template>
+          <template v-else-if="item.type === 'select'">
+            {{ item.propMap[item.value]?.label || '--' }}
+          </template>
+          <template v-else-if="item.type == 'slot'">
+            <slot :name="item.slotName" :data="item?.value"></slot>
+          </template>
+          <template v-else>
+            {{ item?.value || '--' }}
+          </template>
+        </el-descriptions-item>
+      </template>
     </el-descriptions>
   </div>
 </template>
@@ -136,6 +138,7 @@ async function updateLabelStyle(color: string, type: number) {
       vertical-align: middle;
     }
     .el-descriptions__table.is-bordered .el-descriptions__cell {
+      vertical-align: top;
       border: 1px solid #dcdfe6 !important;
     }
   }

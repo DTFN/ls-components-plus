@@ -39,12 +39,14 @@ outline: deep
 
 ### 1. templatePatchSimple
 
+<ClientOnly>
 <LSChart
   template="bar"
   :data="dataSimple"
   :template-patch="templateAll.templatePatchSimple"
   :custom-option="customOption"
 />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -81,11 +83,13 @@ const customOption = ref({
 
 ### 2. templatePatchNegative
 
+<ClientOnly>
 <LSChart
   template="bar"
   :data="dataNegative"
   :template-patch="templateAll.templatePatchNegative"
 />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -115,11 +119,13 @@ const templateAll = ref({
 
 ### 3. templatePatchWaterfall
 
+<ClientOnly>
 <LSChart
   template="bar"
   :data="dataWaterfall"
   :template-patch="templateAll.templatePatchWaterfall"
 />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -165,11 +171,13 @@ const templateAll = ref({
 
 ### 4. templatePatchCategory
 
+<ClientOnly>
 <LSChart
   template="bar"
   :data="dataCategory"
   :template-patch="templateAll.templatePatchCategory"
 />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -212,7 +220,9 @@ const templateAll = ref({
 
 ### 5. templatePatchMultiBar
 
+<ClientOnly>
 <LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchMultiBar" />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -478,6 +488,18 @@ const tableData = ref([
   {
     name: 'dataZoom',
     desc: '是否支持鼠标缩放, 请同axis方向保持一致，可选项：horizontal / vertical',
+    type: 'string',
+    value: '-'
+  },
+   {
+    name: 'dataZoomColorOut',
+    desc: '缩放底部外层颜色',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'dataZoomColorIn',
+    desc: '缩放底部内层颜色',
     type: 'string',
     value: '-'
   },

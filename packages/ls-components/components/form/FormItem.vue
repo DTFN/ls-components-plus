@@ -14,7 +14,7 @@ const props = defineProps(lsFormItemProps);
 
 const emits = defineEmits<{
   'update:value': [key: string | number | string[], value: any];
-  onChange: [value: any, prop: string];
+  onChange: [value: any, prop: string, index: number];
 }>();
 
 const modelValue = defineModel<any>();
@@ -84,7 +84,7 @@ watch(
       const values = options.map((_: any) => _.value);
 
       if (attrs && attrs.multiple) {
-        if (!isEmpty(newVal.value)) {
+        if (!isEmpty(newVal.value) && Array.isArray(newVal.value)) {
           const value: any[] = [];
           newVal.value.forEach((item: any) => {
             if (values.includes(item)) value.push(item);
@@ -131,7 +131,7 @@ watch(
   }
 );
 
-// 获取Options label
+// 获取Options label (select/radio/checkbox)
 function getOptionsLabel(value: string | string[], options: any[], multiple?: boolean) {
   let val = props?.labelEmpty;
   if (options && !isEmpty(value)) {
@@ -144,63 +144,126 @@ function getOptionsLabel(value: string | string[], options: any[], multiple?: bo
   return val;
 }
 
-function seachCascaderOptions(value: string[], options: any[], index: number = 0, val: string = '') {
-  let valStr = val;
+// 获取cascader Options label 父子不关联
+function getCascaderOptionLabel(value: string | number, options: any[], parentLabel: string = '') {
+  let labelText = parentLabel;
+  let found = false;
   if (!isEmpty(value) && !isEmpty(options)) {
+    let showAllLevels = true;
+    if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+      showAllLevels = false;
+    }
     const valueField = props.attrs?.props?.value || 'value';
     const labelField = props.attrs?.props?.label || 'label';
-    const f_v = value[index];
-    if (!isEmpty(f_v)) {
-      const checkStrictly = props.attrs?.props?.checkStrictly;
-      if (checkStrictly) {
-        const findOption: any = (opts: any[], targetValue: string) => {
-          for (const opt of opts) {
-            if (opt[valueField] === targetValue) {
-              return opt;
-            }
-            if (opt.children) {
-              const found = findOption(opt.children, targetValue);
-              if (found) return found;
-            }
-          }
-          return null;
-        };
 
-        const foundOption = findOption(options, f_v);
-        if (foundOption) {
-          valStr = foundOption[labelField];
-        }
-      } else {
-        const f_o = options.find(_ => _[valueField] === f_v);
-        if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
-          valStr = `${f_o?.[labelField]}`;
+    for (const item of options) {
+      if (item[valueField] === value) {
+        if (showAllLevels) {
+          labelText = `${labelText ? `${labelText}/` : ''}${item?.[labelField]}`;
         } else {
-          valStr = `${valStr ? `${valStr}/` : ''}${f_o?.[labelField]}`;
+          labelText = item?.[labelField];
         }
-        if (!isEmpty(f_o?.children)) {
-          valStr = seachCascaderOptions(value, f_o?.children, index + 1, valStr);
+        return {
+          labelText,
+          found: true
+        };
+      } else {
+        if (!isEmpty(item?.children) && !found) {
+          const res: any = getCascaderOptionLabel(value, item?.children, labelText);
+          labelText = res.labelText;
+          found = res.found;
+          if (found) {
+            return {
+              labelText,
+              found
+            };
+          }
         }
       }
     }
   }
-  return valStr;
+  return {
+    labelText,
+    found
+  };
+}
+
+// 级联控件层级匹配获取OptionLabel
+function getCascaderOptionLabelLevelMatch(
+  value: (string | number)[],
+  options: any[],
+  parentLabel: string = '',
+  index: number = 0
+) {
+  let labelText = parentLabel;
+  if (!isEmpty(value) && !isEmpty(options)) {
+    let showAllLevels = true;
+    if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
+      showAllLevels = false;
+    }
+    const valueField = props.attrs?.props?.value || 'value';
+    const labelField = props.attrs?.props?.label || 'label';
+    const findItem = options.find(item => item[valueField] === value[index]);
+    if (!isEmpty(findItem)) {
+      if (showAllLevels) {
+        labelText = `${labelText ? `${labelText}/` : ''}${findItem?.[labelField]}`;
+      } else {
+        labelText = findItem?.[labelField];
+      }
+
+      if (index < value.length - 1 && !isEmpty(findItem?.children)) {
+        labelText = getCascaderOptionLabelLevelMatch(value, findItem?.children, labelText, index + 1);
+      }
+    }
+  }
+  return labelText;
 }
 
 // 获取cascader Options label
-function getCascaderOptionsLabel(value: string[], options: any[], multiple?: boolean) {
+function buildCascaderPathLabels(value: (string | number)[], options: any[], parentLabel: string = '') {
+  let labelText = parentLabel;
+  if (!isEmpty(value) && !isEmpty(options)) {
+    if (props?.levelMatch) {
+      labelText = getCascaderOptionLabelLevelMatch(value, options, labelText);
+    } else {
+      value.forEach((item: any) => {
+        const res: any = getCascaderOptionLabel(item, options, labelText);
+        labelText = res.labelText;
+      });
+    }
+  }
+  return labelText;
+}
+
+// 获取cascader Options label
+function getCascaderVal(value: number | string | string[], options: any[], multiple?: boolean) {
   let val = props?.labelEmpty;
   if (options && !isEmpty(value)) {
+    const newVal = Array.isArray(value) ? value : [value];
+
     if (multiple) {
       val = '';
-      const checkStrictly = props.attrs?.props?.checkStrictly;
-      value.forEach((item: any) => {
-        val = `${val ? `${val},` : ''}${seachCascaderOptions(checkStrictly ? [item] : item, options)}`;
+      newVal.forEach((item: any) => {
+        const newItem = Array.isArray(item) ? item : [item];
+        val = `${val ? `${val},` : ''}${buildCascaderPathLabels(newItem, options)}`;
       });
+      if (isEmpty(val)) val = props?.labelEmpty;
     } else {
-      val = seachCascaderOptions(value, options);
+      val = buildCascaderPathLabels(newVal, options);
     }
   }
   return val;
+}
+
+// 获取日期值
+function getDateValue(val: Date | string | string[] | Date[]) {
+  if (isEmpty(val) && !dayjs(val as any).isValid()) return props?.labelEmpty;
+
+  if (Array.isArray(val)) {
+    return val.map(v => (props.dateFormat ? dayjs(v).format(props.dateFormat) : v)).join(` ${props.rangeSeparator} `);
+  }
+
+  return props.dateFormat ? dayjs(val).format(props.dateFormat) : val;
 }
 
 function readValue(type: string | undefined) {
@@ -212,7 +275,8 @@ function readValue(type: string | undefined) {
       case 'switch':
         return val ? '是' : '否';
       case 'date':
-        return val ? dayjs(val).format(props.dateFormat) : props?.labelEmpty;
+      case 'datetimerange':
+        return getDateValue(val);
       case 'radio':
         return getOptionsLabel(val, props.options);
       case 'checkbox':
@@ -220,9 +284,9 @@ function readValue(type: string | undefined) {
       case 'select':
         return getOptionsLabel(val, props.options, props.attrs?.multiple);
       case 'cascader':
-        return getCascaderOptionsLabel(val, props.options, props.attrs?.props?.multiple || false);
+        return getCascaderVal(val, props.options, props.attrs?.props?.multiple || false);
       case 'multipleCascader':
-        return getCascaderOptionsLabel(val, props.options, true);
+        return getCascaderVal(val, props.options, true);
       case 'inputRange':
       case 'inputNumberRange':
         return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${range_2.value || props?.labelEmpty}`;
@@ -232,14 +296,18 @@ function readValue(type: string | undefined) {
   }
 }
 
-function onChange(value: any, prop: string) {
-  emits('onChange', value, prop);
+function onChange(value: any, prop: string, index: number) {
+  emits('onChange', value, prop, index);
 }
 
 // 修改modelValue
 function updateModelValue(val: any) {
   modelValue.value = val;
 }
+
+const slotName = computed(() => {
+  return props.slotKey || props.prop;
+});
 
 defineExpose({
   FormItemRef
@@ -249,7 +317,7 @@ defineExpose({
 <template>
   <slot
     v-if="type === 'slot'"
-    :name="prop"
+    :name="slotName"
     :slot-row="{ ...props }"
     :value="modelValue"
     :update-model-value="updateModelValue"
@@ -263,7 +331,7 @@ defineExpose({
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
           <el-icon class="ml-4" :class="labelIconClass">
             <slot v-if="$slots[`tooltip-icon`]" :name="`tooltip-icon`" :slot-row="{ ...props }" />
-            <slot v-else-if="$slots[`${prop}-label-icon`]" :name="`${prop}-label-icon`" :slot-row="{ ...props }" />
+            <slot v-else-if="$slots[`${slotName}-label-icon`]" :name="`${slotName}-label-icon`" :slot-row="{ ...props }" />
           </el-icon>
         </el-tooltip>
 
@@ -272,20 +340,20 @@ defineExpose({
     </template>
 
     <!-- 前置插槽 -->
-    <slot :name="`${prop}-prepend`" :slot-row="{ props }" />
+    <slot :name="`${slotName}-prepend`" :slot-row="{ props }" />
 
     <!-- 只读 -->
     <template v-if="read">
       <slot
-        v-if="type === 'itemSlot' && $slots[`${prop}-slot`]"
-        :name="`${prop}-slot`"
+        v-if="type === 'itemSlot' && $slots[`${slotName}-slot`]"
+        :name="`${slotName}-slot`"
         :slot-row="{ ...props }"
         :value="modelValue"
         :update-model-value="updateModelValue"
       ></slot>
       <slot
-        v-else-if="$slots[`${prop}-read-slot`]"
-        :name="`${prop}-read-slot`"
+        v-else-if="$slots[`${slotName}-read-slot`]"
+        :name="`${slotName}-read-slot`"
         :value="readValue(type)"
         :slot-row="{ ...props }"
       />
@@ -321,22 +389,22 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
-        <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
-          <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
+          <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
         </template>
 
-        <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
-          <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
+          <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
         </template>
 
-        <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
-          <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-prepend`]" #prepend>
+          <slot :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
         </template>
 
-        <template v-if="$slots[`${prop}-input-append`]" #append>
-          <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-append`]" #append>
+          <slot :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
         </template>
       </el-input>
 
@@ -373,7 +441,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <template v-if="!radioType">
           <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
@@ -413,7 +481,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options) && selectAll" #header>
@@ -423,7 +491,7 @@ defineExpose({
         </template>
         <el-option
           v-for="(option, i) in options"
-          :key="`${i}-${option.value}`"
+          :key="`${i}-${attrs?.valueKey ? option[attrs.valueKey] || option.label : option.value}`"
           :label="option.label"
           :value="option.value"
           :disabled="option.disabled"
@@ -446,10 +514,28 @@ defineExpose({
       <el-date-picker
         v-else-if="type === 'datetimerange'"
         v-model="modelValue"
-        type="datetimerange"
+        type="daterange"
         :clearable="true"
         start-placeholder="开始时间"
         end-placeholder="结束时间"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 时间选择器 -->
+      <el-time-picker
+        v-else-if="type === 'timePicker'"
+        v-model="modelValue"
+        :placeholder="`请选择${label}`"
+        v-bind="attrs"
+        v-on="listeners || {}"
+      />
+
+      <!-- 时间选择器 -->
+      <el-time-select
+        v-else-if="type === 'timeSelect'"
+        v-model="modelValue"
+        :placeholder="`请选择${label}`"
         v-bind="attrs"
         v-on="listeners || {}"
       />
@@ -463,7 +549,7 @@ defineExpose({
         :options="options"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       />
 
       <!-- 多选级联 -->
@@ -476,7 +562,7 @@ defineExpose({
         v-bind="attrs"
         :props="cascaderProps"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string)"
+        @change="onChange(modelValue, prop as string, index)"
       />
 
       <!-- 开关 -->
@@ -501,20 +587,20 @@ defineExpose({
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
         >
-          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
-            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
+            <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
           </template>
 
-          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
-            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
+            <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
           </template>
 
-          <template v-if="$slots[`${prop}-input-prepend`]" #prepend>
-            <slot :name="`${prop}-input-prepend`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prepend`]" #prepend>
+            <slot :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
           </template>
 
-          <template v-if="$slots[`${prop}-input-append`]" #append>
-            <slot :name="`${prop}-input-append`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-append`]" #append>
+            <slot :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
           </template>
         </el-input>
       </div>
@@ -538,12 +624,12 @@ defineExpose({
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
         >
-          <template v-if="$slots[`${prop}-input-prefix`]" #prefix>
-            <slot :name="`${prop}-input-prefix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
+            <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
           </template>
 
-          <template v-if="$slots[`${prop}-input-suffix`]" #suffix>
-            <slot :name="`${prop}-input-suffix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
+            <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
           </template>
         </el-input-number>
       </div>
@@ -551,7 +637,7 @@ defineExpose({
       <!-- 自定义 -->
       <slot
         v-else-if="type === 'itemSlot'"
-        :name="`${prop}-slot`"
+        :name="`${slotName}-slot`"
         :slot-row="{ ...props }"
         :value="modelValue"
         :update-model-value="updateModelValue"
@@ -559,7 +645,7 @@ defineExpose({
     </template>
 
     <!-- 后置插槽 -->
-    <slot :name="`${prop}-append`" :slot-row="{ ...props }" />
+    <slot :name="`${slotName}-append`" :slot-row="{ ...props }" />
   </el-form-item>
 </template>
 
@@ -567,19 +653,42 @@ defineExpose({
 :deep(.el-select-dropdown__header) {
   padding: 0 !important;
 }
-.el-select {
+:deep(.el-select) {
   --el-select-width: 424px;
 }
-.el-input {
+:deep(.el-input) {
   --el-input-width: 424px;
 }
-.el-input-number {
+:deep(.el-input-number) {
   --el-input-width: 424px;
 
   width: var(--el-input-width);
 }
+:deep(.el-input-group) {
+  width: var(--el-input-width);
+}
 :deep(.el-date-editor) {
   --el-date-editor-width: 424px;
+}
+:deep(.el-date-editor--datetimerange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--daterange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--monthrange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
+}
+:deep(.el-date-editor--yearrange) {
+  position: absolute;
+
+  --el-date-editor-width: 404px;
 }
 :deep(.el-cascader) {
   .el-input {
@@ -639,12 +748,25 @@ defineExpose({
   align-items: center;
 }
 </style>
-
 <style lang="scss">
 .el-select-dropdown__header {
   padding: 5px 10px !important;
 }
 .el-divider--horizontal {
   margin: 0;
+}
+.el-form--inline {
+  .el-date-editor--datetimerange {
+    position: relative;
+  }
+  .el-date-editor--daterange {
+    position: relative;
+  }
+  .el-date-editor--monthrange {
+    position: relative;
+  }
+  .el-date-editor--yearrange {
+    position: relative;
+  }
 }
 </style>

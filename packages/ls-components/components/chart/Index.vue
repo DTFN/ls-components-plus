@@ -73,6 +73,8 @@ async function setChartOption() {
     echartObj.value.setOption(chartOption.value, {
       notMerge: true
     });
+    await nextTick();
+    resizeChart();
   } else {
     await nextTick();
     initChart();

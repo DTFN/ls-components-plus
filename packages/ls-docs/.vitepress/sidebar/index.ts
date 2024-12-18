@@ -28,7 +28,6 @@ export default {
         { text: 'Tree 权限树', link: '/docs/tree' },
         { text: 'map 地图', link: '/docs/map' },
         { text: 'live 直播/视频', link: '/docs/live' },
-        { text: 'json编辑器', link: '/docs/jsonEditor' },
         { text: 'Editor 编辑器', link: '/docs/editor' },
         { text: 'List 列表', link: '/docs/list' }
       ]
@@ -62,7 +61,6 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        { text: 'Flowbox 流式盒子', link: '/docs/flowBox' },
         { text: 'ContainerBox 适配容器', link: '/docs/containerBox' }
       ]
     }

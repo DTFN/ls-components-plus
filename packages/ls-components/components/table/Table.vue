@@ -19,11 +19,17 @@ const emit = defineEmits<{
   'update:selection': [selection: any[]];
 }>();
 
-const attrs = useAttrs();
+const attrs: any = useAttrs();
 const TableRef = ref();
 const currentPage = ref(1);
 const pageSize = ref(10);
 const selectionData = ref<any[]>([]);
+
+// 获取行唯一标识
+const rowKey = computed<string | ((row: any) => string)>(() => {
+  const rowKey: string | ((row: any) => string) = attrs?.rowKey || attrs?.rowkey || attrs['row-key'] || 'id';
+  return rowKey;
+});
 
 // 传入当前页
 watch(
@@ -71,6 +77,21 @@ watch(
     deep: true
   }
 );
+// 获取行唯一标识值
+function getRowIdentity<T>(row: T, rowKey: string | ((row: T) => string)): string {
+  if (!row) throw new Error('Row is required when get row identity');
+  if (typeof rowKey === 'string') {
+    return `${get(row, rowKey)}`;
+  } else if (typeof rowKey === 'function') {
+    return rowKey.call(null, row);
+  }
+  return '';
+}
+
+// 比对两个item的唯一标识是否相同
+function isSameRow<T>(row1: T, row2: T, rowKey: string | ((row: T) => string)): boolean {
+  return getRowIdentity(row1, rowKey) === getRowIdentity(row2, rowKey);
+}
 
 // 数据变动 选中状态更新
 watch(
@@ -79,7 +100,8 @@ watch(
     if (showSelect && tableData && tableData.length > 0) {
       nextTick(() => {
         tableData.forEach((item: any) => {
-          const checked = (selection || []).some(selectItem => selectItem.id === item.id);
+          // const checked = (selection || []).some(selectItem => selectItem.id === item.id);
+          const checked = (selection || []).some(selectItem => isSameRow(selectItem, item, rowKey.value));
           if (checked) {
             TableRef.value.toggleRowSelection(item, true);
           }
@@ -118,7 +140,13 @@ watch(pageSize, newVal => {
 
 // 序号
 function indexMethod(index: number) {
-  return (currentPage.value - 1) * pageSize.value + index + 1;
+  if (props?.tableIndexInPage) {
+    return props?.tableIndexStart ? index : index + 1;
+  } else {
+    return props?.tableIndexStart
+      ? (currentPage.value - 1) * pageSize.value + index
+      : (currentPage.value - 1) * pageSize.value + index + 1;
+  }
 }
 
 // 日期转换
@@ -143,8 +171,10 @@ function formatDate(val: string | null | undefined, template?: string) {
 
 // 单列选中监听
 function handleSelect(selection: any[], row: any) {
-  const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
-  const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
+  // const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
+  const filterIndex = (selection || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
+  // const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
+  const index = (selectionData.value || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
   if (filterIndex > -1) {
     selectionData.value.push(row);
   } else {
@@ -157,7 +187,8 @@ function handleSelectAll(selection: any[]) {
   const isSelectAll = selection.length > 0 ? true : false;
   if (props.tableData.length > 0) {
     props.tableData.forEach((item: any) => {
-      const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
+      // const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
+      const filterIndex = (selectionData.value || []).findIndex((row: any) => isSameRow(item, row, rowKey.value));
       if (isSelectAll) {
         if (filterIndex < 0) {
           selectionData.value.push(item);

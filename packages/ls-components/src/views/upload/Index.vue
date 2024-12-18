@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
+import { ElMessageBox, UploadProps } from 'element-plus';
 
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const item1 = ref({
@@ -11,7 +12,8 @@ const item1 = ref({
 const item2 = ref({
   httpRequestFunc: function (formData: any, uploadProcessObj: any) {
     return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
-  }
+  },
+  limitFile: ['pdf', 'jpg']
 });
 
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href;
@@ -64,19 +66,64 @@ function formValidateFunc() {
   ruleForm.value.fileId = '11111';
   ruleFormRef.value.validateField('fileId');
 }
+
+const fileList2: any = ref([]);
+function onChange2(file: any) {
+  fileList2.value.push({
+    name: file.name,
+    url: file.blob
+  });
+}
+
+const uploadRef = ref();
+const fileList3 = ref([]);
+function onSuccess() {
+  fileList3.value = [];
+}
+
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
+  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
+    () => true,
+    () => false
+  );
+};
+
+function onPreview(file: any) {
+  console.log(file);
+}
 </script>
 
 <template>
   <div>
-    <LSUpload :action="action" :disabled="true"></LSUpload>
+    <LSUpload
+      ref="uploadRef"
+      :action="action"
+      :on-success="onSuccess"
+      :file-list="fileList3"
+      :limit="1"
+      multiple
+      :before-remove="beforeRemove"
+    ></LSUpload>
 
     <br />
 
-    <LSUpload :action="action" :item="item1"></LSUpload>
+    <LSUpload
+      :action="action"
+      :item="item1"
+      :file-list="fileList2"
+      @on-change-func="onChange2"
+      :before-remove="beforeRemove"
+    ></LSUpload>
 
     <br />
 
-    <LSUpload :action="action" :auto-upload="false" :item="item2" @http-response-func="httpResponseFunc"></LSUpload>
+    <LSUpload
+      :action="action"
+      :auto-upload="false"
+      :item="item2"
+      @http-response-func="httpResponseFunc"
+      :on-preview="onPreview"
+    ></LSUpload>
 
     <br />
 

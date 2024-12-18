@@ -147,7 +147,6 @@ declare module '@vue/runtime-core' {
     VpApiRef: (typeof import('./.vitepress/vitepress/components/globals/vp-api-ref.vue'))['default'];
     VpApiString: (typeof import('./.vitepress/vitepress/components/globals/vp-api-string.vue'))['default'];
     VpApiTyping: (typeof import('./.vitepress/vitepress/components/globals/vp-api-typing.vue'))['default'];
-    VpApp: (typeof import('./.vitepress/vitepress/components/vp-app.vue'))['default'];
     VpChangelog: (typeof import('./.vitepress/vitepress/components/globals/vp-changelog.vue'))['default'];
     VpContent: (typeof import('./.vitepress/vitepress/components/vp-content.vue'))['default'];
     VpDemo: (typeof import('./.vitepress/vitepress/components/vp-demo.vue'))['default'];

@@ -15,8 +15,9 @@ outline: deep
 ### 1. 基础用法
 
 <br />
-
+<ClientOnly>
 <LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" />
+</ClientOnly>
 
 ```js
 import { ref } from 'vue';

@@ -30,7 +30,7 @@ interface itemType {
   formRuleFunc?: Function;
   formValidateFunc?: Function;
   httpRequestFunc?: Function;
-  // docx、pdf、xlsx
+  // docx、pdf、xlsx、pdfNative
   textPreview?: Array<string>;
   // 是否是头像模式
   profile?: string;
@@ -72,6 +72,10 @@ export const lsUploadProps = buildProps({
     default: null
   },
   onPreview: {
+    type: Function,
+    default: null
+  },
+  onProgress: {
     type: Function,
     default: null
   },

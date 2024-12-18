@@ -780,14 +780,20 @@ const attrTableData=[
   {
     name: 'showButtons',
     desc: '是否展示confirm和reset按钮',
-   type: 'boolean',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'buttonsClass',
     desc: '展示confirm和reset按钮区域的样式',
-   type: 'string',
+    type: 'string',
     value: '-'
+  },
+  {
+    name: 'buttonsLeft',
+    desc: 'confirm和reset按钮是否在最左侧',
+    type: 'boolean',
+    value: 'false'
   },
   {
     name: 'showReset',
@@ -1040,6 +1046,24 @@ const attrTableData_1=[
     desc: 'select 多选时是否支持全选',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'index',
+    desc: '索引(onChange 方法中使用)',
+    type: 'number',
+    value: '0'
+  },
+  {
+    name: 'slotKey',
+    desc: '插槽key(覆盖插槽名中的prop)',
+    type: 'string',
+    value: ''
+  },
+  {
+    name: 'levelMatch',
+    desc: '级联控件是否匹配层级（value 是否匹配 options 的层级）',
+    type: 'boolean', 
+    value: 'false'
   }
 ]
 
@@ -1086,6 +1110,18 @@ const formItemTypeData=[
   {
     name:'date',
     desc:'日期（el-date-picker）'
+  },
+  {
+    name:'datetimerange',
+    desc:'日期范围（el-date-picker）'
+  },
+  {
+    name:'timePicker',
+    desc:'时间（el-time-picker）'
+  },
+  {
+    name:'timeSelect',
+    desc:'时间选择（el-time-select）'
   },
   {
     name:'cascader',

@@ -191,14 +191,13 @@ onBeforeUnmount(() => {
 }
 .luckysheet-wrap {
   position: relative;
-  top: 50%;
+  top: 0;
   left: 0;
   width: 100%;
   height: auto;
   min-height: 100%;
   padding: 0;
   margin: 0;
-  transform: translateY(-50%);
   :deep(.img-list) {
     pointer-events: none;
   }
@@ -236,6 +235,11 @@ onBeforeUnmount(() => {
       display: none !important;
     }
   }
+  :deep(.luckysheet-cols-menu-btn) {
+    &.luckysheet-mousedown-cancel {
+      opacity: 0;
+    }
+  }
 }
 
 @mixin op-icon() {
@@ -264,6 +268,7 @@ onBeforeUnmount(() => {
   &.ls-xlsx__close {
     top: 40px;
     right: 40px;
+    z-index: 3;
     width: 40px;
     height: 40px;
     font-size: 40px;

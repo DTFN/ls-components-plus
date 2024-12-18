@@ -39,6 +39,10 @@ export const lsFormProps = buildProps({
     type: String,
     default: ''
   },
+  buttonsLeft: {
+    type: Boolean,
+    default: false
+  },
   showReset: {
     type: Boolean,
     default: true
@@ -103,6 +107,8 @@ export const lsFormItemProps = buildProps({
       'select',
       'date',
       'datetimerange',
+      'timePicker',
+      'timeSelect',
       'cascader',
       'multipleCascader',
       'switch',
@@ -154,7 +160,7 @@ export const lsFormItemProps = buildProps({
   },
   colon: {
     type: Boolean,
-    default: true
+    default: false
   },
   disabled: {
     type: Boolean,
@@ -198,5 +204,17 @@ export const lsFormItemProps = buildProps({
   selectAll: {
     type: Boolean,
     default: true
+  },
+  index: {
+    type: Number,
+    default: 0
+  },
+  slotKey: {
+    type: String,
+    default: ''
+  },
+  levelMatch: {
+    type: Boolean,
+    default: false
   }
 } as const);

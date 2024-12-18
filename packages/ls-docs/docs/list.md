@@ -12,6 +12,7 @@ outline: deep
 ### 1. 基础用法
 
 <br>
+<ClientOnly>
 <LSList
   :list-api="listApi"
   :form-data="formData"
@@ -24,6 +25,7 @@ outline: deep
   :deal-data="dealData"
 >
 </LSList>
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -109,7 +111,7 @@ function dealData(res: any) {
 
 ## API
 
-### LSForm
+### LSList
 
 ### 1. Attributes
 
@@ -214,9 +216,9 @@ const attrTableData=[
   },
   {
     name: 'listHookConfig',
-    desc: '列表请求配置，支持currentPageProp(当前页码)、pageSizeProp(每页条数)、pageSizesProp(每页条数范围)、isDelayLoader(是否使用延迟加载器)、delayLoaderTime(延迟加载时间)、isFullDose(是否全量数据)、hasPanigation(是否有分页)、autoFetch(是否自动获取数据)、dealData(处理返回数据的方法)、dealParams(处理请求参数的方法)、callbackAfter(请求完成后的回调)',
+    desc: '列表请求配置，支持currentPageProp(当前页码)、pageSizeProp(每页条数)、isDelayLoader(是否使用延迟加载器)、delayLoaderTime(延迟加载时间)、isFullDose(是否全量数据)、hasPanigation(是否有分页)、autoFetch(是否自动获取数据)、dealData(处理返回数据的方法)、dealParams(处理请求参数的方法)、callbackAfter(请求完成后的回调)',
     type: 'object',
-    value: '{currentPageProp: 1, pageSizeProp: 10, pageSizesProp: [10, 20, 30, 40, 50, 100], isDelayLoader: false, delayLoaderTime: 300, isFullDose: false, hasPanigation: true, autoFetch: true, dealData?: Function, dealParams?: Function, callbackAfter?: Function}'
+    value: '{currentPageProp: 1, pageSizeProp: 10, isDelayLoader: false, delayLoaderTime: 300, isFullDose: false, hasPanigation: true, autoFetch: true, dealData?: Function, dealParams?: Function, callbackAfter?: Function}'
   },
   {
     name: 'delApi',
@@ -463,6 +465,18 @@ const attrTableData=[
     desc: '表格删除按钮文案',
     type: 'string',
     value: '删除'
+  },
+  {
+    name: 'showSkeleton',
+    desc: '是否显示骨架屏',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'skeletonAttrs',
+    desc: '骨架屏配置项',
+    type: 'object',
+    value: '-'
   }
 ]
 
@@ -558,6 +572,18 @@ const exposesTableData=[
     name: 'pageSize',
     desc: '每页条数',
     type: 'number',
+    value: '-'
+  },
+  {
+    name: 'FormRef',
+    desc: '表单组件实例',
+    type: 'Ref',
+    value: '-'
+  },
+  {
+    name: 'TableRef',
+    desc: '表格组件实例',
+    type: 'Ref',
     value: '-'
   }
 ]

@@ -213,7 +213,7 @@ export function formatChartAxis(max: any, min: any, fixed?: number) {
     min = 0;
   }
   let aMax = numberFixed(interval * dep + min, fixed);
-  if (aMax < tMax) {
+  if (aMax <= tMax) {
     aMax = numberFixed(aMax + interval, fixed);
   }
   return {

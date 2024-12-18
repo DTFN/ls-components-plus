@@ -13,7 +13,7 @@ import print from 'vue3-print-nb';
 import LSWebPlus from '@cpo/main';
 // import LSWebPlus from '@lingshugroup/web-plus';
 import { vAuth } from '@lingshugroup/web-plus/directives';
-import '@lingshugroup/web-plus/index.css';
+// import '@lingshugroup/web-plus/index.css';
 
 // import { LSForm, LSFormItem } from '../lib/form/';
 // import LSDialog from '../lib/dialog/';

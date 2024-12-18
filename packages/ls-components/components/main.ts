@@ -17,7 +17,6 @@ export { default as LSLive } from '@cpo/live/Index.vue';
 export { default as LSTree } from '@cpo/tree/Index.vue';
 export { default as LSPrint } from '@cpo/print/Index.vue';
 export { default as LSContainerBox } from '@cpo/containerBox/Index.vue';
-export { default as LSFlowBox } from '@cpo/flowBox/Index.vue';
 export { default as LSBackTop } from '@cpo/backTop/Index.vue';
 export { default as LSMap } from '@cpo/map/Index.vue';
 export { default as LSEditor } from '@cpo/editor/Index.vue';
@@ -27,6 +26,9 @@ export { default as LSTable } from '@cpo/table/Table.vue';
 export { default as LSFormItem } from '@cpo/form/FormItem.vue';
 export { default as LSForm } from '@cpo/form/Form.vue';
 export { default as LSList } from '@cpo/list/List.vue';
-export { default as LSJsonEditor } from '@cpo/jsonEditor/Index.vue';
+export { default as LSPreviewImage } from '@cpo/preview_image/Index.vue';
+export { default as LSPreviewDocx } from '@cpo/preview_docx/Index.vue';
+export { default as LSPreviewPdf } from '@cpo/preview_pdf/Index.vue';
+export { default as LSPreviewXlsx } from '@cpo/preview_xlsx/Index.vue';
 
 export { default } from './index';

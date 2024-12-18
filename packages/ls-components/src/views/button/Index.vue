@@ -4,6 +4,7 @@ import SvgIconVue from '@/assets/vue.svg';
 import SvgIconCount from '@/assets/count.svg';
 import SvgIconDataIcv from '@/assets/data_icv.svg';
 import m1 from '@/assets/m1.mp4?url';
+import m2 from '@/assets/m2.mp4?url';
 
 const iconName = ref('iconoir:fish');
 const separatorColor = ref('red');
@@ -15,12 +16,14 @@ setTimeout(() => {
 
 const liveRef = ref();
 const liveRef2 = ref();
+const liveRef3 = ref();
 const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv');
 const liveUrl2 = ref('https://video.shipin520.com/video_listen/588ku_video/21/03/15/12/06/22/video604edd3ee67a6.mp4');
 liveUrl2.value = m1;
 onMounted(() => {
   liveRef.value && liveRef.value.createPlayer(liveUrl);
   liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
+  liveRef3.value && liveRef3.value.createPlayer(m2);
 });
 
 const isShow = ref(false);
@@ -38,6 +41,9 @@ setTimeout(() => {
     <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">按钮2</LSButton>
     <LSButton>
       <SvgIconDataIcv />
+    </LSButton>
+    <LSButton type="primary" :icon-config="{ name: 'Plus' }">
+      <span>添加入池</span>
     </LSButton>
 
     <br />
@@ -79,10 +85,14 @@ setTimeout(() => {
 
     <br />
 
-    <LSLive ref="liveRef" class="live-wrap" />
+    <LSLive ref="liveRef" class="live-wrap" :autoplay="true" :muted="false" />
 
     <br />
-    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :loop="false" />
+    <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" :autoplay="false" :loop="false" />
+
+    <br />
+
+    <LSLive ref="liveRef3" class="live-wrap" type="mp4" :is-live="false" :autoplay="true" :loop="false" :muted="false" />
 
     <br />
 

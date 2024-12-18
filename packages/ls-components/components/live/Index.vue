@@ -2,9 +2,10 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import flvjs from 'flv.js';
 import { lsLiveProps } from './types';
-import { merge } from 'lodash-es';
 
 const props = defineProps(lsLiveProps);
+
+const attrs = useAttrs();
 
 const ns = useNamespace('live');
 const comClass: string = ns.b();
@@ -15,11 +16,18 @@ const player: any = ref(null);
 const lsLiveRef = ref();
 const defAttrs = ref({
   // 是否自动播放
-  autoplay: true,
+  autoplay: false,
   // 是否显示控制条
   controls: true,
   // 是否静音
   muted: true
+});
+const isAutoplay = ref(attrs['autoplay'] == undefined ? true : attrs['autoplay']);
+
+// const isMuted = ref(attrs['muted'] == undefined ? true : attrs['muted']);
+
+const isFlv = computed(() => {
+  return props.type === 'flv';
 });
 
 // 销毁播放器
@@ -36,11 +44,13 @@ function destoryPlayer() {
 
 // 监听播放器
 function listenPlayer() {
-  if (player.value && props.type === 'flv') {
+  if (!isAutoplay.value) {
+    return;
+  }
+  if (player.value && isFlv.value) {
     player.value.on(flvjs.Events.ERROR, () => {
       // errorType: any, errorDetail: any, errorInfo: any
       // 视频出错后销毁重建
-      destoryPlayer();
       if (curUrl.value) {
         createPlayer(curUrl.value);
       }
@@ -54,7 +64,6 @@ function listenPlayer() {
       if (lastDecodedFrames.value != decodedFrames) {
         lastDecodedFrames.value = decodedFrames;
       } else {
-        destoryPlayer();
         if (curUrl.value) {
           createPlayer(curUrl.value);
         }
@@ -64,7 +73,7 @@ function listenPlayer() {
 }
 
 // 创建播放器
-function createPlayer(liveUrl: string) {
+async function createPlayer(liveUrl: string) {
   destoryPlayer();
   if (flvjs.isSupported() && liveUrl) {
     curUrl.value = liveUrl;
@@ -88,7 +97,11 @@ function createPlayer(liveUrl: string) {
     if (player.value && lsLiveRef.value) {
       player.value.attachMediaElement(lsLiveRef.value);
       player.value.load();
-      player.value.play();
+      if (isAutoplay.value) {
+        player.value?.play();
+      } else {
+        player.value?.pause();
+      }
       listenPlayer();
     }
   } else {
@@ -99,16 +112,24 @@ function createPlayer(liveUrl: string) {
 // 更新可见状态
 function updateVisibilityStatus() {
   if (document.visibilityState === 'visible') {
-    if (curUrl.value && props.type === 'flv') {
+    if (curUrl.value && isFlv.value) {
       createPlayer(curUrl.value);
     }
   } else {
-    destoryPlayer();
+    if (isFlv.value) {
+      destoryPlayer();
+    }
   }
 }
 
 onMounted(() => {
   document.addEventListener('visibilitychange', updateVisibilityStatus);
+  lsLiveRef.value.addEventListener('play', () => {
+    isAutoplay.value = true;
+  });
+  lsLiveRef.value.addEventListener('pause', () => {
+    isAutoplay.value = false;
+  });
 });
 
 onUnmounted(() => {
@@ -122,7 +143,14 @@ defineExpose({
 
 <template>
   <div :class="comClass">
-    <video v-bind="merge(defAttrs, $attrs)" width="100%" class="ls-video" ref="lsLiveRef"></video>
+    <video
+      :autoplay="defAttrs.autoplay"
+      :controls="defAttrs.controls"
+      :muted="defAttrs.muted"
+      width="100%"
+      class="ls-video"
+      ref="lsLiveRef"
+    ></video>
   </div>
 </template>
 
