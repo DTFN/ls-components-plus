@@ -17,34 +17,62 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
+
+// 统一处理 attrs 中的属性名格式，优先使用后定义的值
+function formatAttrs(attrsValue: any) {
+  const result: Record<string, any> = {};
+
+  if (!attrsValue) return result;
+
+  Object.entries(attrsValue).forEach(([key, value]) => {
+    // 转换成驼峰格式
+    const camelKey = key.replace(/-(\w)/g, (_, c) => c.toUpperCase());
+
+    // 如果已存在相同的驼峰key，说明后面的会覆盖前面的值
+    result[camelKey] = value;
+  });
+
+  return result;
+}
+
 const buttonsAttrs = computed(() => {
-  if (attrs && attrs.hasOwnProperty('inline')) {
-    if (typeof attrs.inline === 'boolean' && attrs.inline === false) {
+  const newAttrs = formatAttrs(attrs);
+
+  if (newAttrs && newAttrs.hasOwnProperty('inline')) {
+    if (typeof newAttrs.inline === 'boolean' && newAttrs.inline === false) {
+      return {};
+    }
+    if (newAttrs['labelPosition'] === 'top') {
       return {
-        label: ''
+        class: 'ls-form-item-buttons'
       };
     }
-    if (attrs && attrs['label-position'] === 'top') {
-      return {
-        label: '',
-        class: 'form-item-buttons '
-      };
-    }
-    return {
-      label: ''
-    };
+    return {};
   } else {
-    if (attrs && attrs['label-position'] === 'top') {
+    if (newAttrs && newAttrs['labelPosition'] === 'top') {
       return {
-        label: '',
         'label-position': 'top'
       };
     }
   }
 
-  return {
-    label: ''
-  };
+  return {};
+});
+
+const newButtonsLeft = computed(() => {
+  let isLeft = props.buttonsLeft;
+
+  const newAttrs = formatAttrs(attrs);
+
+  if (newAttrs && newAttrs.hasOwnProperty('inline')) {
+    if (typeof newAttrs.inline === 'boolean' && newAttrs.inline === false) {
+      isLeft = props.buttonsLeft;
+    } else {
+      isLeft = true;
+    }
+  }
+
+  return isLeft;
 });
 
 const FormRef = ref<FormInstance>();
@@ -230,8 +258,9 @@ defineExpose({
         <slot />
 
         <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
-          <template v-if="!buttonsLeft" #label>
-            <span></span>
+          <template v-if="!newButtonsLeft || $slots['buttons-label']" #label>
+            <slot v-if="$slots['buttons-label']" name="buttons-label" />
+            <span v-else></span>
           </template>
 
           <slot v-if="$slots['buttons-prepend']" name="buttons-prepend" />
@@ -254,7 +283,7 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.form-item-buttons {
+.ls-form-item-buttons {
   display: flex !important;
   align-items: flex-end;
 }
