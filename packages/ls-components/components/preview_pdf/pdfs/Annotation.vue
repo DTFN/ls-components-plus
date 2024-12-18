@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import * as PDFJS from 'pdfjs-dist';
 import { onMounted, ref, toRaw, watch } from 'vue';
-
+import { AnnotationLayer } from 'pdfjs-dist';
 import type { PDFDocumentProxy, PDFPageProxy, PageViewport } from 'pdfjs-dist';
 import type { AnnotationLayerParameters } from 'pdfjs-dist/types/src/display/annotation_layer';
 import type { IDownloadManager } from 'pdfjs-dist/types/web/interfaces';
@@ -116,7 +115,7 @@ async function render() {
     downloadManager: null as unknown as IDownloadManager,
     imageResourcesPath: props.imageResourcesPath
   };
-  const task = new PDFJS.AnnotationLayer(layerParameters).render(renderParameters);
+  const task = new AnnotationLayer(layerParameters).render(renderParameters);
   task.then(async () => {
     emit('annotationLoaded', (await getAnnotations())!);
   });

@@ -1,4 +1,4 @@
-import * as PDFJS from 'pdfjs-dist';
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min?url';
 import { isRef, shallowRef, watch } from 'vue';
 
@@ -10,9 +10,9 @@ import { addStylesToIframe, createIframe } from './pdfs/miscellaneous';
 
 // Could not find a way to make this work with vite, importing the worker entry bundle the whole worker to the the final output
 // https://erindoyle.dev/using-pdfjs-with-vite/
-// PDFJS.GlobalWorkerOptions.workerSrc = PDFWorker
+// GlobalWorkerOptions.workerSrc = PDFWorker
 function configWorker(wokerSrc: string) {
-  PDFJS.GlobalWorkerOptions.workerSrc = wokerSrc;
+  GlobalWorkerOptions.workerSrc = wokerSrc;
 }
 
 /**
@@ -43,7 +43,7 @@ export function usePDF(
     password: ''
   }
 ) {
-  if (!PDFJS.GlobalWorkerOptions?.workerSrc) configWorker(PDFWorker);
+  if (!GlobalWorkerOptions?.workerSrc) configWorker(PDFWorker);
 
   const pdf = shallowRef<PDFDocumentLoadingTask>();
   const pdfDoc = shallowRef<PDFDocumentProxy>();
@@ -53,7 +53,7 @@ export function usePDF(
   function processLoadingTask(source: any) {
     if (pdfDoc.value) void pdfDoc.value.destroy();
 
-    const loadingTask = PDFJS.getDocument(source);
+    const loadingTask = getDocument(source);
     if (options.onProgress) loadingTask.onProgress = options.onProgress;
 
     if (options.onPassword) {
@@ -131,7 +131,7 @@ export function usePDF(
   async function print(dpi = 150, filename = 'filename') {
     if (!pdfDoc.value) throw new Error('Current PDFDocumentProxy have not loaded yet');
     const bytes = await pdfDoc.value?.saveDocument();
-    const savedLoadingTask = PDFJS.getDocument(bytes.buffer);
+    const savedLoadingTask = getDocument(bytes.buffer);
     const savedDocument = await savedLoadingTask.promise;
 
     const PRINT_UNITS = dpi / 72;
