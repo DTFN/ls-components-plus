@@ -94,11 +94,19 @@ export default function (
 
       const requestParamsData = (typeof requestParams === 'function' ? requestParams() : requestParams) || {};
 
-      let params = {
-        currentPage: hasPanigation ? currentPage.value : null,
-        pageSize: hasPanigation ? pageSize.value : null,
-        ...requestParamsData
-      };
+      let params = {};
+
+      if (hasPanigation) {
+        params = {
+          currentPage: currentPage.value,
+          pageSize: pageSize.value,
+          ...requestParamsData
+        };
+      } else {
+        params = {
+          ...requestParamsData
+        };
+      }
 
       if (dealParams) {
         params = dealParams(params);

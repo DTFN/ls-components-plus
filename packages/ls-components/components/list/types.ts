@@ -115,6 +115,11 @@ export const lsListProps = buildProps({
   addFn: {
     type: Function
   },
+  // 添加按钮配置项
+  addBtnAttrs: {
+    type: Object,
+    default: () => {}
+  },
   // 是否显示表格开关切换
   showTableSwitch: {
     type: Boolean,

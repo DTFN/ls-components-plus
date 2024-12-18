@@ -341,6 +341,12 @@ const attrTableData=[
     value: '添加'
   },
   {
+    name: 'addBtnAttrs',
+    desc: '添加按钮配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
     name: 'addFn',
     desc: '添加按钮点击事件（覆盖默认事件）',
     type: 'Function',
@@ -488,6 +494,24 @@ const eventsTableData=[
     type: 'Function',
     value: 'object：表单数据'
   },
+  {
+    name: 'handleLoading',
+    desc: '加载中',
+    type: 'Function',
+    value: 'boolean'
+  },
+  {
+    name: 'handleCurrentPage',
+    desc: '当前页',
+    type: 'Function',
+    value: 'number'
+  },
+  {
+    name: 'handlePageSize',
+    desc: '每页条数',
+    type: 'Function',
+    value: 'number'
+  }
 ]
 
 // 插槽
