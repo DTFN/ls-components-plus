@@ -8,14 +8,6 @@ import type {
 } from 'pdfjs-dist/types/src/display/api';
 import type { Metadata } from 'pdfjs-dist/types/src/display/metadata';
 
-const emitNames = ['update:source', 'loadComplete', 'loadError'];
-
-export { emitNames };
-
-export const previewEmits = ['close', 'switch'].concat(emitNames);
-
-export type PreviewEmits = typeof previewEmits;
-
 export interface Match {
   start: {
     idx: number;
@@ -109,24 +101,3 @@ export interface PDFInfo {
   javascript: string[] | null;
   outline: any;
 }
-
-export const lsPreviewProp = {
-  source: {},
-  zoomSize: {
-    type: [Number, String],
-    default: 1.5
-  },
-  needLoading: {
-    type: Boolean,
-    default: true
-  },
-  loadingOption: {
-    type: Object,
-    default: () => {
-      return {
-        text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.3)'
-      };
-    }
-  }
-};

@@ -1,9 +1,8 @@
 <script setup lang="ts" name="LSPreviewXlsx">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSXlsx from './Xlsx.vue';
-import { lsPreviewProp } from './types';
-import { ElLoading } from 'element-plus';
 import { merge } from 'lodash-es';
+import usePreviewHook from '@cpo/_hooks/usePreviewHook';
+import { lsPreviewProp } from '@cpo/_constants/prviewType';
 
 defineOptions({
   name: 'LSPreviewXlsx',
@@ -19,66 +18,12 @@ const emits = defineEmits<{
 }>();
 
 const props = defineProps(lsPreviewProp);
-const { zoomSize } = toRefs(props);
 
 const previewVisible = defineModel({
   type: Boolean
 });
 
-const defAttrs: any = reactive({
-  zoomSize,
-  source: ''
-});
-const ns = useNamespace('preview');
-const comClass: string = ns.b();
-const loadInstance: any = ref();
-
-let timer: any = null;
-
-watch(
-  () => previewVisible?.value,
-  val => {
-    if (val) {
-      openLoading();
-    }
-  },
-  {
-    immediate: true,
-    deep: true
-  }
-);
-
-watch(
-  () => props.source,
-  val => {
-    defAttrs.source = val;
-    if (val) {
-      clearTimeout(timer);
-    }
-  },
-  {
-    immediate: true,
-    deep: true
-  }
-);
-
-function openLoading() {
-  props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
-
-  timer = setTimeout(() => {
-    if (!props.source) {
-      ElMessage.error('加载超时，请检查网络后重试！');
-      closeLoading();
-      previewVisible.value = false;
-    }
-    clearTimeout(timer);
-  }, 20000);
-}
-
-const closeLoading = () => {
-  timer && clearTimeout(timer);
-  props.needLoading && loadInstance.value && loadInstance.value.close();
-};
+const { comClass, defAttrs, closeLoading } = usePreviewHook(props, previewVisible);
 
 const loadComplete = () => {
   closeLoading();
@@ -89,14 +34,6 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
-
-onBeforeMount(() => {
-  previewVisible.value && openLoading();
-});
-
-onBeforeUnmount(() => {
-  closeLoading();
-});
 </script>
 
 <template>

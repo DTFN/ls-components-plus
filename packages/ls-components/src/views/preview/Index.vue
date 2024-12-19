@@ -5,7 +5,7 @@ import xlsx from '@/assets/files/222.xlsx?url';
 import pdf from '@/assets/files/零数科技企业宣传册-2023.pdf';
 
 const type = ref('image');
-const source: any = ref([]);
+const source: any = ref('');
 const showViewerImage = ref(false);
 const showViewerDocx = ref(false);
 const showViewerPdf = ref(false);
@@ -46,9 +46,9 @@ function openViewer(val: string) {
       break;
     case 'pdf':
       source.value = '';
-      setTimeout(() => {
-        source.value = pdf;
-      }, 3000);
+      // setTimeout(() => {
+      source.value = pdf;
+      // }, 3000);
       showViewerPdf.value = true;
       break;
     case 'image2':
