@@ -41,7 +41,7 @@ export const lsFormProps = buildProps({
   },
   buttonsLeft: {
     type: Boolean,
-    default: true
+    default: false
   },
   showReset: {
     type: Boolean,
