@@ -45,7 +45,10 @@ function openViewer(val: string) {
       });
       break;
     case 'pdf':
-      source.value = pdf;
+      source.value = '';
+      setTimeout(() => {
+        source.value = pdf;
+      }, 3000);
       showViewerPdf.value = true;
       break;
     case 'image2':

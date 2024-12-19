@@ -69,6 +69,9 @@ watch(
   () => props.source,
   val => {
     defAttrs.source = val;
+    if (val) {
+      clearTimeout(timer);
+    }
   },
   {
     immediate: true,
@@ -97,12 +100,12 @@ function openLoading() {
 
   timer = setTimeout(() => {
     if (!props.source) {
-      ElMessage.error('文件加载超时，请检查文件是否存在！');
+      ElMessage.error('加载超时，请检查网络后重试！');
       closeLoading();
       previewVisible.value = false;
     }
     clearTimeout(timer);
-  }, 6000);
+  }, 20000);
 }
 
 const closeLoading = () => {
