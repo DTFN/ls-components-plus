@@ -41,7 +41,7 @@ export const lsFormProps = buildProps({
   },
   buttonsLeft: {
     type: Boolean,
-    default: false
+    default: true
   },
   showReset: {
     type: Boolean,
@@ -66,10 +66,6 @@ export const lsFormProps = buildProps({
   colon: {
     type: Boolean,
     default: false
-  },
-  labelWidth: {
-    type: [String, Number],
-    default: 'auto'
   },
   labelEmpty: {
     type: String,

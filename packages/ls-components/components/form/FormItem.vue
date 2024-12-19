@@ -671,24 +671,16 @@ defineExpose({
   --el-date-editor-width: 424px;
 }
 :deep(.el-date-editor--datetimerange) {
-  position: absolute;
-
-  --el-date-editor-width: 404px;
+  max-width: 404px;
 }
 :deep(.el-date-editor--daterange) {
-  position: absolute;
-
-  --el-date-editor-width: 404px;
+  max-width: 404px;
 }
 :deep(.el-date-editor--monthrange) {
-  position: absolute;
-
-  --el-date-editor-width: 404px;
+  max-width: 404px;
 }
 :deep(.el-date-editor--yearrange) {
-  position: absolute;
-
-  --el-date-editor-width: 404px;
+  max-width: 404px;
 }
 :deep(.el-cascader) {
   .el-input {
