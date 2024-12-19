@@ -38,18 +38,24 @@ function formatAttrs(attrsValue: any) {
 const buttonsAttrs = computed(() => {
   const newAttrs = formatAttrs(attrs);
 
+  let buttonsLeft = props.buttonsLeft;
   const buttonsAttrs: any = {
     label: '',
     labelWidth: '0px'
   };
 
   if (newAttrs && newAttrs.hasOwnProperty('inline')) {
+    if (typeof newAttrs['inline'] === 'boolean' && newAttrs['inline'] === false) {
+      buttonsLeft = props.buttonsLeft;
+    } else {
+      buttonsLeft = true;
+    }
     if (newAttrs['labelPosition'] === 'top') {
       buttonsAttrs['class'] = 'ls-form-item-buttons';
     }
   }
 
-  if (!props.buttonsLeft) {
+  if (!buttonsLeft) {
     buttonsAttrs.label = ' ';
     if (newAttrs['labelWidth']) {
       buttonsAttrs.labelWidth = newAttrs['labelWidth'];
