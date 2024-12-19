@@ -38,41 +38,27 @@ function formatAttrs(attrsValue: any) {
 const buttonsAttrs = computed(() => {
   const newAttrs = formatAttrs(attrs);
 
+  const buttonsAttrs: any = {
+    label: '',
+    labelWidth: '0px'
+  };
+
   if (newAttrs && newAttrs.hasOwnProperty('inline')) {
-    if (typeof newAttrs.inline === 'boolean' && newAttrs.inline === false) {
-      return {};
-    }
     if (newAttrs['labelPosition'] === 'top') {
-      return {
-        class: 'ls-form-item-buttons'
-      };
-    }
-    return {};
-  } else {
-    if (newAttrs && newAttrs['labelPosition'] === 'top') {
-      return {
-        'label-position': 'top'
-      };
+      buttonsAttrs['class'] = 'ls-form-item-buttons';
     }
   }
 
-  return {};
-});
-
-const newButtonsLeft = computed(() => {
-  let isLeft = props.buttonsLeft;
-
-  const newAttrs = formatAttrs(attrs);
-
-  if (newAttrs && newAttrs.hasOwnProperty('inline')) {
-    if (typeof newAttrs.inline === 'boolean' && newAttrs.inline === false) {
-      isLeft = props.buttonsLeft;
+  if (!props.buttonsLeft) {
+    buttonsAttrs.label = ' ';
+    if (newAttrs['labelWidth']) {
+      buttonsAttrs.labelWidth = newAttrs['labelWidth'];
     } else {
-      isLeft = true;
+      buttonsAttrs.labelWidth = 'auto';
     }
   }
 
-  return isLeft;
+  return buttonsAttrs;
 });
 
 const FormRef = ref<FormInstance>();
@@ -168,7 +154,7 @@ defineExpose({
         ref="FormRef"
         label-position="left"
         require-asterisk-position="right"
-        :label-width="labelWidth"
+        label-width="auto"
         :hide-required-asterisk="read ? true : false"
         v-bind="$attrs"
         :model="form"
@@ -258,11 +244,6 @@ defineExpose({
         <slot />
 
         <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
-          <template v-if="!newButtonsLeft || $slots['buttons-label']" #label>
-            <slot v-if="$slots['buttons-label']" name="buttons-label" />
-            <span v-else></span>
-          </template>
-
           <slot v-if="$slots['buttons-prepend']" name="buttons-prepend" />
 
           <el-button
