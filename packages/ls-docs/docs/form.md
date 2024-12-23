@@ -791,7 +791,7 @@ const attrTableData=[
   },
   {
     name: 'buttonsLeft',
-    desc: 'confirm和reset按钮是否在最左侧',
+    desc: 'confirm和reset按钮是否在最左侧(inline为false时生效)',
     type: 'boolean',
     value: 'false'
   },
@@ -830,12 +830,6 @@ const attrTableData=[
     desc: '冒号显示与否',
     type: 'boolean',
     value: 'true'
-  },
-  {
-    name: 'labelWidth',
-    desc: `标签的长度，例如 '50px'`,
-    type: 'string/number',
-    value: 'auto'
   },
   {
     name: 'labelEmpty',

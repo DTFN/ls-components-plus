@@ -5,6 +5,9 @@ outline: deep
 # Preview 预览
 
 ::: warning 支持图片（image）、文档（docx）、表格（xlsx）、pdf类型文件预览。
+
+v1.0.34+之后使用新的预览组件（LSPreviewImage、LSPreviewDocx、LSPreviewPdf、LSPreviewXlsx)不在需要一下配置且不需要传type参数：
+<br />
 如果只需要图片预览，在配置文件添加
 optimizeDeps: {
 exclude: ['pdfjs-dist', 'luckyexcel']
@@ -20,7 +23,7 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 <LSButton type="primary" @click="openViewerImg">图片预览</LSButton>
 
 <ClientOnly>
-  <LSPreviewImage v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+  <LSPreviewImage v-model="showViewer" :on-close="closeViewer" :source="source" />
 </ClientOnly>
 
 ```js
@@ -43,7 +46,7 @@ function openViewerImg() {
 
 ```html
 <LSButton type="primary" @click="openViewerImg">图片预览</LSButton>
-<LSPreviewImage v-model="showViewer" :on-close="closeViewer" type="image" :source="source" />
+<LSPreviewImage v-model="showViewer" :on-close="closeViewer" :source="source" />
 ```
 
 ### 2. Docx预览
@@ -51,7 +54,7 @@ function openViewerImg() {
 <br />
 <LSButton type="primary" @click="openViewerDocx">Docx预览</LSButton>
 <ClientOnly>
-  <LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+  <LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" :source="source2" />
 </ClientOnly>
 
 ```js
@@ -75,7 +78,7 @@ function openViewerDocx() {
 
 ```html
 <LSButton type="primary" @click="openViewerDocx">Docx预览</LSButton>
-<LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" type="docx" :source="source2" />
+<LSPreviewDocx v-model="showViewer2" :on-close="closeViewer2" :source="source2" />
 ```
 
 ### 3. Pdf预览
@@ -86,7 +89,7 @@ function openViewerDocx() {
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <ClientOnly>
-  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" />
 </ClientOnly>
 
 ```js
@@ -107,7 +110,7 @@ function openViewerPdf() {
 
 ```html
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" type="pdf" :source="source3" />
+<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" />
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
@@ -140,7 +143,7 @@ function openViewerPdf() {
 
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
 <ClientOnly>
-<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" :source="source4" />
 </ClientOnly>
 
 ```js
@@ -162,7 +165,7 @@ function openViewerXlsx() {
 
 ```html
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
-<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" type="xlsx" :source="source4" />
+<LSPreviewXlsx v-model="showViewer4" :on-close="closeViewer4" :source="source4" />
 ```
 
 ## API
@@ -261,6 +264,18 @@ const tableData = ref([
     desc: 'loading配置, 参考ElLoading配置',
     type: 'object',
     value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
+  },
+  {
+    name: 'hasDownload',
+    desc: '是否需要下载按钮，当前image支持',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'downloadData',
+    desc: '下载按钮返回数据，当前image支持',
+    type: 'object',
+    value: '{}'
   }
 ]);
 
@@ -270,6 +285,12 @@ const tableData2 = ref([
     desc: '关闭时触发',
     type: 'function',
     value: '-'
+  },
+  {
+    name: 'download',
+    desc: '下载回调方法',
+    type: 'function',
+    value: 'data'
   }
 ])
 

@@ -14,6 +14,9 @@ const props = defineProps(lsListProps);
 
 const emits = defineEmits<{
   submitForm: [formData: any];
+  handleLoading: [loading: boolean];
+  handleCurrentPage: [currentPage: number];
+  handlePageSize: [pageSize: number];
 }>();
 
 // 获取插槽
@@ -47,6 +50,18 @@ const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, 
   props.formData,
   { dealData: props?.dealData, dealParams: props?.dealParams, ...props?.listHookConfig }
 );
+
+watch(loading, newVal => {
+  emits('handleLoading', newVal);
+});
+
+watch(currentPage, newVal => {
+  emits('handleCurrentPage', newVal);
+});
+
+watch(pageSize, newVal => {
+  emits('handlePageSize', newVal);
+});
 
 // 查询
 function submitForm(val: any) {
@@ -344,7 +359,7 @@ defineExpose({
         <div class="mt-24px flex items-center justify-start" :class="operateClass">
           <slot name="operate-prepend" />
 
-          <el-button v-if="showAdd" type="primary" :disabled="loading || disabledAddBtn" @click="onAdd">
+          <el-button v-if="showAdd" type="primary" :disabled="loading || disabledAddBtn" v-bind="addBtnAttrs" @click="onAdd">
             {{ addBtnText }}
           </el-button>
 
