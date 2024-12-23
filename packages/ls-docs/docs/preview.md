@@ -264,6 +264,18 @@ const tableData = ref([
     desc: 'loading配置, 参考ElLoading配置',
     type: 'object',
     value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
+  },
+  {
+    name: 'hasDownload',
+    desc: '是否需要下载按钮，当前image支持',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'downloadData',
+    desc: '下载按钮返回数据，当前image支持',
+    type: 'object',
+    value: '{}'
   }
 ]);
 
@@ -273,6 +285,12 @@ const tableData2 = ref([
     desc: '关闭时触发',
     type: 'function',
     value: '-'
+  },
+  {
+    name: 'download',
+    desc: '下载回调方法',
+    type: 'function',
+    value: 'data'
   }
 ])
 
