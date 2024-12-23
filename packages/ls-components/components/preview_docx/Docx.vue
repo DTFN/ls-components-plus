@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { docxProps, previewEmits } from './types';
+import { docxProps } from './types';
+import { previewEmits } from '@cpo/_constants/prviewType';
 import { isArrayBuffer } from '@cpo/_utils/check';
 
 const ns = useNamespace('docx');

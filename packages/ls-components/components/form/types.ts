@@ -67,10 +67,6 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: false
   },
-  labelWidth: {
-    type: [String, Number],
-    default: 'auto'
-  },
   labelEmpty: {
     type: String,
     default: '--'

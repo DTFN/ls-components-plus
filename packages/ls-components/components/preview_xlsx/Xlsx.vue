@@ -1,6 +1,7 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { previewEmits, xlsxProps } from './types';
+import { xlsxProps } from './types';
+import { previewEmits } from '@cpo/_constants/prviewType';
 import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import LuckyExcel from 'luckyexcel';
@@ -238,6 +239,12 @@ onBeforeUnmount(() => {
   :deep(.luckysheet-cols-menu-btn) {
     &.luckysheet-mousedown-cancel {
       opacity: 0;
+    }
+  }
+  :deep(.luckysheet-loading-mask) {
+    .luckysheet-loading-image,
+    .luckysheet-loading-text {
+      display: none !important;
     }
   }
 }

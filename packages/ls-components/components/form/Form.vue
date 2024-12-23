@@ -17,34 +17,54 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
+
+// 统一处理 attrs 中的属性名格式，优先使用后定义的值
+function formatAttrs(attrsValue: any) {
+  const result: Record<string, any> = {};
+
+  if (!attrsValue) return result;
+
+  Object.entries(attrsValue).forEach(([key, value]) => {
+    // 转换成驼峰格式
+    const camelKey = key.replace(/-(\w)/g, (_, c) => c.toUpperCase());
+
+    // 如果已存在相同的驼峰key，说明后面的会覆盖前面的值
+    result[camelKey] = value;
+  });
+
+  return result;
+}
+
 const buttonsAttrs = computed(() => {
-  if (attrs && attrs.hasOwnProperty('inline')) {
-    if (typeof attrs.inline === 'boolean' && attrs.inline === false) {
-      return {
-        label: ''
-      };
+  const newAttrs = formatAttrs(attrs);
+
+  let buttonsLeft = props.buttonsLeft;
+  const buttonsAttrs: any = {
+    label: '',
+    labelWidth: '0px'
+  };
+
+  if (newAttrs && newAttrs.hasOwnProperty('inline')) {
+    if (typeof newAttrs['inline'] === 'boolean' && newAttrs['inline'] === false) {
+      buttonsLeft = props.buttonsLeft;
+    } else {
+      buttonsLeft = true;
     }
-    if (attrs && attrs['label-position'] === 'top') {
-      return {
-        label: '',
-        class: 'form-item-buttons '
-      };
-    }
-    return {
-      label: ''
-    };
-  } else {
-    if (attrs && attrs['label-position'] === 'top') {
-      return {
-        label: '',
-        'label-position': 'top'
-      };
+    if (newAttrs['labelPosition'] === 'top') {
+      buttonsAttrs['class'] = 'ls-form-item-buttons';
     }
   }
 
-  return {
-    label: ''
-  };
+  if (!buttonsLeft) {
+    buttonsAttrs.label = ' ';
+    if (newAttrs['labelWidth']) {
+      buttonsAttrs.labelWidth = newAttrs['labelWidth'];
+    } else {
+      buttonsAttrs.labelWidth = 'auto';
+    }
+  }
+
+  return buttonsAttrs;
 });
 
 const FormRef = ref<FormInstance>();
@@ -140,7 +160,7 @@ defineExpose({
         ref="FormRef"
         label-position="left"
         require-asterisk-position="right"
-        :label-width="labelWidth"
+        label-width="auto"
         :hide-required-asterisk="read ? true : false"
         v-bind="$attrs"
         :model="form"
@@ -230,10 +250,6 @@ defineExpose({
         <slot />
 
         <el-form-item v-if="showButtons" v-bind="buttonsAttrs" :class="buttonsClass">
-          <template v-if="!buttonsLeft" #label>
-            <span></span>
-          </template>
-
           <slot v-if="$slots['buttons-prepend']" name="buttons-prepend" />
 
           <el-button
@@ -254,7 +270,7 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.form-item-buttons {
+.ls-form-item-buttons {
   display: flex !important;
   align-items: flex-end;
 }
