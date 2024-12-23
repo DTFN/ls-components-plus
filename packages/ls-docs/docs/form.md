@@ -791,9 +791,9 @@ const attrTableData=[
   },
   {
     name: 'buttonsLeft',
-    desc: 'confirm和reset按钮是否在最左侧',
+    desc: 'confirm和reset按钮是否在最左侧(inline为false时生效)',
     type: 'boolean',
-    value: 'true'
+    value: 'false'
   },
   {
     name: 'showReset',
