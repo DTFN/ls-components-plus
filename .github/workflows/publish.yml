@@ -20,17 +20,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifact
-          path: packages/ls-components/lib/node_modules
-
       - name: Install
         run: |
           npm install -g pnpm
@@ -39,6 +28,17 @@ jobs:
       - name: Build
         run: |
           npm run build:ls-components
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: build-artifact
+            path: packages/ls-components/lib
+  
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
 
       - name: Release
         env:
