@@ -1,1 +1,0 @@
-"use strict";var o=Object.defineProperty;var t=(e,n)=>o(e,"name",{value:n,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const u=require("vue"),r=u.ref(0),c=t(()=>{const e=u.ref(2e3),n=u.computed(()=>e.value+r.value);return{initZIndex:e,curZIndex:n,nextZIndex:t(()=>(r.value++,n.value),"nextZIndex")}},"useZIndex");exports.useZIndex=c;

@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("../packages/ls-components/components/_utils/validate/index.cjs"),t=require("../packages/ls-components/components/_utils/check/index.cjs");exports.lsValidate=e.default;exports.lsCheck=t.default;
