@@ -11,19 +11,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
-
-      - name: Allow specific path
-        run: |
-          echo "!packages/ls-components/lib" >> .gitignore
-          echo "Temporary exception for lib directory"
-
+        
       - name: Set node version
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: packages/ls-components/lib/node_modules
 
       - name: Install
         run: |
