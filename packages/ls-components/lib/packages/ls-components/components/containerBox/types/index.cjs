@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("../../_utils/runtime/index.cjs"),t=e.buildProps({width:{type:Number,default:1920},height:{type:Number,default:1080}});exports.lsContainerBoxProps=t;

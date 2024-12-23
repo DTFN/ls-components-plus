@@ -1,0 +1,1 @@
+"use strict";var o=Object.defineProperty;var t=(e,r)=>o(e,"name",{value:r,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const s=require("../../_utils/runtime/index.cjs"),n=s.buildProps({jsonValue:{type:[Object,String],default:t(()=>({}),"default")}});exports.lsJsonEditorProps=n;
