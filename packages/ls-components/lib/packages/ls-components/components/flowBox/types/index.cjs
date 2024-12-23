@@ -1,1 +1,0 @@
-"use strict";var o=Object.defineProperty;var t=(e,r)=>o(e,"name",{value:r,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const l=require("../../_utils/runtime/index.cjs"),i=l.buildProps({width:{type:String,default:"100%"},height:{type:String,default:"100%"},list:{type:Array,default:t(()=>[],"default")}});exports.lsFlowBoxProps=i;
