@@ -41,7 +41,7 @@
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@element-plus/icons-vue": "^2.3.1",
-    "@lingshugroup/web-plus": "^1.0.35",
+    "@lingshugroup/web-plus": "^1.0.41",
     "@univerjs/core": "^0.2.11",
     "@univerjs/design": "^0.2.11",
     "@univerjs/docs": "^0.2.11",

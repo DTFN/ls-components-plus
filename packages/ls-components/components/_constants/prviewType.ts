@@ -1,6 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError'];
+export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'download'];
 
 export type PreviewEmits = typeof previewEmits;
 
@@ -21,6 +21,16 @@ export const lsPreviewProp = buildProps({
         text: 'Loading',
         background: 'rgba(0, 0, 0, 0.3)'
       };
+    }
+  },
+  hasDownload: {
+    type: Boolean,
+    default: false
+  },
+  downloadData: {
+    type: Object,
+    default: () => {
+      return {};
     }
   }
 });

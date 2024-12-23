@@ -5,7 +5,7 @@ export default function (props: any, previewVisible: any) {
   const { zoomSize } = toRefs(props);
 
   const defAttrs: any = reactive({
-    zoomSize,
+    zoomSize: zoomSize.value,
     source: ''
   });
   const ns = useNamespace('preview');
@@ -43,6 +43,12 @@ export default function (props: any, previewVisible: any) {
 
   function openLoading() {
     props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+
+    defAttrs.zoomSize = props.zoomSize;
+    defAttrs.hasDownload = props.hasDownload;
+    if (defAttrs.hasDownload) {
+      defAttrs.downloadData = props.downloadData;
+    }
 
     timer = setTimeout(() => {
       if (!props.source) {

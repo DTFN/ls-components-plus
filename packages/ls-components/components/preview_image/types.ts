@@ -4,7 +4,7 @@ import type { ExtractPropTypes } from 'vue';
 import type LSImage from './Image.vue';
 
 // image
-export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise';
+export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise' | 'download';
 
 export const imageViewerProps = buildProps({
   source: {
