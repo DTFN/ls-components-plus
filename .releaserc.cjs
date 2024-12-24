@@ -13,7 +13,12 @@ module.exports = {
     [
       '@semantic-release/npm'
     ],
-    '@semantic-release/github',
+    [
+      '@semantic-release/github',
+      {
+        assets: ['CHANGELOG.md', './packages/ls-components/package.json']
+      }
+    ]
     [
       '@semantic-release/git',
       {
