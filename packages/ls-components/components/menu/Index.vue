@@ -141,7 +141,7 @@ onMounted(() => {
   :deep(.el-sub-menu__title) {
     & [class^='ls-icon'],
     [class^='el-icon'] {
-      width: auto;
+      width: auto !important;
     }
     & [class^='el-icon'] {
       margin-right: 0;
