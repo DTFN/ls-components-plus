@@ -94,12 +94,7 @@
       </template>
     </el-upload>
 
-    <!-- <LSPreview
-      v-model="configs.showPreview"
-      :on-close="closePreview"
-      :type="configs.typePreview"
-      :source="configs.sourcePreview"
-    /> -->
+    <LSPreviewImage v-model="configs.showPreview" :source="configs.sourcePreview" :on-close="closePreview" />
   </div>
 </template>
 
@@ -111,6 +106,7 @@ import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile, UploadProg
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
+import LSPreviewImage from '@cpo/preview_image';
 // import { merge } from 'lodash-es';
 
 defineOptions({
@@ -136,7 +132,6 @@ const configs: configsType = reactive({
   uploadFileList: [],
   initUploadStatus: true,
   showPreview: false,
-  typePreview: '',
   sourcePreview: '',
   iconColor: getVariable('colorText1')
 });
@@ -501,12 +496,10 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
 //   if (raw) {
 //     if (textPreview.value && textPreview.value.length > 0) {
 //       if (type?.startsWith('image')) {
-//         configs.typePreview = 'image';
 //         configs.sourcePreview = isPicCard.value ? [url] : [blob];
 //         configs.showPreview = true;
 //       } else if (type == 'application/pdf') {
 //         if (textPreview.value.includes('pdf')) {
-//           configs.typePreview = 'pdf';
 //           configs.sourcePreview = blob;
 //           configs.showPreview = true;
 //         } else if (textPreview.value.includes('pdfNative')) {
@@ -516,7 +509,6 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
 //         textPreview.value.includes('xlsx') &&
 //         ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'].includes(type)
 //       ) {
-//         configs.typePreview = 'xlsx';
 //         fetch(blob)
 //           .then((response: any) => response.blob())
 //           .then(data => {
@@ -527,7 +519,6 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
 //         textPreview.value.includes('docx') &&
 //         type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 //       ) {
-//         configs.typePreview = 'docx';
 //         fetch(blob)
 //           .then(response => response.blob())
 //           .then(blob => blob.arrayBuffer())
@@ -538,13 +529,11 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
 //       }
 //     } else if (isPicCard.value) {
 //       if (type?.startsWith('image')) {
-//         configs.typePreview = 'image';
 //         configs.sourcePreview = [url];
 //         configs.showPreview = true;
 //       }
 //     }
 //   } else if (isPicCard.value) {
-//     configs.typePreview = 'image';
 //     configs.sourcePreview = [url];
 //     configs.showPreview = true;
 //   }
@@ -620,12 +609,17 @@ function onPreviewAction(uploadFile: UploadFile) {
   if (props.onPreview) {
     return props.onPreview(uploadFile);
   }
+  if (isPicCard.value) {
+    const { url }: any = uploadFile;
+    configs.sourcePreview = url;
+    configs.showPreview = true;
+  }
 }
 
-// function closePreview() {
-//   configs.showPreview = false;
-//   configs.sourcePreview = '';
-// }
+function closePreview() {
+  configs.showPreview = false;
+  configs.sourcePreview = '';
+}
 
 defineExpose({
   uploadRef

@@ -105,10 +105,27 @@ function download(data: any) {
       :has-download="true"
       :download-data="downloadData"
       @download="download"
-    />
+    >
+      <template #viewer>
+        <div style="position: absolute; color: #ffffff">1111111111111111</div>
+      </template>
+    </LSPreviewImage>
     <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewPdf v-model="showViewerPdf" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" />
+
+    <!-- <el-image
+      src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
+      :preview-src-list="[
+        'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+        'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+        'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
+      ]"
+    >
+      <template #viewer>
+        <div style="position: absolute; color: #ffffff">1111111111111111</div>
+      </template>
+    </el-image> -->
   </div>
 </template>
 
