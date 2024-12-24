@@ -267,13 +267,13 @@ const tableData = ref([
   },
   {
     name: 'hasDownload',
-    desc: '是否需要下载按钮，当前image支持',
+    desc: '是否需要下载按钮，当前仅image支持',
     type: 'boolean',
     value: 'false'
   },
   {
     name: 'downloadData',
-    desc: '下载按钮返回数据，当前image支持',
+    desc: '下载按钮返回数据，当前仅image支持',
     type: 'object',
     value: '{}'
   }
@@ -288,7 +288,7 @@ const tableData2 = ref([
   },
   {
     name: 'download',
-    desc: '下载回调方法',
+    desc: '下载回调方法, 当前仅image支持',
     type: 'function',
     value: 'data'
   }
