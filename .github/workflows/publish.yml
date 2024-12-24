@@ -29,17 +29,11 @@ jobs:
         run: |
           npm run build:ls-components
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-            name: build-artifact
-            path: packages/ls-components/lib
+      - name: Use built files
+        run: ls packages/ls-components/lib
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
-
-      - name: Reset .gitignore
-        run: git checkout -- .gitignore
