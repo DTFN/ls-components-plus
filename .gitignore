@@ -10,14 +10,17 @@ lerna-debug.log*
 
 .DS_Store
 .history/
-/node_modules
+node_modules/
 dist
 dist-ssr
 *.local
 stats.html
 tsconfig.tsbuildinfo
 tsconfig.lint.json
-!packages/ls-components/lib/node_modules
+
+!packages/ls-components/lib/
+!packages/ls-components/lib/node_modules/
+!packages/ls-components/lib/node_modules/.pnpm/
 
 # Editor directories and files
 .idea
