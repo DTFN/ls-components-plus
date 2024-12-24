@@ -1,5 +1,4 @@
 module.exports = {
-  'packages/ls-components/lib/**': [],
   '*.{js,jsx,ts,tsx}': ['eslint'],
   '{!(package)*.json,*.code-snippets,.!(browserslist)*rc}': ['prettier --write--parser json'],
   'package.json': [],
