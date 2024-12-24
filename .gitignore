@@ -18,9 +18,7 @@ stats.html
 tsconfig.tsbuildinfo
 tsconfig.lint.json
 
-!packages/ls-components/lib/
-!packages/ls-components/lib/node_modules/
-!packages/ls-components/lib/node_modules/.pnpm/
+packages/ls-components/lib/
 
 # Editor directories and files
 .idea
