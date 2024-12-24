@@ -13,6 +13,7 @@ module.exports = {
     [
       '@semantic-release/npm',
       {
+        pkgRoot: 'packages/ls-components',
         assets: ['packages/ls-components/package.json', 'CHANGELOG.md'],
         message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
       },
