@@ -1,0 +1,1 @@
+"use strict";var o=Object.defineProperty;var e=(t,r)=>o(t,"name",{value:r,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const u=require("../../_utils/runtime/index.cjs"),l=u.buildProps({defineList:{type:Array,default:e(()=>[],"default")},showPos:{type:Boolean,default:!0},posTitle:{type:String,default:"当前位置"}});exports.lsBreadcrumbProp=l;
