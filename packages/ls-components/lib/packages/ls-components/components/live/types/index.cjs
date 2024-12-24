@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("../../_utils/runtime/index.cjs"),t=e.buildProps({type:{type:String,default:"flv"},isLive:{type:Boolean,default:!0},hasAudio:{type:Boolean,default:!0},hasVideo:{type:Boolean,default:!0}});exports.lsLiveProps=t;

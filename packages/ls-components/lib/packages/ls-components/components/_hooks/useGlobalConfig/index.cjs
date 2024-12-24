@@ -1,0 +1,1 @@
+"use strict";var u=Object.defineProperty;var o=(e,t)=>u(e,"name",{value:t,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const r=require("vue");function n(e=""){return r.computed(()=>e)}o(n,"useGlobalConfig");exports.useGlobalConfig=n;
