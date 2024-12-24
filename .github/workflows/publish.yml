@@ -29,8 +29,10 @@ jobs:
         run: |
           npm run build:ls-components
 
-      - name: Use built files
-        run: ls packages/ls-components/lib
+      - name: Add build output
+        run: |
+          git add -f packages/ls-components/lib
+          git commit -m "Add build artifacts" || echo "No changes to commit"
 
       - name: Release
         env:
