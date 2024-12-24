@@ -7,7 +7,6 @@ export interface configsType {
   uploadFileList: Array<UploadFile>;
   initUploadStatus: boolean;
   showPreview: boolean;
-  typePreview: string;
   sourcePreview: any;
   iconColor: string;
 }
