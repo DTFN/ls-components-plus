@@ -17,6 +17,7 @@ dist-ssr
 stats.html
 tsconfig.tsbuildinfo
 tsconfig.lint.json
+!packages/ls-components/lib/node_modules
 
 # Editor directories and files
 .idea
