@@ -11,15 +11,13 @@ module.exports = {
       }
     ],
     [
-      '@semantic-release/npm',{
-        pkgRoot: './packages/ls-components/package',
-      }
+      '@semantic-release/npm'
     ],
     '@semantic-release/github',
     [
       '@semantic-release/git',
       {
-        assets: ['CHANGELOG.md', 'packages/ls-components', 'packages/ls-components/package.json']
+        assets: ['CHANGELOG.md', 'package.json']
       }
     ]
   ]

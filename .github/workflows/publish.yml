@@ -30,6 +30,7 @@ jobs:
           npm run build:ls-components
 
       - name: Release
+        working-directory: ./packages/ls-components
         env:
           HUSKY: 0
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
