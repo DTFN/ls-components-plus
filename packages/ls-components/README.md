@@ -10,10 +10,6 @@
 
 [文档地址](https://) [vue3.x](https://cn.vuejs.org/guide/introduction.html) [element-plus](https://element-plus.org/zh-CN/component/overview.html)
 
-## 更新记录
-
-#### 1. 自动化部署
-
 ## 安装
 
 ```shell
