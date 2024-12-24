@@ -12,7 +12,7 @@ module.exports = {
     ],
     [
       '@semantic-release/npm',{
-        pkgRoot: 'packages/ls-components',
+        pkgRoot: './packages/ls-components/package',
       }
     ],
     '@semantic-release/github',
