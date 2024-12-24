@@ -68,36 +68,36 @@ const MENU_CONFIG_LIST = [
         key: '2-4',
         cpoPath: 'pondManager/AreaView',
         pCode: 'c24'
-      },
+      }
+    ]
+  },
+  {
+    title: '养殖周期管理',
+    name: 'CycleManager',
+    path: 'cycle-manager',
+    key: '2-5',
+    iconConfig: { name: 'Upload' },
+    cpoPath: 'pondManager/cycle/CycleManager',
+    pCode: 'c25',
+    children: [
       {
-        title: '养殖周期管理',
-        name: 'CycleManager',
-        path: 'cycle-manager',
+        title: '历史周期',
+        name: 'HistoryCycle',
+        path: 'history-cycle',
         key: '2-5',
-        cpoPath: 'pondManager/cycle/CycleManager',
+        cpoPath: 'pondManager/cycle/HistoryCycle',
         pCode: 'c25',
         leaf: true,
+        hideMenu: true,
         children: [
           {
-            title: '历史周期',
-            name: 'HistoryCycle',
-            path: 'history-cycle',
+            title: '历史周期查看',
+            name: 'HistoryCycleDetail',
+            path: 'history-cycle-detail',
             key: '2-5',
-            cpoPath: 'pondManager/cycle/HistoryCycle',
+            cpoPath: 'pondManager/cycle/HistoryCycleDetail',
             pCode: 'c25',
-            leaf: true,
-            hideMenu: true,
-            children: [
-              {
-                title: '历史周期查看',
-                name: 'HistoryCycleDetail',
-                path: 'history-cycle-detail',
-                key: '2-5',
-                cpoPath: 'pondManager/cycle/HistoryCycleDetail',
-                pCode: 'c25',
-                hideMenu: true
-              }
-            ]
+            hideMenu: true
           }
         ]
       }
@@ -184,13 +184,25 @@ function setDefineBCList(name: string, query: any) {
 function onJump(res: any) {
   console.log(res);
 }
+
+const isCollapse = ref(true);
 </script>
 
 <template>
   <div>
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
-    <LSMenu :menu-config-list="MENU_CONFIG_LIST" hover-color="blue" style="width: 200px" @on-jump="onJump">
+    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+      <el-radio-button :value="false">expand</el-radio-button>
+      <el-radio-button :value="true">collapse</el-radio-button>
+    </el-radio-group>
+    <LSMenu
+      :menu-config-list="MENU_CONFIG_LIST"
+      hover-color="blue"
+      style="max-width: 200px"
+      @on-jump="onJump"
+      :collapse="isCollapse"
+    >
       <template #icon7>
         <vueSvg />
       </template>

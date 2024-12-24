@@ -29,6 +29,10 @@
               <i :class="ns.e('actions__divider')" />
               <LSIcon name="RefreshLeft" :size="24" color="#FFF" @click="handleActions('anticlockwise')" />
               <LSIcon name="RefreshRight" :size="24" color="#FFF" @click="handleActions('clockwise')" />
+              <template v-if="attrs.hasDownload">
+                <i :class="ns.e('actions__divider')" />
+                <LSIcon name="Download" :size="24" color="#FFF" @click="handleActions('download')" />
+              </template>
             </div>
           </div>
           <!-- CANVAS -->
@@ -95,6 +99,8 @@ const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
 const props = defineProps(imageViewerProps);
 const emits = defineEmits(previewEmits);
 
+const attrs = useAttrs();
+
 const ns = useNamespace('image');
 const { nextZIndex } = useZIndex();
 const wrapper = ref<HTMLDivElement>();
@@ -116,17 +122,19 @@ const transform = reactive({
   objectFit: 'none'
 });
 const isSingle = computed(() => {
-  const { source } = props;
+  const { source }: any = props || {};
   return isString(source) || source.length <= 1;
 });
 const isFirst = computed(() => {
   return activeIndex.value === 0;
 });
 const isLast = computed(() => {
-  return activeIndex.value === props.source.length - 1;
+  const s: any = props.source;
+  return activeIndex.value === s.length - 1;
 });
 const currentImg = computed(() => {
-  return props.source[activeIndex.value];
+  const s: any = props.source || {};
+  return s[activeIndex.value];
 });
 const imgStyle = computed(() => {
   const { scale, deg, offsetX, offsetY, enableTransition, width, height, objectFit } = transform;
@@ -299,7 +307,8 @@ function toggleMode() {
 }
 
 function setActiveItem(index: number) {
-  const len = props.source.length;
+  const s: any = props.source;
+  const len = s.length;
   activeIndex.value = (index + len) % len;
 }
 function prev() {
@@ -335,6 +344,9 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break;
     case 'anticlockwise':
       transform.deg -= rotateDeg;
+      break;
+    case 'download':
+      emits('download', attrs.downloadData);
       break;
   }
   transform.enableTransition = enableTransition;

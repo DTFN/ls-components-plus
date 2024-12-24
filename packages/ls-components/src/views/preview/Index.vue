@@ -10,6 +10,7 @@ const showViewerImage = ref(false);
 const showViewerDocx = ref(false);
 const showViewerPdf = ref(false);
 const showViewerXlsx = ref(false);
+const downloadData = ref({});
 
 function closeViewer() {
   showViewerImage.value = false;
@@ -21,6 +22,9 @@ function closeViewer() {
 
 function openViewer(val: string) {
   type.value = val;
+  downloadData.value = {
+    id: 111111
+  };
   switch (val) {
     case 'image':
       setTimeout(() => {
@@ -74,6 +78,10 @@ function openViewer(val: string) {
       break;
   }
 }
+
+function download(data: any) {
+  console.log(data);
+}
 </script>
 
 <template>
@@ -89,7 +97,15 @@ function openViewer(val: string) {
 
       <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
     </div>
-    <LSPreviewImage v-model="showViewerImage" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewImage
+      v-model="showViewerImage"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :has-download="true"
+      :download-data="downloadData"
+      @download="download"
+    />
     <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewPdf v-model="showViewerPdf" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" />

@@ -241,6 +241,12 @@ onBeforeUnmount(() => {
       opacity: 0;
     }
   }
+  :deep(.luckysheet-loading-mask) {
+    .luckysheet-loading-image,
+    .luckysheet-loading-text {
+      display: none !important;
+    }
+  }
 }
 
 @mixin op-icon() {

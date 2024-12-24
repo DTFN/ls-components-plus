@@ -36,7 +36,9 @@ function onJump(item: any) {
           <slot :name="item.iconSlot"> </slot>
         </template>
       </LSIcon>
-      <span>{{ item.title }}</span>
+      <template #title>
+        <span>{{ item.title }}</span>
+      </template>
     </el-menu-item>
     <!-- 子菜单 -->
     <el-sub-menu v-else :index="item['key']">
