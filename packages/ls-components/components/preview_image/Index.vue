@@ -38,7 +38,11 @@ const loadError = () => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <LSImage v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <LSImage v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError">
+      <template #viewer>
+        <slot name="viewer"></slot>
+      </template>
+    </LSImage>
   </div>
 </template>
 

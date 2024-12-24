@@ -63,6 +63,7 @@
               @mousedown="handleMouseDown"
             />
           </div>
+          <slot name="viewer"></slot>
           <slot />
         </div>
       </transition>
