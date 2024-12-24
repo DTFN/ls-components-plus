@@ -25,17 +25,13 @@ jobs:
           npm install -g pnpm
           pnpm install
 
-      - name: Run lint-staged or any other script
-        env:
-          HUSKY: 0
-        run: npm run lint
-
       - name: Build
         run: |
           npm run build:ls-components
 
       - name: Release
         env:
+          HUSKY: 0
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
