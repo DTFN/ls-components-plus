@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("../../_utils/runtime/index.cjs"),o=e.buildProps({source:{type:[ArrayBuffer,String],default:null},onClose:Function});exports.docxProps=o;

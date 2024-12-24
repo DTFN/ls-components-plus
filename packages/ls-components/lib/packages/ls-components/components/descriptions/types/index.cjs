@@ -1,1 +1,0 @@
-"use strict";var r=Object.defineProperty;var e=(t,l)=>r(t,"name",{value:l,configurable:!0});Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const o=require("../../_utils/runtime/index.cjs"),s=o.buildProps({labelColor:{type:String,default:""},labelBgColor:{type:String,default:"#e2edff"},list:{type:Array,default:e(()=>[],"default")}});exports.lsDescProp=s;
