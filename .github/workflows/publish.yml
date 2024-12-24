@@ -29,11 +29,6 @@ jobs:
         run: |
           npm run build:ls-components
 
-      - name: Add build output
-        run: |
-          git add -f packages/ls-components/lib
-          git commit -m "Add build artifacts" || echo "No changes to commit"
-
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
