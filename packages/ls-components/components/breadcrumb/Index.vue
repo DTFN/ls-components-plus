@@ -12,6 +12,11 @@ const { jumpRouteCom, currentRouter } = useRouterHook();
 const ns = useNamespace('breadcrumb');
 const comClass: string = ns.b();
 
+interface bcType {
+  name: string;
+  title: string;
+}
+
 function isBCList(obj: unknown): obj is Array<JumpParamsType> {
   return typeof obj === 'object' && obj !== null;
 }
@@ -24,7 +29,7 @@ const updateBCList = () => {
   return [];
 };
 
-const curBCList: any = computed(() => {
+const curBCList: ComputedRef<Array<bcType | unknown>> = computed(() => {
   if (props.defineList && props.defineList.length > 0) {
     return props.defineList;
   }
@@ -45,9 +50,13 @@ function jumpLink(item: JumpParamsType) {
   <div v-if="curBCList && curBCList.length > 0" :class="comClass">
     <p v-if="props.showPos" class="pos">{{ posTitle }}：</p>
     <el-breadcrumb v-bind="$attrs">
-      <el-breadcrumb-item v-for="(item, i) in curBCList" :key="i" :class="{ 'has-jump': item.name }" @click="jumpLink(item)">{{
-        item.title
-      }}</el-breadcrumb-item>
+      <el-breadcrumb-item
+        v-for="(item, i) in curBCList as Array<bcType>"
+        :key="i"
+        :class="{ 'has-jump': item.name }"
+        @click="jumpLink(item)"
+        >{{ item.title }}</el-breadcrumb-item
+      >
     </el-breadcrumb>
   </div>
 </template>
