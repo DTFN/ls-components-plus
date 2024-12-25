@@ -10,8 +10,9 @@ import {
   BG_BAR_COLOR_MAP,
   TOOLTIP_COLOR_MAP
 } from '../base';
+import { ChartTemplatePatchType } from '@cpo/chart/types';
 
-const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, defBarColor: any) => {
+const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: string) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
@@ -24,15 +25,15 @@ const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, de
   return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
 };
 
-const setTooltip = (templatePatch: any) => {
+const setTooltip = (templatePatch: ChartTemplatePatchType) => {
   let { legend, legendIcon, tooltip = 'shadow', theme = 'default', tooltipFormatter, barColorList } = templatePatch;
   const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME][0];
   tooltipFormatter = tooltipFormatter
     ? tooltipFormatter
     : function (params: any) {
         let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
-        params.forEach((item: any, i: any) => {
-          formatterHtml += setTooltipFormat(item, legend, legendIcon, i, defBarColor);
+        params.forEach((item: any, i: number) => {
+          formatterHtml += setTooltipFormat(item, Boolean(legend), legendIcon, i, defBarColor);
         });
         return formatterHtml + '</div>';
       };
@@ -185,13 +186,16 @@ const setDataZoom = (templatePatch: any) => {
     : null;
 };
 
-const getPos = (axis: any, labelPosition: any, status: any) => {
+const getPos = (axis: string, labelPosition: 'both' | 'insideBoth', status: boolean) => {
   const direction = axis === 'x' ? 'top' : 'left';
   let pos = 'inside';
+  const temp: {
+    [key: string]: string;
+  } = LABEL_POSITION_MAP[labelPosition] || {};
   if (status) {
-    pos = LABEL_POSITION_MAP[labelPosition][direction];
+    pos = temp[direction];
   } else {
-    pos = LABEL_POSITION_MAP[labelPosition][`-${direction}`];
+    pos = temp[`-${direction}`];
   }
   return pos;
 };

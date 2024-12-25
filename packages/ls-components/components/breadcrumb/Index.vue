@@ -4,6 +4,7 @@ import { lsBreadcrumbProp } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import type { JumpParamsType } from '@cpo/menu/types';
 import { RouteMeta } from 'vue-router';
+import type { BreadCrumpListType } from './types';
 
 const props = defineProps(lsBreadcrumbProp);
 
@@ -11,11 +12,6 @@ const { jumpRouteCom, currentRouter } = useRouterHook();
 
 const ns = useNamespace('breadcrumb');
 const comClass: string = ns.b();
-
-interface bcType {
-  name: string;
-  title: string;
-}
 
 function isBCList(obj: unknown): obj is Array<JumpParamsType> {
   return typeof obj === 'object' && obj !== null;
@@ -29,7 +25,7 @@ const updateBCList = () => {
   return [];
 };
 
-const curBCList: ComputedRef<Array<bcType | unknown>> = computed(() => {
+const curBCList: ComputedRef<BreadCrumpListType | unknown[]> = computed(() => {
   if (props.defineList && props.defineList.length > 0) {
     return props.defineList;
   }
@@ -51,7 +47,7 @@ function jumpLink(item: JumpParamsType) {
     <p v-if="props.showPos" class="pos">{{ posTitle }}：</p>
     <el-breadcrumb v-bind="$attrs">
       <el-breadcrumb-item
-        v-for="(item, i) in curBCList as Array<bcType>"
+        v-for="(item, i) in curBCList as BreadCrumpListType"
         :key="i"
         :class="{ 'has-jump': item.name }"
         @click="jumpLink(item)"

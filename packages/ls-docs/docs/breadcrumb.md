@@ -94,7 +94,7 @@ const tableData = ref([
   {
     name: 'defineList',
     desc: '自定义面包屑数据',
-    type: 'array',
+    type: 'BreadCrumpListType',
     value: '-'
   },
 ])
@@ -115,7 +115,7 @@ const tableData2 = ref([
   {
     name: 'query',
     desc: '跳转的路由参数',
-    type: 'string',
+    type: 'json',
     value: '-'
   },
   {

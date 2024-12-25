@@ -13,5 +13,3 @@ const LSBellMessage = Object.assign(_LSBellMessage, {
 });
 
 export default LSBellMessage;
-
-export type { BellMessageListType } from './types';

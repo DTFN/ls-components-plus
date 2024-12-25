@@ -34,7 +34,7 @@ function readAll() {
   emitAll('readAll');
 }
 
-function readMsg(id: string) {
+function readMsg(id: string | number) {
   emitAll('readMsg', id);
 }
 

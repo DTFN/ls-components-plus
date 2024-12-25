@@ -1,10 +1,62 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { EChartsOption } from 'echarts/types/dist/shared';
 
-type ChartType = '' | 'line' | 'bar' | 'pie';
+export type themeType = {
+  [key: string]: {
+    fontColor: string;
+    bgColor: string;
+    splitLineColor: string;
+    barColor: Array<string>;
+    dataZoomColor: Array<string>;
+    barBgColor: string;
+    toolTip: {
+      color: string;
+      bgColor: string;
+      shadowColor: string;
+    };
+  };
+};
+
+export type ChartTemplateType = '' | 'line' | 'bar' | 'pie';
+export type ChartTemplatePatchType = {
+  type?: 'simple' | 'multiBar' | 'negative' | 'waterfall' | 'categoryStack' | 'gradient';
+  axis?: string;
+  tooltip?: string;
+  tooltipFormatter?: Function;
+  legend?: Array<string>;
+  theme?: string;
+  barColorList?: Array<string>;
+  dataZoom?: 'vertical' | 'horizontal';
+  showBarFont?: boolean;
+  dynamicAxis?: boolean;
+  labelPosition?:
+    | 'top'
+    | 'left'
+    | 'right'
+    | 'bottom'
+    | 'inside'
+    | 'insideLeft'
+    | 'insideRight'
+    | 'insideTop'
+    | 'insideBottom'
+    | 'insideTopLeft'
+    | 'insideBottomLeft'
+    | 'insideTopRight'
+    | 'insideBottomRight';
+  lineBar?: boolean;
+  legendIcon?: string;
+};
+export type ChartDataType =
+  | {
+      axisData?: Array<any>;
+      seriesData?: Array<any>;
+      pie?: Array<any>;
+    }
+  | [];
 
 export const lsChartProps = buildProps({
   template: {
-    type: String as PropType<ChartType>,
+    type: String as PropType<ChartTemplateType>,
     default: ''
   },
   width: {
@@ -47,7 +99,7 @@ export const lsChartProps = buildProps({
    * dynamicAxis: Boolean
    */
   templatePatch: {
-    type: Object,
+    type: Object as PropType<ChartTemplatePatchType>,
     default: () => {}
   },
   /**
@@ -62,28 +114,12 @@ export const lsChartProps = buildProps({
    * ***************柱状图参数*******************
    */
   data: {
-    type: Object,
+    type: Object as PropType<ChartDataType>,
     default: () => {}
   },
   // 自定义配置（优先级别高于模板配置数据）
   customOption: {
-    type: Object,
+    type: Object as PropType<EChartsOption>,
     default: () => {}
   }
 });
-
-export type themeType = {
-  [key: string]: {
-    fontColor: string;
-    bgColor: string;
-    splitLineColor: string;
-    barColor: Array<string>;
-    dataZoomColor: Array<string>;
-    barBgColor: string;
-    toolTip: {
-      color: string;
-      bgColor: string;
-      shadowColor: string;
-    };
-  };
-};

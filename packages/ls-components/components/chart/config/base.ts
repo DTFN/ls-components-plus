@@ -76,13 +76,13 @@ const setThemeColor = () => {
 };
 
 interface labelPositionType {
-  both: {
+  both?: {
     top: string;
     '-top': string;
     left: string;
     '-left': string;
   };
-  insideBoth: {
+  insideBoth?: {
     insideTop: string;
     '-insideTop': string;
     insideLeft: string;

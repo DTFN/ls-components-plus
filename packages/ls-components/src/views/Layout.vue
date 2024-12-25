@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import logo from '@/assets/logo.png';
 import { MENU_LIST } from '@/constant';
-import type { BellMessageListType } from '@cpo/bellMessage';
+import type { BellMessageListType } from '@cpo/main';
 
 // function jumpRoute(path: string) {
 //   if (path && path.trim() !== '') {

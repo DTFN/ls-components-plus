@@ -1,17 +1,16 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export type DefineListType = {
+export type BreadCrumpListType = {
   title: string;
-  name: string;
+  name?: string;
   link?: string;
-  path?: string;
   query?: any;
 }[];
 
 export const lsBreadcrumbProp = buildProps({
   // 自定义面包屑内容
   defineList: {
-    type: Array,
+    type: Array as PropType<BreadCrumpListType>,
     default: () => []
   },
   showPos: {

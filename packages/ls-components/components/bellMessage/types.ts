@@ -41,7 +41,7 @@ export const lsBellMessageProps = buildProps({
    *
    */
   list: {
-    type: Array<any>,
+    type: Array as PropType<BellMessageListType>,
     default: () => []
   }
 });
