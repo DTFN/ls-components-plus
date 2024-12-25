@@ -8,10 +8,16 @@ const slots = useSlots();
 
 defineProps(lsBtnProp);
 
+interface separatorType {
+  separator: string;
+  separatorColor: string;
+  separatorSize: string;
+}
+
 const ns = useNamespace('button');
 const comClass: string = ns.b();
 
-const lsBtnGroupProp: any = inject(lsBtnKey, undefined)!;
+const lsBtnGroupProp: separatorType = inject(lsBtnKey, undefined)!;
 
 const separator = ref('');
 const separatorColor = ref('');

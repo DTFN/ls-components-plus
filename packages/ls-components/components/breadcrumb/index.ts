@@ -13,3 +13,5 @@ const LSBreadcrumb = Object.assign(_LSBreadcrumb, {
 });
 
 export default LSBreadcrumb;
+
+export type { DefineListType } from './types';

@@ -1,5 +1,14 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
+export type BellMessageListType = {
+  id: number | string;
+  title?: string;
+  msgType: string;
+  content?: string;
+  createdTime?: string;
+  readStatus: number | boolean;
+}[];
+
 export const lsBellMessageProps = buildProps({
   // 通知数量
   noticeNum: {

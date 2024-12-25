@@ -166,7 +166,7 @@ const tableData = ref([
   {
     name: 'list',
     desc: '列表数据',
-    type: 'array',
+    type: 'BellMessageListType',
     value: '[]'
   }
 ])

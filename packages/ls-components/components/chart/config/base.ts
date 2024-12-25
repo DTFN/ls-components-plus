@@ -29,7 +29,19 @@ const THEME_MAP: themeType = {
   }
 };
 
-const SERIES_LABEL_MAP: any = {
+interface seriesLabelType {
+  multiBar: {
+    show: boolean;
+    rotate: number;
+    align: string;
+    verticalAlign: string;
+    position: string;
+    distance: number;
+    formatter: string;
+  };
+}
+
+const SERIES_LABEL_MAP: seriesLabelType = {
   multiBar: {
     show: true,
     rotate: 90,
@@ -63,7 +75,22 @@ const setThemeColor = () => {
   });
 };
 
-const LABEL_POSITION_MAP: any = {
+interface labelPositionType {
+  both: {
+    top: string;
+    '-top': string;
+    left: string;
+    '-left': string;
+  };
+  insideBoth: {
+    insideTop: string;
+    '-insideTop': string;
+    insideLeft: string;
+    '-insideLeft': string;
+  };
+}
+
+const LABEL_POSITION_MAP: labelPositionType = {
   both: {
     top: 'top',
     '-top': 'bottom',
