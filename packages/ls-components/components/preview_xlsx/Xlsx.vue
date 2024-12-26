@@ -4,6 +4,7 @@ import { xlsxProps } from './types';
 import { previewEmits } from '@cpo/_constants/prviewType';
 import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
+import * as XLSX from 'xlsx/xlsx.mjs';
 import LuckyExcel from 'luckyexcel';
 
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css
@@ -35,7 +36,12 @@ const emits = defineEmits(previewEmits);
 watch(
   () => props.source,
   val => {
-    initXlsx(val);
+    const { size }: any = val || {};
+    if (size / 1024 / 1024 <= 20) {
+      initXlsx(val);
+    } else {
+      initXlsxLarge(val);
+    }
   },
   {
     immediate: true,
@@ -43,6 +49,7 @@ watch(
   }
 );
 
+const isCreatedLuckySheet = ref(false);
 function isLuckySheet() {
   const scripts = document.scripts;
   for (let i = 0; i < scripts.length; i++) {
@@ -149,8 +156,150 @@ async function initXlsx(val: File | string) {
   }
 }
 
-onBeforeUnmount(() => {
+const rowsPerBatch = 1000; // 每批加载的行数
+function getSheetData(data: any) {
+  const end = Math.min(0 + rowsPerBatch, data.length);
+  const batchData = data.slice(0, end);
+
+  let curR = 0;
+  const curCellData: any = [[]];
+  (window as any).luckysheet.transToCellData(batchData).forEach((list: any) => {
+    const { r } = list;
+    if (curR !== r) {
+      curR = r;
+      curCellData[curR] = [];
+    }
+    curCellData[curR].push(list);
+  });
+  return curCellData;
+}
+
+async function initXlsxLarge(val: File | string) {
+  await nextTick();
+  if (!val || !isFile(val)) {
+    return;
+  }
   if (!isLuckySheet()) {
+    await loadCss(cssList);
+    await loadJs(jsList);
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function (e: any) {
+    const workbook = XLSX.read(e.target.result, {
+      type: 'binary',
+      dense: true
+    });
+
+    let activeIndex = 0;
+    // 获取第一个工作表
+    const allSheetData = (workbook.SheetNames || []).map((name: string) => {
+      return {
+        name,
+        data: XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 })
+      };
+    });
+
+    // 分批加载数据到 Luckysheet
+    const curSheetName = ref(allSheetData[activeIndex]?.name);
+    const curSheetData = ref(allSheetData[activeIndex]?.data);
+    let totalRows = curSheetData.value.length;
+    let currentBatch = 0;
+
+    const curLuckSheetData = (allSheetData || []).map((item: any, i: number) => {
+      return {
+        name: item.name,
+        index: i + 1,
+        status: '1',
+        order: i,
+        data: getSheetData(item.data)
+      };
+    });
+
+    function loadBatch() {
+      if (currentBatch * rowsPerBatch >= totalRows) return;
+
+      const start = currentBatch * rowsPerBatch;
+      const end = Math.min(start + rowsPerBatch, totalRows);
+      const batchData = curSheetData.value.slice(start, end);
+
+      let curR = 0;
+      const curCellData: any = [[]];
+      (window as any).luckysheet.transToCellData(batchData).forEach((list: any) => {
+        const { r } = list;
+        if (curR !== r) {
+          curR = r;
+          curCellData[curR] = [];
+        }
+        curCellData[curR].push(list);
+      });
+
+      if (!isCreatedLuckySheet.value) {
+        (window as any).luckysheet.destroy();
+        (window as any).luckysheet.create({
+          container: 'luckysheet',
+          data: curLuckSheetData,
+          lang: 'zh',
+          gridKey: new Date().getTime(),
+          pager: {
+            pageIndex: 1, //当前页码，必填
+            total: totalRows, //数据总条数，必填
+            pageSize: rowsPerBatch, //每页显示多少条数据，默认10条
+            showTotal: true, // 是否显示总数，默认关闭：false
+            showSkip: true, //是否显示跳页，默认关闭：false
+            showPN: true, //是否显示上下翻页，默认开启：true
+            prevPage: '', //上翻页文字描述，默认"上一页"
+            nextPage: '', //下翻页文字描述，默认"下一页"
+            totalTxt: '' // 数据总条数文字描述，默认"总共：{total}"
+          },
+          hook: {
+            sheetActivate(index: number) {
+              if (activeIndex != index) {
+                activeIndex = index - 1;
+                curSheetName.value = allSheetData[activeIndex]?.name;
+                curSheetData.value = allSheetData[activeIndex]?.data || [];
+                totalRows = curSheetData.value.length;
+                const pageBtn = document
+                  .getElementById('luckysheet')
+                  ?.querySelector('.spage-number button[data-page="1"]') as HTMLElement;
+                pageBtn?.click();
+              }
+            },
+            onTogglePager(pagination: any) {
+              const { page } = pagination;
+              currentBatch = page - 1;
+              loadBatch();
+            }
+          }
+        });
+        isCreatedLuckySheet.value = true;
+      } else {
+        (window as any).luckysheet.updataSheet({
+          data: [
+            {
+              name: curSheetName,
+              index: activeIndex + 1,
+              status: '1',
+              order: activeIndex,
+              data: curCellData
+            }
+          ]
+        });
+      }
+
+      emits('loadComplete');
+    }
+
+    loadBatch();
+  };
+  reader.readAsArrayBuffer(val as File);
+}
+
+onBeforeUnmount(() => {
+  if (isCreatedLuckySheet.value) {
+    (window as any).luckysheet.destroy();
+  }
+  if (isLuckySheet()) {
     removeCss(cssList);
     removeJs(jsList);
   }
