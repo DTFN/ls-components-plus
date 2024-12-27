@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import axios from 'axios';
 import docx from '@/assets/files/测试.docx?url';
-import xlsx from '@/assets/files/111.xlsx?url';
-// import xlsx from '@/assets/files/222.xlsx?url';
+// import xlsx from '@/assets/files/111.xlsx?url';
+import xlsx from '@/assets/files/222.xlsx?url';
 // import xlsx from '@/assets/files/666.xlsx?url';
 import pdf from '@/assets/files/零数科技企业宣传册-2023.pdf';
 
