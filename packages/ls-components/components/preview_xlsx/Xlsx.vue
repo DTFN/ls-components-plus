@@ -68,7 +68,6 @@ async function initXlsx(val: File | string) {
         }
 
         (window as any).luckysheet.destroy();
-
         (window as any).luckysheet.create({
           data: exportJson.sheets,
           title: exportJson.info.name,
@@ -119,7 +118,6 @@ async function initXlsxLarge(val: File | string) {
           data: XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 })
         };
       });
-
       // 分批加载数据到 Luckysheet
       const curSheetName = ref(allSheetData[activeIndex]?.name);
       const curSheetData = ref(allSheetData[activeIndex]?.data);

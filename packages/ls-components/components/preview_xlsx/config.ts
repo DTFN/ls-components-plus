@@ -10,8 +10,6 @@ export const cssList = [
   { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' }
 ];
 
-export const fileSizeLimit = 0.01;
-
 export const luckysheetConfig = {
   container: 'luckysheet',
   lang: 'zh',
@@ -75,4 +73,5 @@ export const luckysheetConfig = {
   }
 };
 
+export const fileSizeLimit = 20;
 export const rowsPerBatch = 1000; // 每批加载的行数
