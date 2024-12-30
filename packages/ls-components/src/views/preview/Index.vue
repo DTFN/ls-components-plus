@@ -115,7 +115,7 @@ function download(data: any) {
     </LSPreviewImage>
     <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewPdf v-model="showViewerPdf" :on-close="closeViewer" :type="type" :source="source" />
-    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"

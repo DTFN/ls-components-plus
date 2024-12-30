@@ -38,3 +38,4 @@ export type { BreadCrumpListType } from './breadcrumb/types';
 export type { IconConfigType } from './icon/types';
 export type { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from './chart/types';
 export type { DescriptionsListType } from './descriptions/types';
+export type { DialogBtnType } from './dialog/types';

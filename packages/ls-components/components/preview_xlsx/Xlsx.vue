@@ -29,7 +29,12 @@ watch(
     if (size / 1024 / 1024 <= fileSizeLimit) {
       initXlsx(val);
     } else {
-      initXlsxLarge(val);
+      if (!props.hasPagination) {
+        ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
+        emits('loadComplete');
+      } else {
+        initXlsxLarge(val);
+      }
     }
   },
   {

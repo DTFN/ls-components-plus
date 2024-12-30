@@ -159,13 +159,13 @@ const tableData = ref([
   {
     name: 'btnCancelConfig',
     desc: '取消按钮配置，具体配置参考LSButton',
-    type: 'object',
+    type: 'DialogBtnType',
     value: `{txt: '取消'}`
   },
   {
     name: 'btnConfirmConfig',
     desc: '确认按钮配置，具体配置参考LSButton',
-    type: 'object',
+    type: 'DialogBtnType',
     value: `{txt: '确认', type: 'primary'}`
   },
   {
