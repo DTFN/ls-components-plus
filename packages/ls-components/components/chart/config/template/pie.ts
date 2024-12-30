@@ -1,3 +1,4 @@
+import { ChartDataType, ChartTemplatePatchType } from '@cpo/main';
 import { BG_COLOR_MAP, DEF_THEME, FONT_COLOR_MAP, SPLIT_LINE_COLOR } from '../base';
 
 /**
@@ -268,4 +269,4 @@ const setOption = (
   return option;
 };
 
-export const dealOption = (data: any, templatePatch: any) => setOption(data, templatePatch);
+export const dealOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) => setOption(data, templatePatch);
