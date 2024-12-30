@@ -11,19 +11,12 @@ module.exports = {
       }
     ],
     [
-      '@semantic-release/npm'
+      '@semantic-release/npm',
+      {
+        pkgRoot: 'packages/ls-components'
+      },
     ],
-    [
-      '@semantic-release/github',
-      {
-        assets: ['CHANGELOG.md', './packages/ls-components/package.json']
-      }
-    ]
-    [
-      '@semantic-release/git',
-      {
-        assets: ['CHANGELOG.md', './packages/ls-components/package.json']
-      }
-    ]
+    '@semantic-release/github',
+    '@semantic-release/git'
   ]
 }

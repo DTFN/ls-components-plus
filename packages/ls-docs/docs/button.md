@@ -82,7 +82,7 @@ import SvgIconDataIcv from '/public/data_icv.svg';
     {
       name: 'iconConfig',
       desc: '图标配置，具体配置参考LSIcon',
-      type: 'json',
+      type: 'IconConfigType',
       value: '-'
     },
   ]);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import logo from '@/assets/logo.png';
 import { MENU_LIST } from '@/constant';
+import type { BellMessageListType } from '@cpo/main';
 
 // function jumpRoute(path: string) {
 //   if (path && path.trim() !== '') {
@@ -15,7 +16,7 @@ import { MENU_LIST } from '@/constant';
 // }
 
 const noticeNum = ref(1);
-const list: any = ref([
+const list: Ref<BellMessageListType> = ref([
   {
     id: '1',
     title: '角色权限变更',

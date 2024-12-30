@@ -126,7 +126,7 @@ const treeData = ref([
             name: '删除',
             url: '/v1/iot/access/credential/*',
             type: 2,
-            permission: 'm123',
+            permission: 'Im123',
             method: 'DELETE',
             sort: 1,
             parentId: 20102,

@@ -1,5 +1,15 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
+export type IconConfigType = {
+  type: string | number;
+  name: string | object;
+  color?: string;
+  width?: string | number;
+  height?: string | number;
+  size?: string | number;
+  src?: string;
+};
+
 export const lsIconProps = buildProps({
   // 1: iconify 2: svg default: el-icon
   type: {

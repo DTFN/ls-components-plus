@@ -41,11 +41,11 @@ watch(
       isAllChecked.value = false;
       isIndeterminate.value = false;
       allNodeKeys.value = getAllNodeKeys();
-      updateHideStyle();
       await nextTick();
       lsTreeRef.value!.filter();
       updateAllCheckStatus();
       updateStyle();
+      await updateHideStyle();
     }
   },
   {
@@ -85,7 +85,16 @@ async function updateHideStyle() {
     vnode.style.opacity = 0;
     vnode.style.width = 0;
     vnode.style.height = 0;
-    if (vnode?.parentNode?.parentNode?.previousElementSibling) {
+    const childNodes = vnode.parentNode.parentNode.querySelectorAll('.el-tree-node');
+    let needHideIcon = true;
+    for (let index = 0; index < childNodes.length; index++) {
+      const element = childNodes[index];
+      if (element.style.display !== 'none') {
+        needHideIcon = false;
+        break;
+      }
+    }
+    if (vnode?.parentNode?.parentNode?.previousElementSibling && needHideIcon) {
       vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.opacity = 0;
       vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.visibility = 'hidden';
     }

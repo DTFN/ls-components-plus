@@ -37,7 +37,7 @@ const comClass: string = ns.b();
 const props = defineProps(lsChartProps);
 
 const lsChartRef = ref();
-const echartObj: Ref<any> = ref();
+const echartObj: Ref<echarts.ECharts | undefined> = ref();
 const chartOption: Ref<any> = ref({});
 
 const chartStyle = computed(() => {

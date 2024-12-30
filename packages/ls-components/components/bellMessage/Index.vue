@@ -7,13 +7,21 @@ const emitAll = defineEmits(emitNames);
 
 defineProps(lsBellMessageProps);
 
-const defAttrs: any = ref({
+const defAttrs: Ref<{
+  width: number;
+  placement: string;
+  trigger: string;
+}> = ref({
   width: 360,
   placement: 'bottom-end',
   trigger: 'click'
 });
 
-const defBadgeAttrs: any = ref({
+const defBadgeAttrs: Ref<{
+  showZero: boolean;
+  max: number;
+  offset: number[];
+}> = ref({
   showZero: false,
   max: 99,
   offset: [3, 2]
@@ -26,7 +34,7 @@ function readAll() {
   emitAll('readAll');
 }
 
-function readMsg(id: string) {
+function readMsg(id: string | number) {
   emitAll('readMsg', id);
 }
 

@@ -1,9 +1,10 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { IconConfigType } from '@cpo/main';
 
 export const lsBtnProp = buildProps({
   // 参考LSIcon配置
   iconConfig: {
-    type: Object,
+    type: Object as PropType<IconConfigType>,
     default: () => ({})
   }
 });
