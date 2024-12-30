@@ -1,6 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-type AnchorType =
+export type MarkerAnchorType =
   | 'top-left'
   | 'top-center'
   | 'top-right'
@@ -80,7 +80,7 @@ export const lsMapProps = buildProps({
   },
   //  'top-left'、'top-center'、'top-right'、'middle-left'、'center'、'middle-right'、'bottom-left'、'bottom-center'、'bottom-right'
   markerDialogAnchor: {
-    type: String as PropType<AnchorType>,
+    type: String as PropType<MarkerAnchorType>,
     default: 'middle-left'
   },
   markerDialogOffset: {
