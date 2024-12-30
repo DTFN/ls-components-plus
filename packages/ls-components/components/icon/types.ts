@@ -1,7 +1,7 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 export type IconConfigType = {
-  type: string | number;
+  type?: string | number;
   name: string | object;
   color?: string;
   width?: string | number;
