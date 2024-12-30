@@ -41,11 +41,11 @@ watch(
       isAllChecked.value = false;
       isIndeterminate.value = false;
       allNodeKeys.value = getAllNodeKeys();
-      updateHideStyle();
       await nextTick();
       lsTreeRef.value!.filter();
       updateAllCheckStatus();
       updateStyle();
+      await updateHideStyle();
     }
   },
   {
@@ -89,7 +89,7 @@ async function updateHideStyle() {
     let needHideIcon = true;
     for (let index = 0; index < childNodes.length; index++) {
       const element = childNodes[index];
-      if (!element.getAttribute('class').includes('is-hidden')) {
+      if (element.style.display !== 'none') {
         needHideIcon = false;
         break;
       }
