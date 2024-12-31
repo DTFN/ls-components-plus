@@ -28,7 +28,7 @@ const tableData = ref([
   {
     name: 'template',
     desc: '模板类型，可选项：bar / line / pie，不传则完全自定义',
-    type: 'string',
+    type: 'ChartTemplateType',
     value: '-'
   },
   {
@@ -46,13 +46,13 @@ const tableData = ref([
   {
     name: 'templatePatch',
     desc: '模板配置项，需template已配置',
-    type: 'json',
+    type: 'ChartTemplatePatchType',
     value: '{}'
   },
   {
     name: 'data',
     desc: '图表数据',
-    type: 'json',
+    type: 'ChartDataType',
     value: '{}'
   },
   {

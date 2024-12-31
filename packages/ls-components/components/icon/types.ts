@@ -1,7 +1,7 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 export type IconConfigType = {
-  type: string | number;
+  type?: string | number;
   name: string | object;
   color?: string;
   width?: string | number;
@@ -10,7 +10,7 @@ export type IconConfigType = {
   src?: string;
 };
 
-export const lsIconProps = buildProps({
+export const iconProps = {
   // 1: iconify 2: svg default: el-icon
   type: {
     type: [Number, String],
@@ -45,4 +45,44 @@ export const lsIconProps = buildProps({
     type: [String, Number],
     default: ''
   }
-});
+};
+
+export const lsIconProps = buildProps(
+  iconProps
+  //   {
+  //   // 1: iconify 2: svg default: el-icon
+  //   type: {
+  //     type: [Number, String],
+  //     default: ''
+  //   },
+  //   name: {
+  //     type: [String, Object],
+  //     default: ''
+  //   },
+  //   color: {
+  //     type: String,
+  //     default: ''
+  //   },
+  //   width: {
+  //     type: [String, Number],
+  //     default: '16'
+  //   },
+  //   height: {
+  //     type: [String, Number],
+  //     default: '16'
+  //   },
+  //   // 适用于el-icon
+  //   size: {
+  //     type: [String, Number],
+  //     default: '16'
+  //   },
+  //   src: {
+  //     type: String,
+  //     default: ''
+  //   },
+  //   symbolId: {
+  //     type: [String, Number],
+  //     default: ''
+  //   }
+  // }
+);

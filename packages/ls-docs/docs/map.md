@@ -205,7 +205,7 @@ const tableData = ref([
   / 'bottom-left'
   / 'bottom-center'
   / 'bottom-right'`,
-    type: 'string',
+    type: 'MarkerAnchorType',
     value: 'middle-left'
   },
   {

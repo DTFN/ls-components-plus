@@ -19,7 +19,7 @@ export type themeType = {
 
 export type ChartTemplateType = '' | 'line' | 'bar' | 'pie';
 export type ChartTemplatePatchType = {
-  type?: 'simple' | 'multiBar' | 'negative' | 'waterfall' | 'categoryStack' | 'gradient';
+  type?: 'simple' | 'multiBar' | 'negative' | 'waterfall' | 'categoryStack' | 'gradient' | 'multiple';
   axis?: string;
   tooltip?: string;
   tooltipFormatter?: Function;
@@ -42,17 +42,27 @@ export type ChartTemplatePatchType = {
     | 'insideTopLeft'
     | 'insideBottomLeft'
     | 'insideTopRight'
-    | 'insideBottomRight';
+    | 'insideBottomRight'
+    | 'both'
+    | 'insideBoth';
   lineBar?: boolean;
   legendIcon?: string;
+  showBackground?: boolean;
+  dataZoomColorOut?: string;
+  dataZoomColorIn?: string;
+  smooth?: boolean;
+  areaStyle?: object;
+  name?: string | number;
+  symbol?: 'circle' | 'rect' | 'roundRect' | 'triangle' | 'diamond' | 'pin' | 'arrow';
 };
-export type ChartDataType =
-  | {
-      axisData?: Array<any>;
-      seriesData?: Array<any>;
-      pie?: Array<any>;
-    }
-  | [];
+
+export type ChartMapDataType = {
+  axisData?: Array<any>;
+  seriesData?: Array<any>;
+  pie?: Array<any>;
+};
+
+export type ChartDataType = ChartMapDataType | any[];
 
 export const lsChartProps = buildProps({
   template: {

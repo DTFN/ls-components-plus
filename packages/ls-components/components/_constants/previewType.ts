@@ -1,8 +1,11 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { ExtractPropTypes } from 'vue';
 
 export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'download'];
 
 export type PreviewEmits = typeof previewEmits;
+
+export type PreviewPropType = ExtractPropTypes<Partial<typeof lsPreviewProp>>;
 
 export const lsPreviewProp = buildProps({
   source: {},
