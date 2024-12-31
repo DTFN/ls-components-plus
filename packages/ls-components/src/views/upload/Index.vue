@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { UploadItemType } from '@cpo/main';
 import axios from 'axios';
 import { ElMessageBox, UploadProps } from 'element-plus';
 
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
-const item1 = ref({
+const item1: Ref<UploadItemType> = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
   tipContent: '上傳文件不超過2m'
 });
 
-const item2 = ref({
+const item2: Ref<UploadItemType> = ref({
   httpRequestFunc: function (formData: any, uploadProcessObj: any) {
     return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
   },

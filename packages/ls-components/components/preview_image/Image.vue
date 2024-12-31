@@ -80,7 +80,7 @@ import { EVENT_CODE } from '@cpo/_constants';
 import { isArray, isFirefox, isNumber, isString } from '@cpo/_utils/check';
 import { keysOf } from '@cpo/_utils/types';
 import { imageViewerProps } from './types';
-import { previewEmits } from '@cpo/_constants/prviewType';
+import { previewEmits } from '@cpo/_constants/previewType';
 import type { CSSProperties } from 'vue';
 import type { ImageViewerAction, ImageViewerMode } from './types';
 import LSIcon from '@cpo/icon/Index.vue';

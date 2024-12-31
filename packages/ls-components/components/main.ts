@@ -40,3 +40,5 @@ export type { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '.
 export type { DescriptionsListType } from './descriptions/types';
 export type { DialogBtnType } from './dialog/types';
 export type { MarkerAnchorType } from './map/types';
+export type { MenuBaseType } from './menu/types';
+export type { UploadItemType } from './upload/types';

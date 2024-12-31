@@ -1,13 +1,13 @@
 <script setup lang="ts" name="LSMenuItem">
 import LSIcon from '@cpo/icon/Index.vue';
-import { lsEmitNames, lsMenuItemProps } from './types';
+import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
 const { jumpRouteCom } = useRouterHook();
 
 const emits = defineEmits(lsEmitNames);
 
-const jumpRoute = (item: any) => {
+const jumpRoute = (item: MenuBaseType) => {
   const { link, defJump } = item || {};
   if (defJump) {
     emits('onJump', item);
@@ -22,7 +22,7 @@ const jumpRoute = (item: any) => {
 
 defineProps(lsMenuItemProps);
 
-function onJump(item: any) {
+function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 </script>
@@ -30,7 +30,7 @@ function onJump(item: any) {
 <template id="menu-item">
   <template v-if="!needPermission || permissionList.includes(item.pCode)">
     <!-- 单个菜单项 -->
-    <el-menu-item v-if="!item.children || item.leaf" :index="item['key']" @click="jumpRoute(item)">
+    <el-menu-item v-if="!item.children || item.leaf" :index="item['key']" @click="jumpRoute(item as MenuBaseType)">
       <LSIcon v-bind="item.iconConfig">
         <template v-if="item.iconSlot" #default>
           <slot :name="item.iconSlot"> </slot>
