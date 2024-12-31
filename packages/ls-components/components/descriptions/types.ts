@@ -1,4 +1,21 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { IconConfigType } from '@cpo/main';
+
+export type DescriptionsListType = {
+  label: string;
+  value: string | number;
+  iconConfig?: IconConfigType;
+  hide?: boolean;
+  type?: string;
+  format?: string;
+  slotName?: string;
+  propMap?: {
+    [key: string]: {
+      label: string;
+      value?: string | number;
+    };
+  };
+}[];
 
 export const lsDescProp = buildProps({
   // label字体颜色
@@ -18,7 +35,7 @@ export const lsDescProp = buildProps({
    *            iconType：默认el-icon，iconSize:大小，iconColor:颜色 ； 2：iconify， iconColor:颜色 iconWidth：宽，iconHeight：高
    */
   list: {
-    type: Array<any>,
+    type: Array as PropType<DescriptionsListType>,
     default: () => []
   }
 });

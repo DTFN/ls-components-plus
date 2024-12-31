@@ -88,7 +88,7 @@ async function updateLabelStyle(color: string, type: number) {
         <el-descriptions-item v-if="!item.hide" :label="item?.label">
           <template #label>
             <div class="cell-item">
-              <LSIcon v-if="item.iconConfig?.name || slots.icon" v-bind="item.iconConfig">
+              <LSIcon v-if="(item.iconConfig || {})?.name || slots.icon" v-bind="item.iconConfig">
                 <slot name="icon"></slot>
               </LSIcon>
               {{ item?.label }}
@@ -98,7 +98,7 @@ async function updateLabelStyle(color: string, type: number) {
             {{ item.value ? dayjs(item.value).format(item.format || 'YYYY-MM-DD HH:mm:ss') : '--' }}
           </template>
           <template v-else-if="item.type === 'select'">
-            {{ item.propMap[item.value]?.label || '--' }}
+            {{ (item.propMap || {})[item.value]?.label || '--' }}
           </template>
           <template v-else-if="item.type == 'slot'">
             <slot :name="item.slotName" :data="item?.value"></slot>

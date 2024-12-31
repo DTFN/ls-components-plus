@@ -9,8 +9,10 @@ import {
   BG_BAR_COLOR_MAP,
   SPLIT_LINE_COLOR
 } from '../base';
+import { ChartDataType, ChartTemplatePatchType } from '@cpo/main';
+import { ChartMapDataType } from '@cpo/chart/types';
 
-const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, defBarColor: any) => {
+const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: Array<string>) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
@@ -23,15 +25,15 @@ const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, de
   return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
 };
 
-const setTooltip = (templatePatch: any) => {
+const setTooltip = (templatePatch: ChartTemplatePatchType) => {
   let { legend, legendIcon, tooltip = 'shadow', theme, tooltipFormatter, barColorList } = templatePatch;
   const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME][0];
   tooltipFormatter = tooltipFormatter
     ? tooltipFormatter
     : function (params: any) {
         let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
-        params.forEach((item: any, i: any) => {
-          formatterHtml += setTooltipFormat(item, legend, legendIcon, i, defBarColor);
+        params.forEach((item: any, i: number) => {
+          formatterHtml += setTooltipFormat(item, Boolean(legend), legendIcon, i, defBarColor);
         });
         return formatterHtml + '</div>';
       };
@@ -56,7 +58,7 @@ const setTooltip = (templatePatch: any) => {
     : null;
 };
 
-const setLegend = (templatePatch: any) => {
+const setLegend = (templatePatch: ChartTemplatePatchType) => {
   const { legend, legendIcon = 'rect', theme } = templatePatch;
   return {
     type: 'scroll',
@@ -77,7 +79,7 @@ const setLegend = (templatePatch: any) => {
   };
 };
 
-const setGrid = (templatePatch: any) => {
+const setGrid = (templatePatch: ChartTemplatePatchType) => {
   const { dataZoom } = templatePatch;
   const params: any = {
     left: '3%',
@@ -95,8 +97,8 @@ const setGrid = (templatePatch: any) => {
   return params;
 };
 
-const setAxis = (data: any, templatePatch: any, axisType: any) => {
-  const { axisData, seriesData } = data;
+const setAxis = (data: ChartDataType, templatePatch: ChartTemplatePatchType, axisType: string) => {
+  const { axisData, seriesData } = data as ChartMapDataType;
   const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch;
   let params: any = [
     {
@@ -158,12 +160,12 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
     if (dynamicAxis) {
       let mathData: any = [];
       if (type === 'multiple' && (!lineBar || (axis == 'y' && lineBar))) {
-        mathData = seriesData.reduce((acc: any, item: any) => acc.concat(item.data), []);
+        mathData = (seriesData || []).reduce((acc: any, item: any) => acc.concat(item.data), []);
       }
       params.map((item: any, i: number) => {
         if (type === 'multiple') {
           if (lineBar && axis == 'x') {
-            mathData = (seriesData[i]?.data || []).map((item: any) => numberFixed(item));
+            mathData = ((seriesData || [])[i]?.data || []).map((item: any) => numberFixed(item));
           }
         } else {
           mathData = (seriesData || []).map((item: any) => numberFixed(item));
@@ -182,7 +184,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
   return params;
 };
 
-const setDataZoom = (templatePatch: any) => {
+const setDataZoom = (templatePatch: ChartTemplatePatchType) => {
   const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
   return dataZoom
     ? [
@@ -225,7 +227,7 @@ const setDataZoom = (templatePatch: any) => {
     : null;
 };
 
-const setSeries = (data: any, templatePatch: any) => {
+const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType) => {
   const { seriesData } = data;
   const {
     type = 'simple',
@@ -296,7 +298,7 @@ const setSeries = (data: any, templatePatch: any) => {
   }
 };
 
-const setOption = (data: any, templatePatch: any) => {
+const setOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) => {
   const { theme, barColorList } = templatePatch;
   const option: any = {
     textStyle: {},
@@ -306,7 +308,7 @@ const setOption = (data: any, templatePatch: any) => {
     grid: setGrid(templatePatch),
     xAxis: setAxis(data, templatePatch, 'x'),
     yAxis: setAxis(data, templatePatch, 'y'),
-    series: setSeries(data, templatePatch),
+    series: setSeries(data as ChartMapDataType, templatePatch),
     dataZoom: setDataZoom(templatePatch)
   };
   const tooltip = setTooltip(templatePatch);

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { MarkerAnchorType } from '@cpo/main';
+
 const markerList = ref([
   {
     lnglat: ['121.922823', '30.898127']
@@ -13,6 +15,8 @@ const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='title'>地点</div>
   <div class='value'>上海</div>
 </div>`);
+
+const markerDialogAnchor: MarkerAnchorType = 'top-right';
 </script>
 
 <template>
@@ -25,7 +29,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
       :marker-list="markerList"
       :show-marker-dialog="true"
       :marker-dialog-content="markerDialogContent"
-      marker-dialog-anchor="top-right"
+      :marker-dialog-anchor="markerDialogAnchor"
       :marker-dialog-offset="[0, 20]"
       width="600px"
       height="400px"

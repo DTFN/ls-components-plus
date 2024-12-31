@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { xlsxProps } from './types';
-import { previewEmits } from '@cpo/_constants/prviewType';
+import { previewEmits } from '@cpo/_constants/previewType';
 import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import * as XLSX from 'xlsx/xlsx.mjs';
@@ -29,7 +29,12 @@ watch(
     if (size / 1024 / 1024 <= fileSizeLimit) {
       initXlsx(val);
     } else {
-      initXlsxLarge(val);
+      if (!props.hasPagination) {
+        ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
+        emits('loadComplete');
+      } else {
+        initXlsxLarge(val);
+      }
     }
   },
   {

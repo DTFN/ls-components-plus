@@ -276,6 +276,12 @@ const tableData = ref([
     desc: '下载按钮返回数据，当前仅image支持',
     type: 'object',
     value: '{}'
+  },
+  {
+    name: 'hasPagination',
+    desc: '是否需要分页，当前仅xlsx支持，超过20m且常规表格（简单表格数据，无图，无合并单元格等）支持',
+    type: 'boolean',
+    value: 'false'
   }
 ]);
 

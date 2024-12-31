@@ -372,7 +372,7 @@ const tableData = ref([
   {
     name: 'menuConfigList',
     desc: '菜单配置列表',
-    type: 'array',
+    type: 'array<MenuBaseType>',
     value: '-'
   },
   {
@@ -384,7 +384,7 @@ const tableData = ref([
   {
     name: 'permissionList',
     desc: '权限列表，内部存放code码，当needPermission为true时生效',
-    type: 'array',
+    type: 'array<string|number>',
     value: '-'
   },
   {

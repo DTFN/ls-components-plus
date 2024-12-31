@@ -11,12 +11,12 @@ export interface configsType {
   iconColor: string;
 }
 
-export interface UploadChangeFile extends File {
+export interface UploadChangeFile extends UploadFile {
   blob?: string;
   raw?: UploadRawFile;
 }
 
-interface itemType {
+export type UploadItemType = {
   isCover?: boolean;
   limitFile?: Array<string>;
   limitFileMsg?: string;
@@ -29,22 +29,20 @@ interface itemType {
   formRuleFunc?: Function;
   formValidateFunc?: Function;
   httpRequestFunc?: Function;
-  // docx、pdf、xlsx、pdfNative
-  textPreview?: Array<string>;
   // 是否是头像模式
-  profile?: string;
+  profile?: boolean;
   // 默认展示的头像图片
   defProfile?: string;
   // 覆盖上传后是否隐藏上传按钮
   hideCoverBtn?: boolean;
   // tip提示
   tipContent?: string;
-}
+};
 
 export const lsUploadProps = buildProps({
   item: {
-    type: Object as PropType<itemType>,
-    default: () => ({}) as itemType
+    type: Object as PropType<UploadItemType>,
+    default: () => ({}) as UploadItemType
   },
   onExceed: {
     type: Function,

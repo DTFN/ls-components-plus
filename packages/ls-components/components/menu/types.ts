@@ -1,9 +1,58 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { IconConfigType } from '@cpo/main';
 import { LocationQueryRaw } from 'vue-router';
+
+export type MenuBaseType = {
+  title: string;
+  name: string;
+  path?: string;
+  key?: string;
+  cpoPath?: string;
+  iconConfig?: IconConfigType;
+  leaf?: boolean;
+  hideMenu?: boolean;
+  redirect?: string;
+  pCode?: string | number;
+  iconSlot?: string;
+  defJump?: boolean;
+  link?: string;
+  children?: Array<MenuBaseType>;
+};
+
+export type BCListItemType = {
+  title: string;
+  name?: string;
+};
+
+export type MenuBCListType = {
+  bcList?: Array<BCListItemType>;
+};
+
+export interface ConfigItemType extends MenuBaseType, MenuBCListType {}
+
+export interface MenuItemType extends ConfigItemType {
+  children?: Array<MenuBaseType>;
+}
+
+export type JumpParamsType = {
+  name?: string | symbol;
+  title?: string;
+  path?: string;
+  query?: LocationQueryRaw;
+  link?: string;
+};
+
+export type GroupOptionType = {
+  id: number;
+  groupId: number;
+  groupName: string;
+};
+
+export const lsEmitNames = ['onJump'];
 
 export const lsMenuProps = buildProps({
   menuConfigList: {
-    type: Array<any>,
+    type: Array<MenuBaseType>,
     default: () => []
   },
   needPermission: {
@@ -37,55 +86,3 @@ export const lsMenuItemProps = buildProps({
     }
   }
 });
-
-interface MenuBaseType {
-  title: string;
-  name: string;
-  path: string;
-  key?: string;
-  cpoPath?: string;
-  iconConfig?: object;
-  leaf?: boolean;
-  hideMenu?: boolean;
-  redirect?: string;
-  pCode: string | number;
-}
-
-interface BCListItemType {
-  title: string;
-  name?: string;
-}
-
-interface MenuBCListType {
-  bcList?: Array<BCListItemType>;
-}
-
-export interface ConfigItemType extends MenuBaseType, MenuBCListType {}
-
-export interface MenuItemType extends ConfigItemType {
-  children?: Array<MenuBaseType>;
-}
-
-export interface MenuItemsType extends ConfigItemType {
-  children?: Array<MenuItemType>;
-}
-
-export interface MenuItem3Type extends MenuItemsType {
-  children?: Array<MenuItemType>;
-}
-
-export type JumpParamsType = {
-  name?: string | symbol;
-  title?: string;
-  path?: string;
-  query?: LocationQueryRaw;
-  link?: string;
-};
-
-export type GroupOptionType = {
-  id: number;
-  groupId: number;
-  groupName: string;
-};
-
-export const lsEmitNames = ['onJump'];

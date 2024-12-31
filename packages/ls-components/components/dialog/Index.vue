@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { merge } from 'lodash-es';
-import { lsDialogProp, lsEmitNames } from './types';
+import { DialogBtnType, lsDialogProp, lsEmitNames } from './types';
 
 defineOptions({
   name: 'LSDialog',
@@ -46,7 +46,7 @@ watch(
   }
 );
 
-const curBtnCancelConfig = computed(() => {
+const curBtnCancelConfig: ComputedRef<DialogBtnType> = computed(() => {
   return merge(
     {
       txt: '取消'
@@ -55,7 +55,7 @@ const curBtnCancelConfig = computed(() => {
   );
 });
 
-const curBtnConfirmConfig = computed(() => {
+const curBtnConfirmConfig: ComputedRef<DialogBtnType> = computed(() => {
   return merge(
     {
       type: 'primary',
