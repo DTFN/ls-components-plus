@@ -1,4 +1,15 @@
 import { buildProps } from '@cpo/_utils/runtime';
+import { buttonProps } from 'element-plus';
+import { PropType } from 'vue';
+import type { ExtractPropTypes } from 'vue';
+import { merge } from 'lodash-es';
+import { iconProps } from '@cpo/icon/types';
+
+const btnTypeProp = merge(buttonProps, {
+  txt: String,
+  iconConfig: iconProps
+});
+export type DialogBtnType = ExtractPropTypes<typeof btnTypeProp>;
 
 export const lsDialogProp = buildProps({
   hasFooter: {
@@ -14,11 +25,11 @@ export const lsDialogProp = buildProps({
     default: false
   },
   btnCancelConfig: {
-    type: Object,
+    type: Object as PropType<DialogBtnType>,
     default: () => ({})
   },
   btnConfirmConfig: {
-    type: Object,
+    type: Object as PropType<DialogBtnType>,
     default: () => ({})
   },
   contentLoading: {

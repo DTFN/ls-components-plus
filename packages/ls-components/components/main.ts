@@ -32,3 +32,13 @@ export { default as LSPreviewPdf } from '@cpo/preview_pdf/Index.vue';
 export { default as LSPreviewXlsx } from '@cpo/preview_xlsx/Index.vue';
 
 export { default } from './index';
+
+export type { BellMessageListType } from './bellMessage/types';
+export type { BreadCrumpListType } from './breadcrumb/types';
+export type { IconConfigType } from './icon/types';
+export type { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from './chart/types';
+export type { DescriptionsListType } from './descriptions/types';
+export type { DialogBtnType } from './dialog/types';
+export type { MarkerAnchorType } from './map/types';
+export type { MenuBaseType } from './menu/types';
+export type { UploadItemType } from './upload/types';

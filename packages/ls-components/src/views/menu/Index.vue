@@ -2,8 +2,9 @@
 import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 import logo from '@/assets/logo.png';
 import vueSvg from '@/assets/vue.svg';
+import type { BreadCrumpListType, MenuBaseType } from '@cpo/main';
 
-const MENU_CONFIG_LIST = [
+const MENU_CONFIG_LIST: MenuBaseType[] = [
   {
     title: '渔场概览',
     name: 'FisheryOverview',
@@ -146,7 +147,7 @@ const MENU_CONFIG_LIST = [
 
 const { getRouteQuery, currentRouter } = useRouterHook();
 
-const defineBCList: any = ref([]);
+const defineBCList: Ref<BreadCrumpListType> = ref([]);
 
 watch(
   () => currentRouter.value,

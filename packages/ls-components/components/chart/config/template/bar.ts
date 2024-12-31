@@ -10,8 +10,9 @@ import {
   BG_BAR_COLOR_MAP,
   TOOLTIP_COLOR_MAP
 } from '../base';
+import { ChartDataType, ChartMapDataType, ChartTemplatePatchType } from '@cpo/chart/types';
 
-const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, defBarColor: any) => {
+const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: string) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
@@ -24,15 +25,15 @@ const setTooltipFormat = (data: any, legend: any, legendIcon: string, i: any, de
   return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
 };
 
-const setTooltip = (templatePatch: any) => {
+const setTooltip = (templatePatch: ChartTemplatePatchType) => {
   let { legend, legendIcon, tooltip = 'shadow', theme = 'default', tooltipFormatter, barColorList } = templatePatch;
   const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME][0];
   tooltipFormatter = tooltipFormatter
     ? tooltipFormatter
     : function (params: any) {
         let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
-        params.forEach((item: any, i: any) => {
-          formatterHtml += setTooltipFormat(item, legend, legendIcon, i, defBarColor);
+        params.forEach((item: any, i: number) => {
+          formatterHtml += setTooltipFormat(item, Boolean(legend), legendIcon, i, defBarColor);
         });
         return formatterHtml + '</div>';
       };
@@ -57,7 +58,7 @@ const setTooltip = (templatePatch: any) => {
     : null;
 };
 
-const setLegend = (templatePatch: any) => {
+const setLegend = (templatePatch: ChartTemplatePatchType) => {
   const { legend, legendIcon = 'rect', theme } = templatePatch;
   return {
     type: 'scroll',
@@ -78,7 +79,7 @@ const setLegend = (templatePatch: any) => {
   };
 };
 
-const setGrid = (templatePatch: any) => {
+const setGrid = (templatePatch: ChartTemplatePatchType) => {
   const { dataZoom } = templatePatch;
   const params: any = {
     left: '3%',
@@ -96,8 +97,8 @@ const setGrid = (templatePatch: any) => {
   return params;
 };
 
-const setAxis = (data: any, templatePatch: any, axisType: any) => {
-  const { axisData, seriesData } = data;
+const setAxis = (data: ChartDataType, templatePatch: ChartTemplatePatchType, axisType: string) => {
+  const { axisData, seriesData } = data as ChartMapDataType;
   const { axis = 'x', theme, dynamicAxis, type = 'simple' } = templatePatch;
   const params: any = {
     type: axis == axisType ? 'category' : 'value',
@@ -127,7 +128,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
     if (type === 'simple') {
       mathData = (seriesData || []).map((item: any) => numberFixed(item));
     } else if (type === 'multiBar') {
-      mathData = seriesData.reduce((acc: any, item: any) => acc.concat(item.data), []);
+      mathData = (seriesData || []).reduce((acc: any, item: any) => acc.concat(item.data), []);
     }
     const max = Math.max(...mathData);
     const min = Math.min(...mathData);
@@ -141,7 +142,7 @@ const setAxis = (data: any, templatePatch: any, axisType: any) => {
   return [params];
 };
 
-const setDataZoom = (templatePatch: any) => {
+const setDataZoom = (templatePatch: ChartTemplatePatchType) => {
   const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
   return dataZoom
     ? [
@@ -185,18 +186,21 @@ const setDataZoom = (templatePatch: any) => {
     : null;
 };
 
-const getPos = (axis: any, labelPosition: any, status: any) => {
+const getPos = (axis: string, labelPosition: 'both' | 'insideBoth', status: boolean) => {
   const direction = axis === 'x' ? 'top' : 'left';
   let pos = 'inside';
+  const temp: {
+    [key: string]: string;
+  } = LABEL_POSITION_MAP[labelPosition] || {};
   if (status) {
-    pos = LABEL_POSITION_MAP[labelPosition][direction];
+    pos = temp[direction];
   } else {
-    pos = LABEL_POSITION_MAP[labelPosition][`-${direction}`];
+    pos = temp[`-${direction}`];
   }
   return pos;
 };
 
-const setSeriesOption = (templatePatch: any, item: any, index: any) => {
+const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index: number) => {
   const { type = 'simple', showBarFont = true, labelPosition = 'inside', axis = 'x', showBackground, theme } = templatePatch;
   const option: any = {
     type: 'bar',
@@ -225,7 +229,11 @@ const setSeriesOption = (templatePatch: any, item: any, index: any) => {
   if (['negative', 'categoryStack', 'waterfall'].includes(type)) {
     option.stack = 'total';
     if (type === 'negative' && ['both', 'insideBoth'].includes(labelPosition)) {
-      option.label.position = getPos(axis, labelPosition, (item.data || []).reduce((p: any, n: any) => p + n) > 0);
+      option.label.position = getPos(
+        axis,
+        labelPosition as 'both' | 'insideBoth',
+        (item.data || []).reduce((p: any, n: any) => p + n) > 0
+      );
     } else if (type === 'categoryStack') {
       index > 0 &&
         (option.itemStyle = {
@@ -264,21 +272,21 @@ const setSeriesOption = (templatePatch: any, item: any, index: any) => {
       }
     };
     if (['both', 'insideBoth'].includes(labelPosition)) {
-      option.label.position = getPos(axis, labelPosition, index === 1);
+      option.label.position = getPos(axis, labelPosition as 'both' | 'insideBoth', index === 1);
     }
   }
   return option;
 };
 
-const setSeries = (data: any, templatePatch: any) => {
+const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType) => {
   const { seriesData } = data;
   const { type = 'simple', legend = [] } = templatePatch;
-  return (type == 'simple' ? [{ name: legend[0], data: seriesData }] : seriesData || []).map((item: any, i: any) => {
+  return (type == 'simple' ? [{ name: legend[0], data: seriesData }] : seriesData || []).map((item: any, i: number) => {
     return setSeriesOption(templatePatch, item, i);
   });
 };
 
-const setOption = (data: any, templatePatch: any) => {
+const setOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) => {
   const { theme, barColorList } = templatePatch;
   const option: any = {
     textStyle: {},
@@ -288,7 +296,7 @@ const setOption = (data: any, templatePatch: any) => {
     grid: setGrid(templatePatch),
     xAxis: setAxis(data, templatePatch, 'x'),
     yAxis: setAxis(data, templatePatch, 'y'),
-    series: setSeries(data, templatePatch),
+    series: setSeries(data as ChartMapDataType, templatePatch),
     dataZoom: setDataZoom(templatePatch)
   };
 

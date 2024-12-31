@@ -205,7 +205,7 @@ const tableData = ref([
   {
     name: 'list',
     desc: '数据列表',
-    type: 'array',
+    type: 'DescriptionsListType',
     value: '-'
   }
 ])
@@ -220,7 +220,7 @@ const tableData1 = ref([
   {
     name: 'iconConfig',
     desc: '图标配置，具体配置参考LSIcon',
-    type: 'json',
+    type: 'IconConfigType',
     value: '{}'
   },
   {

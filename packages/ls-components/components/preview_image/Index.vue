@@ -2,7 +2,7 @@
 import LSImage from './Image.vue';
 import { merge } from 'lodash-es';
 import usePreviewHook from '@cpo/_hooks/usePreviewHook';
-import { lsPreviewProp } from '@cpo/_constants/prviewType';
+import { lsPreviewProp } from '@cpo/_constants/previewType';
 
 defineOptions({
   name: 'LSPreviewImage',

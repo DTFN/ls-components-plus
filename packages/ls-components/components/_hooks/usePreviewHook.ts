@@ -1,11 +1,11 @@
-import { ElLoading } from 'element-plus';
+import { ElLoading, LoadingOptions } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { PreviewPropType } from '@cpo/_constants/previewType';
 
-export default function (props: any, previewVisible: any) {
+export default function (props: PreviewPropType, previewVisible: any) {
   const { zoomSize } = toRefs(props);
-
   const defAttrs: any = reactive({
-    zoomSize: zoomSize.value,
+    zoomSize: zoomSize?.value,
     source: ''
   });
   const ns = useNamespace('preview');
@@ -42,7 +42,7 @@ export default function (props: any, previewVisible: any) {
   );
 
   function openLoading() {
-    props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+    props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption as LoadingOptions));
 
     defAttrs.zoomSize = props.zoomSize;
     defAttrs.hasDownload = props.hasDownload;

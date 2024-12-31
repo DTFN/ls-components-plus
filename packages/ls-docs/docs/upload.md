@@ -278,7 +278,7 @@ const fileList = ref([{ name: '', url: '' }]);
 
 ## API
 
-### 1. Attributes，需以item为json格式传值，保留了el-upload属性和方法
+### 1. Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 

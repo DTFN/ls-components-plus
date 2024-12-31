@@ -1,6 +1,6 @@
 <script setup lang="ts" name="LSMenu">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsMenuProps, lsEmitNames } from './types';
+import { lsMenuProps, lsEmitNames, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import MenuItem from './MenuItem.vue';
 
@@ -49,7 +49,7 @@ function initMenuSider() {
   selectedKeys.value = meta?.key || '1';
 }
 
-function onJump(item: any) {
+function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 

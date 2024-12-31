@@ -6,6 +6,10 @@ export const xlsxProps = buildProps({
     type: [File, String],
     default: null
   },
+  hasPagination: {
+    type: Boolean,
+    default: false
+  },
   onClose: Function
 });
 

@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { DialogBtnType } from '@cpo/main';
+
 const visible = ref(false);
 const loading = ref(false);
 
-const btnConfirmConfig = ref({
+const btnConfirmConfig: Ref<DialogBtnType> = ref({
   type: 'warning',
   iconConfig: {
     name: 'Edit'
-  }
+  },
+  txt: '确认'
 });
 
 const onConfirm = () => {

@@ -5,6 +5,7 @@ import SvgIconCount from '@/assets/count.svg';
 import SvgIconDataIcv from '@/assets/data_icv.svg';
 import m1 from '@/assets/m1.mp4?url';
 import m2 from '@/assets/m2.mp4?url';
+import { IconConfigType } from '@cpo/main';
 
 const iconName = ref('iconoir:fish');
 const separatorColor = ref('red');
@@ -31,13 +32,15 @@ const isShow = ref(false);
 setTimeout(() => {
   isShow.value = true;
 }, 2000);
+
+const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left-fill' });
 </script>
 
 <template>
   <div>
     <LSButton :icon="Edit" />
     <LSButton :loading="true">按钮1</LSButton>
-    <LSButton :icon-config="{ type: 1, name: 'mingcute:look-left-fill' }"></LSButton>
+    <LSButton :icon-config="iconConfig"></LSButton>
     <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">按钮2</LSButton>
     <LSButton>
       <SvgIconDataIcv />

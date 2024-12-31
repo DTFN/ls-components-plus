@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const formInline = ref({
+import { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/main';
+
+const formInline: any = ref({
   themeModel: 'default',
   axis: 'x',
   pos: 'top'
@@ -28,7 +30,9 @@ const customOption = ref({
 });
 
 // 柱状图
-const templateAll: any = ref({
+const templateAll: Ref<{
+  [key: string]: ChartTemplatePatchType;
+}> = ref({
   templatePatchSimple: {
     labelPosition: 'top',
     showBackground: true,
@@ -64,7 +68,7 @@ const templateAll: any = ref({
   }
 });
 
-const dataSimple = {
+const dataSimple: ChartDataType = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   // seriesData: [120, 200, 150, 80, 70, 110, 0]
   seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null]
@@ -276,7 +280,9 @@ const lineData = {
     7.63, 7.48, 7.42
   ]
 };
-const templateAllLine: any = ref({
+const templateAllLine: Ref<{
+  [key: string]: ChartTemplatePatchType;
+}> = ref({
   templateSimpleLine: {
     labelPosition: 'top',
     tooltip: 'cross'
@@ -343,7 +349,7 @@ const dataMultipleLine: any = {
     }
   ]
 };
-const dataLineBarLine: any = {
+const dataLineBarLine: ChartDataType = {
   axisData: temperatureData.map(item => item.propertyTime),
   seriesData: [
     {
@@ -455,6 +461,8 @@ function changeChartStyle() {
     templateAllPie.value[item].theme = formInline.value.themeModel;
   });
 }
+
+const templateName: Ref<ChartTemplateType> = ref('bar');
 </script>
 
 <template>
@@ -490,7 +498,7 @@ function changeChartStyle() {
       <el-divider content-position="left">柱状图</el-divider>
 
       <LSChart
-        template="bar"
+        :template="templateName"
         :data="dataSimple"
         :template-patch="templateAll.templatePatchSimple"
         :custom-option="customOption"

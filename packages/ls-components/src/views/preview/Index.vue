@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import axios from 'axios';
-import docx from '@/assets/files/测试.docx?url';
+import docx from '@/assets/files/333.docx?url';
+// import xlsx from '@/assets/files/111.xlsx?url';
 import xlsx from '@/assets/files/222.xlsx?url';
-import pdf from '@/assets/files/零数科技企业宣传册-2023.pdf';
+// import xlsx from 'D:/download/666.xlsx?url';
+// import xlsx from 'D:/download/777.xlsx?url';
+import pdf from '@/assets/files/777.pdf';
 
 const type = ref('image');
 const source: any = ref('');
@@ -112,7 +115,7 @@ function download(data: any) {
     </LSPreviewImage>
     <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
     <LSPreviewPdf v-model="showViewerPdf" :on-close="closeViewer" :type="type" :source="source" />
-    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"

@@ -100,7 +100,7 @@
 
 <script setup lang="ts">
 import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
-import type { configsType, UploadChangeFile } from './types';
+import type { configsType, UploadChangeFile, UploadItemType } from './types';
 import { getVariable } from '@cpo/_utils/config';
 import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile, UploadProgressEvent } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
@@ -123,7 +123,11 @@ const comClass: string = ns.b();
 const uploadRef = ref();
 const uploading = ref(false);
 
-const defAttrs: any = reactive({
+type TempType = {
+  'http-request': Function;
+};
+
+const defAttrs: UploadItemType | TempType = reactive({
   isCover: true,
   accept: '',
   disabled: false
@@ -255,9 +259,8 @@ watch(
   [isCover, httpRequestFunc],
   ([nVal1, nVal2]) => {
     defAttrs.isCover = nVal1;
-
     if (nVal2 && nVal2 instanceof Function) {
-      defAttrs['http-request'] = httpRequestAction;
+      (defAttrs as TempType)['http-request'] = httpRequestAction;
     }
   },
   {
@@ -280,12 +283,12 @@ watch(
 );
 
 function updateFileAccept(files: Array<string>) {
-  defAttrs.accept = '';
+  (defAttrs as any).accept = '';
   files.forEach((key: string) => {
     const fileType = fileTypeMap[key] || '';
     if (fileType) {
-      if (defAttrs.accept) defAttrs.accept += ',';
-      defAttrs.accept += fileType;
+      if ((defAttrs as any).accept) (defAttrs as any).accept += ',';
+      (defAttrs as any).accept += fileType;
     }
   });
 }
@@ -425,7 +428,7 @@ function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
   if (props.onChange) {
     return props.onChange(file, fileList);
   }
-  const { size } = file;
+  const { size = 0 } = file;
   if (size <= 0) {
     setChangeRes();
     const msg = emptyFileMsg.value || '禁止上传空文件，请检查后重新上传！';

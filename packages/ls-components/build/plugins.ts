@@ -17,7 +17,6 @@ import Icons from 'unplugin-icons/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import FilesLoader from 'vite-plugin-files-loader';
 import svgLoader from 'vite-svg-loader';
-
 import path from 'path';
 const pathSrc = path.resolve(__dirname, '../../ls-components');
 

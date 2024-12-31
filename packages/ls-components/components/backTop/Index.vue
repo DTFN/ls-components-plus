@@ -18,7 +18,10 @@ const props = defineProps(lsBackTopProps);
 
 const lsBackTopRef = ref();
 
-const defAttrs: any = ref({
+const defAttrs: Ref<{
+  right: number;
+  bottom: number;
+}> = ref({
   right: 36,
   bottom: 60
 });

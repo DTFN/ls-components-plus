@@ -80,14 +80,6 @@ export const MENU_LIST = [
     key: '10'
   },
   {
-    id: '11',
-    title: 'FlowBox 流程容器',
-    name: 'FlowBox',
-    path: '/flowBox',
-    cpoPath: 'flowBox/Index',
-    key: '11'
-  },
-  {
     id: '12',
     title: 'Map 地图',
     name: 'Map',
@@ -102,14 +94,6 @@ export const MENU_LIST = [
     path: '/editor',
     cpoPath: 'editor/Index',
     key: '13'
-  },
-  {
-    id: '14',
-    title: 'JsonEditor json编辑器',
-    name: 'JsonEditor',
-    path: '/jsonEditor',
-    cpoPath: 'jsonEditor/Index',
-    key: '14'
   },
   {
     id: '15',

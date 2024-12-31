@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { DescriptionsListType } from '@cpo/main';
+
 const iconColor = ref('red');
 
-const list1 = ref([
+const list1: Ref<DescriptionsListType> = ref([
   {
     iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
     label: '养殖品种',
@@ -19,7 +21,7 @@ const list1 = ref([
   }
 ]);
 
-const list2 = ref([
+const list2: Ref<DescriptionsListType> = ref([
   {
     label: '捕捞编号',
     value: 'F20240613003'
@@ -38,7 +40,7 @@ const list2 = ref([
   },
   {
     label: '责任人',
-    value: null
+    value: ''
   },
   {
     label: '捕捞量(斤)',
