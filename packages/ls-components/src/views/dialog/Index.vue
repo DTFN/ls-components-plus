@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogBtnType } from '@cpo/main';
+import { DialogBtnType } from '@cpo/_types';
 
 const visible = ref(false);
 const loading = ref(false);

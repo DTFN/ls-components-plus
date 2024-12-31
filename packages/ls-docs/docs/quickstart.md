@@ -169,7 +169,7 @@ import { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, useTableLis
 import { lsValidate, lsCheck } from '@lingshugroup/web-plus/utils';
 ```
 
-### 4. 类型检查 v1.3.0+
+### 4. 类型检查 v1.3.1+
 
 ```js
 // 系统通知

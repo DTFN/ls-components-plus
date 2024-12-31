@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/main';
+import { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/_types';
 
 const formInline: any = ref({
   themeModel: 'default',

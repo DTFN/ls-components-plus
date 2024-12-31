@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MarkerAnchorType } from '@cpo/main';
+import { MarkerAnchorType } from '@cpo/_types';
 
 const markerList = ref([
   {

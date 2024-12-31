@@ -101,16 +101,19 @@ const transform = reactive({
 });
 const isSingle = computed(() => {
   const { source } = props;
+  if (!source) {
+    return true;
+  }
   return source.length <= 1;
 });
 const isFirst = computed(() => {
   return activeIndex.value === 0;
 });
 const isLast = computed(() => {
-  return activeIndex.value === props.source.length - 1;
+  return props.source ? activeIndex.value === props.source.length - 1 : false;
 });
 const currentImg = computed(() => {
-  return props.source[activeIndex.value];
+  return props.source ? props.source[activeIndex.value] : null;
 });
 const imgStyle = computed(() => {
   const { scale, deg, offsetX, offsetY, enableTransition, width, height, objectFit } = transform;
@@ -281,9 +284,8 @@ function toggleMode() {
     reset();
   }
 }
-
 function setActiveItem(index: number) {
-  const len = props.source.length;
+  const len = props.source?.length ?? 0;
   activeIndex.value = (index + len) % len;
 }
 function prev() {

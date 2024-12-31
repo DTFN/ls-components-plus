@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DescriptionsListType } from '@cpo/main';
+import { DescriptionsListType } from '@cpo/_types';
 
 const iconColor = ref('red');
 
