@@ -168,3 +168,26 @@ import { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, useTableLis
 // 常用公共方法
 import { lsValidate, lsCheck } from '@lingshugroup/web-plus/utils';
 ```
+
+### 4. 类型检查 v1.3.0+
+
+```js
+// 系统通知
+BellMessageListType
+// 面包屑
+BreadCrumpListType
+// 图标配置
+IconConfigType
+// 图表数据
+ChartDataType ChartTemplatePatchType ChartTemplateType
+// 描述列表
+DescriptionsListType
+// 对话框按钮
+DialogBtnType
+// 地图
+MarkerAnchorType
+// 菜单
+MenuBaseType
+// 上传
+UploadItemType
+```
