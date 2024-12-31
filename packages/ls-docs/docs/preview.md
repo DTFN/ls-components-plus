@@ -178,8 +178,12 @@ function openViewerXlsx() {
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
+### 3. slots
+
+<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData3" />
+
 <script setup>
-import { tableColumn, tableMethodColumn } from '../constant';
+import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
 import axios from 'axios';
 import docx from '/files/测试.docx?url';
@@ -297,6 +301,13 @@ const tableData2 = ref([
     desc: '下载回调方法, 当前仅image支持',
     type: 'function',
     value: 'data'
+  }
+])
+
+const tableData3 = ref([
+  {
+    name: 'viewer',
+    desc: '插槽，同el-image，仅image支持'
   }
 ])
 

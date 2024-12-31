@@ -114,7 +114,7 @@ defineOptions({
   inheritAttrs: false
 });
 
-const slots = useSlots();
+const slots: any = useSlots();
 const attrs = useAttrs();
 
 const ns = useNamespace('upload');

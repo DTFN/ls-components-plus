@@ -1,4 +1,4 @@
-import { ChartDataType, ChartTemplatePatchType } from '@cpo/main';
+import { ChartDataType, ChartTemplatePatchType } from '@cpo/_types';
 import { BG_COLOR_MAP, DEF_THEME, FONT_COLOR_MAP, SPLIT_LINE_COLOR } from '../base';
 
 /**

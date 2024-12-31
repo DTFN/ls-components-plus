@@ -117,6 +117,7 @@
     "unplugin-vue-setup-extend-plus": "^1.0.1",
     "vite": "^5.4.2",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-dts": "^4.4.0",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-files-loader": "^1.1.1",
     "vite-plugin-progress": "^0.0.7",
@@ -125,7 +126,7 @@
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vite-svg-loader": "^5.1.0",
     "vue-tsc": "^2.0.29",
-    "xlsx": "^0.20.3"
+    "xlsx": "^0.18.5"
   },
   "optionalDependencies": {
     "@semantic-release/changelog": "^6.0.3",

@@ -1,8 +1,7 @@
 import { ElLoading, LoadingOptions } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { PreviewPropType } from '@cpo/_constants/previewType';
 
-export default function (props: PreviewPropType, previewVisible: any) {
+export default function (props: any, previewVisible: any) {
   const { zoomSize } = toRefs(props);
   const defAttrs: any = reactive({
     zoomSize: zoomSize?.value,

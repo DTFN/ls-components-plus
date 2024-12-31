@@ -91,7 +91,7 @@ async function render() {
     for (const [key, value] of Object.entries(props.annotationsMap)) annotationStorage.setValue(key, value);
   }
 
-  const layerParameters = {
+  const layerParameters: any = {
     accessibilityManager: undefined,
     annotationCanvasMap: canvasMap,
     div: layer.value!,

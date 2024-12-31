@@ -9,7 +9,7 @@ import {
   BG_BAR_COLOR_MAP,
   SPLIT_LINE_COLOR
 } from '../base';
-import { ChartDataType, ChartTemplatePatchType } from '@cpo/main';
+import { ChartDataType, ChartTemplatePatchType } from '@cpo/_types';
 import { ChartMapDataType } from '@cpo/chart/types';
 
 const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: Array<string>) => {
