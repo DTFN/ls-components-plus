@@ -5,12 +5,11 @@
   "type": "module",
   "main": "./lib/index/index.cjs",
   "module": "./lib/index/index.js",
-  "types":  "./lib/types/components/_types/index.d.ts",
+  "types":  "./lib/types/components/index.d.ts",
   "exports": {
     ".": {
       "import": "./lib/index/index.js",
-      "require": "./lib/index/index.cjs",
-      "types":  "./lib/types/components/_types/index.d.ts"
+      "require": "./lib/index/index.cjs"
     },
     "./directives": {
       "import": "./lib/directives/index.js",

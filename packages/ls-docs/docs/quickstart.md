@@ -190,4 +190,16 @@ MarkerAnchorType
 MenuBaseType
 // 上传
 UploadItemType
+
+import type {  BellMessageListType,
+  BreadCrumpListType,
+  IconConfigType,
+  ChartDataType,
+  ChartTemplatePatchType,
+  ChartTemplateType,
+  DescriptionsListType,
+  DialogBtnType,
+  MarkerAnchorType,
+  MenuBaseType,
+  UploadItemType } from '@lingshugroup/web-plus';
 ```
