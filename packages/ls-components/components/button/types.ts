@@ -1,5 +1,5 @@
 import { buildProps } from '@cpo/_utils/runtime';
-import { IconConfigType } from '@cpo/main';
+import { IconConfigType } from '@cpo/_types';
 
 export const lsBtnProp = buildProps({
   // 参考LSIcon配置

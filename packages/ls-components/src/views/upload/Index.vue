@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UploadItemType } from '@cpo/main';
+import { UploadItemType } from '@cpo/_types';
 import axios from 'axios';
 import { ElMessageBox, UploadProps } from 'element-plus';
 

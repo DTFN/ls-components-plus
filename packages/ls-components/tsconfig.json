@@ -18,13 +18,18 @@
     // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
     // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
 
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "declarationDir": "lib/types",
+
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true,
+    // "noEmit": true,
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     // "strictFunctionTypes": false,
@@ -32,7 +37,7 @@
       "@": ["src"],
       "@/*": ["src/*"],
       "@cpo": ["components"],
-      "@cpo/*": ["components/*"]
+      "@cpo/*": ["components/*"],
     }
   },
   "include": [

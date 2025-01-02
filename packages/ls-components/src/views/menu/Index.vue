@@ -2,7 +2,7 @@
 import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 import logo from '@/assets/logo.png';
 import vueSvg from '@/assets/vue.svg';
-import type { BreadCrumpListType, MenuBaseType } from '@cpo/main';
+import type { BreadCrumpListType, MenuBaseType } from '@cpo/_types';
 
 const MENU_CONFIG_LIST: MenuBaseType[] = [
   {

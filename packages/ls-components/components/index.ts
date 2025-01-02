@@ -60,7 +60,7 @@ const components: Record<string, Plugin> = {
 
 const install = (app: App) => {
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component);
+    app.component(key, component as Component);
   }
 
   for (const key of Object.keys(components)) {
@@ -69,9 +69,23 @@ const install = (app: App) => {
   }
 };
 
-const LSWebPlus = {
+const LSWebPlus: Plugin = {
   ...components,
   install
 };
 
 export default LSWebPlus;
+
+export type {
+  BellMessageListType,
+  BreadCrumpListType,
+  IconConfigType,
+  ChartDataType,
+  ChartTemplatePatchType,
+  ChartTemplateType,
+  DescriptionsListType,
+  DialogBtnType,
+  MarkerAnchorType,
+  MenuBaseType,
+  UploadItemType
+} from '@cpo/_types';

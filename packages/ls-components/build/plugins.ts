@@ -18,6 +18,8 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import FilesLoader from 'vite-plugin-files-loader';
 import svgLoader from 'vite-svg-loader';
 import path from 'path';
+import dts from 'vite-plugin-dts';
+
 const pathSrc = path.resolve(__dirname, '../../ls-components');
 
 /**
@@ -88,7 +90,21 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
       symbolId: 'icon-[dir]-[name]'
     }),
     FilesLoader(),
-    svgLoader()
+    svgLoader(),
+    dts({
+      include: [
+        'src/**/*.d.ts',
+        'components/**/*.vue',
+        'components/**/*.ts',
+        'components/**/*.d.ts',
+        'components.d.ts',
+        'auto-imports.d.ts'
+      ],
+      exclude: ['node_modules', 'dist', '**/*.js', '.npmrc', 'lib', 'components/main.ts', 'components/components.ts'],
+      outDir: 'lib/types',
+      staticImport: true,
+      rollupTypes: false
+    })
   ];
 };
 

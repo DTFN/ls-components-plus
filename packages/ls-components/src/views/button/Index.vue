@@ -5,7 +5,7 @@ import SvgIconCount from '@/assets/count.svg';
 import SvgIconDataIcv from '@/assets/data_icv.svg';
 import m1 from '@/assets/m1.mp4?url';
 import m2 from '@/assets/m2.mp4?url';
-import { IconConfigType } from '@cpo/main';
+import { IconConfigType } from '@cpo/_types';
 
 const iconName = ref('iconoir:fish');
 const separatorColor = ref('red');

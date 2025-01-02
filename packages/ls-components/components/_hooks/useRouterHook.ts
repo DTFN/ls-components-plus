@@ -1,4 +1,4 @@
-import { MenuItemType, MenuItem3Type, ConfigItemType, MenuItemsType } from '@cpo/menu/types';
+import { MenuItemType, ConfigItemType, MenuBaseType } from '@cpo/menu/types';
 import { LocationQueryRaw, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
 interface JumpParamsType {
@@ -74,16 +74,16 @@ export default function () {
   }
 
   const getRouterConfig = (menuConfigList: any) => {
-    let routerConfig: Array<MenuItem3Type> = [];
+    let routerConfig: Array<MenuBaseType> = [];
 
-    menuConfigList.forEach((item: MenuItemsType) => processMenuItems(item, routerConfig, []));
+    menuConfigList.forEach((item: MenuBaseType) => processMenuItems(item, routerConfig, []));
 
     return routerConfig;
   };
 
   function addMenu(menus: Array<RouteRecordRaw>, config: ConfigItemType, routesModule: Record<string, any>, routePath: string) {
     menus.push({
-      path: config.path,
+      path: config.path || '',
       name: config.name,
       component: routesModule[`${routePath}/${config.cpoPath}.vue`],
       meta: {
@@ -114,7 +114,7 @@ export default function () {
 
     getRouterConfig(menuConfigList).forEach((config: ConfigItemType) => {
       if (permissionList) {
-        const pCode: string = config.pCode.toString();
+        const pCode: string = config?.pCode?.toString() || '';
         if (permissionList.includes(pCode)) {
           addMenu(menus, config, routesModule, routePath);
         }

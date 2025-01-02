@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // @ts-nocheck
-// import { useRouterHook } from '@cpo/main';
 import { useRouterHook } from '../lib/hooks';
 import { RouterView } from 'vue-router';
 import { MENU_LIST } from './constant/index';
