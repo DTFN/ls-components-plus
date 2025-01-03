@@ -26,6 +26,9 @@ export const luckysheetConfig = {
   showsheetbar: false, // 是否显示sheet工具栏
   forceCalculation: true, // 强制计算公式
   showConfigWindowResize: false,
+  showstatisticBarConfig: {
+    zoom: true
+  },
   showsheetbarConfig: {
     sheet: true // sheet页显示
   },

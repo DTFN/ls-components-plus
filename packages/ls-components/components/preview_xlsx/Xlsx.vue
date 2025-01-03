@@ -61,7 +61,7 @@ const closeFunc = () => {
 };
 
 async function initXlsx(val: File | string) {
-  if (!initLuckySheet(val)) {
+  if (!(await initLuckySheet(val))) {
     return;
   }
   try {
@@ -105,7 +105,7 @@ function getSheetData(data: any) {
 
 async function initXlsxLarge(val: File | string) {
   await nextTick();
-  if (!initLuckySheet(val)) {
+  if (!(await initLuckySheet(val))) {
     return;
   }
   try {
@@ -337,6 +337,9 @@ onBeforeUnmount(() => {
     .luckysheet-loading-text {
       display: none !important;
     }
+  }
+  :deep(.luckysheet-stat-area) {
+    background-color: transparent !important;
   }
 }
 

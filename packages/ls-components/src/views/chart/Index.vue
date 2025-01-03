@@ -327,7 +327,7 @@ const templateAllLine: Ref<{
 
 const dataSimpleLine: any = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [null, 200, 150, 80, 70, 110, 130]
+  seriesData: [0, 200, 150, 80, 70, 110, 130]
 };
 const dataMultipleLine: any = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
