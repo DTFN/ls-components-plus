@@ -17,7 +17,8 @@ const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undef
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
     legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
-  const valueHtml = value !== '-' && seriesName !== 'temp' ? `<span class="value">${value || '-'}</span>` : '';
+  const valueHtml =
+    value !== '-' && seriesName !== 'temp' ? `<span class="value">${value || value == 0 ? value : '-'}</span>` : '';
   const badgeHtml =
     value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge ${legendIcon}" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`

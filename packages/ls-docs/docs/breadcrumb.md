@@ -97,6 +97,18 @@ const tableData = ref([
     type: 'BreadCrumpListType',
     value: '-'
   },
+  {
+    name: 'showPos',
+    desc: '是否显示当前位置文案',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'posTitle',
+    desc: '当前位置文案',
+    type: 'string',
+    value: '当前位置'
+  }
 ])
 
 const tableData2 = ref([
