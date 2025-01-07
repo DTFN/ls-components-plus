@@ -462,6 +462,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string, index)"
       >
         <el-checkbox
           v-for="(option, i) in options"
@@ -566,7 +567,13 @@ defineExpose({
       />
 
       <!-- 开关 -->
-      <el-switch v-else-if="type === 'switch'" v-model="modelValue" v-bind="attrs" v-on="listeners || {}" />
+      <el-switch
+        v-else-if="type === 'switch'"
+        v-model="modelValue"
+        v-bind="attrs"
+        v-on="listeners || {}"
+        @change="onChange(modelValue, prop as string, index)"
+      />
 
       <!-- 取值范围 -->
       <div v-else-if="type === 'inputRange'" class="ls-input-range">
