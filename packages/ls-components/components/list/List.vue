@@ -20,7 +20,7 @@ const emits = defineEmits<{
 }>();
 
 // 获取插槽
-const slots = useSlots();
+const slots: any = useSlots();
 
 const FormRef = ref();
 const TableRef = ref();
@@ -45,11 +45,22 @@ function getSlotName(slotName: any, isForm: boolean = false) {
 }
 
 /** 表格数据 */
-const { isFirst, loading, tableData, total, pageSize, currentPage, handleReset, loadData } = useTableListHook(
-  props.listApi,
-  props.formData,
-  { dealData: props?.dealData, dealParams: props?.dealParams, ...props?.listHookConfig }
-);
+const {
+  isFirst,
+  loading,
+  tableData,
+  total,
+  pageSize,
+  currentPage,
+  handleReset,
+  loadData,
+  handleCurrentPageChange,
+  handleSizeChange
+} = useTableListHook(props.listApi, props.formData, {
+  dealData: props?.dealData,
+  dealParams: props?.dealParams,
+  ...props?.listHookConfig
+});
 
 watch(loading, newVal => {
   emits('handleLoading', newVal);
@@ -65,6 +76,7 @@ watch(pageSize, newVal => {
 
 // 查询
 function submitForm(val: any) {
+  handleCurrentPageChange(1);
   emits('submitForm', val);
   if (props?.queryFn) {
     props.queryFn(val);
@@ -312,6 +324,8 @@ const hideSkeleton = computed(() => {
 defineExpose({
   loadData,
   handleReset,
+  setCurrentPage: handleCurrentPageChange,
+  setPageSize: handleSizeChange,
   isFirst,
   loading,
   currentPage,

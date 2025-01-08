@@ -146,6 +146,10 @@ export const lsFormItemProps = buildProps({
     type: Array<any>,
     default: () => []
   },
+  trim: {
+    type: Boolean,
+    default: true
+  },
   attrs: {
     type: Object,
     default: () => {}
@@ -210,6 +214,10 @@ export const lsFormItemProps = buildProps({
     default: ''
   },
   levelMatch: {
+    type: Boolean,
+    default: false
+  },
+  manualValidate: {
     type: Boolean,
     default: false
   }

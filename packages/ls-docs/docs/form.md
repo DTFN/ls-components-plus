@@ -842,6 +842,12 @@ const attrTableData=[
     desc: '表单详情默认样式，锦鲤适用',
     type: 'boolean',
     value: false
+  },
+  {
+    name: 'hideColumn',
+    desc: '隐藏某一列，锦鲤适用',
+    type: 'boolean',
+    value: false
   }
 ]
 
@@ -964,6 +970,12 @@ const attrTableData_1=[
     value: '[]'
   },
   {
+    name: 'trim',
+    desc: 'textarea 是否去除首尾空格（只对textarea有效）',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
     name: 'attrs',
     desc: '控件配置项',
     type: 'object',
@@ -1057,6 +1069,12 @@ const attrTableData_1=[
     name: 'levelMatch',
     desc: '级联控件是否匹配层级（value 是否匹配 options 的层级）',
     type: 'boolean', 
+    value: 'false'
+  },
+  {
+    name: 'manualValidate',
+    desc: '是否手动验证（解决值变动未触发验证的情况下）',
+    type: 'boolean',
     value: 'false'
   }
 ]
@@ -1155,7 +1173,7 @@ const formItemTypeData=[
 const slotTableData_1=[
   {
     name: '[prop]',
-    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue方法',
+    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue（LSForm配置中type是slot时是updateFormData）方法',
   },
   {
     name: '[prop]-prepend',
@@ -1183,19 +1201,19 @@ const slotTableData_1=[
   },
   {
     name: '[prop]-input-prefix',
-    desc: 'type为input/inputRange/inputNumberRange时，input 前置自定义内容',
+    desc: 'type为input/inputRange/inputNumberRange时，input 前置自定义内容,也可在attrs.prefixStr(prefix会出现警告所以改成prefixStr)中配置文本内容（优先级低于于插槽）',
   },
   {
-    name: '[prop]-input-suffix',
-    desc: 'type为input/inputRange/inputNumberRange时，input 后置自定义内容',
+      name: '[prop]-input-suffix',
+      desc: 'type为input/inputRange/inputNumberRange时，input 后置自定义内容,也可在attrs.suffix中配置文本内容（优先级低于于插槽）',
   },
   {
     name: '[prop]-input-prepend',
-    desc: 'type为input/inputRange时，input 前置自定义内容',
+    desc: 'type为input/inputRange时，input 前置自定义内容,也可在attrs.prepend中配置文本内容（优先级低于于插槽）',
   },
   {
     name: '[prop]-input-append',
-    desc: 'type为input/inputRange时，input 后置自定义内容',
+    desc: 'type为input/inputRange时，input 后置自定义内容,也可在attrs.append中配置文本内容（优先级低于于插槽）',
   },
 ]
 

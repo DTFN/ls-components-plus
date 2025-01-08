@@ -69,6 +69,10 @@ watch(
     if (!isEmpty(props.prop)) {
       emits('update:value', props.prop, newVal);
     }
+    // 手动验证
+    if (props.manualValidate && !['slot'].includes(props.type || '')) {
+      FormItemRef.value.validate();
+    }
   },
   {
     immediate: true,
@@ -296,8 +300,9 @@ function readValue(type: string | undefined) {
   }
 }
 
-function onChange(value: any, prop: string, index: number) {
-  emits('onChange', value, prop, index);
+// 监听change事件
+function onChange(value: any) {
+  emits('onChange', value, props.prop as string, props.index);
 }
 
 // 修改modelValue
@@ -389,38 +394,55 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       >
-        <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
-          <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-prefix`] || attrs?.prefixStr" #prefix>
+          <slot v-if="$slots[`${slotName}-input-prefix`]" :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.prefixStr">{{ attrs?.prefixStr }}</span>
         </template>
 
-        <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
-          <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-suffix`] || attrs?.suffix" #suffix>
+          <slot v-if="$slots[`${slotName}-input-suffix`]" :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.suffix">{{ attrs?.suffix }}</span>
         </template>
 
-        <template v-if="$slots[`${slotName}-input-prepend`]" #prepend>
-          <slot :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-prepend`] || attrs?.prepend" #prepend>
+          <slot v-if="$slots[`${slotName}-input-prepend`]" :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.prepend">{{ attrs?.prepend }}</span>
         </template>
 
-        <template v-if="$slots[`${slotName}-input-append`]" #append>
-          <slot :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
+        <template v-if="$slots[`${slotName}-input-append`] || attrs?.append" #append>
+          <slot v-if="$slots[`${slotName}-input-append`]" :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.append">{{ attrs?.append }}</span>
         </template>
       </el-input>
 
       <!-- 文本域 -->
-      <el-input
-        v-else-if="type === 'textarea'"
-        v-model.trim="modelValue"
-        type="textarea"
-        :rows="4"
-        show-word-limit
-        maxlength="100"
-        :placeholder="`请输入${label}`"
-        :disabled="disabled"
-        v-bind="attrs"
-        v-on="listeners || {}"
-      />
+      <template v-else-if="type === 'textarea'">
+        <el-input
+          v-if="trim"
+          v-model.trim="modelValue"
+          type="textarea"
+          :rows="4"
+          show-word-limit
+          maxlength="100"
+          :placeholder="`请输入${label}`"
+          :disabled="disabled"
+          v-bind="attrs"
+          v-on="listeners || {}"
+        />
+        <el-input
+          v-else
+          v-model="modelValue"
+          type="textarea"
+          :rows="4"
+          show-word-limit
+          :placeholder="`请输入${label}`"
+          :disabled="disabled"
+          v-bind="attrs"
+          v-on="listeners || {}"
+        />
+      </template>
 
       <!-- 数字输入框 -->
       <el-input-number
@@ -441,7 +463,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       >
         <template v-if="!radioType">
           <el-radio v-for="(option, i) in options" :key="i" :value="option.value" :disabled="option.disabled">
@@ -462,7 +484,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       >
         <el-checkbox
           v-for="(option, i) in options"
@@ -482,7 +504,7 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       >
         <!-- 多选和有数据下支持全选 -->
         <template v-if="attrs && attrs.multiple && !isEmpty(options) && selectAll" #header>
@@ -550,7 +572,7 @@ defineExpose({
         :options="options"
         v-bind="attrs"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       />
 
       <!-- 多选级联 -->
@@ -563,17 +585,11 @@ defineExpose({
         v-bind="attrs"
         :props="cascaderProps"
         v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
+        @change="onChange"
       />
 
       <!-- 开关 -->
-      <el-switch
-        v-else-if="type === 'switch'"
-        v-model="modelValue"
-        v-bind="attrs"
-        v-on="listeners || {}"
-        @change="onChange(modelValue, prop as string, index)"
-      />
+      <el-switch v-else-if="type === 'switch'" v-model="modelValue" v-bind="attrs" v-on="listeners || {}" @change="onChange" />
 
       <!-- 取值范围 -->
       <div v-else-if="type === 'inputRange'" class="ls-input-range">
@@ -594,20 +610,24 @@ defineExpose({
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
         >
-          <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
-            <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prefix`] || attrs?.prefixStr" #prefix>
+            <slot v-if="$slots[`${slotName}-input-prefix`]" :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.prefixStr">{{ attrs?.prefixStr }}</span>
           </template>
 
-          <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
-            <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-suffix`] || attrs?.suffix" #suffix>
+            <slot v-if="$slots[`${slotName}-input-suffix`]" :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.suffix">{{ attrs?.suffix }}</span>
           </template>
 
-          <template v-if="$slots[`${slotName}-input-prepend`]" #prepend>
-            <slot :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prepend`] || attrs?.prepend" #prepend>
+            <slot v-if="$slots[`${slotName}-input-prepend`]" :name="`${slotName}-input-prepend`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.prepend">{{ attrs?.prepend }}</span>
           </template>
 
-          <template v-if="$slots[`${slotName}-input-append`]" #append>
-            <slot :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-append`] || attrs?.append" #append>
+            <slot v-if="$slots[`${slotName}-input-append`]" :name="`${slotName}-input-append`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.append">{{ attrs?.append }}</span>
           </template>
         </el-input>
       </div>
@@ -631,12 +651,14 @@ defineExpose({
           v-bind="attrs && get(attrs || {}, rangeProps[1] || 'end')"
           v-on="(listeners && get(listeners || {}, rangeProps[1] || 'end')) || {}"
         >
-          <template v-if="$slots[`${slotName}-input-prefix`]" #prefix>
-            <slot :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-prefix`] || attrs?.prefixStr" #prefix>
+            <slot v-if="$slots[`${slotName}-input-prefix`]" :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.prefixStr">{{ attrs?.prefixStr }}</span>
           </template>
 
-          <template v-if="$slots[`${slotName}-input-suffix`]" #suffix>
-            <slot :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+          <template v-if="$slots[`${slotName}-input-suffix`] || attrs?.suffix" #suffix>
+            <slot v-if="$slots[`${slotName}-input-suffix`]" :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+            <span v-else-if="attrs?.suffix">{{ attrs?.suffix }}</span>
           </template>
         </el-input-number>
       </div>
