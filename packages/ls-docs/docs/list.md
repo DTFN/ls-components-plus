@@ -569,6 +569,18 @@ const exposesTableData=[
     value: '-'
   },
   {
+    name: 'setCurrentPage',
+    desc: '设置当前页',
+    type: 'Function',
+    value: 'number'
+  },
+  {
+    name: 'setPageSize',
+    desc: '设置每页条数',
+    type: 'Function',
+    value: 'number'
+  },
+  {
     name: 'isFirst',
     desc: '是否首次加载',
     type: 'boolean',
@@ -581,12 +593,6 @@ const exposesTableData=[
     value: '-'
   },
   {
-    name: 'total',
-    desc: '表格数据总数量',
-    type: 'number',
-    value: '-'
-  },
-  {
     name: 'currentPage',
     desc: '当前页',
     type: 'number',
@@ -595,6 +601,12 @@ const exposesTableData=[
   {
     name: 'pageSize',
     desc: '每页条数',
+    type: 'number',
+    value: '-'
+  },
+  {
+    name: 'total',
+    desc: '表格数据总数量',
     type: 'number',
     value: '-'
   },
