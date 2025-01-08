@@ -173,7 +173,7 @@ defineExpose({
               <el-col v-if="!item.hideColumn" :span="item.isRow ? 24 : 24 / column">
                 <slot
                   v-if="item.type === 'slot'"
-                  :name="item.prop"
+                  :name="item.slotKey || item.prop"
                   :slot-row="{ ...item }"
                   :value="get(form, item.prop)"
                   :update-form-data="updateFormData"
@@ -213,7 +213,7 @@ defineExpose({
             <template v-if="!item.hideColumn">
               <slot
                 v-if="item.type === 'slot'"
-                :name="item.prop"
+                :name="item.slotKey || item.prop"
                 :slot-row="{ ...item }"
                 :value="get(form, item.prop)"
                 :update-form-data="updateFormData"
