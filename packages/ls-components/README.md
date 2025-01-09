@@ -8,7 +8,7 @@
 
 ## 链接
 
-[文档地址](https://) [vue3.x](https://cn.vuejs.org/guide/introduction.html) [element-plus](https://element-plus.org/zh-CN/component/overview.html)
+[vue3.x](https://cn.vuejs.org/guide/introduction.html) [element-plus](https://element-plus.org/zh-CN/component/overview.html)
 
 ## 安装
 
