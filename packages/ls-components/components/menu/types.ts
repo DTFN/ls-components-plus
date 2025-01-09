@@ -17,6 +17,7 @@ export type MenuBaseType = {
   defJump?: boolean;
   link?: string;
   children?: Array<MenuBaseType>;
+  icon?: String;
 };
 
 export type BCListItemType = {

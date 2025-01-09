@@ -191,7 +191,9 @@ MenuBaseType
 // 上传
 UploadItemType
 
-import type {  BellMessageListType,
+import type {  
+  BellMessageListType,
+  BreadCrumpType
   BreadCrumpListType,
   IconConfigType,
   ChartDataType,
