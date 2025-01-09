@@ -35,5 +35,4 @@ jobs:
           HUSKY: 0
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          DEBUG: semantic-release:* # 启用调试日志
         run: npx semantic-release
