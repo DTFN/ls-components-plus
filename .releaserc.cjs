@@ -7,20 +7,20 @@ module.exports = {
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'CHANGELOG.md'
+        changelogFile: '../../CHANGELOG.md'
       }
     ],
     [
       '@semantic-release/npm',
       {
-        pkgRoot: 'packages/ls-components'
+        pkgRoot: '.'
       },
     ],
     '@semantic-release/github',
     [
       '@semantic-release/git',
       {
-        assets: ['CHANGELOG.md', 'packages/ls-components/package.json'],
+        assets: ['../../CHANGELOG.md', 'package.json'],
         message: 'chore(release): ${nextRelease.version} [skip ci]'
       }
     ]
