@@ -156,7 +156,7 @@ watch(
 );
 
 const isToast = computed(() => {
-  return (props?.item?.isToast || typeof props?.item?.isToast) === 'undefined' ? true : false;
+  return props?.item?.isToast || typeof props?.item?.isToast === 'undefined' ? true : false;
 });
 const isCover = computed(() => {
   const status = props?.item?.isCover;
@@ -199,6 +199,9 @@ const limitUnit = computed(() => {
 });
 const limitNumMsg = computed(() => {
   return props?.item?.limitNumMsg || '';
+});
+const limitAllFail = computed(() => {
+  return props?.item?.limitAllFail;
 });
 const isProfile = computed(() => {
   return props?.item?.profile || false;
@@ -305,14 +308,27 @@ function validateForm(msg: String) {
   emits('uploadErrorFunc', msg);
 }
 
-function onExceedAction(files: File[], fileList: UploadUserFile[]) {
+async function onExceedAction(files: any, fileList: UploadUserFile[]) {
   uploading.value = false;
+
   if (props.onExceed) {
     return props.onExceed(files, fileList);
   }
+
+  const limitNum: number = Number(attrs.limit || 0);
+  let curLimitNum: number = 0;
+  if (!limitAllFail.value) {
+    curLimitNum = limitNum - configs.uploadFileList.length;
+    if (curLimitNum > 0) {
+      comHandleStart(files.slice(0, curLimitNum));
+      if (autoUpload.value) {
+        comfirmUpload();
+      }
+    }
+  }
+
   const msg: any =
-    `当前限制选择 ${attrs.limit} 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件` ||
-    limitNumMsg.value;
+    limitNumMsg.value || `当前限制选择 ${limitNum} 个文件，本次选择了 ${files.length} 个文件，已成功上传 ${curLimitNum} 个文件`;
   if (isToast.value) {
     setTimeout(() => {
       ElMessage.warning(msg);
@@ -584,6 +600,12 @@ function hasReadyFile() {
 
 function comfirmUpload() {
   uploadRef?.value?.submit();
+}
+
+function comHandleStart(files: Array<UploadRawFile>) {
+  (files || []).forEach((file: UploadRawFile) => {
+    uploadRef?.value?.handleStart(file);
+  });
 }
 
 function removeFile(file: UploadFile) {

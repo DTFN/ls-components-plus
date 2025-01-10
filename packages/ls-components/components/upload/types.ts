@@ -37,6 +37,8 @@ export type UploadItemType = {
   hideCoverBtn?: boolean;
   // tip提示
   tipContent?: string;
+  // 超出limit限制时，是否全部阻止
+  limitAllFail?: boolean;
 };
 
 export const lsUploadProps = buildProps({

@@ -1,11 +1,13 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export type BreadCrumpListType = {
+export type BreadCrumpType = {
   title: string;
   name?: string;
   link?: string;
   query?: any;
-}[];
+};
+
+export type BreadCrumpListType = BreadCrumpType[];
 
 export const lsBreadcrumbProp = buildProps({
   // 自定义面包屑内容

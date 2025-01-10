@@ -1,3 +1,18 @@
+# [1.5.0](https://github.com/DTFN/ls-components-plus/compare/v1.4.5...v1.5.0) (2025-01-10)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 删除废弃日志文件 ([14c6226](https://github.com/DTFN/ls-components-plus/commit/14c6226cc2c7454f94441318410c6162d3c52939))
+* **ls-component:** 🧩 日志路径更新 ([573d54b](https://github.com/DTFN/ls-components-plus/commit/573d54bba924f2b1874da4a8b1aa9eab432c10f9))
+* **ls-component:** 🧩 类型完善 ([0fa1575](https://github.com/DTFN/ls-components-plus/commit/0fa157554f036765cb13f64d5c68dc2996ea1689))
+
+
+### Features
+
+* **ls-component:** 🚀 upload上传limit限制功能优化 ([5a7568e](https://github.com/DTFN/ls-components-plus/commit/5a7568e7cfb4f8b25817c50c3c723dba31f89693))
+* **ls-component:** 🚀 upload组件限制上传数量时，增加开关支持是否全部阻止或达到限制数量后阻止超出数量的文件 ([c456a93](https://github.com/DTFN/ls-components-plus/commit/c456a93c50e19bc243cc8ac9dbe198a9c91aff59))
+
 ## [1.4.5](https://github.com/DTFN/ls-components-plus/compare/v1.4.4...v1.4.5) (2025-01-09)
 
 
