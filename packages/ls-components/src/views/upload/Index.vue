@@ -101,9 +101,14 @@ function onPreview(file: any) {
       :action="action"
       :on-success="onSuccess"
       :file-list="fileList3"
-      :limit="1"
+      :limit="2"
       multiple
       :before-remove="beforeRemove"
+      :auto-upload="false"
+      :item="{
+        isCover: false,
+        limitAllFail: false
+      }"
     ></LSUpload>
 
     <br />
