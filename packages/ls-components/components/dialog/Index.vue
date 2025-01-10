@@ -12,7 +12,7 @@ const props = defineProps(lsDialogProp);
 
 const emits = defineEmits(lsEmitNames);
 
-const slots = useSlots();
+const slots: any = useSlots();
 
 const visible = defineModel({
   type: Boolean
