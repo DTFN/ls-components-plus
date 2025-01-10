@@ -421,6 +421,12 @@ const fileList = ref([{ name: '', url: '' }]);
       value: '-'
     },
     {
+      name: 'limitAllFail',
+      desc: '是否限制所有文件上传失败',
+      type: 'boolean',
+      value: false
+    },
+    {
       name: 'httpRequestFunc',
       desc: '覆盖默认上传方法，传入接口调用方法，常用于手动上传',
       type: 'function',
