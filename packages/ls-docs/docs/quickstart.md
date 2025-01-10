@@ -199,6 +199,7 @@ import type {
   ChartDataType,
   ChartTemplatePatchType,
   ChartTemplateType,
+  ChartMapDataType,
   DescriptionsListType,
   DialogBtnType,
   MarkerAnchorType,

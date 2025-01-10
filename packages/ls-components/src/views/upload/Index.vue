@@ -106,7 +106,8 @@ function onPreview(file: any) {
       :before-remove="beforeRemove"
       :auto-upload="false"
       :item="{
-        isCover: false
+        isCover: false,
+        limitAllFail: false
       }"
     ></LSUpload>
 

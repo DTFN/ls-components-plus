@@ -325,8 +325,6 @@ async function onExceedAction(files: any, fileList: UploadUserFile[]) {
         comfirmUpload();
       }
     }
-  } else {
-    curLimitNum = limitNum;
   }
 
   const msg: any =
