@@ -422,7 +422,7 @@ const fileList = ref([{ name: '', url: '' }]);
     },
     {
       name: 'limitAllFail',
-      desc: '是否限制所有文件上传失败',
+      desc: '是否限制所有文件上传失败，multiple为true时生效',
       type: 'boolean',
       value: false
     },
