@@ -14,9 +14,11 @@ const emit = defineEmits<{
   reset: [form: any];
   'update:form-data': [formData: any];
   onChange: [value: any, prop: string, index?: number];
+  changeFormData: [value: any, prop: any, form: any];
 }>();
 
 const attrs = useAttrs();
+const slots: any = useSlots();
 
 // 统一处理 attrs 中的属性名格式，优先使用后定义的值
 function formatAttrs(attrsValue: any) {
@@ -128,6 +130,7 @@ function validate() {
 // 更新表单数据
 function updateFormData(key: string | number | string[], value: any) {
   set(form, key, value);
+  emit('changeFormData', value, key, form);
 }
 
 watch(
@@ -181,17 +184,16 @@ defineExpose({
 
                 <FormItem
                   v-else-if="ITEM_TYPES.includes(item.type)"
-                  :is-value="true"
-                  :value="get(form, item.prop)"
+                  :model-value="get(form, item.prop)"
                   :colon="colon"
                   :read="read"
                   :label-empty="labelEmpty"
                   :index="i"
                   v-bind="item"
-                  @update:value="updateFormData"
+                  @update:model-value="value => updateFormData(item.prop, value)"
                   @on-change="onChange"
                 >
-                  <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
+                  <template v-for="(_slotContent, slotName) in slots" :key="slotName" #[slotName]="scoope: any">
                     <slot :name="slotName" v-bind="scoope" />
                   </template>
                 </FormItem>
@@ -221,17 +223,16 @@ defineExpose({
 
               <FormItem
                 v-else-if="ITEM_TYPES.includes(item.type)"
-                :is-value="true"
-                :value="get(form, item.prop)"
+                :model-value="get(form, item.prop)"
                 :colon="colon"
                 :read="read"
                 :label-empty="labelEmpty"
                 :index="i"
                 v-bind="item"
-                @update:value="updateFormData"
+                @update:model-value="value => updateFormData(item.prop, value)"
                 @on-change="onChange"
               >
-                <template v-for="(_slotContent, slotName) in $slots" :key="slotName" #[slotName]="scoope: any">
+                <template v-for="(_slotContent, slotName) in slots" :key="slotName" #[slotName]="scoope: any">
                   <slot :name="slotName" v-bind="scoope" />
                 </template>
               </FormItem>

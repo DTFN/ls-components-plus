@@ -270,6 +270,45 @@ function getDateValue(val: Date | string | string[] | Date[]) {
   return props.dateFormat ? dayjs(val).format(props.dateFormat) : val;
 }
 
+/**
+ * 获取带前后缀的值
+ * @param val - 原始值
+ * @returns 处理后的值
+ * - 如果原始值为空，返回labelEmpty
+ * - 根据attrs中的前后缀配置添加对应文本:
+ *   - prefixStr: 前缀字符串
+ *   - suffix: 后缀
+ *   - prepend: 前置内容
+ *   - append: 后置内容
+ */
+function getValueWithAffix(val: string, type: string | undefined = undefined) {
+  if (isEmpty(val)) return props?.labelEmpty;
+
+  let result = val;
+
+  // 添加前缀字符串
+  if (props.attrs?.prefixStr) {
+    result = props.attrs.prefixStr + result;
+  }
+
+  // 添加后缀
+  if (props.attrs?.suffix) {
+    result = result + props.attrs.suffix;
+  }
+
+  // 添加前置内容
+  if (props.attrs?.prepend && type !== 'inputNumberRange') {
+    result = props.attrs.prepend + result;
+  }
+
+  // 添加后置内容
+  if (props.attrs?.append && type !== 'inputNumberRange') {
+    result = result + props.attrs.append;
+  }
+
+  return result;
+}
+
 function readValue(type: string | undefined) {
   const val = modelValue.value;
   if (props?.formatReadValue) {
@@ -293,7 +332,9 @@ function readValue(type: string | undefined) {
         return getCascaderVal(val, props.options, true);
       case 'inputRange':
       case 'inputNumberRange':
-        return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${range_2.value || props?.labelEmpty}`;
+        return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${getValueWithAffix(range_2.value, type) || props?.labelEmpty}`;
+      case 'input':
+        return getValueWithAffix(val);
       default:
         return isEmpty(val) ? props?.labelEmpty : val;
     }
@@ -512,6 +553,7 @@ defineExpose({
             全部
           </el-checkbox>
         </template>
+        <!-- !label 字段过程是否需要悬浮提示 -->
         <el-option
           v-for="(option, i) in options"
           :key="`${i}-${attrs?.valueKey ? option[attrs.valueKey] || option.label : option.value}`"
