@@ -234,6 +234,24 @@ const tableData1 = ref([
     desc: '右侧内容值',
     type: 'string / number',
     value: '-'
+  },
+  {
+    name: 'hide',
+    desc: '是否隐藏整行数据',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'format',
+    desc: '格式化函数，用于type=date类型',
+    type: 'string',
+    value: 'YYYY-MM-DD HH:mm:ss'
+  },
+  {
+    name: 'propMap',
+    desc: '用于type=select的数据映射，格式为{value:label}',
+    type: 'object',
+    value: '{}'
   }
 ])
 

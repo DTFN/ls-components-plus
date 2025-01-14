@@ -869,7 +869,13 @@ const eventsTableData=[
     name: 'onChange',
     desc: '表单select/radio切换时触发',
     type: 'Function',
-    value: 'value: 选中值, prop：form中的prop名'
+    value: 'value: 选中值, prop：form中的prop名，index：索引'
+  },
+  {
+    name: 'changeFormData',
+    desc: '表单数据更新时触发',
+    type: 'Function',
+    value: 'value: 更新值, prop: 更新prop, form: 更新后的form数据'
   }
 ]
 
@@ -910,14 +916,14 @@ const exposesTableData=[
 // 属性
 const attrTableData_1=[
   {
-    name: 'value/v-model:value',
+    name: 'value/v-model',
     desc: '绑定值',
     type: 'any',
     value: '-'
   },
   {
     name: 'isValue',
-    desc: '是否绑定到modelValue',
+    desc: '使用value时须设置true',
     type: 'boolean',
     value: 'false'
   },
@@ -1173,7 +1179,7 @@ const formItemTypeData=[
 const slotTableData_1=[
   {
     name: '[prop]',
-    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue（LSForm配置中type是slot时是updateFormData）方法',
+    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue(value)（LSForm配置中type是slot时是updateFormData(prop, value)）方法',
   },
   {
     name: '[prop]-prepend',
@@ -1185,7 +1191,7 @@ const slotTableData_1=[
   },
   {
     name: '[prop]-slot',
-    desc: 'type是itemSlot时，FormItem内自定义内容，返回slotRow、value和updateModelValue方法',
+    desc: 'type是itemSlot时，FormItem内自定义内容，返回slotRow、value和updateModelValue(value)方法',
   },
   {
     name: '[prop]-read-slot',
