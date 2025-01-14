@@ -1,3 +1,11 @@
+## [1.5.1](https://github.com/DTFN/ls-components-plus/compare/v1.5.0...v1.5.1) (2025-01-13)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 修复dialog取消按钮调用两次问题 ([ae452ad](https://github.com/DTFN/ls-components-plus/commit/ae452adbbb1a84fb07b6d249436dfdf23fddcc58))
+* **ls-doc:** 🧩 upload api更新 ([83ff9ef](https://github.com/DTFN/ls-components-plus/commit/83ff9ef46c47c7c466e5d9957ed97c65838e8ee6))
+
 # [1.5.0](https://github.com/DTFN/ls-components-plus/compare/v1.4.5...v1.5.0) (2025-01-10)
 
 

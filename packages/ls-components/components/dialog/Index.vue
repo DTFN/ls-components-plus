@@ -12,7 +12,7 @@ const props = defineProps(lsDialogProp);
 
 const emits = defineEmits(lsEmitNames);
 
-const slots = useSlots();
+const slots: any = useSlots();
 
 const visible = defineModel({
   type: Boolean
@@ -66,8 +66,11 @@ const curBtnConfirmConfig: ComputedRef<DialogBtnType> = computed(() => {
 });
 
 function handleClose() {
-  visible.value = false;
   emits('onCancel');
+}
+
+function handleBtnClose() {
+  visible.value = false;
 }
 
 function handleConfirm() {
@@ -106,7 +109,7 @@ defineExpose({
     <template v-if="hasFooter" #footer>
       <div class="dialog-footer">
         <slot v-if="slots.footer" name="footer"></slot>
-        <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleClose">
+        <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleBtnClose">
           {{ curBtnCancelConfig.txt }}
         </LSButton>
         <LSButton v-bind="curBtnConfirmConfig" :loading="loading" :disabled="loading" @click="handleConfirm">

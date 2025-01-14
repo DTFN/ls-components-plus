@@ -85,6 +85,7 @@ const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left
     <LSIcon width="30" height="30">
       <SvgIconVue />
     </LSIcon>
+    <LSIcon :type="2" name="img" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
 
     <br />
 

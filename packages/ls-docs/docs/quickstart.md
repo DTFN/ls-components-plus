@@ -51,7 +51,7 @@ AutoImport({
 // element-plus基础样式，根据业务需求定制
 import 'element-plus/dist/index.css';
 
-// 组件库样式，文件教大，发布时压缩大小
+// 组件库样式，文件较大，发布时压缩大小
 import '@lingshugroup/web-plus/index.css';
 
 // 根据业务需求按需引入以下组件

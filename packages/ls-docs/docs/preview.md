@@ -6,8 +6,9 @@ outline: deep
 
 ::: warning 支持图片（image）、文档（docx）、表格（xlsx）、pdf类型文件预览。
 
-v1.0.34+之后使用新的预览组件（LSPreviewImage、LSPreviewDocx、LSPreviewPdf、LSPreviewXlsx)不在需要一下配置且不需要传type参数：
+v1.0.34之后使用新的预览组件（LSPreviewImage、LSPreviewDocx、LSPreviewPdf、LSPreviewXlsx)不在需要特殊配置且不需要传type参数。
 <br />
+v1.0.34以前版本请参考以下使用方式
 如果只需要图片预览，在配置文件添加
 optimizeDeps: {
 exclude: ['pdfjs-dist', 'luckyexcel']
@@ -247,7 +248,7 @@ const tableData = ref([
   },
   {
     name: 'type',
-    desc: '预览类型: 支持 image / docx / pdf / xlsx',
+    desc: '预览类型: 支持 image / docx / pdf / xlsx（1.0.34之后该参数作废）',
     type: 'string',
     value: '-'
   },
