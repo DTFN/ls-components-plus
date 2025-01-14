@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/DTFN/ls-components-plus/compare/v1.5.1...v1.5.2) (2025-01-14)
+
+
+### Bug Fixes
+
+* 1.Form和Item数据绑定优化2.文本框read时显示传入配置文本 ([3c56eb9](https://github.com/DTFN/ls-components-plus/commit/3c56eb95b36c18ba3c3426ce3de6b301b5d7953e))
+* **ls-doc:** 🧩 文案更新 ([0445ea4](https://github.com/DTFN/ls-components-plus/commit/0445ea4e126ceb61a2c632952337f8f367aa2a0b))
+* **ls-doc:** 🧩 文档内容更新 ([1030b20](https://github.com/DTFN/ls-components-plus/commit/1030b20f58d0ee93dfb4e4b17dbd8ede238c6465))
+
 ## [1.5.1](https://github.com/DTFN/ls-components-plus/compare/v1.5.0...v1.5.1) (2025-01-13)
 
 
