@@ -5,7 +5,7 @@ import { lsDescProp } from './types';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { merge } from 'lodash-es';
 
-const slots = useSlots();
+const slots: any = useSlots();
 
 const props = defineProps(lsDescProp);
 

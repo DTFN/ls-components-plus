@@ -4,7 +4,7 @@ outline: deep
 
 # Icon 图标
 
-::: warning 基于Element Plus Icon、iconify、svg 提供三种图标使用方式。
+::: warning 基于Element Plus Icon、iconify、img、svg 提供三种图标使用方式。
 :::
 
 ## 使用方式
@@ -12,7 +12,7 @@ outline: deep
 ### 1. [Element Plus Icon](https://element-plus.org/zh-CN/component/icon.html)
 
 ::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
-并注册需要用到的icon图标，注册方式请查看ElIcon文档
+并注册需要用到的icon图标，注册方式请查看ei-icon文档
 :::
 <LSIcon name="Notification" color="red" size="20" />
 
@@ -30,7 +30,17 @@ outline: deep
 <LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
 ```
 
-### 3. svg
+### 3. img
+
+<br />
+
+<LSIcon :type="2" name="img" width="100" height="100" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
+
+```html
+<LSIcon :type="2" name="img" width="100" height="100" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
+```
+
+### 4. svg
 
 <br />
 
