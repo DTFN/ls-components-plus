@@ -30,5 +30,6 @@ export { default as LSPreviewImage } from '@cpo/preview_image/Index.vue';
 export { default as LSPreviewDocx } from '@cpo/preview_docx/Index.vue';
 export { default as LSPreviewPdf } from '@cpo/preview_pdf/Index.vue';
 export { default as LSPreviewXlsx } from '@cpo/preview_xlsx/Index.vue';
+export { default as LSDownloadFile } from '@cpo/downloadFile/Index.vue';
 
 export { default } from './index';

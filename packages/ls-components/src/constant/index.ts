@@ -118,6 +118,14 @@ export const MENU_LIST = [
     path: '/list',
     cpoPath: 'list/Index',
     key: '17'
+  },
+  {
+    id: '18',
+    title: 'DownloadFile 下载文件',
+    name: 'DownloadFile',
+    path: '/downloadFile',
+    cpoPath: 'downloadFile/Index',
+    key: '18'
   }
 ];
 
