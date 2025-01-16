@@ -47,6 +47,9 @@ function setPercentage() {
  * 初始化下载
  */
 async function initDownload() {
+  if (!isDownloadError.value) {
+    defAttrs.value.status = '';
+  }
   defAttrs.value.percentage = setPercentage();
   const data = await downloadChunk();
 
