@@ -125,9 +125,9 @@ async function chunkDataRequestFunc(chunk: number) {
         emitAll('onDownloadError', {
           errChunk: errChunkIndexs.value
         });
-        controllerList.value.forEach((item: any) => item.abort());
-      } else if (chunkNum.value !== 0 && !isMaxError.value) {
-        chunkDataRequestFunc(Math.max(...chunkQueue.value));
+        // controllerList.value.forEach((item: any) => item.abort());
+      } else if (chunkNum.value !== 0 && !isMaxError.value && chunkQueue.value.length != props.chunkTotal) {
+        chunkDataRequestFunc(chunkQueue.value.length);
       } else if (isComplete.value) {
         defAttrs.value.status = 'success';
         emitAll('onDownloadSuccess', chunkDatas.value);
