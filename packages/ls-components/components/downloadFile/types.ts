@@ -20,6 +20,21 @@ export const lsDownloadProp = buildProps({
   chunkDataRequestParams: {
     type: Object,
     default: null
+  },
+  // 初始请求数量
+  initRequstNum: {
+    type: Number,
+    default: 10
+  },
+  // 最大异常请求数
+  maxErrorNum: {
+    type: Number,
+    default: 6
+  },
+  // 超出上限是否取消上传
+  cancelUploadInLimit: {
+    type: Boolean,
+    default: true
   }
 });
 

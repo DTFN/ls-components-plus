@@ -32,8 +32,8 @@ export function post(api: string, data: any = {}, method: string = 'POST'): Prom
 /**
  * get封装
  */
-export function get(api: string, data: any = {}, method: string = 'GET'): Promise<any> {
-  return request(api, data, method, getHeader());
+export function get(api: string, data: any = {}, method: string = 'GET', config?: any): Promise<any> {
+  return request(api, data, method, getHeader(), config);
 }
 
 /**
@@ -81,7 +81,7 @@ export function getHeader(ContentType: string = 'application/json') {
 
 let loginCount = 0;
 
-export function request(api: string, params: any = {}, method: string, header: any): Promise<any> {
+export function request(api: string, params: any = {}, method: string, header: any, config?: any): Promise<any> {
   return new Promise((resolve, reject) => {
     const data: string = method.toLocaleLowerCase() === 'get' || method.toLocaleLowerCase() === 'delete' ? 'params' : 'data';
 
@@ -95,7 +95,8 @@ export function request(api: string, params: any = {}, method: string, header: a
       url: fullUrl,
       [data]: params,
       method: method,
-      headers: header
+      headers: header,
+      signal: config?.signal
     })
       .then((result: any = {}) => {
         const { data: { code = '', msg = '', data = {} } = {} } = result || {};
