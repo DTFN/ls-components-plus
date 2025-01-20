@@ -21,6 +21,10 @@ export const lsDownloadProp = buildProps({
     type: Object,
     default: null
   },
+  chunkDataRequestConfig: {
+    type: Object,
+    default: null
+  },
   // 初始请求数量
   initRequstNum: {
     type: Number,

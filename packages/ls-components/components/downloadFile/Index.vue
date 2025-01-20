@@ -104,9 +104,12 @@ async function chunkDataRequestFunc(chunk: number) {
           chunk
         };
     try {
-      const data = await props.chunkDataRequest(Object.assign(params), {
-        signal
-      });
+      const data = await props.chunkDataRequest(
+        Object.assign(params),
+        props.chunkDataRequestConfig || {
+          signal
+        }
+      );
       chunkNum.value--;
       chunkDatas.value[index] = data;
       if (!successChunkIndexs.value.includes(chunk)) {
@@ -125,7 +128,9 @@ async function chunkDataRequestFunc(chunk: number) {
         emitAll('onDownloadError', {
           errChunk: errChunkIndexs.value
         });
-        // controllerList.value.forEach((item: any) => item.abort());
+        if (props.cancelUploadInLimit) {
+          controllerList.value.forEach((item: any) => item.abort());
+        }
       } else if (chunkNum.value !== 0 && !isMaxError.value && chunkQueue.value.length != props.chunkTotal) {
         chunkDataRequestFunc(chunkQueue.value.length);
       } else if (isComplete.value) {

@@ -4,7 +4,8 @@ outline: deep
 
 # Download 下载
 
-::: warning 支持分片下载，进度条样式使用了el-progress组件。
+::: warning 支持分片下载，进度条样式使用了el-progress组件。 <br />
+请在 axios 配置中配置 signal，以支持中断接口请求功能。
 :::
 
 ## 使用方式
@@ -115,13 +116,19 @@ const tableData = ref([
   },
   {
     name: 'chunkDataRequest',
-    desc: '分片数据请求函数',
+    desc: '分片数据请求函数，请求参数（val2：接口所需参数，val2：配置类参数，例如{signal}默认已添加signal）',
     type: 'Function',
     value: '-'
   },
   {
     name: 'chunkDataRequestParams',
     desc: '分片数据请求函数参数',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'chunkDataRequestConfig',
+    desc: '分片数据请求函数配置',
     type: 'object',
     value: '-'
   },

@@ -7,7 +7,7 @@ const { mergeBuffer, fileToBuffer } = lsUtil;
 const downloadFileRef = ref();
 const chunkTotal = ref(3);
 const initRequstNum = ref(2);
-const maxErrorNum = ref(2);
+const maxErrorNum = ref(1);
 
 // 初始化分片下载
 function chunkDownloadInit(params: any): Promise<any> {
