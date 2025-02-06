@@ -1,3 +1,20 @@
+# [1.6.0](https://github.com/DTFN/ls-components-plus/compare/v1.5.2...v1.6.0) (2025-02-06)
+
+
+### Bug Fixes
+
+* 🧩 优化下载组件和api ([538b0e5](https://github.com/DTFN/ls-components-plus/commit/538b0e5c83437d03b99cd81b374b761d7d42a324))
+* 🧩 分片下载优化 ([2d4c91b](https://github.com/DTFN/ls-components-plus/commit/2d4c91bb3d789e8644e49db10ef6c33d1bced4c1))
+* **ls-component:** 🧩 功能优化 ([d9b4436](https://github.com/DTFN/ls-components-plus/commit/d9b443615837c62c9b22392ea2680e6b442b2403))
+* **ls-component:** 🧩 开放utils公共方法 ([5b5b7e4](https://github.com/DTFN/ls-components-plus/commit/5b5b7e425910377fada39dce023887b251bd96fc))
+
+
+### Features
+
+* **ls-component:** 🚀 分片下载组件开发 ([47cf8e6](https://github.com/DTFN/ls-components-plus/commit/47cf8e6ad90021c124fa573985d28eeebccdee8e))
+* **ls-component:** 🚀 新增文件分片下载组件 ([71553ff](https://github.com/DTFN/ls-components-plus/commit/71553ffd7b380dccf182c6c69093436af1488543))
+* **ls-doc:** 🚀 download、util使用文档更新 ([5f8f303](https://github.com/DTFN/ls-components-plus/commit/5f8f303e4bdf05ad9de14e8fad59e4c9726f61fc))
+
 ## [1.5.2](https://github.com/DTFN/ls-components-plus/compare/v1.5.1...v1.5.2) (2025-01-14)
 
 
