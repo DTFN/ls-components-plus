@@ -61,7 +61,8 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' }
+        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
+        { text: 'Download 下载', link: '/docs/download' }
       ]
     }
   ],
@@ -84,7 +85,8 @@ export default {
       text: 'utils',
       items: [
         { text: 'validate', link: '/tools/utils/validate' },
-        { text: 'check', link: '/tools/utils/check' }
+        { text: 'check', link: '/tools/utils/check' },
+        { text: 'util', link: '/tools/utils/util' }
       ]
     }
   ]

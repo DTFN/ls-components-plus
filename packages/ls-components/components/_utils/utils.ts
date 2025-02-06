@@ -235,3 +235,48 @@ export function isValidJSON(str: any) {
     return false;
   }
 }
+
+// 合并buffer数据
+export function mergeBuffer(bufferArray: any[]) {
+  // 创建一个空的 ArrayBuffer 用来存储合并后的数据
+  const byteLength = bufferArray.reduce((total: number, bytes: ArrayBuffer) => total + bytes.byteLength, 0); // 总长度
+  const mergedBuffer = new ArrayBuffer(byteLength); // 创建
+  const view = new Uint8Array(mergedBuffer); // view为最终产物
+  let offset = 0;
+  // 将所有的二进制字节数组合并到 mergedBuffer 中
+  bufferArray.forEach(bytes => {
+    view.set(new Uint8Array(bytes.file), offset);
+    offset += bytes.byteLength;
+  });
+  return view;
+}
+
+export function fileToBuffer(base64: any) {
+  const binaryString = window.atob(base64);
+  // 获取二进制字符串的长度
+  const length = binaryString.length;
+  // 创建一个字节数组
+  const bytes = new Uint8Array(length);
+
+  for (let i = 0; i < length; i++) {
+    // 将二进制字符串的每个字符转换为对应的ASCII码
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  return new Uint8Array(bytes).buffer;
+}
+
+export default {
+  isEmpty,
+  exportFile,
+  getExtension,
+  loadJs,
+  removeJs,
+  loadCss,
+  removeCss,
+  getRandomHexColor,
+  numberFixed,
+  isValidJSON,
+  mergeBuffer,
+  fileToBuffer
+};
