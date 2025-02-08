@@ -76,7 +76,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
     title: '养殖周期管理',
     name: 'CycleManager',
     path: 'cycle-manager',
-    key: '2-5',
+    key: '3',
     iconConfig: { name: 'Upload' },
     cpoPath: 'pondManager/cycle/CycleManager',
     pCode: 'c25',
@@ -85,7 +85,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         title: '历史周期',
         name: 'HistoryCycle',
         path: 'history-cycle',
-        key: '2-5',
+        key: '3-1',
         cpoPath: 'pondManager/cycle/HistoryCycle',
         pCode: 'c25',
         leaf: true,
@@ -95,7 +95,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
             title: '历史周期查看',
             name: 'HistoryCycleDetail',
             path: 'history-cycle-detail',
-            key: '2-5',
+            key: '3-1',
             cpoPath: 'pondManager/cycle/HistoryCycleDetail',
             pCode: 'c25',
             hideMenu: true
@@ -203,6 +203,20 @@ const isCollapse = ref(true);
       style="max-width: 200px"
       @on-jump="onJump"
       :collapse="isCollapse"
+    >
+      <template #icon7>
+        <vueSvg />
+      </template>
+    </LSMenu>
+
+    <hr />
+
+    <LSMenu
+      :menu-config-list="MENU_CONFIG_LIST"
+      style="max-width: 200px"
+      @on-jump="onJump"
+      :collapse="false"
+      :is-define-click="true"
     >
       <template #icon7>
         <vueSvg />

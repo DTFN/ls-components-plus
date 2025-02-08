@@ -53,6 +53,43 @@ function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 
+function defineSubClickFunc(index: string, item: MenuBaseType) {
+  removeActiveClass(index, 0);
+  emits('defineSubClick', index, item);
+}
+
+function defineChildClickFunc(index: string, item: MenuBaseType) {
+  removeActiveClass(index, 1);
+  emits('defineChildClick', index, item);
+}
+
+function removeActiveClass(index: string, type: number) {
+  if (lsComMenu.value) {
+    const subMenuDom = lsComMenu.value.$el.querySelectorAll('.el-sub-menu');
+    const menuItemDom = lsComMenu.value.$el.querySelectorAll('.el-menu-item');
+    const subActiveCss = 'is-sub-active';
+    const menuActiveCss = 'is-active';
+    subMenuDom.forEach((n: any) => {
+      const classNames = Array.from(n.classList);
+      if (classNames.includes(subActiveCss)) {
+        n.classList.remove(subActiveCss);
+      }
+      if (type == 0 && index === n.dataset.index) {
+        n.classList.add(subActiveCss);
+      }
+    });
+    menuItemDom.forEach((n: any) => {
+      const classNames = Array.from(n.classList);
+      if (classNames.includes(menuActiveCss)) {
+        n.classList.remove(menuActiveCss);
+      }
+      if (type == 1 && index === n.dataset.index) {
+        n.classList.add(menuActiveCss);
+      }
+    });
+  }
+}
+
 onMounted(() => {
   isInit.value = true;
   initMenuSider();
@@ -67,7 +104,10 @@ onMounted(() => {
       :item="item"
       :permission-list="permissionList"
       :need-permission="needPermission"
+      :is-define-click="isDefineClick"
       @on-jump="onJump"
+      @define-sub-click="defineSubClickFunc"
+      @define-child-click="defineChildClickFunc"
     >
       <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
     </MenuItem>
@@ -85,6 +125,21 @@ onMounted(() => {
       }
       .ls-icon {
         margin-right: 6px;
+      }
+      &.is-sub-active {
+        .el-sub-menu__title {
+          color: var(--el-menu-active-color);
+          background-color: var(--bg-color-primary) !important;
+          &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            content: '';
+            background-color: var(--el-color-primary);
+          }
+        }
       }
     }
     :deep(.el-menu-item) {

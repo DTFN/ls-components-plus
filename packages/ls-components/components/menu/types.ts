@@ -49,7 +49,7 @@ export type GroupOptionType = {
   groupName: string;
 };
 
-export const lsEmitNames = ['onJump'];
+export const lsEmitNames = ['onJump', 'defineSubClick', 'defineChildClick'];
 
 export const lsMenuProps = buildProps({
   menuConfigList: {
@@ -67,6 +67,10 @@ export const lsMenuProps = buildProps({
   hoverColor: {
     type: String,
     default: ''
+  },
+  isDefineClick: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -85,5 +89,9 @@ export const lsMenuItemProps = buildProps({
     default: () => {
       return {};
     }
+  },
+  isDefineClick: {
+    type: Boolean,
+    default: false
   }
 });
