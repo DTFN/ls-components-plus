@@ -15,7 +15,7 @@ const emits = defineEmits(lsEmitNames);
 
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
-const lsComMenu = ref();
+const lsComMenuRef = ref();
 
 watch(
   () => props.permissionList,
@@ -64,9 +64,9 @@ function defineChildClickFunc(index: string, item: MenuBaseType) {
 }
 
 function removeActiveClass(index: string, type: number) {
-  if (lsComMenu.value) {
-    const subMenuDom = lsComMenu.value.$el.querySelectorAll('.el-sub-menu');
-    const menuItemDom = lsComMenu.value.$el.querySelectorAll('.el-menu-item');
+  if (lsComMenuRef.value) {
+    const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');
+    const menuItemDom = lsComMenuRef.value.$el.querySelectorAll('.el-menu-item');
     const subActiveCss = 'is-sub-active';
     const menuActiveCss = 'is-active';
     subMenuDom.forEach((n: any) => {
@@ -94,10 +94,14 @@ onMounted(() => {
   isInit.value = true;
   initMenuSider();
 });
+
+defineExpose({
+  lsComMenuRef
+});
 </script>
 
 <template>
-  <el-menu ref="lsComMenu" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
+  <el-menu ref="lsComMenuRef" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
     <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
