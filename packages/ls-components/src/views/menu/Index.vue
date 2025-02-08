@@ -190,7 +190,7 @@ const isCollapse = ref(true);
 
 const blockIndex = ref(0);
 const comMenuRef2 = ref();
-const defaultActive = ref('2');
+const defaultActive = ref('1');
 
 function blockClick(val: number) {
   blockIndex.value = val;

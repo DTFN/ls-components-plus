@@ -13,6 +13,8 @@ const props = defineProps(lsMenuProps);
 
 const emits = defineEmits(lsEmitNames);
 
+const useAttr = useAttrs();
+
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
 const lsComMenuRef = ref();
@@ -41,6 +43,20 @@ watch(
   }
 );
 
+watch(
+  () => useAttr['default-active'],
+  async val => {
+    if (val) {
+      await nextTick();
+      removeActiveClass(val.toString());
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 function initMenuSider() {
   if (!isInit.value) {
     return;
@@ -54,37 +70,39 @@ function onJump(item: MenuBaseType) {
 }
 
 function defineSubClickFunc(index: string, item: MenuBaseType) {
-  removeActiveClass(index, 0);
+  removeActiveClass(index);
   emits('defineSubClick', index, item);
 }
 
 function defineChildClickFunc(index: string, item: MenuBaseType) {
-  removeActiveClass(index, 1);
+  removeActiveClass(index);
   emits('defineChildClick', index, item);
 }
 
-function removeActiveClass(index: string, type: number) {
+function removeActiveClass(index: string) {
   if (lsComMenuRef.value) {
+    let isExists = false;
     const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');
     const menuItemDom = lsComMenuRef.value.$el.querySelectorAll('.el-menu-item');
     const subActiveCss = 'is-sub-active';
     const menuActiveCss = 'is-active';
-    subMenuDom.forEach((n: any) => {
-      const classNames = Array.from(n.classList);
-      if (classNames.includes(subActiveCss)) {
-        n.classList.remove(subActiveCss);
-      }
-      if (type == 0 && index === n.dataset.index) {
-        n.classList.add(subActiveCss);
-      }
-    });
     menuItemDom.forEach((n: any) => {
       const classNames = Array.from(n.classList);
       if (classNames.includes(menuActiveCss)) {
         n.classList.remove(menuActiveCss);
       }
-      if (type == 1 && index === n.dataset.index) {
+      if (index === n.dataset.index) {
+        isExists = true;
         n.classList.add(menuActiveCss);
+      }
+    });
+    subMenuDom.forEach((n: any) => {
+      const classNames = Array.from(n.classList);
+      if (classNames.includes(subActiveCss)) {
+        n.classList.remove(subActiveCss);
+      }
+      if (!isExists && index === n.dataset.index) {
+        n.classList.add(subActiveCss);
       }
     });
   }
