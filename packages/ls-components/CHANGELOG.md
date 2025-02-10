@@ -1,3 +1,19 @@
+# [1.7.0](https://github.com/DTFN/ls-components-plus/compare/v1.6.0...v1.7.0) (2025-02-10)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 meta参数完善 ([98a4e38](https://github.com/DTFN/ls-components-plus/commit/98a4e387f4bd785087b8894dd7023c283f661599))
+* **ls-component:** 🧩 route增加meta值返回 ([627ffbe](https://github.com/DTFN/ls-components-plus/commit/627ffbec30537cced6d1fbafee22ed9cb8baeb66))
+* **ls-component:** 🧩 菜单功能完善 ([985b0ae](https://github.com/DTFN/ls-components-plus/commit/985b0ae15f7d936f667248a905eb44e4748e488c))
+* **ls-component:** 🧩 菜单扩展优化 ([cf41ad9](https://github.com/DTFN/ls-components-plus/commit/cf41ad94d1b929dd20e32559a87e6dee7976fd1b))
+* **ls-doc:** 🧩 文档更新 ([da4303a](https://github.com/DTFN/ls-components-plus/commit/da4303a53679472a68efb4ea8a4ef44f9870a4ac))
+
+
+### Features
+
+* **ls-component:** 🚀 菜单扩展自定义事件 ([dfc3555](https://github.com/DTFN/ls-components-plus/commit/dfc355506976ab2f7de3df8d99c035df880d82ad))
+
 # [1.6.0](https://github.com/DTFN/ls-components-plus/compare/v1.5.2...v1.6.0) (2025-02-06)
 
 
