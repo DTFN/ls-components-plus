@@ -86,13 +86,13 @@ export default function () {
       path: config.path || '',
       name: config.name,
       component: routesModule[`${routePath}/${config.cpoPath}.vue`],
-      meta: {
+      meta: Object.assign({}, config.meta, {
         key: config.key,
         title: config.title,
         bcList: (config.bcList || []).concat({
           title: config.title
         })
-      }
+      })
     });
   }
 

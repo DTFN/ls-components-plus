@@ -18,6 +18,7 @@ export type MenuBaseType = {
   link?: string;
   children?: Array<MenuBaseType>;
   icon?: String;
+  meta?: any;
 };
 
 export type BCListItemType = {
