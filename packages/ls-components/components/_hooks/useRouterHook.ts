@@ -86,13 +86,16 @@ export default function () {
       path: config.path || '',
       name: config.name,
       component: routesModule[`${routePath}/${config.cpoPath}.vue`],
-      meta: Object.assign({}, config.meta, {
-        key: config.key,
-        title: config.title,
-        bcList: (config.bcList || []).concat({
-          title: config.title
-        })
-      })
+      meta: Object.assign(
+        {
+          key: config.key,
+          title: config.title,
+          bcList: (config.bcList || []).concat({
+            title: config.title
+          })
+        },
+        config.meta
+      )
     });
   }
 
@@ -111,7 +114,6 @@ export default function () {
     permissionList?: Array<string | number>
   ) => {
     const menus: Array<RouteRecordRaw> = [];
-
     getRouterConfig(menuConfigList).forEach((config: ConfigItemType) => {
       if (permissionList) {
         const pCode: string = config?.pCode?.toString() || '';

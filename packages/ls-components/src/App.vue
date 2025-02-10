@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @ts-nocheck
-import { useRouterHook } from '../lib/hooks';
+import useRouterHook from '@cpo/_hooks/useRouterHook';
 import { RouterView } from 'vue-router';
 import { MENU_LIST } from './constant/index';
 
@@ -10,6 +10,7 @@ const { getMenusByAuth }: any = useRouterHook();
 
 const routesModule = import.meta.glob('/src/views/**/*.vue');
 const menus = getMenusByAuth(MENU_LIST, routesModule, '/src/views');
+console.log(menus);
 router.removeRoute('Layout');
 router.addRoute({
   name: 'Layout',
