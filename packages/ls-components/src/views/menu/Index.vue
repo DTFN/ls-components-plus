@@ -76,7 +76,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
     title: '养殖周期管理',
     name: 'CycleManager',
     path: 'cycle-manager',
-    key: '2-5',
+    key: '3',
     iconConfig: { name: 'Upload' },
     cpoPath: 'pondManager/cycle/CycleManager',
     pCode: 'c25',
@@ -85,7 +85,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         title: '历史周期',
         name: 'HistoryCycle',
         path: 'history-cycle',
-        key: '2-5',
+        key: '3-1',
         cpoPath: 'pondManager/cycle/HistoryCycle',
         pCode: 'c25',
         leaf: true,
@@ -95,7 +95,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
             title: '历史周期查看',
             name: 'HistoryCycleDetail',
             path: 'history-cycle-detail',
-            key: '2-5',
+            key: '3-1',
             cpoPath: 'pondManager/cycle/HistoryCycleDetail',
             pCode: 'c25',
             hideMenu: true
@@ -187,6 +187,26 @@ function onJump(res: any) {
 }
 
 const isCollapse = ref(true);
+
+const blockIndex = ref(0);
+const comMenuRef2 = ref();
+const defaultActive = ref('1');
+
+function blockClick(val: number) {
+  blockIndex.value = val;
+  defaultActive.value = (val + 1).toString();
+  // comMenuRef2.value.lsComMenuRef.open(val + 1);
+}
+
+function defineSubClickFunc(index: string, item: MenuBaseType) {
+  console.log(item);
+  blockClick(Number(index) - 1);
+}
+
+function defineChildClickFunc(index: string, item: MenuBaseType) {
+  console.log(index, item);
+  blockClick(Number(index.split('-')[0]) - 1);
+}
 </script>
 
 <template>
@@ -208,7 +228,53 @@ const isCollapse = ref(true);
         <vueSvg />
       </template>
     </LSMenu>
+
+    <hr />
+
+    <div style="position: relative">
+      <LSMenu
+        ref="comMenuRef2"
+        :menu-config-list="MENU_CONFIG_LIST"
+        style="max-width: 200px"
+        @on-jump="onJump"
+        :collapse="false"
+        :is-define-click="true"
+        :default-active="defaultActive"
+        @define-sub-click="defineSubClickFunc"
+        @define-child-click="defineChildClickFunc"
+      >
+        <template #icon7>
+          <vueSvg />
+        </template>
+      </LSMenu>
+
+      <ul class="block-list">
+        <li :class="{ active: blockIndex == 0 }" @click="blockClick(0)">渔场概览</li>
+        <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
+        <li :class="{ active: blockIndex == 2 }" @click="blockClick(2)">养殖周期管理</li>
+      </ul>
+    </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.block-list {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  width: 300px;
+  li {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eeeeee;
+    &.active {
+      color: #ffffff;
+      background-color: blue;
+    }
+  }
+}
+</style>

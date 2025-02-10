@@ -13,9 +13,11 @@ const props = defineProps(lsMenuProps);
 
 const emits = defineEmits(lsEmitNames);
 
+const useAttr = useAttrs();
+
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
-const lsComMenu = ref();
+const lsComMenuRef = ref();
 
 watch(
   () => props.permissionList,
@@ -41,6 +43,20 @@ watch(
   }
 );
 
+watch(
+  () => useAttr['default-active'],
+  async val => {
+    if (val) {
+      await nextTick();
+      removeActiveClass(val.toString());
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 function initMenuSider() {
   if (!isInit.value) {
     return;
@@ -53,21 +69,67 @@ function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 
+function defineSubClickFunc(index: string, item: MenuBaseType) {
+  removeActiveClass(index);
+  emits('defineSubClick', index, item);
+}
+
+function defineChildClickFunc(index: string, item: MenuBaseType) {
+  removeActiveClass(index);
+  emits('defineChildClick', index, item);
+}
+
+function removeActiveClass(index: string) {
+  if (lsComMenuRef.value) {
+    let isExists = false;
+    const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');
+    const menuItemDom = lsComMenuRef.value.$el.querySelectorAll('.el-menu-item');
+    const subActiveCss = 'is-sub-active';
+    const menuActiveCss = 'is-active';
+    menuItemDom.forEach((n: any) => {
+      const classNames = Array.from(n.classList);
+      if (classNames.includes(menuActiveCss)) {
+        n.classList.remove(menuActiveCss);
+      }
+      if (index === n.dataset.index) {
+        isExists = true;
+        n.classList.add(menuActiveCss);
+      }
+    });
+    subMenuDom.forEach((n: any) => {
+      const classNames = Array.from(n.classList);
+      if (classNames.includes(subActiveCss)) {
+        n.classList.remove(subActiveCss);
+      }
+      if (!isExists && index === n.dataset.index) {
+        n.classList.add(subActiveCss);
+      }
+    });
+  }
+}
+
 onMounted(() => {
   isInit.value = true;
   initMenuSider();
 });
+
+defineExpose({
+  lsComMenuRef
+});
 </script>
 
 <template>
-  <el-menu ref="lsComMenu" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
+  <el-menu ref="lsComMenuRef" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
     <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
       :item="item"
       :permission-list="permissionList"
       :need-permission="needPermission"
+      :is-define-click="isDefineClick"
       @on-jump="onJump"
+      @define-sub-click="defineSubClickFunc"
+      @define-child-click="defineChildClickFunc"
     >
       <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
     </MenuItem>
@@ -85,6 +147,21 @@ onMounted(() => {
       }
       .ls-icon {
         margin-right: 6px;
+      }
+      &.is-sub-active {
+        .el-sub-menu__title {
+          color: var(--el-menu-active-color);
+          background-color: var(--bg-color-primary) !important;
+          &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 4px;
+            content: '';
+            background-color: var(--el-color-primary);
+          }
+        }
       }
     }
     :deep(.el-menu-item) {
