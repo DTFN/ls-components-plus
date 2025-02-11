@@ -145,7 +145,14 @@ function onPreview(file: any) {
 
     <br />
 
-    <LSUpload list-type="picture-card" :action="action" :item="{ hideCoverBtn: true }"> </LSUpload>
+    <LSUpload
+      list-type="picture-card"
+      :limit="3"
+      :action="action"
+      :auto-upload="false"
+      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true }"
+    >
+    </LSUpload>
 
     <br />
     <LSUpload

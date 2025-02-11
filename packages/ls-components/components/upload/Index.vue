@@ -1,5 +1,13 @@
 <template>
-  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '', isHideCover ? 'hide-cover-btn' : '']">
+  <div
+    :class="[
+      comClass,
+      isDrag ? 'ls-upload-drag' : '',
+      isProfile ? 'ls-profile' : '',
+      isHideCover ? 'hide-cover-btn' : '',
+      hideBtn ? 'hide-btn' : ''
+    ]"
+  >
     <el-upload
       ref="uploadRef"
       v-bind="Object.assign(defAttrs, $attrs)"
@@ -257,6 +265,14 @@ const httpRequestFunc = computed(() => {
 // const textPreview = computed(() => {
 //   return props?.item?.textPreview;
 // });
+
+const hideBtn = computed(() => {
+  const limitNum = Number(attrs.limit || 0);
+  if (!limitNum) {
+    return false;
+  }
+  return props?.item?.hideBtnReachLimit && configs.uploadFileList.length >= limitNum;
+});
 
 watch(
   [isCover, httpRequestFunc],
@@ -856,7 +872,8 @@ defineExpose({
       display: none;
     }
   }
-  &.hide-cover-btn {
+  &.hide-cover-btn,
+  &.hide-btn {
     :deep(.el-upload--picture-card) {
       display: none;
     }
