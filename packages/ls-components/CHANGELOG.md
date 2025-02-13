@@ -1,3 +1,11 @@
+## [1.7.1](https://github.com/DTFN/ls-components-plus/compare/v1.7.0...v1.7.1) (2025-02-13)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 upload组件增加达到限制数量后是否隐藏上传按钮，适用图片模式 ([5d3d1c7](https://github.com/DTFN/ls-components-plus/commit/5d3d1c763ecd22b06949aff9175847bbf8a1bba3))
+* **ls-component:** 🧩 图片预览功能修复 ([8cd007d](https://github.com/DTFN/ls-components-plus/commit/8cd007d0e3228f4c33befd532ab5d17653248cba))
+
 # [1.7.0](https://github.com/DTFN/ls-components-plus/compare/v1.6.0...v1.7.0) (2025-02-10)
 
 
