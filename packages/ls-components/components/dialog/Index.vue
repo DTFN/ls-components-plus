@@ -93,8 +93,8 @@ defineExpose({
     ref="lsDialogRef"
     :class="comClass"
     v-model="visible"
-    v-bind="merge(defAttrs, $attrs)"
     :show-close="!loading"
+    v-bind="merge(defAttrs, $attrs)"
     @close="handleClose"
   >
     <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
