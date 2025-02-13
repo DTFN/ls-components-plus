@@ -120,7 +120,7 @@ const transform = reactive({
   enableTransition: false,
   width: 'auto',
   height: 'auto',
-  objectFit: 'none'
+  objectFit: 'contain'
 });
 const isSingle = computed(() => {
   const { source }: any = props || {};
@@ -274,7 +274,7 @@ function reset() {
     enableTransition: false,
     width: 'auto',
     height: 'auto',
-    objectFit: 'none'
+    objectFit: 'contain'
   });
 }
 
@@ -287,7 +287,7 @@ function fullScreen() {
     enableTransition: false,
     width: '100%',
     height: '100%',
-    objectFit: 'cover'
+    objectFit: 'contain'
   });
 }
 

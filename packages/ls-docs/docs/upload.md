@@ -477,7 +477,7 @@ const fileList = ref([{ name: '', url: '' }]);
     },
     {
       name: 'hideCoverBtn',
-      desc: '覆盖模式，上传图片后是否隐藏上传按钮',
+      desc: '覆盖模式，上传图片后是否隐藏上传按钮，适用图片模式',
       type: 'boolean',
       value: false
     },
@@ -486,6 +486,12 @@ const fileList = ref([{ name: '', url: '' }]);
       desc: 'tip文案',
       type: 'string',
       value: '-'
+    },
+    {
+      name: 'hideBtnReachLimit',
+      desc: '达到限制数量后是否隐藏上传按钮，适用图片模式',
+      type: 'boolean',
+      value: false
     }
   ])
 

@@ -70,7 +70,7 @@ const separatorStyle = computed(() => {
   }
   .ls-iconify,
   :deep(span) {
-    line-height: inherit;
+    line-height: normal;
     vertical-align: middle;
   }
 }

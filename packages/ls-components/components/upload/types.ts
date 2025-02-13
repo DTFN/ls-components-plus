@@ -33,12 +33,14 @@ export type UploadItemType = {
   profile?: boolean;
   // 默认展示的头像图片
   defProfile?: string;
-  // 覆盖上传后是否隐藏上传按钮
+  // 覆盖上传后是否隐藏上传按钮 适用图片模式
   hideCoverBtn?: boolean;
   // tip提示
   tipContent?: string;
   // 超出limit限制时，是否全部阻止
   limitAllFail?: boolean;
+  // 达到limit限制时，是否隐藏上传按钮 适用图片模式
+  hideBtnReachLimit?: boolean;
 };
 
 export const lsUploadProps = buildProps({
