@@ -414,7 +414,7 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
     }
     isSuccess = false;
   }
-  if (isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
+  if (!isLimitFile && isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
     const msg = `上传文件 ${file.name} 不是图片格式的文件！`;
     if (isToast.value && showMsg) {
       setTimeout(() => {
