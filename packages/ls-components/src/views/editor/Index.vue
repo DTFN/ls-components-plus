@@ -25,6 +25,19 @@ function onClick() {
 const formData = ref({
   content: '<div>测试内容</div>'
 });
+
+function handleCreated(editor: any) {
+  const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage;
+  uploadImgConfig.onError = (file: File) => {
+    const isLt2M = file.size / 1024 / 1024 <= 1;
+    if (!isLt2M) {
+      ElMessage.error('上传图片大小不能超过 1M!');
+    } else {
+      ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`);
+    }
+  };
+}
+
 onMounted(() => {
   setTimeout(() => {
     formData.value.content = `<div>222222222222222222222</div>`;
@@ -36,11 +49,15 @@ onMounted(() => {
   <div>
     <LSEditor
       ref="lsEditorRef"
+      :toolbar-config="{
+        excludeKeys: ['italic']
+      }"
       :upload-server="uploadServer"
       :upload-token="uploadToken"
       :editor-config="editorConfig"
       :value-html="formData.content"
       height="400px"
+      @handle-created="handleCreated"
     />
 
     <LSButton type="primary" @click="onClick"> 提交 </LSButton>
