@@ -5,7 +5,8 @@ export const MENU_LIST = [
     name: 'Button',
     path: '/button',
     cpoPath: 'button/Index',
-    key: '1'
+    key: '1',
+    meta: { tabName: 'PondGroup' }
   },
   {
     id: '2',

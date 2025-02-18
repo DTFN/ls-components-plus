@@ -13,38 +13,26 @@ outline: deep
 import { useOptionHook } from '@lingshugroup/web-plus/hooks';
 import { onMounted, ref } from 'vue';
 
-const { getSelOption, remoteSearchSelOption } = useOptionHook();
+const { getSelOption } = useOptionHook();
 
-function mockData() {
+function optionApi() {
   return new Promise(resolve => {
-    resolve([
+    const optionData = [
       {
-        id: 1,
-        name: 'test1'
-      },
-      {
-        id: 2,
-        name: 'test2'
+        id: '1',
+        name1: '数据',
+        name2: '测试',
+        value1: 'data',
+        value2: 'test'
       }
-    ]);
+    ];
+    return resolve(optionData);
   });
 }
 
 onMounted(async () => {
-  const { allOption, options, maps } = await getSelOption(
-    mockData,
-    {
-      labelKey: 'name',
-      valueKey: 'id'
-    },
-    [
-      {
-        label: '全部',
-        value: ''
-      }
-    ]
-  );
-  console.log(allOption, options, maps);
+  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  console.log(data);
 });
 ```
 
@@ -59,41 +47,32 @@ import { useOptionHook } from '@lingshugroup/web-plus/hooks';
 import { tableMethodColumn } from '../../constant';
 import { ref, onMounted } from 'vue';
 const { getSelOption } = useOptionHook();
-
-function mockData() {
-  return new Promise((resolve) => {
-    resolve(
-      [
-        {
-            id: 1,
-            name: 'test1',        
-        },
-        {
-            id: 2,
-            name: 'test2'
-        } 
-      ]
-    )
-  })
+function optionApi() {
+  return new Promise(resolve => {
+    const optionData = [
+      {
+        id: '1',
+        name1: '数据',
+        name2: '测试',
+        value1: 'data',
+        value2: 'test'
+      }
+    ];
+    return resolve(optionData);
+  });
 }
 
 onMounted(async () => {
-  const { allOption, options, maps } = await getSelOption(mockData);
-  console.log(allOption, options, maps);
-})
+  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  console.log(data);
+});
 
 const tableData = ref([
   {
     name: 'getSelOption',
-    desc: `根据请求数据，获取下拉框数据，参数：1.请求接口方法 2.请求参数，其中labelKey，valueKey对应label和value，默认为id，name 3.展示全部所传数组值，默认[{ label: '全部', value: '' }]`,
+    desc: `根据请求数据，获取下拉框数据，参数：1.请求接口方法 2.labelKey对应label为数组，默认为['name']  3.valueKey对应value为数组，默认为['id'] 3.params请求参数 4.展示全部所传数组值，默认[{ label: '全部', value: '' }]`,
     type: 'Promise',
     value: '{ allOption, options, maps }'
-  },
-  {
-    name: 'remoteSearchSelOption',
-    desc: '远程获取下拉框数据，支持搜索，参数：1.请求接口方法 2.请求参数，其中labelKey，valueKey对应label和value，默认为id，name 3.选中id 4.选中值 5.搜索关键字',
-    type: 'Promise',
-    value: '[]'
   }
 ])
 

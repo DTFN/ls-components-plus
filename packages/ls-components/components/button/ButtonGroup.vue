@@ -24,7 +24,7 @@ provide(lsBtnKey, props);
   align-items: center;
   :deep(.ls-button) {
     &:last-child {
-      .separator {
+      .ls-separator {
         display: none;
       }
     }

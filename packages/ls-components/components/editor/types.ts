@@ -36,6 +36,21 @@ export const lsEditorProps = buildProps({
   uploadToken: {
     type: String,
     default: ''
+  },
+  // 自定义上传请求头
+  uploadHeaders: {
+    type: Object,
+    default: () => null
+  },
+  // 上传图片大小限制, 默认5
+  uploadImgSize: {
+    type: Number,
+    default: 2
+  },
+  // 上传图片大小单位（GB,MB,KB），默认M
+  uploadImgSizeUnit: {
+    type: String,
+    default: 'MB'
   }
 });
 

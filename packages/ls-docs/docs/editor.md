@@ -4,7 +4,8 @@ outline: deep
 
 # Editor 富文本
 
-::: warning 基于[wangeditor](https://www.wangeditor.com/)二次封装。
+::: warning 基于[wangeditor](https://www.wangeditor.com/)二次封装。<br /
+自定义样式请参考：[官方自定义样式](https://www.wangeditor.com/v5/content.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F)
 :::
 
 ## 使用方式
@@ -175,6 +176,24 @@ const tableData = ref([
     desc: '上传图片所需参数名',
     type: 'string',
     value: 'file'
+  },
+  {
+    name: 'uploadHeaders',
+    desc: '图片上传请求头参数',
+    type: 'json',
+    value: 'null'
+  },
+  {
+    name: 'uploadImgSize',
+    desc: '图片上传大小限制',
+    type: 'number',
+    value: '2'
+  },
+  {
+    name: 'uploadImgSizeUnit',
+    desc: '图片上传大小限制单位，GB/MB/KB',
+    type: 'string',
+    value: 'MB'
   }
 ])
 
