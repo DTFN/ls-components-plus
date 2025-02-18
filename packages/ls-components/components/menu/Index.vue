@@ -69,17 +69,19 @@ function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 
-function defineSubClickFunc(index: string, item: MenuBaseType) {
-  removeActiveClass(index);
-  emits('defineSubClick', index, item);
+function defineSubClickFunc(item: MenuBaseType) {
+  const { key } = item;
+  removeActiveClass(key);
+  emits('defineSubClick', item);
 }
 
-function defineChildClickFunc(index: string, item: MenuBaseType) {
-  removeActiveClass(index);
-  emits('defineChildClick', index, item);
+function defineChildClickFunc(item: MenuBaseType) {
+  const { key } = item;
+  removeActiveClass(key);
+  emits('defineChildClick', item);
 }
 
-function removeActiveClass(index: string) {
+function removeActiveClass(index: string | undefined) {
   if (lsComMenuRef.value) {
     let isExists = false;
     const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');

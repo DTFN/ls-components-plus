@@ -10,7 +10,6 @@ const { getMenusByAuth }: any = useRouterHook();
 
 const routesModule = import.meta.glob('/src/views/**/*.vue');
 const menus = getMenusByAuth(MENU_LIST, routesModule, '/src/views');
-console.log(menus);
 router.removeRoute('Layout');
 router.addRoute({
   name: 'Layout',

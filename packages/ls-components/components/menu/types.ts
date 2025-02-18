@@ -4,7 +4,7 @@ import { LocationQueryRaw } from 'vue-router';
 
 export type MenuBaseType = {
   title: string;
-  name: string;
+  name?: string;
   path?: string;
   key?: string;
   cpoPath?: string;

@@ -150,7 +150,7 @@ function onPreview(file: any) {
       :limit="3"
       :action="action"
       :auto-upload="false"
-      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true }"
+      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true, limitFile: ['bmp', 'jpg', 'png'] }"
     >
     </LSUpload>
 

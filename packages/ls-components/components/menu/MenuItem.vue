@@ -11,7 +11,7 @@ const props = defineProps(lsMenuItemProps);
 
 const jumpRoute = (index: string, item: MenuBaseType) => {
   if (props.isDefineClick) {
-    defineChildClickFunc(index, item);
+    defineChildClickFunc(item);
   } else {
     const { link, defJump } = item || {};
     if (defJump) {
@@ -30,15 +30,15 @@ function onJump(item: MenuBaseType) {
   emits('onJump', item);
 }
 
-function defineSubClickFunc(index: string, item: MenuBaseType) {
+function defineSubClickFunc(item: MenuBaseType) {
   if (props.isDefineClick) {
-    emits('defineSubClick', index, item);
+    emits('defineSubClick', item);
   }
 }
 
-function defineChildClickFunc(index: string, item: MenuBaseType) {
+function defineChildClickFunc(item: MenuBaseType) {
   if (props.isDefineClick) {
-    emits('defineChildClick', index, item);
+    emits('defineChildClick', item);
   }
 }
 </script>
@@ -59,12 +59,7 @@ function defineChildClickFunc(index: string, item: MenuBaseType) {
       </el-menu-item>
     </div>
     <!-- 子菜单 -->
-    <el-sub-menu
-      v-else
-      :index="item['key']"
-      :data-index="item['key']"
-      @click="defineSubClickFunc(item['key'], item as MenuBaseType)"
-    >
+    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click="defineSubClickFunc(item as MenuBaseType)">
       <template #title>
         <LSIcon v-bind="item.iconConfig">
           <template v-if="item.iconSlot" #default>

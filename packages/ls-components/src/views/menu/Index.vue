@@ -188,7 +188,31 @@ function onJump(res: any) {
 
 const isCollapse = ref(true);
 
-const blockIndex = ref(0);
+const MENU_CONFIG_LIST2: MenuBaseType[] = [
+  {
+    title: '渔场概览',
+    key: '1'
+  },
+  {
+    title: '养殖单元管理',
+    key: '2',
+    children: [
+      {
+        title: '养殖区域管理',
+        key: '2-1'
+      },
+      {
+        title: '养殖池管理',
+        key: '2-2'
+      },
+      {
+        title: '养殖品种',
+        key: '2-3'
+      }
+    ]
+  }
+];
+const blockIndex: any = ref(0);
 const comMenuRef2 = ref();
 const defaultActive = ref('1');
 
@@ -198,14 +222,16 @@ function blockClick(val: number) {
   // comMenuRef2.value.lsComMenuRef.open(val + 1);
 }
 
-function defineSubClickFunc(index: string, item: MenuBaseType) {
-  console.log(item);
-  blockClick(Number(index) - 1);
+function defineSubClickFunc(item: MenuBaseType) {
+  const { key }: any = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
 }
 
-function defineChildClickFunc(index: string, item: MenuBaseType) {
-  console.log(index, item);
-  blockClick(Number(index.split('-')[0]) - 1);
+function defineChildClickFunc(item: MenuBaseType) {
+  const { key }: any = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
 }
 </script>
 
@@ -234,9 +260,8 @@ function defineChildClickFunc(index: string, item: MenuBaseType) {
     <div style="position: relative">
       <LSMenu
         ref="comMenuRef2"
-        :menu-config-list="MENU_CONFIG_LIST"
+        :menu-config-list="MENU_CONFIG_LIST2"
         style="max-width: 200px"
-        @on-jump="onJump"
         :collapse="false"
         :is-define-click="true"
         :default-active="defaultActive"
@@ -251,7 +276,6 @@ function defineChildClickFunc(index: string, item: MenuBaseType) {
       <ul class="block-list">
         <li :class="{ active: blockIndex == 0 }" @click="blockClick(0)">渔场概览</li>
         <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
-        <li :class="{ active: blockIndex == 2 }" @click="blockClick(2)">养殖周期管理</li>
       </ul>
     </div>
   </div>
