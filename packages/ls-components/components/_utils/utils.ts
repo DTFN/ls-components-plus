@@ -266,6 +266,49 @@ export function fileToBuffer(base64: any) {
   return new Uint8Array(bytes).buffer;
 }
 
+function getElementFullSize(element: any) {
+  if (!element) {
+    return {
+      width: 0,
+      height: 0
+    };
+  }
+  // 获取元素的尺寸（包含 padding 和 border）
+  const rect = element.getBoundingClientRect();
+
+  // 获取元素的外边距 (margin)
+  const style = window.getComputedStyle(element);
+  const marginLeft = parseFloat(style.marginLeft);
+  const marginRight = parseFloat(style.marginRight);
+  const marginTop = parseFloat(style.marginTop);
+  const marginBottom = parseFloat(style.marginBottom);
+
+  // 计算总宽度和高度，包含 margin、padding 和 border
+  const totalWidth = rect.width + marginLeft + marginRight;
+  const totalHeight = rect.height + marginTop + marginBottom;
+
+  return {
+    width: totalWidth,
+    height: totalHeight
+  };
+}
+
+export function elementOutOfBounds(element: any, containerDom?: any) {
+  const rect = element.getBoundingClientRect();
+  const windowWidth = window.innerWidth;
+  // const windowHeight = window.innerHeight;
+  const { width: domW } = getElementFullSize(containerDom);
+
+  const { left, right } = rect || {};
+  let pos = '';
+  if (left < windowWidth - domW && right < (domW || windowWidth)) {
+    pos = 'left';
+  } else if (right > windowWidth) {
+    pos = 'right';
+  }
+  return pos;
+}
+
 export default {
   isEmpty,
   exportFile,

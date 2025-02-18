@@ -191,7 +191,19 @@ const isCollapse = ref(true);
 const MENU_CONFIG_LIST2: MenuBaseType[] = [
   {
     title: '渔场概览',
-    key: '1'
+    key: '1',
+    children: [
+      {
+        title: '渔场1-1',
+        key: '1-1',
+        children: [
+          {
+            title: '渔场1-1-1',
+            key: '1-1-1'
+          }
+        ]
+      }
+    ]
   },
   {
     title: '养殖单元管理',

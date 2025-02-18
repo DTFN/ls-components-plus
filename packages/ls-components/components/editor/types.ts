@@ -51,6 +51,11 @@ export const lsEditorProps = buildProps({
   uploadImgSizeUnit: {
     type: String,
     default: 'MB'
+  },
+  // 可视区域dom
+  containerDom: {
+    type: Object,
+    default: null
   }
 });
 
