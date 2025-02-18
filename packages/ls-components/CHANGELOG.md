@@ -1,3 +1,39 @@
+## [1.7.2](https://github.com/DTFN/ls-components-plus/compare/v1.7.1...v1.7.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 editor增加img大小、个数限制参数。更新使用文档 ([7c89e7d](https://github.com/DTFN/ls-components-plus/commit/7c89e7d1514611d7348138193e9641898c8b279e))
+* **ls-component:** 🧩 editor更新使用文档 ([ab69929](https://github.com/DTFN/ls-components-plus/commit/ab699295ac1105c0b82aeddabb844dd96aacdc22))
+* **ls-component:** 🧩 menu扩展，文档更新 ([40f86c0](https://github.com/DTFN/ls-components-plus/commit/40f86c08fb5856acea51a63ace229a70ead92e0c))
+* **ls-component:** 🧩 update ([2d99b9f](https://github.com/DTFN/ls-components-plus/commit/2d99b9fa92d896dd3ff77615331817ff91f6190c))
+* **ls-component:** 🧩 upload：修复picture-card模式限制类型时，异常场景弹出多个提示语 ([19c5bf5](https://github.com/DTFN/ls-components-plus/commit/19c5bf5ca9280aef2407291ba720e1428e8b13be))
+* **ls-component:** 🧩 优化optionHook传参 ([bbd21a9](https://github.com/DTFN/ls-components-plus/commit/bbd21a9e4f0fc9628ee5dce98394b8826c47c2a5))
+
+## [1.7.1](https://github.com/DTFN/ls-components-plus/compare/v1.7.0...v1.7.1) (2025-02-13)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 upload组件增加达到限制数量后是否隐藏上传按钮，适用图片模式 ([5d3d1c7](https://github.com/DTFN/ls-components-plus/commit/5d3d1c763ecd22b06949aff9175847bbf8a1bba3))
+* **ls-component:** 🧩 图片预览功能修复 ([8cd007d](https://github.com/DTFN/ls-components-plus/commit/8cd007d0e3228f4c33befd532ab5d17653248cba))
+
+# [1.7.0](https://github.com/DTFN/ls-components-plus/compare/v1.6.0...v1.7.0) (2025-02-10)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 meta参数完善 ([98a4e38](https://github.com/DTFN/ls-components-plus/commit/98a4e387f4bd785087b8894dd7023c283f661599))
+* **ls-component:** 🧩 route增加meta值返回 ([627ffbe](https://github.com/DTFN/ls-components-plus/commit/627ffbec30537cced6d1fbafee22ed9cb8baeb66))
+* **ls-component:** 🧩 菜单功能完善 ([985b0ae](https://github.com/DTFN/ls-components-plus/commit/985b0ae15f7d936f667248a905eb44e4748e488c))
+* **ls-component:** 🧩 菜单扩展优化 ([cf41ad9](https://github.com/DTFN/ls-components-plus/commit/cf41ad94d1b929dd20e32559a87e6dee7976fd1b))
+* **ls-doc:** 🧩 文档更新 ([da4303a](https://github.com/DTFN/ls-components-plus/commit/da4303a53679472a68efb4ea8a4ef44f9870a4ac))
+
+
+### Features
+
+* **ls-component:** 🚀 菜单扩展自定义事件 ([dfc3555](https://github.com/DTFN/ls-components-plus/commit/dfc355506976ab2f7de3df8d99c035df880d82ad))
+
 # [1.6.0](https://github.com/DTFN/ls-components-plus/compare/v1.5.2...v1.6.0) (2025-02-06)
 
 

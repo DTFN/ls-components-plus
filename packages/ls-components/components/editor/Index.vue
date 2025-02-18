@@ -13,9 +13,28 @@ const emits = defineEmits(lsEditorEmits);
 
 const editorRef = shallowRef();
 
+function getMaxFileSize(size: number, unit: string) {
+  let temp = (size || 2) * 1024 * 1024;
+  if (!size) {
+    return temp;
+  }
+  switch (unit) {
+    case 'GB':
+      temp = size * 1024 * 1024;
+      break;
+    case 'KB':
+      temp = size * 1024;
+      break;
+    default:
+      break;
+  }
+  return temp;
+}
+
 const defToolbarConfig: Partial<IToolbarConfig> = {
   excludeKeys: ['group-video']
 };
+
 const defEditorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',
   maxLength: 20000,
@@ -23,9 +42,12 @@ const defEditorConfig: Partial<IEditorConfig> = {
     uploadImage: {
       server: props.uploadServer,
       fieldName: props.uploadFieldName,
-      headers: {
-        token: props.uploadToken
-      },
+      maxFileSize: getMaxFileSize(props.uploadImgSize, props.uploadImgSizeUnit),
+      headers: props.uploadHeaders
+        ? props.uploadHeaders
+        : {
+            token: props.uploadToken
+          },
       customInsert(res: any, insertFn: any) {
         // res 即服务端的返回结果 从 res 中找到 data alt href ，然后插入图片
         const { data = '', alt = '', href = '' } = res || {};
@@ -113,6 +135,7 @@ defineExpose({
 </style>
 <style lang="scss" scoped>
 .ls-editor {
+  z-index: 999;
   border: 1px solid $color-text5;
 }
 .tool-bar-wrap {

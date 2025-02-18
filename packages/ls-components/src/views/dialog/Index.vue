@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { DialogBtnType } from '@cpo/_types';
+import { useOptionHook } from '@cpo/_hooks';
+
+const { getSelOption } = useOptionHook();
 
 const visible = ref(false);
 const loading = ref(false);
@@ -79,6 +82,26 @@ function testDialog() {
     contentLoading.value = false;
   }, 2000);
 }
+
+function optionApi() {
+  return new Promise(resolve => {
+    const optionData = [
+      {
+        id: '1',
+        name1: '数据',
+        name2: '测试',
+        value1: 'data',
+        value2: 'test'
+      }
+    ];
+    return resolve(optionData);
+  });
+}
+
+onMounted(async () => {
+  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  console.log(data);
+});
 </script>
 
 <template>

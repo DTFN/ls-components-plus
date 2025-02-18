@@ -9,7 +9,7 @@ outline: deep
 
 ## 使用方式
 
-<br />
+### 1.router模式
 
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 
@@ -159,8 +159,124 @@ const MENU_CONFIG_LIST = [
 ```html
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 ```
-
 :::
+
+### 2.自定义事件
+
+<div style="position: relative">
+  <LSMenu
+    :menu-config-list="MENU_CONFIG_LIST2"
+    style="max-width: 200px"
+    :collapse="false"
+    :is-define-click="true"
+    :default-active="defaultActive"
+    @define-sub-click="defineSubClickFunc"
+    @define-child-click="defineChildClickFunc"
+  >
+  </LSMenu>
+
+  <ul class="block-list">
+    <li :class="{ active: blockIndex == 0 }" @click="blockClick(0)">渔场概览</li>
+    <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
+  </ul>
+</div>
+
+::: details 点我查看代码
+
+```js
+
+const MENU_CONFIG_LIST2 = [
+  {
+    title: '渔场概览',
+    key: '1'
+  },
+  {
+    title: '养殖单元管理',
+    key: '2',
+    children: [
+      {
+        title: '养殖区域管理',
+        key: '2-1'
+      },
+      {
+        title: '养殖池管理',
+        key: '2-2'
+      },
+      {
+        title: '养殖品种',
+        key: '2-3'
+      }
+    ]
+  }
+];
+const blockIndex = ref(0);
+const defaultActive = ref('1');
+
+function blockClick(val) {
+  blockIndex.value = val;
+  defaultActive.value = (val + 1).toString();
+}
+
+function defineSubClickFunc(item) {
+  const { key } = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
+}
+
+function defineChildClickFunc(item) {
+  const { key } = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
+}
+
+```
+```html
+
+<div style="position: relative">
+  <LSMenu
+    :menu-config-list="MENU_CONFIG_LIST"
+    style="max-width: 200px"
+    :collapse="false"
+    :is-define-click="true"
+    :default-active="defaultActive"
+    @define-sub-click="defineSubClickFunc"
+    @define-child-click="defineChildClickFunc"
+  >
+  </LSMenu>
+
+  <ul class="block-list">
+    <li :class="{ active: blockIndex == 0 }" @click="blockClick(0)">渔场概览</li>
+    <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
+  </ul>
+</div>
+
+```
+```scss
+
+.block-list {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  width: 300px;
+  li {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eeeeee;
+    margin-top: 0;
+    &.active {
+      color: #ffffff;
+      background-color: blue;
+    }
+  }
+}
+
+```
+:::
+
 
 ## 创建路由数据
 
@@ -368,6 +484,51 @@ const MENU_CONFIG_LIST = [
   }
 ];
 
+const MENU_CONFIG_LIST2 = [
+  {
+    title: '渔场概览',
+    key: '1'
+  },
+  {
+    title: '养殖单元管理',
+    key: '2',
+    children: [
+      {
+        title: '养殖区域管理',
+        key: '2-1'
+      },
+      {
+        title: '养殖池管理',
+        key: '2-2'
+      },
+      {
+        title: '养殖品种',
+        key: '2-3'
+      }
+    ]
+  }
+];
+
+const blockIndex = ref(0);
+const defaultActive = ref('1');
+
+function blockClick(val) {
+  blockIndex.value = val;
+  defaultActive.value = (val + 1).toString();
+}
+
+function defineSubClickFunc(item) {
+  const { key } = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
+}
+
+function defineChildClickFunc(item) {
+  const { key } = item;
+  blockIndex.value = key?.split('-')[0] - 1;
+  defaultActive.value = key;
+}
+
 const tableData = ref([
   {
     name: 'menuConfigList',
@@ -392,6 +553,12 @@ const tableData = ref([
     desc: '菜单hover时的颜色',
     type: 'string',
     value: '-'
+  },
+  {
+    name: 'isDefineClick',
+    desc: '菜单点击是否自定义',
+    type: 'boolean',
+    value: false
   }
 ])
 
@@ -482,6 +649,18 @@ const tableData3 = ref([
     desc: '点击菜单自定义处理方法，defJump为true生效',
     type: 'function',
     value: 'value'
+  },
+  {
+    name: 'defineSubClick',
+    desc: '点击subItem菜单回调方法，isDefineClick为true生效',
+    type: 'function',
+    value: 'value'
+  },
+  {
+    name: 'defineChildClick',
+    desc: '点击childItem菜单回调方法，isDefineClick为true生效',
+    type: 'function',
+    value: 'value'
   }
 ])
 
@@ -503,6 +682,27 @@ const tableData4 = ref([
   }
   :deep(li) {
     margin: 0;
+  }
+}
+
+.block-list {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  width: 300px;
+  li {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eeeeee;
+    margin-top: 0;
+    &.active {
+      color: #ffffff;
+      background-color: blue;
+    }
   }
 }
 </style>

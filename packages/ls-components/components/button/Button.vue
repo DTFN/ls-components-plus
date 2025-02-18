@@ -40,7 +40,7 @@ const separatorStyle = computed(() => {
 <template>
   <template v-if="$attrs.icon && !slots.default">
     <el-button v-bind="$attrs" :class="comClass" />
-    <div v-if="separator" class="separator" :style="separatorStyle">{{ separator }}</div>
+    <div v-if="separator" class="ls-separator" :style="separatorStyle">{{ separator }}</div>
   </template>
   <template v-else>
     <el-button v-bind="$attrs" :class="comClass">
@@ -52,7 +52,7 @@ const separatorStyle = computed(() => {
         <slot name="icon"></slot>
       </LSIcon>
       <slot v-if="slots.default"></slot>
-      <div v-if="separator" class="separator" :style="separatorStyle">{{ separator }}</div>
+      <span v-if="separator" class="ls-separator" :style="separatorStyle">{{ separator }}</span>
     </el-button>
   </template>
 </template>
@@ -70,11 +70,11 @@ const separatorStyle = computed(() => {
   }
   .ls-iconify,
   :deep(span) {
-    line-height: inherit;
+    line-height: normal;
     vertical-align: middle;
   }
 }
-.separator {
+.ls-separator {
   position: relative;
   top: -1px;
   display: inline-block;

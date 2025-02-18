@@ -4,10 +4,10 @@ import { merge } from 'lodash';
  * 获取select、radio标签使用的option
  * apiFunc 请求接口
  * params: {
- *  labelKey,
- *  valueKey,
  *  分页参数， 注意分页接口返回之需用records作为数组字段
  * }
+ * labelKey: 标签字段
+ * valueKey: 值字段
  * @returns
  */
 export default function () {
@@ -16,21 +16,37 @@ export default function () {
     options: [],
     maps: {}
   };
-  const getSelOption = async (apiFunc: any, params?: any, all?: Array<OptionType>) => {
-    const { labelKey = 'name', valueKey = 'id' } = params || {};
+
+  const getValueByKeys = (keys: Array<string>, data: any): string => {
+    let value = '';
+    if (keys) {
+      keys.forEach((key: string) => {
+        const temp = data[key] || '';
+        if (value) value += '-';
+        value += temp;
+      });
+    }
+    return value;
+  };
+
+  const getSelOption = async (
+    apiFunc: any,
+    labelKey?: Array<string>,
+    valueKey?: Array<string>,
+    params?: any,
+    all?: Array<OptionType>
+  ) => {
     if (apiFunc instanceof Function) {
       let data: any = [];
       if (params) {
         const tempParams = merge({}, params);
-        delete tempParams['labelKey'];
-        delete tempParams['valueKey'];
         data = (await apiFunc(tempParams)).records;
       } else {
         data = await apiFunc();
       }
       selData.options = (data || []).map((item: any) => {
-        const value = item[valueKey];
-        const label = item[labelKey];
+        const value = getValueByKeys(valueKey || ['id'], item);
+        const label = getValueByKeys(labelKey || ['name'], item);
         selData.maps[value] = {
           label
         };

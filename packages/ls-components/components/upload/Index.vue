@@ -1,5 +1,13 @@
 <template>
-  <div :class="[comClass, isDrag ? 'ls-upload-drag' : '', isProfile ? 'ls-profile' : '', isHideCover ? 'hide-cover-btn' : '']">
+  <div
+    :class="[
+      comClass,
+      isDrag ? 'ls-upload-drag' : '',
+      isProfile ? 'ls-profile' : '',
+      isHideCover ? 'hide-cover-btn' : '',
+      hideBtn ? 'hide-btn' : ''
+    ]"
+  >
     <el-upload
       ref="uploadRef"
       v-bind="Object.assign(defAttrs, $attrs)"
@@ -258,6 +266,14 @@ const httpRequestFunc = computed(() => {
 //   return props?.item?.textPreview;
 // });
 
+const hideBtn = computed(() => {
+  const limitNum = Number(attrs.limit || 0);
+  if (!limitNum) {
+    return false;
+  }
+  return props?.item?.hideBtnReachLimit && configs.uploadFileList.length >= limitNum;
+});
+
 watch(
   [isCover, httpRequestFunc],
   ([nVal1, nVal2]) => {
@@ -398,7 +414,7 @@ function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
     }
     isSuccess = false;
   }
-  if (isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
+  if (!isLimitFile && isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
     const msg = `上传文件 ${file.name} 不是图片格式的文件！`;
     if (isToast.value && showMsg) {
       setTimeout(() => {
@@ -856,7 +872,8 @@ defineExpose({
       display: none;
     }
   }
-  &.hide-cover-btn {
+  &.hide-cover-btn,
+  &.hide-btn {
     :deep(.el-upload--picture-card) {
       display: none;
     }
