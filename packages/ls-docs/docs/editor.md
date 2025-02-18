@@ -176,6 +176,24 @@ const tableData = ref([
     desc: '上传图片所需参数名',
     type: 'string',
     value: 'file'
+  },
+  {
+    name: 'uploadHeaders',
+    desc: '图片上传请求头参数',
+    type: 'json',
+    value: 'null'
+  },
+  {
+    name: 'uploadImgSize',
+    desc: '图片上传大小限制',
+    type: 'number',
+    value: '2'
+  },
+  {
+    name: 'uploadImgSizeUnit',
+    desc: '图片上传大小限制单位，GB/MB/KB',
+    type: 'string',
+    value: 'MB'
   }
 ])
 

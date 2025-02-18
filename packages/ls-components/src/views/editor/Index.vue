@@ -56,6 +56,8 @@ onMounted(() => {
       :upload-token="uploadToken"
       :editor-config="editorConfig"
       :value-html="formData.content"
+      :upload-img-limit="1"
+      :upload-img-size="1"
       height="400px"
       @handle-created="handleCreated"
     />

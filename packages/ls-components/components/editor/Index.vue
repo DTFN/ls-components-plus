@@ -34,6 +34,7 @@ function getMaxFileSize(size: number, unit: string) {
 const defToolbarConfig: Partial<IToolbarConfig> = {
   excludeKeys: ['group-video']
 };
+
 const defEditorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',
   maxLength: 20000,

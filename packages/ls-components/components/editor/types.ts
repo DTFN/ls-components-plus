@@ -51,11 +51,6 @@ export const lsEditorProps = buildProps({
   uploadImgSizeUnit: {
     type: String,
     default: 'MB'
-  },
-  // 上传图片个数限制， 默认100
-  uploadImageLimit: {
-    type: Number,
-    default: 100
   }
 });
 
