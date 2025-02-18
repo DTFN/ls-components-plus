@@ -1,3 +1,15 @@
+## [1.7.2](https://github.com/DTFN/ls-components-plus/compare/v1.7.1...v1.7.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 editor增加img大小、个数限制参数。更新使用文档 ([7c89e7d](https://github.com/DTFN/ls-components-plus/commit/7c89e7d1514611d7348138193e9641898c8b279e))
+* **ls-component:** 🧩 editor更新使用文档 ([ab69929](https://github.com/DTFN/ls-components-plus/commit/ab699295ac1105c0b82aeddabb844dd96aacdc22))
+* **ls-component:** 🧩 menu扩展，文档更新 ([40f86c0](https://github.com/DTFN/ls-components-plus/commit/40f86c08fb5856acea51a63ace229a70ead92e0c))
+* **ls-component:** 🧩 update ([2d99b9f](https://github.com/DTFN/ls-components-plus/commit/2d99b9fa92d896dd3ff77615331817ff91f6190c))
+* **ls-component:** 🧩 upload：修复picture-card模式限制类型时，异常场景弹出多个提示语 ([19c5bf5](https://github.com/DTFN/ls-components-plus/commit/19c5bf5ca9280aef2407291ba720e1428e8b13be))
+* **ls-component:** 🧩 优化optionHook传参 ([bbd21a9](https://github.com/DTFN/ls-components-plus/commit/bbd21a9e4f0fc9628ee5dce98394b8826c47c2a5))
+
 ## [1.7.1](https://github.com/DTFN/ls-components-plus/compare/v1.7.0...v1.7.1) (2025-02-13)
 
 
