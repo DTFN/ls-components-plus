@@ -17,7 +17,7 @@ outline: deep
 
 <br />
 <ClientOnly>
-<LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" />
+<LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" :uploadImgSize="1" height="400px" @handle-created="handleCreated" />
 </ClientOnly>
 
 ```js
@@ -26,10 +26,24 @@ const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
 const uploadToken =
   'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi57O757uf566h55CG5ZGYIiwiZW5jcnlwdGVkUHdkIjoiJDJhJDEwJGIzYXZkYk9OWkdreElPUWF6by9GNHVzUk1pNEZ4QjlwT3lzNWJNaW8yMmdvNVNyMDNaRElPIiwidXNlclR5cGUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlBFUl9VU0VSX01HVCJ9LHsiYXV0aG9yaXR5IjoiUEVSX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfRVFVSVBfTUdUIn0seyJhdXRob3JpdHkiOiJQRVJfT1ZFUl9WSUVXIn0seyJhdXRob3JpdHkiOiJQRVJfUkVNT1RFX0dVSURBTkNFIn0seyJhdXRob3JpdHkiOiJQRVJfT05MSU5FX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfSU5GT19WSUVXIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODg3MDU4MiwiZXhwIjoxNzMxNDYyNTgyfQ.oflBeBsWuCLifqP9u43eRducrJeQz7JR0IVjTITqTwM';
 const valueHtml = ref(`<div>测试内容</div>`);
+
+// 初始化完成
+function handleCreated(editor) {
+  const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage;
+  // 图片上传异常处理
+  uploadImgConfig.onError = (file) => {
+    const isLt2M = file.size / 1024 / 1024 <= 1;
+    if (!isLt2M) {
+      ElMessage.error('上传图片大小不能超过 1M!');
+    } else {
+      ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`);
+    }
+  };
+}
 ```
 
 ```html
-<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" />
+<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" @handle-created="handleCreated" />
 ```
 
 ### 2. 自定义配置，以下例子为上传图片，更多自定义配置参考[wangeditor](https://www.wangeditor.com/)
@@ -96,6 +110,8 @@ function getContent() {
 <script setup>
 import { tableColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
+
 const lsEditorRef = ref();
 const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
 const uploadToken =
@@ -116,7 +132,6 @@ const editorConfig = {
       // 自定义插入图片
       customInsert(res, insertFn) {
         // res 即服务端的返回结果 从 res 中找到 url alt href ，然后插入图片
-        insertFn(url, alt, href);
       }
     }
   }
@@ -126,6 +141,18 @@ function getContent() {
   const editor = lsEditorRef.value.editorRef;
   content.value = editor.getText();
   contentHtml.value = editor.getHtml()
+}
+
+function handleCreated(editor) {
+  const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage;
+  uploadImgConfig.onError = (file) => {
+    const isLt2M = file.size / 1024 / 1024 <= 1;
+    if (!isLt2M) {
+      ElMessage.error('上传图片大小不能超过 1M!');
+    } else {
+      ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`);
+    }
+  };
 }
 
 const tableData = ref([
