@@ -221,6 +221,12 @@ const tableData = ref([
     desc: '图片上传大小限制单位，GB/MB/KB',
     type: 'string',
     value: 'MB'
+  },
+  {
+    name: 'containerDom',
+    desc: '可视区域dom，默认使用window',
+    type: 'string',
+    value: 'null'
   }
 ])
 
