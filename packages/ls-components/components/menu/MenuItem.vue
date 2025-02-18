@@ -59,7 +59,7 @@ function defineChildClickFunc(item: MenuBaseType) {
       </el-menu-item>
     </div>
     <!-- 子菜单 -->
-    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click="defineSubClickFunc(item as MenuBaseType)">
+    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click.stop="defineSubClickFunc(item as MenuBaseType)">
       <template #title>
         <LSIcon v-bind="item.iconConfig">
           <template v-if="item.iconSlot" #default>
