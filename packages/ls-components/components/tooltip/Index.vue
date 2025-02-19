@@ -1,5 +1,9 @@
 <script setup lang="ts" name="LSTooltip">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { lsTooltipProps } from './types';
+import { isEmpty } from '@cpo/_utils/utils';
+
+const props = defineProps(lsTooltipProps);
 
 const ns = useNamespace('tooltip');
 const comClass: string = ns.b();
@@ -7,6 +11,19 @@ const showTip = ref(false);
 const lsTooltipRef = ref();
 
 const attrs = useAttrs();
+
+const comStyle = computed(() => {
+  const w = props.width;
+  let tempW = '100%';
+  if ((w.endsWith('%') || w.endsWith('px')) && !isEmpty(parseInt(w))) {
+    tempW = w;
+  } else if (!isEmpty(Number(w))) {
+    tempW = `${w}px`;
+  }
+  return {
+    width: tempW
+  };
+});
 
 const content = computed(() => {
   return attrs.content || '';
@@ -31,7 +48,7 @@ async function updateTooltip() {
 </script>
 
 <template>
-  <div ref="lsTooltipRef" :class="comClass" @mouseenter="onMouseEnter">
+  <div ref="lsTooltipRef" :class="comClass" :style="comStyle" @mouseenter="onMouseEnter">
     <div class="temp-content">{{ content }}</div>
     <el-tooltip :disabled="!showTip" v-bind="$attrs">
       <template #default>
