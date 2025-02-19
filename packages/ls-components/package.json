@@ -127,6 +127,10 @@
       "import": "./lib/tree/index.js",
       "require": "./lib/tree/index.cjs"
     },
+    "./tooltip": {
+      "import": "./lib/tooltip/index.js",
+      "require": "./lib/tooltip/index.cjs"
+    },
     "./index.css": "./lib/index.css"
   },
   "scripts": {

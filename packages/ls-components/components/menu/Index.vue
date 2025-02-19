@@ -188,14 +188,6 @@ defineExpose({
           background-color: var(--el-color-primary);
         }
       }
-      .menu-title {
-        width: 100%;
-        p {
-          @extend %text-ellipsis;
-
-          width: calc(100% - 32px);
-        }
-      }
     }
   }
   :deep(.el-sub-menu) {
@@ -221,6 +213,14 @@ defineExpose({
           &::before {
             background: var(--el-color-primary);
           }
+        }
+      }
+      .menu-title {
+        width: 100%;
+        p {
+          @extend %text-ellipsis;
+
+          width: calc(100% - 24px);
         }
       }
     }

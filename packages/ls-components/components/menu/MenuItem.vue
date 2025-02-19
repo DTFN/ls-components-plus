@@ -1,5 +1,6 @@
 <script setup lang="ts" name="LSMenuItem">
 import LSIcon from '@cpo/icon/Index.vue';
+import LSTooltip from '@cpo/tooltip/Index.vue';
 import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
@@ -54,11 +55,14 @@ function defineChildClickFunc(item: MenuBaseType) {
           </template>
         </LSIcon>
         <template #title>
-          <el-tooltip effect="dark" :disabled="!showTooltip" :content="item.title" placement="right">
+          <LSTooltip v-if="showTooltip" :content="item.title" placement="right">
             <span class="menu-title">
               <p>{{ item.title }}</p></span
             >
-          </el-tooltip>
+          </LSTooltip>
+          <span v-else class="menu-title">
+            <p>{{ item.title }}</p></span
+          >
         </template>
       </el-menu-item>
     </div>

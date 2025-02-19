@@ -285,7 +285,6 @@ function defineChildClickFunc(item: MenuBaseType) {
         :default-active="defaultActive"
         @define-sub-click="defineSubClickFunc"
         @define-child-click="defineChildClickFunc"
-        :show-tooltip="true"
       >
         <template #icon7>
           <vueSvg />

@@ -75,7 +75,7 @@ export const lsMenuProps = buildProps({
   },
   showTooltip: {
     type: Boolean,
-    default: false
+    default: true
   }
 });
 

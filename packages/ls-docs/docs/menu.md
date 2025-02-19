@@ -564,7 +564,7 @@ const tableData = ref([
     name: 'showTooltip',
     desc: '鼠标移入子菜单时是否显示tooltip',
     type: 'boolean',
-    value: false
+    value: true
   }
 ])
 
