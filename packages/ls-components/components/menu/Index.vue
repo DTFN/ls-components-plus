@@ -129,6 +129,7 @@ defineExpose({
       :permission-list="permissionList"
       :need-permission="needPermission"
       :is-define-click="isDefineClick"
+      :show-tooltip="showTooltip"
       @on-jump="onJump"
       @define-sub-click="defineSubClickFunc"
       @define-child-click="defineChildClickFunc"
@@ -212,6 +213,14 @@ defineExpose({
           &::before {
             background: var(--el-color-primary);
           }
+        }
+      }
+      .menu-title {
+        width: 100%;
+        p {
+          @extend %text-ellipsis;
+
+          width: calc(100% - 24px);
         }
       }
     }
