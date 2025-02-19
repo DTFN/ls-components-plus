@@ -72,6 +72,10 @@ export const lsMenuProps = buildProps({
   isDefineClick: {
     type: Boolean,
     default: false
+  },
+  showTooltip: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -92,6 +96,10 @@ export const lsMenuItemProps = buildProps({
     }
   },
   isDefineClick: {
+    type: Boolean,
+    default: false
+  },
+  showTooltip: {
     type: Boolean,
     default: false
   }

@@ -559,6 +559,12 @@ const tableData = ref([
     desc: '菜单点击是否自定义',
     type: 'boolean',
     value: false
+  },
+  {
+    name: 'showTooltip',
+    desc: '鼠标移入子菜单时是否显示tooltip',
+    type: 'boolean',
+    value: false
   }
 ])
 

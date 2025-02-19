@@ -54,7 +54,11 @@ function defineChildClickFunc(item: MenuBaseType) {
           </template>
         </LSIcon>
         <template #title>
-          <span>{{ item.title }}</span>
+          <el-tooltip effect="dark" :disabled="!showTooltip" :content="item.title" placement="right">
+            <span class="menu-title">
+              <p>{{ item.title }}</p></span
+            >
+          </el-tooltip>
         </template>
       </el-menu-item>
     </div>
@@ -75,6 +79,7 @@ function defineChildClickFunc(item: MenuBaseType) {
         :permission-list="permissionList"
         :need-permission="needPermission"
         :is-define-click="isDefineClick"
+        :show-tooltip="showTooltip"
         @on-jump="onJump"
         @define-sub-click="defineSubClickFunc"
         @define-child-click="defineChildClickFunc"
