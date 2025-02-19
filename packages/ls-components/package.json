@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/web-plus",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
   "main": "./lib/index/index.cjs",
@@ -126,6 +126,10 @@
     "./tree": {
       "import": "./lib/tree/index.js",
       "require": "./lib/tree/index.cjs"
+    },
+    "./tooltip": {
+      "import": "./lib/tooltip/index.js",
+      "require": "./lib/tooltip/index.cjs"
     },
     "./index.css": "./lib/index.css"
   },

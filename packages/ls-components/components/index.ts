@@ -27,6 +27,7 @@ import LSPreviewDocx from './preview_docx/index';
 import LSPreviewPdf from './preview_pdf/index';
 import LSPreviewXlsx from './preview_xlsx/index';
 import LSDownloadFile from './downloadFile/index';
+import LSTooltip from './tooltip/index';
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -57,7 +58,8 @@ const components: Record<string, Plugin> = {
   LSPreviewDocx,
   LSPreviewPdf,
   LSPreviewXlsx,
-  LSDownloadFile
+  LSDownloadFile,
+  LSTooltip
 };
 
 const install = (app: App) => {

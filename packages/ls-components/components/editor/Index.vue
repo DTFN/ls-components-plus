@@ -4,6 +4,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEditorProps, lsEditorEmits } from './types';
 import { merge } from 'lodash-es';
+import { elementOutOfBounds } from '@cpo/_utils/utils';
 
 const ns = useNamespace('editor');
 const comClass: string = ns.b();
@@ -12,6 +13,7 @@ const props = defineProps(lsEditorProps);
 const emits = defineEmits(lsEditorEmits);
 
 const editorRef = shallowRef();
+const lsEditorRef = ref();
 
 function getMaxFileSize(size: number, unit: string) {
   let temp = (size || 2) * 1024 * 1024;
@@ -84,6 +86,7 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor: any) => {
   editorRef.value = editor;
+  listenerDoms();
   emits('handleCreated', editor);
 };
 const handleChange = (editor: any) => {
@@ -105,13 +108,46 @@ const customPaste = (editor: any, event: any, callback: any) => {
   emits('customPaste', editor, event, callback);
 };
 
+async function listenerDoms() {
+  await nextTick();
+  const imgDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-image"]') || [];
+  imgDoms.forEach((element: any) => {
+    element.removeEventListener('mouseenter', updateStyle);
+    element.addEventListener('mouseenter', () => {
+      updateStyle(element);
+    });
+  });
+  const videoDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-video"]') || [];
+  videoDoms.forEach((element: any) => {
+    element.removeEventListener('mouseenter', updateStyle);
+    element.addEventListener('mouseenter', () => {
+      updateStyle(element);
+    });
+  });
+}
+
+function updateStyle(e: any) {
+  const dom = e.parentNode.querySelector('.w-e-bar-item-menus-container');
+  const pos = elementOutOfBounds(dom, props.containerDom);
+  switch (pos) {
+    case 'left':
+      dom.style.left = 0;
+      dom.style.right = 'inherit';
+      break;
+    case 'right':
+      dom.style.left = 'inherit';
+      dom.style.right = 0;
+      break;
+  }
+}
+
 defineExpose({
   editorRef
 });
 </script>
 
 <template>
-  <div :class="comClass">
+  <div ref="lsEditorRef" :class="comClass">
     <Toolbar class="tool-bar-wrap" :editor="editorRef" :default-config="merge(defToolbarConfig, toolbarConfig)" :mode="mode" />
     <Editor
       class="editor-wrap"

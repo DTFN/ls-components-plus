@@ -6,7 +6,7 @@ import type { BreadCrumpListType, MenuBaseType } from '@cpo/_types';
 
 const MENU_CONFIG_LIST: MenuBaseType[] = [
   {
-    title: '渔场概览',
+    title: '渔场概览-渔场概览-渔场概览',
     name: 'FisheryOverview',
     path: 'fishery-overview',
     iconConfig: { name: 'House', color: 'red', size: 16 },
@@ -191,14 +191,26 @@ const isCollapse = ref(true);
 const MENU_CONFIG_LIST2: MenuBaseType[] = [
   {
     title: '渔场概览',
-    key: '1'
+    key: '1',
+    children: [
+      {
+        title: '渔场1-1',
+        key: '1-1',
+        children: [
+          {
+            title: '渔场1-1-1',
+            key: '1-1-1'
+          }
+        ]
+      }
+    ]
   },
   {
     title: '养殖单元管理',
     key: '2',
     children: [
       {
-        title: '养殖区域管理',
+        title: '养殖区域管理-养殖区域管理',
         key: '2-1'
       },
       {
@@ -217,9 +229,14 @@ const comMenuRef2 = ref();
 const defaultActive = ref('1');
 
 function blockClick(val: number) {
-  blockIndex.value = val;
-  defaultActive.value = (val + 1).toString();
-  // comMenuRef2.value.lsComMenuRef.open(val + 1);
+  if (val === blockIndex.value) {
+    blockIndex.value = -1;
+    defaultActive.value = '-1';
+  } else {
+    blockIndex.value = val;
+    defaultActive.value = (val + 1).toString();
+    // comMenuRef2.value.lsComMenuRef.open(val + 1);
+  }
 }
 
 function defineSubClickFunc(item: MenuBaseType) {
@@ -246,9 +263,10 @@ function defineChildClickFunc(item: MenuBaseType) {
     <LSMenu
       :menu-config-list="MENU_CONFIG_LIST"
       hover-color="blue"
-      style="max-width: 200px"
+      style="max-width: 225px"
       @on-jump="onJump"
       :collapse="isCollapse"
+      :show-tooltip="true"
     >
       <template #icon7>
         <vueSvg />
@@ -261,7 +279,7 @@ function defineChildClickFunc(item: MenuBaseType) {
       <LSMenu
         ref="comMenuRef2"
         :menu-config-list="MENU_CONFIG_LIST2"
-        style="max-width: 200px"
+        style="max-width: 225px"
         :collapse="false"
         :is-define-click="true"
         :default-active="defaultActive"

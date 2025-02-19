@@ -48,7 +48,7 @@ watch(
   async val => {
     if (val) {
       await nextTick();
-      removeActiveClass(val.toString());
+      updateActiveClass(val.toString());
     }
   },
   {
@@ -71,17 +71,17 @@ function onJump(item: MenuBaseType) {
 
 function defineSubClickFunc(item: MenuBaseType) {
   const { key } = item;
-  removeActiveClass(key);
+  updateActiveClass(key);
   emits('defineSubClick', item);
 }
 
 function defineChildClickFunc(item: MenuBaseType) {
   const { key } = item;
-  removeActiveClass(key);
+  updateActiveClass(key);
   emits('defineChildClick', item);
 }
 
-function removeActiveClass(index: string | undefined) {
+function updateActiveClass(index: string | undefined) {
   if (lsComMenuRef.value) {
     let isExists = false;
     const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');
@@ -129,6 +129,7 @@ defineExpose({
       :permission-list="permissionList"
       :need-permission="needPermission"
       :is-define-click="isDefineClick"
+      :show-tooltip="showTooltip"
       @on-jump="onJump"
       @define-sub-click="defineSubClickFunc"
       @define-child-click="defineChildClickFunc"
@@ -151,7 +152,7 @@ defineExpose({
         margin-right: 6px;
       }
       &.is-sub-active {
-        .el-sub-menu__title {
+        > .el-sub-menu__title {
           color: var(--el-menu-active-color);
           background-color: var(--bg-color-primary) !important;
           &::before {
@@ -212,6 +213,14 @@ defineExpose({
           &::before {
             background: var(--el-color-primary);
           }
+        }
+      }
+      .menu-title {
+        width: 100%;
+        p {
+          @extend %text-ellipsis;
+
+          width: calc(100% - 24px);
         }
       }
     }
