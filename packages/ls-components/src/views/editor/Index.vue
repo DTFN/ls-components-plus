@@ -38,7 +38,10 @@ function handleCreated(editor: any) {
   };
 }
 
+const containerDom: any = ref(null);
+
 onMounted(() => {
+  containerDom.value = document.querySelector('.ls-layout-container-section');
   setTimeout(() => {
     formData.value.content = `<div>222222222222222222222</div>`;
   }, 2000);
@@ -60,6 +63,7 @@ onMounted(() => {
       :upload-img-size="1"
       height="400px"
       @handle-created="handleCreated"
+      :container-dom="containerDom"
     />
 
     <LSButton type="primary" @click="onClick"> 提交 </LSButton>

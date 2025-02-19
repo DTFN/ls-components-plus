@@ -1,3 +1,20 @@
+## [1.7.4](https://github.com/DTFN/ls-components-plus/compare/v1.7.3...v1.7.4) (2025-02-19)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 menu文案超出优化省略展示，增加子菜单提示内容开关 ([a3cbf6e](https://github.com/DTFN/ls-components-plus/commit/a3cbf6ebcc7ca461639b32c4b16576d6ebd02107))
+* **ls-component:** 🧩 完善menu组件，新增lstooltip组件 ([bc46046](https://github.com/DTFN/ls-components-plus/commit/bc460466100dbef0aba391a68b63c83075f79de9))
+
+## [1.7.3](https://github.com/DTFN/ls-components-plus/compare/v1.7.2...v1.7.3) (2025-02-18)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 editor 适配image、video弹出选项 ([6e8d288](https://github.com/DTFN/ls-components-plus/commit/6e8d28868496bb9e361561be09a666ea54593c4e))
+* **ls-component:** 🧩 修复subItem多级交互问题 ([f23f40a](https://github.com/DTFN/ls-components-plus/commit/f23f40ab0b90f35b3f04ecf169fffa96b3cef179))
+* **ls-doc:** 🧩 文档更新 ([479267b](https://github.com/DTFN/ls-components-plus/commit/479267bdb0c45b62565f38060d6eba8a3f359127))
+
 ## [1.7.2](https://github.com/DTFN/ls-components-plus/compare/v1.7.1...v1.7.2) (2025-02-18)
 
 

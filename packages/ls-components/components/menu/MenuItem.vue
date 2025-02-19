@@ -1,5 +1,6 @@
 <script setup lang="ts" name="LSMenuItem">
 import LSIcon from '@cpo/icon/Index.vue';
+import LSTooltip from '@cpo/tooltip/Index.vue';
 import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 
@@ -54,12 +55,19 @@ function defineChildClickFunc(item: MenuBaseType) {
           </template>
         </LSIcon>
         <template #title>
-          <span>{{ item.title }}</span>
+          <LSTooltip v-if="showTooltip" :content="item.title" placement="right">
+            <span class="menu-title">
+              <p>{{ item.title }}</p></span
+            >
+          </LSTooltip>
+          <span v-else class="menu-title">
+            <p>{{ item.title }}</p></span
+          >
         </template>
       </el-menu-item>
     </div>
     <!-- 子菜单 -->
-    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click="defineSubClickFunc(item as MenuBaseType)">
+    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click.stop="defineSubClickFunc(item as MenuBaseType)">
       <template #title>
         <LSIcon v-bind="item.iconConfig">
           <template v-if="item.iconSlot" #default>
@@ -75,6 +83,7 @@ function defineChildClickFunc(item: MenuBaseType) {
         :permission-list="permissionList"
         :need-permission="needPermission"
         :is-define-click="isDefineClick"
+        :show-tooltip="showTooltip"
         @on-jump="onJump"
         @define-sub-click="defineSubClickFunc"
         @define-child-click="defineChildClickFunc"
