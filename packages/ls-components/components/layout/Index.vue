@@ -162,7 +162,7 @@ function onDropdownCommand2(val: string) {
   }
   .ls-layout-container-section {
     box-sizing: border-box;
-    padding: 24px 18px;
+    padding: 18px;
   }
   .ls-layout-aside3 {
     z-index: 999;

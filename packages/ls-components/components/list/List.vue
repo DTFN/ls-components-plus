@@ -452,7 +452,7 @@ defineExpose({
                 width="180"
                 confirm-button-text="确认"
                 cancel-button-text="取消"
-                :title="`是否${tableDelText || '删除'}当前列数据？`"
+                :title="row.popconfirmTxt || popconfirmTxt || `是否${tableDelText || '删除'}当前行数据？`"
                 @confirm="onDel(row[tableRowKey], row)"
               >
                 <template #reference>

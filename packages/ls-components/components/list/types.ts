@@ -227,5 +227,10 @@ export const lsListProps = buildProps({
   showSkeleton: {
     type: Boolean,
     default: true
+  },
+  // popconfirm提示语
+  popconfirmTxt: {
+    type: String,
+    default: ''
   }
 } as const);
