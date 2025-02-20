@@ -1,3 +1,12 @@
+## [1.7.6](https://github.com/DTFN/ls-components-plus/compare/v1.7.5...v1.7.6) (2025-02-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 完善list组件二次提示语 ([3bbf82e](https://github.com/DTFN/ls-components-plus/commit/3bbf82e9ce5158bedaf4d2be3a5f89ffc8a6dc90))
+* **ls-component:** 🧩 文档更新 ([c0d16a4](https://github.com/DTFN/ls-components-plus/commit/c0d16a48a9c504e0183071d097230e03d5d731df))
+* **ls-doc:** 🧩 文档更新 ([1fd9f6e](https://github.com/DTFN/ls-components-plus/commit/1fd9f6ec775fee7c5615f421a3a32d4dbf9aa962))
+
 ## [1.7.5](https://github.com/DTFN/ls-components-plus/compare/v1.7.4...v1.7.5) (2025-02-20)
 
 
