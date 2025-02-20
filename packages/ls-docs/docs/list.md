@@ -85,6 +85,11 @@ function listApi() {
 
 function dealData(res: any) {
   const list = res || [];
+  // 如需动态化每行二次提示语，需按以下处理数据：
+  // (res || []).map((item: any) => {
+    // item.popconfirmTxt = `确定删除该记录：${item.name}？`;
+    // return item;
+  // })
   return {
     data: list,
     total: list.length
@@ -210,7 +215,7 @@ const attrTableData=[
   },
   {
     name: 'dealData',
-    desc: '处理列表返回数据方法,return {data: [], total: 0}',
+    desc: '处理列表返回数据方法,return {data: [], total: 0}，如需每行二次提示语动态化，请再数据返回值增加popconfirmTxt',
     type: 'Function',
     value: '-'
   },
@@ -482,6 +487,12 @@ const attrTableData=[
     name: 'skeletonAttrs',
     desc: '骨架屏配置项',
     type: 'object',
+    value: '-'
+  },
+  {
+    name: 'popconfirmTxt',
+    desc: 'popconfirm提示语',
+    type: 'string',
     value: '-'
   }
 ]

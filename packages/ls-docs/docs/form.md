@@ -842,12 +842,6 @@ const attrTableData=[
     desc: '表单详情默认样式，锦鲤适用',
     type: 'boolean',
     value: false
-  },
-  {
-    name: 'hideColumn',
-    desc: '隐藏某一列，锦鲤适用',
-    type: 'boolean',
-    value: false
   }
 ]
 
@@ -1082,6 +1076,12 @@ const attrTableData_1=[
     desc: '是否手动验证（解决值变动未触发验证的情况下）',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'hideColumn',
+    desc: '隐藏某一列，锦鲤适用',
+    type: 'boolean',
+    value: false
   }
 ]
 
