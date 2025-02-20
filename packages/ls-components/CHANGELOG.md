@@ -1,3 +1,11 @@
+## [1.7.5](https://github.com/DTFN/ls-components-plus/compare/v1.7.4...v1.7.5) (2025-02-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 editor工具栏样式对齐，tooltip功能完善 ([a9184cb](https://github.com/DTFN/ls-components-plus/commit/a9184cb68915f7c966809bbc099582c373ff8f30))
+* **ls-component:** 🧩 tooltip增加多行隐藏提示 ([c58fd61](https://github.com/DTFN/ls-components-plus/commit/c58fd61d698ac267da98a34d4db6bf20dfcbdb5a))
+
 ## [1.7.4](https://github.com/DTFN/ls-components-plus/compare/v1.7.3...v1.7.4) (2025-02-19)
 
 

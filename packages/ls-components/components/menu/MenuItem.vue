@@ -3,12 +3,15 @@ import LSIcon from '@cpo/icon/Index.vue';
 import LSTooltip from '@cpo/tooltip/Index.vue';
 import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
+import { lsMenuKey } from '@cpo/_constants/token';
 
 const { jumpRouteCom } = useRouterHook();
 
 const emits = defineEmits(lsEmitNames);
 
 const props = defineProps(lsMenuItemProps);
+
+const menuProps = inject(lsMenuKey);
 
 const jumpRoute = (index: string, item: MenuBaseType) => {
   if (props.isDefineClick) {
@@ -55,7 +58,7 @@ function defineChildClickFunc(item: MenuBaseType) {
           </template>
         </LSIcon>
         <template #title>
-          <LSTooltip v-if="showTooltip" :content="item.title" placement="right">
+          <LSTooltip v-if="showTooltip" :content="item.title" placement="right" :font-size="menuProps?.fontSize">
             <span class="menu-title">
               <p>{{ item.title }}</p></span
             >

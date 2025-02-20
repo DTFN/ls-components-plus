@@ -176,6 +176,9 @@ defineExpose({
 }
 .tool-bar-wrap {
   border-bottom: 1px solid $color-text5;
+  :deep(.w-e-bar-item) {
+    justify-content: flex-start;
+  }
 }
 .editor-wrap {
   :deep(.w-e-text-container) {
