@@ -81,7 +81,10 @@ function listApi() {
 
 function dealData(res: any) {
   console.log(res);
-  const list = res || [];
+  const list = (res || []).map((item: any) => {
+    item.popconfirmTxt = `确定删除该记录：${item.name}？`;
+    return item;
+  });
   return {
     data: list,
     total: 100
@@ -109,6 +112,7 @@ const spacer = h(ElDivider, { direction: 'vertical' });
     :show-table-operate="true"
     :disabled-add-btn="true"
     :list-hook-config="{ currentPageProp: 1, pageSizeProp: 100, pageSizesProp: [10, 20, 30, 40, 50, 100] }"
+    popconfirm-txt="确定删除此数据？"
   >
     <template #slot-slot-form-slot>
       <div>自定义表单内容</div>
