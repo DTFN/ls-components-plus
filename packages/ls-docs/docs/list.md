@@ -85,11 +85,13 @@ function listApi() {
 
 function dealData(res: any) {
   const list = res || [];
-  // 如需动态化每行二次提示语，需按以下处理数据：
-  // (res || []).map((item: any) => {
-    // item.popconfirmTxt = `确定删除该记录：${item.name}？`;
-    // return item;
-  // })
+
+  (res || []).map((item: any) => {
+    /***动态化每行二次提示语 start***/
+    item.popconfirmTxt = `确定删除该记录：${item.name}？`;
+    /***动态化每行二次提示语 end***/
+    return item;
+  })
   return {
     data: list,
     total: list.length
