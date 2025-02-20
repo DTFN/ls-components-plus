@@ -98,6 +98,8 @@ function optionApi() {
   });
 }
 
+const tooltipContent = ref('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试End');
+
 onMounted(async () => {
   const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
   console.log(data);
@@ -138,7 +140,34 @@ onMounted(async () => {
         <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
       </LSForm>
     </LSDialog>
+
+    <br /><br />
+
+    <LSTooltip width="200" :content="tooltipContent" placement="right" :font-size="18">
+      <div class="tooltip-test">{{ tooltipContent }}</div>
+    </LSTooltip>
+
+    <br /><br />
+
+    <LSTooltip width="200" :content="tooltipContent" placement="right" :line-clamp="3" :font-size="18">
+      <div class="tooltip-test2">{{ tooltipContent }}</div>
+    </LSTooltip>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ls-tooltip {
+  .tooltip-test {
+    width: 100%;
+    font-size: 18px;
+
+    @extend %text-ellipsis;
+  }
+  .tooltip-test2 {
+    width: 100%;
+    font-size: 18px;
+
+    @include overflow-text-hidden(3);
+  }
+}
+</style>

@@ -54,7 +54,8 @@ export default {
       items: [
         { text: 'Confirm 确认框', link: '/docs/confirm' },
         { text: 'BellMessage 消息通知', link: '/docs/bellMessage' },
-        { text: 'Dialog 弹框', link: '/docs/dialog' }
+        { text: 'Dialog 弹框', link: '/docs/dialog' },
+        { text: 'Tooltip 弹出提示', link: '/docs/tooltip' }
       ]
     },
     {
