@@ -29,6 +29,30 @@ const content = computed(() => {
   return attrs.content || '';
 });
 
+const tempContentStyle = computed(() => {
+  const style =
+    props.lineClamp > 1
+      ? Object.assign(
+          {
+            height: 'auto'
+          },
+          comStyle.value
+        )
+      : {
+          width: 'auto',
+          height: 0
+        };
+  const size = props.fontSize;
+  if (size) {
+    style.fontSize = `${size}px`;
+  }
+  const line = props.lineHeight;
+  if (line) {
+    style.lineHeight = `${line}px`;
+  }
+  return style;
+});
+
 function onMouseEnter() {
   updateTooltip();
 }
@@ -38,10 +62,18 @@ async function updateTooltip() {
   if (lsTooltipRef.value) {
     const w1 = lsTooltipRef.value.getBoundingClientRect();
     const w2 = lsTooltipRef.value.querySelector('.temp-content').getBoundingClientRect();
-    if (w2.width > w1.width) {
-      showTip.value = true;
+    if (props.lineClamp <= 1) {
+      if (w2.width > w1.width) {
+        showTip.value = true;
+      } else {
+        showTip.value = false;
+      }
     } else {
-      showTip.value = false;
+      if (w2.height > w1.height) {
+        showTip.value = true;
+      } else {
+        showTip.value = false;
+      }
     }
   }
 }
@@ -49,7 +81,7 @@ async function updateTooltip() {
 
 <template>
   <div ref="lsTooltipRef" :class="comClass" :style="comStyle" @mouseenter="onMouseEnter">
-    <div class="temp-content">{{ content }}</div>
+    <div class="temp-content" :style="tempContentStyle">{{ content }}</div>
     <el-tooltip :disabled="!showTip" v-bind="$attrs">
       <template #default>
         <slot name="default"></slot>

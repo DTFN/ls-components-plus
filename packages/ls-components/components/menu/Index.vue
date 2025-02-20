@@ -3,6 +3,7 @@ import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsMenuProps, lsEmitNames, MenuBaseType } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import MenuItem from './MenuItem.vue';
+import { lsMenuKey } from '@cpo/_constants/token';
 
 const { currentRouter } = useRouterHook();
 
@@ -14,6 +15,8 @@ const props = defineProps(lsMenuProps);
 const emits = defineEmits(lsEmitNames);
 
 const useAttr = useAttrs();
+
+provide(lsMenuKey, { fontSize: props.fontSize });
 
 const isInit = ref(false);
 const selectedKeys: Ref<string> = ref('');
