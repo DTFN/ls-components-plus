@@ -96,6 +96,9 @@ import LSPrint from '@lingshugroup/web-plus/print';
 import LSFlowBox from '@lingshugroup/web-plus/flowBox';
 import LSContainerBox from '@lingshugroup/web-plus/containerBox';
 
+// 1.7.5+
+import LSTooltip from '@lingshugroup/web-plus/tooltip';
+
 [
   LSIcon,
   LSButton,
@@ -126,7 +129,8 @@ import LSContainerBox from '@lingshugroup/web-plus/containerBox';
   LSDialog,
   LSPrint,
   LSFlowBox,
-  LSContainerBox
+  LSContainerBox,
+  LSTooltip
 ].map(item => {
   app.component(item.name, item);
 });
