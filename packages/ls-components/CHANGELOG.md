@@ -1,3 +1,10 @@
+## [1.7.8](https://github.com/DTFN/ls-components-plus/compare/v1.7.7...v1.7.8) (2025-03-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 icon对齐完善，xlsx多余高度处理 ([e934933](https://github.com/DTFN/ls-components-plus/commit/e9349333bf42fabc01c72b46cb9aba822e0dc725))
+
 ## [1.7.7](https://github.com/DTFN/ls-components-plus/compare/v1.7.6...v1.7.7) (2025-03-20)
 
 
