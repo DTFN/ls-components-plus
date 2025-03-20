@@ -1,3 +1,12 @@
+## [1.7.7](https://github.com/DTFN/ls-components-plus/compare/v1.7.6...v1.7.7) (2025-03-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化menu配置的icon对齐 ([9397477](https://github.com/DTFN/ls-components-plus/commit/9397477b7e8093ce6f53a90641257c8a6ee7204f))
+* **ls-doc:** 🧩 list文档更新 ([f91f8eb](https://github.com/DTFN/ls-components-plus/commit/f91f8ebe361083b875980e8019f6a468768006f6))
+* **ls-doc:** 🧩 文档更新 ([7fa27a0](https://github.com/DTFN/ls-components-plus/commit/7fa27a0b638fed41282051ffc34c21379edb67ef))
+
 ## [1.7.6](https://github.com/DTFN/ls-components-plus/compare/v1.7.5...v1.7.6) (2025-02-20)
 
 
