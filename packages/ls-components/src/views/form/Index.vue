@@ -69,7 +69,8 @@ const formItems = ref<FormItemsType[]>([
   {
     type: 'textarea',
     label: '文本域',
-    prop: 'textarea'
+    prop: 'textarea',
+    trim: false
   },
   {
     type: 'itemSlot',
