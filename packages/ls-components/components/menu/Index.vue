@@ -124,7 +124,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-menu ref="lsComMenuRef" v-bind="$attrs" :class="comClass" :default-active="selectedKeys">
+  <el-menu ref="lsComMenuRef" :default-active="selectedKeys" v-bind="$attrs" :class="comClass">
     <MenuItem
       v-for="item in menuConfigList"
       :key="item['key']"
@@ -173,7 +173,11 @@ defineExpose({
     :deep(.el-menu-item) {
       position: relative;
       .ls-icon {
+        width: auto !important;
         margin-right: 6px;
+        .el-icon {
+          width: auto !important;
+        }
       }
       &:hover {
         background-color: var(--el-fill-color-light);
