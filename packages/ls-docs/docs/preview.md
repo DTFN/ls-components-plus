@@ -92,7 +92,7 @@ function openViewerDocx() {
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <ClientOnly>
-  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/' />
+  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 </ClientOnly>
 
 ```js
@@ -113,7 +113,7 @@ function openViewerPdf() {
 
 ```html
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/' />
+<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
@@ -294,7 +294,7 @@ const tableData = ref([
   {
     name: 'c-map-url-path',
     desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径',
-    type： 'string',
+    type:'string',
     value: '-'
   }
 ]);
