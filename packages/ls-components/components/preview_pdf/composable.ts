@@ -36,6 +36,7 @@ function configWorker(wokerSrc: string) {
  */
 export function usePDF(
   src: PDFSrc | Ref<PDFSrc>,
+  cMapUrlPath: string,
   options: PDFOptions = {
     onProgress: undefined,
     onPassword: undefined,
@@ -56,7 +57,7 @@ export function usePDF(
     // const loadingTask = getDocument(source);
     const loadingTask = getDocument({
       url: source,
-      cMapUrl: '/cmaps/',
+      cMapUrl: cMapUrlPath,
       cMapPacked: true
     });
     if (options.onProgress) loadingTask.onProgress = options.onProgress;
