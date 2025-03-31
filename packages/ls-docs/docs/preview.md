@@ -86,7 +86,7 @@ function openViewerDocx() {
 
 ::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.8.69。
 
-[字体下载](https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/cmaps.zip)，下载完成后解压到public文件夹下
+[字体下载](/cmaps.zip)，下载完成后解压到public文件夹下
 :::
 
 <br />
