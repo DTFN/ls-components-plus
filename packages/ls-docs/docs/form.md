@@ -883,6 +883,10 @@ const slotTableData=[
     name: 'buttons-prepend',
     desc: '按钮前置自定义内容',
   },
+  {
+    name: 'buttons-append',
+    desc: '按钮后置自定义内容'
+  }
 ]
 
 // Exposes

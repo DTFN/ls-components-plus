@@ -464,19 +464,19 @@ const attrTableData=[
   {
     name: 'tableDetailText',
     desc: '表格查看按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '查看'
   },
   {
     name: 'tableEditText',
     desc: '表格编辑按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '编辑'
   },
   {
     name: 'tableDelText',
     desc: '表格删除按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '删除'
   },
   {
@@ -494,7 +494,7 @@ const attrTableData=[
   {
     name: 'popconfirmTxt',
     desc: 'popconfirm提示语',
-    type: 'string',
+    type: 'string/Function',
     value: '-'
   }
 ]
