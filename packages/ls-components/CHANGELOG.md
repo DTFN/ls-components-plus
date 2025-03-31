@@ -1,3 +1,10 @@
+## [1.7.10](https://github.com/DTFN/ls-components-plus/compare/v1.7.9...v1.7.10) (2025-03-31)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 pdf中文字体展示修复 ([28e610c](https://github.com/DTFN/ls-components-plus/commit/28e610cca1dd72cc93be29c21eb3b5ab33aa08d7))
+
 ## [1.7.9](https://github.com/DTFN/ls-components-plus/compare/v1.7.8...v1.7.9) (2025-03-31)
 
 
