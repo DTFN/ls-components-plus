@@ -1,3 +1,12 @@
+## [1.7.9](https://github.com/DTFN/ls-components-plus/compare/v1.7.8...v1.7.9) (2025-03-31)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 修复lsmenu样式 ([6b58ac9](https://github.com/DTFN/ls-components-plus/commit/6b58ac9c3659bdc847644fde46fb8f4a331aae83))
+* **ls-component:** 🧩 修复pdf不识别中文汉字 ([93f976a](https://github.com/DTFN/ls-components-plus/commit/93f976a5623533cafda0f3c9c1f95ca547926789))
+* **ls-component:** 表单单个输入框时阻止回车刷新页面 ([3644b67](https://github.com/DTFN/ls-components-plus/commit/3644b6773aad010ba76300114330fbaa8017fed5))
+
 ## [1.7.8](https://github.com/DTFN/ls-components-plus/compare/v1.7.7...v1.7.8) (2025-03-20)
 
 
