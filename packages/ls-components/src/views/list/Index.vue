@@ -13,7 +13,10 @@ const formItems = [
   {
     type: 'input',
     label: '名称',
-    prop: 'name'
+    prop: 'name',
+    attrs: {
+      prefixStr: '￥'
+    }
   },
   {
     type: 'itemSlot',
@@ -80,9 +83,9 @@ function listApi() {
 }
 
 function dealData(res: any) {
-  console.log(res);
   const list = (res || []).map((item: any) => {
     item.popconfirmTxt = `确定删除该记录：${item.name}？`;
+    item.tableDetailText = `${item.name}详情`;
     return item;
   });
   return {
@@ -91,8 +94,11 @@ function dealData(res: any) {
   };
 }
 
-const b = ref(true);
 const spacer = h(ElDivider, { direction: 'vertical' });
+
+function getTableDelText(row: any) {
+  return `删除-${row.name}`;
+}
 </script>
 
 <template>
@@ -111,9 +117,21 @@ const spacer = h(ElDivider, { direction: 'vertical' });
     :table-attrs="{ showSelect: true }"
     :show-table-operate="true"
     :disabled-add-btn="true"
-    :list-hook-config="{ currentPageProp: 1, pageSizeProp: 100, pageSizesProp: [10, 20, 30, 40, 50, 100] }"
-    popconfirm-txt="确定删除此数据？"
+    :list-hook-config="{ currentPageProp: 1, pageSizeProp: 10, pageSizesProp: [10, 20, 30, 40, 50, 100] }"
+    :table-detail-text="`详情`"
+    :table-edit-text="(row: any) => `编辑-${row.name}`"
+    :table-del-text="getTableDelText"
+    :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
+    add-btn-text="新增数据"
   >
+    <template #buttons-prepend-form-slot>
+      <div>按钮区域前置</div>
+    </template>
+
+    <template #buttons-append-form-slot>
+      <div>按钮区域后置</div>
+    </template>
+
     <template #slot-slot-form-slot>
       <div>自定义表单内容</div>
     </template>
@@ -122,7 +140,7 @@ const spacer = h(ElDivider, { direction: 'vertical' });
       <div>自定义表格内容</div>
     </template>
 
-    <template #table-operate-prepend>
+    <!-- <template #table-operate-prepend>
       <el-space :size="0" :spacer="spacer">
         <el-button link type="primary"> 配置 </el-button>
 
@@ -130,11 +148,11 @@ const spacer = h(ElDivider, { direction: 'vertical' });
 
         <el-button link type="primary"> 测试 </el-button>
       </el-space>
-    </template>
+    </template> -->
 
-    <template #table-operate-append>
+    <template #table-operate-append="{ row }">
       <el-space :size="0" :spacer="spacer">
-        <el-button link type="primary"> 下架 </el-button>
+        <el-button v-if="row.status === 1" link type="primary"> 下架 </el-button>
 
         <el-button link type="primary"> 提交 </el-button>
       </el-space>

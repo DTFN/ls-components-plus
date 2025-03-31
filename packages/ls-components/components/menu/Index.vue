@@ -223,6 +223,7 @@ defineExpose({
         }
       }
       .menu-title {
+        box-sizing: border-box;
         width: 100%;
         p {
           @extend %text-ellipsis;
