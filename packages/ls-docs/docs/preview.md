@@ -293,7 +293,7 @@ const tableData = ref([
   },
   {
     name: 'c-map-url-path',
-    desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径',
+    desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径(1.7.10+)',
     type:'string',
     value: '-'
   }
