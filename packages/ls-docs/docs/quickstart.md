@@ -45,7 +45,6 @@ AutoImport({
 
 ### 1. 按需引入组件（推荐）
 
-::: details 点我查看代码
 
 ```js
 // element-plus基础样式，根据业务需求定制
@@ -135,8 +134,6 @@ import LSTooltip from '@lingshugroup/web-plus/tooltip';
   app.component(item.name, item);
 });
 ```
-
-:::
 
 ### 2. 全局引入组件（不推荐）
 

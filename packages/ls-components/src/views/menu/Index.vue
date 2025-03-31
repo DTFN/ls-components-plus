@@ -227,6 +227,7 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
 const blockIndex: any = ref(0);
 const comMenuRef2 = ref();
 const defaultActive = ref('1');
+const defaultOpeneds = ref([]);
 
 function blockClick(val: number) {
   if (val === blockIndex.value) {
@@ -237,6 +238,7 @@ function blockClick(val: number) {
     defaultActive.value = (val + 1).toString();
     // comMenuRef2.value.lsComMenuRef.open(val + 1);
   }
+  defaultOpeneds.value = ['1', '1-1', '1-1-1'];
 }
 
 function defineSubClickFunc(item: MenuBaseType) {
@@ -285,6 +287,7 @@ function defineChildClickFunc(item: MenuBaseType) {
         :default-active="defaultActive"
         @define-sub-click="defineSubClickFunc"
         @define-child-click="defineChildClickFunc"
+        :default-openeds="defaultOpeneds"
       >
         <template #icon7>
           <vueSvg />

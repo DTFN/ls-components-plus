@@ -257,6 +257,18 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
+<style lang="scss">
+.luckysheet-wa-editor {
+  display: none !important;
+}
+.luckysheet-input-box-index,
+.luckysheet-input-box,
+.luckysheet-cell-input {
+  display: none !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+</style>
 <style lang="scss" scoped>
 .ls-xlsx {
   position: relative;
