@@ -169,6 +169,7 @@ defineExpose({
         :model="form"
         :disabled="loading || disabled"
         :class="[read && hasDefReadStyle ? 'show-label' : '']"
+        @submit.prevent
       >
         <template v-if="column > 1">
           <el-row :gutter="10">
@@ -190,7 +191,7 @@ defineExpose({
                   :label-empty="labelEmpty"
                   :index="i"
                   v-bind="item"
-                  @update:model-value="value => updateFormData(item.prop, value)"
+                  @update:model-value="(value: any) => updateFormData(item.prop, value)"
                   @on-change="onChange"
                 >
                   <template v-for="(_slotContent, slotName) in slots" :key="slotName" #[slotName]="scoope: any">
@@ -229,7 +230,7 @@ defineExpose({
                 :label-empty="labelEmpty"
                 :index="i"
                 v-bind="item"
-                @update:model-value="value => updateFormData(item.prop, value)"
+                @update:model-value="(value: any) => updateFormData(item.prop, value)"
                 @on-change="onChange"
               >
                 <template v-for="(_slotContent, slotName) in slots" :key="slotName" #[slotName]="scoope: any">
@@ -264,6 +265,8 @@ defineExpose({
           </el-button>
 
           <el-button v-if="showReset" @click="resetForm(FormRef)">{{ resetText || '重置' }}</el-button>
+
+          <slot v-if="$slots['buttons-append']" name="buttons-append" />
         </el-form-item>
       </el-form>
     </el-config-provider>

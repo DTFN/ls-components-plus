@@ -205,17 +205,17 @@ export const lsListProps = buildProps({
   },
   // 表格查看按钮文案
   tableDetailText: {
-    type: String,
+    type: [String, Function],
     default: '查看'
   },
   // 表格编辑按钮文案
   tableEditText: {
-    type: String,
+    type: [String, Function],
     default: '编辑'
   },
   // 表格删除按钮文案
   tableDelText: {
-    type: String,
+    type: [String, Function],
     default: '删除'
   },
   // 表格骨架屏配置
@@ -230,7 +230,7 @@ export const lsListProps = buildProps({
   },
   // popconfirm提示语
   popconfirmTxt: {
-    type: String,
+    type: [String, Function],
     default: ''
   }
 } as const);
