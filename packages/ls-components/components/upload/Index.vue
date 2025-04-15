@@ -676,9 +676,11 @@ function onPreviewAction(uploadFile: UploadFile) {
     return props.onPreview(uploadFile);
   }
   if (isPicCard.value) {
-    const { url }: any = uploadFile;
-    configs.sourcePreview = url;
-    configs.showPreview = true;
+    const { url }: any = uploadFile || {};
+    if (url) {
+      configs.sourcePreview = url;
+      configs.showPreview = true;
+    }
   }
 }
 

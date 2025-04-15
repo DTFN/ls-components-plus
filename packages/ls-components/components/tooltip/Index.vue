@@ -13,7 +13,7 @@ const lsTooltipRef = ref();
 const attrs = useAttrs();
 
 const comStyle = computed(() => {
-  const w = props.width;
+  const w = props.width.toString();
   let tempW = '100%';
   if ((w.endsWith('%') || w.endsWith('px')) && !isEmpty(parseInt(w))) {
     tempW = w;
@@ -30,7 +30,7 @@ const content = computed(() => {
 });
 
 const tempContentStyle = computed(() => {
-  const style =
+  const style: any =
     props.lineClamp > 1
       ? Object.assign(
           {
@@ -63,17 +63,9 @@ async function updateTooltip() {
     const w1 = lsTooltipRef.value.getBoundingClientRect();
     const w2 = lsTooltipRef.value.querySelector('.temp-content').getBoundingClientRect();
     if (props.lineClamp <= 1) {
-      if (w2.width > w1.width) {
-        showTip.value = true;
-      } else {
-        showTip.value = false;
-      }
+      showTip.value = Boolean(w2.width > w1.width);
     } else {
-      if (w2.height > w1.height) {
-        showTip.value = true;
-      } else {
-        showTip.value = false;
-      }
+      showTip.value = Boolean(w2.height > w1.height);
     }
   }
 }
