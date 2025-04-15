@@ -451,15 +451,29 @@ function updateCoverFileList(preIndex?: number, endIndex?: number) {
   configs.uploadFileList.splice(preIndex || 0, endIndex || configs.uploadFileList.length - 1);
 }
 
+/**
+ * 文件变更处理函数
+ * @param file 变更的文件对象
+ * @param fileList 文件列表
+ */
 function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
+  // 更新文件列表
   configs.uploadFileList = fileList;
+
+  // 验证文件是否合法
   const isSuccess = file.raw && validateUploadFile(file.raw, !autoUpload.value);
+
+  // 如果是覆盖模式且不是多选模式，则更新文件列表
   if (isSuccess && isCover.value && !isMultiple.value) {
     updateCoverFileList();
   }
+
+  // 如果有自定义onChange处理函数，则执行
   if (props.onChange) {
     return props.onChange(file, fileList);
   }
+
+  // 检查文件大小
   const { size = 0 } = file;
   if (size <= 0) {
     setChangeRes();
@@ -471,22 +485,33 @@ function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
     }
     return;
   }
+
+  // 处理原始文件
   if (file.raw) {
     if (!autoUpload.value && !isSuccess) {
+      // 非自动上传且验证失败时，清除文件
       setChangeRes();
     } else {
+      // 创建文件Blob URL并触发change事件
       file.blob = URL.createObjectURL(file.raw) || '';
       emits('onChangeFunc', file);
     }
   }
 }
 
+/**
+ * 重置文件上传结果
+ * 当文件验证失败或为空文件时调用此函数清理文件列表
+ */
 function setChangeRes() {
   let startIndex = 0;
+  // 如果文件列表中有多个文件，则从最后一个开始清除
   if (configs.uploadFileList.length > 1) {
     startIndex = configs.uploadFileList.length - 1;
   }
+  // 清除指定位置的文件
   updateCoverFileList(startIndex, 1);
+  // 触发change事件，传递空对象表示清除
   emits('onChangeFunc', {});
 }
 
