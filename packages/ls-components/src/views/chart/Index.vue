@@ -68,6 +68,18 @@ const templateAll: Ref<{
   }
 });
 
+// 自定义Y轴展示内容
+const customMultiBarOption = {
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
+  ]
+};
+
 const dataSimple: ChartDataType = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   // seriesData: [120, 200, 150, 80, 70, 110, 0]
@@ -325,6 +337,17 @@ const templateAllLine: Ref<{
   }
 });
 
+const customDymLineOption = {
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
+  ]
+};
+
 const dataSimpleLine: any = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [0, 200, 150, 80, 70, 110, 130]
@@ -526,6 +549,7 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         template="bar"
         :data="dataMultiBar"
         :template-patch="templateAll.templatePatchMultiBar"
+        :custom-option="customMultiBarOption"
         :style="{ marginTop: '16px' }"
       />
 
@@ -556,6 +580,7 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         template="line"
         :data="dynamicLine"
         :template-patch="templateAllLine.templateDynamicLine"
+        :custom-option="customDymLineOption"
         :style="{ marginTop: '16px' }"
         width="800"
         height="400"
