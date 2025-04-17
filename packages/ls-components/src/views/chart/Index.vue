@@ -40,7 +40,7 @@ const templateAll: Ref<{
     dynamicAxis: true,
     tooltipValueFormatter: (value, dataIndex) => {
       console.log(value, dataIndex);
-      return `${((value || 0) / 100).toFixed(2)} %`;
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     }
   },
   templatePatchNegative: {
@@ -304,7 +304,7 @@ const templateAllLine: Ref<{
     tooltip: 'cross',
     tooltipValueFormatter: (value, dataIndex) => {
       console.log(value, dataIndex);
-      return `${((value || 0) / 100).toFixed(2)} %`;
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     }
   },
   templateMultipleLine: {

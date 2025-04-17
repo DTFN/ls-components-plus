@@ -18,7 +18,8 @@ const setTooltipFormat = (
   legendIcon: string | undefined,
   i: number,
   defBarColor: Array<string>,
-  tooltipValueFormatter: Function | undefined
+  tooltipValueFormatter: Function | undefined,
+  dataIndex: number
 ) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
@@ -26,7 +27,7 @@ const setTooltipFormat = (
     legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
   const valueHtml =
     value !== '-' && seriesName !== 'temp'
-      ? `<span class="value">${tooltipValueFormatter ? tooltipValueFormatter(value) : value || value == 0 ? value : '-'}</span>`
+      ? `<span class="value">${tooltipValueFormatter ? tooltipValueFormatter(value, dataIndex) : value || value == 0 ? value : '-'}</span>`
       : '';
   const badgeHtml =
     value !== '-' && seriesName !== 'temp'
@@ -43,7 +44,15 @@ const setTooltip = (templatePatch: ChartTemplatePatchType) => {
     : function (params: any) {
         let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
         params.forEach((item: any, i: number) => {
-          formatterHtml += setTooltipFormat(item, Boolean(legend), legendIcon, i, defBarColor, tooltipValueFormatter);
+          formatterHtml += setTooltipFormat(
+            item,
+            Boolean(legend),
+            legendIcon,
+            i,
+            defBarColor,
+            tooltipValueFormatter,
+            item.dataIndex
+          );
         });
         return formatterHtml + '</div>';
       };
