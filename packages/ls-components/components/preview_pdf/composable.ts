@@ -55,11 +55,15 @@ export function usePDF(
     if (pdfDoc.value) void pdfDoc.value.destroy();
 
     // const loadingTask = getDocument(source);
-    const loadingTask = getDocument({
-      url: source,
-      cMapUrl: cMapUrlPath,
-      cMapPacked: true
-    });
+    const loadingTask = getDocument(
+      cMapUrlPath
+        ? {
+            url: source,
+            cMapUrl: cMapUrlPath,
+            cMapPacked: true
+          }
+        : source
+    );
     if (options.onProgress) loadingTask.onProgress = options.onProgress;
 
     if (options.onPassword) {

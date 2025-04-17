@@ -142,13 +142,9 @@ function updateAllCheckStatus() {
     ids.push(id || parentId);
   });
   if (ids.length > 0) {
-    if (ids.length === allNodeKeys.value.length) {
-      isAllChecked.value = true;
-      isIndeterminate.value = false;
-    } else {
-      isAllChecked.value = false;
-      isIndeterminate.value = true;
-    }
+    const status = Boolean(ids.length === allNodeKeys.value.length);
+    isAllChecked.value = status;
+    isIndeterminate.value = !status;
   } else {
     isAllChecked.value = false;
     isIndeterminate.value = false;

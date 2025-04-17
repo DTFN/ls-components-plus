@@ -23,6 +23,7 @@ export type ChartTemplatePatchType = {
   axis?: string;
   tooltip?: string;
   tooltipFormatter?: Function;
+  tooltipValueFormatter?: Function;
   legend?: Array<string>;
   theme?: string;
   barColorList?: Array<string>;

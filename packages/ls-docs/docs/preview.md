@@ -85,12 +85,14 @@ function openViewerDocx() {
 ### 3. Pdf预览
 
 ::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.8.69。
+
+[字体下载](/cmaps.zip)，下载完成后解压到public文件夹下
 :::
 
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <ClientOnly>
-  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" />
+  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 </ClientOnly>
 
 ```js
@@ -111,7 +113,7 @@ function openViewerPdf() {
 
 ```html
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" />
+<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
@@ -140,6 +142,7 @@ function openViewerPdf() {
 
 ::: warning [资源下载](https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet.zip)
 下载完成后解压到public文件夹下
+
 :::
 
 <LSButton type="primary" @click="openViewerXlsx">Xlsx预览</LSButton>
@@ -287,6 +290,12 @@ const tableData = ref([
     desc: '是否需要分页，当前仅xlsx支持，超过20m且常规表格（简单表格数据，无图，无合并单元格等）支持',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'c-map-url-path',
+    desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径(1.7.10+)',
+    type:'string',
+    value: '-'
   }
 ]);
 

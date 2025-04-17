@@ -44,7 +44,7 @@ outline: deep
   template="bar"
   :data="dataSimple"
   :template-patch="templateAll.templatePatchSimple"
-  :custom-option="customOption"
+  :custom-option="customOptionSimple"
 />
 </ClientOnly>
 
@@ -62,7 +62,7 @@ const templateAll: any = ref({
     showBarFont: false
   }
 })
-const customOption = ref({
+const customOptionSimple = ref({
   xAxis: [
     {
       axisLabel: {
@@ -71,12 +71,20 @@ const customOption = ref({
         margin: 24
       }
     }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
   ]
 });
 ```
 
 ```html
-<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :custom-option="customOption" />
+<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :custom-option="customOptionSimple" />
 ```
 
 :::
@@ -298,7 +306,7 @@ const themeOptions = ref([
   }
 ]);
 
-const customOption = ref({
+const customOptionSimple = {
   xAxis: [
     {
       axisLabel: {
@@ -307,8 +315,16 @@ const customOption = ref({
         margin: 24
       }
     }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
   ]
-});
+}
 
 // 柱状图
 const templateAll = ref({
