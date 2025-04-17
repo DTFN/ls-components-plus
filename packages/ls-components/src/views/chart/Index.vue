@@ -50,7 +50,7 @@ const templateAll: Ref<{
     legend: ['收入', '支出'],
     legendIcon: 'circle',
     dynamicAxis: true,
-    seriesFormatter: params => {
+    seriesLabelFormatter: params => {
       return Math.round(params.value) / 100 + '%';
     }
   },
@@ -309,7 +309,7 @@ const templateAllLine: Ref<{
       console.log(value, dataIndex);
       return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     },
-    seriesFormatter: params => {
+    seriesLabelFormatter: params => {
       return Math.round(params.value) / 100 + '%';
     }
   },
