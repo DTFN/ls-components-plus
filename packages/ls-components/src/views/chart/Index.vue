@@ -37,7 +37,11 @@ const templateAll: Ref<{
     labelPosition: 'top',
     showBackground: true,
     showBarFont: false,
-    dynamicAxis: true
+    dynamicAxis: true,
+    tooltipValueFormatter: (value, dataIndex) => {
+      console.log(value, dataIndex);
+      return `${((value || 0) / 100).toFixed(2)} %`;
+    }
   },
   templatePatchNegative: {
     labelPosition: 'both',
@@ -297,7 +301,11 @@ const templateAllLine: Ref<{
 }> = ref({
   templateSimpleLine: {
     labelPosition: 'top',
-    tooltip: 'cross'
+    tooltip: 'cross',
+    tooltipValueFormatter: (value, dataIndex) => {
+      console.log(value, dataIndex);
+      return `${((value || 0) / 100).toFixed(2)} %`;
+    }
   },
   templateMultipleLine: {
     labelPosition: 'top',
