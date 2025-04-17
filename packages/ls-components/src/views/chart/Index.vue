@@ -49,7 +49,10 @@ const templateAll: Ref<{
     tooltip: 'shadow',
     legend: ['收入', '支出'],
     legendIcon: 'circle',
-    dynamicAxis: true
+    dynamicAxis: true,
+    seriesFormatter: params => {
+      return Math.round(params.value) / 100 + '%';
+    }
   },
   templatePatchWaterfall: {
     type: 'waterfall',
@@ -305,6 +308,9 @@ const templateAllLine: Ref<{
     tooltipValueFormatter: (value, dataIndex) => {
       console.log(value, dataIndex);
       return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
+    },
+    seriesFormatter: params => {
+      return Math.round(params.value) / 100 + '%';
     }
   },
   templateMultipleLine: {
