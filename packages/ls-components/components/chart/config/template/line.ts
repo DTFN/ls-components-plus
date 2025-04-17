@@ -259,7 +259,8 @@ const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType
     name,
     lineBar,
     axis,
-    symbol = 'circle'
+    symbol = 'circle',
+    seriesFormatter
   } = templatePatch;
   if (type === 'multiple') {
     return (seriesData || []).map((item: any, i: number) => {
@@ -274,7 +275,17 @@ const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType
         areaStyle: areaStyle ? areaStyle : null,
         label: {
           show: showBarFont,
-          position: labelPosition
+          position: labelPosition,
+          formatter: seriesFormatter
+            ? seriesFormatter
+            : function (params: any) {
+                const val = params.value;
+                if (val !== 0) {
+                  return val;
+                } else {
+                  return '';
+                }
+              }
         },
         showBackground: showBackground,
         backgroundStyle: {
@@ -300,7 +311,17 @@ const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType
         name,
         label: {
           show: showBarFont,
-          position: labelPosition
+          position: labelPosition,
+          formatter: seriesFormatter
+            ? seriesFormatter
+            : function (params: any) {
+                const val = params.value;
+                if (val !== 0) {
+                  return val;
+                } else {
+                  return '';
+                }
+              }
         },
         showBackground: showBackground,
         backgroundStyle: {

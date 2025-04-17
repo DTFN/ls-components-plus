@@ -228,21 +228,31 @@ const getPos = (axis: string, labelPosition: 'both' | 'insideBoth', status: bool
 };
 
 const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index: number) => {
-  const { type = 'simple', showBarFont = true, labelPosition = 'inside', axis = 'x', showBackground, theme } = templatePatch;
+  const {
+    type = 'simple',
+    showBarFont = true,
+    labelPosition = 'inside',
+    axis = 'x',
+    showBackground,
+    theme,
+    seriesFormatter
+  } = templatePatch;
   const option: any = {
     type: 'bar',
     name: item.name,
     label: {
       show: showBarFont,
       position: labelPosition,
-      formatter: function (params: any) {
-        const val = params.value;
-        if (val !== 0) {
-          return val;
-        } else {
-          return '';
-        }
-      }
+      formatter: seriesFormatter
+        ? seriesFormatter
+        : function (params: any) {
+            const val = params.value;
+            if (val !== 0) {
+              return val;
+            } else {
+              return '';
+            }
+          }
     },
     showBackground: showBackground,
     backgroundStyle: {
@@ -289,14 +299,16 @@ const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index
     option.label = item.label || {
       show: index > 0 && showBarFont,
       position: labelPosition,
-      formatter: function (params: any) {
-        const val = params.value;
-        if (val !== 0) {
-          return val;
-        } else {
-          return '';
-        }
-      }
+      formatter: seriesFormatter
+        ? seriesFormatter
+        : function (params: any) {
+            const val = params.value;
+            if (val !== 0) {
+              return val;
+            } else {
+              return '';
+            }
+          }
     };
     if (['both', 'insideBoth'].includes(labelPosition)) {
       option.label.position = getPos(axis, labelPosition as 'both' | 'insideBoth', index === 1);

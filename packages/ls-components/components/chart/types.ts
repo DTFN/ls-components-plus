@@ -55,6 +55,7 @@ export type ChartTemplatePatchType = {
   areaStyle?: object;
   name?: string | number;
   symbol?: 'circle' | 'rect' | 'roundRect' | 'triangle' | 'diamond' | 'pin' | 'arrow';
+  seriesFormatter?: Function;
 };
 
 export type ChartMapDataType = {
