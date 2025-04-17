@@ -733,6 +733,18 @@ const tableData = ref([
     desc: '是否支持折线柱状图混合展示',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'tooltipValueFormatter',
+    desc: '自定义tooltip值展示内容，参考bar',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'seriesLabelFormatter',
+    desc: '自定义数据label展示内容，参考bar',
+    type: 'function',
+    value: '-'
   }
 ])
 

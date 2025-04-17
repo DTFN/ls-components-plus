@@ -235,7 +235,7 @@ const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index
     axis = 'x',
     showBackground,
     theme,
-    seriesFormatter
+    seriesLabelFormatter
   } = templatePatch;
   const option: any = {
     type: 'bar',
@@ -243,8 +243,8 @@ const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index
     label: {
       show: showBarFont,
       position: labelPosition,
-      formatter: seriesFormatter
-        ? seriesFormatter
+      formatter: seriesLabelFormatter
+        ? seriesLabelFormatter
         : function (params: any) {
             const val = params.value;
             if (val !== 0) {
@@ -299,8 +299,8 @@ const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index
     option.label = item.label || {
       show: index > 0 && showBarFont,
       position: labelPosition,
-      formatter: seriesFormatter
-        ? seriesFormatter
+      formatter: seriesLabelFormatter
+        ? seriesLabelFormatter
         : function (params: any) {
             const val = params.value;
             if (val !== 0) {
