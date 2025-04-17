@@ -11,6 +11,25 @@
 * **ls-component:** 🧩 代码优化 ([299d0cf](https://github.com/DTFN/ls-components-plus/commit/299d0cf202c9c0e12013fd1cb66277cfe8b12936))
 * **ls-component:** 🧩 代码优化 ([9b126d4](https://github.com/DTFN/ls-components-plus/commit/9b126d45c8e7fb93c9f0f72f3ca66dcb0282656b))
 * **ls-component:** 🧩 完善valueFormatter ([74b32d5](https://github.com/DTFN/ls-components-plus/commit/74b32d549db6c5ccc68dd0c738c62b257d9f3d51))
+* **ls-component:** 🧩 文档更新 ([1c568fa](https://github.com/DTFN/ls-components-plus/commit/1c568fa75d607c81c633f6739d5f49f588f74f6a))
+* **ls-component:** 🧩 文档更新 ([7051f8a](https://github.com/DTFN/ls-components-plus/commit/7051f8a4a3653daccdf5334b1f055823cfc30887))
+* **ls-component:** 🧩 文档更新 ([0ef94e6](https://github.com/DTFN/ls-components-plus/commit/0ef94e68a682a9517d33731e146efc7f78154ab4))
+* **ls-component:** 🧩 更新配置文件 ([5d0b8a4](https://github.com/DTFN/ls-components-plus/commit/5d0b8a4c1eec37a71ff408ce872814e12f384e94))
+* **ls-doc:** 🧩 更新chart自定义轴内容使用说明 ([a72afa4](https://github.com/DTFN/ls-components-plus/commit/a72afa4d9590d1ba3f44bf12daba0b2aaffb3986))
+
+## [1.7.11](https://github.com/DTFN/ls-components-plus/compare/v1.7.10...v1.7.11) (2025-04-17)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 bar、line增加serieslabel自定义 ([e62ffd0](https://github.com/DTFN/ls-components-plus/commit/e62ffd069dac62dd625d7449e44cb2feebd25442))
+* **ls-component:** 🧩 chart支持valueFormatter扩展 ([73c1f7c](https://github.com/DTFN/ls-components-plus/commit/73c1f7c3e787b08e9c6507c17138d72ac84bffa5))
+* **ls-component:** 🧩 update ([a3297bc](https://github.com/DTFN/ls-components-plus/commit/a3297bcfa10baeb22e8f7c903b8042361c87803d))
+* **ls-component:** 🧩 update ([09694fb](https://github.com/DTFN/ls-components-plus/commit/09694fbb8b5cd3703b95446e0899d982672f35df))
+* **ls-component:** 🧩 update ([2477ef3](https://github.com/DTFN/ls-components-plus/commit/2477ef3bdff8ab14f4aedd0aebc47255ad7b605c))
+* **ls-component:** 🧩 代码优化 ([299d0cf](https://github.com/DTFN/ls-components-plus/commit/299d0cf202c9c0e12013fd1cb66277cfe8b12936))
+* **ls-component:** 🧩 代码优化 ([9b126d4](https://github.com/DTFN/ls-components-plus/commit/9b126d45c8e7fb93c9f0f72f3ca66dcb0282656b))
+* **ls-component:** 🧩 完善valueFormatter ([74b32d5](https://github.com/DTFN/ls-components-plus/commit/74b32d549db6c5ccc68dd0c738c62b257d9f3d51))
 * **ls-component:** 🧩 文档更新 ([7051f8a](https://github.com/DTFN/ls-components-plus/commit/7051f8a4a3653daccdf5334b1f055823cfc30887))
 * **ls-component:** 🧩 文档更新 ([0ef94e6](https://github.com/DTFN/ls-components-plus/commit/0ef94e68a682a9517d33731e146efc7f78154ab4))
 * **ls-component:** 🧩 更新配置文件 ([5d0b8a4](https://github.com/DTFN/ls-components-plus/commit/5d0b8a4c1eec37a71ff408ce872814e12f384e94))
