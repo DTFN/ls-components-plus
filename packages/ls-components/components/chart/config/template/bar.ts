@@ -12,13 +12,23 @@ import {
 } from '../base';
 import { ChartDataType, ChartMapDataType, ChartTemplatePatchType } from '@cpo/chart/types';
 
-const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: string) => {
+const setTooltipFormat = (
+  data: any,
+  legend: boolean,
+  legendIcon: string | undefined,
+  i: number,
+  defBarColor: string,
+  tooltipValueFormatter: Function | undefined,
+  dataIndex: number
+) => {
   const { name, seriesName, value, color } = data;
   const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
   const seriesHtml =
     legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
   const valueHtml =
-    value !== '-' && seriesName !== 'temp' ? `<span class="value">${value || value == 0 ? value : '-'}</span>` : '';
+    value !== '-' && seriesName !== 'temp'
+      ? `<span class="value">${tooltipValueFormatter ? tooltipValueFormatter(value, dataIndex) : value || value == 0 ? value : '-'}</span>`
+      : '';
   const badgeHtml =
     value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge ${legendIcon}" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
@@ -27,14 +37,30 @@ const setTooltipFormat = (data: any, legend: boolean, legendIcon: string | undef
 };
 
 const setTooltip = (templatePatch: ChartTemplatePatchType) => {
-  let { legend, legendIcon, tooltip = 'shadow', theme = 'default', tooltipFormatter, barColorList } = templatePatch;
+  let {
+    legend,
+    legendIcon,
+    tooltip = 'shadow',
+    theme = 'default',
+    tooltipFormatter,
+    barColorList,
+    tooltipValueFormatter
+  } = templatePatch;
   const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME][0];
   tooltipFormatter = tooltipFormatter
     ? tooltipFormatter
     : function (params: any) {
         let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
         params.forEach((item: any, i: number) => {
-          formatterHtml += setTooltipFormat(item, Boolean(legend), legendIcon, i, defBarColor);
+          formatterHtml += setTooltipFormat(
+            item,
+            Boolean(legend),
+            legendIcon,
+            i,
+            defBarColor,
+            tooltipValueFormatter,
+            item.dataIndex
+          );
         });
         return formatterHtml + '</div>';
       };
@@ -202,21 +228,31 @@ const getPos = (axis: string, labelPosition: 'both' | 'insideBoth', status: bool
 };
 
 const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index: number) => {
-  const { type = 'simple', showBarFont = true, labelPosition = 'inside', axis = 'x', showBackground, theme } = templatePatch;
+  const {
+    type = 'simple',
+    showBarFont = true,
+    labelPosition = 'inside',
+    axis = 'x',
+    showBackground,
+    theme,
+    seriesLabelFormatter
+  } = templatePatch;
   const option: any = {
     type: 'bar',
     name: item.name,
     label: {
       show: showBarFont,
       position: labelPosition,
-      formatter: function (params: any) {
-        const val = params.value;
-        if (val !== 0) {
-          return val;
-        } else {
-          return '';
-        }
-      }
+      formatter: seriesLabelFormatter
+        ? seriesLabelFormatter
+        : function (params: any) {
+            const val = params.value;
+            if (val !== 0) {
+              return val;
+            } else {
+              return '';
+            }
+          }
     },
     showBackground: showBackground,
     backgroundStyle: {
@@ -263,14 +299,16 @@ const setSeriesOption = (templatePatch: ChartTemplatePatchType, item: any, index
     option.label = item.label || {
       show: index > 0 && showBarFont,
       position: labelPosition,
-      formatter: function (params: any) {
-        const val = params.value;
-        if (val !== 0) {
-          return val;
-        } else {
-          return '';
-        }
-      }
+      formatter: seriesLabelFormatter
+        ? seriesLabelFormatter
+        : function (params: any) {
+            const val = params.value;
+            if (val !== 0) {
+              return val;
+            } else {
+              return '';
+            }
+          }
     };
     if (['both', 'insideBoth'].includes(labelPosition)) {
       option.label.position = getPos(axis, labelPosition as 'both' | 'insideBoth', index === 1);

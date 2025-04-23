@@ -55,6 +55,32 @@ watch(
   }
 );
 
+watch(
+  () => props.labelWidth,
+  val => {
+    updateLabelWidth(val);
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+function updateLabelWidth(val: string) {
+  nextTick(() => {
+    if (val) {
+      const labelDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
+      labelDoms.forEach((element: any) => {
+        element.style.width = props.labelWidth;
+      });
+      const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || [];
+      contentDoms.forEach((element: any) => {
+        element.style.width = 'auto';
+      });
+    }
+  });
+}
+
 async function updateLabelStyle(color: string, type: number) {
   await nextTick();
   const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
@@ -125,6 +151,27 @@ async function updateLabelStyle(color: string, type: number) {
     :deep(.el-descriptions__body) {
       td {
         width: 16.666%;
+      }
+    }
+  }
+  &.column-4 {
+    :deep(.el-descriptions__body) {
+      td {
+        width: 12.5%;
+      }
+    }
+  }
+  &.column-5 {
+    :deep(.el-descriptions__body) {
+      td {
+        width: 10%;
+      }
+    }
+  }
+  &.column-6 {
+    :deep(.el-descriptions__body) {
+      td {
+        width: 8.333%;
       }
     }
   }

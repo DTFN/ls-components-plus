@@ -86,13 +86,13 @@ function openViewerDocx() {
 
 ::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.8.69。
 
-[字体下载](https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/cmaps.zip)，下载完成后解压到public文件夹下
+[字体下载](/cmaps.zip)，下载完成后解压到public文件夹下
 :::
 
 <br />
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
 <ClientOnly>
-  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'/cmaps/' />
+  <LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 </ClientOnly>
 
 ```js
@@ -113,7 +113,7 @@ function openViewerPdf() {
 
 ```html
 <LSButton type="primary" @click="openViewerPdf">Pdf预览</LSButton>
-<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'/cmaps/' />
+<LSPreviewPdf v-model="showViewer3" :on-close="closeViewer3" :source="source3" :c-map-url-path="'\/cmaps\/'" />
 ```
 
 ### 4. Xlsx预览，使用前需要引入lucksheet依赖资源，目前支持两种引入方式。
@@ -293,8 +293,8 @@ const tableData = ref([
   },
   {
     name: 'c-map-url-path',
-    desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径',
-    type： 'string',
+    desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径(1.7.10+)',
+    type:'string',
     value: '-'
   }
 ]);

@@ -12,13 +12,38 @@ outline: deep
 
 ## API
 
-### 1 Attributes 公共参数
+### 1. Attributes 公共参数
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2 Exposes
+### 2. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
+
+## 自定义参数
+
+### 1. 自定义x或y轴内容展示，示例见Bar(templatePatchSimple)
+
+```js
+const customOption = {
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
+  ]
+}
+```
+```html
+<LSChart
+  template="bar"
+  :custom-option="customOption"
+  width="800"
+  height="400"
+/>
+```
 
 <script setup>
 import { tableColumn, tableExposesColumn } from '../../constant';

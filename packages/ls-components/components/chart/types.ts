@@ -23,6 +23,7 @@ export type ChartTemplatePatchType = {
   axis?: string;
   tooltip?: string;
   tooltipFormatter?: Function;
+  tooltipValueFormatter?: Function;
   legend?: Array<string>;
   theme?: string;
   barColorList?: Array<string>;
@@ -54,6 +55,7 @@ export type ChartTemplatePatchType = {
   areaStyle?: object;
   name?: string | number;
   symbol?: 'circle' | 'rect' | 'roundRect' | 'triangle' | 'diamond' | 'pin' | 'arrow';
+  seriesFormatter?: Function;
 };
 
 export type ChartMapDataType = {
