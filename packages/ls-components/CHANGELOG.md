@@ -1,3 +1,11 @@
+## [1.7.12](https://github.com/DTFN/ls-components-plus/compare/v1.7.11...v1.7.12) (2025-04-23)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 拓展LSDescriptions column样式，增加label-width功能 ([470e805](https://github.com/DTFN/ls-components-plus/commit/470e805bb03ed0928c41cb9b06c5af035505b5a5))
+* **ls-component:** 🧩 文档更新 ([bec2a38](https://github.com/DTFN/ls-components-plus/commit/bec2a38d2f8f8cc1df039742a657870ad3929d29))
+
 ## [1.7.11](https://github.com/DTFN/ls-components-plus/compare/v1.7.10...v1.7.11) (2025-04-17)
 
 
