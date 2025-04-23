@@ -82,7 +82,13 @@ const customMultiBarOption = {
       type: 'value',
       axisLabel: {
         formatter: '{value} °C'
-      }
+      },
+      show: false
+    }
+  ],
+  xAxis: [
+    {
+      show: false
     }
   ]
 };
