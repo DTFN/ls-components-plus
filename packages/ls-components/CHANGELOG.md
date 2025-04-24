@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/DTFN/ls-components-plus/compare/v1.7.12...v1.8.0) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 文档更新 ([3e7c468](https://github.com/DTFN/ls-components-plus/commit/3e7c468c19fe2c93766ef6f5a06a68606259a050))
+
+
+### Features
+
+* **ls-component:** 🚀 layout增加header，aside灰色样式 ([e4f67a2](https://github.com/DTFN/ls-components-plus/commit/e4f67a2ec9b58b44783acb6231647800d5085fc8))
+
 ## [1.7.12](https://github.com/DTFN/ls-components-plus/compare/v1.7.11...v1.7.12) (2025-04-23)
 
 
