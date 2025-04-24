@@ -185,26 +185,26 @@ function onDropdownCommand2(val: string) {
   }
   &.header-gray {
     .el-header {
-      background-color: #191a20;
+      background-color: #191a20 !important;
       :deep(div) {
-        color: #e5eaf3;
+        color: #e5eaf3 !important;
       }
     }
   }
   &.aside-gray {
     .el-aside {
-      background-color: #191a20;
+      background-color: #191a20 !important;
       :deep(.el-menu) {
-        background-color: #191a20;
+        background-color: #191a20 !important;
         .el-sub-menu__title,
         .el-menu-item {
-          color: #bdbdc0;
+          color: #bdbdc0 !important;
           &:hover {
-            color: #ffffff;
-            background-color: #191a20;
+            color: #ffffff !important;
+            background-color: #191a20 !important;
             span {
               &::before {
-                background-color: #ffffff;
+                background-color: #ffffff !important;
               }
             }
           }
