@@ -289,10 +289,12 @@ function goBack() {
       title="Layout 测试"
       :user-name="'userName'"
       :command-list="commandList"
+      custom-css="header-gray aside-gray"
     >
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
+      <template #headerRight> qweqweqwe </template>
       <template #section>
         <div v-if="false" class="ls-main-container">
           <div class="ls-main-title">列表区域</div>

@@ -47,7 +47,7 @@ function onDropdownCommand2(val: string) {
 </script>
 
 <template>
-  <div :class="comClass">
+  <div :class="[comClass, customCss]">
     <el-container v-if="[1, 2].includes(Number(mode))">
       <el-header :height="headerHeight">
         <slot v-if="slots.header" name="header"></slot>
@@ -181,6 +181,54 @@ function onDropdownCommand2(val: string) {
       width: 96%;
       padding: 18px 24px;
       margin: auto;
+    }
+  }
+  &.header-gray {
+    .el-header {
+      background-color: #191a20;
+      :deep(div) {
+        color: #e5eaf3;
+      }
+    }
+  }
+  &.aside-gray {
+    .el-aside {
+      background-color: #191a20;
+      :deep(.el-menu) {
+        background-color: #191a20;
+        .el-sub-menu__title,
+        .el-menu-item {
+          color: #bdbdc0;
+          &:hover {
+            color: #ffffff;
+            background-color: #191a20;
+            span {
+              &::before {
+                background-color: #ffffff;
+              }
+            }
+          }
+        }
+        .el-menu-item {
+          span {
+            &::before {
+              background-color: #bdbdc0;
+            }
+          }
+          &.is-active {
+            color: #ffffff;
+            background-color: #000000 !important;
+            &::before {
+              background-color: #2285ff;
+            }
+            span {
+              &::before {
+                background-color: #2285ff;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
