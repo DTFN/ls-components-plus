@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/DTFN/ls-components-plus/compare/v1.8.1...v1.8.2) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout样式优化 ([69937d8](https://github.com/DTFN/ls-components-plus/commit/69937d81b5c99bb7e3202acd5ae4d58e8def6c3b))
+
 ## [1.8.1](https://github.com/DTFN/ls-components-plus/compare/v1.8.0...v1.8.1) (2025-04-24)
 
 
