@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/DTFN/ls-components-plus/compare/v1.8.0...v1.8.1) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化docx头部展示 ([971f562](https://github.com/DTFN/ls-components-plus/commit/971f5629ba796899d7f79415179120b80a834411))
+
 # [1.8.0](https://github.com/DTFN/ls-components-plus/compare/v1.7.12...v1.8.0) (2025-04-24)
 
 
