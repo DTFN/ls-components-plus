@@ -82,6 +82,12 @@ function listApi() {
   });
 }
 
+function dealParams(params: any) {
+  return {
+    ...params
+  };
+}
+
 function dealData(res: any) {
   const list = (res || []).map((item: any) => {
     item.popconfirmTxt = `确定删除该记录：${item.name}？`;
@@ -99,6 +105,10 @@ const spacer = h(ElDivider, { direction: 'vertical' });
 function getTableDelText(row: any) {
   return `删除-${row.name}`;
 }
+
+function queryFn(val: any) {
+  console.log('queryFn', val);
+}
 </script>
 
 <template>
@@ -113,6 +123,7 @@ function getTableDelText(row: any) {
     :disabled-table-del="(row: any) => row.name === '测试1'"
     :disabled-table-switch="(row: any) => row.name === '测试1'"
     :deal-data="dealData"
+    :deal-params="dealParams"
     :table-operate-column="{ minWidth: 200 }"
     :table-attrs="{ showSelect: true }"
     :show-table-operate="true"
@@ -122,6 +133,7 @@ function getTableDelText(row: any) {
     :table-edit-text="(row: any) => `编辑-${row.name}`"
     :table-del-text="getTableDelText"
     :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
+    :query-fn="queryFn"
     add-btn-text="新增数据"
   >
     <template #buttons-prepend-form-slot>

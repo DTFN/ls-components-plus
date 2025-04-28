@@ -508,6 +508,12 @@ const eventsTableData=[
     value: 'object：表单数据'
   },
   {
+    name: 'resetForm',
+    desc: '表单重置事件',
+    type: 'Function',
+    value: 'object：表单数据'
+  },
+  {
     name: 'handleLoading',
     desc: '加载中',
     type: 'Function',
@@ -585,7 +591,7 @@ const exposesTableData=[
     name: 'setCurrentPage',
     desc: '设置当前页',
     type: 'Function',
-    value: 'number'
+    value: 'number：页，isFetch：是否请求接口（默认true）'
   },
   {
     name: 'setPageSize',
