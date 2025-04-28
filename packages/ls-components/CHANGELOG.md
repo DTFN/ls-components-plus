@@ -1,3 +1,11 @@
+## [1.8.3](https://github.com/DTFN/ls-components-plus/compare/v1.8.2...v1.8.3) (2025-04-28)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout增加title插槽 ([c1964ad](https://github.com/DTFN/ls-components-plus/commit/c1964aded0a46452f954d8e5009589535061c3ab))
+* **ls-component:** list组件queryFn函数优化 ([3f27205](https://github.com/DTFN/ls-components-plus/commit/3f27205f4caaf9cccec7f66d14dffb532ca9f003))
+
 ## [1.8.2](https://github.com/DTFN/ls-components-plus/compare/v1.8.1...v1.8.2) (2025-04-24)
 
 
