@@ -63,6 +63,9 @@ function onDropdownCommand2(val: string) {
           <template #left>
             <slot name="headerLeft"></slot>
           </template>
+          <template v-if="slots.headerTitle" #title>
+            <slot name="headerTitle"></slot>
+          </template>
           <template #right>
             <slot name="headerRight"></slot>
           </template>
@@ -101,6 +104,9 @@ function onDropdownCommand2(val: string) {
           >
             <template #left>
               <slot name="headerLeft"></slot>
+            </template>
+            <template v-if="slots.headerTitle" #title>
+              <slot name="headerTitle"></slot>
             </template>
             <template #right>
               <slot name="headerRight"></slot>

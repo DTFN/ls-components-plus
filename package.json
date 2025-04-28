@@ -8,11 +8,9 @@
     "dev:ls-docs": "pnpm -r --filter ls-docs run dev",
     "build:ls-docs": "pnpm -r --filter ls-docs run build",
     "addall": "pnpm install --recursive",
-    "prepare": "husky install",
     "lint:fix": "eslint **/*.{vue,ts,json} --fix",
     "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-    "lint:lint-staged": "lint-staged",
     "release": "standard-version",
     "commit": "git add -A && git-cz"
   },
