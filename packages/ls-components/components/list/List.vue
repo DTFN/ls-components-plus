@@ -14,6 +14,7 @@ const props = defineProps(lsListProps);
 
 const emits = defineEmits<{
   submitForm: [formData: any];
+  resetForm: [data: any];
   handleLoading: [loading: boolean];
   handleCurrentPage: [currentPage: number];
   handlePageSize: [pageSize: number];
@@ -76,7 +77,7 @@ watch(pageSize, newVal => {
 
 // 查询
 function submitForm(val: any) {
-  handleCurrentPageChange(1);
+  handleCurrentPageChange(1, false);
   emits('submitForm', val);
   if (props?.queryFn) {
     props.queryFn(val);
@@ -88,6 +89,7 @@ function submitForm(val: any) {
 // 重置
 function resetForm(val: any) {
   console.warn('resetForm', val);
+  emits('resetForm', val);
   handleReset();
 }
 
