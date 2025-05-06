@@ -236,7 +236,6 @@ function loadError() {
     }
     .el-button,
     .num-wrap {
-      display: inline-block;
       vertical-align: middle;
     }
     .num-wrap {
@@ -244,6 +243,11 @@ function loadError() {
       font-size: 12px;
       font-weight: bold;
       color: #606266;
+    }
+    .el-button {
+      :deep(> span) {
+        line-height: inherit;
+      }
     }
   }
   .infinite-list-wrapper {

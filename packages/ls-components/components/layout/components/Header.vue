@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsHeaderProp } from '../types';
 import CommandList from './CommandList.vue';
+import defUserIcon from './default_head.png';
 
 const emits = defineEmits(lsEmitNames);
 
@@ -42,6 +43,10 @@ function onDropdownCommand(val: string) {
     <div class="head-right">
       <slot name="right"></slot>
       <CommandList v-if="showCommand" v-bind="props" @on-dropdown-command="onDropdownCommand" />
+      <template v-else>
+        <el-avatar :size="30" :src="userIcon || defUserIcon" alt="" />
+        <div class="name">{{ userName }}</div>
+      </template>
     </div>
   </div>
 </template>
@@ -61,6 +66,10 @@ function onDropdownCommand(val: string) {
   .head-right {
     display: flex;
     align-items: center;
+    .name {
+      margin-left: 8px;
+      font-size: 14px;
+    }
   }
 }
 </style>

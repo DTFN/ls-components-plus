@@ -292,6 +292,7 @@ const titleHtml = `test1`;
       :user-name="'userName'"
       :command-list="commandList"
       custom-css="header-gray aside-gray"
+      :show-command="false"
     >
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
