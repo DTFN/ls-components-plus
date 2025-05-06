@@ -1,3 +1,13 @@
+## [1.8.4](https://github.com/DTFN/ls-components-plus/compare/v1.8.3...v1.8.4) (2025-05-06)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout完善无command数据时，展示内容 ([71e640c](https://github.com/DTFN/ls-components-plus/commit/71e640ca14e8f43ca6488a2511dee19f7a7b9754))
+* **ls-component:** 🧩 优化pdf分页按钮样式 ([08feb56](https://github.com/DTFN/ls-components-plus/commit/08feb5627103b253188fa640e9dd411056fab3f7))
+* **ls-component:** 🧩 文档更新 ([c8a741f](https://github.com/DTFN/ls-components-plus/commit/c8a741ffeef1ecc393ecfa103b233edbd0075d1c))
+* **ls-doc:** 🧩 文档更新 ([d0d3165](https://github.com/DTFN/ls-components-plus/commit/d0d31651c77df05a6a37f253f5fcc3146a3ce782))
+
 ## [1.8.3](https://github.com/DTFN/ls-components-plus/compare/v1.8.2...v1.8.3) (2025-04-28)
 
 
