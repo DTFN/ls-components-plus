@@ -1,3 +1,10 @@
+## [1.8.5](https://github.com/DTFN/ls-components-plus/compare/v1.8.4...v1.8.5) (2025-05-14)
+
+
+### Bug Fixes
+
+* **ls-components:** table组件多选优化 ([1763e1d](https://github.com/DTFN/ls-components-plus/commit/1763e1dd762f6d378be3faca1b81a65300f9593c))
+
 ## [1.8.4](https://github.com/DTFN/ls-components-plus/compare/v1.8.3...v1.8.4) (2025-05-06)
 
 
