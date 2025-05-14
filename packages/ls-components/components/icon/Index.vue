@@ -33,5 +33,10 @@ defineProps(lsIconProps);
   font-size: 0;
   line-height: 0;
   vertical-align: middle;
+  :deep(.el-icon),
+  :deep(.iconify),
+  :deep(img) {
+    vertical-align: middle;
+  }
 }
 </style>

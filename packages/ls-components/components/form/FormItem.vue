@@ -3,12 +3,11 @@
  * Form item 组件
  * !!!最多支持101个 el-form-item
  */
-import { isEqual } from 'lodash-es';
+import { isEqual, get, set } from 'lodash-es';
 import { ref, computed } from 'vue';
 import { isEmpty } from '../_utils/utils';
 import { lsFormItemProps } from './types';
 import dayjs from 'dayjs';
-import { get, set } from 'lodash-es';
 
 const props = defineProps(lsFormItemProps);
 
@@ -495,7 +494,17 @@ defineExpose({
         :disabled="disabled"
         v-bind="attrs"
         v-on="listeners || {}"
-      />
+      >
+        <template v-if="$slots[`${slotName}-input-prefix`] || attrs?.prefixStr" #prefix>
+          <slot v-if="$slots[`${slotName}-input-prefix`]" :name="`${slotName}-input-prefix`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.prefixStr">{{ attrs?.prefixStr }}</span>
+        </template>
+
+        <template v-if="$slots[`${slotName}-input-suffix`] || attrs?.suffix" #suffix>
+          <slot v-if="$slots[`${slotName}-input-suffix`]" :name="`${slotName}-input-suffix`" :slot-row="{ ...props }" />
+          <span v-else-if="attrs?.suffix">{{ attrs?.suffix }}</span>
+        </template>
+      </el-input-number>
 
       <!-- 单选按钮 -->
       <el-radio-group

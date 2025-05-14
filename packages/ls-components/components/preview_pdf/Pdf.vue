@@ -19,6 +19,7 @@ const props = withDefaults(
     source: string;
     onClose: Function;
     showSize?: boolean;
+    cMapUrlPath: string;
   }>(),
   {
     showSize: true
@@ -55,9 +56,10 @@ const paginationTxt = computed(() => {
 async function initPdf() {
   if (props.source) {
     try {
-      const { pdf, processLoadingTask, pages }: any = usePDF(props.source, {
+      const { pdf, processLoadingTask, pages }: any = usePDF(props.source, props.cMapUrlPath, {
         onError: loadError
       });
+
       await processLoadingTask(props.source);
       pdfObj.value = pdf.value;
       allPages.value = pages.value;
@@ -234,7 +236,6 @@ function loadError() {
     }
     .el-button,
     .num-wrap {
-      display: inline-block;
       vertical-align: middle;
     }
     .num-wrap {
@@ -242,6 +243,11 @@ function loadError() {
       font-size: 12px;
       font-weight: bold;
       color: #606266;
+    }
+    .el-button {
+      :deep(> span) {
+        line-height: inherit;
+      }
     }
   }
   .infinite-list-wrapper {

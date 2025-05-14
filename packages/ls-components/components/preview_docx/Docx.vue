@@ -110,5 +110,8 @@ const closeFunc = () => {
 }
 :deep(.docx-wrapper) {
   background-color: transparent !important;
+  .docx_3 {
+    border: none !important;
+  }
 }
 </style>

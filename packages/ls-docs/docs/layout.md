@@ -968,6 +968,10 @@ const slotTableData = ref([
     desc: '默认头部右侧插槽，可自定义头部右侧内容',
   },
   {
+    name: 'headerTitle',
+    desc: '头部中间区域标题插槽，可自定义头部标题内容(v1.8.3+)',
+  },
+  {
     name: 'aside',
     desc: '侧边栏插槽，可自定义侧边栏内容',
   },

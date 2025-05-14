@@ -14,6 +14,7 @@ const props = defineProps(lsListProps);
 
 const emits = defineEmits<{
   submitForm: [formData: any];
+  resetForm: [data: any];
   handleLoading: [loading: boolean];
   handleCurrentPage: [currentPage: number];
   handlePageSize: [pageSize: number];
@@ -76,7 +77,7 @@ watch(pageSize, newVal => {
 
 // 查询
 function submitForm(val: any) {
-  handleCurrentPageChange(1);
+  handleCurrentPageChange(1, false);
   emits('submitForm', val);
   if (props?.queryFn) {
     props.queryFn(val);
@@ -88,6 +89,7 @@ function submitForm(val: any) {
 // 重置
 function resetForm(val: any) {
   console.warn('resetForm', val);
+  emits('resetForm', val);
   handleReset();
 }
 
@@ -232,6 +234,19 @@ function disabledTableSwitch(row: any) {
   return disabled ? true : false;
 }
 
+// 表格查看按钮的文案
+function getTableDetailText(row: any) {
+  if (props?.tableDetailText) {
+    if (typeof props.tableDetailText === 'string') {
+      return props.tableDetailText;
+    } else if (typeof props.tableDetailText === 'function') {
+      return props.tableDetailText(row);
+    }
+  }
+
+  return '查看';
+}
+
 // 表格查看按钮的显示规则
 function showTableDetail(row: any) {
   let show: boolean = false;
@@ -258,7 +273,20 @@ function disabledTableDetail(row: any) {
   return disabled ? true : false;
 }
 
-// 表格查看按钮的显示规则
+// 表格编辑按钮的文案
+function getTableEditText(row: any) {
+  if (props?.tableEditText) {
+    if (typeof props.tableEditText === 'string') {
+      return props.tableEditText;
+    } else if (typeof props.tableEditText === 'function') {
+      return props.tableEditText(row);
+    }
+  }
+
+  return '编辑';
+}
+
+// 表格编辑按钮的显示规则
 function showTableEdit(row: any) {
   let show: boolean = false;
   if (props?.showTableEdit) {
@@ -271,7 +299,7 @@ function showTableEdit(row: any) {
   return show ? true : false;
 }
 
-// 表格查看按钮的禁用规则
+// 表格编辑按钮的禁用规则
 function disabledTableEdit(row: any) {
   let disabled: boolean = false;
   if (props?.disabledTableEdit) {
@@ -284,7 +312,20 @@ function disabledTableEdit(row: any) {
   return disabled ? true : false;
 }
 
-// 表格查看按钮的显示规则
+// 表格删除按钮的文案
+function getTableDelText(row: any) {
+  if (props?.tableDelText) {
+    if (typeof props.tableDelText === 'string') {
+      return props.tableDelText;
+    } else if (typeof props.tableDelText === 'function') {
+      return props.tableDelText(row);
+    }
+  }
+
+  return '删除';
+}
+
+// 表格删除按钮的显示规则
 function showTableDel(row: any) {
   let show: boolean = false;
   if (props?.showTableDel) {
@@ -297,7 +338,7 @@ function showTableDel(row: any) {
   return show ? true : false;
 }
 
-// 表格查看按钮的禁用规则
+// 表格删除按钮的禁用规则
 function disabledTableDel(row: any) {
   let disabled: boolean = false;
   if (props?.disabledTableDel) {
@@ -308,6 +349,19 @@ function disabledTableDel(row: any) {
     }
   }
   return disabled ? true : false;
+}
+
+// 表格删除按钮的弹窗文案
+function getPopconfirmTxt(row: any) {
+  if (props?.popconfirmTxt) {
+    if (typeof props.popconfirmTxt === 'string') {
+      return props.popconfirmTxt;
+    } else if (typeof props.popconfirmTxt === 'function') {
+      return props.popconfirmTxt(row);
+    }
+  }
+
+  return `是否${getTableDelText(row)}当前行数据？`;
 }
 
 const spacer = h(ElDivider, { direction: 'vertical' });
@@ -432,7 +486,7 @@ defineExpose({
                 type="primary"
                 @click="onDetail(row[tableRowKey], row)"
               >
-                {{ tableDetailText || '查看' }}
+                {{ row.tableDetailText || getTableDetailText(row) }}
               </el-button>
 
               <el-button
@@ -442,7 +496,7 @@ defineExpose({
                 type="primary"
                 @click="onEdit(row[tableRowKey], row)"
               >
-                {{ tableEditText || '编辑' }}
+                {{ row.tableEditText || getTableEditText(row) }}
               </el-button>
 
               <el-popconfirm
@@ -452,7 +506,7 @@ defineExpose({
                 width="180"
                 confirm-button-text="确认"
                 cancel-button-text="取消"
-                :title="row.popconfirmTxt || popconfirmTxt || `是否${tableDelText || '删除'}当前行数据？`"
+                :title="row.popconfirmTxt || getPopconfirmTxt(row)"
                 @confirm="onDel(row[tableRowKey], row)"
               >
                 <template #reference>
@@ -462,7 +516,7 @@ defineExpose({
                     :disabled="delLoading || disabledTableDel(row)"
                     :loading="delLoading && delId === row[tableRowKey]"
                   >
-                    {{ delLoading && delId === row[tableRowKey] ? '' : tableDelText || '删除' }}
+                    {{ delLoading && delId === row[tableRowKey] ? '' : row.tableDelText || getTableDelText(row) }}
                   </el-button>
                 </template>
               </el-popconfirm>
@@ -475,6 +529,7 @@ defineExpose({
 
       <slot name="table-append" :table-data="tableData" />
 
+      <!-- 表格插槽 -->
       <template v-for="slotName in tableSlots" :key="slotName" #[getSlotName(slotName,false)]="scoope: any">
         <slot :name="slotName" v-bind="scoope" />
       </template>

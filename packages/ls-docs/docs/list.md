@@ -464,19 +464,19 @@ const attrTableData=[
   {
     name: 'tableDetailText',
     desc: '表格查看按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '查看'
   },
   {
     name: 'tableEditText',
     desc: '表格编辑按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '编辑'
   },
   {
     name: 'tableDelText',
     desc: '表格删除按钮文案',
-    type: 'string',
+    type: 'string/Function',
     value: '删除'
   },
   {
@@ -494,7 +494,7 @@ const attrTableData=[
   {
     name: 'popconfirmTxt',
     desc: 'popconfirm提示语',
-    type: 'string',
+    type: 'string/Function',
     value: '-'
   }
 ]
@@ -504,6 +504,12 @@ const eventsTableData=[
   {
     name: 'submitForm',
     desc: '表单查询事件',
+    type: 'Function',
+    value: 'object：表单数据'
+  },
+  {
+    name: 'resetForm',
+    desc: '表单重置事件',
     type: 'Function',
     value: 'object：表单数据'
   },
@@ -585,7 +591,7 @@ const exposesTableData=[
     name: 'setCurrentPage',
     desc: '设置当前页',
     type: 'Function',
-    value: 'number'
+    value: 'number：页，isFetch：是否请求接口（默认true）'
   },
   {
     name: 'setPageSize',

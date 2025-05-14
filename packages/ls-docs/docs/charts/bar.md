@@ -44,7 +44,7 @@ outline: deep
   template="bar"
   :data="dataSimple"
   :template-patch="templateAll.templatePatchSimple"
-  :custom-option="customOption"
+  :custom-option="customOptionSimple"
 />
 </ClientOnly>
 
@@ -59,10 +59,13 @@ const templateAll: any = ref({
   templatePatchSimple: {
     labelPosition: 'top',
     showBackground: true,
-    showBarFont: false
+    showBarFont: false,
+    tooltipValueFormatter: (value, dataIndex) => {
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
+    },
   }
 })
-const customOption = ref({
+const customOptionSimple = ref({
   xAxis: [
     {
       axisLabel: {
@@ -71,12 +74,20 @@ const customOption = ref({
         margin: 24
       }
     }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
   ]
 });
 ```
 
 ```html
-<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :custom-option="customOption" />
+<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :custom-option="customOptionSimple" />
 ```
 
 :::
@@ -106,7 +117,10 @@ const templateAll = ref({
     labelPosition: 'both',
     type: 'negative',
     tooltip: 'shadow',
-    legend: ['收入', '支出']
+    legend: ['收入', '支出'],
+    seriesLabelFormatter: params => {
+      return Math.round(params.value) / 100 + '%';
+    }
   }
 });
 ```
@@ -298,7 +312,7 @@ const themeOptions = ref([
   }
 ]);
 
-const customOption = ref({
+const customOptionSimple = {
   xAxis: [
     {
       axisLabel: {
@@ -307,21 +321,35 @@ const customOption = ref({
         margin: 24
       }
     }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} °C'
+      }
+    }
   ]
-});
+}
 
 // 柱状图
 const templateAll = ref({
   templatePatchSimple: {
     labelPosition: 'top',
     showBackground: true,
-    showBarFont: false
+    showBarFont: false,
+    tooltipValueFormatter: (value, dataIndex) => {
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
+    },
   },
   templatePatchNegative: {
     labelPosition: 'both',
     type: 'negative',
     tooltip: 'shadow',
-    legend: ['收入', '支出']
+    legend: ['收入', '支出'],
+    seriesLabelFormatter: params => {
+      return Math.round(params.value) / 100 + '%';
+    }
   },
   templatePatchWaterfall: {
     type: 'waterfall',
@@ -520,6 +548,18 @@ const tableData = ref([
     desc: '是否动态计算坐标轴数据，支持 simple / multiBar 类型',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'tooltipValueFormatter',
+    desc: '自定义tooltip值展示内容，示例templatePatchSimple',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'seriesLabelFormatter',
+    desc: '自定义数据label展示内容，示例templatePatchNegative',
+    type: 'function',
+    value: '-'
   }
 ])
 

@@ -1,3 +1,124 @@
+## [1.8.4](https://github.com/DTFN/ls-components-plus/compare/v1.8.3...v1.8.4) (2025-05-06)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout完善无command数据时，展示内容 ([71e640c](https://github.com/DTFN/ls-components-plus/commit/71e640ca14e8f43ca6488a2511dee19f7a7b9754))
+* **ls-component:** 🧩 优化pdf分页按钮样式 ([08feb56](https://github.com/DTFN/ls-components-plus/commit/08feb5627103b253188fa640e9dd411056fab3f7))
+* **ls-component:** 🧩 文档更新 ([c8a741f](https://github.com/DTFN/ls-components-plus/commit/c8a741ffeef1ecc393ecfa103b233edbd0075d1c))
+* **ls-doc:** 🧩 文档更新 ([d0d3165](https://github.com/DTFN/ls-components-plus/commit/d0d31651c77df05a6a37f253f5fcc3146a3ce782))
+
+## [1.8.3](https://github.com/DTFN/ls-components-plus/compare/v1.8.2...v1.8.3) (2025-04-28)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout增加title插槽 ([c1964ad](https://github.com/DTFN/ls-components-plus/commit/c1964aded0a46452f954d8e5009589535061c3ab))
+* **ls-component:** list组件queryFn函数优化 ([3f27205](https://github.com/DTFN/ls-components-plus/commit/3f27205f4caaf9cccec7f66d14dffb532ca9f003))
+
+## [1.8.2](https://github.com/DTFN/ls-components-plus/compare/v1.8.1...v1.8.2) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 layout样式优化 ([69937d8](https://github.com/DTFN/ls-components-plus/commit/69937d81b5c99bb7e3202acd5ae4d58e8def6c3b))
+
+## [1.8.1](https://github.com/DTFN/ls-components-plus/compare/v1.8.0...v1.8.1) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化docx头部展示 ([971f562](https://github.com/DTFN/ls-components-plus/commit/971f5629ba796899d7f79415179120b80a834411))
+
+# [1.8.0](https://github.com/DTFN/ls-components-plus/compare/v1.7.12...v1.8.0) (2025-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 文档更新 ([3e7c468](https://github.com/DTFN/ls-components-plus/commit/3e7c468c19fe2c93766ef6f5a06a68606259a050))
+
+
+### Features
+
+* **ls-component:** 🚀 layout增加header，aside灰色样式 ([e4f67a2](https://github.com/DTFN/ls-components-plus/commit/e4f67a2ec9b58b44783acb6231647800d5085fc8))
+
+## [1.7.12](https://github.com/DTFN/ls-components-plus/compare/v1.7.11...v1.7.12) (2025-04-23)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 拓展LSDescriptions column样式，增加label-width功能 ([470e805](https://github.com/DTFN/ls-components-plus/commit/470e805bb03ed0928c41cb9b06c5af035505b5a5))
+* **ls-component:** 🧩 文档更新 ([bec2a38](https://github.com/DTFN/ls-components-plus/commit/bec2a38d2f8f8cc1df039742a657870ad3929d29))
+
+## [1.7.11](https://github.com/DTFN/ls-components-plus/compare/v1.7.10...v1.7.11) (2025-04-17)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 bar、line增加serieslabel自定义 ([e62ffd0](https://github.com/DTFN/ls-components-plus/commit/e62ffd069dac62dd625d7449e44cb2feebd25442))
+* **ls-component:** 🧩 chart支持valueFormatter扩展 ([73c1f7c](https://github.com/DTFN/ls-components-plus/commit/73c1f7c3e787b08e9c6507c17138d72ac84bffa5))
+* **ls-component:** 🧩 update ([a3297bc](https://github.com/DTFN/ls-components-plus/commit/a3297bcfa10baeb22e8f7c903b8042361c87803d))
+* **ls-component:** 🧩 update ([09694fb](https://github.com/DTFN/ls-components-plus/commit/09694fbb8b5cd3703b95446e0899d982672f35df))
+* **ls-component:** 🧩 update ([2477ef3](https://github.com/DTFN/ls-components-plus/commit/2477ef3bdff8ab14f4aedd0aebc47255ad7b605c))
+* **ls-component:** 🧩 代码优化 ([299d0cf](https://github.com/DTFN/ls-components-plus/commit/299d0cf202c9c0e12013fd1cb66277cfe8b12936))
+* **ls-component:** 🧩 代码优化 ([9b126d4](https://github.com/DTFN/ls-components-plus/commit/9b126d45c8e7fb93c9f0f72f3ca66dcb0282656b))
+* **ls-component:** 🧩 完善valueFormatter ([74b32d5](https://github.com/DTFN/ls-components-plus/commit/74b32d549db6c5ccc68dd0c738c62b257d9f3d51))
+* **ls-component:** 🧩 文档更新 ([1c568fa](https://github.com/DTFN/ls-components-plus/commit/1c568fa75d607c81c633f6739d5f49f588f74f6a))
+* **ls-component:** 🧩 文档更新 ([7051f8a](https://github.com/DTFN/ls-components-plus/commit/7051f8a4a3653daccdf5334b1f055823cfc30887))
+* **ls-component:** 🧩 文档更新 ([0ef94e6](https://github.com/DTFN/ls-components-plus/commit/0ef94e68a682a9517d33731e146efc7f78154ab4))
+* **ls-component:** 🧩 更新配置文件 ([5d0b8a4](https://github.com/DTFN/ls-components-plus/commit/5d0b8a4c1eec37a71ff408ce872814e12f384e94))
+* **ls-doc:** 🧩 更新chart自定义轴内容使用说明 ([a72afa4](https://github.com/DTFN/ls-components-plus/commit/a72afa4d9590d1ba3f44bf12daba0b2aaffb3986))
+
+## [1.7.11](https://github.com/DTFN/ls-components-plus/compare/v1.7.10...v1.7.11) (2025-04-17)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 bar、line增加serieslabel自定义 ([e62ffd0](https://github.com/DTFN/ls-components-plus/commit/e62ffd069dac62dd625d7449e44cb2feebd25442))
+* **ls-component:** 🧩 chart支持valueFormatter扩展 ([73c1f7c](https://github.com/DTFN/ls-components-plus/commit/73c1f7c3e787b08e9c6507c17138d72ac84bffa5))
+* **ls-component:** 🧩 update ([a3297bc](https://github.com/DTFN/ls-components-plus/commit/a3297bcfa10baeb22e8f7c903b8042361c87803d))
+* **ls-component:** 🧩 update ([09694fb](https://github.com/DTFN/ls-components-plus/commit/09694fbb8b5cd3703b95446e0899d982672f35df))
+* **ls-component:** 🧩 update ([2477ef3](https://github.com/DTFN/ls-components-plus/commit/2477ef3bdff8ab14f4aedd0aebc47255ad7b605c))
+* **ls-component:** 🧩 代码优化 ([299d0cf](https://github.com/DTFN/ls-components-plus/commit/299d0cf202c9c0e12013fd1cb66277cfe8b12936))
+* **ls-component:** 🧩 代码优化 ([9b126d4](https://github.com/DTFN/ls-components-plus/commit/9b126d45c8e7fb93c9f0f72f3ca66dcb0282656b))
+* **ls-component:** 🧩 完善valueFormatter ([74b32d5](https://github.com/DTFN/ls-components-plus/commit/74b32d549db6c5ccc68dd0c738c62b257d9f3d51))
+* **ls-component:** 🧩 文档更新 ([7051f8a](https://github.com/DTFN/ls-components-plus/commit/7051f8a4a3653daccdf5334b1f055823cfc30887))
+* **ls-component:** 🧩 文档更新 ([0ef94e6](https://github.com/DTFN/ls-components-plus/commit/0ef94e68a682a9517d33731e146efc7f78154ab4))
+* **ls-component:** 🧩 更新配置文件 ([5d0b8a4](https://github.com/DTFN/ls-components-plus/commit/5d0b8a4c1eec37a71ff408ce872814e12f384e94))
+* **ls-doc:** 🧩 更新chart自定义轴内容使用说明 ([a72afa4](https://github.com/DTFN/ls-components-plus/commit/a72afa4d9590d1ba3f44bf12daba0b2aaffb3986))
+
+## [1.7.10](https://github.com/DTFN/ls-components-plus/compare/v1.7.9...v1.7.10) (2025-03-31)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 pdf中文字体展示修复 ([28e610c](https://github.com/DTFN/ls-components-plus/commit/28e610cca1dd72cc93be29c21eb3b5ab33aa08d7))
+
+## [1.7.9](https://github.com/DTFN/ls-components-plus/compare/v1.7.8...v1.7.9) (2025-03-31)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 修复lsmenu样式 ([6b58ac9](https://github.com/DTFN/ls-components-plus/commit/6b58ac9c3659bdc847644fde46fb8f4a331aae83))
+* **ls-component:** 🧩 修复pdf不识别中文汉字 ([93f976a](https://github.com/DTFN/ls-components-plus/commit/93f976a5623533cafda0f3c9c1f95ca547926789))
+* **ls-component:** 表单单个输入框时阻止回车刷新页面 ([3644b67](https://github.com/DTFN/ls-components-plus/commit/3644b6773aad010ba76300114330fbaa8017fed5))
+
+## [1.7.8](https://github.com/DTFN/ls-components-plus/compare/v1.7.7...v1.7.8) (2025-03-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 icon对齐完善，xlsx多余高度处理 ([e934933](https://github.com/DTFN/ls-components-plus/commit/e9349333bf42fabc01c72b46cb9aba822e0dc725))
+
+## [1.7.7](https://github.com/DTFN/ls-components-plus/compare/v1.7.6...v1.7.7) (2025-03-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化menu配置的icon对齐 ([9397477](https://github.com/DTFN/ls-components-plus/commit/9397477b7e8093ce6f53a90641257c8a6ee7204f))
+* **ls-doc:** 🧩 list文档更新 ([f91f8eb](https://github.com/DTFN/ls-components-plus/commit/f91f8ebe361083b875980e8019f6a468768006f6))
+* **ls-doc:** 🧩 文档更新 ([7fa27a0](https://github.com/DTFN/ls-components-plus/commit/7fa27a0b638fed41282051ffc34c21379edb67ef))
+
 ## [1.7.6](https://github.com/DTFN/ls-components-plus/compare/v1.7.5...v1.7.6) (2025-02-20)
 
 

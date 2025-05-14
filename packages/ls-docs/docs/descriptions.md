@@ -12,7 +12,7 @@ outline: deep
 ### 1. 两栏模式
 
 <br />
-<LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1"></LSDescriptions>
+<LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1" label-width="120px"></LSDescriptions>
 
 ```js
 import { ref } from 'vue';
@@ -37,7 +37,7 @@ const list1 = ref([
 ```
 
 ```html
-<LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1"></LSDescriptions>
+<LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1" label-width="200px"></LSDescriptions>
 ```
 
 ### 2. 四栏模式
@@ -201,6 +201,12 @@ const tableData = ref([
     desc: 'label背景颜色',
     type: 'string',
     value: '#e2edff'
+  },
+  {
+    name: 'labelWidth',
+    desc: 'label宽度设置，需带单位例如px，rem',
+    type: 'string',
+    value: '-'
   },
   {
     name: 'list',

@@ -36,6 +36,7 @@ function configWorker(wokerSrc: string) {
  */
 export function usePDF(
   src: PDFSrc | Ref<PDFSrc>,
+  cMapUrlPath: string,
   options: PDFOptions = {
     onProgress: undefined,
     onPassword: undefined,
@@ -53,7 +54,16 @@ export function usePDF(
   function processLoadingTask(source: any) {
     if (pdfDoc.value) void pdfDoc.value.destroy();
 
-    const loadingTask = getDocument(source);
+    // const loadingTask = getDocument(source);
+    const loadingTask = getDocument(
+      cMapUrlPath
+        ? {
+            url: source,
+            cMapUrl: cMapUrlPath,
+            cMapPacked: true
+          }
+        : source
+    );
     if (options.onProgress) loadingTask.onProgress = options.onProgress;
 
     if (options.onPassword) {
@@ -130,7 +140,7 @@ export function usePDF(
 
   async function print(dpi = 150, filename = 'filename') {
     if (!pdfDoc.value) throw new Error('Current PDFDocumentProxy have not loaded yet');
-    const bytes = await pdfDoc.value?.saveDocument();
+    const bytes: any = await pdfDoc.value?.saveDocument();
     const savedLoadingTask = getDocument(bytes.buffer);
     const savedDocument = await savedLoadingTask.promise;
 
