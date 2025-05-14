@@ -12,8 +12,8 @@ export default function (
     isFullDose?: boolean; // 是否全量数据
     hasPanigation?: boolean; // 是否有分页
     autoFetch?: boolean; // 是否页面加载时自动获取数据
-    dealData?: (res: any) => any; // 处理返回数据的方法
-    dealParams?: (params: any) => any; // 处理请求参数的方法
+    dealData?: Function | ((res: any) => any) | undefined; // 处理返回数据的方法
+    dealParams?: Function | ((params: any) => any) | undefined; // 处理请求参数的方法
     callbackAfter?: (res: any, data: any) => void | undefined; // 请求完成后的回调
   }
 ) {
@@ -75,7 +75,12 @@ export default function (
       }
     } else {
       // 无分页
-      tableData.value = resData;
+      if (dealData && typeof dealData === 'function') {
+        const { data } = dealData(resData);
+        tableData.value = data || [];
+      } else {
+        tableData.value = resData;
+      }
 
       if (callbackAfter) {
         callbackAfter(resData, {});

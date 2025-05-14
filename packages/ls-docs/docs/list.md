@@ -13,26 +13,47 @@ outline: deep
 
 <br>
 <ClientOnly>
-<LSList
-  :list-api="listApi"
-  :form-data="formData"
-  :form-items="formItems"
-  :table-column="tableColumn_1"
-  :show-table-switch="true"
-  :show-table-edit="true"
-  :disabled-table-del="(row: any) => row.name === '测试1'"
-  :disabled-table-switch="(row: any) => row.name === '测试1'"
-  :deal-data="dealData"
->
-</LSList>
+  <LSList
+     ref="ListRef"
+    :list-api="listApi"
+    :form-data="formData"
+    :form-items="formItems"
+    :table-column="tableColumn_1"
+    :deal-data="dealData"
+    :table-operate-column="{width: 340 }"
+    :table-attrs="{
+      showSelect:true,
+      selectColumnOptions:{
+        reserveSelection:true
+      }
+    }"
+    :show-table-switch="true"
+    :table-detail-text="(row: any) => `查看${row.name}`"
+    :disabled-table-del="(row: any) => row.id%2===0"
+    :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
+  >
+   <template #table-slot-table-slot>
+      <div>自定义表格内容</div>
+    </template>
+    <template #table-operate-append="{ row }">
+      <el-space :size="0" :spacer="spacer">
+        <el-button v-if="row.status === 1" link type="primary"> 下架 </el-button>
+        <el-button link type="primary"> 提交 </el-button>
+      </el-space>
+    </template>
+  </LSList>
 </ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
+import { ElDivider } from 'element-plus';
+import { h,ref } from 'vue';
+
+const spacer = h(ElDivider, { direction: 'vertical' });
+
 const formData = ref({
   name: undefined,
-  type: undefined
 });
 
 const formItems = [
@@ -46,71 +67,101 @@ const formItems = [
 const tableColumn = [
   {
     label: '名称',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '类型',
-    prop: 'type'
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '自定义',
+    prop: 'table-slot',
+    type: 'slot'
   },
   {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    type: 'date'
   }
 ];
+
+function generateTableData(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24,
+      status: index % 2
+    });
+  }
+
+  return result;
+}
 
 function listApi() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(
-        [
-          {
-            id: 1,
-            name: '测试1',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 1
-          },
-          {
-            id: 2,
-            name: '测试2',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 0
-          }
-        ]
-      );
+      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize));
     }, 1000);
   });
 }
 
-function dealData(res: any) {
-  const list = res || [];
-
-  (res || []).map((item: any) => {
-    /***动态化每行二次提示语 start***/
-    item.popconfirmTxt = `确定删除该记录：${item.name}？`;
-    /***动态化每行二次提示语 end***/
-    return item;
-  })
+function dealParams(params) {
   return {
-    data: list,
-    total: list.length
+    ...params
+  };
+}
+
+function dealData(res) {
+  return {
+    data: res,
+    total: 100
   };
 }
 ```
 
 ```html
 <LSList
+  ref="ListRef"
   :list-api="listApi"
   :form-data="formData"
   :form-items="formItems"
-  :table-column="tableColumn"
-  :show-table-switch="true"
-  :show-table-edit="true"
-  :disabled-table-del="(row: any) => row.name === '测试1'"
-  :disabled-table-switch="(row: any) => row.name === '测试1'"
+  :table-column="tableColumn_1"
   :deal-data="dealData"
+  :table-operate-column="{width: 340 }"
+  :table-attrs="{
+    showSelect:true,
+    selectColumnOptions:{
+      reserveSelection:true
+    }
+  }"
+  :show-table-switch="true"
+  :table-detail-text="(row: any) => `查看${row.name}`"
+  :disabled-table-del="(row: any) => row.id%2===0"
+  :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
 >
+  <template #table-slot-table-slot>
+    <div>自定义表格内容</div>
+  </template>
+
+  <template #table-operate-append="{ row }">
+    <el-space :size="0" :spacer="spacer">
+      <el-button v-if="row.status === 1" link type="primary"> 
+          下架 
+      </el-button>
+      <el-button link type="primary"> 提交 </el-button>
+    </el-space>
+  </template>
 </LSList>
 ```
 
@@ -137,12 +188,16 @@ function dealData(res: any) {
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData" />
 
 <script setup>
+import { ElSpace, ElButton, ElDivider } from 'element-plus';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
-import { ref } from 'vue';
+import { h,ref } from 'vue';
+
+const spacer = h(ElDivider, { direction: 'vertical' });
+
+const ListRef = ref(null);
 
 const formData = ref({
-  name: undefined,
-  type: undefined
+  name: undefined
 });
 
 const formItems = [
@@ -156,48 +211,65 @@ const formItems = [
 const tableColumn_1 = [
   {
     label: '名称',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '类型',
-    prop: 'type'
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '自定义',
+    prop: 'table-slot',
+    type: 'slot'
   },
   {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    type: 'date'
   }
 ];
+
+function generateTableData(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24,
+      status: index % 2
+    });
+  }
+
+  return result;
+}
 
 function listApi() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(
-        [
-          {
-            id: 1,
-            name: '测试1',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 1
-          },
-          {
-            id: 2,
-            name: '测试2',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 0
-          }
-        ]
-      );
+      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize));
     }, 1000);
   });
 }
 
-function dealData(res) {
-  const list = res || [];
+function dealParams(params) {
   return {
-    data: list,
-    total: list.length
+    ...params
+  };
+}
+
+function dealData(res) {
+  return {
+    data: res,
+    total: 100
   };
 }
 
@@ -451,13 +523,13 @@ const attrTableData=[
   },
    {
     name: 'detailRoutePath',
-    desc: '详情页面路由地址',
+    desc: '详情页面路由地址（在末尾会添加上/id）',
     type: 'string',
     value: '默认: 当前页路由地址/detail/:id'
   },
    {
     name: 'editRoutePath',
-    desc: '编辑页面路由地址',
+    desc: '编辑页面路由地址（在末尾会添加上/id）',
     type: 'string',
     value: '默认: 当前页路由地址/edit/:id'
   },
