@@ -38,7 +38,7 @@ const templateAll: Ref<{
     showBackground: true,
     showBarFont: false,
     dynamicAxis: true,
-    tooltipValueFormatter: (value, dataIndex) => {
+    tooltipValueFormatter: (value: any, dataIndex: number) => {
       console.log(value, dataIndex);
       return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     }
@@ -50,7 +50,7 @@ const templateAll: Ref<{
     legend: ['收入', '支出'],
     legendIcon: 'circle',
     dynamicAxis: true,
-    seriesLabelFormatter: params => {
+    seriesLabelFormatter: (params: any) => {
       return Math.round(params.value) / 100 + '%';
     }
   },
@@ -305,17 +305,87 @@ const lineData = {
     7.63, 7.48, 7.42
   ]
 };
+const train = [
+  { value: [0, 0], dataSrcType: 'train', threshold: 0.4271 },
+  { value: [0.0343, 0.0747], dataSrcType: 'train', threshold: 0.411 },
+  { value: [0.0748, 0.1398], dataSrcType: 'train', threshold: 0.4059 },
+  { value: [0.1123, 0.2094], dataSrcType: 'train', threshold: 0.4016 },
+  { value: [0.152, 0.2758], dataSrcType: 'train', threshold: 0.3982 },
+  { value: [0.1908, 0.3434], dataSrcType: 'train', threshold: 0.3962 },
+  { value: [0.2386, 0.3969], dataSrcType: 'train', threshold: 0.3941 },
+  { value: [0.2847, 0.453], dataSrcType: 'train', threshold: 0.3925 },
+  { value: [0.3362, 0.5006], dataSrcType: 'train', threshold: 0.3909 },
+  { value: [0.3799, 0.5606], dataSrcType: 'train', threshold: 0.3896 },
+  { value: [0.4293, 0.6108], dataSrcType: 'train', threshold: 0.3885 },
+  { value: [0.4792, 0.6611], dataSrcType: 'train', threshold: 0.3873 },
+  { value: [0.5335, 0.7043], dataSrcType: 'train', threshold: 0.3861 },
+  { value: [0.5878, 0.7474], dataSrcType: 'train', threshold: 0.3847 },
+  { value: [0.6393, 0.7951], dataSrcType: 'train', threshold: 0.3835 },
+  { value: [0.6973, 0.8325], dataSrcType: 'train', threshold: 0.3822 },
+  { value: [0.7578, 0.866], dataSrcType: 'train', threshold: 0.3805 },
+  { value: [0.8158, 0.9034], dataSrcType: 'train', threshold: 0.3785 },
+  { value: [0.8754, 0.9381], dataSrcType: 'train', threshold: 0.3762 },
+  { value: [0.9355, 0.9723], dataSrcType: 'train', threshold: 0.373 },
+  { value: [0.9996, 1], dataSrcType: 'train', threshold: 0.365 }
+];
+const validate = [
+  { value: [0, 0], dataSrcType: 'validate', threshold: 0.4272 },
+  { value: [0.0236, 0.0826], dataSrcType: 'validate', threshold: 0.414 },
+  { value: [0.067, 0.1406], dataSrcType: 'validate', threshold: 0.4065 },
+  { value: [0.1014, 0.2098], dataSrcType: 'validate', threshold: 0.4031 },
+  { value: [0.1395, 0.2746], dataSrcType: 'validate', threshold: 0.4001 },
+  { value: [0.1667, 0.3527], dataSrcType: 'validate', threshold: 0.3977 },
+  { value: [0.2138, 0.4063], dataSrcType: 'validate', threshold: 0.3955 },
+  { value: [0.2554, 0.4665], dataSrcType: 'validate', threshold: 0.394 },
+  { value: [0.3025, 0.5201], dataSrcType: 'validate', threshold: 0.3921 },
+  { value: [0.3424, 0.5826], dataSrcType: 'validate', threshold: 0.3904 },
+  { value: [0.3913, 0.6317], dataSrcType: 'validate', threshold: 0.3892 },
+  { value: [0.4348, 0.6897], dataSrcType: 'validate', threshold: 0.388 },
+  { value: [0.4982, 0.7232], dataSrcType: 'validate', threshold: 0.3866 },
+  { value: [0.5471, 0.7746], dataSrcType: 'validate', threshold: 0.3856 },
+  { value: [0.6014, 0.8192], dataSrcType: 'validate', threshold: 0.3841 },
+  { value: [0.6739, 0.8415], dataSrcType: 'validate', threshold: 0.3827 },
+  { value: [0.7373, 0.875], dataSrcType: 'validate', threshold: 0.3813 },
+  { value: [0.8025, 0.9063], dataSrcType: 'validate', threshold: 0.3793 },
+  { value: [0.8641, 0.942], dataSrcType: 'validate', threshold: 0.3771 },
+  { value: [0.9275, 0.9754], dataSrcType: 'validate', threshold: 0.3735 },
+  { value: [0.9982, 1], dataSrcType: 'validate', threshold: 0.3654 }
+];
+const lineData2 = {
+  seriesData: [
+    {
+      name: 'train',
+      data: train,
+      type: 'line',
+      smooth: true,
+      symbolSize: 5,
+      areaStyle: true,
+      label: {
+        show: false
+      }
+    },
+    {
+      name: 'validate',
+      data: validate,
+      type: 'line',
+      smooth: true,
+      symbolSize: 5,
+      areaStyle: true
+    }
+  ]
+};
+
 const templateAllLine: Ref<{
   [key: string]: ChartTemplatePatchType;
 }> = ref({
   templateSimpleLine: {
     labelPosition: 'top',
     tooltip: 'cross',
-    tooltipValueFormatter: (value, dataIndex) => {
+    tooltipValueFormatter: (value: any, dataIndex: number) => {
       console.log(value, dataIndex);
       return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     },
-    seriesLabelFormatter: params => {
+    seriesLabelFormatter: (params: any) => {
       return Math.round(params.value) / 100 + '%';
     }
   },
@@ -330,6 +400,18 @@ const templateAllLine: Ref<{
     dataZoom: 'horizontal',
     dataZoomColorOut: 'green',
     dataZoomColorIn: 'yellow'
+    // dynamicAxis: true
+  },
+  templateMultipleLine2: {
+    labelPosition: 'top',
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    showBarFont: false
+    // dataZoom: 'horizontal'
+    // dataZoomColorOut: 'green',
+    // dataZoomColorIn: 'yellow'
     // dynamicAxis: true
   },
   templateLineBar: {
@@ -417,6 +499,65 @@ const dynamicLine: any = {
     }
   ]
 };
+
+const customOptionLine2 = ref({
+  legend: {
+    data: ['train_TPR']
+  },
+  xAxis: {
+    type: 'value',
+    splitNumber: 10,
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    type: 'value',
+    name: 'TPR,FPR',
+    splitNumber: 10
+  },
+  series: [
+    {
+      name: `train_TPR`,
+      data: [
+        [0, 0.9982],
+        [0.05, 0.9275],
+        [0.1, 0.8641],
+        [0.15, 0.8025],
+        [0.2, 0.7373],
+        [0.25, 0.6739],
+        [0.3, 0.6014],
+        [0.35, 0.5471],
+        [0.4, 0.4982],
+        [0.45, 0.4348],
+        [0.5, 0.3913],
+        [0.55, 0.3424],
+        [0.6, 0.3025],
+        [0.65, 0.2554],
+        [0.7, 0.2138],
+        [0.75, 0.1667],
+        [0.8, 0.1395],
+        [0.85, 0.1014],
+        [0.9, 0.067],
+        [0.95, 0.0236],
+        [1, 0]
+      ],
+      type: 'line',
+      markLine: {
+        symbol: ['none', 'none'],
+        lineStyle: {
+          color: 'red',
+          width: 2,
+          type: 'dashed'
+        },
+        data: [
+          { type: 'average', name: '平均值' },
+          { yAxis: 0.5, name: 'TPR = 0.5' }
+        ]
+      }
+    }
+  ]
+});
 
 // 饼图
 const customOptionPie = ref({
@@ -636,6 +777,23 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         :style="{ marginTop: '16px' }"
         height="400"
       />
+
+      <LSChart
+        template="line"
+        :data="lineData2"
+        :template-patch="templateAllLine.templateMultipleLine2"
+        :style="{ marginTop: '16px' }"
+        :custom-option="{
+          xAxis: [
+            {
+              type: 'value'
+            }
+          ]
+        }"
+        height="400"
+      />
+
+      <LSChart :custom-option="customOptionLine2" height="600" />
 
       <el-divider content-position="left">饼图</el-divider>
 

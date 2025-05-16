@@ -8,12 +8,18 @@ import {
   LegendComponent,
   ToolboxComponent,
   DataZoomComponent,
-  GraphicComponent
+  GraphicComponent,
+  MarkLineComponent
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { lsChartProps } from './types';
 import config from './config';
+
+const ns = useNamespace('chart');
+const comClass: string = ns.b();
+
+const props = defineProps(lsChartProps);
 
 echarts.use([
   TooltipComponent,
@@ -28,13 +34,9 @@ echarts.use([
   CanvasRenderer,
   BarChart,
   GaugeChart,
-  GraphicComponent
+  GraphicComponent,
+  MarkLineComponent
 ]);
-
-const ns = useNamespace('chart');
-const comClass: string = ns.b();
-
-const props = defineProps(lsChartProps);
 
 const lsChartRef = ref();
 const echartObj: Ref<echarts.ECharts | undefined> = ref();
