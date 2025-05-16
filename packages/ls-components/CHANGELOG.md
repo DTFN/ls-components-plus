@@ -1,3 +1,10 @@
+## [1.8.6](https://github.com/DTFN/ls-components-plus/compare/v1.8.5...v1.8.6) (2025-05-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 chart增加组件 ([72e698e](https://github.com/DTFN/ls-components-plus/commit/72e698e94f7c511a6d707b2f92493eb5da4477c0))
+
 ## [1.8.5](https://github.com/DTFN/ls-components-plus/compare/v1.8.4...v1.8.5) (2025-05-14)
 
 
