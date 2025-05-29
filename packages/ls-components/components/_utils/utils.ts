@@ -313,7 +313,7 @@ export function elementOutOfBounds(element: any, containerDom?: any) {
  * @param len 随机码长度
  * @returns
  */
-export function getRandomNum(len: number) {
+export function getRandomCode(len: number) {
   return Math.random()
     .toString(36)
     .substring(2, 2 + len);
