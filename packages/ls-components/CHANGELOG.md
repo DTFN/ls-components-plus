@@ -1,3 +1,10 @@
+## [1.8.7](https://github.com/DTFN/ls-components-plus/compare/v1.8.6...v1.8.7) (2025-05-29)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化dialog按钮 ([8d1578f](https://github.com/DTFN/ls-components-plus/commit/8d1578f59834bc560d255a7680d63c46274d6fe4))
+
 ## [1.8.6](https://github.com/DTFN/ls-components-plus/compare/v1.8.5...v1.8.6) (2025-05-16)
 
 
