@@ -118,6 +118,7 @@ onMounted(async () => {
       :btn-confirm-config="btnConfirmConfig"
       @on-confirm="onConfirm"
       align-center
+      :has-confirm-btn="true"
     >
       <template #header>
         <div>弹窗头部</div>
