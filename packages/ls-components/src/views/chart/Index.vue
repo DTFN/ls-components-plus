@@ -559,6 +559,81 @@ const customOptionLine2 = ref({
   ]
 });
 
+const dataHeatmap = [];
+for (let i = 0; i < 7; i++) {
+  for (let j = 0; j < 24; j++) {
+    dataHeatmap.push([j, i, Math.floor(Math.random() * 100)]);
+  }
+}
+const customOptionLine3 = ref({
+  tooltip: {
+    position: 'top'
+  },
+  grid: {
+    height: '50%',
+    top: '10%'
+  },
+  xAxis: {
+    type: 'category',
+    data: [
+      '12a',
+      '1a',
+      '2a',
+      '3a',
+      '4a',
+      '5a',
+      '6a',
+      '7a',
+      '8a',
+      '9a',
+      '10a',
+      '11a',
+      '12p',
+      '1p',
+      '2p',
+      '3p',
+      '4p',
+      '5p',
+      '6p',
+      '7p',
+      '8p',
+      '9p',
+      '10p',
+      '11p'
+    ],
+    splitArea: { show: true }
+  },
+  yAxis: {
+    type: 'category',
+    data: ['Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday', 'Sunday'],
+    splitArea: { show: true }
+  },
+  visualMap: {
+    min: 0,
+    max: 100,
+    calculable: true,
+    orient: 'horizontal',
+    left: 'center',
+    bottom: '5%'
+  },
+  series: [
+    {
+      name: '热力值',
+      type: 'heatmap',
+      data: dataHeatmap,
+      label: {
+        show: false
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+});
+
 // 饼图
 const customOptionPie = ref({
   series: [
@@ -794,6 +869,8 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
       />
 
       <LSChart :custom-option="customOptionLine2" height="600" />
+
+      <LSChart :custom-option="customOptionLine3" height="600" />
 
       <el-divider content-position="left">饼图</el-divider>
 

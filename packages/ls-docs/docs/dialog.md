@@ -145,6 +145,12 @@ const tableData = ref([
     value: 'true'
   },
   {
+    name:'hasConfirmBtn',
+    desc: '是否显示确认按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
     name: 'hasCancelBtn',
     desc: '是否显示取消按钮',
     type: 'boolean',
