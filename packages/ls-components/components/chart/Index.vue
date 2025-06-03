@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSChart">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import * as echarts from 'echarts/core';
-import { LineChart, PieChart, BarChart, GaugeChart } from 'echarts/charts';
+import { LineChart, PieChart, BarChart, GaugeChart, HeatmapChart } from 'echarts/charts';
 import {
   TooltipComponent,
   GridComponent,
@@ -9,7 +9,8 @@ import {
   ToolboxComponent,
   DataZoomComponent,
   GraphicComponent,
-  MarkLineComponent
+  MarkLineComponent,
+  VisualMapComponent
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -35,7 +36,9 @@ echarts.use([
   BarChart,
   GaugeChart,
   GraphicComponent,
-  MarkLineComponent
+  MarkLineComponent,
+  VisualMapComponent,
+  HeatmapChart
 ]);
 
 const lsChartRef = ref();
