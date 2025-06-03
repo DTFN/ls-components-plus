@@ -1,3 +1,11 @@
+## [1.8.8](https://github.com/DTFN/ls-components-plus/compare/v1.8.7...v1.8.8) (2025-06-03)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([f27d716](https://github.com/DTFN/ls-components-plus/commit/f27d716c8f27e56478698e25a41bee1274a492ae))
+* **ls-component:** 🧩 文档更新 ([40503ab](https://github.com/DTFN/ls-components-plus/commit/40503ab9ee7067d4f5b5e08b50365123b9c2c00a))
+
 ## [1.8.7](https://github.com/DTFN/ls-components-plus/compare/v1.8.6...v1.8.7) (2025-05-29)
 
 
