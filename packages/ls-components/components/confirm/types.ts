@@ -70,6 +70,10 @@ export const lsConfirmProps = buildProps({
   requestParams: {
     type: Object,
     default: () => ({})
+  },
+  icon: {
+    type: Object,
+    default: () => ({})
   }
 });
 
