@@ -1,3 +1,10 @@
+## [1.8.9](https://github.com/DTFN/ls-components-plus/compare/v1.8.8...v1.8.9) (2025-06-19)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 confirm更新icon ([45a695a](https://github.com/DTFN/ls-components-plus/commit/45a695a412677c5c6f9aae92c3495376aec353d9))
+
 ## [1.8.8](https://github.com/DTFN/ls-components-plus/compare/v1.8.7...v1.8.8) (2025-06-03)
 
 
