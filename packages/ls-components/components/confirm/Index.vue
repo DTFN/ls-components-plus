@@ -67,6 +67,7 @@ function initBox() {
     confirmButtonText: props.confirmBtnTxt,
     cancelButtonText: props.cancelBtnTxt,
     type: props.type,
+    icon: props.icon,
     center: props.center,
     draggable: props.draggable,
     dangerouslyUseHTMLString: props.useHtml,

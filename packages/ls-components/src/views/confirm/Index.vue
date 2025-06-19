@@ -7,6 +7,9 @@ const message = ref('内容');
 const type = ref(1);
 const useHtml = ref(false);
 const requestApi: any = ref(null);
+import { QuestionFilled } from '@element-plus/icons-vue';
+
+const defIcon = markRaw(QuestionFilled);
 
 function onConfirm(data: any) {
   console.log(data.value);
@@ -59,6 +62,7 @@ const handleClick = (val: number) => {
       :use-html="useHtml"
       :request-api="requestApi"
       type="warning"
+      :icon="defIcon"
       :request-params="{ id: 111 }"
       @on-confirm="onConfirm"
       @on-cancel="onCancel"
