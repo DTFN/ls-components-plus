@@ -2,6 +2,7 @@
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsTreeProps } from './types';
 import { excutePowerTree } from '@cpo/_utils/power';
+import type { TreeNodeData } from 'element-plus';
 
 const emitAll = defineEmits(emitNames);
 
@@ -34,6 +35,8 @@ const curData: any = computed(() => {
   return props.treeData;
 });
 
+const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'is-penultimate' : '');
+
 watch(
   () => curData.value,
   async newVal => {
@@ -44,7 +47,7 @@ watch(
       await nextTick();
       lsTreeRef.value!.filter();
       updateAllCheckStatus();
-      updateStyle();
+      // updateStyle();
       await updateHideStyle();
     }
   },
@@ -152,21 +155,21 @@ function updateAllCheckStatus() {
 }
 
 // 更新样式
-function updateStyle() {
-  if (props.direction == 'h') {
-    const treeNodes = lsTreeRef.value?.el$?.getElementsByClassName('el-tree-node');
-    for (let i = 0; i < treeNodes.length; i++) {
-      const element = treeNodes[i] as HTMLElement;
-      if (element) {
-        const iconNode = element.querySelector('.el-tree-node__content .el-icon') as HTMLElement | null;
-        if (iconNode && getComputedStyle(iconNode).visibility === 'hidden') {
-          element.style.display = 'inline-block';
-          element.style.verticalAlign = 'middle';
-        }
-      }
-    }
-  }
-}
+// function updateStyle() {
+//   if (props.direction == 'h') {
+//     const treeNodes = lsTreeRef.value?.el$?.getElementsByClassName('el-tree-node');
+//     for (let i = 0; i < treeNodes.length; i++) {
+//       const element = treeNodes[i] as HTMLElement;
+//       if (element) {
+//         const iconNode = element.querySelector('.el-tree-node__content .el-icon') as HTMLElement | null;
+//         if (iconNode && getComputedStyle(iconNode).visibility === 'hidden') {
+//           element.style.display = 'inline-block';
+//           element.style.verticalAlign = 'middle';
+//         }
+//       }
+//     }
+//   }
+// }
 
 defineExpose({
   lsTreeRef
@@ -187,7 +190,7 @@ defineExpose({
       :style="treeStyle"
       :class="[treeClass, !isExpand && 'expand-disabled']"
       :data="treeData"
-      :props="dataProps"
+      :props="{ ...dataProps, ...{ class: customNodeClass } }"
       :default-checked-keys="defaultCheckedKeys"
       :expand-on-click-node="isExpand"
       :filter-node-method="filterNode"
@@ -243,6 +246,27 @@ defineExpose({
       top: 11px;
       margin-left: 30px;
       word-break: keep-all;
+    }
+    :deep(.el-tree-node) {
+      // 最后一级节点水平
+      .is-penultimate {
+        > .el-tree-node__children {
+          > div {
+            display: inline-block;
+            margin-right: 3px;
+            vertical-align: middle;
+            &:not(:first-child) .el-tree-node__content {
+              padding-left: 0 !important;
+              .el-tree-node__expand-icon {
+                display: none;
+              }
+            }
+            .el-tree-node__content {
+              padding-right: 16px;
+            }
+          }
+        }
+      }
     }
   }
 

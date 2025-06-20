@@ -18,14 +18,12 @@ outline: deep
   :is-check-all="true"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
-  direction="v"
 />
 <LSTree
   :tree-data="treeData"
   :is-check-all="false"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
-  direction="h"
 />
 </ClientOnly>
 
@@ -602,7 +600,7 @@ const tableData = ref([
     value: 'false'
   },
   {
-    name: 'direction',
+    name: 'direction(v1.9.0废弃)',
     desc: '展示方向，h: 水平展示，v: 垂直展示',
     type: 'string',
     value: 'v'
