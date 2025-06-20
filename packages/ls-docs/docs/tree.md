@@ -600,7 +600,7 @@ const tableData = ref([
     value: 'false'
   },
   {
-    name: 'direction(v1.9.0废弃)',
+    name: 'direction(v1.8.10废弃)',
     desc: '展示方向，h: 水平展示，v: 垂直展示',
     type: 'string',
     value: 'v'
