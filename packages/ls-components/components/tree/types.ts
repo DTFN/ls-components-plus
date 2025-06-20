@@ -31,11 +31,11 @@ export const lsTreeProps = buildProps({
     type: Boolean,
     default: false
   },
-  // 展示方式 默认：垂直展示
-  direction: {
-    type: String as PropType<'h' | 'v'>,
-    default: 'v'
-  },
+  // // 展示方式 默认：垂直展示
+  // direction: {
+  //   type: String as PropType<'h' | 'v'>,
+  //   default: 'v'
+  // },
   showCheckbox: {
     type: Boolean,
     default: true
