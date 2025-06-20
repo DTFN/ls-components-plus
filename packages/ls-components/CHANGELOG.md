@@ -1,3 +1,11 @@
+## [1.8.10](https://github.com/DTFN/ls-components-plus/compare/v1.8.9...v1.8.10) (2025-06-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 tree组件更新 ([d4f8a3a](https://github.com/DTFN/ls-components-plus/commit/d4f8a3adc13ec94d026dd57138dbc0ea2b9c46c6))
+* **ls-component:** 🧩 update ([83169ac](https://github.com/DTFN/ls-components-plus/commit/83169ac621f0912012229d01bf8921df16636293))
+
 ## [1.8.9](https://github.com/DTFN/ls-components-plus/compare/v1.8.8...v1.8.9) (2025-06-19)
 
 
