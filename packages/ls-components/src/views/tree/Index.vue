@@ -1,7 +1,44 @@
 <script setup lang="ts">
 import { isEmpty } from '@cpo/_utils/utils';
-
 const treeData = ref([
+  {
+    id: 1,
+    name: '权益管理',
+    permission: '1',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '权益车辆',
+        permission: '11',
+        parentId: 1,
+        isPenultimate: true,
+        children: [
+          {
+            id: 111,
+            name: '导出',
+            permission: '111',
+            parentId: 11
+          },
+          {
+            id: 112,
+            name: '导入',
+            permission: '112',
+            parentId: 11
+          }
+        ]
+      },
+      {
+        id: 22,
+        name: '权益海报',
+        permission: '11',
+        parentId: 1
+      }
+    ]
+  }
+]);
+
+const treeData2 = ref([
   {
     id: 20100,
     clientId: 2,
@@ -673,12 +710,12 @@ const visible = ref(false);
   <div>
     <LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
-    <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+    <LSTree :tree-data="treeData2" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
     <br />
     <LSButton @click="visible = true">测试</LSButton>
     <LSDialog v-model="visible" title="基础用法Title">
-      <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+      <LSTree :tree-data="treeData2" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
     </LSDialog>
 
     <br />

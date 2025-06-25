@@ -530,7 +530,7 @@ function changeRadio(value: any, prop: string) {
     :loading="loading"
     has-def-read-style
     @submit="onSubmit"
-    @change-select="changeSelect"
+    @on-change="changeSelect"
     @change-radio="changeRadio"
   >
     <template #param1-input-prepend> 必填 </template>
