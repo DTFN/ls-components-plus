@@ -1,12 +1,13 @@
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist';
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min?url';
-import { isRef, shallowRef, watch } from 'vue';
+import { shallowRef } from 'vue';
 
 import type { PDFDocumentLoadingTask, PDFDocumentProxy } from 'pdfjs-dist';
 import type { Ref } from 'vue';
 import type { OnPasswordCallback, PDFDestination, PDFInfo, PDFOptions, PDFSrc } from './types';
 import { getDestinationArray, getDestinationRef, getLocation, isSpecLike } from './pdfs/destination';
 import { addStylesToIframe, createIframe } from './pdfs/miscellaneous';
+import { fileEmpty } from '@cpo/_constants/previewType';
 
 // Could not find a way to make this work with vite, importing the worker entry bundle the whole worker to the the final output
 // https://erindoyle.dev/using-pdfjs-with-vite/
@@ -97,6 +98,7 @@ export function usePDF(
       (error: Error) => {
         // PDF loading error
         if (typeof options.onError === 'function') options.onError(error);
+        ElMessage.error(fileEmpty);
       }
     );
   }
@@ -187,14 +189,14 @@ export function usePDF(
     document.body.removeChild(iframe);
   }
 
-  if (isRef(src)) {
-    if (src.value) processLoadingTask(src.value);
-    watch(src, () => {
-      if (src.value) processLoadingTask(src.value);
-    });
-  } else {
-    if (src) processLoadingTask(src);
-  }
+  // if (isRef(src)) {
+  //   if (src.value) processLoadingTask(src.value);
+  //   watch(src, () => {
+  //     if (src.value) processLoadingTask(src.value);
+  //   });
+  // } else {
+  //   if (src) processLoadingTask(src);
+  // }
 
   return {
     pdf,
