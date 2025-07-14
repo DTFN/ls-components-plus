@@ -1,3 +1,12 @@
+## [1.8.11](https://github.com/DTFN/ls-components-plus/compare/v1.8.10...v1.8.11) (2025-07-14)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([9838713](https://github.com/DTFN/ls-components-plus/commit/9838713815afea48747fc698b77574e93cf6d592))
+* **ls-component:** 🧩 update ([ab64e44](https://github.com/DTFN/ls-components-plus/commit/ab64e448d6e9e7ac6760d388ec6bb903613f9323))
+* **ls-component:** 🧩 xlsx打开渲染显示，资源异常预览关闭及提示修复 ([e971a9a](https://github.com/DTFN/ls-components-plus/commit/e971a9a9625cb29a18f0b7b1b9bf0c481abb30a2))
+
 ## [1.8.10](https://github.com/DTFN/ls-components-plus/compare/v1.8.9...v1.8.10) (2025-06-20)
 
 
