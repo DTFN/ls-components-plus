@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { docxProps } from './types';
-import { previewEmits } from '@cpo/_constants/previewType';
+import { previewEmits, fileEmpty } from '@cpo/_constants/previewType';
 import { isArrayBuffer } from '@cpo/_utils/check';
 
 const ns = useNamespace('docx');
@@ -18,7 +18,9 @@ const docxRef = ref();
 watch(
   () => props.source,
   val => {
-    updateDocx(val);
+    if (val) {
+      updateDocx(val);
+    }
   },
   {
     immediate: true,
@@ -28,6 +30,8 @@ watch(
 
 async function updateDocx(val: ArrayBuffer | String) {
   if (!val || !isArrayBuffer(val)) {
+    ElMessage.error(fileEmpty);
+    emits('loadError');
     return;
   }
 

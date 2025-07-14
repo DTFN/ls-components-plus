@@ -12,7 +12,7 @@ import print from 'vue3-print-nb';
 
 import LSWebPlus from '@cpo/main';
 // import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 // import '@lingshugroup/web-plus/index.css';
 
 // import { LSForm, LSFormItem } from '../lib/form/';
@@ -27,8 +27,8 @@ const app = createApp(App);
 
 function createDirective() {
   app.directive('print', print);
-  vAuth.permissions = ['a', 'b', 'c'];
-  app.directive('auth', vAuth);
+  // vAuth.permissions = ['a', 'b', 'c'];
+  // app.directive('auth', vAuth);
 }
 
 // 创建实例

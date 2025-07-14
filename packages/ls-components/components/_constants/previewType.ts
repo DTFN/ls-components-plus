@@ -34,3 +34,5 @@ export const lsPreviewProp = buildProps({
     }
   }
 });
+
+export const fileEmpty = '文档加载失败，请检查资源是否存在';

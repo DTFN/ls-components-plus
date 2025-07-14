@@ -40,8 +40,10 @@ const emits = defineEmits<{
 
 watch(
   () => props.source,
-  () => {
-    initPdf();
+  val => {
+    if (val) {
+      initPdf();
+    }
   },
   {
     immediate: true,

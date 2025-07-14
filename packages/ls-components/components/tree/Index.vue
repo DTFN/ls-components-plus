@@ -248,8 +248,8 @@ defineExpose({
       word-break: keep-all;
     }
     :deep(.el-tree-node) {
-      // 最后一级节点水平
-      .is-penultimate {
+      // 根据该字段判断是否水平还是垂直展示
+      &.is-penultimate {
         > .el-tree-node__children {
           > div {
             display: inline-block;
