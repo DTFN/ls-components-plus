@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/DTFN/ls-components-plus/compare/v1.8.11...v2.0.0) (2025-07-15)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 xlsx、pdf 点击空白区域支持关闭 ([e3c99a3](https://github.com/DTFN/ls-components-plus/commit/e3c99a387fe6db90af24eae70a07ba63489caf00))
+
+
+### BREAKING CHANGES
+
+* **ls-component:** xlsx、pdf 点击空白区域支持关闭
+
 ## [1.8.11](https://github.com/DTFN/ls-components-plus/compare/v1.8.10...v1.8.11) (2025-07-14)
 
 

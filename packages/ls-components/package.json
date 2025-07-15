@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/web-plus",
-  "version": "1.8.11",
+  "version": "2.0.0",
   "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
   "main": "./lib/index/index.cjs",
