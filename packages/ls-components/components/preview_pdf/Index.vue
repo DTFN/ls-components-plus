@@ -34,10 +34,18 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
+
+function closePreview(e: any) {
+  if (props.hideOnClickModal) {
+    if (e.target === e.currentTarget) {
+      previewVisible.value = false;
+    }
+  }
+}
 </script>
 
 <template>
-  <div v-if="previewVisible" :class="comClass">
+  <div v-if="previewVisible" :class="comClass" @click="closePreview">
     <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
   </div>
 </template>

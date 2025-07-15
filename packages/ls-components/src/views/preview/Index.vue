@@ -114,8 +114,15 @@ function download(data: any) {
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
       </template>
     </LSPreviewImage>
-    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
-    <LSPreviewPdf v-model="showViewerPdf" :c-map-url-path="'/cmaps/'" :on-close="closeViewer" :type="type" :source="source" />
+    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" :hide-on-click-modal="true" />
+    <LSPreviewPdf
+      v-model="showViewerPdf"
+      :c-map-url-path="'/cmaps/'"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :hide-on-click-modal="true"
+    />
     <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
 
     <!-- <el-image

@@ -32,6 +32,10 @@ export const lsPreviewProp = buildProps({
     default: () => {
       return {};
     }
+  },
+  hideOnClickModal: {
+    type: Boolean,
+    default: false
   }
 });
 
