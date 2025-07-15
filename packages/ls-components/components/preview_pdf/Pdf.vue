@@ -194,6 +194,12 @@ function loadError() {
   }
   .pdf-content {
     margin-top: 40px;
+    > div {
+      position: absolute !important;
+      left: 50%;
+      padding-bottom: 6px;
+      transform: translateX(-50%);
+    }
   }
   .ls-pdf__btn {
     position: absolute;
