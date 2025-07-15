@@ -296,6 +296,12 @@ const tableData = ref([
     desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径(1.7.10+)',
     type:'string',
     value: '-'
+  },
+  {
+    name:'hide-on-click-modal',
+    desc:'点击遮罩层是否隐藏，pdf和word组件支持',
+    type:'boolean',
+    value:'false'
   }
 ]);
 
