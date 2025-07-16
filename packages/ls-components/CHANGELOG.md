@@ -1,3 +1,11 @@
+## [2.0.1](https://github.com/DTFN/ls-components-plus/compare/v2.0.0...v2.0.1) (2025-07-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 git push ([40a6f67](https://github.com/DTFN/ls-components-plus/commit/40a6f67d18f7d88e315fa4d05e07a16ff4b7cd05))
+* **ls-component:** 🧩 pdf增加初始是否分页开关 ([ba3794a](https://github.com/DTFN/ls-components-plus/commit/ba3794a8c5ee7e85ce22fe046e7e8f3f7a499244))
+
 # [2.0.0](https://github.com/DTFN/ls-components-plus/compare/v1.8.11...v2.0.0) (2025-07-15)
 
 
