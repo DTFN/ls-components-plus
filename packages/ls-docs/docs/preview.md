@@ -302,6 +302,12 @@ const tableData = ref([
     desc:'点击遮罩层是否隐藏，pdf和word组件支持',
     type:'boolean',
     value:'false'
+  },
+  {
+    name: 'init-no-pagination',
+    desc: '初始化时是否不展示分页',
+    type: 'boolean',
+    value: 'false'
   }
 ]);
 

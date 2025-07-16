@@ -14,6 +14,24 @@ const scale = ref(1);
 const showPagination = ref(true);
 const isComplete = ref(false);
 
+const attrs = useAttrs();
+
+const initNoPage = computed(() => {
+  const status = attrs['init-no-pagination'] || attrs['initNoPagination'];
+  return status;
+});
+
+watch(
+  initNoPage,
+  val => {
+    showPagination.value = !val;
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const props = withDefaults(
   defineProps<{
     source: string;
