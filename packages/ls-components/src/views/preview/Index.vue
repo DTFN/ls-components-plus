@@ -5,8 +5,8 @@ import docx from '@/assets/files/333.docx?url';
 import xlsx from '@/assets/files/222.xlsx?url';
 // import xlsx from 'D:/download/666.xlsx?url';
 // import xlsx from 'D:/download/777.xlsx?url';
-// import pdf from '@/assets/files/系统部署文档&维护手册.pdf';
-import pdf from '@/assets/files/test.pdf';
+import pdf from '@/assets/files/777.pdf';
+// import pdf from '@/assets/files/test.pdf';
 
 const type = ref('image');
 const source: any = ref('');
@@ -122,6 +122,7 @@ function download(data: any) {
       :type="type"
       :source="source"
       :hide-on-click-modal="true"
+      :init-no-pagination="true"
     />
     <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
 
