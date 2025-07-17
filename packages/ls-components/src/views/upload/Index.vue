@@ -3,7 +3,10 @@ import { UploadItemType } from '@cpo/_types';
 import axios from 'axios';
 import { ElMessageBox, UploadProps } from 'element-plus';
 
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('https://tlj-man-test.gwm.com.cn/api/v1/file/upload');
+const headers = ref({
+  Authorization: 'Bearer 221e4ee9-5de3-47ea-8073-9c4940ecc0ff'
+});
 const item1: Ref<UploadItemType> = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
@@ -149,8 +152,9 @@ function onPreview(file: any) {
       list-type="picture-card"
       :limit="3"
       :action="action"
-      :auto-upload="false"
-      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true, limitFile: ['bmp', 'jpg', 'png'] }"
+      :auto-upload="true"
+      :headers="headers"
+      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true, limitFile: ['bmp', 'jpg', 'png'], limitSize: 10 }"
     >
     </LSUpload>
 

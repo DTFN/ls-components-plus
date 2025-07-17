@@ -535,6 +535,7 @@ function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
 }
 
 function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
+  uploading.value = false;
   configs.initUploadStatus = !fileList.length;
   configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
     if (item.uid === file.uid || item.name === file.name) {
