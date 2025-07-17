@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/DTFN/ls-components-plus/compare/v2.0.1...v2.0.2) (2025-07-17)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 upload组件，图片模式取消上传时样式优化 ([b3a296b](https://github.com/DTFN/ls-components-plus/commit/b3a296bc460b6ae9441c9ef6d64cb66a334fded9))
+
 ## [2.0.1](https://github.com/DTFN/ls-components-plus/compare/v2.0.0...v2.0.1) (2025-07-16)
 
 
