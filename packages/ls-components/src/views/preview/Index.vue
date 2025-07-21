@@ -109,10 +109,11 @@ function download(data: any) {
       :has-download="true"
       :download-data="downloadData"
       @download="download"
+      :hide-on-click-modal="false"
     >
-      <template #viewer>
+      <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
-      </template>
+      </template> -->
     </LSPreviewImage>
     <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" :hide-on-click-modal="true" />
     <LSPreviewPdf

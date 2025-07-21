@@ -97,6 +97,7 @@ export function usePDF(
       },
       (error: Error) => {
         // PDF loading error
+        console.log(error);
         if (typeof options.onError === 'function') options.onError(error);
         ElMessage.error(fileEmpty);
       }
