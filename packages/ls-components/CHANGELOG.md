@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/DTFN/ls-components-plus/compare/v2.0.2...v2.0.3) (2025-07-21)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 image预览支持点击空白区域关闭 ([74c96ed](https://github.com/DTFN/ls-components-plus/commit/74c96ed39912463ee3342d5f817ab052e365a1df))
+
 ## [2.0.2](https://github.com/DTFN/ls-components-plus/compare/v2.0.1...v2.0.2) (2025-07-17)
 
 
