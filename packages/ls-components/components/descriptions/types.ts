@@ -42,5 +42,10 @@ export const lsDescProp = buildProps({
   list: {
     type: Array as PropType<DescriptionsListType>,
     default: () => []
+  },
+  // 数值为0，是否展示
+  showZero: {
+    type: Boolean,
+    default: false
   }
 });
