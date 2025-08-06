@@ -501,6 +501,18 @@ const dynamicLine: any = {
 };
 
 const customOptionLine2 = ref({
+  title: {
+    text: 'Main Title',
+    subtext: 'Sub Title',
+    // left: 'center',
+    // top: 'center',
+    textStyle: {
+      fontSize: 30
+    },
+    subtextStyle: {
+      fontSize: 20
+    }
+  },
   legend: {
     data: ['train_TPR']
   },
