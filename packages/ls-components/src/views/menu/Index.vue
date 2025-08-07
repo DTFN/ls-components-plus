@@ -228,7 +228,7 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
 const blockIndex: any = ref(0);
 const comMenuRef2 = ref();
 const defaultActive = ref('1');
-const defaultOpeneds = ref([]);
+const defaultOpeneds: any = ref([]);
 
 function blockClick(val: number) {
   if (val === blockIndex.value) {
@@ -305,7 +305,7 @@ function activeMenu() {
         <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
       </ul>
     </div>
-
+    <br />
     <LSButton @click="activeMenu">激活菜单</LSButton>
   </div>
 </template>
