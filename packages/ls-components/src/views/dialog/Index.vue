@@ -120,6 +120,7 @@ onMounted(async () => {
       @on-confirm="onConfirm"
       align-center
       :has-confirm-btn="true"
+      transition="dialog-slide"
     >
       <template #header>
         <div>弹窗头部</div>
