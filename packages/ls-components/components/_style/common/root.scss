@@ -1,32 +1,33 @@
 @charset 'utf-8';
+@use "sass:list";
 
 /*************** color *****************/
 @for $i from 1 through 10 {
-  $cbrand: nth($color-brands, $i);
+  $cbrand: list.nth($color-brands, $i);
 
   .ls-color-brand#{$i} {
     color: $cbrand;
   }
 
-  $csuccess: nth($color-successs, $i);
+  $csuccess: list.nth($color-successs, $i);
 
   .ls-color-success#{$i} {
     color: $csuccess;
   }
 
-  $cwarning: nth($color-warnings, $i);
+  $cwarning: list.nth($color-warnings, $i);
 
   .ls-color-warning#{$i} {
     color: $cwarning;
   }
 
-  $cdanger: nth($color-dangers, $i);
+  $cdanger: list.nth($color-dangers, $i);
 
   .ls-color-danger#{$i} {
     color: $cdanger;
   }
 
-  $cinfo: nth($color-infos, $i);
+  $cinfo: list.nth($color-infos, $i);
 
   .ls-color-info#{$i} {
     color: $cinfo;
@@ -34,13 +35,13 @@
 }
 
 @for $i from 1 through 7 {
-  $cgray: nth($color-grays, $i);
+  $cgray: list.nth($color-grays, $i);
 
   .ls-color-gray#{$i} {
     color: $cgray;
   }
 
-  $cfill: nth($color-fills, $i);
+  $cfill: list.nth($color-fills, $i);
 
   .ls-color-fill#{$i} {
     color: $cfill;
@@ -48,7 +49,7 @@
 }
 
 @for $i from 1 through 6 {
-  $cborder: nth($color-borders, $i);
+  $cborder: list.nth($color-borders, $i);
 
   .ls-color-border#{$i} {
     color: $cborder;
@@ -56,7 +57,7 @@
 }
 
 @for $i from 1 through 5 {
-  $ctext: nth($color-texts, $i);
+  $ctext: list.nth($color-texts, $i);
 
   .ls-color-text#{$i} {
     color: $ctext;
@@ -181,45 +182,45 @@
 /****************** root ******************/
 :root {
   @for $i from 1 through 10 {
-    $cbrand: nth($color-brands, $i);
+    $cbrand: list.nth($color-brands, $i);
 
     --color-brand#{$i}: #{$cbrand};
 
-    $csuccess: nth($color-successs, $i);
+    $csuccess: list.nth($color-successs, $i);
 
     --color-success#{$i}: #{$csuccess};
 
-    $cwarning: nth($color-warnings, $i);
+    $cwarning: list.nth($color-warnings, $i);
 
     --color-warning#{$i}: #{$cwarning};
 
-    $cdanger: nth($color-dangers, $i);
+    $cdanger: list.nth($color-dangers, $i);
 
     --color-danger#{$i}: #{$cdanger};
 
-    $cinfo: nth($color-infos, $i);
+    $cinfo: list.nth($color-infos, $i);
 
     --color-info#{$i}: #{$cinfo};
   }
 
   @for $i from 1 through 7 {
-    $cgray: nth($color-grays, $i);
+    $cgray: list.nth($color-grays, $i);
 
     --color-gray#{$i}: #{$cgray};
 
-    $cfill: nth($color-fills, $i);
+    $cfill: list.nth($color-fills, $i);
 
     --color-fill#{$i}: #{$cfill};
   }
 
   @for $i from 1 through 6 {
-    $cborder: nth($color-borders, $i);
+    $cborder: list.nth($color-borders, $i);
 
     --color-border#{$i}: #{$cborder};
   }
 
   @for $i from 1 through 5 {
-    $ctext: nth($color-texts, $i);
+    $ctext: list.nth($color-texts, $i);
 
     --color-text#{$i}: #{$ctext};
   }
