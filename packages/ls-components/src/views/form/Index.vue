@@ -9,7 +9,7 @@ const formData = ref({
   username: '',
   password: ''
 });
-const formItems = ref<FormItemsType[]>([
+const formItems = ref<FormItemsType[] | any>([
   {
     type: 'input',
     label: '用户名',
@@ -102,7 +102,7 @@ const formData1 = ref({
   }
 });
 
-const formItems1 = ref<FormItemsType[]>([
+const formItems1 = ref<FormItemsType[] | any>([
   {
     type: 'input',
     label: '输入框',
