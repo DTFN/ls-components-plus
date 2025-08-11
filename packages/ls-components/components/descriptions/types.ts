@@ -15,6 +15,7 @@ export type DescriptionsListType = {
       value?: string | number;
     };
   };
+  labelWidth?: string | number;
 }[];
 
 export const lsDescProp = buildProps({

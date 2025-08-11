@@ -74,6 +74,10 @@ export const lsConfirmProps = buildProps({
   icon: {
     type: Object,
     default: () => ({})
+  },
+  closeIcon: {
+    type: Object,
+    default: null
   }
 });
 

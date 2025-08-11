@@ -3,7 +3,7 @@ import _LSMenu from './Index.vue';
 import { setGlobalConfig } from '@cpo/_utils/config';
 import type { LSOptions } from '@cpo/_utils/types';
 
-const LSMenu = Object.assign(_LSMenu, {
+const LSMenu: typeof _LSMenu & { install: (app: App, options?: LSOptions) => void } = Object.assign(_LSMenu, {
   install: (app: App, options?: LSOptions) => {
     setGlobalConfig(app, options);
     if (_LSMenu.name) {

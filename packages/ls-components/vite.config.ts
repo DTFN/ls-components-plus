@@ -53,7 +53,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       terserOptions: {
         compress: {
           drop_console: true,
-          drop_debugger: true
         }
       },
       lib: {
@@ -101,7 +100,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }
     },
     esbuild: {
-      pure: ['console.log', 'debugger'],
+      pure: ['console.log'],
       keepNames: true
     },
     // 依赖预加载

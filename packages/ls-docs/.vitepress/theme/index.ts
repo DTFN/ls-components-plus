@@ -13,7 +13,7 @@ import 'element-plus/dist/index.css';
 // import '../../../ls-components/lib/index.css';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
@@ -63,8 +63,8 @@ export default Object.assign({}, Theme, {
   
       app.directive('print', print);
   
-      vAuth.permissions = ['a', 'b', 'c'];
-      app.directive('auth', vAuth);
+      // vAuth.permissions = ['a', 'b', 'c'];
+      // app.directive('auth', vAuth);
       // [
       //   LSIcon,
       //   LSButton,

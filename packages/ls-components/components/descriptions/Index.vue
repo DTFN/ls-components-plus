@@ -197,7 +197,7 @@ async function updateLabelStyle(color: string, type: number) {
     }
   }
   &.no-header {
-    :deep .el-descriptions__header {
+    :deep(.el-descriptions__header) {
       margin-bottom: 0;
     }
   }

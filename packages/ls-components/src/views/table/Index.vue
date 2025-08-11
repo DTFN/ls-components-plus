@@ -230,7 +230,20 @@ function handleCurrentChange(row: any) {
         console.log('update:selection---选中数据', val);
       }
     "
+    :reserve-expanded-content="false"
+    :show-expand="true"
   >
+    <template #expand="props">
+      <div m="4">
+        <el-table :data="props.row.family">
+          <el-table-column label="Name" prop="name" />
+          <el-table-column label="State" prop="state" />
+          <el-table-column label="City" prop="city" />
+          <el-table-column label="Address" prop="address" />
+          <el-table-column label="Zip" prop="zip" />
+        </el-table>
+      </div>
+    </template>
   </LSTable>
 </template>
 

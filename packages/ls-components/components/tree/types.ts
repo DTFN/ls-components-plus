@@ -53,12 +53,16 @@ export const lsTreeProps = buildProps({
     default: false
   },
   treeData: {
-    type: Array,
+    type: Array<any>,
     default: () => []
   },
   defaultCheckedKeys: {
     type: Array<any>,
     default: () => []
+  },
+  attrs: {
+    type: Object,
+    default: () => ({})
   }
 });
 

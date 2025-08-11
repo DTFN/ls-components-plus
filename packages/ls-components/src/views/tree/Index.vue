@@ -710,7 +710,15 @@ const visible = ref(false);
   <div>
     <LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
-    <LSTree :tree-data="treeData2" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+    <LSTree
+      :tree-data="treeData2"
+      :is-check-all="false"
+      :show-checkbox="true"
+      :default-checked-keys="checkedPermissionIds"
+      :attrs="{
+        'check-on-click-leaf': false
+      }"
+    />
 
     <br />
     <LSButton @click="visible = true">测试</LSButton>
