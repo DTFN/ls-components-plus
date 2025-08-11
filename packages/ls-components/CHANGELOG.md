@@ -1,3 +1,27 @@
+# [2.1.0](https://github.com/DTFN/ls-components-plus/compare/v2.0.3...v2.1.0) (2025-08-11)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 chart增加titleComponent ([3c35c4d](https://github.com/DTFN/ls-components-plus/commit/3c35c4d6f7599950b4e264879f7cc71ae658fdab))
+* **ls-component:** 🧩 description数值为0时，是否展示0 ([90cd799](https://github.com/DTFN/ls-components-plus/commit/90cd799a129457461515f6dbebd534a01119bb9f))
+* **ls-component:** 🧩 update ([e1daa07](https://github.com/DTFN/ls-components-plus/commit/e1daa077a0583dfeed5eae5a0f5345b78b1f9bac))
+* **ls-component:** 🧩 update ([99b7354](https://github.com/DTFN/ls-components-plus/commit/99b735416cc704fe3a5a62e978bc1a700a4b34d9))
+* **ls-component:** 🧩 update ([2aa8cb6](https://github.com/DTFN/ls-components-plus/commit/2aa8cb63c1f9e19c03a2f2d5f4e90cf23fc09e5f))
+* **ls-component:** 🧩 update ([b4aaaea](https://github.com/DTFN/ls-components-plus/commit/b4aaaea6007a20d2511d4e833db64dfd5bbae80f))
+* **ls-component:** 🧩 update ([4330d99](https://github.com/DTFN/ls-components-plus/commit/4330d992daf0981a8d3c776c677dee265a6577b2))
+* **ls-component:** 🧩 update ([e91fa92](https://github.com/DTFN/ls-components-plus/commit/e91fa92c795da42c179856f3842286b67ee8c81b))
+* **ls-component:** 🧩 update ([d33f826](https://github.com/DTFN/ls-components-plus/commit/d33f826fa378ba0696bb634a181ff6b3825cb6e0))
+* **ls-component:** 🧩 展示注销dts生成 ([169a230](https://github.com/DTFN/ls-components-plus/commit/169a23086464324785ceeb46ebb0378d3e84dd2f))
+* **ls-component:** 🧩 文档更新 ([416ab15](https://github.com/DTFN/ls-components-plus/commit/416ab15bbc5a7aacd6c34ec4d9bf30f04dbaeb42))
+* **ls-component:** 🧩 组件升级 ([8c885a6](https://github.com/DTFN/ls-components-plus/commit/8c885a63269e97e2bda77d8651db7a0fd8f17b3c))
+
+
+### Features
+
+* **ls-component:** 🚀 element-plus升级 ([b1ffe06](https://github.com/DTFN/ls-components-plus/commit/b1ffe06e246bbeb5d882bbe80018ab4ace09ff13))
+* **ls-component:** 🚀 新api测试 ([592e47b](https://github.com/DTFN/ls-components-plus/commit/592e47bbca19cac359e36fe4a34424acbac4d2c5))
+
 ## [2.0.3](https://github.com/DTFN/ls-components-plus/compare/v2.0.2...v2.0.3) (2025-07-21)
 
 
