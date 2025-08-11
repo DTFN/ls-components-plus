@@ -14,6 +14,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.2(vue@3.5.18(typescript@5.9.2))
+      '@lingshugroup/web-plus':
+        specifier: ^2.0.3
+        version: 2.0.3
       '@univerjs/core':
         specifier: ^0.2.11
         version: 0.2.15(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.2)
@@ -1199,6 +1202,9 @@ packages:
 
   '@lezer/lr@1.4.2':
     resolution: {integrity: sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==}
+
+  '@lingshugroup/web-plus@2.0.3':
+    resolution: {integrity: sha512-KIdAsE+Fkbuo88zry9gVKwhKlsKToA0jDA43yEgyFN1rqXlI4KLpLxJlfq7swbxAxJzS3M8yJMoaaZcy1SiH8Q==}
 
   '@lokesh.dhakar/quantize@1.4.0':
     resolution: {integrity: sha512-+//cqVWKis//t0YH62EDtwaFSPG/CDtYNg4CZmzNmG2d5W17Iu3fuDAdpQXCDHUDrrU9q0veze4A7tPZXlR/mg==}
@@ -8054,6 +8060,8 @@ snapshots:
   '@lezer/lr@1.4.2':
     dependencies:
       '@lezer/common': 1.2.3
+
+  '@lingshugroup/web-plus@2.0.3': {}
 
   '@lokesh.dhakar/quantize@1.4.0': {}
 
