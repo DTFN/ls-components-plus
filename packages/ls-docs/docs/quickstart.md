@@ -157,12 +157,6 @@ app.use(LSWebPlus);
 ### 3. 引入常用方法
 
 ```js
-// 常用指令
-import { vAuth } from '@lingshugroup/web-plus/directives';
-// 权限code码
-vAuth.permissions = ['a', 'b', 'c'];
-app.directive('auth', vAuth);
-
 // 常用hooks
 import { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, useTableListHook } from '@lingshugroup/web-plus/hooks';
 
