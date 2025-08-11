@@ -194,6 +194,7 @@ defineExpose({
       :default-checked-keys="defaultCheckedKeys"
       :expand-on-click-node="isExpand"
       :filter-node-method="filterNode"
+      v-bind="attrs"
       @check="handleCheck"
       @check-change="handleChekChange"
     >

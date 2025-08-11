@@ -78,6 +78,7 @@ function initBox() {
     closeOnClickModal: props.closeOnClickModal,
     closeOnPressEscape: props.closeOnPressEscape,
     appendTo: props.appendTo,
+    closeIcon: props.closeIcon,
     beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true;

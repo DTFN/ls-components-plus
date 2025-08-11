@@ -75,7 +75,7 @@ const list2: Ref<DescriptionsListType> = ref([
 
 <template>
   <div>
-    <LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1" label-width="120px"></LSDescriptions>
+    <LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1" label-width="200px"></LSDescriptions>
 
     <br />
 

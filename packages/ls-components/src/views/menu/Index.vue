@@ -148,6 +148,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
 const { getRouteQuery, currentRouter } = useRouterHook();
 
 const defineBCList: Ref<BreadCrumpListType> = ref([]);
+const comMenuRef = ref();
 
 watch(
   () => currentRouter.value,
@@ -227,7 +228,7 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
 const blockIndex: any = ref(0);
 const comMenuRef2 = ref();
 const defaultActive = ref('1');
-const defaultOpeneds = ref([]);
+const defaultOpeneds: any = ref([]);
 
 function blockClick(val: number) {
   if (val === blockIndex.value) {
@@ -252,6 +253,10 @@ function defineChildClickFunc(item: MenuBaseType) {
   blockIndex.value = key?.split('-')[0] - 1;
   defaultActive.value = key;
 }
+
+function activeMenu() {
+  comMenuRef.value.lsComMenuRef.updateActiveIndex('2-3');
+}
 </script>
 
 <template>
@@ -269,6 +274,7 @@ function defineChildClickFunc(item: MenuBaseType) {
       @on-jump="onJump"
       :collapse="isCollapse"
       :show-tooltip="true"
+      ref="comMenuRef"
     >
       <template #icon7>
         <vueSvg />
@@ -299,6 +305,8 @@ function defineChildClickFunc(item: MenuBaseType) {
         <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
       </ul>
     </div>
+    <br />
+    <LSButton @click="activeMenu">激活菜单</LSButton>
   </div>
 </template>
 

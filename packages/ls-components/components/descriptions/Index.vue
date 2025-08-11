@@ -130,7 +130,7 @@ async function updateLabelStyle(color: string, type: number) {
             <slot :name="item.slotName" :data="item?.value"></slot>
           </template>
           <template v-else>
-            {{ item?.value || '--' }}
+            {{ item?.value || (props.showZero ? '0' : '--') }}
           </template>
         </el-descriptions-item>
       </template>
@@ -197,7 +197,7 @@ async function updateLabelStyle(color: string, type: number) {
     }
   }
   &.no-header {
-    :deep .el-descriptions__header {
+    :deep(.el-descriptions__header) {
       margin-bottom: 0;
     }
   }

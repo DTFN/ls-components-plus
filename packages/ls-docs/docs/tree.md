@@ -604,7 +604,13 @@ const tableData = ref([
     desc: '展示方向，h: 水平展示，v: 垂直展示',
     type: 'string',
     value: 'v'
-  }
+  },
+  {
+    name: 'attrs',
+    desc: 'el-tree组件属性，写入方式为json格式',
+    type: 'object',
+    value: '{}'
+  },
 ])
 
 const tableData2 = ref([

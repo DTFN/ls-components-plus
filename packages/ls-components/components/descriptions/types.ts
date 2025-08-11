@@ -15,6 +15,7 @@ export type DescriptionsListType = {
       value?: string | number;
     };
   };
+  labelWidth?: string | number;
 }[];
 
 export const lsDescProp = buildProps({
@@ -42,5 +43,10 @@ export const lsDescProp = buildProps({
   list: {
     type: Array as PropType<DescriptionsListType>,
     default: () => []
+  },
+  // 数值为0，是否展示
+  showZero: {
+    type: Boolean,
+    default: false
   }
 });

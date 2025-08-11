@@ -299,13 +299,13 @@ const tableData = ref([
   },
   {
     name:'hide-on-click-modal',
-    desc:'点击遮罩层是否隐藏，pdf和word组件支持',
+    desc:'点击遮罩层是否隐藏，pdf、docx、image组件支持',
     type:'boolean',
     value:'false'
   },
   {
     name: 'init-no-pagination',
-    desc: '初始化时是否不展示分页',
+    desc: '初始化时是否不展示分页，仅PDF',
     type: 'boolean',
     value: 'false'
   }

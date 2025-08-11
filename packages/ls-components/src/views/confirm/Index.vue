@@ -64,6 +64,7 @@ const handleClick = (val: number) => {
       type="warning"
       :icon="defIcon"
       :request-params="{ id: 111 }"
+      :close-icon="defIcon"
       @on-confirm="onConfirm"
       @on-cancel="onCancel"
     >
