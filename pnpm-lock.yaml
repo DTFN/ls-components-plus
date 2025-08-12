@@ -93,7 +93,7 @@ importers:
         specifier: ^2.2.2
         version: 2.3.1(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
       vitepress:
-        specifier: ^1.5.0
+        specifier: ^1.6.4
         version: 1.6.4(@algolia/client-search@5.35.0)(@types/node@22.17.0)(async-validator@4.2.5)(axios@1.11.0)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.90.0)(search-insights@2.17.3)(terser@5.43.1)(typescript@5.9.2)
       vue:
         specifier: ^3.5.18
