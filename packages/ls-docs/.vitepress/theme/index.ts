@@ -47,7 +47,7 @@ import '@lingshugroup/web-plus/index.css';
 export default Object.assign({}, Theme, {
   // Layout: () => {
   // const props: Record<string, any> = {};
-  // // 获取 frontmatter
+  // 获取 frontmatter
   // const { frontmatter } = useData();
 
   // /* 添加自定义 class */

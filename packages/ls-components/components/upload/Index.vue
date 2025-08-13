@@ -699,13 +699,13 @@ defineExpose({
 .ls-upload {
   position: relative;
   width: 100%;
-  font-size: $font-size-content-small;
+  font-size: cpo-var.$font-size-content-small;
   :deep(.ls-tip) {
     margin-top: 8px;
-    font-size: $font-size-content-small;
+    font-size: cpo-var.$font-size-content-small;
     font-weight: 400;
-    line-height: $line-height-content-small;
-    color: $color-text3;
+    line-height: cpo-var.$line-height-content-small;
+    color: cpo-var.$color-text3;
   }
   :deep(.upload-icon) {
     top: 16px;
@@ -722,8 +722,8 @@ defineExpose({
     width: 100%;
     line-height: normal;
     .drag-txt {
-      font-size: $font-size-content-medium;
-      line-height: $line-height-content-medium;
+      font-size: cpo-var.$font-size-content-medium;
+      line-height: cpo-var.$line-height-content-medium;
     }
   }
   :deep(.upload-btn-handle) {
@@ -761,7 +761,7 @@ defineExpose({
     }
     .el-upload-list__item-name {
       padding-left: 0;
-      font-size: $font-size-content-small;
+      font-size: cpo-var.$font-size-content-small;
       .el-icon-document {
         display: none;
       }
@@ -803,35 +803,35 @@ defineExpose({
       margin-right: 8px;
     }
     .ls-upload-btn-text {
-      font-size: $font-size-content-medium;
-      line-height: $line-height-content-medium;
-      color: $color-text1;
+      font-size: cpo-var.$font-size-content-medium;
+      line-height: cpo-var.$line-height-content-medium;
+      color: cpo-var.$color-text1;
     }
     &.ls-upload-btn-comfirm,
     &.ls-upload-btn-cancel {
-      font-size: $font-size-content-medium;
-      line-height: $line-height-content-medium;
+      font-size: cpo-var.$font-size-content-medium;
+      line-height: cpo-var.$line-height-content-medium;
     }
     &.ls-upload-btn-comfirm {
-      color: $color-light;
-      background-color: $color-brand3;
-      border: 1px solid $color-brand3;
+      color: cpo-var.$color-light;
+      background-color: cpo-var.$color-brand3;
+      border: 1px solid cpo-var.$color-brand3;
       &.is-ready {
-        background-color: $color-brand6;
-        border: 1px solid $color-brand6;
+        background-color: cpo-var.$color-brand6;
+        border: 1px solid cpo-var.$color-brand6;
       }
     }
     &.ls-upload-btn-cancel {
-      color: $color-text1;
+      color: cpo-var.$color-text1;
       background-color: #e7e7e7;
       border: 1px solid #e7e7e7;
     }
     &.ls-upload-btn-default {
       &:hover {
-        background-color: $color-border6;
+        background-color: cpo-var.$color-border6;
       }
       &:focus {
-        background-color: $color-border5;
+        background-color: cpo-var.$color-border5;
       }
     }
   }

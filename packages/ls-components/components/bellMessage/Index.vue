@@ -173,7 +173,7 @@ function loadMore() {
           font-size: 12px;
           color: var(--el-color-primary);
           &:hover {
-            color: $color-theme;
+            color: cpo-var.$color-theme;
           }
         }
         .msg-type {
