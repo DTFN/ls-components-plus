@@ -126,7 +126,7 @@ defineExpose({
     font-size: 14px;
     font-weight: bold;
     line-height: 18px;
-    color: $color-text1;
+    color: cpo-var.$color-text1;
   }
   .content {
     display: flex;
@@ -144,7 +144,7 @@ defineExpose({
   .value {
     font-size: 12px;
     line-height: 20px;
-    color: $color-text2;
+    color: cpo-var.$color-text2;
   }
   .value {
     font-weight: bold;
@@ -166,7 +166,7 @@ defineExpose({
     .name,
     .serise-name,
     .value {
-      color: $color-light;
+      color: cpo-var.$color-light;
     }
   }
 }

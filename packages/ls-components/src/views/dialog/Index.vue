@@ -170,7 +170,7 @@ onMounted(async () => {
     width: 100%;
     font-size: 18px;
 
-    @include overflow-text-hidden(3);
+    @include cpo-utils.overflow-text-hidden(3);
   }
 }
 </style>
