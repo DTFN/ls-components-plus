@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// label-width 160px的时候存在无法更新的bug element-plus 2.10.6
 import { DescriptionsListType } from '@cpo/_types';
 
 const iconColor = ref('red');
