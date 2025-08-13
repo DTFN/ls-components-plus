@@ -4,7 +4,7 @@ import { DescriptionsListType } from '@cpo/_types';
 
 const iconColor = ref('red');
 
-const itemLabelWidth = '159px';
+const itemLabelWidth = ref('160px');
 const list1: Ref<DescriptionsListType> = ref([
   {
     iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
