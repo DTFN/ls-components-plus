@@ -606,8 +606,8 @@ const tableData = ref([
     value: 'v'
   },
   {
-    name: 'attrs',
-    desc: 'el-tree组件属性，写入方式为json格式',
+    name: 'attrs(v2.10.6+支持)',
+    desc: '兼容部分el-tree属性，写入方式为json格式，排除（show-checkbox， default-expand-all，node-key，check-strictly， default-checked-keys，expand-on-click-node，filter-node-method）',
     type: 'object',
     value: '{}'
   },
