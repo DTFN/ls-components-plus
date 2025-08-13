@@ -24,7 +24,7 @@ AutoImport({
 :::
 
 ::: tip 版本提示
-  1、@lingshugroup/web-plus 从 v2.1.0 版本开始，element-plus更新至2.10.6。
+  1、@lingshugroup/web-plus v2.1.2+，element-plus更新至2.10.7。
 :::
 
 ## 二、安装 [@lingshugroup/web-plus](https://www.npmjs.com/package/@lingshugroup/web-plus)
