@@ -1,3 +1,16 @@
+## [2.1.1](https://github.com/DTFN/ls-components-plus/compare/v2.1.0...v2.1.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* 🧩 update ([724f64b](https://github.com/DTFN/ls-components-plus/commit/724f64b2f023135413833464da3d1e9bd7a27519))
+* **ls-component:** 🧩 decriptions label-width更新 ([de28e98](https://github.com/DTFN/ls-components-plus/commit/de28e985d6692cc6b1287c9713f107585b9d4a94))
+* **ls-component:** 🧩 description 更新 ([9c6051b](https://github.com/DTFN/ls-components-plus/commit/9c6051b5e2c1905047919a9823c0571008a2a706))
+* **ls-component:** 🧩 el-menu新属性测试 ([703344a](https://github.com/DTFN/ls-components-plus/commit/703344a07048792c0209707532fcb36beee04ab2))
+* **ls-component:** 🧩 update ([3b1a5d7](https://github.com/DTFN/ls-components-plus/commit/3b1a5d71b0433338240a0b0e8e0479bf9a675b02))
+* **ls-component:** 🧩 update ([829183e](https://github.com/DTFN/ls-components-plus/commit/829183e19781126c1192d3a38c942337737380c2))
+* **ls-component:** 🧩 公共样式污染问题处理 ([00d04ce](https://github.com/DTFN/ls-components-plus/commit/00d04ce7f6421c659921a34a8d8382495115852d))
+
 # [2.1.0](https://github.com/DTFN/ls-components-plus/compare/v2.0.3...v2.1.0) (2025-08-11)
 
 
