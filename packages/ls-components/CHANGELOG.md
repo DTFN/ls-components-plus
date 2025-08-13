@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/DTFN/ls-components-plus/compare/v2.1.1...v2.1.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 element-plus升级 ([b8d8b2d](https://github.com/DTFN/ls-components-plus/commit/b8d8b2d8bf4eb1f0511145d326f1416c77ff7a31))
+
 ## [2.1.1](https://github.com/DTFN/ls-components-plus/compare/v2.1.0...v2.1.1) (2025-08-13)
 
 
