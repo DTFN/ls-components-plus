@@ -131,16 +131,46 @@ function updateSelection(val: any) {
   console.log('updateSelection---选中数据', val);
   selection.value = val;
 }
+
+function delApi(id: any) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        code: 200,
+        id
+      });
+    }, 1000);
+  });
+}
+
+// function tableDelFn(row: any, setLoading: (loading: boolean) => void) {
+//   ElMessage.success(row?.name);
+//   setLoading(true);
+
+//   setTimeout(() => {
+//     setLoading(false);
+//   }, 1000);
+// }
+
+function delSuccess(row: any, res: boolean) {
+  console.log('delSuccess', row, res);
+}
+
+function resetForm(val: any) {
+  console.log(val);
+}
 </script>
 
 <template>
   <LSList
     ref="ListRef"
     :list-api="listApi"
+    :del-api="delApi"
+    :del-message="(row: any) => `hhhhhh----${row.name}`"
     :form-data="formData"
     :form-items="formItems"
     :table-column="tableColumn"
-    :show-table-switch="false"
+    :show-table-switch="true"
     :show-table-edit="true"
     :disabled-table-del="(row: any) => row.name === '测试1'"
     :disabled-table-switch="(row: any) => row.name === '测试1'"
@@ -168,13 +198,24 @@ function updateSelection(val: any) {
     }"
     :show-table-operate="true"
     :disabled-add-btn="true"
-    :list-hook-config="{ currentPageProp: 1, pageSizeProp: 10, pageSizesProp: [10, 20, 30, 40, 50, 100] }"
+    :list-hook-config="{
+      currentPageProp: 1,
+      pageSizeProp: 10,
+      pageSizesProp: [10, 20, 30, 40, 50, 100]
+    }"
     :table-detail-text="`详情`"
     :table-edit-text="(row: any) => `编辑-${row.name}`"
     :table-del-text="getTableDelText"
     :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
     :query-fn="queryFn"
+    :table-edit-type="(row: any) => (row.id === 1 ? 'danger' : '')"
     add-btn-text="新增数据"
+    table-switch-pop-txt="新增数据"
+    :table-switch-pop-attrs="{
+      title: 'aaa'
+    }"
+    @reset-form="resetForm"
+    @del-success="delSuccess"
   >
     <template #buttons-prepend-form-slot>
       <div>按钮区域前置</div>
