@@ -311,6 +311,12 @@ const attrTableData=[
     type: 'Function',
     value: '-'
   },
+  {
+    name: 'delMessage',
+    desc: '删除成功toast提示话术',
+    type: 'string/Function',
+    value: '-'
+  },
    {
     name: 'switchApi',
     desc: '开关切换接口请求方法，返回一个Promise',
@@ -356,6 +362,12 @@ const attrTableData=[
   {
     name: 'queryFn',
     desc: '查询事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'resetFn',
+    desc: '重置事件（覆盖默认事件）',
     type: 'Function',
     value: '-'
   },
@@ -450,6 +462,24 @@ const attrTableData=[
     value: '-'
   },
   {
+    name: 'tableSwitchAttrs',
+    desc: '表格开关配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableSwitchPopAttrs',
+    desc: '表格开关确认弹窗配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableSwitchPopTxt',
+    desc: '表格开关确认弹窗文字',
+    type: 'string',
+    value: '-'
+  },
+  {
     name: 'disabledTableSwitch',
     desc: '表格开关切换是否禁用',
     type: 'boolean/Function',
@@ -471,13 +501,19 @@ const attrTableData=[
     name: 'tableDetailFn',
     desc: '表格查看按钮点击事件（覆盖默认事件）',
     type: 'Function',
-    value: '-'
+    value: '(row)=>void'
   },
-   {
+  {
     name: 'tableEditFn',
     desc: '表格编辑按钮点击事件（覆盖默认事件）',
     type: 'Function',
-    value: '-'
+    value: '(row)=>void'
+  },
+  {
+    name: 'tableDelFn',
+    desc: '表格编辑按钮点击事件（覆盖默认事件）',
+    type: 'Function',
+    value: '(row,setLoading:(loading)=>void)=>void'
   },
   {
     name: 'showTableDetail',
@@ -516,6 +552,12 @@ const attrTableData=[
     value: 'false'
   },
   {
+    name: 'tableDelPopAttrs',
+    desc: '表格操作列删除悬浮确认窗配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
     name: 'addRoutePath',
     desc: '添加页面路由地址',
     type: 'string',
@@ -552,6 +594,42 @@ const attrTableData=[
     value: '删除'
   },
   {
+    name: 'tableDetailType',
+    desc: '表格查看按钮类型',
+    type: 'string/Function',
+    value: 'primary'
+  },
+  {
+    name: 'tableEditType',
+    desc: '表格编辑按钮类型',
+    type: 'string/Function',
+    value: 'primary'
+  },
+  {
+    name: 'tableDelType',
+    desc: '表格删除按钮类型',
+    type: 'string/Function',
+    value: 'danger'
+  },
+  {
+    name: 'tableDetailBtnAttrs',
+    desc: '表格查看按钮配置',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableEditBtnAttrs',
+    desc: '表格编辑按钮配置',
+    type: 'object',
+    value: '-'
+  },
+    {
+    name: 'tableDelBtnAttrs',
+    desc: '表格删除按钮配置',
+    type: 'object',
+    value: '-'
+  },
+  {
     name: 'showSkeleton',
     desc: '是否显示骨架屏',
     type: 'boolean',
@@ -586,20 +664,32 @@ const eventsTableData=[
     value: 'object：表单数据'
   },
   {
+    name: 'delSuccess',
+    desc: '删除成功后的回调',
+    type: 'Function',
+    value: 'object：表单数据,res'
+  },
+  {
+    name: 'switchSuccess',
+    desc: '开关操作成功后的回调',
+    type: 'Function',
+    value: 'object:表单数据,status'
+  },
+  {
     name: 'handleLoading',
-    desc: '加载中',
+    desc: '加载状态变化事件',
     type: 'Function',
     value: 'boolean'
   },
   {
     name: 'handleCurrentPage',
-    desc: '当前页',
+    desc: '当前页变化事件',
     type: 'Function',
     value: 'number'
   },
   {
     name: 'handlePageSize',
-    desc: '每页条数',
+    desc: '每页条数变化事件',
     type: 'Function',
     value: 'number'
   }
@@ -681,6 +771,12 @@ const exposesTableData=[
     name: 'loading',
     desc: '加载中',
     type: 'boolean',
+    value: '-'
+  },
+  {
+    name: 'routePath',
+    desc: '当前路由地址',
+    type: 'string',
     value: '-'
   },
   {
