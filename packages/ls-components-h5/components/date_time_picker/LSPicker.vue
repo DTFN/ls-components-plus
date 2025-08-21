@@ -1,4 +1,4 @@
-<script setup lang="ts" name="DateTimePicker">
+<script setup lang="ts" name="LSDateTimePicker">
 import type { Numeric } from './types';
 import dayjs from 'dayjs';
 import { Loading } from 'vant';
@@ -382,6 +382,7 @@ function onCancel() {
 <style lang="scss" scoped>
 .van-columns-hint {
   padding: var(--van-padding-md);
+  font-size: var(--van-font-size-md);
   color: var(--van-gray-6);
 }
 </style>

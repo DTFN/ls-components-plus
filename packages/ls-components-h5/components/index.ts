@@ -1,8 +1,8 @@
 import type { App, Plugin } from 'vue';
-import LSDatePicker from './data_time_picker/index';
+import LSDateTimePicker from './date_time_picker/index';
 
 const components: Record<string, Plugin> = {
-  LSDatePicker
+  LSDateTimePicker
 };
 
 const install = (app: App) => {
@@ -12,9 +12,9 @@ const install = (app: App) => {
   }
 };
 
-const LSH5Plus: Plugin = {
+const LSH5Components: Plugin = {
   ...components,
   install
 };
 
-export default LSH5Plus;
+export default LSH5Components;

@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import type { PickerOption } from '../data_time_picker/types';
+import type { PickerOption } from '../date_time_picker/types';
 
 export function isSameValue(newValue: unknown, oldValue: unknown) {
   return JSON.stringify(newValue) === JSON.stringify(oldValue);

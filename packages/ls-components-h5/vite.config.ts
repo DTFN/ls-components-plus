@@ -1,4 +1,3 @@
-// https://vitejs.dev/config/
 import { defineConfig, loadEnv, ConfigEnv, UserConfig } from 'vite';
 import path from 'path';
 import { wrapperEnv } from './build/getEnv';
@@ -11,7 +10,7 @@ const cpoSrc = path.resolve(__dirname, 'components');
 
 function getComponentEntries(cpoPath: string) {
   const resolve = (dir: string) => path.join(__dirname, './', dir);
-  const comList = ['_directives', '_hooks', '_utils'];
+  const comList = ['_utils'];
   let files = readdirSync(resolve(cpoPath));
   const componentEntries = files.reduce((fileObj: any, item: any) => {
     const join = (path as any).join;
@@ -62,37 +61,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         formats: ['es', 'cjs']
       },
       rollupOptions: {
-        external: [
-          'vue',
-          'vue-router',
-          'axios',
-          'echarts',
-          'element-plus',
-          'pdfjs-dist',
-          '@wangeditor/editor',
-          '@wangeditor/editor-for-vue',
-          '@element-plus/icons-vue',
-          '@iconify/vue',
-          'luckyexcel',
-          'lodash',
-          'vue3-ts-jsoneditor'
-        ],
+        external: ['vue', 'vue-router', 'axios', 'lodash'],
         output: {
           exports: 'named',
           globals: {
             vue: 'Vue',
             'vue-router': 'VueRouter',
             axios: 'axios',
-            echarts: 'echarts',
-            'element-plus': 'element-plus',
-            'pdfjs-dist': 'pdfjs-dist',
-            '@wangeditor/editor': '@wangeditor/editor',
-            '@wangeditor/editor-for-vue': '@wangeditor/editor-for-vue',
-            '@element-plus/icons-vue': '@element-plus/icons-vue',
-            '@iconify/vue': '@iconify/vue',
-            luckyexcel: 'luckyexcel',
-            lodash: 'lodash',
-            'vue3-ts-jsoneditor': 'vue3-ts-jsoneditor'
+            lodash: 'lodash'
           },
           assetFileNames: 'index.css',
           preserveModules: true
@@ -105,15 +81,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     // 依赖预加载
     optimizeDeps: {
-      include: ['element-plus/es/**', '@vueuse/core', '@element-plus/icons-vue']
-    },
-    // scss 全局变量
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@use "@cpo/_style/common/variable.scss" as cpo-var; @use "@cpo/_style/common/utils.scss" as cpo-utils; @use "@cpo/_style/element/index.scss" as cpo-ele;`
-        }
-      }
+      include: ['@vueuse/core']
     },
     // 插件
     plugins: [createVitePlugins(viteEnv)],

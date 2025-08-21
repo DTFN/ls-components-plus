@@ -3,7 +3,7 @@ import _LSPicker from './LSPicker.vue';
 import { setGlobalConfig } from '../_utils/config';
 import type { LSOptions } from '../_utils/types';
 
-const LSDatePicker: ComponentPublicInstance<any> = Object.assign(_LSPicker, {
+const LSDateTimePicker: ComponentPublicInstance<any> = Object.assign(_LSPicker, {
   install: (app: App, options?: LSOptions) => {
     setGlobalConfig(app, options);
     if (_LSPicker.name) {
@@ -12,4 +12,4 @@ const LSDatePicker: ComponentPublicInstance<any> = Object.assign(_LSPicker, {
   }
 });
 
-export default LSDatePicker;
+export default LSDateTimePicker;

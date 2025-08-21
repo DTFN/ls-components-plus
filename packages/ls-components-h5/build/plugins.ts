@@ -10,14 +10,13 @@ import eslintPlugin from 'vite-plugin-eslint';
 import viteCompression from 'vite-plugin-compression';
 import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite';
 import Components from 'unplugin-vue-components/vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
-import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import FilesLoader from 'vite-plugin-files-loader';
 import svgLoader from 'vite-svg-loader';
 import path from 'path';
+import { VantResolver } from '@vant/auto-import-resolver';
 // import dts from 'vite-plugin-dts';
 
 // const pathSrc = path.resolve(__dirname, '../../ls-components');
@@ -57,28 +56,11 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         'pinia'
       ],
       ignore: ['h'],
-      resolvers: [
-        ElementPlusResolver({
-          importStyle: 'sass' // 自定义主题颜色
-        }),
-        // 自动导入图标组件
-        IconsResolver({
-          prefix: 'Icon'
-        })
-      ]
+      resolvers: [VantResolver()]
       // dts: path.resolve(pathSrc, 'auto-imports.d.ts')
     }),
     Components({
-      resolvers: [
-        // 自动导入 Element Plus 组件 (采用scss样式配色系统)
-        ElementPlusResolver({
-          importStyle: 'sass' // 自定义主题颜色
-        })
-        // 自动注册图标组件
-        // IconsResolver({
-        //   enabledCollections: ['ep']
-        // })
-      ],
+      resolvers: [VantResolver()],
       dirs: ['src/components']
       // dts: path.resolve(pathSrc, 'components.d.ts')
     }),
@@ -91,20 +73,6 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
     }),
     FilesLoader(),
     svgLoader()
-    // dts({
-    //   include: [
-    //     'src/**/*.d.ts',
-    //     'components/**/*.vue',
-    //     'components/**/*.ts',
-    //     'components/**/*.d.ts',
-    //     'components.d.ts',
-    //     'auto-imports.d.ts'
-    //   ],
-    //   exclude: ['node_modules', 'dist', '**/*.js', '.npmrc', 'lib', 'components/main.ts', 'components/components.ts'],
-    //   outDir: 'lib/types',
-    //   staticImport: true,
-    //   rollupTypes: false
-    // })
   ];
 };
 
