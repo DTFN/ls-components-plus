@@ -3,9 +3,9 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import 'vant/lib/index.css';
 
-// import LSH5Components from '@cpo/main';
-import LSH5Components from '../lib/index';
-import '../lib/index.css';
+import LSH5Components from '@cpo/main';
+// import LSH5Components from '../lib/index';
+// import '../lib/index.css';
 
 const app = createApp(App);
 

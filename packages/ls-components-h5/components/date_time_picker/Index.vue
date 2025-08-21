@@ -65,8 +65,6 @@ const slots = useSlots();
 
 const fields = ref({ text: 'text', value: 'value', children: 'children' });
 
-const selectedValues: any = ref(props.modelValue.slice(0));
-
 const minYear = computed(() => props.minDate.getFullYear());
 const maxYear = computed(() => props.maxDate.getFullYear());
 const minMonth = computed(() => props.minDate.getMonth() + 1);
@@ -79,6 +77,21 @@ const minMinute = computed(() => props.minDate.getMinutes());
 const maxMinute = computed(() => props.maxDate.getMinutes());
 const minSecond = computed(() => props.minDate.getSeconds());
 const maxSecond = computed(() => props.maxDate.getSeconds());
+
+const iYear = Number(props.modelValue[0]);
+const iMonth = Number(props.modelValue[1]);
+const iDay = Number(props.modelValue[2]);
+
+const selectedValues: any = ref([]);
+
+function initSelectedValues() {
+  const year = minYear.value <= iYear && maxYear.value >= iYear ? iYear : minYear.value;
+  const month = minMonth.value <= iMonth && maxMonth.value >= iMonth ? iMonth : minMonth.value;
+  const day = minDay.value <= iDay && maxDay.value >= iDay ? iDay : minDay.value;
+  selectedValues.value = [year, month, day];
+}
+
+initSelectedValues();
 
 function setColumnValue(type: string) {
   const startYear = minYear.value;
@@ -114,7 +127,9 @@ function setColumnValue(type: string) {
         return [];
       }
 
-      if (curYear === startYear) {
+      if (curYear === startYear && curYear === endYear) {
+        return Array.from({ length: endMonth - startMonth + 1 }, (_, i) => startMonth + i);
+      } else if (curYear === startYear) {
         return Array.from({ length: 12 - startMonth + 1 }, (_, i) => startMonth + i);
       } else if (curYear === endYear) {
         return Array.from({ length: endMonth }, (_, i) => i + 1);
@@ -135,10 +150,21 @@ function setColumnValue(type: string) {
         daysInMonth = dayjs(`${year}-${month}`).daysInMonth();
       }
 
-      if (minDay.value && curYear === startYear && curMonth === startMonth) {
+      if (
+        minDay.value &&
+        curYear === startYear &&
+        curMonth === startMonth &&
+        maxDay.value &&
+        curYear === endYear &&
+        curMonth === endMonth
+      ) {
+        const maxVal = maxDay.value > daysInMonth ? daysInMonth : maxDay.value;
+        const minVal = minDay.value > daysInMonth ? daysInMonth : minDay.value;
+        return Array.from({ length: maxVal - minVal + 1 }, (_, i) => minVal + i);
+      } else if (minDay.value && curYear === startYear && curMonth === startMonth) {
         return Array.from({ length: daysInMonth - minDay.value + 1 }, (_, i) => dayjs(props.minDate).date() + i);
       } else if (maxDay.value && curYear === endYear && curMonth === endMonth) {
-        return Array.from({ length: maxDay.value }, (_, i) => i + 1);
+        return Array.from({ length: maxDay.value > daysInMonth ? maxDay.value : daysInMonth }, (_, i) => i + 1);
       }
 
       return Array.from({ length: daysInMonth }, (_, i) => i + 1);
