@@ -1,6 +1,6 @@
 module.exports = {
-  defaultBranch: 'main',
-  branches: ['main'],
+  defaultBranch: 'main-h5',
+  branches: ['main-h5'],
   plugins: [
     '@semantic-release/commit-analyzer',
     '@semantic-release/release-notes-generator',
