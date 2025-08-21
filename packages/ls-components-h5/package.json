@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/components-h5",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "零数科技前端移动端组件",
   "type": "module",
   "main": "./lib/index/index.cjs",

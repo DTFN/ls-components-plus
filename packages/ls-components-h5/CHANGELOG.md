@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/DTFN/ls-components-plus/compare/v2.2.1...v2.2.2) (2025-08-21)
+
+
+### Bug Fixes
+
+* **ls-components-h5:** 🧩 optionHeight适配多个单位 ([9bbbf72](https://github.com/DTFN/ls-components-plus/commit/9bbbf729cd19e53bdd08f087553c7412d557b3fe))
+
 ## [2.2.1](https://github.com/DTFN/ls-components-plus/compare/v2.2.0...v2.2.1) (2025-08-21)
 
 
