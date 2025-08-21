@@ -16,4 +16,5 @@ stats.html
 .npmrc
 packages/ls-components/public/
 packages/ls-components/lib/*
+packages/ls-components-h5/lib/*
 

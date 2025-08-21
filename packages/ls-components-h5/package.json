@@ -1,0 +1,42 @@
+{
+  "name": "@lingshugroup/h5-components",
+  "version": "0.0.0",
+  "description": "零数科技前端移动端组件",
+  "type": "module",
+  "main": "./lib/index/index.cjs",
+  "module": "./lib/index/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index/index.js",
+      "require": "./lib/index/index.cjs"
+    },
+    "./dateTimePicker": {
+      "import": "./lib/date_time_picker/index.js",
+      "require": "./lib/date_time_picker/index.cjs"
+    },
+    "./index.css": "./lib/index.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",
+  "keywords": [
+    "lingshu",
+    "vue3",
+    "h5",
+    "components"
+  ]
+}
