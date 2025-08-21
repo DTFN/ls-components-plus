@@ -1,5 +1,5 @@
 import type { App, ComponentPublicInstance } from 'vue';
-import _LSPicker from './LSPicker.vue';
+import _LSPicker from './Index.vue';
 import { setGlobalConfig } from '../_utils/config';
 import type { LSOptions } from '../_utils/types';
 

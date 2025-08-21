@@ -10,7 +10,6 @@ const cpoSrc = path.resolve(__dirname, 'components');
 
 function getComponentEntries(cpoPath: string) {
   const resolve = (dir: string) => path.join(__dirname, './', dir);
-  const comList = ['_utils'];
   let files = readdirSync(resolve(cpoPath));
   const componentEntries = files.reduce((fileObj: any, item: any) => {
     const join = (path as any).join;
@@ -21,8 +20,6 @@ function getComponentEntries(cpoPath: string) {
       let temp = '';
       if (!item.startsWith('_')) {
         temp = name;
-      } else if (comList.includes(item)) {
-        temp = item.replace('_', '');
       }
       temp && (fileObj[temp] = resolve(join(itemPath, 'index.ts')));
     } else if (name === 'main') {

@@ -21,7 +21,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['packages/ls-components/lib/**/*.js'],
+      files: ['packages/ls-components/lib/**/*.js', 'packages/ls-components-h5/lib/**/*.js'],
       rules: {
         'prettier/prettier': 'off',
         'no-var': 'off',
