@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const currentTime = ref(['2022', '02', '20', '12', '30', '50']);
-const minDate = ref(new Date(2020, 1, 10, 2, 20));
-const maxDate = ref(new Date(2023, 10, 10, 20, 50));
+import dayjs from 'dayjs';
+
+const minDate = ref(dayjs().subtract(2, 'day').startOf('day').toDate());
+const maxDate = ref(dayjs().toDate());
 const columnsType = ref(['year', 'month', 'day', 'hour', 'minute', 'second']);
 
 function onChange(value: any) {
@@ -18,14 +19,13 @@ function onCancel(res: any) {
 
 // vant demo
 const currentDate = ref(['2021', '01', '01']);
-const minDate2 = new Date(2020, 0, 1);
+const minDate2 = new Date(2025, 0, 1);
 const maxDate2 = new Date(2025, 5, 1);
 </script>
 
 <template>
   <div>
     <LSDateTimePicker
-      v-model="currentTime"
       title="选择日期时间"
       cancel-text="取消"
       confirm-text="保存"
