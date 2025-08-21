@@ -1,3 +1,11 @@
+## [2.2.1](https://github.com/DTFN/ls-components-plus/compare/v2.2.0...v2.2.1) (2025-08-21)
+
+
+### Bug Fixes
+
+* **ls-components-h5:** 🧩 update ([989358b](https://github.com/DTFN/ls-components-plus/commit/989358bfe183c3ba59cd467d6ee09b27861ce0fb))
+* **ls-components-h5:** 🧩 初始化日期 ([0a390b9](https://github.com/DTFN/ls-components-plus/commit/0a390b92aa50c4213f84e83efcc6c139afba6108))
+
 # [2.2.0](https://github.com/DTFN/ls-components-plus/compare/v2.1.3...v2.2.0) (2025-08-21)
 
 
