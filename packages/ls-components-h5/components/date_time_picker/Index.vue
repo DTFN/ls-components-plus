@@ -6,6 +6,7 @@ import { isSameValue, makeArrayProp } from '@cpo/_utils/util';
 import { computed, nextTick, Ref, useSlots, watch, ref } from 'vue';
 import LSPickerToolbar from './LSPickerToolbar.vue';
 import LSPickerColumn from './LSPickerColumn.vue';
+import { unitToPx } from '@cpo/_utils/format';
 
 const props = defineProps({
   cancelText: {
@@ -29,7 +30,7 @@ const props = defineProps({
     default: () => new Date(new Date().setFullYear(new Date().getFullYear()))
   },
   optionHeight: {
-    type: Number,
+    type: [Number, String],
     default: 44
   },
   visibleOptionNum: {
@@ -65,6 +66,8 @@ const slots = useSlots();
 
 const fields = ref({ text: 'text', value: 'value', children: 'children' });
 
+const oHeight = computed(() => unitToPx(props.optionHeight));
+
 const minYear = computed(() => props.minDate.getFullYear());
 const maxYear = computed(() => props.maxDate.getFullYear());
 const minMonth = computed(() => props.minDate.getMonth() + 1);
@@ -81,6 +84,9 @@ const maxSecond = computed(() => props.maxDate.getSeconds());
 const iYear = Number(props.modelValue[0]);
 const iMonth = Number(props.modelValue[1]);
 const iDay = Number(props.modelValue[2]);
+const iHour = Number(props.modelValue[3]);
+const iMinute = Number(props.modelValue[4]);
+const iSecond = Number(props.modelValue[5]);
 
 const selectedValues: any = ref([]);
 
@@ -88,7 +94,7 @@ function initSelectedValues() {
   const year = minYear.value <= iYear && maxYear.value >= iYear ? iYear : minYear.value;
   const month = minMonth.value <= iMonth && maxMonth.value >= iMonth ? iMonth : minMonth.value;
   const day = minDay.value <= iDay && maxDay.value >= iDay ? iDay : minDay.value;
-  selectedValues.value = [year, month, day];
+  selectedValues.value = [year, month, day, iHour, iMinute, iSecond];
 }
 
 initSelectedValues();
@@ -256,11 +262,11 @@ const curSeconds = computed(() => seconds.value);
 
 const columnsRef = ref(null) as Ref<HTMLElement | null>;
 const columnsHeight = computed(() => {
-  return props.optionHeight * props.visibleOptionNum;
+  return oHeight.value * props.visibleOptionNum;
 });
 const maskStyle = computed(() => {
   return {
-    backgroundSize: `100% ${(columnsHeight.value - props.optionHeight) / 2}px`
+    backgroundSize: `100% ${(columnsHeight.value - oHeight.value) / 2}px`
   };
 });
 
@@ -377,7 +383,7 @@ function onCancel() {
         :key="i"
         :list="item"
         :value="selectedValues[i]"
-        :option-height="optionHeight"
+        :option-height="oHeight"
         :readonly="readonly"
         :visible-option-num="visibleOptionNum"
         :fields="fields"
@@ -396,7 +402,7 @@ function onCancel() {
         "
       />
       <div class="van-picker__mask" :style="maskStyle"></div>
-      <div class="van-hairline-unset--top-bottom van-picker__frame" :style="{ height: `${optionHeight}px` }"></div>
+      <div class="van-hairline-unset--top-bottom van-picker__frame" :style="{ height: `${oHeight}px` }"></div>
     </div>
 
     <div v-if="slots['columns-bottom']" class="van-columns-hint">

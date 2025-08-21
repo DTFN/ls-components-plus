@@ -2,6 +2,7 @@ import { setupRouter } from '@/router/index';
 import { createApp } from 'vue';
 import App from './App.vue';
 import 'vant/lib/index.css';
+import 'lib-flexible/flexible';
 
 import LSH5Components from '@cpo/main';
 // import LSH5Components from '../lib/index';
