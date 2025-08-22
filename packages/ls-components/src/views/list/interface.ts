@@ -40,6 +40,6 @@ export function claimPrivilegePosterListApi() {
           }
         ]
       });
-    }, 40);
+    }, 50);
   });
 }

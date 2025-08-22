@@ -169,8 +169,7 @@ function dealData(res: any) {
         labelWidth: 70
       }"
       :table-attrs="{
-        ...COM_TABLE_ATTRS,
-        showTableIndex: true
+        ...COM_TABLE_ATTRS
       }"
       :show-table-detail="false"
       :show-table-del="false"
