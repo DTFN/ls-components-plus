@@ -19,6 +19,7 @@ tsconfig.tsbuildinfo
 tsconfig.lint.json
 
 packages/ls-components/lib/
+packages/ls-components-h5/lib/
 
 # Editor directories and files
 .idea
