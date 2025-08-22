@@ -127,24 +127,24 @@ export const MENU_LIST = [
     path: '/downloadFile',
     cpoPath: 'downloadFile/Index',
     key: '18'
-  }
+  },
   // list切换报错测试
-  // {
-  //   id: '19',
-  //   title: 'List测试页面1',
-  //   name: 'List1',
-  //   path: '/list1',
-  //   cpoPath: 'list/List1',
-  //   key: '19'
-  // },
-  // {
-  //   id: '20',
-  //   title: 'List测试页面2',
-  //   name: 'List2',
-  //   path: '/list2',
-  //   cpoPath: 'list/List2',
-  //   key: '20'
-  // }
+  {
+    id: '19',
+    title: 'List测试页面1',
+    name: 'List1',
+    path: '/list1',
+    cpoPath: 'list/List1',
+    key: '19'
+  },
+  {
+    id: '20',
+    title: 'List测试页面2',
+    name: 'List2',
+    path: '/list2',
+    cpoPath: 'list/List2',
+    key: '20'
+  }
 ];
 
 export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`);
