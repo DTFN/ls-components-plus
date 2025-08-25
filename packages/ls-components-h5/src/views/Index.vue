@@ -32,7 +32,9 @@ const maxDate2 = new Date(2025, 5, 1);
 <template>
   <div>
     <div class="time-panel">{{ currentTime }}</div>
+
     <van-button type="primary" @click="showAccidentDatePicker = true">open</van-button>
+
     <van-popup v-model:show="showAccidentDatePicker" destroy-on-close position="bottom" class="com-data-time-popup">
       <LSDateTimePicker
         v-model="currentTime"
