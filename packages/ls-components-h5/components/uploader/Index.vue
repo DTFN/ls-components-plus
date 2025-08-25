@@ -10,7 +10,6 @@ const filesLoading: any = ref([]);
 const modelValue: any = ref([]);
 
 const slots = useSlots();
-const attrs = useAttrs();
 
 const emits = defineEmits(['update:modelValue', 'updateLoadingData', 'uploadError', 'pdfPreview']);
 
@@ -47,11 +46,15 @@ const props: any = defineProps({
   showUploadProgress: {
     type: Boolean,
     default: true
+  },
+  defAttrs: {
+    type: Object as PropType<{ [key: string]: any }>,
+    default: () => ({})
   }
 });
 
 const maxCount = computed(() => {
-  return attrs['max-count'] || 0;
+  return props.defAttrs['maxCount'] || 0;
 });
 
 watch(
@@ -139,7 +142,7 @@ function isOverSize(file: any) {
 
 function isExistType(limitTypes: Array<string>, curType: string) {
   const curTypePrefix = curType.split('/')[1];
-  return limitTypes.includes(curTypePrefix);
+  return limitTypes.includes(curTypePrefix) || curType.startsWith('video');
 }
 
 function uploadLoadingExcute(type: boolean, data: Array<number | string>, file: any) {
@@ -289,25 +292,24 @@ function previewPdf(title: string, url: string) {
 </script>
 
 <template>
-  <div class="ls-uploader">
+  <div
+    class="ls-uploader"
+    :class="{
+      'video-type': limitTypes?.includes('video')
+    }"
+  >
     <van-uploader
       v-model="fileList"
       :image-fit="imageFit"
       :max-size="isOverSize"
       :before-read="beforeRead"
       :after-read="afterRead"
-      v-bind="$attrs"
+      v-bind="defAttrs"
       @delete="onDelete"
     >
       <template #default>
         <slot v-if="slots.default" />
-        <div
-          v-else
-          class="btn-upload"
-          :class="{
-            'video-type': limitTypes?.includes('video')
-          }"
-        >
+        <div v-else class="btn-upload">
           <van-icon name="plus" />
           <span v-if="showUploadProgress && maxCount" class="upload-count">{{ fileList.length }}/{{ maxCount }}</span>
         </div>
@@ -315,6 +317,7 @@ function previewPdf(title: string, url: string) {
       <template #preview-cover="{ content, objectUrl, file, fileName, fileType }">
         <slot v-if="slots['preview-cover']" />
         <div v-else class="preview-cover">
+          {{ fileType }}
           <VideoItem v-if="(fileType || content)?.includes('video')" :url="objectUrl" />
 
           <van-image v-else-if="(fileType || content)?.includes('image')" fit="contain" :src="objectUrl" />
@@ -357,7 +360,21 @@ function previewPdf(title: string, url: string) {
       color: #babec5;
       transform: translate(-50%);
     }
-    &.video-type {
+  }
+  :deep(.van-uploader__preview) {
+    width: 100px;
+    height: 100px;
+    .van-uploader__file {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &.video-type {
+    .btn-upload {
+      width: 200px;
+      height: 100px;
+    }
+    :deep(.van-uploader__preview) {
       width: 200px;
       height: 100px;
     }

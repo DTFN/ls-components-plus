@@ -30,6 +30,16 @@ const minDate2 = new Date(2025, 0, 1);
 const maxDate2 = new Date(2025, 5, 1);
 
 // uploader demo
+const uploadData: any = ref({
+  fileKey: 'abc1',
+  fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
+});
+const uploadData2: any = ref({
+  fileKey: 'abc2',
+  fileUrl:
+    'https://zlst-cldp-test-tos01.tos-s3-cn-shanghai.volces.com/video1753324077742-IO0B30DYngKqAKkbls.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKLTNzM0MTAzMjgxOWY1NDM5Nzk4ZDk5NGZiNmIyNzljZjQ%2F20250825%2Fcn-shanghai%2Fs3%2Faws4_request&X-Amz-Date=20250825T094601Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=8458a7035237be5bf1a20cf49ec8712ada5a43639546a8b616b06acde9a27542'
+});
+
 const fileModel = ref<any[]>([]);
 const previewList: any = ref<any[]>([]);
 const isUploadError = ref(false);
@@ -49,15 +59,9 @@ function fileUploadApi() {
         isUploadError.value = false;
         reject('上传失败');
       } else {
-        previewList.value = [
-          {
-            fileKey: 'abc',
-            fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
-          }
-        ];
-        resolve(previewList.value);
+        resolve(uploadData.value);
       }
-    }, 1000);
+    }, 3000);
   });
 }
 
@@ -80,13 +84,7 @@ function fileUploadApi2() {
         isUploadError2.value = false;
         reject('上传失败');
       } else {
-        previewList.value = [
-          {
-            fileKey: 'abc',
-            fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
-          }
-        ];
-        resolve(previewList.value);
+        resolve(uploadData2.value);
       }
     }, 1000);
   });
@@ -140,7 +138,11 @@ function fileUploadApi2() {
       v-model="fileModel"
       :preview-list="previewList"
       :file-upload-api="fileUploadApi"
-      max-count="5"
+      :limit-types="['png']"
+      :def-attrs="{
+        maxCount: 5,
+        accept: 'image/jpg'
+      }"
       @update-loading-data="updateLoadingData"
       @upload-error="uploadError"
     />
@@ -151,11 +153,16 @@ function fileUploadApi2() {
       v-model="fileModel2"
       :preview-list="previewList2"
       :file-upload-api="fileUploadApi2"
-      max-count="5"
       :limit-types="['video']"
+      :def-attrs="{
+        maxCount: 3,
+        accept: 'video/*'
+      }"
       @update-loading-data="updateLoadingData2"
       @upload-error="uploadError2"
     />
+
+    <VanDivider />
   </div>
 </template>
 
