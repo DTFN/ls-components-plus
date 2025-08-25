@@ -31,7 +31,7 @@ const maxDate2 = new Date(2025, 5, 1);
 
 // uploader demo
 const fileModel = ref<any[]>([]);
-const previewList = ref<any[]>([]);
+const previewList: any = ref<any[]>([]);
 const isUploadError = ref(false);
 
 function updateLoadingData(type: boolean, list: Array<number | string>) {
@@ -49,9 +49,46 @@ function fileUploadApi() {
         isUploadError.value = false;
         reject('上传失败');
       } else {
-        resolve('https://img.yzcdn.cn/vant/cat.jpeg');
+        previewList.value = [
+          {
+            fileKey: 'abc',
+            fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
+          }
+        ];
+        resolve(previewList.value);
       }
-    }, 2000);
+    }, 1000);
+  });
+}
+
+const fileModel2 = ref<any[]>([]);
+const previewList2: any = ref<any[]>([]);
+const isUploadError2 = ref(false);
+
+function updateLoadingData2(type: boolean, list: Array<number | string>) {
+  console.log('updateLoadingData', type, list);
+}
+
+function uploadError2() {
+  isUploadError2.value = true;
+}
+
+function fileUploadApi2() {
+  return new Promise<string>((resolve, reject) => {
+    setTimeout(() => {
+      if (isUploadError2.value) {
+        isUploadError2.value = false;
+        reject('上传失败');
+      } else {
+        previewList.value = [
+          {
+            fileKey: 'abc',
+            fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
+          }
+        ];
+        resolve(previewList.value);
+      }
+    }, 1000);
   });
 }
 </script>
@@ -97,12 +134,27 @@ function fileUploadApi() {
       <template #columns-bottom> columns-bottomcolumns-bottomcolumns-bottom </template>
     </van-date-picker>
 
+    <VanDivider />
+
     <LSUploader
       v-model="fileModel"
       :preview-list="previewList"
       :file-upload-api="fileUploadApi"
+      max-count="5"
       @update-loading-data="updateLoadingData"
       @upload-error="uploadError"
+    />
+
+    <VanDivider />
+
+    <LSUploader
+      v-model="fileModel2"
+      :preview-list="previewList2"
+      :file-upload-api="fileUploadApi2"
+      max-count="5"
+      :limit-types="['video']"
+      @update-loading-data="updateLoadingData2"
+      @upload-error="uploadError2"
     />
   </div>
 </template>
