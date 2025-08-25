@@ -1,12 +1,19 @@
 <script setup lang="ts" name="LSUploader">
-import { showToast } from 'vant';
+import { showToast, UploaderFileListItem } from 'vant';
+
+const imgSuffix = 'jpg,jpeg,png,gif';
+const videoSuffix = 'mp4,mov,m4v,3gp,wmv';
 
 const fileList = ref<any[]>([]);
+const filesLoading: any = ref([]);
+const modelValue: any = ref([]);
 
-// const imgSuffix = 'jpg,jpeg,png,gif';
-// const videoSuffix = 'mp4,mov,m4v,3gp,wmv';
+const slots = useSlots();
+const attrs = useAttrs();
 
-const props = defineProps({
+const emits = defineEmits(['update:modelValue', 'updateLoadingData', 'uploadError', 'pdfPreview']);
+
+const props: any = defineProps({
   imageFit: {
     type: String as PropType<any>,
     default: 'contain'
@@ -27,8 +34,60 @@ const props = defineProps({
       video: 200, // 20MB
       pdf: 50 // 10MB
     })
+  },
+  fileUploadApi: {
+    type: Function as PropType<(formData: FormData) => Promise<string>>,
+    required: true
+  },
+  previewList: {
+    type: Array as PropType<any[]>,
+    default: () => []
   }
 });
+
+watch(
+  () => props.previewList,
+  newVal => {
+    if (newVal && newVal.length > 0) {
+      modelValue.value = [...props.modelValue];
+      fileList.value = newVal.map((item: any) => {
+        const { fileKey, fileUrl } = item || {};
+
+        return {
+          objectUrl: fileUrl,
+          url: fileUrl,
+          name: fileKey,
+          fileType: getFileType(fileKey),
+          fileName: fileKey.replace(fileKey?.substring(fileKey?.lastIndexOf('-'), fileKey?.lastIndexOf('.')), '')
+        };
+      });
+    } else {
+      fileList.value = [];
+    }
+  },
+  { immediate: true }
+);
+
+function getFileType(url: any) {
+  const paramIndex = url.indexOf('?');
+  const suffixIndex = url.lastIndexOf('.') + 1;
+  let suffix = url.substring(suffixIndex);
+
+  if (paramIndex !== -1) {
+    suffix = url.substring(suffixIndex, paramIndex);
+  }
+  suffix = suffix.toLowerCase();
+
+  if (imgSuffix.includes(suffix)) {
+    return 'image';
+  } else if (videoSuffix.includes(suffix)) {
+    return 'video';
+  } else if (suffix === 'pdf') {
+    return 'pdf';
+  }
+
+  return suffix;
+}
 
 function isOverSize(file: any) {
   const { size, type } = file || {};
@@ -71,6 +130,20 @@ function isExistType(limitTypes: Array<string>, curType: string) {
   return limitTypes.includes(curTypePrefix);
 }
 
+function uploadLoadingExcute(type: boolean, data: Array<number | string>, file: any) {
+  const { lastModified } = file || {};
+
+  if (lastModified) {
+    if (type) {
+      data.push(lastModified);
+    } else {
+      data = data.filter((item: any) => item !== lastModified);
+    }
+  }
+
+  return data;
+}
+
 function beforeRead(file: any) {
   let status = true;
 
@@ -92,7 +165,17 @@ function beforeRead(file: any) {
         });
         break;
       }
+      if (status) {
+        filesLoading.value = uploadLoadingExcute(true, filesLoading.value, tempFile);
+      }
     }
+
+    if (!status) {
+      file.forEach(item => {
+        filesLoading.value = uploadLoadingExcute(false, filesLoading.value, item);
+      });
+    }
+    emits('updateLoadingData', status, filesLoading.value);
   } else {
     const { type } = file || {};
     if (!isExistType(limitTypes, type)) {
@@ -102,14 +185,95 @@ function beforeRead(file: any) {
         message: props.limitTypesMsg || '上传文件类型不符合要求'
       });
     }
+    if (status) {
+      filesLoading.value = uploadLoadingExcute(true, filesLoading.value, file);
+      emits('updateLoadingData', true, filesLoading.value);
+    }
   }
 
   return status;
 }
 
-function afterRead() {}
+function afterRead(file: any, detail: { index: number }) {
+  if (Array.isArray(file)) {
+    file.forEach((item, i) => {
+      afterReadAction(item, i + detail.index);
+    });
+  } else {
+    afterReadAction(file, detail.index);
+  }
+}
 
-function onDelete() {}
+function setUploadStatus(type: number, file: any) {
+  switch (type) {
+    case 0:
+      file.status = 'uploading';
+      file.message = '上传中...';
+      break;
+    case 1:
+      file.status = 'done';
+      file.message = '';
+      break;
+    case 2:
+      file.status = 'failed';
+      file.message = '上传失败';
+      break;
+    default:
+      break;
+  }
+
+  return file;
+}
+
+function afterReadAction(file: any, index: number) {
+  const formData = new FormData();
+
+  if (file.file) {
+    formData.append('file', file.file);
+  } else {
+    console.error('No file found in file.file');
+
+    return;
+  }
+  setUploadStatus(0, file);
+  props
+    .fileUploadApi(formData)
+    .then((response: any) => {
+      modelValue?.value.push(response);
+
+      setUploadStatus(1, file);
+      emits('update:modelValue', modelValue.value);
+    })
+    .catch(() => {
+      fileList.value.splice(index, 1);
+      showToast('上传失败');
+
+      setUploadStatus(2, file);
+      emits('uploadError');
+    })
+    .finally(() => {
+      filesLoading.value = uploadLoadingExcute(false, filesLoading.value, file?.file);
+
+      emits('updateLoadingData', false, filesLoading.value);
+    });
+}
+
+function onDelete(file: UploaderFileListItem, detail: { index: number }) {
+  modelValue.value?.splice(detail.index, 1);
+
+  filesLoading.value = uploadLoadingExcute(false, filesLoading.value, file?.file);
+
+  emits('updateLoadingData', false, filesLoading.value);
+
+  emits('update:modelValue', modelValue.value);
+}
+
+function previewPdf(title: string, url: string) {
+  emits('pdfPreview', {
+    title,
+    url
+  });
+}
 </script>
 
 <template>
@@ -123,6 +287,38 @@ function onDelete() {}
       v-bind="$attrs"
       @delete="onDelete"
     >
+      <template #default>
+        <slot v-if="slots.default" />
+        <div
+          v-else
+          class="btn-upload"
+          :class="{
+            'video-upload': limitTypes?.includes('video')
+          }"
+        >
+          <van-icon name="plus" />
+          <span class="upload-count">{{ fileList.length }}/{{ attrs.maxCount }}</span>
+        </div>
+      </template>
+      <template #preview-cover="{ content, objectUrl, file, fileName, fileType }">
+        <slot v-if="slots['preview-cover']" />
+        <div v-else class="video-preview-cover">
+          <VideoCpo v-if="(fileType || content)?.includes('video')" :url="objectUrl" />
+
+          <van-image v-else-if="(fileType || content)?.includes('image')" fit="contain" :src="objectUrl" />
+
+          <div
+            v-else-if="(fileType || content)?.includes('pdf')"
+            class="pdf-view"
+            @click="previewPdf(fileName || file?.name, objectUrl)"
+          >
+            <div class="file-info">
+              <van-icon name="records" />
+              <div>{{ fileName || file?.name }}</div>
+            </div>
+          </div>
+        </div>
+      </template>
     </van-uploader>
   </div>
 </template>
