@@ -142,7 +142,7 @@ function isOverSize(file: any) {
 
 function isExistType(limitTypes: Array<string>, curType: string) {
   const curTypePrefix = curType.split('/')[1];
-  return limitTypes.includes(curTypePrefix) || curType.startsWith('video');
+  return limitTypes.includes(curTypePrefix) || (limitTypes.includes('video') && curType.startsWith('video'));
 }
 
 function uploadLoadingExcute(type: boolean, data: Array<number | string>, file: any) {
