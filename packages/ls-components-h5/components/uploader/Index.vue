@@ -1,4 +1,5 @@
 <script setup lang="ts" name="LSUploader">
+import VideoItem from '@cpo/_common/VideoItem.vue';
 import { showToast, UploaderFileListItem } from 'vant';
 
 const imgSuffix = 'jpg,jpeg,png,gif';
@@ -42,6 +43,10 @@ const props: any = defineProps({
   previewList: {
     type: Array as PropType<any[]>,
     default: () => []
+  },
+  showUploadProgress: {
+    type: Boolean,
+    default: true
   }
 });
 
@@ -297,13 +302,13 @@ function previewPdf(title: string, url: string) {
           }"
         >
           <van-icon name="plus" />
-          <span class="upload-count">{{ fileList.length }}/{{ attrs.maxCount }}</span>
+          <span v-if="showUploadProgress && attrs.maxCount" class="upload-count">{{ fileList.length }}/{{ attrs.maxCount }}</span>
         </div>
       </template>
       <template #preview-cover="{ content, objectUrl, file, fileName, fileType }">
         <slot v-if="slots['preview-cover']" />
         <div v-else class="video-preview-cover">
-          <VideoCpo v-if="(fileType || content)?.includes('video')" :url="objectUrl" />
+          <VideoItem v-if="(fileType || content)?.includes('video')" :url="objectUrl" />
 
           <van-image v-else-if="(fileType || content)?.includes('image')" fit="contain" :src="objectUrl" />
 

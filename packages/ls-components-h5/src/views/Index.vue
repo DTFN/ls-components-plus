@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LSUploader from '@cpo/uploader';
 import dayjs from 'dayjs';
 
 const showAccidentDatePicker = ref(false);
@@ -27,6 +28,32 @@ function onCancel(res: any) {
 const currentDate = ref(['2021', '01', '01']);
 const minDate2 = new Date(2025, 0, 1);
 const maxDate2 = new Date(2025, 5, 1);
+
+// uploader demo
+const fileModel = ref<any[]>([]);
+const previewList = ref<any[]>([]);
+const isUploadError = ref(false);
+
+function updateLoadingData(type: boolean, list: Array<number | string>) {
+  console.log('updateLoadingData', type, list);
+}
+
+function uploadError() {
+  isUploadError.value = true;
+}
+
+function fileUploadApi() {
+  return new Promise<string>((resolve, reject) => {
+    setTimeout(() => {
+      if (isUploadError.value) {
+        isUploadError.value = false;
+        reject('上传失败');
+      } else {
+        resolve('https://img.yzcdn.cn/vant/cat.jpeg');
+      }
+    }, 2000);
+  });
+}
 </script>
 
 <template>
@@ -69,6 +96,14 @@ const maxDate2 = new Date(2025, 5, 1);
       <template #columns-top> columns-top columns-top columns-top </template>
       <template #columns-bottom> columns-bottomcolumns-bottomcolumns-bottom </template>
     </van-date-picker>
+
+    <LSUploader
+      v-model="fileModel"
+      :preview-list="previewList"
+      :file-upload-api="fileUploadApi"
+      @update-loading-data="updateLoadingData"
+      @upload-error="uploadError"
+    />
   </div>
 </template>
 
