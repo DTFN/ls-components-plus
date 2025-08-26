@@ -1,3 +1,23 @@
+# [2.3.0](https://github.com/DTFN/ls-components-plus/compare/v2.2.2...v2.3.0) (2025-08-26)
+
+
+### Bug Fixes
+
+* **ls-components-h5:** 🧩 update ([ab505d2](https://github.com/DTFN/ls-components-plus/commit/ab505d2593ebda5940f754162cd4f5502394cc6a))
+* **ls-components-h5:** 🧩 update ([a663474](https://github.com/DTFN/ls-components-plus/commit/a663474ff18d2ae51cd0d57fa06f2d6900dfd9b2))
+* **ls-components-h5:** 🧩 update ([178e073](https://github.com/DTFN/ls-components-plus/commit/178e073def9f86591ac92df4e61cec2f52927db9))
+* **ls-components-h5:** 🧩 update ([6e243cc](https://github.com/DTFN/ls-components-plus/commit/6e243ccbf742c0dd230a02a8c8b14db0c9bd1ab9))
+* **ls-components-h5:** 🧩 update ([428a164](https://github.com/DTFN/ls-components-plus/commit/428a164665d7314619fc35a8690d3ea789068691))
+* **ls-components-h5:** 🧩 update ([3423c61](https://github.com/DTFN/ls-components-plus/commit/3423c61062cea96adb0e19c006fc8de819984836))
+* **ls-components-h5:** 🧩 update ([60393a1](https://github.com/DTFN/ls-components-plus/commit/60393a1a7d6440f2350120661fce98078d0737a2))
+* **ls-components-h5:** 🧩 updatre ([4960fbe](https://github.com/DTFN/ls-components-plus/commit/4960fbe49066cac178752c1db631cbea37862173))
+* **ls-components-h5:** 🧩 移动端上传组件 ([e69a7cd](https://github.com/DTFN/ls-components-plus/commit/e69a7cd9bb243a0266c7543572853edbded37959))
+
+
+### Features
+
+* **ls-components-h5:** 🚀 上传组件 ([1343f10](https://github.com/DTFN/ls-components-plus/commit/1343f10c978a8c2e8aa93f4f73272e0de697c095))
+
 ## [2.2.2](https://github.com/DTFN/ls-components-plus/compare/v2.2.1...v2.2.2) (2025-08-21)
 
 
