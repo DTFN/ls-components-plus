@@ -7,7 +7,7 @@ const videoSuffix = 'mp4,mov,m4v,3gp,wmv';
 
 const fileList = ref<any[]>([]);
 const filesLoading: any = ref([]);
-const modelValue: any = ref([]);
+const modelValue: any = defineModel<any>();
 
 const slots = useSlots();
 
@@ -61,9 +61,6 @@ watch(
   () => props.previewList,
   newVal => {
     if (newVal && newVal.length > 0) {
-      if (props.modelValue) {
-        modelValue.value = [...props.modelValue];
-      }
       fileList.value = newVal.map((item: any) => {
         const { fileKey, fileUrl } = item || {};
 

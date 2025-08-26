@@ -65,12 +65,12 @@ function fileUploadApi() {
   });
 }
 
-const fileModel2 = ref<any[]>([]);
+const fileModel2 = ref<any[]>([uploadData2.value]);
 const previewList2: any = ref<any[]>([uploadData2.value]);
 const isUploadError2 = ref(false);
 
 function updateLoadingData2(type: boolean, list: Array<number | string>) {
-  console.log('updateLoadingData', type, list);
+  console.log('updateLoadingData', type, list, fileModel2);
 }
 
 function uploadError2() {
