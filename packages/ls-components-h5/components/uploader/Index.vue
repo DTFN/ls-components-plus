@@ -339,6 +339,8 @@ function previewPdf(title: string, url: string) {
 
 <style lang="scss" scoped>
 .ls-uploader {
+  position: relative;
+  height: 100%;
   .btn-upload {
     width: 100px;
     height: 100px;
@@ -421,6 +423,7 @@ function previewPdf(title: string, url: string) {
     :deep(.van-uploader__preview) {
       width: 200px;
       height: 100px;
+      margin-right: 0;
     }
   }
 }

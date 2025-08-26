@@ -147,7 +147,9 @@ function fileUploadApi2() {
       @update-loading-data="updateLoadingData"
       @upload-error="uploadError"
     >
-      <div>添加</div>
+      <template #btn-cover>
+        <van-button type="primary">btn-cover</van-button>
+      </template>
     </LSUploader>
 
     <VanDivider />
@@ -156,7 +158,7 @@ function fileUploadApi2() {
       v-model="fileModel2"
       :preview-list="previewList2"
       :file-upload-api="fileUploadApi2"
-      :limit-types="['video', 'pdf']"
+      :limit-types="['jpg', 'jpeg', 'png', 'gif', 'video', 'pdf']"
       :max-sizes="{ video: 4, pdf: 1 }"
       :def-attrs="{
         maxCount: 3,
@@ -164,7 +166,11 @@ function fileUploadApi2() {
       }"
       @update-loading-data="updateLoadingData2"
       @upload-error="uploadError2"
-    />
+    >
+      <template v-if="false" #default>
+        <van-button type="primary">btn-cover</van-button>
+      </template>
+    </LSUploader>
 
     <VanDivider />
   </div>
