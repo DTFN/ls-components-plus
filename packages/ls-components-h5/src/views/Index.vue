@@ -146,7 +146,9 @@ function fileUploadApi2() {
       }"
       @update-loading-data="updateLoadingData"
       @upload-error="uploadError"
-    />
+    >
+      <div>添加</div>
+    </LSUploader>
 
     <VanDivider />
 
