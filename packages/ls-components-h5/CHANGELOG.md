@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/DTFN/ls-components-plus/compare/v2.3.0...v2.3.1) (2025-08-26)
+
+
+### Bug Fixes
+
+* **ls-components-h5:** 🧩 update ([bbe1e1c](https://github.com/DTFN/ls-components-plus/commit/bbe1e1c59d2545780f9ede53fcce3989880ead75))
+
 # [2.3.0](https://github.com/DTFN/ls-components-plus/compare/v2.2.2...v2.3.0) (2025-08-26)
 
 
