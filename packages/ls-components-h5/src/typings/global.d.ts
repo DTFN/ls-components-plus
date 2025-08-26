@@ -53,3 +53,5 @@ declare type LocaleType = 'zh-CN' | 'en';
 
 declare module '@vitejs/plugin-vue';
 declare module '@vitejs/plugin-vue-jsx';
+declare module '@lingshugroup/components-h5';
+declare module '@lingshugroup/components-h5/*';

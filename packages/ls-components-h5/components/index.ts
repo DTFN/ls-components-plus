@@ -1,8 +1,10 @@
 import type { App, Plugin } from 'vue';
 import LSDateTimePicker from './date_time_picker/index';
+import LSUploader from './uploader';
 
 const components: Record<string, Plugin> = {
-  LSDateTimePicker
+  LSDateTimePicker,
+  LSUploader
 };
 
 const install = (app: App) => {
