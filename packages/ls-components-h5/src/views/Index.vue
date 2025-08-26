@@ -45,7 +45,7 @@ const previewList: any = ref<any[]>([]);
 const isUploadError = ref(false);
 
 function updateLoadingData(type: boolean, list: Array<number | string>) {
-  console.log('updateLoadingData', type, list);
+  console.log('updateLoadingData', type, list, fileModel);
 }
 
 function uploadError() {
@@ -139,6 +139,7 @@ function fileUploadApi2() {
       :preview-list="previewList"
       :file-upload-api="fileUploadApi"
       :limit-types="['png']"
+      :limit-types-msg="'只能上传png格式的图片'"
       :def-attrs="{
         maxCount: 5,
         accept: 'image/jpg'
@@ -153,10 +154,10 @@ function fileUploadApi2() {
       v-model="fileModel2"
       :preview-list="previewList2"
       :file-upload-api="fileUploadApi2"
-      :limit-types="['video']"
+      :limit-types="['video', 'pdf']"
       :def-attrs="{
         maxCount: 3,
-        accept: 'video/*'
+        accept: 'video/*, application/pdf'
       }"
       @update-loading-data="updateLoadingData2"
       @upload-error="uploadError2"

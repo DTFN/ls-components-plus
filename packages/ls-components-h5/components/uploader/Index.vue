@@ -368,6 +368,51 @@ function previewPdf(title: string, url: string) {
       width: 100%;
       height: 100%;
     }
+    .van-uploader__preview-image {
+      width: 100%;
+      height: 100%;
+    }
+    .preview-cover {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #f6f6f6;
+      .van-image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .pdf-view {
+      height: 100%;
+      font-size: 12px;
+      color: #babec5;
+    }
+    .file-info {
+      position: relative;
+      top: 50%;
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      height: auto;
+      max-height: 100%;
+      padding: 0 12px;
+      transform: translateY(-50%);
+      .van-icon {
+        position: absolute;
+        top: 3px;
+        left: 12px;
+        font-size: 16px;
+      }
+      div {
+        max-height: 96px;
+        margin-top: 3px;
+        overflow: hidden;
+        text-indent: 18px;
+        word-break: break-all;
+      }
+    }
   }
   &.video-type {
     .btn-upload {
