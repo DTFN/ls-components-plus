@@ -31,17 +31,17 @@ const maxDate2 = new Date(2025, 5, 1);
 
 // uploader demo
 const uploadData: any = ref({
-  fileKey: 'abc1',
+  fileKey: 'abc1.jpeg',
   fileUrl: 'https://img.yzcdn.cn/vant/cat.jpeg'
 });
 const uploadData2: any = ref({
-  fileKey: 'abc2',
+  fileKey: 'abc2.video',
   fileUrl:
     'https://zlst-cldp-test-tos01.tos-s3-cn-shanghai.volces.com/video1753324077742-IO0B30DYngKqAKkbls.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKLTNzM0MTAzMjgxOWY1NDM5Nzk4ZDk5NGZiNmIyNzljZjQ%2F20250825%2Fcn-shanghai%2Fs3%2Faws4_request&X-Amz-Date=20250825T094601Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=8458a7035237be5bf1a20cf49ec8712ada5a43639546a8b616b06acde9a27542'
 });
 
 const fileModel = ref<any[]>([]);
-const previewList: any = ref<any[]>([]);
+const previewList: any = ref<any[]>([uploadData.value]);
 const isUploadError = ref(false);
 
 function updateLoadingData(type: boolean, list: Array<number | string>) {
@@ -66,7 +66,7 @@ function fileUploadApi() {
 }
 
 const fileModel2 = ref<any[]>([]);
-const previewList2: any = ref<any[]>([]);
+const previewList2: any = ref<any[]>([uploadData2.value]);
 const isUploadError2 = ref(false);
 
 function updateLoadingData2(type: boolean, list: Array<number | string>) {
@@ -155,6 +155,7 @@ function fileUploadApi2() {
       :preview-list="previewList2"
       :file-upload-api="fileUploadApi2"
       :limit-types="['video', 'pdf']"
+      :max-sizes="{ video: 4, pdf: 1 }"
       :def-attrs="{
         maxCount: 3,
         accept: 'video/*, application/pdf'

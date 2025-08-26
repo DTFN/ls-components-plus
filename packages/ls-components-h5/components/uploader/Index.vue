@@ -317,7 +317,6 @@ function previewPdf(title: string, url: string) {
       <template #preview-cover="{ content, objectUrl, file, fileName, fileType }">
         <slot v-if="slots['preview-cover']" />
         <div v-else class="preview-cover">
-          {{ fileType }}
           <VideoItem v-if="(fileType || content)?.includes('video')" :url="objectUrl" />
 
           <van-image v-else-if="(fileType || content)?.includes('image')" fit="contain" :src="objectUrl" />
