@@ -1,3 +1,159 @@
+# [2.2.0](https://github.com/DTFN/ls-components-plus/compare/v2.1.3...v2.2.0) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([596c23a](https://github.com/DTFN/ls-components-plus/commit/596c23a7c5a8ce81e7eeb7ed0574c0d17dfdf919))
+* **ls-component:** 🧩 update ([c197898](https://github.com/DTFN/ls-components-plus/commit/c197898345fa121efdf4408db98b58e75555a337))
+* **ls-component:** 🧩 update ([a0c36f2](https://github.com/DTFN/ls-components-plus/commit/a0c36f2567c4b880964a1559f425207d4f621df3))
+* **ls-component:** 🧩 update ([86820c9](https://github.com/DTFN/ls-components-plus/commit/86820c9c94ec85ded18a51afc62e41c8cf0c3d6f))
+* **ls-component:** 🧩 update ([7ee4378](https://github.com/DTFN/ls-components-plus/commit/7ee43789fbe27cd6c27944669d3bda867769e05d))
+
+
+### Features
+
+* **ls-component:** 🚀 update ([a939b04](https://github.com/DTFN/ls-components-plus/commit/a939b04b7bb0f18792a04f72b0746b42aa23daec))
+* **ls-component:** 🚀 预览增加水印功能 ([1a7387f](https://github.com/DTFN/ls-components-plus/commit/1a7387f68764df85112e653bc3131378fdd98907))
+
+## [2.1.3](https://github.com/DTFN/ls-components-plus/compare/v2.1.2...v2.1.3) (2025-08-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 list组件update ([02d9171](https://github.com/DTFN/ls-components-plus/commit/02d917169619982dd67277a9fe0ced5e3d672ae2))
+* **ls-doc:** 🧩 文档更新 ([9917583](https://github.com/DTFN/ls-components-plus/commit/991758324b2cd79342112ccf303395eb83c41c44))
+
+## [2.1.2](https://github.com/DTFN/ls-components-plus/compare/v2.1.1...v2.1.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 element-plus升级 ([b8d8b2d](https://github.com/DTFN/ls-components-plus/commit/b8d8b2d8bf4eb1f0511145d326f1416c77ff7a31))
+
+## [2.1.1](https://github.com/DTFN/ls-components-plus/compare/v2.1.0...v2.1.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* 🧩 update ([724f64b](https://github.com/DTFN/ls-components-plus/commit/724f64b2f023135413833464da3d1e9bd7a27519))
+* **ls-component:** 🧩 decriptions label-width更新 ([de28e98](https://github.com/DTFN/ls-components-plus/commit/de28e985d6692cc6b1287c9713f107585b9d4a94))
+* **ls-component:** 🧩 description 更新 ([9c6051b](https://github.com/DTFN/ls-components-plus/commit/9c6051b5e2c1905047919a9823c0571008a2a706))
+* **ls-component:** 🧩 el-menu新属性测试 ([703344a](https://github.com/DTFN/ls-components-plus/commit/703344a07048792c0209707532fcb36beee04ab2))
+* **ls-component:** 🧩 update ([3b1a5d7](https://github.com/DTFN/ls-components-plus/commit/3b1a5d71b0433338240a0b0e8e0479bf9a675b02))
+* **ls-component:** 🧩 update ([829183e](https://github.com/DTFN/ls-components-plus/commit/829183e19781126c1192d3a38c942337737380c2))
+* **ls-component:** 🧩 公共样式污染问题处理 ([00d04ce](https://github.com/DTFN/ls-components-plus/commit/00d04ce7f6421c659921a34a8d8382495115852d))
+
+# [2.1.0](https://github.com/DTFN/ls-components-plus/compare/v2.0.3...v2.1.0) (2025-08-11)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 chart增加titleComponent ([3c35c4d](https://github.com/DTFN/ls-components-plus/commit/3c35c4d6f7599950b4e264879f7cc71ae658fdab))
+* **ls-component:** 🧩 description数值为0时，是否展示0 ([90cd799](https://github.com/DTFN/ls-components-plus/commit/90cd799a129457461515f6dbebd534a01119bb9f))
+* **ls-component:** 🧩 update ([e1daa07](https://github.com/DTFN/ls-components-plus/commit/e1daa077a0583dfeed5eae5a0f5345b78b1f9bac))
+* **ls-component:** 🧩 update ([99b7354](https://github.com/DTFN/ls-components-plus/commit/99b735416cc704fe3a5a62e978bc1a700a4b34d9))
+* **ls-component:** 🧩 update ([2aa8cb6](https://github.com/DTFN/ls-components-plus/commit/2aa8cb63c1f9e19c03a2f2d5f4e90cf23fc09e5f))
+* **ls-component:** 🧩 update ([b4aaaea](https://github.com/DTFN/ls-components-plus/commit/b4aaaea6007a20d2511d4e833db64dfd5bbae80f))
+* **ls-component:** 🧩 update ([4330d99](https://github.com/DTFN/ls-components-plus/commit/4330d992daf0981a8d3c776c677dee265a6577b2))
+* **ls-component:** 🧩 update ([e91fa92](https://github.com/DTFN/ls-components-plus/commit/e91fa92c795da42c179856f3842286b67ee8c81b))
+* **ls-component:** 🧩 update ([d33f826](https://github.com/DTFN/ls-components-plus/commit/d33f826fa378ba0696bb634a181ff6b3825cb6e0))
+* **ls-component:** 🧩 展示注销dts生成 ([169a230](https://github.com/DTFN/ls-components-plus/commit/169a23086464324785ceeb46ebb0378d3e84dd2f))
+* **ls-component:** 🧩 文档更新 ([416ab15](https://github.com/DTFN/ls-components-plus/commit/416ab15bbc5a7aacd6c34ec4d9bf30f04dbaeb42))
+* **ls-component:** 🧩 组件升级 ([8c885a6](https://github.com/DTFN/ls-components-plus/commit/8c885a63269e97e2bda77d8651db7a0fd8f17b3c))
+
+
+### Features
+
+* **ls-component:** 🚀 element-plus升级 ([b1ffe06](https://github.com/DTFN/ls-components-plus/commit/b1ffe06e246bbeb5d882bbe80018ab4ace09ff13))
+* **ls-component:** 🚀 新api测试 ([592e47b](https://github.com/DTFN/ls-components-plus/commit/592e47bbca19cac359e36fe4a34424acbac4d2c5))
+
+## [2.0.3](https://github.com/DTFN/ls-components-plus/compare/v2.0.2...v2.0.3) (2025-07-21)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 image预览支持点击空白区域关闭 ([74c96ed](https://github.com/DTFN/ls-components-plus/commit/74c96ed39912463ee3342d5f817ab052e365a1df))
+
+## [2.0.2](https://github.com/DTFN/ls-components-plus/compare/v2.0.1...v2.0.2) (2025-07-17)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 upload组件，图片模式取消上传时样式优化 ([b3a296b](https://github.com/DTFN/ls-components-plus/commit/b3a296bc460b6ae9441c9ef6d64cb66a334fded9))
+
+## [2.0.1](https://github.com/DTFN/ls-components-plus/compare/v2.0.0...v2.0.1) (2025-07-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 git push ([40a6f67](https://github.com/DTFN/ls-components-plus/commit/40a6f67d18f7d88e315fa4d05e07a16ff4b7cd05))
+* **ls-component:** 🧩 pdf增加初始是否分页开关 ([ba3794a](https://github.com/DTFN/ls-components-plus/commit/ba3794a8c5ee7e85ce22fe046e7e8f3f7a499244))
+
+# [2.0.0](https://github.com/DTFN/ls-components-plus/compare/v1.8.11...v2.0.0) (2025-07-15)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 xlsx、pdf 点击空白区域支持关闭 ([e3c99a3](https://github.com/DTFN/ls-components-plus/commit/e3c99a387fe6db90af24eae70a07ba63489caf00))
+
+
+### BREAKING CHANGES
+
+* **ls-component:** xlsx、pdf 点击空白区域支持关闭
+
+## [1.8.11](https://github.com/DTFN/ls-components-plus/compare/v1.8.10...v1.8.11) (2025-07-14)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([9838713](https://github.com/DTFN/ls-components-plus/commit/9838713815afea48747fc698b77574e93cf6d592))
+* **ls-component:** 🧩 update ([ab64e44](https://github.com/DTFN/ls-components-plus/commit/ab64e448d6e9e7ac6760d388ec6bb903613f9323))
+* **ls-component:** 🧩 xlsx打开渲染显示，资源异常预览关闭及提示修复 ([e971a9a](https://github.com/DTFN/ls-components-plus/commit/e971a9a9625cb29a18f0b7b1b9bf0c481abb30a2))
+
+## [1.8.10](https://github.com/DTFN/ls-components-plus/compare/v1.8.9...v1.8.10) (2025-06-20)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 tree组件更新 ([d4f8a3a](https://github.com/DTFN/ls-components-plus/commit/d4f8a3adc13ec94d026dd57138dbc0ea2b9c46c6))
+* **ls-component:** 🧩 update ([83169ac](https://github.com/DTFN/ls-components-plus/commit/83169ac621f0912012229d01bf8921df16636293))
+
+## [1.8.9](https://github.com/DTFN/ls-components-plus/compare/v1.8.8...v1.8.9) (2025-06-19)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 confirm更新icon ([45a695a](https://github.com/DTFN/ls-components-plus/commit/45a695a412677c5c6f9aae92c3495376aec353d9))
+
+## [1.8.8](https://github.com/DTFN/ls-components-plus/compare/v1.8.7...v1.8.8) (2025-06-03)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([f27d716](https://github.com/DTFN/ls-components-plus/commit/f27d716c8f27e56478698e25a41bee1274a492ae))
+* **ls-component:** 🧩 文档更新 ([40503ab](https://github.com/DTFN/ls-components-plus/commit/40503ab9ee7067d4f5b5e08b50365123b9c2c00a))
+
+## [1.8.7](https://github.com/DTFN/ls-components-plus/compare/v1.8.6...v1.8.7) (2025-05-29)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 优化dialog按钮 ([8d1578f](https://github.com/DTFN/ls-components-plus/commit/8d1578f59834bc560d255a7680d63c46274d6fe4))
+
+## [1.8.6](https://github.com/DTFN/ls-components-plus/compare/v1.8.5...v1.8.6) (2025-05-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 chart增加组件 ([72e698e](https://github.com/DTFN/ls-components-plus/commit/72e698e94f7c511a6d707b2f92493eb5da4477c0))
+
+## [1.8.5](https://github.com/DTFN/ls-components-plus/compare/v1.8.4...v1.8.5) (2025-05-14)
+
+
+### Bug Fixes
+
+* **ls-components:** table组件多选优化 ([1763e1d](https://github.com/DTFN/ls-components-plus/commit/1763e1dd762f6d378be3faca1b81a65300f9593c))
+
 ## [1.8.4](https://github.com/DTFN/ls-components-plus/compare/v1.8.3...v1.8.4) (2025-05-06)
 
 
