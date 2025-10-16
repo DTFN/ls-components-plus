@@ -12,6 +12,25 @@
 
 ### Features
 
+* **ls-component:** 🚀 update ([f6b6dfb](https://github.com/DTFN/ls-components-plus/commit/f6b6dfb0f74a6834978d41c6728b7d256e77ef0d))
+* **ls-component:** 🚀 update ([a939b04](https://github.com/DTFN/ls-components-plus/commit/a939b04b7bb0f18792a04f72b0746b42aa23daec))
+* **ls-component:** 🚀 预览加水印 ([05d1230](https://github.com/DTFN/ls-components-plus/commit/05d123053a300652abe94d8354ae67d391e27ffc))
+* **ls-component:** 🚀 预览增加水印功能 ([1a7387f](https://github.com/DTFN/ls-components-plus/commit/1a7387f68764df85112e653bc3131378fdd98907))
+
+# [2.2.0](https://github.com/DTFN/ls-components-plus/compare/v2.1.3...v2.2.0) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([596c23a](https://github.com/DTFN/ls-components-plus/commit/596c23a7c5a8ce81e7eeb7ed0574c0d17dfdf919))
+* **ls-component:** 🧩 update ([c197898](https://github.com/DTFN/ls-components-plus/commit/c197898345fa121efdf4408db98b58e75555a337))
+* **ls-component:** 🧩 update ([a0c36f2](https://github.com/DTFN/ls-components-plus/commit/a0c36f2567c4b880964a1559f425207d4f621df3))
+* **ls-component:** 🧩 update ([86820c9](https://github.com/DTFN/ls-components-plus/commit/86820c9c94ec85ded18a51afc62e41c8cf0c3d6f))
+* **ls-component:** 🧩 update ([7ee4378](https://github.com/DTFN/ls-components-plus/commit/7ee43789fbe27cd6c27944669d3bda867769e05d))
+
+
+### Features
+
 * **ls-component:** 🚀 update ([a939b04](https://github.com/DTFN/ls-components-plus/commit/a939b04b7bb0f18792a04f72b0746b42aa23daec))
 * **ls-component:** 🚀 预览增加水印功能 ([1a7387f](https://github.com/DTFN/ls-components-plus/commit/1a7387f68764df85112e653bc3131378fdd98907))
 
