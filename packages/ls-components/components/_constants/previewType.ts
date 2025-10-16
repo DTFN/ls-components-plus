@@ -36,6 +36,18 @@ export const lsPreviewProp = buildProps({
   hideOnClickModal: {
     type: Boolean,
     default: false
+  },
+  // 是否显示水印
+  showWatermark: {
+    type: Boolean,
+    default: false
+  },
+  // 水印配置
+  watermarkOption: {
+    type: Object,
+    default: () => {
+      return {};
+    }
   }
 });
 

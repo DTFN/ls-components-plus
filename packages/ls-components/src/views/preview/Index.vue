@@ -133,6 +133,10 @@ function download(data: any) {
       :source="source"
       :hide-on-click-modal="true"
       :init-no-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
     />
     <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
 
