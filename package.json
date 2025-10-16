@@ -1,6 +1,6 @@
 {
   "name": "components-vue3",
-  "version": "1.0.0",
+  "version": "2.3.2",
   "type": "module",
   "scripts": {
     "dev:ls-components": "pnpm -r --filter @lingshugroup/web-plus run dev",
