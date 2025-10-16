@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-import docx from '@/assets/files/333.docx?url';
+// import docx from '@/assets/files/333.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
 import xlsx from '@/assets/files/222.xlsx?url';
 // import xlsx from 'D:/download/666.xlsx?url';
@@ -41,10 +41,19 @@ function openViewer(val: string) {
       showViewerImage.value = true;
       break;
     case 'docx':
-      axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
-        source.value = data.data;
-      });
-      showViewerDocx.value = true;
+      // axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
+      //   source.value = data.data;
+      // });
+
+      axios
+        .get(
+          'https://ctn-admin-pre.lingshu.net/api/v1/file/preview?fileName=20250928170155_26006275e0864c0f87c3d862e9cf1218.docx',
+          { responseType: 'arraybuffer' }
+        )
+        .then(data => {
+          source.value = data.data;
+          showViewerDocx.value = true;
+        });
       break;
     case 'xlsx':
       axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
@@ -110,12 +119,26 @@ function download(data: any) {
       :download-data="downloadData"
       @download="download"
       :hide-on-click-modal="false"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
     >
       <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
       </template> -->
     </LSPreviewImage>
-    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" :hide-on-click-modal="true" />
+    <LSPreviewDocx
+      v-model="showViewerDocx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :hide-on-click-modal="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+    />
     <LSPreviewPdf
       v-model="showViewerPdf"
       :c-map-url-path="'/cmaps/'"
@@ -124,8 +147,22 @@ function download(data: any) {
       :source="source"
       :hide-on-click-modal="true"
       :init-no-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
     />
-    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
+    <LSPreviewXlsx
+      v-model="showViewerXlsx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :has-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+    />
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
