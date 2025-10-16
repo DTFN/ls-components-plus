@@ -119,12 +119,26 @@ function download(data: any) {
       :download-data="downloadData"
       @download="download"
       :hide-on-click-modal="false"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
     >
       <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
       </template> -->
     </LSPreviewImage>
-    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" :hide-on-click-modal="true" />
+    <LSPreviewDocx
+      v-model="showViewerDocx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :hide-on-click-modal="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+    />
     <LSPreviewPdf
       v-model="showViewerPdf"
       :c-map-url-path="'/cmaps/'"
@@ -138,7 +152,17 @@ function download(data: any) {
         content: ['Element+', 'Element Plus']
       }"
     />
-    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
+    <LSPreviewXlsx
+      v-model="showViewerXlsx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :has-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+    />
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"

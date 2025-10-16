@@ -23,7 +23,7 @@ const previewVisible = defineModel({
   type: Boolean
 });
 
-const { comClass, defAttrs, closeLoading } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
 
 const loadComplete = () => {
   closeLoading();
@@ -38,7 +38,10 @@ const loadError = () => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <LSXlsx v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
+      <LSXlsx v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    </el-watermark>
+    <LSXlsx v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
   </div>
 </template>
 
