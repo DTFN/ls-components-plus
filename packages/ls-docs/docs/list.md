@@ -13,26 +13,47 @@ outline: deep
 
 <br>
 <ClientOnly>
-<LSList
-  :list-api="listApi"
-  :form-data="formData"
-  :form-items="formItems"
-  :table-column="tableColumn_1"
-  :show-table-switch="true"
-  :show-table-edit="true"
-  :disabled-table-del="(row: any) => row.name === '测试1'"
-  :disabled-table-switch="(row: any) => row.name === '测试1'"
-  :deal-data="dealData"
->
-</LSList>
+  <LSList
+     ref="ListRef"
+    :list-api="listApi"
+    :form-data="formData"
+    :form-items="formItems"
+    :table-column="tableColumn_1"
+    :deal-data="dealData"
+    :table-operate-column="{width: 340 }"
+    :table-attrs="{
+      showSelect:true,
+      selectColumnOptions:{
+        reserveSelection:true
+      }
+    }"
+    :show-table-switch="true"
+    :table-detail-text="(row: any) => `查看${row.name}`"
+    :disabled-table-del="(row: any) => row.id%2===0"
+    :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
+  >
+   <template #table-slot-table-slot>
+      <div>自定义表格内容</div>
+    </template>
+    <template #table-operate-append="{ row }">
+      <el-space :size="0" :spacer="spacer">
+        <el-button v-if="row.status === 1" link type="primary"> 下架 </el-button>
+        <el-button link type="primary"> 提交 </el-button>
+      </el-space>
+    </template>
+  </LSList>
 </ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
+import { ElDivider } from 'element-plus';
+import { h,ref } from 'vue';
+
+const spacer = h(ElDivider, { direction: 'vertical' });
+
 const formData = ref({
   name: undefined,
-  type: undefined
 });
 
 const formItems = [
@@ -46,71 +67,101 @@ const formItems = [
 const tableColumn = [
   {
     label: '名称',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '类型',
-    prop: 'type'
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '自定义',
+    prop: 'table-slot',
+    type: 'slot'
   },
   {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    type: 'date'
   }
 ];
+
+function generateTableData(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24,
+      status: index % 2
+    });
+  }
+
+  return result;
+}
 
 function listApi() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(
-        [
-          {
-            id: 1,
-            name: '测试1',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 1
-          },
-          {
-            id: 2,
-            name: '测试2',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 0
-          }
-        ]
-      );
+      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize));
     }, 1000);
   });
 }
 
-function dealData(res: any) {
-  const list = res || [];
-
-  (res || []).map((item: any) => {
-    /***动态化每行二次提示语 start***/
-    item.popconfirmTxt = `确定删除该记录：${item.name}？`;
-    /***动态化每行二次提示语 end***/
-    return item;
-  })
+function dealParams(params) {
   return {
-    data: list,
-    total: list.length
+    ...params
+  };
+}
+
+function dealData(res) {
+  return {
+    data: res,
+    total: 100
   };
 }
 ```
 
 ```html
 <LSList
+  ref="ListRef"
   :list-api="listApi"
   :form-data="formData"
   :form-items="formItems"
-  :table-column="tableColumn"
-  :show-table-switch="true"
-  :show-table-edit="true"
-  :disabled-table-del="(row: any) => row.name === '测试1'"
-  :disabled-table-switch="(row: any) => row.name === '测试1'"
+  :table-column="tableColumn_1"
   :deal-data="dealData"
+  :table-operate-column="{width: 340 }"
+  :table-attrs="{
+    showSelect:true,
+    selectColumnOptions:{
+      reserveSelection:true
+    }
+  }"
+  :show-table-switch="true"
+  :table-detail-text="(row: any) => `查看${row.name}`"
+  :disabled-table-del="(row: any) => row.id%2===0"
+  :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
 >
+  <template #table-slot-table-slot>
+    <div>自定义表格内容</div>
+  </template>
+
+  <template #table-operate-append="{ row }">
+    <el-space :size="0" :spacer="spacer">
+      <el-button v-if="row.status === 1" link type="primary"> 
+          下架 
+      </el-button>
+      <el-button link type="primary"> 提交 </el-button>
+    </el-space>
+  </template>
 </LSList>
 ```
 
@@ -137,12 +188,16 @@ function dealData(res: any) {
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData" />
 
 <script setup>
+import { ElSpace, ElButton, ElDivider } from 'element-plus';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
-import { ref } from 'vue';
+import { h,ref } from 'vue';
+
+const spacer = h(ElDivider, { direction: 'vertical' });
+
+const ListRef = ref(null);
 
 const formData = ref({
-  name: undefined,
-  type: undefined
+  name: undefined
 });
 
 const formItems = [
@@ -156,48 +211,65 @@ const formItems = [
 const tableColumn_1 = [
   {
     label: '名称',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '类型',
-    prop: 'type'
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '自定义',
+    prop: 'table-slot',
+    type: 'slot'
   },
   {
     label: '创建时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    type: 'date'
   }
 ];
+
+function generateTableData(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24,
+      status: index % 2
+    });
+  }
+
+  return result;
+}
 
 function listApi() {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(
-        [
-          {
-            id: 1,
-            name: '测试1',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 1
-          },
-          {
-            id: 2,
-            name: '测试2',
-            type: '1',
-            createTime: '2022-01-01',
-            status: 0
-          }
-        ]
-      );
+      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize));
     }, 1000);
   });
 }
 
-function dealData(res) {
-  const list = res || [];
+function dealParams(params) {
   return {
-    data: list,
-    total: list.length
+    ...params
+  };
+}
+
+function dealData(res) {
+  return {
+    data: res,
+    total: 100
   };
 }
 
@@ -237,6 +309,12 @@ const attrTableData=[
     name: 'dealDelParams',
     desc: '处理删除接口参数，返回参数',
     type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'delMessage',
+    desc: '删除成功toast提示话术',
+    type: 'string/Function',
     value: '-'
   },
    {
@@ -284,6 +362,12 @@ const attrTableData=[
   {
     name: 'queryFn',
     desc: '查询事件（覆盖默认事件）',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'resetFn',
+    desc: '重置事件（覆盖默认事件）',
     type: 'Function',
     value: '-'
   },
@@ -378,6 +462,24 @@ const attrTableData=[
     value: '-'
   },
   {
+    name: 'tableSwitchAttrs',
+    desc: '表格开关配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableSwitchPopAttrs',
+    desc: '表格开关确认弹窗配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableSwitchPopTxt',
+    desc: '表格开关确认弹窗文字',
+    type: 'string',
+    value: '-'
+  },
+  {
     name: 'disabledTableSwitch',
     desc: '表格开关切换是否禁用',
     type: 'boolean/Function',
@@ -399,13 +501,19 @@ const attrTableData=[
     name: 'tableDetailFn',
     desc: '表格查看按钮点击事件（覆盖默认事件）',
     type: 'Function',
-    value: '-'
+    value: '(row)=>void'
   },
-   {
+  {
     name: 'tableEditFn',
     desc: '表格编辑按钮点击事件（覆盖默认事件）',
     type: 'Function',
-    value: '-'
+    value: '(row)=>void'
+  },
+  {
+    name: 'tableDelFn',
+    desc: '表格编辑按钮点击事件（覆盖默认事件）',
+    type: 'Function',
+    value: '(row,setLoading:(loading)=>void)=>void'
   },
   {
     name: 'showTableDetail',
@@ -444,6 +552,12 @@ const attrTableData=[
     value: 'false'
   },
   {
+    name: 'tableDelPopAttrs',
+    desc: '表格操作列删除悬浮确认窗配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
     name: 'addRoutePath',
     desc: '添加页面路由地址',
     type: 'string',
@@ -451,13 +565,13 @@ const attrTableData=[
   },
    {
     name: 'detailRoutePath',
-    desc: '详情页面路由地址',
+    desc: '详情页面路由地址（在末尾会添加上/id）',
     type: 'string',
     value: '默认: 当前页路由地址/detail/:id'
   },
    {
     name: 'editRoutePath',
-    desc: '编辑页面路由地址',
+    desc: '编辑页面路由地址（在末尾会添加上/id）',
     type: 'string',
     value: '默认: 当前页路由地址/edit/:id'
   },
@@ -478,6 +592,42 @@ const attrTableData=[
     desc: '表格删除按钮文案',
     type: 'string/Function',
     value: '删除'
+  },
+  {
+    name: 'tableDetailType',
+    desc: '表格查看按钮类型',
+    type: 'string/Function',
+    value: 'primary'
+  },
+  {
+    name: 'tableEditType',
+    desc: '表格编辑按钮类型',
+    type: 'string/Function',
+    value: 'primary'
+  },
+  {
+    name: 'tableDelType',
+    desc: '表格删除按钮类型',
+    type: 'string/Function',
+    value: 'danger'
+  },
+  {
+    name: 'tableDetailBtnAttrs',
+    desc: '表格查看按钮配置',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'tableEditBtnAttrs',
+    desc: '表格编辑按钮配置',
+    type: 'object',
+    value: '-'
+  },
+    {
+    name: 'tableDelBtnAttrs',
+    desc: '表格删除按钮配置',
+    type: 'object',
+    value: '-'
   },
   {
     name: 'showSkeleton',
@@ -508,20 +658,38 @@ const eventsTableData=[
     value: 'object：表单数据'
   },
   {
+    name: 'resetForm',
+    desc: '表单重置事件',
+    type: 'Function',
+    value: 'object：表单数据'
+  },
+  {
+    name: 'delSuccess',
+    desc: '删除成功后的回调',
+    type: 'Function',
+    value: 'object：表单数据,res'
+  },
+  {
+    name: 'switchSuccess',
+    desc: '开关操作成功后的回调',
+    type: 'Function',
+    value: 'object:表单数据,status'
+  },
+  {
     name: 'handleLoading',
-    desc: '加载中',
+    desc: '加载状态变化事件',
     type: 'Function',
     value: 'boolean'
   },
   {
     name: 'handleCurrentPage',
-    desc: '当前页',
+    desc: '当前页变化事件',
     type: 'Function',
     value: 'number'
   },
   {
     name: 'handlePageSize',
-    desc: '每页条数',
+    desc: '每页条数变化事件',
     type: 'Function',
     value: 'number'
   }
@@ -585,7 +753,7 @@ const exposesTableData=[
     name: 'setCurrentPage',
     desc: '设置当前页',
     type: 'Function',
-    value: 'number'
+    value: 'number：页，isFetch：是否请求接口（默认true）'
   },
   {
     name: 'setPageSize',
@@ -603,6 +771,12 @@ const exposesTableData=[
     name: 'loading',
     desc: '加载中',
     type: 'boolean',
+    value: '-'
+  },
+  {
+    name: 'routePath',
+    desc: '当前路由地址',
+    type: 'string',
     value: '-'
   },
   {

@@ -52,8 +52,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       cssCodeSplit: false,
       terserOptions: {
         compress: {
-          drop_console: true,
-          drop_debugger: true
+          drop_console: true
         }
       },
       lib: {
@@ -101,7 +100,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }
     },
     esbuild: {
-      pure: ['console.log', 'debugger'],
+      pure: ['console.log'],
       keepNames: true
     },
     // 依赖预加载
@@ -112,9 +111,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
-          // @use "src/style/element/index.scss" as *; 自定义主题颜色
-          // additionalData: `@use "src/style/var.scss" as *;`,
-          additionalData: `@use "@cpo/_style/common/variable.scss" as *; @use "@cpo/_style/common/utils.scss" as *; @use "@cpo/_style/element/index.scss" as *;`
+          additionalData: `@use "@cpo/_style/common/variable.scss" as cpo-var; @use "@cpo/_style/common/utils.scss" as cpo-utils; @use "@cpo/_style/element/index.scss" as cpo-ele;`
         }
       }
     },

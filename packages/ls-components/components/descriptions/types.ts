@@ -15,6 +15,7 @@ export type DescriptionsListType = {
       value?: string | number;
     };
   };
+  labelWidth?: string | number;
 }[];
 
 export const lsDescProp = buildProps({
@@ -28,11 +29,6 @@ export const lsDescProp = buildProps({
     type: String,
     default: '#e2edff'
   },
-  // label展示区域宽度
-  labelWidth: {
-    type: String,
-    default: ''
-  },
   /**
    * 数据
    *  type: 默认文本， date：时间， select：单复选， slot：自定义例如table
@@ -42,5 +38,10 @@ export const lsDescProp = buildProps({
   list: {
     type: Array as PropType<DescriptionsListType>,
     default: () => []
+  },
+  // 数值为0，是否展示
+  showZero: {
+    type: Boolean,
+    default: false
   }
 });

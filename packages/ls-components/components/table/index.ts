@@ -3,7 +3,7 @@ import type { LSOptions } from '@cpo/_utils/types';
 import type { App } from 'vue';
 import _LSTable from './Table.vue';
 
-const LSTable = Object.assign(_LSTable, {
+const LSTable: typeof _LSTable & { install: (app: App, options?: LSOptions) => void } = Object.assign(_LSTable, {
   install: (app: App, options?: LSOptions) => {
     setGlobalConfig(app, options);
     if (_LSTable.name) {

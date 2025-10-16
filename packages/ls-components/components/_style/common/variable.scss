@@ -147,16 +147,13 @@ $color-light: #ffffff;
 $color-dark: #000000;
 
 /**********  box-shadow  ***********/
-$box-shadow-base:
-  0 1px 10px rgb(0 0 0 / 5%),
+$box-shadow-base: 0 1px 10px rgb(0 0 0 / 5%),
   0 4px 5px rgb(0 0 0 / 8%),
   0 2px 4px -1px rgb(0 0 0 / 12%);
-$box-shadow-mid:
-  0 3px 14px 2px rgb(0 0 0 / 5%),
+$box-shadow-mid: 0 3px 14px 2px rgb(0 0 0 / 5%),
   0 8px 10px 1px rgb(0 0 0 / 6%),
   0 5px 5px -3px rgb(0 0 0 / 10%);
-$box-shadow-up:
-  0 6px 30px 5px rgb(0 0 0 / 5%),
+$box-shadow-up: 0 6px 30px 5px rgb(0 0 0 / 5%),
   0 16px 24px 2px rgb(0 0 0 / 4%),
   0 8px 10px -5px rgb(0 0 0 / 8%);
 

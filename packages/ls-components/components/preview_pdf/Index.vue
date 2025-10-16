@@ -23,7 +23,7 @@ const previewVisible = defineModel({
   type: Boolean
 });
 
-const { comClass, defAttrs, closeLoading } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
 
 const loadComplete = () => {
   closeLoading();
@@ -34,11 +34,22 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
+
+function closePreview(e: any) {
+  if (props.hideOnClickModal) {
+    if (e.target === e.currentTarget) {
+      previewVisible.value = false;
+    }
+  }
+}
 </script>
 
 <template>
-  <div v-if="previewVisible" :class="comClass">
-    <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+  <div v-if="previewVisible" :class="comClass" @click="closePreview">
+    <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
+      <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    </el-watermark>
+    <LSPdf v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
   </div>
 </template>
 

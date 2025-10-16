@@ -14,6 +14,24 @@ const scale = ref(1);
 const showPagination = ref(true);
 const isComplete = ref(false);
 
+const attrs = useAttrs();
+
+const initNoPage = computed(() => {
+  const status = attrs['init-no-pagination'] || attrs['initNoPagination'];
+  return status;
+});
+
+watch(
+  initNoPage,
+  val => {
+    showPagination.value = !val;
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const props = withDefaults(
   defineProps<{
     source: string;
@@ -40,8 +58,10 @@ const emits = defineEmits<{
 
 watch(
   () => props.source,
-  () => {
-    initPdf();
+  val => {
+    if (val) {
+      initPdf();
+    }
   },
   {
     immediate: true,
@@ -192,6 +212,12 @@ function loadError() {
   }
   .pdf-content {
     margin-top: 40px;
+    > div {
+      position: absolute !important;
+      left: 50%;
+      padding-bottom: 6px;
+      transform: translateX(-50%);
+    }
   }
   .ls-pdf__btn {
     position: absolute;
@@ -236,7 +262,6 @@ function loadError() {
     }
     .el-button,
     .num-wrap {
-      display: inline-block;
       vertical-align: middle;
     }
     .num-wrap {
@@ -244,6 +269,11 @@ function loadError() {
       font-size: 12px;
       font-weight: bold;
       color: #606266;
+    }
+    .el-button {
+      :deep(> span) {
+        line-height: inherit;
+      }
     }
   }
   .infinite-list-wrapper {

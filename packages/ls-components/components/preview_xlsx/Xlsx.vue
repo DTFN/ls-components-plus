@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { xlsxProps } from './types';
-import { previewEmits } from '@cpo/_constants/previewType';
+import { fileEmpty, previewEmits } from '@cpo/_constants/previewType';
 import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import * as XLSX from 'xlsx/xlsx.mjs';
@@ -25,15 +25,17 @@ const emits = defineEmits(previewEmits);
 watch(
   () => props.source,
   val => {
-    const { size }: any = val || {};
-    if (size / 1024 / 1024 <= fileSizeLimit) {
-      initXlsx(val);
-    } else {
-      if (!props.hasPagination) {
-        ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
-        emits('loadComplete');
+    if (val) {
+      const { size }: any = val || {};
+      if (size / 1024 / 1024 <= fileSizeLimit) {
+        initXlsx(val);
       } else {
-        initXlsxLarge(val);
+        if (!props.hasPagination) {
+          ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
+          emits('loadComplete');
+        } else {
+          initXlsxLarge(val);
+        }
       }
     }
   },
@@ -61,6 +63,7 @@ const closeFunc = () => {
 };
 
 async function initXlsx(val: File | string) {
+  let isCompleted = false;
   if (!(await initLuckySheet(val))) {
     return;
   }
@@ -69,6 +72,7 @@ async function initXlsx(val: File | string) {
       val,
       function (exportJson: { sheets: string | any[] | null; info: { name: { creator: any } } }) {
         if (exportJson.sheets == null) {
+          emits('loadError');
           return;
         }
 
@@ -78,9 +82,17 @@ async function initXlsx(val: File | string) {
           title: exportJson.info.name,
           ...luckysheetConfig
         });
+        isCompleted = true;
+        emits('loadComplete');
       }
     );
-    emits('loadComplete');
+    let timer = setTimeout(() => {
+      if (!isCompleted) {
+        ElMessage.error(fileEmpty);
+        emits('loadError');
+        clearTimeout(timer);
+      }
+    }, 6000);
   } catch (error) {
     emits('loadError');
   }
@@ -347,7 +359,7 @@ onBeforeUnmount(() => {
   :deep(.luckysheet-loading-mask) {
     .luckysheet-loading-image,
     .luckysheet-loading-text {
-      display: none !important;
+      //  display: none !important;
     }
   }
   :deep(.luckysheet-stat-area) {

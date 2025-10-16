@@ -18,14 +18,12 @@ outline: deep
   :is-check-all="true"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
-  direction="v"
 />
 <LSTree
   :tree-data="treeData"
   :is-check-all="false"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
-  direction="h"
 />
 </ClientOnly>
 
@@ -602,11 +600,17 @@ const tableData = ref([
     value: 'false'
   },
   {
-    name: 'direction',
+    name: 'direction(v1.8.10废弃)',
     desc: '展示方向，h: 水平展示，v: 垂直展示',
     type: 'string',
     value: 'v'
-  }
+  },
+  {
+    name: 'attrs(v2.10.6+支持)',
+    desc: '兼容部分el-tree属性，写入方式为json格式，排除（show-checkbox， default-expand-all，node-key，check-strictly， default-checked-keys，expand-on-click-node，filter-node-method）',
+    type: 'object',
+    value: '{}'
+  },
 ])
 
 const tableData2 = ref([

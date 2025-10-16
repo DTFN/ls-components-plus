@@ -1,7 +1,44 @@
 <script setup lang="ts">
 import { isEmpty } from '@cpo/_utils/utils';
-
 const treeData = ref([
+  {
+    id: 1,
+    name: '权益管理',
+    permission: '1',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '权益车辆',
+        permission: '11',
+        parentId: 1,
+        isPenultimate: true,
+        children: [
+          {
+            id: 111,
+            name: '导出',
+            permission: '111',
+            parentId: 11
+          },
+          {
+            id: 112,
+            name: '导入',
+            permission: '112',
+            parentId: 11
+          }
+        ]
+      },
+      {
+        id: 22,
+        name: '权益海报',
+        permission: '11',
+        parentId: 1
+      }
+    ]
+  }
+]);
+
+const treeData2 = ref([
   {
     id: 20100,
     clientId: 2,
@@ -31,7 +68,7 @@ const treeData = ref([
       {
         id: 20102,
         clientId: 2,
-        name: '列表',
+        name: '列表1',
         url: '/v1/iot/access/credential/page',
         type: 2,
         permission: 'm12',
@@ -59,7 +96,7 @@ const treeData = ref([
           {
             id: 20104,
             clientId: 2,
-            name: '编辑',
+            name: '编辑1',
             type: 2,
             permission: 'm122',
             sort: 1,
@@ -90,22 +127,6 @@ const treeData = ref([
                 type: 2,
                 permission: 'Im1222',
                 method: 'PUT',
-                sort: 1,
-                parentId: 20104,
-                status: 1,
-                createdTime: '2024-04-16 00:00:00',
-                updatedTime: '2024-05-13 18:09:16',
-                createdBy: -1,
-                updatedBy: -1
-              },
-              {
-                id: 20124,
-                clientId: 2,
-                name: '查看详情接口',
-                url: '/v1/iot/access/credential/*',
-                type: 2,
-                permission: 'Im1223',
-                method: 'GET',
                 sort: 1,
                 parentId: 20104,
                 status: 1,
@@ -226,7 +247,7 @@ const treeData = ref([
                   {
                     id: 20114,
                     clientId: 2,
-                    name: '列表',
+                    name: '列表2',
                     url: '/v1/iot/access/consumerGroup/pageSubscribeProductInfo',
                     type: 2,
                     permission: 'm12412',
@@ -234,6 +255,7 @@ const treeData = ref([
                     sort: 1,
                     parentId: 20109,
                     status: 1,
+                    isPenultimate: true,
                     children: [
                       {
                         id: 20115,
@@ -374,7 +396,7 @@ const treeData = ref([
                   {
                     id: 20123,
                     clientId: 2,
-                    name: '列表',
+                    name: '列表3',
                     url: '/v1/iot/access/consumerGroup/page',
                     type: 2,
                     permission: 'm12423',
@@ -458,7 +480,7 @@ const treeData = ref([
       {
         id: 20202,
         clientId: 2,
-        name: '列表',
+        name: '列表4',
         url: '/v1/iot/access/category/page',
         type: 2,
         permission: 'm22',
@@ -466,6 +488,7 @@ const treeData = ref([
         sort: 1,
         parentId: 20200,
         status: 1,
+        isPenultimate: true,
         children: [
           {
             id: 20203,
@@ -598,6 +621,9 @@ const roleData = ref([
     updatedTime: '2024-07-02 17:50:17'
   },
   {
+    permissionId: 20107
+  },
+  {
     id: 20448,
     roleId: 5,
     permissionId: 20105,
@@ -682,32 +708,28 @@ const visible = ref(false);
 
 <template>
   <div>
+    <LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+
     <LSTree
-      :tree-data="treeData"
-      :is-check-all="true"
+      :tree-data="treeData2"
+      :is-check-all="false"
       :show-checkbox="true"
       :default-checked-keys="checkedPermissionIds"
-      direction="h"
+      :attrs="{
+        'check-on-click-leaf': false
+      }"
     />
-
-    <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
     <br />
     <LSButton @click="visible = true">测试</LSButton>
     <LSDialog v-model="visible" title="基础用法Title">
-      <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+      <LSTree :tree-data="treeData2" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
     </LSDialog>
 
     <br />
 
     <LSPrint content="正在测试打印功能" btn-txt="打印" :can-print="canPrint" :icon-config="{ name: 'Printer' }" type="primary">
-      <LSTree
-        :tree-data="treeData"
-        :is-check-all="false"
-        :show-checkbox="true"
-        :default-checked-keys="checkedPermissionIds"
-        direction="v"
-      />
+      <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
     </LSPrint>
 
     <LSPrint

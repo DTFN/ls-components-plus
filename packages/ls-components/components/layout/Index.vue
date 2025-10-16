@@ -47,7 +47,7 @@ function onDropdownCommand2(val: string) {
 </script>
 
 <template>
-  <div :class="comClass">
+  <div :class="[comClass, customCss]">
     <el-container v-if="[1, 2].includes(Number(mode))">
       <el-header :height="headerHeight">
         <slot v-if="slots.header" name="header"></slot>
@@ -62,6 +62,9 @@ function onDropdownCommand2(val: string) {
         >
           <template #left>
             <slot name="headerLeft"></slot>
+          </template>
+          <template v-if="slots.headerTitle" #title>
+            <slot name="headerTitle"></slot>
           </template>
           <template #right>
             <slot name="headerRight"></slot>
@@ -101,6 +104,9 @@ function onDropdownCommand2(val: string) {
           >
             <template #left>
               <slot name="headerLeft"></slot>
+            </template>
+            <template v-if="slots.headerTitle" #title>
+              <slot name="headerTitle"></slot>
             </template>
             <template #right>
               <slot name="headerRight"></slot>
@@ -181,6 +187,54 @@ function onDropdownCommand2(val: string) {
       width: 96%;
       padding: 18px 24px;
       margin: auto;
+    }
+  }
+  &.header-gray {
+    .el-header {
+      background-color: #191a20 !important;
+      :deep(div) {
+        color: #e5eaf3 !important;
+      }
+    }
+  }
+  &.aside-gray {
+    .el-aside {
+      background-color: #191a20 !important;
+      :deep(.el-menu) {
+        background-color: #191a20 !important;
+        .el-sub-menu__title,
+        .el-menu-item {
+          color: #bdbdc0 !important;
+          &:hover {
+            color: #ffffff !important;
+            background-color: #191a20 !important;
+            span {
+              &::before {
+                background-color: #ffffff !important;
+              }
+            }
+          }
+        }
+        .el-menu-item {
+          span {
+            &::before {
+              background-color: #bdbdc0;
+            }
+          }
+          &.is-active {
+            color: #ffffff;
+            background-color: #000000 !important;
+            &::before {
+              background-color: #2285ff;
+            }
+            span {
+              &::before {
+                background-color: #2285ff;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -12,6 +12,7 @@ const props = defineProps(lsDescProp);
 const defAttrs = ref({
   column: 1
 });
+const attrs = useAttrs();
 
 const lsDescRef = ref();
 const ns = useNamespace('descriptions');
@@ -45,9 +46,10 @@ watch(
 
 watch(
   () => props.list,
-  () => {
+  (val: Array<any>) => {
     updateLabelStyle(props.labelColor, 2);
     updateLabelStyle(props.labelBgColor, 2);
+    updateLabelWidth(val.find((item: any) => item.labelWidth));
   },
   {
     immediate: true,
@@ -56,9 +58,9 @@ watch(
 );
 
 watch(
-  () => props.labelWidth,
-  val => {
-    updateLabelWidth(val);
+  () => attrs['label-width'],
+  (val: any) => {
+    updateLabelWidth(val || props.list.find((item: any) => item.labelWidth));
   },
   {
     immediate: true,
@@ -66,13 +68,20 @@ watch(
   }
 );
 
+// watch(
+//   () => props.labelWidth,
+//   val => {
+//     updateLabelWidth(val);
+//   },
+//   {
+//     immediate: true,
+//     deep: true
+//   }
+// );
+
 function updateLabelWidth(val: string) {
   nextTick(() => {
     if (val) {
-      const labelDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
-      labelDoms.forEach((element: any) => {
-        element.style.width = props.labelWidth;
-      });
       const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || [];
       contentDoms.forEach((element: any) => {
         element.style.width = 'auto';
@@ -111,7 +120,7 @@ async function updateLabelStyle(color: string, type: number) {
         <slot name="extra"></slot>
       </template>
       <template v-for="(item, i) in list" :key="i">
-        <el-descriptions-item v-if="!item.hide" :label="item?.label">
+        <el-descriptions-item v-if="!item.hide" v-bind="item">
           <template #label>
             <div class="cell-item">
               <LSIcon v-if="(item.iconConfig || {})?.name || slots.icon" v-bind="item.iconConfig">
@@ -130,7 +139,7 @@ async function updateLabelStyle(color: string, type: number) {
             <slot :name="item.slotName" :data="item?.value"></slot>
           </template>
           <template v-else>
-            {{ item?.value || '--' }}
+            {{ item?.value || (props.showZero ? '0' : '--') }}
           </template>
         </el-descriptions-item>
       </template>
@@ -197,7 +206,7 @@ async function updateLabelStyle(color: string, type: number) {
     }
   }
   &.no-header {
-    :deep .el-descriptions__header {
+    :deep(.el-descriptions__header) {
       margin-bottom: 0;
     }
   }

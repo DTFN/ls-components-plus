@@ -102,13 +102,15 @@ const tableColumn_1 = [
   },
   {
     label: '字段2',
-    prop: 'code2',
-    minWidth: 60
+    prop: 'code2'
   },
   {
     label: '字段3',
-    prop: 'code3',
-    width: 140
+    prop: 'code3'
+  },
+  {
+    label: '日期',
+    prop: 'code4'
   }
 ];
 
@@ -149,6 +151,17 @@ const selection = ref<any[]>([
     code3: '字段3----2'
   }
 ]);
+
+watch(
+  () => selection.value,
+  newVal => {
+    console.log('watch---选中数据', newVal);
+  }
+);
+
+function handleSelectionChange(selection: any[]) {
+  console.log('handleSelectionChange---选中数据', selection);
+}
 
 function handleCurrentChange(row: any) {
   if (row) {
@@ -193,6 +206,7 @@ function handleCurrentChange(row: any) {
 
   <div class="common_title">示例 3</div>
 
+  <!-- v-model:selection="selection" -->
   <LSTable
     stripe
     ref="TableRef"
@@ -203,20 +217,32 @@ function handleCurrentChange(row: any) {
     :table-data="tableData"
     :table-column="tableColumn_1"
     :total="total"
-  >
-  </LSTable>
-
-  <div class="common_title">示例 4</div>
-
-  <LSTable
-    :show-table-index="true"
-    :show-pagination="false"
+    :select-column-options="{
+      selectable: (row: any) => {
+        return row.id % 2 === 0;
+      }
+      // reserveSelection: true
+      // 'reserve-selection': true
+    }"
+    @selection-change="handleSelectionChange"
+    @update:selection="
+      (val: any) => {
+        console.log('update:selection---选中数据', val);
+      }
+    "
+    :reserve-expanded-content="false"
     :show-expand="true"
-    :table-column="tableColumn"
-    :table-data="tableDataRef"
   >
-    <template #expand="{ row }">
-      <div style="padding-left: 120px">{{ row.code }}--{{ row.name }}--{{ row.defaultValue }}</div>
+    <template #expand="props">
+      <div m="4">
+        <el-table :data="props.row.family">
+          <el-table-column label="Name" prop="name" />
+          <el-table-column label="State" prop="state" />
+          <el-table-column label="City" prop="city" />
+          <el-table-column label="Address" prop="address" />
+          <el-table-column label="Zip" prop="zip" />
+        </el-table>
+      </div>
     </template>
   </LSTable>
 </template>

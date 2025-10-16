@@ -8,12 +8,12 @@ export default function (
     currentPageProp?: number; // 当前页码
     pageSizeProp?: number; // 每页条数
     isDelayLoader?: boolean; // 是否使用延迟加载器
-    delayLoaderTime?: number; // 延迟加载时间
+    delayLoaderTime?: number; // 延迟加载时间(毫秒)
     isFullDose?: boolean; // 是否全量数据
     hasPanigation?: boolean; // 是否有分页
-    autoFetch?: boolean; // 是否自动获取数据
-    dealData?: Function; // 处理返回数据的方法
-    dealParams?: Function; // 处理请求参数的方法
+    autoFetch?: boolean; // 是否页面加载时自动获取数据
+    dealData?: Function | ((res: any) => any) | undefined; // 处理返回数据的方法
+    dealParams?: Function | ((params: any) => any) | undefined; // 处理请求参数的方法
     callbackAfter?: (res: any, data: any) => void | undefined; // 请求完成后的回调
   }
 ) {
@@ -75,7 +75,12 @@ export default function (
       }
     } else {
       // 无分页
-      tableData.value = resData;
+      if (dealData && typeof dealData === 'function') {
+        const { data } = dealData(resData);
+        tableData.value = data || [];
+      } else {
+        tableData.value = resData;
+      }
 
       if (callbackAfter) {
         callbackAfter(resData, {});
@@ -172,12 +177,14 @@ export default function (
   };
 
   // 切换页数
-  const handleCurrentPageChange = (page: number) => {
+  const handleCurrentPageChange = (page: number, isFetch: boolean = true) => {
     currentPage.value = page;
-    if (isFullDose) {
-      sliceTableData();
-    } else {
-      loadData();
+    if (isFetch) {
+      if (isFullDose) {
+        sliceTableData();
+      } else {
+        loadData();
+      }
     }
   };
 

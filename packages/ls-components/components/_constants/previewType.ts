@@ -32,5 +32,23 @@ export const lsPreviewProp = buildProps({
     default: () => {
       return {};
     }
+  },
+  hideOnClickModal: {
+    type: Boolean,
+    default: false
+  },
+  // 是否显示水印
+  showWatermark: {
+    type: Boolean,
+    default: false
+  },
+  // 水印配置
+  watermarkOption: {
+    type: Object,
+    default: () => {
+      return {};
+    }
   }
 });
+
+export const fileEmpty = '文档加载失败，请检查资源是否存在';

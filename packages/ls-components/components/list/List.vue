@@ -10,12 +10,22 @@ import useRouterHook from '@cpo/_hooks/useRouterHook';
 
 const { jumpRouteCom, currentRouter } = useRouterHook();
 
-const props = defineProps(lsListProps);
+const props: any = defineProps(lsListProps);
 
 const emits = defineEmits<{
+  // 表单提交事件
   submitForm: [formData: any];
+  // 表单重置事件
+  resetForm: [data: any];
+  // 删除成功后的回调
+  delSuccess: [row: any, res: any];
+  // 开关操作成功后的回调
+  switchSuccess: [row: any, status: any];
+  // 加载状态变化事件
   handleLoading: [loading: boolean];
+  // 当前页变化事件
   handleCurrentPage: [currentPage: number];
+  // 每页条数变化事件
   handlePageSize: [pageSize: number];
 }>();
 
@@ -44,7 +54,7 @@ function getSlotName(slotName: any, isForm: boolean = false) {
   return '';
 }
 
-/** 表格数据 */
+// 表格数据
 const {
   isFirst,
   loading,
@@ -76,7 +86,7 @@ watch(pageSize, newVal => {
 
 // 查询
 function submitForm(val: any) {
-  handleCurrentPageChange(1);
+  handleCurrentPageChange(1, false);
   emits('submitForm', val);
   if (props?.queryFn) {
     props.queryFn(val);
@@ -88,7 +98,12 @@ function submitForm(val: any) {
 // 重置
 function resetForm(val: any) {
   console.warn('resetForm', val);
-  handleReset();
+  emits('resetForm', val);
+  if (props?.resetFn) {
+    props.resetFn(val);
+  } else {
+    handleReset();
+  }
 }
 
 const routePath = computed(() => {
@@ -142,28 +157,36 @@ const delLoading = ref(false);
 
 // 删除
 function onDel(id: any, row: any) {
-  if (props.delApi) {
-    delId.value = id;
-    delLoading.value = true;
+  delId.value = id;
+  if (props?.tableDelFn) {
+    props.tableDelFn(row, (loading: boolean) => {
+      delLoading.value = loading;
+    });
+  } else {
+    if (props.delApi) {
+      delLoading.value = true;
 
-    let params = id;
+      let params = id;
 
-    if (props?.dealDelParams) {
-      params = props.dealDelParams(row);
+      if (props?.dealDelParams) {
+        params = props.dealDelParams(row);
+      }
+
+      props
+        .delApi(params)
+        .then(() => {
+          const msg = getTableDelMessage(row) || `${getTableDelText(row)}成功`;
+          ElMessage.success(msg);
+          loadData();
+          emits('delSuccess', row, true);
+        })
+        .catch((err: any) => {
+          console.warn(err);
+        })
+        .finally(() => {
+          delLoading.value = false;
+        });
     }
-
-    props
-      .delApi(params)
-      .then(() => {
-        ElMessage.success('删除成功');
-        loadData();
-      })
-      .catch((err: any) => {
-        console.warn(err);
-      })
-      .finally(() => {
-        delLoading.value = false;
-      });
   }
 }
 
@@ -185,6 +208,7 @@ function switchBeforeChange(id: number, status: boolean | number, row: any): Pro
         .then(() => {
           loadData(false);
           resolve(true);
+          emits('switchSuccess', row, status);
         })
         .catch(() => {
           reject(new Error('Error'));
@@ -199,13 +223,14 @@ function switchBeforeChange(id: number, status: boolean | number, row: any): Pro
 
   return new Promise((resolve, reject) => {
     if (status) {
-      ElMessageBox.confirm('<strong class="text-14px">请问是否关闭？</strong>', {
+      ElMessageBox.confirm(`<strong class="text-14px">${props.tableSwitchPopTxt || '请问是否关闭？'}</strong>`, {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         dangerouslyUseHTMLString: true,
         customStyle: {
           width: '240px'
-        }
+        },
+        ...props.tableSwitchPopAttrs
       })
         .then(() => {
           onSwitch(resolve, reject);
@@ -323,6 +348,19 @@ function getTableDelText(row: any) {
   return '删除';
 }
 
+// 表格删除成功提示文案
+function getTableDelMessage(row: any) {
+  if (props?.delMessage) {
+    if (typeof props.delMessage === 'string') {
+      return props.delMessage;
+    } else if (typeof props.delMessage === 'function') {
+      return props.delMessage(row);
+    }
+  }
+
+  return '';
+}
+
 // 表格删除按钮的显示规则
 function showTableDel(row: any) {
   let show: boolean = false;
@@ -362,6 +400,20 @@ function getPopconfirmTxt(row: any) {
   return `是否${getTableDelText(row)}当前行数据？`;
 }
 
+// 表格操作列按钮的弹窗文案
+function getTableBtnType(key: string, row: any) {
+  const val: any = props[key];
+  if (val) {
+    if (typeof val === 'string') {
+      return val;
+    } else if (typeof val === 'function') {
+      return val(row);
+    }
+  }
+
+  return '';
+}
+
 const spacer = h(ElDivider, { direction: 'vertical' });
 
 // 是否隐藏骨架屏
@@ -380,6 +432,7 @@ defineExpose({
   setPageSize: handleSizeChange,
   isFirst,
   loading,
+  routePath,
   currentPage,
   pageSize,
   total,
@@ -459,6 +512,7 @@ defineExpose({
             :loading="switchLoading && row[tableRowKey] === switchId"
             :before-change="() => switchBeforeChange(row[tableRowKey], row[switchProp], row)"
             :disabled="disabledTableSwitch(row)"
+            v-bind="tableSwitchAttrs"
           />
         </template>
       </el-table-column>
@@ -481,8 +535,9 @@ defineExpose({
                 v-if="showTableDetail(row)"
                 :disabled="disabledTableDetail(row)"
                 link
-                type="primary"
+                :type="getTableBtnType('tableDetailType', row) || 'primary'"
                 @click="onDetail(row[tableRowKey], row)"
+                v-bind="tableDetailBtnAttrs"
               >
                 {{ row.tableDetailText || getTableDetailText(row) }}
               </el-button>
@@ -491,8 +546,9 @@ defineExpose({
                 v-if="showTableEdit(row)"
                 :disabled="disabledTableEdit(row)"
                 link
-                type="primary"
+                :type="getTableBtnType('tableEditType', row) || 'primary'"
                 @click="onEdit(row[tableRowKey], row)"
+                v-bind="tableEditBtnAttrs"
               >
                 {{ row.tableEditText || getTableEditText(row) }}
               </el-button>
@@ -506,13 +562,15 @@ defineExpose({
                 cancel-button-text="取消"
                 :title="row.popconfirmTxt || getPopconfirmTxt(row)"
                 @confirm="onDel(row[tableRowKey], row)"
+                v-bind="tableDelPopAttrs"
               >
                 <template #reference>
                   <el-button
                     link
-                    type="danger"
+                    :type="getTableBtnType('tableDelType', row) || 'danger'"
                     :disabled="delLoading || disabledTableDel(row)"
                     :loading="delLoading && delId === row[tableRowKey]"
+                    v-bind="tableDelBtnAttrs"
                   >
                     {{ delLoading && delId === row[tableRowKey] ? '' : row.tableDelText || getTableDelText(row) }}
                   </el-button>

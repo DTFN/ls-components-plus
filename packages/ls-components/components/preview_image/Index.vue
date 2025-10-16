@@ -23,7 +23,7 @@ const previewVisible = defineModel({
   type: Boolean
 });
 
-const { comClass, defAttrs, closeLoading } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
 
 const loadComplete = () => {
   closeLoading();
@@ -38,7 +38,25 @@ const loadError = () => {
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <LSImage v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError">
+    <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
+      <LSImage
+        v-bind="merge(defAttrs, $attrs)"
+        :hide-on-click-modal="props.hideOnClickModal"
+        @load-complete="loadComplete"
+        @load-error="loadError"
+      >
+        <template #viewer>
+          <slot name="viewer"></slot>
+        </template>
+      </LSImage>
+    </el-watermark>
+    <LSImage
+      v-else
+      v-bind="merge(defAttrs, $attrs)"
+      :hide-on-click-modal="props.hideOnClickModal"
+      @load-complete="loadComplete"
+      @load-error="loadError"
+    >
       <template #viewer>
         <slot name="viewer"></slot>
       </template>

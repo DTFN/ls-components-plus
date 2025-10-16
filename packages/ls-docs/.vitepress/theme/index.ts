@@ -13,7 +13,7 @@ import 'element-plus/dist/index.css';
 // import '../../../ls-components/lib/index.css';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
@@ -47,7 +47,7 @@ import '@lingshugroup/web-plus/index.css';
 export default Object.assign({}, Theme, {
   // Layout: () => {
   // const props: Record<string, any> = {};
-  // // 获取 frontmatter
+  // 获取 frontmatter
   // const { frontmatter } = useData();
 
   // /* 添加自定义 class */
@@ -63,8 +63,8 @@ export default Object.assign({}, Theme, {
   
       app.directive('print', print);
   
-      vAuth.permissions = ['a', 'b', 'c'];
-      app.directive('auth', vAuth);
+      // vAuth.permissions = ['a', 'b', 'c'];
+      // app.directive('auth', vAuth);
       // [
       //   LSIcon,
       //   LSButton,

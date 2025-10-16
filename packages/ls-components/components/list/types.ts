@@ -25,6 +25,11 @@ export const lsListProps = buildProps({
   dealDelParams: {
     type: Function
   },
+  // 删除成功提示话术
+  delMessage: {
+    type: [String, Function],
+    default: ''
+  },
   // 开关切换api
   switchApi: {
     type: Function
@@ -60,6 +65,10 @@ export const lsListProps = buildProps({
   },
   // 查询事件（覆盖默认事件）
   queryFn: {
+    type: Function
+  },
+  // 重置事件（覆盖默认事件）
+  resetFn: {
     type: Function
   },
   // 表格列数据
@@ -111,14 +120,14 @@ export const lsListProps = buildProps({
     type: String,
     default: '添加'
   },
-  // 添加按钮点击事件（覆盖默认事件）
-  addFn: {
-    type: Function
-  },
   // 添加按钮配置项
   addBtnAttrs: {
     type: Object,
     default: () => {}
+  },
+  // 添加按钮点击事件（覆盖默认事件）
+  addFn: {
+    type: Function
   },
   // 是否显示表格开关切换
   showTableSwitch: {
@@ -134,6 +143,21 @@ export const lsListProps = buildProps({
   tableSwitchColumn: {
     type: Object,
     default: () => {}
+  },
+  // 表格开关配置项
+  tableSwitchAttrs: {
+    type: Object,
+    default: () => {}
+  },
+  // 表格开关确认弹窗配置项
+  tableSwitchPopAttrs: {
+    type: Object,
+    default: () => {}
+  },
+  // 表格开关确认弹窗文字
+  tableSwitchPopTxt: {
+    type: String,
+    default: '请问是否关闭？'
   },
   // 表格开关切换是否禁用
   disabledTableSwitch: {
@@ -156,6 +180,10 @@ export const lsListProps = buildProps({
   },
   // 表格编辑按钮点击事件（覆盖默认事件）
   tableEditFn: {
+    type: Function
+  },
+  // 表格删除按钮点击事件（覆盖默认事件）
+  tableDelFn: {
     type: Function
   },
   // 表格查看按钮是否展示
@@ -188,6 +216,11 @@ export const lsListProps = buildProps({
     type: [Boolean, Function],
     default: false
   },
+  // 表格操作列删除悬浮确认窗配置项
+  tableDelPopAttrs: {
+    type: Object,
+    default: () => {}
+  },
   // 添加页面路由
   addRoutePath: {
     type: String,
@@ -217,6 +250,36 @@ export const lsListProps = buildProps({
   tableDelText: {
     type: [String, Function],
     default: '删除'
+  },
+  // 表格查看按钮类型
+  tableDetailType: {
+    type: [String, Function],
+    default: 'primary'
+  },
+  // 表格编辑按钮类型
+  tableEditType: {
+    type: [String, Function],
+    default: 'primary'
+  },
+  // 表格删除按钮类型
+  tableDelType: {
+    type: [String, Function],
+    default: 'danger'
+  },
+  // 表格查看按钮配置
+  tableDetailBtnAttrs: {
+    type: Object,
+    default: () => {}
+  },
+  // 表格编辑按钮配置
+  tableEditBtnAttrs: {
+    type: Object,
+    default: () => {}
+  },
+  // 表格删除按钮配置
+  tableDelBtnAttrs: {
+    type: Object,
+    default: () => {}
   },
   // 表格骨架屏配置
   skeletonAttrs: {

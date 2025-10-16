@@ -1,3 +1,4 @@
+<!-- persistent该属性自测之后只有在mode是horizontal才生效 -->
 <script setup lang="ts">
 import { useRouterHook } from '@lingshugroup/web-plus/hooks';
 import logo from '@/assets/logo.png';
@@ -148,6 +149,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
 const { getRouteQuery, currentRouter } = useRouterHook();
 
 const defineBCList: Ref<BreadCrumpListType> = ref([]);
+const comMenuRef = ref();
 
 watch(
   () => currentRouter.value,
@@ -227,7 +229,7 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
 const blockIndex: any = ref(0);
 const comMenuRef2 = ref();
 const defaultActive = ref('1');
-const defaultOpeneds = ref([]);
+const defaultOpeneds: any = ref([]);
 
 function blockClick(val: number) {
   if (val === blockIndex.value) {
@@ -252,6 +254,10 @@ function defineChildClickFunc(item: MenuBaseType) {
   blockIndex.value = key?.split('-')[0] - 1;
   defaultActive.value = key;
 }
+
+function activeMenu() {
+  comMenuRef2.value.lsComMenuRef.updateActiveIndex('2-1');
+}
 </script>
 
 <template>
@@ -269,6 +275,7 @@ function defineChildClickFunc(item: MenuBaseType) {
       @on-jump="onJump"
       :collapse="isCollapse"
       :show-tooltip="true"
+      ref="comMenuRef"
     >
       <template #icon7>
         <vueSvg />
@@ -288,6 +295,8 @@ function defineChildClickFunc(item: MenuBaseType) {
         @define-sub-click="defineSubClickFunc"
         @define-child-click="defineChildClickFunc"
         :default-openeds="defaultOpeneds"
+        mode="vertical"
+        :persistent="false"
       >
         <template #icon7>
           <vueSvg />
@@ -299,6 +308,28 @@ function defineChildClickFunc(item: MenuBaseType) {
         <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
       </ul>
     </div>
+    <br />
+    <LSButton @click="activeMenu">激活菜单</LSButton>
+
+    <br />
+    <br />
+
+    <el-menu
+      ellipsis
+      class="el-menu-popper-demo"
+      mode="horizontal"
+      :popper-offset="16"
+      style="max-width: 600px"
+      :persistent="false"
+      menu-trigger="click"
+    >
+      <el-sub-menu index="2">
+        <template #title>Workspace</template>
+        <el-menu-item index="2-1">item one</el-menu-item>
+        <el-menu-item index="2-2">item two</el-menu-item>
+        <el-menu-item index="2-3">item three</el-menu-item>
+      </el-sub-menu>
+    </el-menu>
   </div>
 </template>
 

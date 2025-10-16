@@ -45,7 +45,11 @@ export default function () {
     return route.query;
   };
 
-  function processMenuItems(item: MenuItemType, routerConfig: MenuItemType[], bcList: { title: string; name: string }[]): void {
+  function processMenuItems(
+    item: MenuItemType,
+    routerConfig: MenuItemType[],
+    bcList: { title: string; name: string | undefined }[]
+  ): void {
     // 添加当前项的面包屑列表
     item.bcList = bcList;
 

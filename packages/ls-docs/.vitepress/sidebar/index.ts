@@ -68,10 +68,10 @@ export default {
     }
   ],
   '/tools/': [
-    {
-      text: 'directives',
-      items: [{ text: 'auth', link: '/tools/directives/auth' }]
-    },
+    // {
+    //   text: 'directives',
+    //   items: [{ text: 'auth', link: '/tools/directives/auth' }]
+    // },
     {
       text: 'hooks',
       items: [
