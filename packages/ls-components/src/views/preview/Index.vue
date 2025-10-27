@@ -2,7 +2,8 @@
 import axios from 'axios';
 // import docx from '@/assets/files/333.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
-import xlsx from '@/assets/files/222.xlsx?url';
+// import xlsx from '@/assets/files/222.xlsx?url';
+import xlsx from '@/assets/files/test.xlsx?url';
 // import xlsx from 'D:/download/666.xlsx?url';
 // import xlsx from 'D:/download/777.xlsx?url';
 import pdf from '@/assets/files/777.pdf';
