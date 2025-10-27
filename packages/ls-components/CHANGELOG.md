@@ -1,3 +1,11 @@
+## [2.4.1](https://github.com/DTFN/ls-components-plus/compare/v2.4.0...v2.4.1) (2025-10-27)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([efaf0c3](https://github.com/DTFN/ls-components-plus/commit/efaf0c3781accf76055c5947bbb1219a2b6d85e8))
+* **ls-component:** 🧩 update ([188d2b3](https://github.com/DTFN/ls-components-plus/commit/188d2b30b187c1845d31262e74eb1c72e15041bd))
+
 # [2.4.0](https://github.com/DTFN/ls-components-plus/compare/v2.3.2...v2.4.0) (2025-10-16)
 
 
