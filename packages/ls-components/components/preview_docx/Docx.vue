@@ -13,6 +13,16 @@ const props = defineProps(docxProps);
 
 const emits = defineEmits(previewEmits);
 
+const attrs = useAttrs();
+
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
 const docxRef = ref();
 
 watch(
@@ -67,12 +77,24 @@ const closeFunc = () => {
   props.onClose && props.onClose();
   emits('update:source', []);
 };
+
+function onDownload() {
+  emits('download', attrs.downloadData);
+}
 </script>
 
 <template>
   <div :class="comClass">
     <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <LSIcon name="Close" :size="24" color="#FFF" />
+    </span>
+    <span v-if="hasDownload" :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
+      <LSIcon
+        :class="{ 'is-loading': downloadLoading }"
+        :name="`${downloadLoading ? 'Loading' : 'Download'}`"
+        :size="24"
+        color="#FFF"
+      />
     </span>
     <div ref="docxRef"></div>
   </div>
@@ -105,6 +127,16 @@ const closeFunc = () => {
   &.ls-docx__close {
     top: 40px;
     right: 40px;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+
+    @include op-icon;
+  }
+  &.ls-docx__download {
+    top: 100px;
+    right: 40px;
+    z-index: 3;
     width: 40px;
     height: 40px;
     font-size: 40px;

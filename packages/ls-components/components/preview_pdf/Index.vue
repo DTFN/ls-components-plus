@@ -51,6 +51,10 @@ function closePreview(e: any) {
       <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
     </el-watermark>
     <LSPdf v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+
+    <div class="ls-preview-extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 

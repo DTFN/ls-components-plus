@@ -61,6 +61,10 @@ const loadError = () => {
         <slot name="viewer"></slot>
       </template>
     </LSImage>
+
+    <div class="ls-preview-extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 

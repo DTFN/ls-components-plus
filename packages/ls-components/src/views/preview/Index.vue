@@ -103,6 +103,8 @@ function download(data: any) {
     downloadLoading.value = false;
   }, 1000);
 }
+
+const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg';
 </script>
 
 <template>
@@ -123,6 +125,7 @@ function download(data: any) {
       :on-close="closeViewer"
       :type="type"
       :source="source"
+      :download-loading="downloadLoading"
       :has-download="true"
       :download-data="downloadData"
       @download="download"
@@ -135,7 +138,14 @@ function download(data: any) {
       <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
       </template> -->
+
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
     </LSPreviewImage>
+
     <LSPreviewDocx
       v-model="showViewerDocx"
       :on-close="closeViewer"
@@ -146,7 +156,18 @@ function download(data: any) {
       :watermark-option="{
         content: ['Element+', 'Element Plus']
       }"
-    />
+      :has-download="false"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @download="download"
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewDocx>
+
     <LSPreviewPdf
       v-model="showViewerPdf"
       :c-map-url-path="'/cmaps/'"
@@ -159,12 +180,19 @@ function download(data: any) {
       :watermark-option="{
         content: ['Element+', 'Element Plus']
       }"
-      :has-download="true"
+      :has-download="false"
       download-txt="下载文件"
       :download-loading="downloadLoading"
       :download-data="downloadData"
       @download="download"
-    />
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewPdf>
+
     <LSPreviewXlsx
       v-model="showViewerXlsx"
       :on-close="closeViewer"
@@ -175,11 +203,17 @@ function download(data: any) {
       :watermark-option="{
         content: ['Element+', 'Element Plus']
       }"
-      :has-download="true"
+      :has-download="false"
       :download-loading="downloadLoading"
       :download-data="downloadData"
       @download="download"
-    />
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewXlsx>
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
@@ -196,4 +230,10 @@ function download(data: any) {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.extra-wrap {
+  :deep(.el-image) {
+    width: 200px;
+  }
+}
+</style>

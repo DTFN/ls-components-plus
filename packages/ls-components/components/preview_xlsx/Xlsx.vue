@@ -279,9 +279,8 @@ onBeforeUnmount(() => {
     <div :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <LSIcon name="Close" :size="24" color="#FFF" />
     </div>
-    <div :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
+    <div v-if="hasDownload" :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
       <LSIcon
-        v-if="hasDownload"
         :class="{ 'is-loading': downloadLoading }"
         :name="`${downloadLoading ? 'Loading' : 'Download'}`"
         :size="24"
