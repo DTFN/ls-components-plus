@@ -46,10 +46,15 @@ function closePreview(e: any) {
 
 <template>
   <div v-if="previewVisible" :class="comClass" @click="closePreview">
+    {{ defAttrs }}
     <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
       <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
     </el-watermark>
     <LSPdf v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+
+    <div class="ls-preview-extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 

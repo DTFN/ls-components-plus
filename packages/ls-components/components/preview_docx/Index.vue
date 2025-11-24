@@ -50,6 +50,10 @@ function closePreview(e: any) {
       <LSDocx v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
     </el-watermark>
     <LSDocx v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+
+    <div class="ls-preview-extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 
