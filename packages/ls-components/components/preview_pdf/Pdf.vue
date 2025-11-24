@@ -21,6 +21,19 @@ const initNoPage = computed(() => {
   return status;
 });
 
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+// 下载按钮文案
+const downloadTxt = computed(() => {
+  return attrs['download-txt'] || attrs['downloadTxt'] || '下载';
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
 watch(
   initNoPage,
   val => {
@@ -54,6 +67,7 @@ const emits = defineEmits<{
   (event: 'loadComplete'): void;
   (event: 'loadError'): void;
   (event: 'update:source'): void;
+  (event: 'download', payload: any): void;
 }>();
 
 watch(
@@ -143,6 +157,10 @@ function loadComplete() {
 function loadError() {
   emits('loadError');
 }
+
+function onDownload() {
+  emits('download', attrs.downloadData);
+}
 </script>
 
 <template>
@@ -159,6 +177,10 @@ function loadError() {
         <LSButton type="primary" icon="Plus" size="small" :disabled="scale == 2" @click="scalePdf(1)" />
       </div>
       <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
+
+      <LSButton v-if="hasDownload" type="primary" size="small" :loading="downloadLoading" @click="onDownload">{{
+        downloadTxt
+      }}</LSButton>
 
       <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
         <LSIcon name="Close" :size="26" />

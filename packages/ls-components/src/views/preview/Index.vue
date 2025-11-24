@@ -93,8 +93,15 @@ function openViewer(val: string) {
   }
 }
 
+const downloadLoading = ref(false);
+
 function download(data: any) {
+  downloadLoading.value = true;
   console.log(data);
+
+  setTimeout(() => {
+    downloadLoading.value = false;
+  }, 1000);
 }
 </script>
 
@@ -152,6 +159,11 @@ function download(data: any) {
       :watermark-option="{
         content: ['Element+', 'Element Plus']
       }"
+      :has-download="true"
+      download-txt="下载文件"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @download="download"
     />
     <LSPreviewXlsx
       v-model="showViewerXlsx"
@@ -163,6 +175,10 @@ function download(data: any) {
       :watermark-option="{
         content: ['Element+', 'Element Plus']
       }"
+      :has-download="true"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @download="download"
     />
 
     <!-- <el-image

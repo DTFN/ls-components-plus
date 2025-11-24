@@ -22,6 +22,16 @@ const props = defineProps(xlsxProps);
 
 const emits = defineEmits(previewEmits);
 
+const attrs = useAttrs();
+
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
 watch(
   () => props.source,
   val => {
@@ -255,6 +265,10 @@ function resetLuckySheet() {
   }
 }
 
+function onDownload() {
+  emits('download', attrs.downloadData);
+}
+
 onBeforeUnmount(() => {
   resetLuckySheet();
 });
@@ -262,9 +276,18 @@ onBeforeUnmount(() => {
 
 <template>
   <div :class="comClass">
-    <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+    <div :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <LSIcon name="Close" :size="24" color="#FFF" />
-    </span>
+    </div>
+    <div :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
+      <LSIcon
+        v-if="hasDownload"
+        :class="{ 'is-loading': downloadLoading }"
+        :name="`${downloadLoading ? 'Loading' : 'Download'}`"
+        :size="24"
+        color="#FFF"
+      />
+    </div>
     <div id="luckysheet" class="luckysheet-wrap"></div>
   </div>
 </template>
@@ -392,6 +415,16 @@ onBeforeUnmount(() => {
   }
   &.ls-xlsx__close {
     top: 40px;
+    right: 40px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+
+    @include op-icon;
+  }
+  &.ls-xlsx__download {
+    top: 100px;
     right: 40px;
     z-index: 3;
     width: 40px;
