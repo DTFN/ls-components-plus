@@ -1,0 +1,8 @@
+# 禁用严格的依赖解析（旧版 pnpm 推荐）
+strict-peer-dependencies=false
+
+# 允许依赖版本不匹配时警告而非报错
+ignore-peer-dependencies=false
+
+# 禁用“hoisting”（依赖提升，旧版可能有 bug）
+hoist=false
