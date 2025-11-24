@@ -357,7 +357,7 @@ function handleActions(action: ImageViewerAction, options = {}) {
       transform.deg -= rotateDeg;
       break;
     case 'download':
-      emits('download', attrs.downloadData);
+      emits('onDownload', attrs.downloadData);
       break;
   }
   transform.enableTransition = enableTransition;
