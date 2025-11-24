@@ -1,3 +1,11 @@
+## [2.4.2](https://github.com/DTFN/ls-components-plus/compare/v2.4.1...v2.4.2) (2025-11-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 预览增加extra ([ea79891](https://github.com/DTFN/ls-components-plus/commit/ea79891d87915837021ff899c2dc2e4ebdad8f9e))
+* **ls-component:** 🧩 预览增加下载配置 ([94643dd](https://github.com/DTFN/ls-components-plus/commit/94643dd9b88a95073885b7806c8f2dfc1e5e1b4f))
+
 ## [2.4.1](https://github.com/DTFN/ls-components-plus/compare/v2.4.0...v2.4.1) (2025-10-27)
 
 
