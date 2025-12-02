@@ -101,6 +101,7 @@ defineExpose({
       :limit-min-size="limitMinSize"
       :output-type="outputType"
       :original="true"
+      :info-true="true"
       v-bind="$attrs"
       @real-time="realTime"
     ></VueCropper>
