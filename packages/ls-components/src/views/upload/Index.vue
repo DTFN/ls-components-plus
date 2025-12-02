@@ -3,14 +3,15 @@ import { UploadItemType } from '@cpo/_types';
 import axios from 'axios';
 import { ElMessageBox, UploadProps } from 'element-plus';
 
-const action = ref('https://tlj-man-test.gwm.com.cn/api/v1/file/upload');
+const action = ref('http://192.168.2.138:8778/api/v1/file/upload');
 const headers = ref({
-  Authorization: 'Bearer 221e4ee9-5de3-47ea-8073-9c4940ecc0ff'
+  Authorization: 'Bearer 536002a2-2084-4ad3-9167-8ffa0e6dde1d'
 });
 const item1: Ref<UploadItemType> = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
-  tipContent: '上傳文件不超過2m'
+  limitSize: 50,
+  tipContent: '上傳文件不超過50m'
 });
 
 const item2: Ref<UploadItemType> = ref({
@@ -73,10 +74,11 @@ function formValidateFunc() {
 
 const fileList2: any = ref([]);
 function onChange2(file: any) {
-  fileList2.value.push({
-    name: file.name,
-    url: file.blob
-  });
+  console.log('onChange2', file);
+  // fileList2.value.push({
+  //   name: file.name,
+  //   url: file.blob
+  // });
 }
 
 const uploadRef = ref();
@@ -95,6 +97,21 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
 function onPreview(file: any) {
   console.log(file);
 }
+
+function onSuccessFunc(response: any, file: any) {
+  const { data, code } = response || {};
+  console.log('onSuccessFunc', response, file);
+  if (code === 200) {
+    fileList2.value.push({
+      name: data.originalName,
+      url: data.fileUrl,
+      uid: file.uid,
+      id: data.id,
+      raw: file.raw,
+      blob: file.blob
+    });
+  }
+}
 </script>
 
 <template>
@@ -110,7 +127,8 @@ function onPreview(file: any) {
       :auto-upload="false"
       :item="{
         isCover: false,
-        limitAllFail: false
+        limitAllFail: false,
+        limitSize: 50
       }"
     ></LSUpload>
 
@@ -120,8 +138,10 @@ function onPreview(file: any) {
       :action="action"
       :item="item1"
       :file-list="fileList2"
+      :headers="headers"
       @on-change-func="onChange2"
       :before-remove="beforeRemove"
+      :on-success="onSuccessFunc"
     ></LSUpload>
 
     <br />
@@ -148,17 +168,11 @@ function onPreview(file: any) {
 
     <br />
 
-    <LSUpload
-      list-type="picture-card"
-      :limit="3"
-      :action="action"
-      :auto-upload="true"
-      :headers="headers"
-      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true, limitFile: ['bmp', 'jpg', 'png'], limitSize: 10 }"
-    >
+    <LSUpload :limit="3" :action="action" :auto-upload="false" :headers="headers" :item="{ isCover: false, limitSize: 50 }">
     </LSUpload>
 
     <br />
+
     <LSUpload
       list-type="picture-card"
       :action="action"

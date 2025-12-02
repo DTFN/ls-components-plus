@@ -266,7 +266,7 @@ function resetLuckySheet() {
 }
 
 function onDownload() {
-  emits('download', attrs.downloadData);
+  emits('onDownload', attrs.downloadData);
 }
 
 onBeforeUnmount(() => {

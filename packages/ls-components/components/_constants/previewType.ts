@@ -1,6 +1,6 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
-export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'download'];
+export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'onDownload'];
 
 export type PreviewEmits = typeof previewEmits;
 

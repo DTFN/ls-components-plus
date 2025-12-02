@@ -128,7 +128,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :download-loading="downloadLoading"
       :has-download="true"
       :download-data="downloadData"
-      @download="download"
+      @on-download="download"
       :hide-on-click-modal="false"
       :show-watermark="true"
       :watermark-option="{
@@ -159,7 +159,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :has-download="false"
       :download-loading="downloadLoading"
       :download-data="downloadData"
-      @download="download"
+      @on-download="download"
     >
       <template #extra>
         <div class="extra-wrap">
@@ -184,7 +184,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       download-txt="下载文件"
       :download-loading="downloadLoading"
       :download-data="downloadData"
-      @download="download"
+      @on-download="download"
     >
       <template #extra>
         <div class="extra-wrap">
@@ -206,7 +206,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :has-download="false"
       :download-loading="downloadLoading"
       :download-data="downloadData"
-      @download="download"
+      @on-download="download"
     >
       <template #extra>
         <div class="extra-wrap">

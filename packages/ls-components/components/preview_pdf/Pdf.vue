@@ -67,7 +67,7 @@ const emits = defineEmits<{
   (event: 'loadComplete'): void;
   (event: 'loadError'): void;
   (event: 'update:source'): void;
-  (event: 'download', payload: any): void;
+  (event: 'onDownload', payload: any): void;
 }>();
 
 watch(
@@ -159,7 +159,7 @@ function loadError() {
 }
 
 function onDownload() {
-  emits('download', attrs.downloadData);
+  emits('onDownload', attrs.downloadData);
 }
 </script>
 

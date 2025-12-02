@@ -79,7 +79,7 @@ const closeFunc = () => {
 };
 
 function onDownload() {
-  emits('download', attrs.downloadData);
+  emits('onDownload', attrs.downloadData);
 }
 </script>
 
