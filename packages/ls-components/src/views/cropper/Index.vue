@@ -41,7 +41,7 @@ function onCropData(data: any) {
       @on-change-func="onChangeFunc"
     ></LSUpload>
     <LSDialog v-model="visible" @on-confirm="onConfirm">
-      <LSCropper :img-url="imgUrl" graphics-type="circular" :show-preview="true" @on-crop-data="onCropData" />
+      <LSCropper :img-url="imgUrl" graphics-type="circular" :show-preview="true" :fixed="false" @on-crop-data="onCropData" />
     </LSDialog>
   </div>
 </template>
