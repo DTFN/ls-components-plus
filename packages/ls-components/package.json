@@ -1,6 +1,6 @@
 {
   "name": "@lingshugroup/web-plus",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "零数科技前端UI组件库（Vue3）",
   "type": "module",
   "main": "./lib/index/index.cjs",
@@ -132,7 +132,7 @@
       "require": "./lib/tooltip/index.cjs"
     },
     "./cropper": {
-       "import": "./lib/cropper/index.js",
+      "import": "./lib/cropper/index.js",
       "require": "./lib/cropper/index.cjs"
     },
     "./index.css": "./lib/index.css"
