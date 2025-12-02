@@ -104,7 +104,7 @@ defineExpose({
       v-bind="$attrs"
       @real-time="realTime"
     ></VueCropper>
-    <div class="ls-cropper-preview">
+    <div v-if="showPreview" class="ls-cropper-preview">
       <img :src="previewUrl" alt="" />
     </div>
   </div>
