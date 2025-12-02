@@ -144,6 +144,14 @@ export const MENU_LIST = [
     path: '/list2',
     cpoPath: 'list/List2',
     key: '20'
+  },
+  {
+    id: '21',
+    title: 'Cropper 剪裁',
+    name: 'Cropper',
+    path: '/cropper',
+    cpoPath: 'cropper/Index',
+    key: '21'
   }
 ];
 

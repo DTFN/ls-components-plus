@@ -32,5 +32,6 @@ export { default as LSPreviewPdf } from '@cpo/preview_pdf/Index.vue';
 export { default as LSPreviewXlsx } from '@cpo/preview_xlsx/Index.vue';
 export { default as LSDownloadFile } from '@cpo/downloadFile/Index.vue';
 export { default as LSTooltip } from '@cpo/tooltip/Index.vue';
+export { default as LSCropper } from '@cpo/cropper/Index.vue';
 
 export { default } from './index';
