@@ -1,3 +1,22 @@
+## [2.4.3](https://github.com/DTFN/ls-components-plus/compare/v2.4.2...v2.4.3) (2025-12-02)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([9583e1c](https://github.com/DTFN/ls-components-plus/commit/9583e1cceba723ea98733eaa1cb3bc43d190eaab))
+* **ls-component:** 🧩 update ([6c26db9](https://github.com/DTFN/ls-components-plus/commit/6c26db96eef2f408b56bc2a5e8fc7bab7e0f556b))
+* **ls-component:** 🧩 update ([2fd7d6e](https://github.com/DTFN/ls-components-plus/commit/2fd7d6e28d2bc25b3b4a36e6ecd56191b85c464a))
+* **ls-component:** 🧩 update ([cede1c5](https://github.com/DTFN/ls-components-plus/commit/cede1c598c1e0a1239c506d0057ec683b275f6ac))
+* **ls-component:** 🧩 update ([95bb985](https://github.com/DTFN/ls-components-plus/commit/95bb9850d34dee54b1774a452bdd74fadc47f44b))
+* **ls-component:** 🧩 update ([3dd3490](https://github.com/DTFN/ls-components-plus/commit/3dd349010d989d42785ba2aa6d2cab3365e53d61))
+* **ls-component:** 🧩 update ([048b2bc](https://github.com/DTFN/ls-components-plus/commit/048b2bc9d5331484b717d83e3b19210315f56eff))
+* **ls-component:** 🧩 update ([73af8f0](https://github.com/DTFN/ls-components-plus/commit/73af8f0c5730192de741bf7486602fa985c780a4))
+* **ls-doc:** 🧩 update ([1fd52c1](https://github.com/DTFN/ls-components-plus/commit/1fd52c1fa5f29349ba840eaccd0bbe9fe45e99d6))
+* **ls-doc:** 🧩 update ([e712f08](https://github.com/DTFN/ls-components-plus/commit/e712f08e12d65022b2c68b057c778360ec08c80c))
+* **ls-doc:** 🧩 update ([a410c28](https://github.com/DTFN/ls-components-plus/commit/a410c286057d8a3ee99b161447260d33ffb216cf))
+* **ls-doc:** 🧩 update ([b8ff08a](https://github.com/DTFN/ls-components-plus/commit/b8ff08a097e341c9e9ec47e94ea73cb57bf4d078))
+* **ls-doc:** 🧩 update ([fec6d86](https://github.com/DTFN/ls-components-plus/commit/fec6d8638d9cf7c8a43dcb85a1844d0159716560))
+
 ## [2.4.2](https://github.com/DTFN/ls-components-plus/compare/v2.4.1...v2.4.2) (2025-11-24)
 
 
