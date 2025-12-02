@@ -100,7 +100,7 @@ defineExpose({
       :img="imgUrl"
       :limit-min-size="limitMinSize"
       :output-type="outputType"
-      :original="true"
+      :original="false"
       :info-true="true"
       v-bind="$attrs"
       @real-time="realTime"
@@ -112,9 +112,25 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+.ls-cropper {
+  position: relative;
+}
 .vue-cropper {
-  width: 600px;
+  width: 100%;
   height: 300px;
+}
+.ls-cropper-preview {
+  width: 100%;
+  height: 160px;
+  padding: 12px;
+  margin-top: 24px;
+  text-align: center;
+  background-color: #f5f5f5;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
 .circular {
   :deep(.cropper-view-box) {
