@@ -131,6 +131,10 @@
       "import": "./lib/tooltip/index.js",
       "require": "./lib/tooltip/index.cjs"
     },
+    "./cropper": {
+       "import": "./lib/cropper/index.js",
+      "require": "./lib/cropper/index.cjs"
+    },
     "./index.css": "./lib/index.css"
   },
   "scripts": {
