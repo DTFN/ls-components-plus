@@ -97,12 +97,32 @@
         <slot v-else name="tip"> </slot>
       </template>
 
-      <template v-if="slots.file" #file>
-        <slot name="file"></slot>
+      <!-- 自定义且图片卡片时支持 -->
+      <template v-if="customFile" #file="{ file, index }">
+        <img :src="configs.uploadFileList[index]?.url || file.url" class="el-upload-list__item-thumbnail" />
+        <div class="el-upload-list__item-actions">
+          <slot :file="file" :index="index"></slot>
+          <span v-if="hasCropper" class="el-upload-list__item-cropper" @click="onHandleCropper(file, index)">
+            <el-icon><Crop /></el-icon>
+          </span>
+          <span class="el-upload-list__item-preview" @click="onHandlePreview(file, index)">
+            <el-icon><ZoomIn /></el-icon>
+          </span>
+          <span class="el-upload-list__item-delete" @click="onHandleRemove(file)">
+            <el-icon><Delete /></el-icon>
+          </span>
+        </div>
+      </template>
+      <template v-else #file="{ file, index }">
+        <slot name="file" :file="file" :index="index"></slot>
       </template>
     </el-upload>
 
     <LSPreviewImage v-model="configs.showPreview" :source="configs.sourcePreview" :on-close="closePreview" />
+
+    <teleport to="body">
+      <el-image-viewer v-if="viewerVisible" :url-list="viewerUrlList" @close="viewerVisible = false" />
+    </teleport>
   </div>
 </template>
 
@@ -150,7 +170,7 @@ const configs: configsType = reactive({
 
 const props = defineProps(lsUploadProps);
 
-const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc']);
+const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc', 'onHandleCropper']);
 
 watch(
   () => attrs['file-list'],
@@ -688,6 +708,23 @@ function onPreviewAction(uploadFile: UploadFile) {
 function closePreview() {
   configs.showPreview = false;
   configs.sourcePreview = '';
+}
+
+// 自定义预览图片
+const viewerVisible = ref(false);
+const viewerUrlList = ref<string[]>([]);
+
+function onHandlePreview(file: any, index: number) {
+  viewerUrlList.value = [configs.uploadFileList[index]?.url || file?.url];
+  viewerVisible.value = true;
+}
+
+function onHandleRemove(file: any) {
+  removeFile(file);
+}
+
+function onHandleCropper(file: any, index: number) {
+  emits('onHandleCropper', file, index);
 }
 
 defineExpose({
