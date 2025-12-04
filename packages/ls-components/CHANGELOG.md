@@ -1,3 +1,12 @@
+## [2.4.5](https://github.com/DTFN/ls-components-plus/compare/v2.4.4...v2.4.5) (2025-12-04)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([dc587f1](https://github.com/DTFN/ls-components-plus/commit/dc587f126a13d0fe17c2b10f8b357f783b3a25a1))
+* **ls-component:** 🧩 update ([e05e764](https://github.com/DTFN/ls-components-plus/commit/e05e76497c4a29eb86a890e6f6f7d0c2206d060c))
+* **ls-component:** 🧩 上传组件图片预览区域自定义功能 ([d01a090](https://github.com/DTFN/ls-components-plus/commit/d01a0905839499dac1b08eb78aa2168cc069fbbe))
+
 ## [2.4.4](https://github.com/DTFN/ls-components-plus/compare/v2.4.3...v2.4.4) (2025-12-02)
 
 
