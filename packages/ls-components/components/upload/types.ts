@@ -83,6 +83,14 @@ export const lsUploadProps = buildProps({
   httpRequest: {
     type: Function,
     default: null
+  },
+  customFile: {
+    type: Boolean,
+    default: false
+  },
+  hasCropper: {
+    type: Boolean,
+    default: false
   }
 });
 

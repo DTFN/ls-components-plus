@@ -112,6 +112,12 @@ function onSuccessFunc(response: any, file: any) {
     });
   }
 }
+
+const fileList4: any = ref([]);
+
+function onHandleCropper(file: any, index: number) {
+  console.log('onHandleCropper', file, index);
+}
 </script>
 
 <template>
@@ -168,7 +174,18 @@ function onSuccessFunc(response: any, file: any) {
 
     <br />
 
-    <LSUpload :limit="3" :action="action" :auto-upload="false" :headers="headers" :item="{ isCover: false, limitSize: 50 }">
+    <LSUpload
+      :limit="3"
+      list-type="picture-card"
+      :action="action"
+      :auto-upload="false"
+      :headers="headers"
+      :file-list="fileList4"
+      :item="{ isCover: false, limitSize: 50 }"
+      :custom-file="true"
+      :has-cropper="true"
+      @on-handle-cropper="onHandleCropper"
+    >
     </LSUpload>
 
     <br />
