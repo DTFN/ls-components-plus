@@ -629,7 +629,7 @@ const tableData2 = ref([
   {
     name: 'permission',
     desc: '权限code码',
-    type: 'string',
+    type: 'string, 除查看（p）、详情（d），其他不要以这p或d开头',
     value: '-'
   },
   {
