@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-// import docx from '@/assets/files/333.docx?url';
+import docx from '@/assets/files/安全测试报告.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
 // import xlsx from '@/assets/files/222.xlsx?url';
 import xlsx from '@/assets/files/test.xlsx?url';
@@ -42,19 +42,20 @@ function openViewer(val: string) {
       showViewerImage.value = true;
       break;
     case 'docx':
-      // axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
-      //   source.value = data.data;
-      // });
+      axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
+        source.value = data.data;
+        showViewerDocx.value = true;
+      });
 
-      axios
-        .get(
-          'https://ctn-admin-pre.lingshu.net/api/v1/file/preview?fileName=20250928170155_26006275e0864c0f87c3d862e9cf1218.docx',
-          { responseType: 'arraybuffer' }
-        )
-        .then(data => {
-          source.value = data.data;
-          showViewerDocx.value = true;
-        });
+      // axios
+      //   .get(
+      //     'https://ctn-admin-pre.lingshu.net/api/v1/file/preview?fileName=20250928170155_26006275e0864c0f87c3d862e9cf1218.docx',
+      //     { responseType: 'arraybuffer' }
+      //   )
+      //   .then(data => {
+      //     source.value = data.data;
+      //     showViewerDocx.value = true;
+      //   });
       break;
     case 'xlsx':
       axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
