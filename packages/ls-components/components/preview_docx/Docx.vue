@@ -53,8 +53,8 @@ async function updateDocx(val: ArrayBuffer | String) {
       ignoreWidth: false, //disables rendering width of page
       ignoreHeight: true, //disables rendering height of page
       ignoreFonts: false, //disables fonts rendering
-      breakPages: true, //enables page breaking on page breaks
-      ignoreLastRenderedPageBreak: true, //disables page breaking on lastRenderedPageBreak elements
+      breakPages: false, //enables page breaking on page breaks
+      ignoreLastRenderedPageBreak: false, //disables page breaking on lastRenderedPageBreak elements
       experimental: false, //enables experimental features (tab stops calculation)
       trimXmlDeclaration: true, //if true, xml declaration will be removed from xml documents before parsing
       useBase64URL: false, //if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
