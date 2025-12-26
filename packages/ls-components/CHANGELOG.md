@@ -1,3 +1,15 @@
+## [2.4.6](https://github.com/DTFN/ls-components-plus/compare/v2.4.5...v2.4.6) (2025-12-26)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([5a45a08](https://github.com/DTFN/ls-components-plus/commit/5a45a08405fde0cc7403a3ec06ad454c227e85d0))
+* **ls-component:** 🧩 update ([80d9f94](https://github.com/DTFN/ls-components-plus/commit/80d9f94cbc9c7c9c8471cadb8c4536cbd3a405ea))
+* **ls-component:** 🧩 update ([da0d8ed](https://github.com/DTFN/ls-components-plus/commit/da0d8ed2576b39ce0884f3434b494878966961e7))
+* **ls-component:** 🧩 update ([0bb7c20](https://github.com/DTFN/ls-components-plus/commit/0bb7c2045697402d15775f3280e4b42e9b6bd967))
+* **ls-component:** 🧩 update ([124edc6](https://github.com/DTFN/ls-components-plus/commit/124edc63ddece70ebc5e1942e3943409da810a01))
+* **ls-component:** 🧩 word预览修复 ([70d84ec](https://github.com/DTFN/ls-components-plus/commit/70d84ec5e69bc0481ca7b7419aa8cbdcfca96702))
+
 ## [2.4.5](https://github.com/DTFN/ls-components-plus/compare/v2.4.4...v2.4.5) (2025-12-04)
 
 
