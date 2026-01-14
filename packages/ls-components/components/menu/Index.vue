@@ -228,7 +228,7 @@ defineExpose({
         p {
           @extend %text-ellipsis;
 
-          width: calc(100% - 24px);
+          width: 100%;
         }
       }
     }
