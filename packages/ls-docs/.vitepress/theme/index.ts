@@ -12,7 +12,7 @@ import 'element-plus/dist/index.css';
 // import { vAuth } from '../../../ls-components/lib/directives';
 // import '../../../ls-components/lib/index.css';
 
-// import LSWebPlus from '@lingshugroup/web-plus';
+import LSWebPlus from '@lingshugroup/web-plus';
 // import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
@@ -60,9 +60,9 @@ export default Object.assign({}, Theme, {
   async enhanceApp({ app }: { app: App }) {
       app.component('ArticleMetadata', ArticleMetadata);
       app.component('ApiIntro', ApiIntro);
-  
+
       app.directive('print', print);
-  
+
       // vAuth.permissions = ['a', 'b', 'c'];
       // app.directive('auth', vAuth);
       // [
@@ -93,10 +93,11 @@ export default Object.assign({}, Theme, {
       //   app.component(item.name, item);
       // });
       
-    if (!import.meta.env.SSR) {
-      const plugin = await import('@lingshugroup/web-plus')
-      app.use(plugin.default)
-    }
+    // if (!import.meta.env.SSR) {
+    //   const plugin = await import('@lingshugroup/web-plus')
+    //   app.use(plugin.default)
+    // }
+    app.use(LSWebPlus);
 
   }
 });
