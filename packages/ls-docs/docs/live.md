@@ -130,12 +130,24 @@ onMounted(() => {
 
 function playVideo() {
   // 播放逻辑
-  console.log('播放视频');
+  if (liveRef3.value) {
+    const videoElement = liveRef3.value.$el.querySelector('video');
+    if (videoElement) {
+      videoElement.play();
+      console.log('播放视频');
+    }
+  }
 }
 
 function pauseVideo() {
   // 暂停逻辑
-  console.log('暂停视频');
+  if (liveRef3.value) {
+    const videoElement = liveRef3.value.$el.querySelector('video');
+    if (videoElement) {
+      videoElement.pause();
+      console.log('暂停视频');
+    }
+  }
 }
 
 function changeVideo() {
@@ -232,12 +244,24 @@ onMounted(() => {
 
 function playVideo() {
   // 播放逻辑
-  console.log('播放视频');
+  if (liveRef3.value) {
+    const videoElement = liveRef3.value.$el.querySelector('video');
+    if (videoElement) {
+      videoElement.play();
+      console.log('播放视频');
+    }
+  }
 }
 
 function pauseVideo() {
   // 暂停逻辑
-  console.log('暂停视频');
+  if (liveRef3.value) {
+    const videoElement = liveRef3.value.$el.querySelector('video');
+    if (videoElement) {
+      videoElement.pause();
+      console.log('暂停视频');
+    }
+  }
 }
 
 function changeVideo() {
