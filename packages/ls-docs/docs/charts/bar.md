@@ -262,6 +262,31 @@ const dataMultiBar = {
     }
   ]
 };
+
+// 堆叠柱状图数据
+const dataStackedBar = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: '联盟广告',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    }
+  ]
+};
+
+// 水平柱状图数据
+const dataHorizontalBar = {
+  axisData: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
 const templateAll = ref({
   templatePatchMultiBar: {
     type: 'multiBar',
@@ -275,6 +300,76 @@ const templateAll = ref({
 
 ```html
 <LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchMultiBar" />
+```
+
+:::
+
+### 6. templatePatchStackedBar
+
+<ClientOnly>
+<LSChart template="bar" :data="dataStackedBar" :template-patch="templateAll.templatePatchStackedBar" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataStackedBar = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: '联盟广告',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    }
+  ]
+};
+const templateAll = ref({
+  templatePatchStackedBar: {
+    type: 'categoryStack',
+    tooltip: 'shadow',
+    legend: ['直接访问', '邮件营销', '联盟广告'],
+    labelPosition: 'inside'
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataStackedBar" :template-patch="templateAll.templatePatchStackedBar" />
+```
+
+:::
+
+### 7. templatePatchHorizontalBar
+
+<ClientOnly>
+<LSChart template="bar" :data="dataHorizontalBar" :template-patch="templateAll.templatePatchHorizontalBar" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataHorizontalBar = {
+  axisData: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+const templateAll = ref({
+  templatePatchHorizontalBar: {
+    axis: 'y',
+    labelPosition: 'right',
+    showBackground: true
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataHorizontalBar" :template-patch="templateAll.templatePatchHorizontalBar" />
 ```
 
 :::
@@ -368,6 +463,17 @@ const templateAll = ref({
     dataZoom: 'horizontal',
     labelPosition: 'top',
     legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
+  },
+  templatePatchStackedBar: {
+    type: 'categoryStack',
+    tooltip: 'shadow',
+    legend: ['直接访问', '邮件营销', '联盟广告'],
+    labelPosition: 'inside'
+  },
+  templatePatchHorizontalBar: {
+    axis: 'y',
+    labelPosition: 'right',
+    showBackground: true
   }
 });
 
@@ -456,7 +562,9 @@ function changeChartStyle() {
     'templatePatchNegative',
     'templatePatchWaterfall',
     'templatePatchCategory',
-    'templatePatchMultiBar'
+    'templatePatchMultiBar',
+    'templatePatchStackedBar',
+    'templatePatchHorizontalBar'
   ].forEach((item) => {
     templateAll.value[item].theme = formInline.value.themeModel;
     templateAll.value[item].axis = formInline.value.axis;

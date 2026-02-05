@@ -10,13 +10,156 @@ outline: deep
 ::: tip 需安装依赖 [echarts](https://www.npmjs.com/package/echarts)
 :::
 
+## 目录
+
+- [功能介绍](#功能介绍)
+- [使用方式](#使用方式)
+  - [基础用法](#基础用法)
+  - [自定义配置](#自定义配置)
+  - [主题切换](#主题切换)
+- [API](#api)
+  - [Attributes 公共参数](#attributes-公共参数)
+  - [Exposes](#exposes)
+
+## 功能介绍
+
+LSChart 组件是对 ECharts 的二次封装，提供了以下功能：
+
+- 支持快速创建常用类型的图表，包括柱状图、折线图和饼图
+- 支持自定义图表配置，完全兼容 ECharts 配置项
+- 支持主题切换，包括默认主题和暗黑主题
+- 支持响应式布局，可根据容器大小自动调整
+- 提供简洁的 API 接口，方便使用和扩展
+
+## 使用方式
+
+### 基础用法
+
+<br />
+<ClientOnly>
+<LSChart template="bar" :data="dataSimple" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const dataSimple = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+```
+
+```html
+<LSChart template="bar" :data="dataSimple" width="800" height="400" />
+```
+
+:::
+
+### 自定义配置
+
+<br />
+<ClientOnly>
+<LSChart template="line" :data="dataCustom" :template-patch="templateCustom" :custom-option="customOption" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const dataCustom = {
+  axisData: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  seriesData: [120, 190, 300, 500, 800, 1200, 1500]
+};
+
+const templateCustom = {
+  labelPosition: 'top',
+  smooth: true,
+  areaStyle: {}
+};
+
+const customOption = {
+  title: {
+    text: '自定义配置示例',
+    left: 'center'
+  },
+  xAxis: [
+    {
+      axisLabel: {
+        rotate: 45
+      }
+    }
+  ],
+  yAxis: [
+    {
+      axisLabel: {
+        formatter: '{value} 元'
+      }
+    }
+  ]
+};
+```
+
+```html
+<LSChart template="line" :data="dataCustom" :template-patch="templateCustom" :custom-option="customOption" width="800" height="400" />
+```
+
+:::
+
+### 主题切换
+
+<br />
+<ClientOnly>
+<el-radio-group v-model="theme" @change="changeTheme">
+  <el-radio label="default">默认主题</el-radio>
+  <el-radio label="dark">暗黑主题</el-radio>
+</el-radio-group>
+
+<LSChart template="pie" :data="dataPie" :template-patch="templatePie" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const theme = ref('default');
+const dataPie = {
+  seriesData: [
+    { value: 1048, name: '图例 A' },
+    { value: 735, name: '图例 B' },
+    { value: 580, name: '图例 C' },
+    { value: 484, name: '图例 D' },
+    { value: 300, name: '图例 E' }
+  ]
+};
+
+const templatePie = {
+  theme: theme.value
+};
+
+function changeTheme() {
+  templatePie.theme = theme.value;
+}
+```
+
+```html
+<el-radio-group v-model="theme" @change="changeTheme">
+  <el-radio label="default">默认主题</el-radio>
+  <el-radio label="dark">暗黑主题</el-radio>
+</el-radio-group>
+
+<LSChart template="pie" :data="dataPie" :template-patch="templatePie" width="800" height="400" />
+```
+
+:::
+
 ## API
 
-### 1. Attributes 公共参数
+### Attributes 公共参数
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. Exposes
+### Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
@@ -48,6 +191,66 @@ const customOption = {
 <script setup>
 import { tableColumn, tableExposesColumn } from '../../constant';
 import { ref } from 'vue';
+import { ElRadioGroup, ElRadio } from 'element-plus';
+
+// 基础用法数据
+const dataSimple = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+
+// 自定义配置数据
+const dataCustom = {
+  axisData: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  seriesData: [120, 190, 300, 500, 800, 1200, 1500]
+};
+
+const templateCustom = {
+  labelPosition: 'top',
+  smooth: true,
+  areaStyle: {}
+};
+
+const customOption = {
+  title: {
+    text: '自定义配置示例',
+    left: 'center'
+  },
+  xAxis: [
+    {
+      axisLabel: {
+        rotate: 45
+      }
+    }
+  ],
+  yAxis: [
+    {
+      axisLabel: {
+        formatter: '{value} 元'
+      }
+    }
+  ]
+};
+
+// 主题切换数据
+const theme = ref('default');
+const dataPie = {
+  seriesData: [
+    { value: 1048, name: '图例 A' },
+    { value: 735, name: '图例 B' },
+    { value: 580, name: '图例 C' },
+    { value: 484, name: '图例 D' },
+    { value: 300, name: '图例 E' }
+  ]
+};
+
+const templatePie = {
+  theme: theme.value
+};
+
+function changeTheme() {
+  templatePie.theme = theme.value;
+}
 
 const tableData = ref([
   {

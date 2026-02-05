@@ -197,6 +197,75 @@ const innerDataPie = [
 
 :::
 
+### 5. 案例五：环形饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template5" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template5: {
+    radius: ['40%', '70%'],
+    label: {
+      show: false
+    },
+    labelLine: {
+      show: false
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template5" height="400" ></LSChart>
+```
+
+:::
+
+### 6. 案例六：南丁格尔图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template6" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template6: {
+    radius: '60%',
+    roseType: 'area',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template6" height="400" ></LSChart>
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -277,6 +346,23 @@ const templateAllPie = ref({
   template4: {
     radius: ['45%', '60%'],
     innerRadius: [0, '35%']
+  },
+  template5: {
+    radius: ['40%', '70%'],
+    label: {
+      show: false
+    },
+    labelLine: {
+      show: false
+    }
+  },
+  template6: {
+    radius: '60%',
+    roseType: 'area',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
   }
 });
 const seriesDataPie = [
@@ -292,7 +378,7 @@ const innerDataPie = [
   { value: 679, name: '图例 3' }
 ];
 function changeChartStyle() {
-  ['template1', 'template2', 'template3', 'template4'].forEach((item) => {
+  ['template1', 'template2', 'template3', 'template4', 'template5', 'template6'].forEach((item) => {
     templateAllPie.value[item].theme = formInline.value.themeModel;
   });
 }

@@ -187,56 +187,7 @@ const temperatureData = [
     propertyTime: 1726214400000
   }
 ];
-const humidity = [
-  {
-    propertyValue: '30.67',
-    propertyTime: 1726174800000
-  },
-  {
-    propertyValue: '28.82',
-    propertyTime: 1726178400000
-  },
-  {
-    propertyValue: '29.82',
-    propertyTime: 1726182000000
-  },
-  {
-    propertyValue: '29.25',
-    propertyTime: 1726185600000
-  },
-  {
-    propertyValue: '30.52',
-    propertyTime: 1726189200000
-  },
-  {
-    propertyValue: '29.65',
-    propertyTime: 1726192800000
-  },
-  {
-    propertyValue: '29.70',
-    propertyTime: 1726196400000
-  },
-  {
-    propertyValue: '30.18',
-    propertyTime: 1726200000000
-  },
-  {
-    propertyValue: '29.47',
-    propertyTime: 1726203600000
-  },
-  {
-    propertyValue: '29.33',
-    propertyTime: 1726207200000
-  },
-  {
-    propertyValue: '30.58',
-    propertyTime: 1726210800000
-  },
-  {
-    propertyValue: '29.13',
-    propertyTime: 1726214400000
-  }
-];
+
 const humidity = [
   {
     propertyValue: '30.67',
@@ -396,6 +347,85 @@ const templateAllLine = ref({
 
 ```html
 <LSChart template="line" :data="dynamicLine" :template-patch="templateAllLine.templateDynamicLine" width="800" height="400" />
+```
+
+:::
+
+### 5. templateAreaChart
+
+<ClientOnly>
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateAreaChart" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataAreaChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '最高温度',
+      data: [10, 11, 13, 11, 12, 12, 9]
+    },
+    {
+      name: '最低温度',
+      data: [1, -2, 2, 5, 3, 2, 0]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateAreaChart: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度']
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateAreaChart" width="800" height="400" />
+```
+
+:::
+
+### 6. templateDualYAxis
+
+<ClientOnly>
+<LSChart template="line" :data="dataDualYAxis" :template-patch="templateAllLine.templateDualYAxis" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataDualYAxis = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130]
+    },
+    {
+      name: '订单数',
+      type: 'bar',
+      data: [20, 30, 25, 15, 10, 20, 25]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateDualYAxis: {
+    type: 'multiple',
+    lineBar: true,
+    tooltip: 'cross',
+    legend: ['销售额', '订单数']
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataDualYAxis" :template-patch="templateAllLine.templateDualYAxis" width="800" height="400" />
 ```
 
 :::
@@ -573,6 +603,19 @@ const templateAllLine = ref({
     type: 'multiple',
     tooltip: 'cross',
     dynamicAxis: true
+  },
+  templateAreaChart: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度']
+  },
+  templateDualYAxis: {
+    type: 'multiple',
+    lineBar: true,
+    tooltip: 'cross',
+    legend: ['销售额', '订单数']
   }
 });
 
@@ -623,8 +666,40 @@ const dynamicLine = {
   ]
 };
 
+// 面积图数据
+const dataAreaChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '最高温度',
+      data: [10, 11, 13, 11, 12, 12, 9]
+    },
+    {
+      name: '最低温度',
+      data: [1, -2, 2, 5, 3, 2, 0]
+    }
+  ]
+};
+
+// 双Y轴数据
+const dataDualYAxis = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130]
+    },
+    {
+      name: '订单数',
+      type: 'bar',
+      data: [20, 30, 25, 15, 10, 20, 25]
+    }
+  ]
+};
+
 function changeChartStyle() {
-  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item) => {
+  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine', 'templateAreaChart', 'templateDualYAxis'].forEach((item) => {
     templateAllLine.value[item].theme = formInline.value.themeModel;
     templateAllLine.value[item].axis = formInline.value.axis;
     templateAllLine.value[item].labelPosition = formInline.value.pos;
