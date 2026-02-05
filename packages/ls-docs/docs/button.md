@@ -4,12 +4,48 @@ outline: deep
 
 # Button 按钮
 
-::: warning 结合 el-button、el-button-group 组件进行二次封装。
+::: warning 结合 el-button、el-button-group 组件进行二次封装，提供更多自定义选项和图标配置功能。
 :::
+
+## 目录
+
+- [功能介绍](#功能介绍)
+- [使用方式](#使用方式)
+  - [基础按钮](#基础按钮)
+  - [按钮尺寸](#按钮尺寸)
+  - [带图标的按钮](#带图标的按钮)
+  - [仅图标按钮](#仅图标按钮)
+  - [加载状态按钮](#加载状态按钮)
+  - [禁用状态按钮](#禁用状态按钮)
+  - [圆角按钮](#圆角按钮)
+  - [圆形按钮](#圆形按钮)
+  - [文字按钮](#文字按钮)
+  - [朴素按钮](#朴素按钮)
+  - [带自定义图标的按钮](#带自定义图标的按钮)
+  - [带图标插槽的按钮](#带图标插槽的按钮)
+  - [按钮组](#按钮组)
+  - [带分隔符的按钮组](#带分隔符的按钮组)
+  - [带图标的按钮组](#带图标的按钮组)
+  - [按钮组的嵌套使用](#按钮组的嵌套使用)
+  - [响应式按钮](#响应式按钮)
+  - [与其他组件的集成](#与其他组件的集成)
+- [API](#api)
+  - [Button Attributes](#button-attributes)
+  - [ButtonGroup Attributes](#buttongroup-attributes)
+  - [Button Events](#button-events)
+
+## 功能介绍
+
+LSButton 组件是对 Element Plus Button 组件的二次封装，提供了以下增强功能：
+
+- 支持通过 `iconConfig` 属性配置图标，兼容 Element Plus 图标、iconify、图片和 SVG
+- 支持按钮组中的分隔符配置
+- 保持与 Element Plus Button 组件的完全兼容性
+- 提供更多的使用场景和示例
 
 ## 使用方式
 
-### 1. 基础按钮
+### 基础按钮
 
 <ClientOnly>
 <LSButton>默认按钮</LSButton>
@@ -33,7 +69,7 @@ outline: deep
 
 :::
 
-### 2. 按钮尺寸
+### 按钮尺寸
 
 <ClientOnly>
 <LSButton size="large">大型按钮</LSButton>
@@ -51,7 +87,7 @@ outline: deep
 
 :::
 
-### 3. 带图标的按钮
+### 带图标的按钮
 
 <ClientOnly>
 <LSButton type="primary" :icon="Edit">编辑</LSButton>
@@ -77,7 +113,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 4. 仅图标按钮
+### 仅图标按钮
 
 <ClientOnly>
 <LSButton type="primary" :icon="Edit"></LSButton>
@@ -99,7 +135,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 5. 加载状态按钮
+### 加载状态按钮
 
 <ClientOnly>
 <LSButton type="primary" :loading="true">加载中</LSButton>
@@ -121,7 +157,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 6. 禁用状态按钮
+### 禁用状态按钮
 
 <ClientOnly>
 <LSButton disabled>禁用按钮</LSButton>
@@ -145,7 +181,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 7. 圆角按钮
+### 圆角按钮
 
 <ClientOnly>
 <LSButton round>圆角按钮</LSButton>
@@ -169,7 +205,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 8. 圆形按钮
+### 圆形按钮
 
 <ClientOnly>
 <LSButton circle :icon="Edit"></LSButton>
@@ -197,7 +233,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 9. 文字按钮
+### 文字按钮
 
 <ClientOnly>
 <LSButton link>文字按钮</LSButton>
@@ -221,7 +257,31 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 10. 带自定义图标的按钮
+### 朴素按钮
+
+<ClientOnly>
+<LSButton plain>朴素按钮</LSButton>
+<LSButton type="primary" plain>主要朴素按钮</LSButton>
+<LSButton type="success" plain>成功朴素按钮</LSButton>
+<LSButton type="warning" plain>警告朴素按钮</LSButton>
+<LSButton type="danger" plain>危险朴素按钮</LSButton>
+<LSButton type="info" plain>信息朴素按钮</LSButton>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```html
+<LSButton plain>朴素按钮</LSButton>
+<LSButton type="primary" plain>主要朴素按钮</LSButton>
+<LSButton type="success" plain>成功朴素按钮</LSButton>
+<LSButton type="warning" plain>警告朴素按钮</LSButton>
+<LSButton type="danger" plain>危险朴素按钮</LSButton>
+<LSButton type="info" plain>信息朴素按钮</LSButton>
+```
+
+:::
+
+### 带自定义图标的按钮
 
 <ClientOnly>
 <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">鱼图标</LSButton>
@@ -239,7 +299,55 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 11. 按钮组
+### 带图标插槽的按钮
+
+<ClientOnly>
+<LSButton type="primary">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:settings" color="#fff" width="18" height="18" />
+  </template>
+  设置
+</LSButton>
+<LSButton type="success">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:save" color="#fff" width="18" height="18" />
+  </template>
+  保存
+</LSButton>
+<LSButton type="danger">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:trash" color="#fff" width="18" height="18" />
+  </template>
+  删除
+</LSButton>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```html
+<LSButton type="primary">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:settings" color="#fff" width="18" height="18" />
+  </template>
+  设置
+</LSButton>
+<LSButton type="success">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:save" color="#fff" width="18" height="18" />
+  </template>
+  保存
+</LSButton>
+<LSButton type="danger">
+  <template #icon>
+    <LSIcon :type="1" name="iconoir:trash" color="#fff" width="18" height="18" />
+  </template>
+  删除
+</LSButton>
+```
+
+:::
+
+### 按钮组
 
 <ClientOnly>
 <LSButtonGroup>
@@ -275,7 +383,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 
 :::
 
-### 12. 带分隔符的按钮组
+### 带分隔符的按钮组
 
 <ClientOnly>
 <LSButtonGroup type="primary" separator="|" separator-color="#fff" :separator-size="14">
@@ -309,7 +417,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 
 :::
 
-### 13. 带图标的按钮组
+### 带图标的按钮组
 
 <ClientOnly>
 <LSButtonGroup type="primary">
@@ -335,19 +443,193 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 :::
 
+### 按钮组的嵌套使用
+
+<ClientOnly>
+<LSButtonGroup>
+  <LSButton type="primary">文件</LSButton>
+  <LSButtonGroup>
+    <LSButton type="success">新建</LSButton>
+    <LSButton type="warning">打开</LSButton>
+    <LSButton type="info">保存</LSButton>
+  </LSButtonGroup>
+  <LSButton type="danger">退出</LSButton>
+</LSButtonGroup>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```html
+<LSButtonGroup>
+  <LSButton type="primary">文件</LSButton>
+  <LSButtonGroup>
+    <LSButton type="success">新建</LSButton>
+    <LSButton type="warning">打开</LSButton>
+    <LSButton type="info">保存</LSButton>
+  </LSButtonGroup>
+  <LSButton type="danger">退出</LSButton>
+</LSButtonGroup>
+```
+
+:::
+
+### 响应式按钮
+
+<ClientOnly>
+<div class="responsive-buttons">
+  <LSButton type="primary" class="responsive-btn">提交</LSButton>
+  <LSButton type="success" class="responsive-btn">保存</LSButton>
+  <LSButton type="danger" class="responsive-btn">取消</LSButton>
+</div>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```html
+<div class="responsive-buttons">
+  <LSButton type="primary" class="responsive-btn">提交</LSButton>
+  <LSButton type="success" class="responsive-btn">保存</LSButton>
+  <LSButton type="danger" class="responsive-btn">取消</LSButton>
+</div>
+
+<style scoped>
+.responsive-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.responsive-btn {
+  flex: 1;
+  min-width: 100px;
+}
+
+/* 在小屏幕上调整按钮大小 */
+@media (max-width: 768px) {
+  .responsive-btn {
+    flex: 100%;
+  }
+}
+</style>
+```
+
+:::
+
+### 与其他组件的集成
+
+<ClientOnly>
+<div class="integration-example">
+  <h3>与表单的集成</h3>
+  <div class="form-buttons">
+    <LSButton type="primary">提交</LSButton>
+    <LSButton>重置</LSButton>
+  </div>
+  
+  <h3>与对话框的集成</h3>
+  <div class="dialog-buttons">
+    <LSButton>取消</LSButton>
+    <LSButton type="primary">确认</LSButton>
+  </div>
+  
+  <h3>与卡片的集成</h3>
+  <div class="card-buttons">
+    <LSButton type="success" size="small">编辑</LSButton>
+    <LSButton type="danger" size="small">删除</LSButton>
+  </div>
+</div>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```html
+<div class="integration-example">
+  <h3>与表单的集成</h3>
+  <div class="form-buttons">
+    <LSButton type="primary">提交</LSButton>
+    <LSButton>重置</LSButton>
+  </div>
+  
+  <h3>与对话框的集成</h3>
+  <div class="dialog-buttons">
+    <LSButton>取消</LSButton>
+    <LSButton type="primary">确认</LSButton>
+  </div>
+  
+  <h3>与卡片的集成</h3>
+  <div class="card-buttons">
+    <LSButton type="success" size="small">编辑</LSButton>
+    <LSButton type="danger" size="small">删除</LSButton>
+  </div>
+</div>
+
+<style scoped>
+.integration-example {
+  max-width: 600px;
+}
+
+.integration-example h3 {
+  margin: 20px 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-buttons,
+.dialog-buttons,
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+</style>
+```
+
+:::
+
 ## API
 
-### 1. Button Attributes
+### Button Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="buttonTableData" />
 
-### 2. ButtonGroup Attributes
+#### 属性详细说明
+
+| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
+|-------|------|-------|------|----------|----------|
+| type | string | default | 按钮类型 | 区分不同功能的按钮 | primary / success / warning / danger / info / default |
+| size | string | default | 按钮尺寸 | 适应不同空间的布局 | large / default / small |
+| icon | Component | - | 图标组件 | 在按钮中显示图标 | 仅支持 Element Plus 图标组件 |
+| iconConfig | IconConfigType | - | 图标配置 | 配置更丰富的图标类型 | 支持 Element Plus 图标、iconify、图片和 SVG |
+| loading | boolean | false | 加载状态 | 显示按钮正在处理中 | 设置为 true 时按钮会显示加载动画并禁用 |
+| disabled | boolean | false | 禁用状态 | 禁止用户点击按钮 | 设置为 true 时按钮会变为灰色且不可点击 |
+| round | boolean | false | 圆角按钮 | 创建圆角样式的按钮 | - |
+| circle | boolean | false | 圆形按钮 | 创建圆形样式的按钮 | 通常与图标配合使用 |
+| link | boolean | false | 文字按钮 | 创建文字样式的按钮 | 显示为文字链接形式 |
+| plain | boolean | false | 朴素按钮 | 创建朴素样式的按钮 | 背景透明，仅显示边框和文字 |
+| auto-insert-space | boolean | true | 自动插入空格 | 在文字和图标之间自动插入空格 | - |
+
+### ButtonGroup Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="buttonGroupTableData" />
 
-### 3. Button Events
+#### 属性详细说明
+
+| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
+|-------|------|-------|------|----------|----------|
+| separator | string | - | 按钮之间的分隔符 | 在按钮组中添加分隔符号 | 可以使用任意字符串作为分隔符 |
+| separatorColor | string | #333 | 分隔符颜色 | 自定义分隔符的颜色 | 支持 CSS 颜色值 |
+| separatorSize | string / number | 12 | 分隔符大小 | 自定义分隔符的字体大小 | 单位为像素 |
+
+### Button Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="buttonEventTableData" />
+
+#### 事件详细说明
+
+| 事件名 | 说明 | 参数 | 使用场景 |
+|-------|------|------|----------|
+| click | 点击按钮时触发 | event | 处理按钮的点击操作 |
+| mouseenter | 鼠标进入按钮时触发 | event | 处理鼠标悬停效果 |
+| mouseleave | 鼠标离开按钮时触发 | event | 处理鼠标离开效果 |
 
 <ClientOnly>
 <LSButton type="primary" @click="handleClick">点击我</LSButton>

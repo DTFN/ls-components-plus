@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, useSlots } from 'vue';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsLayoutProp } from './types';
 import Header from './components/Header.vue';

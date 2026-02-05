@@ -4,12 +4,52 @@ outline: deep
 
 # Upload 上传
 
-::: warning 基于el-upload二次封装，保留原属性和方法。
+::: warning 基于el-upload二次封装，保留原属性和方法，提供更多自定义选项和验证功能。
 :::
+
+## 目录
+
+- [功能介绍](#功能介绍)
+- [使用方式](#使用方式)
+  - [普通覆盖上传](#普通覆盖上传)
+  - [普通非覆盖上传](#普通非覆盖上传)
+  - [限制上传文件格式和大小](#限制上传文件格式和大小)
+  - [手动上传](#手动上传)
+  - [拖拽上传](#拖拽上传)
+  - [图片上传](#图片上传)
+  - [表单验证](#表单验证)
+  - [用户头像模式](#用户头像模式)
+  - [自定义上传按钮](#自定义上传按钮)
+  - [带数量限制的上传](#带数量限制的上传)
+  - [带删除确认的上传](#带删除确认的上传)
+  - [带背景图片的上传](#带背景图片的上传)
+  - [多文件上传带预览](#多文件上传带预览)
+  - [带进度条的上传](#带进度条的上传)
+  - [自定义文件列表项](#自定义文件列表项)
+  - [与其他组件的集成](#与其他组件的集成)
+- [API](#api)
+  - [Attributes](#attributes)
+  - [Events](#events)
+  - [Slots](#slots)
+
+## 功能介绍
+
+LSUpload 组件是对 Element Plus Upload 组件的二次封装，提供了以下增强功能：
+
+- 支持文件格式和大小的限制
+- 支持覆盖上传和非覆盖上传模式
+- 支持手动上传和自动上传
+- 支持拖拽上传
+- 支持图片上传和预览
+- 支持表单验证集成
+- 支持用户头像模式
+- 支持自定义上传按钮
+- 支持带数量限制的上传
+- 支持详细的错误提示和回调
 
 ## 使用方式
 
-### 1. 普通覆盖
+### 普通覆盖上传
 
 <br />
 <ClientOnly>
@@ -25,7 +65,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 <LSUpload :action="action"></LSUpload>
 ```
 
-### 2. 普通非覆盖
+### 普通非覆盖上传
 
 <br />
 <ClientOnly>
@@ -44,7 +84,7 @@ const item1 = ref({
 <LSUpload :action="action" :item="item1"></LSUpload>
 ```
 
-### 3. 限制上传文件格式和大小
+### 限制上传文件格式和大小
 
 <br />
 <ClientOnly>
@@ -63,7 +103,7 @@ const item2 = ref({
 <LSUpload :action="action" :item="item2"></LSUpload>
 ```
 
-### 4.手动上传
+### 手动上传
 
 <br />
 <ClientOnly>
@@ -90,7 +130,7 @@ function httpResponseFunc(res) {
 <LSUpload action="#" :auto-upload="false" :item="item3" @http-response-func="httpResponseFunc"></LSUpload>
 ```
 
-### 5.支持拖拽上传
+### 拖拽上传
 
 <br />
 <ClientOnly>
@@ -105,7 +145,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 <LSUpload :action="action" :drag="true"></LSUpload>
 ```
 
-### 6.图片上传
+### 图片上传
 
 <br />
 
@@ -121,7 +161,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 <LSUpload list-type="picture-card" :action="action"> </LSUpload>
 ```
 
-### 7.表单验证
+### 表单验证
 
 <br />
 <!-- <LSForm
@@ -256,7 +296,8 @@ function formValidateFunc() {
 ```
 
 :::
-### 8.用户头像模式
+
+### 用户头像模式
 
 <br />
 <ClientOnly>
@@ -267,24 +308,309 @@ function formValidateFunc() {
 </LSUpload>
 </ClientOnly>
 
-```js
+````js
 const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
 const fileList = ref([{ name: '', url: '' }]);
-```
 
 ```html
 <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
+````
+
+### 自定义上传按钮
+
+<ClientOnly>
+  <LSUpload :action="action">
+    <template #trigger>
+      <LSButton type="primary" icon="Upload">自定义上传按钮</LSButton>
+    </template>
+  </LSUpload>
+</ClientOnly>
+
+```html
+<LSUpload :action="action">
+  <template #trigger>
+    <LSButton type="primary" icon="Upload">自定义上传按钮</LSButton>
+  </template>
+</LSUpload>
+```
+
+### 带数量限制的上传
+
+<ClientOnly>
+  <LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
+</ClientOnly>
+
+```js
+const item6 = ref({
+  hideBtnReachLimit: true,
+  limitNumMsg: '最多只能上传3个文件'
+});
+```
+
+```html
+<LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
+```
+
+### 带删除确认的上传
+
+<ClientOnly>
+  <LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
+</ClientOnly>
+
+```js
+function handleRemove(file, fileList) {
+  return new Promise((resolve, reject) => {
+    if (confirm('确定要删除这个文件吗？')) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
+}
+```
+
+```html
+<LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
+```
+
+### 带背景图片的上传
+
+<ClientOnly>
+  <LSUpload :action="action" :item="item7"></LSUpload>
+</ClientOnly>
+
+```js
+const item7 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
+});
+```
+
+```html
+<LSUpload :action="action" :item="item7"></LSUpload>
+```
+
+### 多文件上传带预览
+
+<ClientOnly>
+  <LSUpload :action="action" multiple list-type="picture-card" :item="item8"></LSUpload>
+</ClientOnly>
+
+```js
+const item8 = ref({
+  hideBtnReachLimit: true,
+  limitNumMsg: '最多只能上传5个文件'
+});
+```
+
+```html
+<LSUpload :action="action" multiple list-type="picture-card" :limit="5" :item="item8"></LSUpload>
+```
+
+### 带进度条的上传
+
+<ClientOnly>
+  <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
+</ClientOnly>
+
+```js
+const item9 = ref({
+  httpRequestFunc: function (formData, uploadProcessObj) {
+    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+      ...uploadProcessObj,
+      onUploadProgress: function (progressEvent) {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log('上传进度:', percentCompleted);
+      }
+    });
+  }
+});
+```
+
+```html
+<LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
+```
+
+### 自定义文件列表项
+
+<ClientOnly>
+  <LSUpload :action="action" multiple :item="item10">
+    <template #file="{ file }">
+      <div class="custom-file-item">
+        <span>{{ file.name }}</span>
+        <el-button size="small" type="danger" @click.stop="handleCustomRemove(file)">
+          删除
+        </el-button>
+      </div>
+    </template>
+  </LSUpload>
+</ClientOnly>
+
+```js
+const item10 = ref({});
+function handleCustomRemove(file) {
+  const index = fileList.value.findIndex(item => item.uid === file.uid);
+  if (index !== -1) {
+    fileList.value.splice(index, 1);
+  }
+}
+```
+
+```html
+<LSUpload :action="action" multiple :item="item10">
+  <template #file="{ file }">
+    <div class="custom-file-item">
+      <span>{{ file.name }}</span>
+      <el-button size="small" type="danger" @click.stop="handleCustomRemove(file)"> 删除 </el-button>
+    </div>
+  </template>
+</LSUpload>
+```
+
+### 与其他组件的集成
+
+<ClientOnly>
+  <el-card shadow="hover" style="width: 400px">
+    <template #header>
+      <div class="card-header">
+        <span>文件上传示例</span>
+      </div>
+    </template>
+    <LSUpload :action="action" :item="item11">
+      <template #trigger>
+        <el-button type="primary" icon="el-icon-upload">
+          选择文件
+        </el-button>
+      </template>
+      <template #tip>
+        <el-alert
+          title="提示"
+          type="info"
+          :closable="false"
+          show-icon
+        >
+          请上传PDF、Word或Excel文件
+        </el-alert>
+      </template>
+    </LSUpload>
+  </el-card>
+</ClientOnly>
+
+```js
+const item11 = ref({
+  limitFile: ['pdf', 'docx', 'xlsx'],
+  limitFileMsg: '只能上传PDF、Word或Excel文件',
+  limitSize: 5,
+  limitSizeMsg: '文件大小不能超过5MB'
+});
+```
+
+```html
+<el-card shadow="hover" style="width: 400px">
+  <template #header>
+    <div class="card-header">
+      <span>文件上传示例</span>
+    </div>
+  </template>
+  <LSUpload :action="action" :item="item11">
+    <template #trigger>
+      <el-button type="primary" icon="el-icon-upload"> 选择文件 </el-button>
+    </template>
+    <template #tip>
+      <el-alert title="提示" type="info" :closable="false" show-icon> 请上传PDF、Word或Excel文件 </el-alert>
+    </template>
+  </LSUpload>
+</el-card>
+```
+
+### 拖拽上传带背景图片
+
+<ClientOnly>
+  <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
+</ClientOnly>
+
+```js
+const item12 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
+  tipContent: '点击或拖拽文件到此处上传'
+});
+```
+
+```html
+<LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
+```
+
+### 图片上传带背景
+
+<ClientOnly>
+  <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
+</ClientOnly>
+
+```js
+const item13 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
+  profile: true,
+  defProfile:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
+});
+```
+
+```html
+<LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
 ```
 
 ## API
 
-### 1. Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
+### Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. Methods，通过emit抛出的可使用方法
+#### 属性详细说明
+
+| 属性名            | 类型     | 默认值 | 说明                            | 使用场景                       | 注意事项                       |
+| ----------------- | -------- | ------ | ------------------------------- | ------------------------------ | ------------------------------ |
+| isCover           | boolean  | true   | 是否覆盖上传                    | 控制是否覆盖已上传的文件       | 为true时，multiple不能设置true |
+| limitFile         | array    | []     | 文件格式限制                    | 限制上传文件的格式             | 例如 ['png', 'docx']           |
+| limitFileMsg      | string   | -      | 文件格式限制提示                | 自定义文件格式错误提示信息     | -                              |
+| limitSize         | number   | 2      | 文件大小限制                    | 限制上传文件的大小             | 以MB为单位                     |
+| limitUnit         | string   | MB     | 文件大小限制单位                | 自定义文件大小限制的单位       | 支持 GB/MB/KB                  |
+| limitSizeMsg      | string   | -      | 文件大小限制提示                | 自定义文件大小错误提示信息     | -                              |
+| limitNumMsg       | string   | -      | 文件个数限制提示                | 自定义文件个数错误提示信息     | multiple为true时生效           |
+| limitAllFail      | boolean  | false  | 是否限制所有文件上传失败        | 控制达到限制时是否阻止所有上传 | multiple为true时生效           |
+| httpRequestFunc   | function | -      | 覆盖默认上传方法                | 自定义上传逻辑                 | 常用于手动上传                 |
+| formRuleFunc      | function | -      | 表单规则方法                    | 传递表单验证规则               | 用于表单验证集成               |
+| formValidateFunc  | function | -      | 表单验证回调方法                | 触发表单验证                   | 用于表单验证集成               |
+| isToast           | boolean  | true   | 异常场景是否弹出toast提示       | 控制是否显示错误提示           | -                              |
+| emptyFileMsg      | string   | -      | 上传空文件提示信息              | 自定义空文件错误提示信息       | -                              |
+| profile           | boolean  | false  | 用户头像模式                    | 启用头像上传模式               | -                              |
+| defProfile        | string   | -      | 默认展示的头像图片              | 设置默认头像                   | profile为true时生效            |
+| hideCoverBtn      | boolean  | false  | 覆盖上传后是否隐藏上传按钮      | 控制上传后是否隐藏按钮         | 适用图片模式                   |
+| tipContent        | string   | -      | tip提示                         | 自定义提示信息                 | -                              |
+| hideBtnReachLimit | boolean  | false  | 达到limit限制时是否隐藏上传按钮 | 控制达到限制时是否隐藏按钮     | 适用图片模式                   |
+
+### Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
+
+#### 事件详细说明
+
+| 事件名             | 说明             | 参数        | 使用场景                         |
+| ------------------ | ---------------- | ----------- | -------------------------------- |
+| upload-error-func  | 上传错误回调     | msg         | 获取上传过程中的错误信息         |
+| on-change-func     | 文件更新上传回调 | file        | 文件更新时触发，增加blob返回数据 |
+| http-response-func | 覆盖上传方法回调 | data        | 手动上传时获取接口调用结果       |
+| on-handle-cropper  | 图片裁剪回调     | file, index | 图片裁剪时触发                   |
+
+### Slots
+
+| 插槽名  | 说明               | 使用场景                 |
+| ------- | ------------------ | ------------------------ |
+| trigger | 触发上传的元素     | 自定义上传按钮           |
+| default | 上传按钮旁边的元素 | 自定义上传按钮旁边的内容 |
+| tip     | 上传提示信息       | 自定义上传提示           |
+| file    | 文件列表项         | 自定义文件列表项的内容   |
 
 <script setup>
   import { ref } from 'vue';
@@ -309,15 +635,68 @@ const fileList = ref([{ name: '', url: '' }]);
     textPreview: ['pdf', 'xlsx'],
   })
   const item5 = ref({ profile: true })
-  function httpResponseFunc(res) {
-    const {
-      data: { code, data }
-    } = res;
-    console.log('httpResponseFunc', code, data);
+const item6 = ref({
+  hideBtnReachLimit: true,
+  limitNumMsg: '最多只能上传3个文件'
+});
+const item7 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
+});
+const item8 = ref({
+  hideBtnReachLimit: true,
+  limitNumMsg: '最多只能上传5个文件'
+});
+const item9 = ref({
+  httpRequestFunc: function (formData, uploadProcessObj) {
+    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+      ...uploadProcessObj,
+      onUploadProgress: function (progressEvent) {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log('上传进度:', percentCompleted);
+      }
+    });
   }
-  const fileList = ref([
-    {name:'', url: ''}
-  ])
+});
+const item10 = ref({});
+const item11 = ref({
+  limitFile: ['pdf', 'docx', 'xlsx'],
+  limitFileMsg: '只能上传PDF、Word或Excel文件',
+  limitSize: 5,
+  limitSizeMsg: '文件大小不能超过5MB'
+});
+const item12 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
+  tipContent: '点击或拖拽文件到此处上传'
+});
+const item13 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
+  profile: true,
+  defProfile: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
+});
+function httpResponseFunc(res) {
+  const {
+    data: { code, data }
+  } = res;
+  console.log('httpResponseFunc', code, data);
+}
+function handleRemove(file, fileList) {
+  return new Promise((resolve, reject) => {
+    if (confirm('确定要删除这个文件吗？')) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
+}
+function handleCustomRemove(file) {
+  const index = fileList.value.findIndex(item => item.uid === file.uid);
+  if (index !== -1) {
+    fileList.value.splice(index, 1);
+  }
+}
+const fileList = ref([
+  {name:'', url: ''}
+])
 
   const ruleFormRef = ref();
   const ruleForm = ref({
