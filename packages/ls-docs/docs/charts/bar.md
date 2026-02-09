@@ -87,7 +87,12 @@ const customOptionSimple = ref({
 ```
 
 ```html
-<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchSimple" :custom-option="customOptionSimple" />
+<LSChart
+  template="bar"
+  :data="dataSimple"
+  :template-patch="templateAll.templatePatchSimple"
+  :custom-option="customOptionSimple"
+/>
 ```
 
 :::
@@ -217,6 +222,21 @@ const dataCategory = {
     }
   ]
 };
+
+// 两系列数据（用于案例8）
+const dataTwoSeries = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    }
+  ]
+};
 const templateAll = ref({
   templatePatchCategory: {
     type: 'categoryStack',
@@ -262,31 +282,6 @@ const dataMultiBar = {
     }
   ]
 };
-
-// 堆叠柱状图数据
-const dataStackedBar = {
-  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-  seriesData: [
-    {
-      name: '直接访问',
-      data: [320, 302, 301, 334, 390, 330, 320]
-    },
-    {
-      name: '邮件营销',
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: '联盟广告',
-      data: [220, 182, 191, 234, 290, 330, 310]
-    }
-  ]
-};
-
-// 水平柱状图数据
-const dataHorizontalBar = {
-  axisData: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-  seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
 const templateAll = ref({
   templatePatchMultiBar: {
     type: 'multiBar',
@@ -304,49 +299,7 @@ const templateAll = ref({
 
 :::
 
-### 6. templatePatchStackedBar
-
-<ClientOnly>
-<LSChart template="bar" :data="dataStackedBar" :template-patch="templateAll.templatePatchStackedBar" />
-</ClientOnly>
-
-::: details 点我查看代码
-
-```js
-const dataStackedBar = {
-  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-  seriesData: [
-    {
-      name: '直接访问',
-      data: [320, 302, 301, 334, 390, 330, 320]
-    },
-    {
-      name: '邮件营销',
-      data: [120, 132, 101, 134, 90, 230, 210]
-    },
-    {
-      name: '联盟广告',
-      data: [220, 182, 191, 234, 290, 330, 310]
-    }
-  ]
-};
-const templateAll = ref({
-  templatePatchStackedBar: {
-    type: 'categoryStack',
-    tooltip: 'shadow',
-    legend: ['直接访问', '邮件营销', '联盟广告'],
-    labelPosition: 'inside'
-  }
-});
-```
-
-```html
-<LSChart template="bar" :data="dataStackedBar" :template-patch="templateAll.templatePatchStackedBar" />
-```
-
-:::
-
-### 7. templatePatchHorizontalBar
+### 6. templatePatchHorizontalBar
 
 <ClientOnly>
 <LSChart template="bar" :data="dataHorizontalBar" :template-patch="templateAll.templatePatchHorizontalBar" />
@@ -363,13 +316,121 @@ const templateAll = ref({
   templatePatchHorizontalBar: {
     axis: 'y',
     labelPosition: 'right',
-    showBackground: true
+    showBackground: true,
+    showBarFont: true
   }
 });
 ```
 
 ```html
 <LSChart template="bar" :data="dataHorizontalBar" :template-patch="templateAll.templatePatchHorizontalBar" />
+```
+
+:::
+
+### 7. templatePatchCustomColor
+
+<ClientOnly>
+<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchCustomColor" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataSimple = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+const templateAll = ref({
+  templatePatchCustomColor: {
+    labelPosition: 'top',
+    showBackground: true,
+    barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88']
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataSimple" :template-patch="templateAll.templatePatchCustomColor" />
+```
+
+:::
+
+### 8. templatePatchDifferentLegendIcon
+
+<ClientOnly>
+<LSChart template="bar" :data="dataTwoSeries" :template-patch="templateAll.templatePatchDifferentLegendIcon" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataTwoSeries = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    }
+  ]
+};
+const templateAll = ref({
+  templatePatchDifferentLegendIcon: {
+    type: 'categoryStack',
+    tooltip: 'shadow',
+    legend: ['直接访问', '邮件营销'],
+    legendIcon: 'circle',
+    showBarFont: true,
+    labelPosition: 'inside'
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataTwoSeries" :template-patch="templateAll.templatePatchDifferentLegendIcon" />
+```
+
+:::
+
+### 9. templatePatchVerticalDataZoom
+
+<ClientOnly>
+<LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchVerticalDataZoom" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataMultiBar = {
+  axisData: ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'],
+  seriesData: [
+    {
+      name: 'Forest',
+      data: [320, 332, 301, 334, 390, 330, 320, 350, 380, 400]
+    },
+    {
+      name: 'Steppe',
+      data: [220, 182, 191, 234, 290, 330, 310, 280, 250, 220]
+    }
+  ]
+};
+const templateAll = ref({
+  templatePatchVerticalDataZoom: {
+    type: 'multiBar',
+    tooltip: 'cross',
+    dataZoom: 'vertical',
+    labelPosition: 'top',
+    legend: ['Forest', 'Steppe']
+  }
+});
+```
+
+```html
+<LSChart template="bar" :data="dataMultiBar" :template-patch="templateAll.templatePatchVerticalDataZoom" />
 ```
 
 :::
@@ -407,7 +468,7 @@ const themeOptions = ref([
   }
 ]);
 
-const customOptionSimple = {
+const customOptionSimple = ref({
   xAxis: [
     {
       axisLabel: {
@@ -425,7 +486,7 @@ const customOptionSimple = {
       }
     }
   ]
-}
+})
 
 // 柱状图
 const templateAll = ref({
@@ -433,6 +494,7 @@ const templateAll = ref({
     labelPosition: 'top',
     showBackground: true,
     showBarFont: false,
+    dynamicAxis: true,
     tooltipValueFormatter: (value, dataIndex) => {
       return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
     },
@@ -442,6 +504,8 @@ const templateAll = ref({
     type: 'negative',
     tooltip: 'shadow',
     legend: ['收入', '支出'],
+    legendIcon: 'circle',
+    dynamicAxis: true,
     seriesLabelFormatter: params => {
       return Math.round(params.value) / 100 + '%';
     }
@@ -450,38 +514,57 @@ const templateAll = ref({
     type: 'waterfall',
     tooltip: 'shadow',
     labelPosition: 'both',
-    legend: ['收入', '支出']
+    legend: ['收入', '支出'],
+    showBarFont: true
   },
   templatePatchCategory: {
     type: 'categoryStack',
     tooltip: 'shadow',
-    legend: ['直接访问', '邮件营销', '联盟广告', '视频广告']
+    legend: ['直接访问', '邮件营销', '联盟广告', '视频广告'],
+    showBarFont: true
   },
   templatePatchMultiBar: {
     type: 'multiBar',
     tooltip: 'cross',
     dataZoom: 'horizontal',
     labelPosition: 'top',
-    legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
-  },
-  templatePatchStackedBar: {
-    type: 'categoryStack',
-    tooltip: 'shadow',
-    legend: ['直接访问', '邮件营销', '联盟广告'],
-    labelPosition: 'inside'
+    legend: ['Forest', 'Steppe', 'Desert', 'Wetland'],
+    dynamicAxis: true,
+    showBarFont: true
   },
   templatePatchHorizontalBar: {
     axis: 'y',
     labelPosition: 'right',
-    showBackground: true
+    showBackground: true,
+    showBarFont: true
+  },
+  templatePatchCustomColor: {
+    labelPosition: 'top',
+    showBackground: true,
+    barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88'],
+    showBarFont: true
+  },
+  templatePatchDifferentLegendIcon: {
+    type: 'categoryStack',
+    tooltip: 'shadow',
+    legend: ['直接访问', '邮件营销'],
+    legendIcon: 'circle',
+    showBarFont: true,
+    labelPosition: 'inside'
+  },
+  templatePatchVerticalDataZoom: {
+    type: 'multiBar',
+    tooltip: 'cross',
+    dataZoom: 'vertical',
+    labelPosition: 'top',
+    legend: ['Forest', 'Steppe'],
+    showBarFont: true
   }
 });
 
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  // seriesData: [120, 200, 150, 80, 70, 110, 0]
-
-  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, 120.2]
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null]
 };
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
@@ -556,6 +639,46 @@ const dataMultiBar = {
   ]
 };
 
+// 堆叠柱状图数据
+const dataStackedBar = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: '联盟广告',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    }
+  ]
+};
+
+// 水平柱状图数据
+const dataHorizontalBar = {
+  axisData: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+
+// 两系列数据（用于案例8）
+const dataTwoSeries = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '直接访问',
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '邮件营销',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    }
+  ]
+};
+
 function changeChartStyle() {
   [
     'templatePatchSimple',
@@ -563,13 +686,72 @@ function changeChartStyle() {
     'templatePatchWaterfall',
     'templatePatchCategory',
     'templatePatchMultiBar',
-    'templatePatchStackedBar',
-    'templatePatchHorizontalBar'
+    'templatePatchCustomColor',
+    'templatePatchDifferentLegendIcon'
   ].forEach((item) => {
     templateAll.value[item].theme = formInline.value.themeModel;
     templateAll.value[item].axis = formInline.value.axis;
     templateAll.value[item].labelPosition = formInline.value.pos;
   });
+  
+  // 保持templatePatchHorizontalBar的水平显示特性
+  if (templateAll.value.templatePatchHorizontalBar) {
+    templateAll.value.templatePatchHorizontalBar.theme = formInline.value.themeModel;
+    templateAll.value.templatePatchHorizontalBar.labelPosition = formInline.value.pos;
+    // 不更新axis，保持为'y'以维持水平显示
+  }
+  
+  // 保持templatePatchVerticalDataZoom的垂直缩放特性
+  if (templateAll.value.templatePatchVerticalDataZoom) {
+    templateAll.value.templatePatchVerticalDataZoom.theme = formInline.value.themeModel;
+    templateAll.value.templatePatchVerticalDataZoom.axis = formInline.value.axis;
+    templateAll.value.templatePatchVerticalDataZoom.labelPosition = formInline.value.pos;
+  }
+  
+  // 更新customOptionSimple以适应坐标轴变化
+  if (formInline.value.axis === 'y') {
+    customOptionSimple.value = {
+      xAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} °C'
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'category',
+          axisLabel: {
+            rotate: 0,
+            align: 'right',
+            margin: 8
+          }
+        }
+      ]
+    };
+  } else {
+    customOptionSimple.value = {
+      xAxis: [
+        {
+          type: 'category',
+          axisLabel: {
+            rotate: 45,
+            align: 'center',
+            margin: 24
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} °C'
+          }
+        }
+      ]
+    };
+  }
 }
 
 const tableData = ref([
