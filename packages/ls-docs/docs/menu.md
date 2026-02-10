@@ -9,9 +9,11 @@ outline: deep
 
 ## 使用方式
 
-### 1.router模式
+### 1. 基本路由模式
 
+<ClientOnly>
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
+</ClientOnly>
 
 ::: details 点我查看代码
 
@@ -72,46 +74,6 @@ const MENU_CONFIG_LIST = [
         key: '2-3',
         cpoPath: 'prodManager/fishCategory/Index',
         pCode: 'c23'
-      },
-      {
-        title: '养殖区域可视化',
-        name: 'AreaView',
-        path: 'area-view',
-        key: '2-4',
-        cpoPath: 'pondManager/AreaView',
-        pCode: 'c24'
-      },
-      {
-        title: '养殖周期管理',
-        name: 'CycleManager',
-        path: 'cycle-manager',
-        key: '2-5',
-        cpoPath: 'pondManager/cycle/CycleManager',
-        pCode: 'c25',
-        leaf: true,
-        children: [
-          {
-            title: '历史周期',
-            name: 'HistoryCycle',
-            path: 'history-cycle',
-            key: '2-5',
-            cpoPath: 'pondManager/cycle/HistoryCycle',
-            pCode: 'c25',
-            leaf: true,
-            hideMenu: true,
-            children: [
-              {
-                title: '历史周期查看',
-                name: 'HistoryCycleDetail',
-                path: 'history-cycle-detail',
-                key: '2-5',
-                cpoPath: 'pondManager/cycle/HistoryCycleDetail',
-                pCode: 'c25',
-                hideMenu: true
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -122,36 +84,7 @@ const MENU_CONFIG_LIST = [
     key: '8',
     cpoPath: 'planManager/Index',
     pCode: 'c7',
-    leaf: true,
-    children: [
-      {
-        title: '新增规划',
-        name: 'AddPlan',
-        path: 'add-plan',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      },
-      {
-        title: '编辑规划',
-        name: 'EditPlan',
-        path: 'edit-plan',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      },
-      {
-        title: '规划详情',
-        name: 'PlanDetail',
-        path: 'plan-detail',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      }
-    ]
+    leaf: true
   }
 ];
 ```
@@ -161,8 +94,9 @@ const MENU_CONFIG_LIST = [
 ```
 :::
 
-### 2.自定义事件
+### 2. 自定义点击事件
 
+<ClientOnly>
 <div style="position: relative">
   <LSMenu
     :menu-config-list="MENU_CONFIG_LIST2"
@@ -180,10 +114,12 @@ const MENU_CONFIG_LIST = [
     <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
   </ul>
 </div>
+</ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
+import { ref } from 'vue';
 
 const MENU_CONFIG_LIST2 = [
   {
@@ -228,13 +164,12 @@ function defineChildClickFunc(item) {
   blockIndex.value = key?.split('-')[0] - 1;
   defaultActive.value = key;
 }
-
 ```
-```html
 
+```html
 <div style="position: relative">
   <LSMenu
-    :menu-config-list="MENU_CONFIG_LIST"
+    :menu-config-list="MENU_CONFIG_LIST2"
     style="max-width: 200px"
     :collapse="false"
     :is-define-click="true"
@@ -249,10 +184,9 @@ function defineChildClickFunc(item) {
     <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
   </ul>
 </div>
-
 ```
-```scss
 
+```scss
 .block-list {
   position: absolute;
   top: 20px;
@@ -273,12 +207,274 @@ function defineChildClickFunc(item) {
     }
   }
 }
-
 ```
+
 :::
 
+### 3. 带权限控制的菜单
 
-## 创建路由数据
+<ClientOnly>
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST" 
+  :need-permission="true"
+  :permission-list="['c1', 'c2', 'c21', 'c22']"
+  class="menu-wrap" 
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 权限列表只包含 c1, c2, c21, c22
+const permissionList = ['c1', 'c2', 'c21', 'c22'];
+```
+
+```html
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST" 
+  :need-permission="true"
+  :permission-list="permissionList"
+  class="menu-wrap" 
+/>
+```
+
+:::
+
+### 4. 带自定义字体大小的菜单
+
+<ClientOnly>
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST3" 
+  :font-size="16"
+  class="menu-wrap" 
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const MENU_CONFIG_LIST3 = [
+  {
+    title: '首页',
+    name: 'Home',
+    path: 'home',
+    iconConfig: { name: 'House', size: 18 },
+    key: '1'
+  },
+  {
+    title: '设置',
+    name: 'Settings',
+    path: 'settings',
+    key: '2',
+    children: [
+      {
+        title: '用户设置',
+        name: 'UserSettings',
+        path: 'user-settings',
+        key: '2-1'
+      },
+      {
+        title: '系统设置',
+        name: 'SystemSettings',
+        path: 'system-settings',
+        key: '2-2'
+      }
+    ]
+  }
+];
+```
+
+```html
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST3" 
+  :font-size="16"
+  class="menu-wrap" 
+/>
+```
+
+:::
+
+### 5. 禁用 Tooltip 的菜单
+
+<ClientOnly>
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST3" 
+  :show-tooltip="false"
+  class="menu-wrap" 
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```html
+<LSMenu 
+  :menu-config-list="MENU_CONFIG_LIST3" 
+  :show-tooltip="false"
+  class="menu-wrap" 
+/>
+```
+
+:::
+
+### 6. 带自定义图标的菜单
+
+<ClientOnly>
+<LSMenu :menu-config-list="MENU_CONFIG_LIST4" class="menu-wrap">
+  <template #custom-icon>
+    <el-icon><Setting /></el-icon>
+  </template>
+</LSMenu>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const MENU_CONFIG_LIST4 = [
+  {
+    title: '首页',
+    name: 'Home',
+    path: 'home',
+    iconConfig: { name: 'House' },
+    key: '1'
+  },
+  {
+    title: '设置',
+    name: 'Settings',
+    path: 'settings',
+    key: '2',
+    iconSlot: 'custom-icon',
+    children: [
+      {
+        title: '用户设置',
+        name: 'UserSettings',
+        path: 'user-settings',
+        key: '2-1'
+      }
+    ]
+  }
+];
+```
+
+```html
+<LSMenu :menu-config-list="MENU_CONFIG_LIST4" class="menu-wrap">
+  <template #custom-icon>
+    <el-icon><Setting /></el-icon>
+  </template>
+</LSMenu>
+```
+
+:::
+
+## 菜单配置详解
+
+### 1. 基本配置
+
+```js
+const menuItem = {
+  // 菜单标题
+  title: '菜单名称',
+  
+  // 路由名称（用于路由跳转）
+  name: 'RouteName',
+  
+  // 路由路径
+  path: 'route-path',
+  
+  // 菜单唯一标识
+  key: 'menu-key',
+  
+  // 组件路径（用于动态路由生成）
+  cpoPath: 'view/component/path',
+  
+  // 权限编码
+  pCode: 'permission-code'
+};
+```
+
+### 2. 图标配置
+
+```js
+// 使用内置图标
+const menuWithIcon = {
+  title: '菜单名称',
+  iconConfig: {
+    name: 'House', // 图标名称
+    color: '#409EFF', // 图标颜色
+    size: 16 // 图标大小
+  }
+};
+
+// 使用自定义图标插槽
+const menuWithCustomIcon = {
+  title: '菜单名称',
+  iconSlot: 'custom-icon' // 插槽名称
+};
+```
+
+### 3. 子菜单配置
+
+```js
+const menuWithChildren = {
+  title: '父菜单',
+  key: 'parent-key',
+  children: [
+    {
+      title: '子菜单1',
+      key: 'child-key-1'
+    },
+    {
+      title: '子菜单2',
+      key: 'child-key-2'
+    }
+  ]
+};
+```
+
+### 4. 外链配置
+
+```js
+const menuWithLink = {
+  title: '外部链接',
+  link: 'https://www.example.com' // 配置后会在新窗口打开
+};
+```
+
+### 5. 权限控制
+
+```js
+const menuWithPermission = {
+  title: '需要权限的菜单',
+  pCode: 'admin-only' // 权限编码
+};
+
+// 在组件中使用
+<LSMenu 
+  :menu-config-list="menuList"
+  :need-permission="true"
+  :permission-list="['admin-only']"
+/>
+```
+
+### 6. 特殊配置
+
+```js
+const specialMenu = {
+  title: '特殊菜单',
+  
+  // 是否为叶子菜单（子菜单不显示）
+  leaf: true,
+  
+  // 是否隐藏菜单
+  hideMenu: false,
+  
+  // 是否自定义跳转处理
+  defJump: true
+};
+```
+
+## 路由生成与管理
+
+### 1. 动态生成路由
 
 ::: warning 通过以下方式动态创建路由，适用带权限控制项目
 :::
@@ -296,7 +492,7 @@ router.addRoute({
   name: 'Layout',
   path: '/',
   component: () => import('@/views/Layout.vue'),
-  redirect: menus[0].path,
+  redirect: menus[0]?.path,
   children: []
 });
 (menus || []).forEach((item: any) => {
@@ -325,27 +521,134 @@ if (location.pathname == '/') {
 }
 ```
 
+### 2. 路由跳转
+
+LSMenu 组件支持多种跳转方式：
+
+1. **路由跳转**：配置 `name` 或 `path` 属性
+2. **外链跳转**：配置 `link` 属性，会在新窗口打开
+3. **自定义跳转**：配置 `defJump: true` 并监听 `onJump` 事件
+
 ## API
 
-### 1. Attributes
+### Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 1.1 menuConfigList
+### Menu Item Attributes
+
+::: warning 默认路由meta中bcList配置参数与之一致
+:::
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-### 2. Methods，通过emit抛出的可使用方法
+### Events
 
-<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
+<ApiIntro :tableColumn="eventTableColumn" :tableData="tableData3" />
 
-### 3. slots
+### Slots
 
-<ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData4" />
+<ApiIntro :tableColumn="slotTableColumn" :tableData="tableData4" />
+
+## 最佳实践
+
+### 1. 菜单配置管理
+
+建议将菜单配置集中管理，便于维护和权限控制：
+
+```js
+// src/config/menu.ts
+export const MENU_CONFIG = [
+  // 菜单配置
+];
+
+// 在组件中使用
+import { MENU_CONFIG } from '@/config/menu';
+
+<LSMenu :menu-config-list="MENU_CONFIG" />
+```
+
+### 2. 权限控制
+
+结合后端返回的权限列表，动态控制菜单显示：
+
+```js
+// 从后端获取权限列表
+const permissionList = ref([]);
+
+// 登录后获取权限
+async function login() {
+  const res = await api.login(credentials);
+  permissionList.value = res.data.permissions;
+}
+
+// 在菜单中使用
+<LSMenu 
+  :menu-config-list="MENU_CONFIG"
+  :need-permission="true"
+  :permission-list="permissionList"
+/>
+```
+
+### 3. 国际化支持
+
+对于多语言应用，可以结合 i18n 使用：
+
+```js
+const MENU_CONFIG = [
+  {
+    title: 'home', // 使用 i18n key
+    name: 'Home',
+    path: 'home'
+  }
+];
+
+// 在组件中使用
+<template>
+  <LSMenu :menu-config-list="localizedMenu" />
+</template>
+
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const localizedMenu = computed(() => {
+  return MENU_CONFIG.map(item => ({
+    ...item,
+    title: t(item.title)
+  }));
+});
+</script>
+```
+
+### 4. 响应式菜单
+
+结合媒体查询和状态管理，实现响应式菜单：
+
+```js
+const isCollapse = ref(false);
+
+// 监听窗口大小变化
+function handleResize() {
+  isCollapse.value = window.innerWidth < 768;
+}
+
+window.addEventListener('resize', handleResize);
+```
+
+```html
+<LSMenu 
+  :menu-config-list="MENU_CONFIG"
+  :collapse="isCollapse"
+/>
+```
 
 <script setup>
 import { ref } from 'vue';
 import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant';
+import { Setting } from '@element-plus/icons-vue';
 
 const MENU_CONFIG_LIST = [
   {
@@ -401,46 +704,6 @@ const MENU_CONFIG_LIST = [
         key: '2-3',
         cpoPath: 'prodManager/fishCategory/Index',
         pCode: 'c23'
-      },
-      {
-        title: '养殖区域可视化',
-        name: 'AreaView',
-        path: 'area-view',
-        key: '2-4',
-        cpoPath: 'pondManager/AreaView',
-        pCode: 'c24'
-      },
-      {
-        title: '养殖周期管理',
-        name: 'CycleManager',
-        path: 'cycle-manager',
-        key: '2-5',
-        cpoPath: 'pondManager/cycle/CycleManager',
-        pCode: 'c25',
-        leaf: true,
-        children: [
-          {
-            title: '历史周期',
-            name: 'HistoryCycle',
-            path: 'history-cycle',
-            key: '2-5',
-            cpoPath: 'pondManager/cycle/HistoryCycle',
-            pCode: 'c25',
-            leaf: true,
-            hideMenu: true,
-            children: [
-              {
-                title: '历史周期查看',
-                name: 'HistoryCycleDetail',
-                path: 'history-cycle-detail',
-                key: '2-5',
-                cpoPath: 'pondManager/cycle/HistoryCycleDetail',
-                pCode: 'c25',
-                hideMenu: true
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -451,36 +714,7 @@ const MENU_CONFIG_LIST = [
     key: '8',
     cpoPath: 'planManager/Index',
     pCode: 'c7',
-    leaf: true,
-    children: [
-      {
-        title: '新增规划',
-        name: 'AddPlan',
-        path: 'add-plan',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      },
-      {
-        title: '编辑规划',
-        name: 'EditPlan',
-        path: 'edit-plan',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      },
-      {
-        title: '规划详情',
-        name: 'PlanDetail',
-        path: 'plan-detail',
-        key: '8',
-        cpoPath: 'planManager/Edit',
-        pCode: 'c7',
-        hideMenu: true
-      }
-    ]
+    leaf: true
   }
 ];
 
@@ -504,6 +738,61 @@ const MENU_CONFIG_LIST2 = [
       {
         title: '养殖品种',
         key: '2-3'
+      }
+    ]
+  }
+];
+
+const MENU_CONFIG_LIST3 = [
+  {
+    title: '首页',
+    name: 'Home',
+    path: 'home',
+    iconConfig: { name: 'House', size: 18 },
+    key: '1'
+  },
+  {
+    title: '设置',
+    name: 'Settings',
+    path: 'settings',
+    key: '2',
+    children: [
+      {
+        title: '用户设置',
+        name: 'UserSettings',
+        path: 'user-settings',
+        key: '2-1'
+      },
+      {
+        title: '系统设置',
+        name: 'SystemSettings',
+        path: 'system-settings',
+        key: '2-2'
+      }
+    ]
+  }
+];
+
+const MENU_CONFIG_LIST4 = [
+  {
+    title: '首页',
+    name: 'Home',
+    path: 'home',
+    iconConfig: { name: 'House' },
+    key: '1'
+  },
+  {
+    title: '设置',
+    name: 'Settings',
+    path: 'settings',
+    key: '2',
+    iconSlot: 'custom-icon',
+    children: [
+      {
+        title: '用户设置',
+        name: 'UserSettings',
+        path: 'user-settings',
+        key: '2-1'
       }
     ]
   }
@@ -533,20 +822,20 @@ const tableData = ref([
   {
     name: 'menuConfigList',
     desc: '菜单配置列表',
-    type: 'array<MenuBaseType>',
-    value: '-'
+    type: 'Array<MenuBaseType>',
+    value: '[]'
   },
   {
     name: 'needPermission',
     desc: '是否需要权限',
     type: 'boolean',
-    value: false
+    value: 'false'
   },
   {
     name: 'permissionList',
     desc: '权限列表，内部存放code码，当needPermission为true时生效',
-    type: 'array<string|number>',
-    value: '-'
+    type: 'Array<string|number>',
+    value: '[]'
   },
   {
     name: 'hoverColor',
@@ -558,13 +847,19 @@ const tableData = ref([
     name: 'isDefineClick',
     desc: '菜单点击是否自定义',
     type: 'boolean',
-    value: false
+    value: 'false'
   },
   {
     name: 'showTooltip',
-    desc: '鼠标移入子菜单时是否显示tooltip',
+    desc: '鼠标移入菜单项时是否显示tooltip',
     type: 'boolean',
-    value: true
+    value: 'true'
+  },
+  {
+    name: 'fontSize',
+    desc: '菜单字体大小',
+    type: 'number',
+    value: '14'
   }
 ])
 
@@ -590,7 +885,7 @@ const tableData2 = ref([
   {
     name: 'iconConfig',
     desc: '菜单名称前面的图标配置，具体配置参考LSIcon',
-    type: 'json',
+    type: 'object',
     value: '-'
   },
   {
@@ -606,9 +901,9 @@ const tableData2 = ref([
     value: '-'
   },
   {
-    name:'pCode',
+    name: 'pCode',
     desc: '权限code',
-    type: 'string',
+    type: 'string|number',
     value: '-'
   },
   {
@@ -619,7 +914,7 @@ const tableData2 = ref([
   },
   {
     name: 'leaf',
-    desc: '是否为叶子菜单，如果是叶子菜单，那么改菜单下的children菜单配置不显示',
+    desc: '是否为叶子菜单，如果是叶子菜单，那么该菜单下的children菜单配置不显示',
     type: 'boolean',
     value: 'false'
   },
@@ -632,43 +927,72 @@ const tableData2 = ref([
   {
     name: 'children',
     desc: '子菜单配置',
-    type: 'array',
-    value: '-'
+    type: 'Array<MenuBaseType>',
+    value: '[]'
   },
   {
     name: 'defJump',
     desc: '菜单点击自定义处理',
     type: 'boolean',
-    value: false
+    value: 'false'
   },
   {
     name: 'iconSlot',
     desc: '菜单栏左边icon插槽名',
     type: 'string',
     value: '-'
+  },
+  {
+    name: 'meta',
+    desc: '路由元信息',
+    type: 'object',
+    value: '{}'
   }
 ])
+
+const eventTableColumn = ref([
+  {
+    prop: 'name',
+    label: '事件名'
+  },
+  {
+    prop: 'desc',
+    label: '说明'
+  },
+  {
+    prop: 'params',
+    label: '参数'
+  }
+]);
 
 const tableData3 = ref([
   {
     name: 'onJump',
     desc: '点击菜单自定义处理方法，defJump为true生效',
-    type: 'function',
-    value: 'value'
+    params: 'item: MenuBaseType'
   },
   {
     name: 'defineSubClick',
-    desc: '点击subItem菜单回调方法，isDefineClick为true生效',
-    type: 'function',
-    value: 'value'
+    desc: '点击子菜单标题回调方法，isDefineClick为true生效',
+    params: 'item: MenuBaseType'
   },
   {
     name: 'defineChildClick',
-    desc: '点击childItem菜单回调方法，isDefineClick为true生效',
-    type: 'function',
-    value: 'value'
+    desc: '点击子菜单项回调方法，isDefineClick为true生效',
+    params: 'item: MenuBaseType'
   }
 ])
+
+const slotTableColumn = ref([
+  {
+    prop: 'name',
+    label: '插槽名'
+  },
+  {
+    prop: 'desc',
+    label: '说明'
+  }
+]);
 
 const tableData4 = ref([
   {
