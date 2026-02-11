@@ -16,7 +16,7 @@ const previewUrl = ref('');
 
 function realTime(data: any) {
   const imgUrl: any = props.imgUrl;
-  if (imgUrl) {
+  if (imgUrl && lsCropperRef.value) {
     lsCropperRef.value.getCropBlob(async (blob: Blob) => {
       drawAndClipImage(blob, data);
     });
@@ -96,7 +96,7 @@ defineExpose({
       :class="graphicsType"
       :auto-crop="true"
       :fixed="true"
-      :can-move="false"
+      :can-move="true"
       :img="imgUrl"
       :limit-min-size="limitMinSize"
       :output-type="outputType"
