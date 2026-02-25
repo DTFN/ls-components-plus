@@ -7,33 +7,6 @@ outline: deep
 ::: warning 结合 el-button、el-button-group 组件进行二次封装，提供更多自定义选项和图标配置功能。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基础按钮](#基础按钮)
-  - [按钮尺寸](#按钮尺寸)
-  - [带图标的按钮](#带图标的按钮)
-  - [仅图标按钮](#仅图标按钮)
-  - [加载状态按钮](#加载状态按钮)
-  - [禁用状态按钮](#禁用状态按钮)
-  - [圆角按钮](#圆角按钮)
-  - [圆形按钮](#圆形按钮)
-  - [文字按钮](#文字按钮)
-  - [朴素按钮](#朴素按钮)
-  - [带自定义图标的按钮](#带自定义图标的按钮)
-  - [带图标插槽的按钮](#带图标插槽的按钮)
-  - [按钮组](#按钮组)
-  - [带分隔符的按钮组](#带分隔符的按钮组)
-  - [带图标的按钮组](#带图标的按钮组)
-  - [按钮组的嵌套使用](#按钮组的嵌套使用)
-  - [响应式按钮](#响应式按钮)
-  - [与其他组件的集成](#与其他组件的集成)
-- [API](#api)
-  - [Button Attributes](#button-attributes)
-  - [ButtonGroup Attributes](#buttongroup-attributes)
-  - [Button Events](#button-events)
-
 ## 功能介绍
 
 LSButton 组件是对 Element Plus Button 组件的二次封装，提供了以下增强功能：
@@ -310,7 +283,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 </LSButton>
 <LSButton type="success">
   <template #icon>
-    <LSIcon :type="1" name="iconoir:save" color="#fff" width="18" height="18" />
+    <LSIcon :type="1" name="iconoir:save-floppy-disk" color="#fff" width="18" height="18" />
   </template>
   保存
 </LSButton>
@@ -333,7 +306,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 </LSButton>
 <LSButton type="success">
   <template #icon>
-    <LSIcon :type="1" name="iconoir:save" color="#fff" width="18" height="18" />
+    <LSIcon :type="1" name="iconoir:save-floppy-disk" color="#fff" width="18" height="18" />
   </template>
   保存
 </LSButton>
@@ -386,32 +359,32 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 ### 带分隔符的按钮组
 
 <ClientOnly>
-<LSButtonGroup type="primary" separator="|" separator-color="#fff" :separator-size="14">
-  <LSButton>按钮1</LSButton>
-  <LSButton>按钮2</LSButton>
-  <LSButton>按钮3</LSButton>
+<LSButtonGroup type="primary" separator="|" :separator-size="14">
+  <LSButton link>按钮1</LSButton>
+  <LSButton link>按钮2</LSButton>
+  <LSButton link>按钮3</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup type="success" separator="/" separator-color="#fff" :separator-size="14" style="margin-left: 20px;">
-  <LSButton>按钮A</LSButton>
-  <LSButton>按钮B</LSButton>
-  <LSButton>按钮C</LSButton>
+<LSButtonGroup type="success" separator="/" :separator-size="14" style="margin-left: 20px;">
+  <LSButton link>按钮A</LSButton>
+  <LSButton link>按钮B</LSButton>
+  <LSButton link>按钮C</LSButton>
 </LSButtonGroup>
 </ClientOnly>
 
 :::details 点我查看代码
 
 ```html
-<LSButtonGroup type="primary" separator="|" separator-color="#fff" :separator-size="14">
-  <LSButton>按钮1</LSButton>
-  <LSButton>按钮2</LSButton>
-  <LSButton>按钮3</LSButton>
+<LSButtonGroup type="primary" separator="|" :separator-size="14">
+  <LSButton link>按钮1</LSButton>
+  <LSButton link>按钮2</LSButton>
+  <LSButton link>按钮3</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup type="success" separator="/" separator-color="#fff" :separator-size="14" style="margin-left: 20px;">
-  <LSButton>按钮A</LSButton>
-  <LSButton>按钮B</LSButton>
-  <LSButton>按钮C</LSButton>
+<LSButtonGroup type="success" separator="/" :separator-size="14" style="margin-left: 20px;">
+  <LSButton link>按钮A</LSButton>
+  <LSButton link>按钮B</LSButton>
+  <LSButton link>按钮C</LSButton>
 </LSButtonGroup>
 ```
 
@@ -493,23 +466,23 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 </div>
 
 <style scoped>
-.responsive-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.responsive-btn {
-  flex: 1;
-  min-width: 100px;
-}
-
-/* 在小屏幕上调整按钮大小 */
-@media (max-width: 768px) {
-  .responsive-btn {
-    flex: 100%;
+  .responsive-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-}
+
+  .responsive-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  /* 在小屏幕上调整按钮大小 */
+  @media (max-width: 768px) {
+    .responsive-btn {
+      flex: 100%;
+    }
+  }
 </style>
 ```
 
@@ -548,13 +521,13 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
     <LSButton type="primary">提交</LSButton>
     <LSButton>重置</LSButton>
   </div>
-  
+
   <h3>与对话框的集成</h3>
   <div class="dialog-buttons">
     <LSButton>取消</LSButton>
     <LSButton type="primary">确认</LSButton>
   </div>
-  
+
   <h3>与卡片的集成</h3>
   <div class="card-buttons">
     <LSButton type="success" size="small">编辑</LSButton>
@@ -563,23 +536,23 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 </div>
 
 <style scoped>
-.integration-example {
-  max-width: 600px;
-}
+  .integration-example {
+    max-width: 600px;
+  }
 
-.integration-example h3 {
-  margin: 20px 0 10px;
-  font-size: 16px;
-  font-weight: 600;
-}
+  .integration-example h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-.form-buttons,
-.dialog-buttons,
-.card-buttons {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+  .form-buttons,
+  .dialog-buttons,
+  .card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
 </style>
 ```
 
@@ -593,19 +566,19 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 #### 属性详细说明
 
-| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
-|-------|------|-------|------|----------|----------|
-| type | string | default | 按钮类型 | 区分不同功能的按钮 | primary / success / warning / danger / info / default |
-| size | string | default | 按钮尺寸 | 适应不同空间的布局 | large / default / small |
-| icon | Component | - | 图标组件 | 在按钮中显示图标 | 仅支持 Element Plus 图标组件 |
-| iconConfig | IconConfigType | - | 图标配置 | 配置更丰富的图标类型 | 支持 Element Plus 图标、iconify、图片和 SVG |
-| loading | boolean | false | 加载状态 | 显示按钮正在处理中 | 设置为 true 时按钮会显示加载动画并禁用 |
-| disabled | boolean | false | 禁用状态 | 禁止用户点击按钮 | 设置为 true 时按钮会变为灰色且不可点击 |
-| round | boolean | false | 圆角按钮 | 创建圆角样式的按钮 | - |
-| circle | boolean | false | 圆形按钮 | 创建圆形样式的按钮 | 通常与图标配合使用 |
-| link | boolean | false | 文字按钮 | 创建文字样式的按钮 | 显示为文字链接形式 |
-| plain | boolean | false | 朴素按钮 | 创建朴素样式的按钮 | 背景透明，仅显示边框和文字 |
-| auto-insert-space | boolean | true | 自动插入空格 | 在文字和图标之间自动插入空格 | - |
+| 属性名            | 类型           | 默认值  | 说明         | 使用场景                     | 注意事项                                              |
+| ----------------- | -------------- | ------- | ------------ | ---------------------------- | ----------------------------------------------------- |
+| type              | string         | default | 按钮类型     | 区分不同功能的按钮           | primary / success / warning / danger / info / default |
+| size              | string         | default | 按钮尺寸     | 适应不同空间的布局           | large / default / small                               |
+| icon              | Component      | -       | 图标组件     | 在按钮中显示图标             | 仅支持 Element Plus 图标组件                          |
+| iconConfig        | IconConfigType | -       | 图标配置     | 配置更丰富的图标类型         | 支持 Element Plus 图标、iconify、图片和 SVG           |
+| loading           | boolean        | false   | 加载状态     | 显示按钮正在处理中           | 设置为 true 时按钮会显示加载动画并禁用                |
+| disabled          | boolean        | false   | 禁用状态     | 禁止用户点击按钮             | 设置为 true 时按钮会变为灰色且不可点击                |
+| round             | boolean        | false   | 圆角按钮     | 创建圆角样式的按钮           | -                                                     |
+| circle            | boolean        | false   | 圆形按钮     | 创建圆形样式的按钮           | 通常与图标配合使用                                    |
+| link              | boolean        | false   | 文字按钮     | 创建文字样式的按钮           | 显示为文字链接形式                                    |
+| plain             | boolean        | false   | 朴素按钮     | 创建朴素样式的按钮           | 背景透明，仅显示边框和文字                            |
+| auto-insert-space | boolean        | true    | 自动插入空格 | 在文字和图标之间自动插入空格 | -                                                     |
 
 ### ButtonGroup Attributes
 
@@ -613,11 +586,11 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 #### 属性详细说明
 
-| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
-|-------|------|-------|------|----------|----------|
-| separator | string | - | 按钮之间的分隔符 | 在按钮组中添加分隔符号 | 可以使用任意字符串作为分隔符 |
-| separatorColor | string | #333 | 分隔符颜色 | 自定义分隔符的颜色 | 支持 CSS 颜色值 |
-| separatorSize | string / number | 12 | 分隔符大小 | 自定义分隔符的字体大小 | 单位为像素 |
+| 属性名         | 类型            | 默认值 | 说明             | 使用场景               | 注意事项                     |
+| -------------- | --------------- | ------ | ---------------- | ---------------------- | ---------------------------- |
+| separator      | string          | -      | 按钮之间的分隔符 | 在按钮组中添加分隔符号 | 可以使用任意字符串作为分隔符 |
+| separatorColor | string          | #333   | 分隔符颜色       | 自定义分隔符的颜色     | 支持 CSS 颜色值              |
+| separatorSize  | string / number | 12     | 分隔符大小       | 自定义分隔符的字体大小 | 单位为像素                   |
 
 ### Button Events
 
@@ -625,11 +598,11 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 #### 事件详细说明
 
-| 事件名 | 说明 | 参数 | 使用场景 |
-|-------|------|------|----------|
-| click | 点击按钮时触发 | event | 处理按钮的点击操作 |
-| mouseenter | 鼠标进入按钮时触发 | event | 处理鼠标悬停效果 |
-| mouseleave | 鼠标离开按钮时触发 | event | 处理鼠标离开效果 |
+| 事件名     | 说明               | 参数  | 使用场景           |
+| ---------- | ------------------ | ----- | ------------------ |
+| click      | 点击按钮时触发     | event | 处理按钮的点击操作 |
+| mouseenter | 鼠标进入按钮时触发 | event | 处理鼠标悬停效果   |
+| mouseleave | 鼠标离开按钮时触发 | event | 处理鼠标离开效果   |
 
 <ClientOnly>
 <LSButton type="primary" @click="handleClick">点击我</LSButton>
@@ -781,3 +754,43 @@ const handleClick = () => {
   alert('按钮被点击了');
 };
 </script>
+
+<style scoped>
+  /* 响应式按钮 */
+  .responsive-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .responsive-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  /* 在小屏幕上调整按钮大小 */
+  @media (max-width: 768px) {
+    .responsive-btn {
+      flex: 100%;
+    }
+  }
+
+  /* 与其他组件的集成 */
+  .integration-example {
+    max-width: 600px;
+  }
+
+  .integration-example h3 {
+    margin: 20px 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .form-buttons,
+  .dialog-buttons,
+  .card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+</style>
