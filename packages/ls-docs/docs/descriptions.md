@@ -7,24 +7,6 @@ outline: deep
 ::: warning 基于el-descriptions二次封装，保留原属性和方法。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [两栏模式](#两栏模式)
-  - [四栏模式](#四栏模式)
-  - [带日期格式化的描述列表](#带日期格式化的描述列表)
-  - [带选择框类型的描述列表](#带选择框类型的描述列表)
-  - [带自定义插槽的描述列表](#带自定义插槽的描述列表)
-  - [带不同样式的描述列表](#带不同样式的描述列表)
-  - [响应式布局的描述列表](#响应式布局的描述列表)
-  - [带不同图标配置的描述列表](#带不同图标配置的描述列表)
-  - [与其他组件的集成示例](#与其他组件的集成示例)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [list 配置项](#list-配置项)
-  - [Slots](#slots)
-
 ## 功能介绍
 
 LSDescriptions 组件是对 Element Plus Descriptions 组件的二次封装，提供了以下增强功能：
@@ -175,10 +157,10 @@ const list4 = ref([
     type: 'select',
     value: '1',
     propMap: {
-      0: '待处理',
-      1: '处理中',
-      2: '已完成',
-      3: '已取消'
+      0: { label: '待处理' },
+      1: { label: '处理中' },
+      2: { label: '已完成' },
+      3: { label: '已取消' }
     }
   },
   {
@@ -186,9 +168,9 @@ const list4 = ref([
     type: 'select',
     value: '2',
     propMap: {
-      1: '微信支付',
-      2: '支付宝',
-      3: '银行卡'
+      1: { label: '微信支付' },
+      2: { label: '支付宝' },
+      3: { label: '银行卡' }
     }
   },
   {
@@ -196,9 +178,9 @@ const list4 = ref([
     type: 'select',
     value: '3',
     propMap: {
-      1: '快递',
-      2: '自提',
-      3: '上门配送'
+      1: { label: '快递' },
+      2: { label: '自提' },
+      3: { label: '上门配送' }
     }
   }
 ]);
@@ -429,6 +411,8 @@ const list9 = ref([
 <script setup>
 import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
+import { ElButton, ElTag } from 'element-plus';
+
 const iconColor = ref('red');
 const list1 = ref([
   {
@@ -525,10 +509,10 @@ const list4 = ref([
     type: 'select',
     value: '1',
     propMap: {
-      '0': '待处理',
-      '1': '处理中',
-      '2': '已完成',
-      '3': '已取消'
+      '0': { label: '待处理' },
+      '1': { label: '处理中' },
+      '2': { label: '已完成' },
+      '3': { label: '已取消' }
     }
   },
   {
@@ -536,9 +520,9 @@ const list4 = ref([
     type: 'select',
     value: '2',
     propMap: {
-      '1': '微信支付',
-      '2': '支付宝',
-      '3': '银行卡'
+      '1': { label: '微信支付' },
+      '2': { label: '支付宝' },
+      '3': { label: '银行卡' }
     }
   },
   {
@@ -546,9 +530,9 @@ const list4 = ref([
     type: 'select',
     value: '3',
     propMap: {
-      '1': '快递',
-      '2': '自提',
-      '3': '上门配送'
+      '1': { label: '快递' },
+      '2': { label: '自提' },
+      '3': { label: '上门配送' }
     }
   }
 ]);
