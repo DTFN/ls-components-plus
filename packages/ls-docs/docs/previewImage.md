@@ -156,8 +156,8 @@ import { ref } from 'vue';
 const previewVisible5 = ref(false);
 const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
 
-function handleDownload(data) {
-  alert('下载图片:', data);
+function handleDownload() {
+  alert('下载图片');
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -172,6 +172,37 @@ function handleDownload(data) {
   download-data="{ url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' }"
 />
 <LSButton @click="previewVisible5 = true">点击预览带下载功能</LSButton>
+```
+
+:::
+
+### 6. 模拟2s加载状态
+
+<br />
+<ClientOnly>
+<LSPreviewImage v-model="previewVisible6" :source="source6" :need-loading="true" :on-close="() => { previewVisible6 = false; }" />
+<LSButton @click="handlePreview6">点击预览带加载状态</LSButton>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const previewVisible6 = ref(false);
+const source6 = ref('');
+
+const handlePreview6 = () => {
+  previewVisible6.value = true;
+  // 图片打开后会自动显示2s的加载状态
+  setTimeout(() => {
+    source6.value = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
+  }, 2000);
+};
+```
+
+```html
+<LSPreviewImage v-model="previewVisible6" :source="source6" :need-loading="true" :on-close="() => { previewVisible6 = false; }" />
+<LSButton @click="handlePreview6">点击预览带加载状态</LSButton>
 ```
 
 :::
@@ -224,9 +255,21 @@ const previewVisible4 = ref(false);
 // 示例5
 const previewVisible5 = ref(false);
 
-function handleDownload(data) {
-  alert('下载图片:', data);
+function handleDownload() {
+  alert('下载图片');
 }
+
+// 示例6
+const previewVisible6 = ref(false);
+const source6 = ref('');
+
+const handlePreview6 = () => {
+  previewVisible6.value = true;
+  // 图片打开后会自动显示2s的加载状态
+  setTimeout(() => {
+    source6.value = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  }, 2000)
+};
 
 // 属性
 const tableData = ref([

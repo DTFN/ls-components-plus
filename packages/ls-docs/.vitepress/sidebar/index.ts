@@ -24,7 +24,7 @@ export default {
       items: [
         { text: 'Table 表格', link: '/docs/table' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' },
-        { text: 'Preview 预览（旧）', link: '/docs/preview' },
+        { text: 'Preview 预览（旧，不再更新）', link: '/docs/preview' },
         { text: 'ImagePreview 图片预览', link: '/docs/previewImage' },
         { text: 'PdfPreview PDF预览', link: '/docs/previewPdf' },
         { text: 'XlsxPreview Excel预览', link: '/docs/previewXlsx' },
