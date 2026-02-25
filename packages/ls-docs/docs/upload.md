@@ -358,23 +358,6 @@ function beforeRemove(file, fileList) {
 <LSUpload :action="action" multiple :before-remove="beforeRemove"></LSUpload>
 ```
 
-### 带背景图片的上传
-
-<ClientOnly>
-  <LSUpload :action="action" :item="item7"></LSUpload>
-</ClientOnly>
-
-```js
-const item7 = ref({
-  bgImage:
-    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
-});
-```
-
-```html
-<LSUpload :action="action" :item="item7"></LSUpload>
-```
-
 ### 多文件上传带预览
 
 <ClientOnly>
@@ -516,8 +499,6 @@ const item11 = ref({
 
 ```js
 const item12 = ref({
-  bgImage:
-    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
   tipContent: '点击或拖拽文件到此处上传'
 });
 ```
@@ -534,11 +515,8 @@ const item12 = ref({
 
 ```js
 const item13 = ref({
-  bgImage:
-    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
   profile: true,
-  defProfile:
-    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
+  defProfile: 'http://192.168.1.33:8008/images/fish1.png'
 });
 ```
 
@@ -672,15 +650,6 @@ const item15 = ref({
         </div>
       </template>
     </LSUpload>
-    <LSButton 
-      v-if="!autoUpload" 
-      type="success" 
-      :icon="Check" 
-      @click="handleSubmitUpload"
-      style="margin-left: 10px;"
-    >
-      上传
-    </LSButton>
   </div>
 </ClientOnly>
 
@@ -763,7 +732,6 @@ function handleSubmitUpload() {
 | hideCoverBtn      | boolean  | false  | 覆盖上传后是否隐藏上传按钮      | 控制上传后是否隐藏按钮         | 适用图片模式                    |
 | tipContent        | string   | -      | tip提示                         | 自定义提示信息                 | -                               |
 | hideBtnReachLimit | boolean  | false  | 达到limit限制时是否隐藏上传按钮 | 控制达到限制时是否隐藏按钮     | 适用图片模式                    |
-| bgImage           | string   | -      | 上传区域背景图片                | 自定义上传区域的背景           | 可用于美化上传界面              |
 | beforeUpload      | function | -      | 上传前的钩子函数                | 上传前的验证和处理             | 返回false可阻止上传             |
 | onRemove          | function | -      | 文件删除前的钩子函数            | 删除文件前的确认和处理         | 返回false可阻止删除             |
 
@@ -805,7 +773,7 @@ function handleSubmitUpload() {
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { ElForm, ElFormItem, ElMessageBox } from 'element-plus';
+  import { ElForm, ElFormItem, ElMessageBox, ElSwitch } from 'element-plus';
   import { tableColumn, tableMethodColumn } from '../constant';
 
   const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
@@ -846,9 +814,6 @@ function beforeRemove(file, fileList) {
     });
 }
 
-const item7 = ref({
-  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
-});
 const item8 = ref({
   hideBtnReachLimit: true,
   limitNumMsg: '最多只能上传5个文件'
@@ -872,13 +837,11 @@ const item11 = ref({
   limitSizeMsg: '文件大小不能超过5MB'
 });
 const item12 = ref({
-  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
   tipContent: '点击或拖拽文件到此处上传'
 });
 const item13 = ref({
-  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
   profile: true,
-  defProfile: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
+  defProfile: 'http://192.168.1.33:8008/images/fish1.png'
 });
 const item14 = ref({
   limitFile: ['jpg', 'png', 'gif'],
