@@ -4,10 +4,18 @@ outline: deep
 
 # Icon 图标
 
+::: warning 基于 Element Plus Icon、iconify、img、svg 提供多种图标使用方式，支持丰富的样式定制和动画效果。
+:::
+
 ## 功能介绍
 
-::: warning 基于Element Plus Icon、iconify、img、svg 提供三种图标使用方式。
-:::
+LSIcon 组件是对图标使用方式的统一封装，提供了以下增强功能：
+
+- 支持多种图标类型：Element Plus Icon、iconify、图片和 SVG
+- 提供统一的属性配置，如颜色、大小、宽度和高度
+- 支持丰富的样式定制，包括不同尺寸、颜色和动画效果
+- 支持与其他组件的无缝集成
+- 提供更多的使用场景和示例
 
 ## 使用方式
 

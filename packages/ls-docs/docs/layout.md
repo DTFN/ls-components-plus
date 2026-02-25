@@ -7,23 +7,6 @@ outline: deep
 ::: warning 基于el-container二次封装，保留原属性和方法，提供三种布局模式和丰富的自定义选项。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [布局模式一：顶部导航栏 + 侧边栏 + 内容区域](#布局模式一：顶部导航栏--侧边栏--内容区域)
-  - [布局模式二：顶部导航栏 + 内容区域](#布局模式二：顶部导航栏--内容区域)
-  - [布局模式三：侧边栏 + 顶部导航栏 + 内容区域](#布局模式三：侧边栏--顶部导航栏--内容区域)
-  - [自定义布局样式](#自定义布局样式)
-  - [响应式布局](#响应式布局)
-  - [与其他组件的集成](#与其他组件的集成)
-- [API](#api)
-  - [Layout Attributes](#layout-attributes)
-  - [Header Attributes](#header-attributes)
-  - [Events](#events)
-  - [Slots](#slots)
-  - [公共样式](#公共样式)
-
 ## 功能介绍
 
 LSLayout 组件是对 Element Plus Container 组件的二次封装，提供了以下增强功能：
@@ -601,21 +584,21 @@ const MENU_CONFIG_LIST = [
 
 #### 属性详细说明
 
-| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
-|-------|------|-------|------|----------|----------|
-| mode | string / number | 1 | 布局模式 | 选择不同的布局结构 | 1: 顶部导航栏 + 侧边栏 + 内容区域; 2: 顶部导航栏 + 内容区域; 3: 侧边栏 + 顶部导航栏 + 内容区域 |
-| headerHeight | string | 60px | 头部高度 | 调整头部区域的高度 | 需要带单位，如 "50px" |
-| showFooter | boolean | false | 是否显示底部 | 控制是否显示底部区域 | 设置为 true 时会显示底部插槽 |
-| footerHeight | string | 60px | 底部高度 | 调整底部区域的高度 | 需要带单位，如 "40px" |
-| asideWidth | string | 200px | 侧边栏宽度 | 调整侧边栏的宽度 | 需要带单位，如 "220px" |
-| showLogo | boolean | true | 是否显示logo | 控制是否显示logo | - |
-| logo | string | - | logo地址 | 设置logo的图片地址 | - |
-| customCss | string | - | 自定义样式类 | 为布局添加自定义样式类 | 可以添加多个类名，如 "header-gray aside-gray" |
-| title | string | - | 头部标题 | 设置头部的标题文本 | - |
-| showCommand | boolean | true | 是否显示顶部交互功能 | 控制是否显示顶部的下拉菜单 | mode 为 1/2 时生效 |
-| userName | string | Admin | 用户名 | 设置顶部显示的用户名 | - |
-| userIcon | string | - | 用户头像 | 设置顶部显示的用户头像 | - |
-| commandList | array<{key: string, name: string}> | [] | 顶部交互功能列表 | 设置顶部下拉菜单的选项 | - |
+| 属性名       | 类型                               | 默认值 | 说明                 | 使用场景                   | 注意事项                                                                                       |
+| ------------ | ---------------------------------- | ------ | -------------------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| mode         | string / number                    | 1      | 布局模式             | 选择不同的布局结构         | 1: 顶部导航栏 + 侧边栏 + 内容区域; 2: 顶部导航栏 + 内容区域; 3: 侧边栏 + 顶部导航栏 + 内容区域 |
+| headerHeight | string                             | 60px   | 头部高度             | 调整头部区域的高度         | 需要带单位，如 "50px"                                                                          |
+| showFooter   | boolean                            | false  | 是否显示底部         | 控制是否显示底部区域       | 设置为 true 时会显示底部插槽                                                                   |
+| footerHeight | string                             | 60px   | 底部高度             | 调整底部区域的高度         | 需要带单位，如 "40px"                                                                          |
+| asideWidth   | string                             | 200px  | 侧边栏宽度           | 调整侧边栏的宽度           | 需要带单位，如 "220px"                                                                         |
+| showLogo     | boolean                            | true   | 是否显示logo         | 控制是否显示logo           | -                                                                                              |
+| logo         | string                             | -      | logo地址             | 设置logo的图片地址         | -                                                                                              |
+| customCss    | string                             | -      | 自定义样式类         | 为布局添加自定义样式类     | 可以添加多个类名，如 "header-gray aside-gray"                                                  |
+| title        | string                             | -      | 头部标题             | 设置头部的标题文本         | -                                                                                              |
+| showCommand  | boolean                            | true   | 是否显示顶部交互功能 | 控制是否显示顶部的下拉菜单 | mode 为 1/2 时生效                                                                             |
+| userName     | string                             | Admin  | 用户名               | 设置顶部显示的用户名       | -                                                                                              |
+| userIcon     | string                             | -      | 用户头像             | 设置顶部显示的用户头像     | -                                                                                              |
+| commandList  | array<{key: string, name: string}> | []     | 顶部交互功能列表     | 设置顶部下拉菜单的选项     | -                                                                                              |
 
 ### Header Attributes
 
@@ -623,17 +606,17 @@ const MENU_CONFIG_LIST = [
 
 #### 属性详细说明
 
-| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
-|-------|------|-------|------|----------|----------|
-| mode | string / number | 1 | 布局模式 | 选择不同的头部布局 | 与 Layout 组件的 mode 保持一致 |
-| title | string | - | 头部标题 | 设置头部的标题文本 | - |
-| showLogo | boolean | true | 是否显示logo | 控制是否显示logo | - |
-| logo | string | - | logo地址 | 设置logo的图片地址 | - |
-| height | string | 60px | 头部高度 | 调整头部区域的高度 | 需要带单位，如 "50px" |
-| showCommand | boolean | true | 是否显示顶部交互功能 | 控制是否显示顶部的下拉菜单 | - |
-| userName | string | Admin | 用户名 | 设置顶部显示的用户名 | - |
-| userIcon | string | - | 用户头像 | 设置顶部显示的用户头像 | - |
-| commandList | array<{key: string, name: string}> | [] | 顶部交互功能列表 | 设置顶部下拉菜单的选项 | - |
+| 属性名      | 类型                               | 默认值 | 说明                 | 使用场景                   | 注意事项                       |
+| ----------- | ---------------------------------- | ------ | -------------------- | -------------------------- | ------------------------------ |
+| mode        | string / number                    | 1      | 布局模式             | 选择不同的头部布局         | 与 Layout 组件的 mode 保持一致 |
+| title       | string                             | -      | 头部标题             | 设置头部的标题文本         | -                              |
+| showLogo    | boolean                            | true   | 是否显示logo         | 控制是否显示logo           | -                              |
+| logo        | string                             | -      | logo地址             | 设置logo的图片地址         | -                              |
+| height      | string                             | 60px   | 头部高度             | 调整头部区域的高度         | 需要带单位，如 "50px"          |
+| showCommand | boolean                            | true   | 是否显示顶部交互功能 | 控制是否显示顶部的下拉菜单 | -                              |
+| userName    | string                             | Admin  | 用户名               | 设置顶部显示的用户名       | -                              |
+| userIcon    | string                             | -      | 用户头像             | 设置顶部显示的用户头像     | -                              |
+| commandList | array<{key: string, name: string}> | []     | 顶部交互功能列表     | 设置顶部下拉菜单的选项     | -                              |
 
 ### Events
 
@@ -641,11 +624,11 @@ const MENU_CONFIG_LIST = [
 
 #### 事件详细说明
 
-| 事件名 | 说明 | 参数 | 使用场景 |
-|-------|------|------|----------|
-| onCommand | 交互功能回调方法 | key | 当用户点击顶部下拉菜单选项时触发 |
-| onDropdownCommand | 下拉菜单命令回调 | key | 当用户点击下拉菜单选项时触发 |
-| onDropdownCommand2 | 下拉菜单命令回调 | key | 当用户点击下拉菜单选项时触发 |
+| 事件名             | 说明             | 参数 | 使用场景                         |
+| ------------------ | ---------------- | ---- | -------------------------------- |
+| onCommand          | 交互功能回调方法 | key  | 当用户点击顶部下拉菜单选项时触发 |
+| onDropdownCommand  | 下拉菜单命令回调 | key  | 当用户点击下拉菜单选项时触发     |
+| onDropdownCommand2 | 下拉菜单命令回调 | key  | 当用户点击下拉菜单选项时触发     |
 
 ### Slots
 
@@ -653,15 +636,15 @@ const MENU_CONFIG_LIST = [
 
 #### 插槽详细说明
 
-| 插槽名 | 说明 | 使用场景 | 注意事项 |
-|-------|------|----------|----------|
-| header | 头部插槽 | 完全自定义头部内容 | 会替换默认的头部组件 |
-| headerLeft | 头部左侧插槽 | 自定义头部左侧内容 | 在默认头部组件中生效 |
-| headerRight | 头部右侧插槽 | 自定义头部右侧内容 | 在默认头部组件中生效 |
+| 插槽名      | 说明         | 使用场景           | 注意事项                       |
+| ----------- | ------------ | ------------------ | ------------------------------ |
+| header      | 头部插槽     | 完全自定义头部内容 | 会替换默认的头部组件           |
+| headerLeft  | 头部左侧插槽 | 自定义头部左侧内容 | 在默认头部组件中生效           |
+| headerRight | 头部右侧插槽 | 自定义头部右侧内容 | 在默认头部组件中生效           |
 | headerTitle | 头部标题插槽 | 自定义头部标题内容 | 在默认头部组件中生效 (v1.8.3+) |
-| aside | 侧边栏插槽 | 自定义侧边栏内容 | 通常用于放置导航菜单 |
-| section | 内容区域插槽 | 自定义内容区域内容 | 页面的主要内容区域 |
-| footer | 底部插槽 | 自定义底部内容 | showFooter 为 true 时生效 |
+| aside       | 侧边栏插槽   | 自定义侧边栏内容   | 通常用于放置导航菜单           |
+| section     | 内容区域插槽 | 自定义内容区域内容 | 页面的主要内容区域             |
+| footer      | 底部插槽     | 自定义底部内容     | showFooter 为 true 时生效      |
 
 ### 公共样式
 
@@ -669,13 +652,13 @@ const MENU_CONFIG_LIST = [
 
 #### 样式详细说明
 
-| 样式名 | 说明 | 使用场景 | 注意事项 |
-|-------|------|----------|----------|
-| ls-main-container | 内容区域最外层样式 | 包裹整个内容区域 | 建议在 section 插槽中使用 |
-| ls-main-title | 内容区域标题样式 | 用于列表页的标题 | 通常放在 ls-main-container 内部 |
-| ls-search-wrap | 搜索区样式 | 包裹搜索表单 | 通常用于放置 LSForm 组件 |
-| ls-detail-title | 详情页标题样式 | 用于详情页的标题 | 通常跟在返回按钮之后 |
-| ls-edit-from-wrap | 表单外层样式 | 包裹编辑表单 | 通常用于放置 LSForm 组件 |
+| 样式名            | 说明               | 使用场景         | 注意事项                        |
+| ----------------- | ------------------ | ---------------- | ------------------------------- |
+| ls-main-container | 内容区域最外层样式 | 包裹整个内容区域 | 建议在 section 插槽中使用       |
+| ls-main-title     | 内容区域标题样式   | 用于列表页的标题 | 通常放在 ls-main-container 内部 |
+| ls-search-wrap    | 搜索区样式         | 包裹搜索表单     | 通常用于放置 LSForm 组件        |
+| ls-detail-title   | 详情页标题样式     | 用于详情页的标题 | 通常跟在返回按钮之后            |
+| ls-edit-from-wrap | 表单外层样式       | 包裹编辑表单     | 通常用于放置 LSForm 组件        |
 
 <script setup>
 import { tableColumn, tableMethodColumn, tableSlotColumn, tableStyleColumn } from '../constant'
