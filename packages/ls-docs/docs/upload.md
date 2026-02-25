@@ -331,23 +331,31 @@ const item6 = ref({
 ### 带删除确认的上传
 
 <ClientOnly>
-  <LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
+  <LSUpload :action="action" multiple :before-remove="beforeRemove"></LSUpload>
 </ClientOnly>
 
 ```js
-function handleRemove(file, fileList) {
-  return new Promise((resolve, reject) => {
-    if (confirm('确定要删除这个文件吗？')) {
-      resolve();
-    } else {
-      reject();
-    }
-  });
+import { ref } from 'vue';
+import { ElMessageBox } from 'element-plus';
+const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+
+function beforeRemove(file, fileList) {
+  return ElMessageBox.confirm('确定要删除这个文件吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      return Promise.resolve();
+    })
+    .catch(() => {
+      return Promise.reject();
+    });
 }
 ```
 
 ```html
-<LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
+<LSUpload :action="action" multiple :before-remove="beforeRemove"></LSUpload>
 ```
 
 ### 带背景图片的上传
@@ -797,7 +805,7 @@ function handleSubmitUpload() {
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { ElForm, ElFormItem } from 'element-plus';
+  import { ElForm, ElFormItem, ElMessageBox } from 'element-plus';
   import { tableColumn, tableMethodColumn } from '../constant';
 
   const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
@@ -822,6 +830,22 @@ const item6 = ref({
   limitNumMsg: '最多只能上传3个文件',
   isCover: false
 });
+
+
+function beforeRemove(file, fileList) {
+  return ElMessageBox.confirm('确定要删除这个文件吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(() => {
+      return Promise.resolve();
+    })
+    .catch(() => {
+      return Promise.reject();
+    });
+}
+
 const item7 = ref({
   bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
 });
