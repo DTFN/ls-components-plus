@@ -4,26 +4,6 @@ outline: deep
 
 # Icon 图标
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [Element Plus Icon](#element-plus-icon)
-  - [iconify](#iconify)
-  - [img](#img)
-  - [svg](#svg)
-  - [不同尺寸的Element Plus图标](#不同尺寸的element-plus图标)
-  - [不同颜色的Element Plus图标](#不同颜色的element-plus图标)
-  - [带点击事件的图标](#带点击事件的图标)
-  - [图标组的使用](#图标组的使用)
-  - [自定义SVG图标](#自定义svg图标)
-  - [动态切换图标](#动态切换图标)
-  - [样式定制](#样式定制)
-  - [与其他组件的集成](#与其他组件的集成)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [Slot](#slot)
-
 ## 功能介绍
 
 ::: warning 基于Element Plus Icon、iconify、img、svg 提供三种图标使用方式。
@@ -257,35 +237,14 @@ const handleIconClick = () => {
 
 :::
 
-### 自定义SVG图标
-
-<LSIcon :type="2" :name="customSvgIcon" width="40" height="40" />
-
-::: details 点我查看代码
-
-```js
-import { ref } from 'vue';
-const customSvgIcon = ref({
-  path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
-  fill: '#409eff'
-});
-```
-
-```html
-<LSIcon :type="2" :name="customSvgIcon" width="40" height="40" />
-```
-
-:::
-
 ### 动态切换图标
 
 <div class="dynamic-icon-example">
   <LSIcon :name="currentIcon" :color="iconColor" size="32" />
   <div class="icon-controls">
-    <button @click="switchIcon('SuccessFilled')" class="control-btn">成功</button>
-    <button @click="switchIcon('WarningFilled')" class="control-btn">警告</button>
-    <button @click="switchIcon('ErrorFilled')" class="control-btn">错误</button>
-    <button @click="switchIcon('InfoFilled')" class="control-btn">信息</button>
+    <LSButton @click="switchIcon('SuccessFilled')" class="control-btn">成功</LSButton>
+    <LSButton @click="switchIcon('WarningFilled')" class="control-btn">警告</LSButton>
+    <LSButton @click="switchIcon('InfoFilled')" class="control-btn">信息</LSButton>
   </div>
 </div>
 
@@ -313,10 +272,9 @@ const switchIcon = iconName => {
 <div class="dynamic-icon-example">
   <LSIcon :name="currentIcon" :color="iconColor" size="32" />
   <div class="icon-controls">
-    <button @click="switchIcon('SuccessFilled')" class="control-btn">成功</button>
-    <button @click="switchIcon('WarningFilled')" class="control-btn">警告</button>
-    <button @click="switchIcon('ErrorFilled')" class="control-btn">错误</button>
-    <button @click="switchIcon('InfoFilled')" class="control-btn">信息</button>
+    <LSButton @click="switchIcon('SuccessFilled')" class="control-btn">成功</LSButton>
+    <LSButton @click="switchIcon('WarningFilled')" class="control-btn">警告</LSButton>
+    <LSButton @click="switchIcon('InfoFilled')" class="control-btn">信息</LSButton>
   </div>
 </div>
 
@@ -440,7 +398,7 @@ const switchIcon = iconName => {
   .icon-animation-1 {
     font-size: 32px;
     color: #409eff;
-    animation: rotate 2s linear infinite;
+    animation: rotateAni 2s linear infinite;
   }
 
   .icon-animation-2 {
@@ -455,7 +413,7 @@ const switchIcon = iconName => {
     animation: bounce 1s ease-in-out infinite;
   }
 
-  @keyframes rotate {
+  @keyframes rotateAni {
     from {
       transform: rotate(0deg);
     }
@@ -501,18 +459,18 @@ const switchIcon = iconName => {
 <div class="integration-example">
   <h3>与按钮组件的集成</h3>
   <div class="button-integration">
-    <button class="icon-button">
+    <LSButton class="icon-button">
       <LSIcon name="Search" size="16" />
       <span>搜索</span>
-    </button>
-    <button class="icon-button primary">
+    </LSButton>
+    <LSButton class="icon-button primary">
       <LSIcon name="Check" size="16" />
       <span>确认</span>
-    </button>
-    <button class="icon-button danger">
+    </LSButton>
+    <LSButton class="icon-button danger">
       <LSIcon name="Delete" size="16" />
       <span>删除</span>
-    </button>
+    </LSButton>
   </div>
   
   <h3>与导航菜单的集成</h3>
@@ -581,18 +539,18 @@ const switchIcon = iconName => {
 <div class="integration-example">
   <h3>与按钮组件的集成</h3>
   <div class="button-integration">
-    <button class="icon-button">
+    <LSButton class="icon-button">
       <LSIcon name="Search" size="16" />
       <span>搜索</span>
-    </button>
-    <button class="icon-button primary">
+    </LSButton>
+    <LSButton class="icon-button primary">
       <LSIcon name="Check" size="16" />
       <span>确认</span>
-    </button>
-    <button class="icon-button danger">
+    </LSButton>
+    <LSButton class="icon-button danger">
       <LSIcon name="Delete" size="16" />
       <span>删除</span>
-    </button>
+    </LSButton>
   </div>
 
   <h3>与导航菜单的集成</h3>
@@ -871,12 +829,6 @@ const handleIconClick = () => {
     clickMessage.value = '点击图标试试';
   }, 1000);
 };
-
-// 自定义SVG图标
-const customSvgIcon = ref({
-  path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
-  fill: '#409eff'
-});
 
 // 动态切换图标
 const currentIcon = ref('SuccessFilled');
