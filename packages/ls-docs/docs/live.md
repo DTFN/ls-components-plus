@@ -7,17 +7,6 @@ outline: deep
 ::: warning 基于[flv.js](https://www.npmjs.com/package/flv.js)二次封装。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [直播类型](#直播类型)
-  - [视频类型](#视频类型)
-  - [自定义控件](#自定义控件)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [Exposes](#exposes)
-
 ## 功能介绍
 
 LSLive 组件是对 flv.js 的二次封装，提供了以下功能：
@@ -35,14 +24,15 @@ LSLive 组件是对 flv.js 的二次封装，提供了以下功能：
 
 <br />
 <ClientOnly>
-<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="false" />
+<LSLive ref="liveRef" class="live-wrap" :is-live="true" />
 </ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
 import { ref, onMounted } from 'vue';
-const m1 = 'http://192.168.1.33:8008/images/m1.mp4';
+// 需要推流地址
+const m1 = '';
 const liveRef = ref();
 const liveUrl = ref(m1);
 onMounted(() => {
@@ -51,7 +41,7 @@ onMounted(() => {
 ```
 
 ```html
-<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="false" />
+<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="true" />
 ```
 
 ```scss
