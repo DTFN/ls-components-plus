@@ -20,6 +20,21 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 [字体下载](/cmaps.zip)，下载完成后解压到public文件夹下
 :::
 
+## 功能介绍
+
+LSPreviewPdf 组件是基于 pdfjs-dist 二次封装的 PDF 预览组件，提供了以下增强功能：
+
+- 支持本地和在线 PDF 文件预览
+- 支持多页 PDF 文档浏览
+- 支持页面缩放、旋转等操作
+- 支持自定义页面大小和缩放比例
+- 支持全屏模式预览
+- 支持快捷键操作（上一页、下一页、缩放等）
+- 支持自定义字体和字符映射
+- 支持打印功能
+- 支持下载功能
+- 支持加载状态显示
+
 ## 使用方式
 
 ### 1. 基础使用
@@ -258,7 +273,7 @@ function handlePdfDownload(data) {
 // 属性
 const tableData = ref([
   {
-    name: 'previewVisible/v-model:preview-visible',
+    name: 'modelValue/v-model',
     desc: '是否显示预览',
     type: 'boolean',
     value: 'false'
