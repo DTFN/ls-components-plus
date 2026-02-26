@@ -18,6 +18,24 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 ::: tip 需安装依赖 [luckyexcel](https://www.npmjs.com/package/luckyexcel)。
 :::
 
+## 功能介绍
+
+LSPreviewXlsx 组件是基于 LuckyExcel 二次封装的 Excel 预览组件，提供了以下增强功能：
+
+- 支持本地和在线 Excel 文件预览
+- 支持多工作表浏览
+- 支持单元格编辑
+- 支持单元格格式设置
+- 支持公式计算
+- 支持数据筛选和排序
+- 支持图表展示
+- 支持单元格合并
+- 支持行列冻结
+- 支持快捷键操作
+- 支持导出功能
+- 支持打印功能
+- 支持加载状态显示
+
 ### 使用前需要引入lucksheet依赖资源，目前支持两种引入方式
 
 #### 1. 在index.html文件中引入资源
