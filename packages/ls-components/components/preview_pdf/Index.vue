@@ -51,7 +51,6 @@ function onDownload(data: any) {
 
 <template>
   <div v-if="previewVisible" :class="comClass" @click="closePreview">
-    {{ defAttrs }}
     <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
       <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
     </el-watermark>

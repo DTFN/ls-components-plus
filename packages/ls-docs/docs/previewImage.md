@@ -364,12 +364,6 @@ const eventsTableData = ref([
     value: '-'
   },
   {
-    name: 'switch',
-    desc: '图片切换事件',
-    type: 'function',
-    value: 'index'
-  },
-  {
     name: 'onDownload',
     desc: '图片下载事件',
     type: 'function',
@@ -381,7 +375,11 @@ const eventsTableData = ref([
 const slotTableData = ref([
   {
     name: 'viewer',
-    desc: '自定义预览内容插槽',
+    desc: '自定义预览内容插槽，图片组件内层区域',
+  },
+  {
+    name: 'viewer',
+    desc: '自定义预览内容插槽，图片组件外层区域',
   },
   {
     name: 'default',
