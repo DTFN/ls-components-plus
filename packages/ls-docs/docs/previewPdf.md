@@ -273,7 +273,7 @@ function handlePdfDownload(data) {
 // 属性
 const tableData = ref([
   {
-    name: 'previewVisible/v-model:preview-visible',
+    name: 'modelValue/v-model',
     desc: '是否显示预览',
     type: 'boolean',
     value: 'false'

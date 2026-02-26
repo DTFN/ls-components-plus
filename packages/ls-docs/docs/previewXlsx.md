@@ -24,17 +24,6 @@ LSPreviewXlsx 组件是基于 LuckyExcel 二次封装的 Excel 预览组件，�
 
 - 支持本地和在线 Excel 文件预览
 - 支持多工作表浏览
-- 支持单元格编辑
-- 支持单元格格式设置
-- 支持公式计算
-- 支持数据筛选和排序
-- 支持图表展示
-- 支持单元格合并
-- 支持行列冻结
-- 支持快捷键操作
-- 支持导出功能
-- 支持打印功能
-- 支持加载状态显示
 
 ### 使用前需要引入lucksheet依赖资源，目前支持两种引入方式
 
@@ -386,12 +375,6 @@ const tableData = ref([
     type: 'boolean',
     value: 'false'
   },
-  {
-    name: 'hasPagination',
-    desc: '是否支持大文件分页加载',
-    type: 'boolean',
-    value: 'false'
-  }
 ]);
 
 // 事件
