@@ -10,6 +10,8 @@ lerna-debug.log*
 
 .DS_Store
 .history/
+.trae/
+.agents/
 node_modules/
 dist
 dist-ssr

@@ -15,6 +15,7 @@ defineOptions({
 const emits = defineEmits<{
   (e: 'loadComplete'): void;
   (e: 'loadError'): void;
+  (e: 'onDownload', data: any): void;
 }>();
 
 const props = defineProps(lsPreviewProp);
@@ -42,15 +43,24 @@ function closePreview(e: any) {
     }
   }
 }
+
+function onDownload(data: any) {
+  emits('onDownload', data);
+}
 </script>
 
 <template>
   <div v-if="previewVisible" :class="comClass" @click="closePreview">
-    {{ defAttrs }}
     <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
-      <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+      <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
     </el-watermark>
-    <LSPdf v-else v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" />
+    <LSPdf
+      v-else
+      v-bind="merge(defAttrs, $attrs)"
+      @load-complete="loadComplete"
+      @load-error="loadError"
+      @on-download="onDownload"
+    />
 
     <div class="ls-preview-extra">
       <slot name="extra"></slot>

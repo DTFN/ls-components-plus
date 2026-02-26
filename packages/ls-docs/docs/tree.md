@@ -7,7 +7,34 @@ outline: deep
 ::: warning 基于el-tree二次封装，保留原属性和方法。
 :::
 
+## 目录
+
+- [功能介绍](#功能介绍)
+- [使用方式](#使用方式)
+  - [基本使用](#基本使用)
+  - [水平展示](#水平展示)
+  - [基本使用（非全选模式）](#基本使用（非全选模式）)
+- [API](#api)
+  - [Attributes](#attributes)
+  - [data 配置项](#data-配置项)
+  - [Methods](#methods)
+  - [Exposes](#exposes)
+
+## 功能介绍
+
+LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增强功能：
+
+- 支持全选/取消全选功能
+- 支持水平/垂直展示方向
+- 支持自定义数据结构映射
+- 支持节点前缀过滤
+- 支持复选框状态管理
+- 支持与表单集成
+- 保留了 Element Plus Tree 的所有原有功能
+
 ## 使用方式
+
+### 基本使用
 
 <LSButton type="primary" @click="getChecked">getChecked</LSButton>
 
@@ -47,6 +74,12 @@ const treeData = ref([
         parentId: 20100
       },
       {
+        id: 20125,
+        name: '凭证模板',
+        permission: 'm15',
+        parentId: 20100
+      },
+      {
         id: 20102,
         name: '列表',
         permission: 'm12',
@@ -69,19 +102,19 @@ const treeData = ref([
                 id: 20105,
                 name: '凭证详情接口',
                 permission: 'Im1221',
-                parentId: 20104,
+                parentId: 20104
               },
               {
                 id: 20106,
                 name: '修改凭证接口',
                 permission: 'Im1222',
-                parentId: 20104,
+                parentId: 20104
               },
               {
                 id: 20124,
                 name: '查看详情接口',
                 permission: 'Im1223',
-                parentId: 20104,
+                parentId: 20104
               }
             ]
           },
@@ -114,21 +147,21 @@ const treeData = ref([
                         id: 20111,
                         name: '消费组列表接口',
                         permission: 'Im124111',
-                        parentId: 20110,
+                        parentId: 20110
                       },
                       {
                         id: 20112,
                         name: '产品列表接口',
                         permission: 'Im124112',
-                        parentId: 20110,
+                        parentId: 20110
                       },
                       {
                         id: 20113,
                         name: '新增接口',
                         permission: 'Im124113',
-                        parentId: 20110,
+                        parentId: 20110
                       }
-                    ],
+                    ]
                   },
                   {
                     id: 20114,
@@ -146,37 +179,37 @@ const treeData = ref([
                             id: 20116,
                             name: '消费组列表接口',
                             permission: 'Im1241211',
-                            parentId: 20115,
+                            parentId: 20115
                           },
                           {
                             id: 20117,
                             name: '产品列表接口',
                             permission: 'Im1241212',
-                            parentId: 20115,
+                            parentId: 20115
                           },
                           {
                             id: 20118,
                             name: '详情接口',
                             permission: 'Im1241213',
-                            parentId: 20115,
+                            parentId: 20115
                           },
                           {
                             id: 20119,
                             name: '保存接口',
                             permission: 'Im1241214',
-                            parentId: 20115,
+                            parentId: 20115
                           }
-                        ],
+                        ]
                       },
                       {
                         id: 20120,
                         name: '删除',
                         permission: 'm124122',
-                        parentId: 20114,
+                        parentId: 20114
                       }
-                    ],
+                    ]
                   }
-                ],
+                ]
               }
             ]
           }
@@ -190,54 +223,54 @@ const treeData = ref([
 const roleData = ref([
   {
     id: 20428,
-    permissionId: 20100,
+    permissionId: 20100
   },
   {
     id: 20432,
-    permissionId: 20101,
+    permissionId: 20101
   },
   {
     id: 20436,
-    permissionId: 20102,
+    permissionId: 20102
   },
   {
     id: 20440,
-    permissionId: 20103,
+    permissionId: 20103
   },
   {
     id: 20444,
-    permissionId: 20104,
+    permissionId: 20104
   },
   {
     id: 20448,
-    permissionId: 20105,
+    permissionId: 20105
   },
   {
     id: 20452,
-    permissionId: 20106,
+    permissionId: 20106
   },
   {
     id: 20456,
-    permissionId: 20107,
+    permissionId: 20107
   },
   {
     id: 20460,
-    permissionId: 20108,
+    permissionId: 20108
   },
   {
     id: 20464,
-    permissionId: 20109,
+    permissionId: 20109
   },
   {
     id: 20468,
-    permissionId: 20110,
+    permissionId: 20110
   }
 ]);
 
 // 当前用户拥有的权限数据转换
-const checkedPermissionIds = getTreeCheckedData((roleData.value || []).map((item) => item.permissionId));
+const checkedPermissionIds = getTreeCheckedData((roleData.value || []).map(item => item.permissionId));
 
-function isEmpty(val) => {
+function isEmpty(val) {
   if (val === null) {
     return true;
   }
@@ -272,9 +305,9 @@ function isEmpty(val) => {
 function getTreeCheckedData(ids) {
   let newIds = ids || [];
   if (!isEmpty(treeData.value) && !isEmpty(ids)) {
-    const lunData = (list) => {
+    const lunData = list => {
       if (!isEmpty(list)) {
-        list.forEach((item) => {
+        list.forEach(item => {
           const { id, children } = item;
           if (!isEmpty(children)) {
             let index = newIds.indexOf(id);
@@ -294,28 +327,143 @@ function getTreeCheckedData(ids) {
 ```
 
 ```html
-<LSTree :data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" direction="v" />
+<LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
-<LSTree :data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" direction="h" />
+<LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 ```
 
 :::
 
+### 水平展示
+
+<ClientOnly>
+<LSTree
+  :tree-data="horizontalTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="checkedPermissionIds"
+  style="--ls-tree-node-spacing: 5px;"
+/>
+</ClientOnly>
+
+```html
+<LSTree
+  :tree-data="horizontalTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="checkedPermissionIds"
+  style="--ls-tree-node-spacing: 5px;"
+/>
+```
+
+::: details 水平展示说明
+
+组件通过在数据结构中设置 `isPenultimate: true` 属性来实现水平布局。当节点的 `isPenultimate` 属性为 `true` 时，组件会自动为其添加 `is-penultimate` 类，使其子节点水平排列。
+
+### 实现方式
+
+1. **数据结构设置**：在需要水平展示子节点的父节点上添加 `isPenultimate: true` 属性
+
+```js
+// 水平展示示例数据
+const horizontalTreeData = ref([
+  {
+    id: 20100,
+    name: '凭证管理',
+    permission: 'm1',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20101,
+        name: '新增凭证',
+        permission: 'm11',
+        parentId: 20100
+      },
+      {
+        id: 20125,
+        name: '凭证模板',
+        permission: 'm15',
+        parentId: 20100
+      },
+      {
+        id: 20102,
+        name: '列表',
+        permission: 'm12',
+        parentId: 20100
+      }
+    ]
+  }z
+]);
+```
+
+2. **组件内部实现**：组件会自动为 `isPenultimate: true` 的节点添加 `is-penultimate` 类
+
+```js
+const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'is-penultimate' : '');
+```
+
+3. **CSS 样式**：为 `is-penultimate` 类添加水平布局样式
+
+```css
+:deep(.el-tree-node.is-penultimate) {
+  > .el-tree-node__children {
+    > div {
+      display: inline-block;
+      margin-right: 3px;
+      vertical-align: middle;
+      &:not(:first-child) .el-tree-node__content {
+        padding-left: 0 !important;
+        .el-tree-node__expand-icon {
+          display: none;
+        }
+      }
+      .el-tree-node__content {
+        padding-right: 16px;
+      }
+    }
+  }
+}
+```
+
+### 注意事项
+
+- `isPenultimate` 属性需要设置在父节点上，而不是子节点上
+- 当设置 `isPenultimate: true` 后，该节点的所有子节点都会水平排列
+- 水平排列的子节点会自动调整样式，确保在一条水平线上展示
+
+:::
+
+### 基本使用（非全选模式）
+
+<ClientOnly>
+<LSTree
+  :tree-data="treeData"
+  :is-check-all="false"
+  :show-checkbox="true"
+  :default-checked-keys="checkedPermissionIds"
+/>
+</ClientOnly>
+
+```html
+<LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+```
+
 ## API
 
-### 1. Attributes
+### Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 1.1 data
+### data 配置项
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-### 2. Methods，通过emit抛出的可使用方法
+### Methods
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
-### 3. Exposes
+### Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData4" />
 
@@ -323,6 +471,7 @@ function getTreeCheckedData(ids) {
 import { tableColumn, tableMethodColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
 import { isEmpty } from '../.vitepress/utils/';
+
 
 const treeData = ref([
   {
@@ -335,6 +484,12 @@ const treeData = ref([
         id: 20101,
         name: '新增凭证',
         permission: 'm11',
+        parentId: 20100
+      },
+      {
+        id: 20125,
+        name: '凭证模板',
+        permission: 'm15',
         parentId: 20100
       },
       {
@@ -558,6 +713,43 @@ function getChecked() {
   console.log(tree1Ref.value.lsTreeRef.getCheckedNodes());
 }
 
+// 水平展示示例数据
+const horizontalTreeData = ref([
+  {
+    id: 20100,
+    name: '凭证管理',
+    permission: 'm1',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20101,
+        name: '新增凭证',
+        permission: 'm11',
+        parentId: 20100
+      },
+      {
+        id: 20125,
+        name: '凭证模板',
+        permission: 'm15',
+        parentId: 20100
+      },
+      {
+        id: 20102,
+        name: '列表',
+        permission: 'm12',
+        parentId: 20100
+      },
+      {
+        id: 20108,
+        name: '服务端订阅',
+        permission: 'm124',
+        parentId: 20100
+      }
+    ]
+  }
+]);
+
 const tableData = ref([
   {
     name: 'isExpand',
@@ -589,7 +781,7 @@ const tableData = ref([
   },
   {
     name: 'hideNodePrefix',
-    desc: '需要隐藏的节点的code码前缀，',
+    desc: '需要隐藏的节点的code码前缀',
     type: 'string',
     value: 'I'
   },
@@ -600,17 +792,41 @@ const tableData = ref([
     value: 'false'
   },
   {
-    name: 'direction(v1.8.10废弃)',
-    desc: '展示方向，h: 水平展示，v: 垂直展示',
-    type: 'string',
-    value: 'v'
+    name: 'showCheckbox',
+    desc: '是否显示复选框',
+    type: 'boolean',
+    value: 'true'
   },
   {
-    name: 'attrs(v2.10.6+支持)',
-    desc: '兼容部分el-tree属性，写入方式为json格式，排除（show-checkbox， default-expand-all，node-key，check-strictly， default-checked-keys，expand-on-click-node，filter-node-method）',
+    name: 'defaultExpandAll',
+    desc: '是否默认展开所有节点',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'nodeKey',
+    desc: '节点唯一标识',
+    type: 'string',
+    value: 'id'
+  },
+  {
+    name: 'isCheckStrictly',
+    desc: '是否严格勾选',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'defaultCheckedKeys',
+    desc: '默认选中的节点key数组',
+    type: 'array',
+    value: '[]'
+  },
+  {
+    name: 'attrs',
+    desc: '兼容部分el-tree属性，写入方式为json格式',
     type: 'object',
     value: '{}'
-  },
+  }
 ])
 
 const tableData2 = ref([
@@ -643,6 +859,24 @@ const tableData2 = ref([
     desc: '子节点',
     type: 'array',
     value: '[]'
+  },
+  {
+    name: 'disabled',
+    desc: '是否禁用节点',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'hasChildren',
+    desc: '是否有子节点，用于异步加载',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'isLeaf',
+    desc: '是否为叶子节点',
+    type: 'boolean',
+    value: 'false'
   }
 ])
 
@@ -664,7 +898,7 @@ const tableData3 = ref([
 const tableData4 = ref([
   {
     name: 'lsTreeRef',
-    desc: 'tree组件实例',
+    desc: 'tree组件实例，可调用Element Plus Tree的所有方法',
     type: 'ref',
     value: '-'
   }

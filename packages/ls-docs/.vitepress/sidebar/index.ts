@@ -24,7 +24,11 @@ export default {
       items: [
         { text: 'Table 表格', link: '/docs/table' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' },
-        { text: 'Preview 预览', link: '/docs/preview' },
+        { text: 'Preview 预览（旧，不再更新）', link: '/docs/preview' },
+        { text: 'ImagePreview 图片预览', link: '/docs/previewImage' },
+        { text: 'PdfPreview PDF预览', link: '/docs/previewPdf' },
+        { text: 'XlsxPreview Excel预览', link: '/docs/previewXlsx' },
+        { text: 'DocPreview 文档预览', link: '/docs/previewDocx' },
         { text: 'Tree 权限树', link: '/docs/tree' },
         { text: 'map 地图', link: '/docs/map' },
         { text: 'live 直播/视频', link: '/docs/live' },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios';
-import docx from '@/assets/files/安全测试报告.docx?url';
+import docx from '@/assets/files/markdown2.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
 // import xlsx from '@/assets/files/222.xlsx?url';
 import xlsx from '@/assets/files/test.xlsx?url';

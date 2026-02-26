@@ -15,6 +15,7 @@ defineOptions({
 const emits = defineEmits<{
   (e: 'loadComplete'): void;
   (e: 'loadError'): void;
+  (e: 'onDownload', data: any): void;
 }>();
 
 const props = defineProps(lsPreviewProp);
@@ -34,6 +35,10 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
+
+function onDownload(data: any) {
+  emits('onDownload', data);
+}
 </script>
 
 <template>
@@ -44,6 +49,7 @@ const loadError = () => {
         :hide-on-click-modal="props.hideOnClickModal"
         @load-complete="loadComplete"
         @load-error="loadError"
+        @on-download="onDownload"
       >
         <template #viewer>
           <slot name="viewer"></slot>
@@ -56,6 +62,7 @@ const loadError = () => {
       :hide-on-click-modal="props.hideOnClickModal"
       @load-complete="loadComplete"
       @load-error="loadError"
+      @on-download="onDownload"
     >
       <template #viewer>
         <slot name="viewer"></slot>
