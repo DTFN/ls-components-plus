@@ -462,6 +462,122 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 ```
 
+### 权限code包含p或d
+
+<ClientOnly>
+<LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
+
+<div style="margin-top: 10px;">
+  已选权限code：{{ checkedPermissionCodes }}
+</div>
+
+<LSTree
+  ref="permissionTreeRef"
+  :tree-data="permissionTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="defaultPermissionIds"
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 获取已选权限
+const permissionTreeRef = ref();
+const checkedPermissionCodes = ref([]);
+const defaultPermissionIds = ref([11, 12]); // 默认选中查看列表和详情权限
+
+// permission 权限码示例数据
+const permissionTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1
+      },
+      {
+        id: 15,
+        name: '删除用户',
+        permission: 'm_user_delete',
+        parentId: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2
+      }
+    ]
+  }
+]);
+
+function getPermissionChecked() {
+  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes();
+  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ');
+}
+```
+
+```html
+<LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
+
+<div style="margin-top: 10px;">已选权限code：{{ checkedPermissionCodes }}</div>
+
+<LSTree
+  ref="permissionTreeRef"
+  :tree-data="permissionTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="defaultPermissionIds"
+/>
+```
+
+:::
+
 ## API
 
 ### Attributes
@@ -778,6 +894,84 @@ const horizontalTreeData = ref([
     ]
   }
 ]);
+
+// permission 权限码示例数据
+const permissionTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1
+      },
+      {
+        id: 15,
+        name: '删除用户',
+        permission: 'm_user_delete',
+        parentId: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2
+      }
+    ]
+  }
+]);
+
+// 获取已选权限
+const permissionTreeRef = ref();
+const checkedPermissionCodes = ref([]);
+const defaultPermissionIds = ref([11, 12]); // 默认选中查看列表和详情权限
+
+function getPermissionChecked() {
+  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes();
+  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ');
+}
 
 const tableData = ref([
   {
