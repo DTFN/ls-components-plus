@@ -10,17 +10,6 @@ outline: deep
 ::: tip 需安装依赖 [echarts](https://www.npmjs.com/package/echarts)
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基础用法](#基础用法)
-  - [自定义配置](#自定义配置)
-  - [主题切换](#主题切换)
-- [API](#api)
-  - [Attributes 公共参数](#attributes-公共参数)
-  - [Exposes](#exposes)
-
 ## 功能介绍
 
 LSChart 组件是对 ECharts 的二次封装，提供了以下功能：
@@ -101,7 +90,14 @@ const customOption = {
 ```
 
 ```html
-<LSChart template="line" :data="dataCustom" :template-patch="templateCustom" :custom-option="customOption" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataCustom"
+  :template-patch="templateCustom"
+  :custom-option="customOption"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -260,15 +256,11 @@ const customOption = {
       }
     }
   ]
-}
+};
 ```
+
 ```html
-<LSChart
-  template="bar"
-  :custom-option="customOption"
-  width="800"
-  height="400"
-/>
+<LSChart template="bar" :custom-option="customOption" width="800" height="400" />
 ```
 
 <script setup>

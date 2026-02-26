@@ -92,6 +92,7 @@ const MENU_CONFIG_LIST = [
 ```html
 <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
 ```
+
 :::
 
 ### 2. 自定义点击事件
@@ -230,12 +231,7 @@ const permissionList = ['c1', 'c2', 'c21', 'c22'];
 ```
 
 ```html
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST" 
-  :need-permission="true"
-  :permission-list="permissionList"
-  class="menu-wrap" 
-/>
+<LSMenu :menu-config-list="MENU_CONFIG_LIST" :need-permission="true" :permission-list="permissionList" class="menu-wrap" />
 ```
 
 :::
@@ -285,11 +281,7 @@ const MENU_CONFIG_LIST3 = [
 ```
 
 ```html
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST3" 
-  :font-size="16"
-  class="menu-wrap" 
-/>
+<LSMenu :menu-config-list="MENU_CONFIG_LIST3" :font-size="16" class="menu-wrap" />
 ```
 
 :::
@@ -307,11 +299,7 @@ const MENU_CONFIG_LIST3 = [
 ::: details 点我查看代码
 
 ```html
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST3" 
-  :show-tooltip="false"
-  class="menu-wrap" 
-/>
+<LSMenu :menu-config-list="MENU_CONFIG_LIST3" :show-tooltip="false" class="menu-wrap" />
 ```
 
 :::
@@ -373,19 +361,19 @@ const MENU_CONFIG_LIST4 = [
 const menuItem = {
   // 菜单标题
   title: '菜单名称',
-  
+
   // 路由名称（用于路由跳转）
   name: 'RouteName',
-  
+
   // 路由路径
   path: 'route-path',
-  
+
   // 菜单唯一标识
   key: 'menu-key',
-  
+
   // 组件路径（用于动态路由生成）
   cpoPath: 'view/component/path',
-  
+
   // 权限编码
   pCode: 'permission-code'
 };
@@ -448,7 +436,7 @@ const menuWithPermission = {
 };
 
 // 在组件中使用
-<LSMenu 
+<LSMenu
   :menu-config-list="menuList"
   :need-permission="true"
   :permission-list="['admin-only']"
@@ -460,13 +448,13 @@ const menuWithPermission = {
 ```js
 const specialMenu = {
   title: '特殊菜单',
-  
+
   // 是否为叶子菜单（子菜单不显示）
   leaf: true,
-  
+
   // 是否隐藏菜单
   hideMenu: false,
-  
+
   // 是否自定义跳转处理
   defJump: true
 };
@@ -583,47 +571,14 @@ async function login() {
 }
 
 // 在菜单中使用
-<LSMenu 
+<LSMenu
   :menu-config-list="MENU_CONFIG"
   :need-permission="true"
   :permission-list="permissionList"
 />
 ```
 
-### 3. 国际化支持
-
-对于多语言应用，可以结合 i18n 使用：
-
-```js
-const MENU_CONFIG = [
-  {
-    title: 'home', // 使用 i18n key
-    name: 'Home',
-    path: 'home'
-  }
-];
-
-// 在组件中使用
-<template>
-  <LSMenu :menu-config-list="localizedMenu" />
-</template>
-
-<script setup>
-import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
-
-const { t } = useI18n();
-
-const localizedMenu = computed(() => {
-  return MENU_CONFIG.map(item => ({
-    ...item,
-    title: t(item.title)
-  }));
-});
-</script>
-```
-
-### 4. 响应式菜单
+### 3. 响应式菜单
 
 结合媒体查询和状态管理，实现响应式菜单：
 
@@ -639,10 +594,7 @@ window.addEventListener('resize', handleResize);
 ```
 
 ```html
-<LSMenu 
-  :menu-config-list="MENU_CONFIG"
-  :collapse="isCollapse"
-/>
+<LSMenu :menu-config-list="MENU_CONFIG" :collapse="isCollapse" />
 ```
 
 <script setup>
