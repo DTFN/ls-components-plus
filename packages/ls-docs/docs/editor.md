@@ -8,17 +8,6 @@ outline: deep
 自定义样式请参考：[官方自定义样式](https://www.wangeditor.com/v5/content.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F)
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基础用法](#基础用法)
-  - [自定义配置](#自定义配置)
-  - [内容获取](#内容获取)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [Exposes](#exposes)
-
 ## 功能介绍
 
 LSEditor 组件是对 wangEditor 的二次封装，提供了以下功能：
@@ -205,7 +194,9 @@ const toolbarConfig = {
 
 <br />
 <ClientOnly>
-<LSEditor ref="lsEditorRef5" :value-html="readOnlyContent" mode="simple" height="400px" />
+<LSEditor ref="lsEditorRef5" :value-html="readOnlyContent" mode="simple" height="400px" :editorConfig="{
+  readOnly: true
+}" />
 </ClientOnly>
 
 ::: details 点我查看代码
@@ -229,7 +220,15 @@ const readOnlyContent = ref(`
 ```
 
 ```html
-<LSEditor ref="lsEditorRef5" :value-html="readOnlyContent" mode="simple" height="400px" />
+<LSEditor
+  ref="lsEditorRef5"
+  :value-html="readOnlyContent"
+  mode="simple"
+  height="400px"
+  :editorConfig="{
+  readOnly: true
+}"
+/>
 ```
 
 :::
