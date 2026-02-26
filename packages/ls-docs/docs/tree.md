@@ -7,19 +7,6 @@ outline: deep
 ::: warning 基于el-tree二次封装，保留原属性和方法。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基本使用](#基本使用)
-  - [水平展示](#水平展示)
-  - [基本使用（非全选模式）](#基本使用（非全选模式）)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [data 配置项](#data-配置项)
-  - [Methods](#methods)
-  - [Exposes](#exposes)
-
 ## 功能介绍
 
 LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增强功能：
@@ -36,7 +23,11 @@ LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增
 
 ### 基本使用
 
-<LSButton type="primary" @click="getChecked">getChecked</LSButton>
+<LSButton type="primary" @click="getChecked">获取已选项</LSButton>
+
+<div>
+所有已选项：{{ checkedIds }}
+</div>
 
 <ClientOnly>
 <LSTree
@@ -58,6 +49,13 @@ LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增
 
 ```js
 import { ref } from 'vue';
+
+//获取已选项
+const tree1Ref = ref();
+const checkedIds = ref([]);
+function getChecked() {
+  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes();
+}
 
 // 权限树数据列表
 const treeData = ref([
@@ -393,7 +391,22 @@ const horizontalTreeData = ref([
         parentId: 20100
       }
     ]
-  }z
+  },
+  {
+    id: 20200,
+    name: '测试权限',
+    permission: 'm2',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20201,
+        name: '测试权限1',
+        permission: 'm21',
+        parentId: 20200
+      }
+    ]
+  }
 ]);
 ```
 
@@ -709,8 +722,9 @@ function getTreeCheckedData(ids) {
 }
 
 const tree1Ref = ref();
+const checkedIds = ref([]);
 function getChecked() {
-  console.log(tree1Ref.value.lsTreeRef.getCheckedNodes());
+  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes();
 }
 
 // 水平展示示例数据
@@ -745,6 +759,21 @@ const horizontalTreeData = ref([
         name: '服务端订阅',
         permission: 'm124',
         parentId: 20100
+      }
+    ]
+  },
+  {
+    id: 20200,
+    name: '测试权限',
+    permission: 'm2',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20201,
+        name: '测试权限1',
+        permission: 'm21',
+        parentId: 20200
       }
     ]
   }

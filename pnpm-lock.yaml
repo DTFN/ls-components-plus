@@ -15,8 +15,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.2(vue@3.5.18(typescript@5.9.3))
       '@lingshugroup/web-plus':
-        specifier: ^2.4.4
-        version: 2.4.4
+        specifier: ^2.4.9
+        version: 2.4.9
       '@univerjs/core':
         specifier: ^0.2.11
         version: 0.2.15(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.2)
@@ -1209,8 +1209,8 @@ packages:
   '@lezer/lr@1.4.3':
     resolution: {integrity: sha512-yenN5SqAxAPv/qMnpWW0AT7l+SxVrgG+u0tNsRQWqbrz66HIl8DnEbBObvy21J5K7+I1v7gsAnlE2VQ5yYVSeA==}
 
-  '@lingshugroup/web-plus@2.4.4':
-    resolution: {integrity: sha512-pCbLL8Z9HXvYWoEctoUXVbgzsnTC6hIho37uvHCoIrlziOXj2Gx1kLPB7xqteLsoVPKZAJLfaKQwZw23aAsRZA==}
+  '@lingshugroup/web-plus@2.4.9':
+    resolution: {integrity: sha512-pcqEERbhgiNfc4UAKEd1SrpXl+BT1JCLl0QnZqv95TVSFeY3fcV9g7kr5ErGlUuooa452wRpOSzz5YOCDVrY8Q==}
 
   '@lokesh.dhakar/quantize@1.4.0':
     resolution: {integrity: sha512-+//cqVWKis//t0YH62EDtwaFSPG/CDtYNg4CZmzNmG2d5W17Iu3fuDAdpQXCDHUDrrU9q0veze4A7tPZXlR/mg==}
@@ -8133,7 +8133,7 @@ snapshots:
     dependencies:
       '@lezer/common': 1.3.0
 
-  '@lingshugroup/web-plus@2.4.4': {}
+  '@lingshugroup/web-plus@2.4.9': {}
 
   '@lokesh.dhakar/quantize@1.4.0': {}
 
