@@ -578,6 +578,135 @@ function getPermissionChecked() {
 
 :::
 
+### 隐藏指定前缀节点
+
+<ClientOnly>
+
+<LSTree
+  ref="hidePrefixTreeRef"
+  :tree-data="hidePrefixTreeData"
+  :hide-node-prefix="hidePrefix"
+  :is-check-all="true"
+  :show-checkbox="true"
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 隐藏指定前缀节点
+const hidePrefixTreeRef = ref();
+const hidePrefix = ref('I'); // 默认隐藏接口节点
+
+// 隐藏指定前缀节点示例数据
+const hidePrefixTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1,
+        children: [
+          {
+            id: 131,
+            name: '新增用户接口',
+            permission: 'I_user_create_api',
+            parentId: 13
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1,
+        children: [
+          {
+            id: 141,
+            name: '编辑用户接口',
+            permission: 'I_user_edit_api',
+            parentId: 14
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2,
+        children: [
+          {
+            id: 221,
+            name: '详情接口',
+            permission: 'I_order_detail_api',
+            parentId: 22
+          }
+        ]
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2,
+        children: [
+          {
+            id: 231,
+            name: '导出订单接口',
+            permission: 'I_order_export_api',
+            parentId: 23
+          }
+        ]
+      }
+    ]
+  }
+]);
+```
+
+```html
+<LSButton type="primary" @click="toggleHidePrefix">切换隐藏/显示接口节点</LSButton>
+
+<LSTree
+  ref="hidePrefixTreeRef"
+  :tree-data="hidePrefixTreeData"
+  :hide-node-prefix="hidePrefix"
+  :is-check-all="true"
+  :show-checkbox="true"
+/>
+```
+
+:::
+
 ## API
 
 ### Attributes
@@ -958,6 +1087,105 @@ const permissionTreeData = ref([
         name: '导出订单',
         permission: 'm_order_export',
         parentId: 2
+      }
+    ]
+  }
+]);
+
+
+// 隐藏指定前缀节点
+const hidePrefixTreeRef = ref();
+const hidePrefix = ref('I');
+
+// 隐藏指定前缀节点示例数据
+const hidePrefixTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1,
+        children: [
+          {
+            id: 131,
+            name: '新增用户接口',
+            permission: 'I_user_create_api',
+            parentId: 13
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1,
+        children: [
+          {
+            id: 141,
+            name: '编辑用户接口',
+            permission: 'I_user_edit_api',
+            parentId: 14
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2,
+        children: [
+          {
+            id: 221,
+            name: '详情接口',
+            permission: 'I_order_detail_api',
+            parentId: 22
+          }
+        ]
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2,
+        children: [
+          {
+            id: 231,
+            name: '导出订单接口',
+            permission: 'I_order_export_api',
+            parentId: 23
+          }
+        ]
       }
     ]
   }
