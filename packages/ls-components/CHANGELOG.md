@@ -1,3 +1,32 @@
+## [2.4.7](https://github.com/DTFN/ls-components-plus/compare/v2.4.6...v2.4.7) (2026-02-26)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([9b5b8ed](https://github.com/DTFN/ls-components-plus/commit/9b5b8ed09ccbc3a37763a3922bf9cb61b4716416))
+* **ls-component:** 🧩 update ([a04ae55](https://github.com/DTFN/ls-components-plus/commit/a04ae557d1cf93f2b134c299b844728279d6b233))
+* **ls-component:** 🧩 update ([70f1590](https://github.com/DTFN/ls-components-plus/commit/70f1590e4ea4a05426e194d69d1dcdade25fdfe9))
+* **ls-component:** 🧩 修复pdf样式 ([eb1ad39](https://github.com/DTFN/ls-components-plus/commit/eb1ad398ca5a586150de7e7983c8c5bca5fe2f58))
+* **ls-component:** 🧩 文档gengx ([f9e3aaa](https://github.com/DTFN/ls-components-plus/commit/f9e3aaabddab407541d1e5d0fe679b51015fa806))
+* **ls-component:** 🧩 更新文档 ([a5ec9c4](https://github.com/DTFN/ls-components-plus/commit/a5ec9c4f8d626a0d69852d46b8cf55a15885dee5))
+* **ls-component:** 🧩 更新预览组件下载回调 ([bf935c4](https://github.com/DTFN/ls-components-plus/commit/bf935c41b18e7c91f2566940de2e0b96304a77fc))
+* **ls-doc:** 🧩 button ([58d805a](https://github.com/DTFN/ls-components-plus/commit/58d805acd74c27b794c01a985e8acc13577a509f))
+* **ls-doc:** 🧩 icon文档 ([7d2c838](https://github.com/DTFN/ls-components-plus/commit/7d2c838b6b8b30d8b402db7c34b0230d7126bc33))
+* **ls-doc:** 🧩 updare ([8896a47](https://github.com/DTFN/ls-components-plus/commit/8896a47308f65015021a3ae9e89be42c0e3b0a21))
+* **ls-doc:** 🧩 updat ([cf05bf3](https://github.com/DTFN/ls-components-plus/commit/cf05bf3d74302ec9af6cbc54996fc8fb38e7a88a))
+* **ls-doc:** 🧩 update ([b5ebda8](https://github.com/DTFN/ls-components-plus/commit/b5ebda8689493c9097c8468f90ae18f3f372fbe9))
+* **ls-doc:** 🧩 update ([74b7124](https://github.com/DTFN/ls-components-plus/commit/74b712454c996b9130ddab5899ac6aaa95ca8140))
+* **ls-doc:** 🧩 update ([f2faf2d](https://github.com/DTFN/ls-components-plus/commit/f2faf2d5ab0b5651ca2a0c4608822cff8e8254af))
+* **ls-doc:** 🧩 update ([5d06f79](https://github.com/DTFN/ls-components-plus/commit/5d06f7940b12ffa63fe4763d87f95fd72f0bd4fa))
+* **ls-doc:** 🧩 update ([ba5e548](https://github.com/DTFN/ls-components-plus/commit/ba5e548e0d84f472f752fa0d384785b5c1c07348))
+* **ls-doc:** 🧩 update ([62c16c7](https://github.com/DTFN/ls-components-plus/commit/62c16c7f05d8da9b021f689deb45ca993024454a))
+* **ls-doc:** 🧩 update ([ed50546](https://github.com/DTFN/ls-components-plus/commit/ed505469141d0f2e94e37d6c0d5de6527a1b6b4a))
+* **ls-doc:** 🧩 update ([c81bcc6](https://github.com/DTFN/ls-components-plus/commit/c81bcc653c2e9d8a2d2201187256c7c2c66bbab8))
+* **ls-doc:** 🧩 update ([4e45aa9](https://github.com/DTFN/ls-components-plus/commit/4e45aa9bbe2b8a969a30e40985b6cbf0147af6b4))
+* **ls-doc:** 🧩 文档更新 ([ca1995c](https://github.com/DTFN/ls-components-plus/commit/ca1995ca8416420ebda07b378771b489ce0769fa))
+* **ls-doc:** 🧩 组件文档更新 ([da7e375](https://github.com/DTFN/ls-components-plus/commit/da7e37504f4e2974446be69b4cf999d275dfbe60))
+* **ls-doc:** 🧩 部分功能文档更新 ([6cb077d](https://github.com/DTFN/ls-components-plus/commit/6cb077df91add0bc2835bf9609d69cb1d2f80335))
+
 ## [2.4.6](https://github.com/DTFN/ls-components-plus/compare/v2.4.5...v2.4.6) (2025-12-26)
 
 
