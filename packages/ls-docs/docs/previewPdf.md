@@ -344,42 +344,6 @@ const eventsTableData = ref([
     desc: 'PDF下载事件',
     type: 'function',
     value: 'downloadData'
-  },
-  {
-    name: 'annotation',
-    desc: 'PDF注释事件',
-    type: 'function',
-    value: 'payload'
-  },
-  {
-    name: 'highlight',
-    desc: 'PDF高亮事件',
-    type: 'function',
-    value: 'payload'
-  },
-  {
-    name: 'loaded',
-    desc: 'PDF加载完成事件',
-    type: 'function',
-    value: 'payload'
-  },
-  {
-    name: 'textLoaded',
-    desc: 'PDF文本层加载完成事件',
-    type: 'function',
-    value: 'payload'
-  },
-  {
-    name: 'annotationLoaded',
-    desc: 'PDF注释层加载完成事件',
-    type: 'function',
-    value: 'payload'
-  },
-  {
-    name: 'xfaLoaded',
-    desc: 'PDF XFA加载完成事件',
-    type: 'function',
-    value: '-'
   }
 ]);
 
