@@ -10,19 +10,9 @@ outline: deep
 ::: tip 需安装依赖 [echarts](https://www.npmjs.com/package/echarts)
 :::
 
-## 功能介绍
-
-LSChart 组件是对 ECharts 的二次封装，提供了以下功能：
-
-- 支持快速创建常用类型的图表，包括柱状图、折线图和饼图
-- 支持自定义图表配置，完全兼容 ECharts 配置项
-- 支持主题切换，包括默认主题和暗黑主题
-- 支持响应式布局，可根据容器大小自动调整
-- 提供简洁的 API 接口，方便使用和扩展
-
 ## 使用方式
 
-### 基础用法
+### 1. 基础用法
 
 <br />
 <ClientOnly>
@@ -45,7 +35,7 @@ const dataSimple = {
 
 :::
 
-### 自定义配置
+### 2. 自定义配置
 
 <br />
 <ClientOnly>
@@ -102,7 +92,7 @@ const customOption = {
 
 :::
 
-### 主题切换
+### 3. 主题切换
 
 <br />
 <ClientOnly>
@@ -146,7 +136,7 @@ function changeTheme() {
 
 :::
 
-### 完全自定义配置
+### 4. 完全自定义配置
 
 <br />
 <ClientOnly>

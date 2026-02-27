@@ -8,21 +8,12 @@ outline: deep
 自定义样式请参考：[官方自定义样式](https://www.wangeditor.com/v5/content.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F)
 :::
 
-## 功能介绍
-
-LSEditor 组件是对 wangEditor 的二次封装，提供了以下功能：
-
-- 支持富文本编辑，包括文本格式化、列表、链接等
-- 支持图片上传，可配置上传服务器地址和参数
-- 支持自定义编辑器配置和工具栏
-- 提供简洁的 API 接口，方便获取和设置编辑器内容
-
 ## 使用方式
 
 ::: tip 需安装依赖 [@wangeditor/editor](https://www.npmjs.com/package/@wangeditor/editor) 和 [@wangeditor/editor-for-vue(5.1.12)](https://www.npmjs.com/package/@wangeditor/editor-for-vue)。
 :::
 
-### 基础用法
+### 1. 基础用法
 
 <br />
 <ClientOnly>
@@ -65,7 +56,7 @@ function handleCreated(editor) {
 
 :::
 
-### 自定义配置
+### 2. 自定义配置
 
 以下例子为上传图片的自定义配置，更多自定义配置参考[wangeditor](https://www.wangeditor.com/)
 
@@ -96,7 +87,7 @@ const editorConfig = {
 
 :::
 
-### 内容获取
+### 3. 内容获取
 
 判断是否为空可使用 [isEmpty](https://www.wangeditor.com/v5/API.html#isempty) 方法
 
@@ -134,7 +125,7 @@ function getContent() {
 
 :::
 
-### 自定义工具栏
+### 4. 自定义工具栏
 
 <br />
 <ClientOnly>
@@ -190,7 +181,7 @@ const toolbarConfig = {
 
 :::
 
-### 只读模式
+### 5. 只读模式
 
 <br />
 <ClientOnly>
@@ -233,7 +224,7 @@ const readOnlyContent = ref(`
 
 :::
 
-### 事件监听
+### 6. 事件监听
 
 <br />
 <ClientOnly>
