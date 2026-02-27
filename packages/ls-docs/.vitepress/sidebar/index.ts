@@ -66,7 +66,7 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
+        // { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
         { text: 'Download 下载', link: '/docs/download' },
         { text: 'Cropper 裁剪', link: '/docs/cropper' }
       ]

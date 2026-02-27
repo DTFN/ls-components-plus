@@ -4,27 +4,6 @@ outline: deep
 
 # BellMessage 消息通知列表
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基础使用](#基础使用)
-  - [自定义图标和徽章](#自定义图标和徽章)
-  - [不同类型的消息](#不同类型的消息)
-  - [无更多数据状态](#无更多数据状态)
-  - [带点击事件的消息通知](#带点击事件的消息通知)
-  - [带过滤功能的消息通知](#带过滤功能的消息通知)
-  - [样式定制](#样式定制)
-  - [响应式设计](#响应式设计)
-  - [与其他组件的集成](#与其他组件的集成)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [Methods](#methods)
-- [性能优化](#性能优化)
-- [常见问题与解决方案](#常见问题与解决方案)
-
-## 功能介绍
-
 ::: warning 快速创建常用头部消息通知列表功能，支持消息未读数量显示、消息阅读状态管理、消息列表加载等功能。
 :::
 
@@ -87,7 +66,14 @@ const readAll = () => {
 ```
 
 ```html
-<LSBellMessage :loading="loading" :notice-num="noticeNum" :list="list" @read-msg="readMsg" @load-more="loadMore" @read-all="readAll" />
+<LSBellMessage
+  :loading="loading"
+  :notice-num="noticeNum"
+  :list="list"
+  @read-msg="readMsg"
+  @load-more="loadMore"
+  @read-all="readAll"
+/>
 ```
 
 :::
@@ -154,7 +140,16 @@ const readAll2 = () => {
 ```
 
 ```html
-<LSBellMessage :loading="loading" :notice-num="noticeNum2" :badge-max="50" :icon-config="iconConfig" :list="list" @read-msg="readMsg" @load-more="loadMore" @read-all="readAll2" />
+<LSBellMessage
+  :loading="loading"
+  :notice-num="noticeNum2"
+  :badge-max="50"
+  :icon-config="iconConfig"
+  :list="list"
+  @read-msg="readMsg"
+  @load-more="loadMore"
+  @read-all="readAll2"
+/>
 ```
 
 :::
@@ -246,7 +241,14 @@ const readAll3 = () => {
 ```
 
 ```html
-<LSBellMessage :loading="loading" :notice-num="noticeNum3" :list="list2" @read-msg="readMsg2" @load-more="loadMore2" @read-all="readAll3" />
+<LSBellMessage
+  :loading="loading"
+  :notice-num="noticeNum3"
+  :list="list2"
+  @read-msg="readMsg2"
+  @load-more="loadMore2"
+  @read-all="readAll3"
+/>
 ```
 
 :::
@@ -302,7 +304,15 @@ const readAll4 = () => {
 ```
 
 ```html
-<LSBellMessage :loading="false" :notice-num="0" :list="list3" :no-more="true" @read-msg="readMsg3" @load-more="loadMore3" @read-all="readAll4" />
+<LSBellMessage
+  :loading="false"
+  :notice-num="0"
+  :list="list3"
+  :no-more="true"
+  @read-msg="readMsg3"
+  @load-more="loadMore3"
+  @read-all="readAll4"
+/>
 ```
 
 :::
@@ -377,7 +387,14 @@ const readAll5 = () => {
 ```
 
 ```html
-<LSBellMessage :loading="false" :notice-num="noticeNum4" :list="list4" @read-msg="readMsg4" @load-more="loadMore4" @read-all="readAll5" />
+<LSBellMessage
+  :loading="false"
+  :notice-num="noticeNum4"
+  :list="list4"
+  @read-msg="readMsg4"
+  @load-more="loadMore4"
+  @read-all="readAll5"
+/>
 ```
 
 :::
@@ -469,7 +486,14 @@ const readAll6 = () => {
 ```
 
 ```html
-<LSBellMessage :loading="false" :notice-num="noticeNum5" :list="filteredList" @read-msg="readMsg5" @load-more="loadMore5" @read-all="readAll6" />
+<LSBellMessage
+  :loading="false"
+  :notice-num="noticeNum5"
+  :list="filteredList"
+  @read-msg="readMsg5"
+  @load-more="loadMore5"
+  @read-all="readAll6"
+/>
 ```
 
 :::
@@ -543,101 +567,108 @@ const readAll7 = () => {
 
 ```html
 <div class="custom-bell-message">
-  <LSBellMessage :loading="false" :notice-num="noticeNum6" :list="list6" @read-msg="readMsg6" @load-more="loadMore6" @read-all="readAll7" />
+  <LSBellMessage
+    :loading="false"
+    :notice-num="noticeNum6"
+    :list="list6"
+    @read-msg="readMsg6"
+    @load-more="loadMore6"
+    @read-all="readAll7"
+  />
 </div>
 
 <style scoped>
-.custom-bell-message {
-  /* 自定义容器样式 */
-  width: 400px;
-  border: 1px solid #e4e7ed;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
+  .custom-bell-message {
+    /* 自定义容器样式 */
+    width: 400px;
+    border: 1px solid #e4e7ed;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
 
-/* 自定义消息项样式 */
-.custom-bell-message :deep(.ls-bell-message-item) {
-  padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
-  transition: all 0.3s;
-}
+  /* 自定义消息项样式 */
+  .custom-bell-message :deep(.ls-bell-message-item) {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s;
+  }
 
-.custom-bell-message :deep(.ls-bell-message-item:hover) {
-  background-color: #f5f7fa;
-}
+  .custom-bell-message :deep(.ls-bell-message-item:hover) {
+    background-color: #f5f7fa;
+  }
 
-/* 自定义未读消息样式 */
-.custom-bell-message :deep(.ls-bell-message-item.unread) {
-  background-color: #ecf5ff;
-}
+  /* 自定义未读消息样式 */
+  .custom-bell-message :deep(.ls-bell-message-item.unread) {
+    background-color: #ecf5ff;
+  }
 
-/* 自定义消息标题样式 */
-.custom-bell-message :deep(.ls-bell-message-item-title) {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 8px;
-}
+  /* 自定义消息标题样式 */
+  .custom-bell-message :deep(.ls-bell-message-item-title) {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 8px;
+  }
 
-/* 自定义消息内容样式 */
-.custom-bell-message :deep(.ls-bell-message-item-content) {
-  font-size: 14px;
-  color: #606266;
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
+  /* 自定义消息内容样式 */
+  .custom-bell-message :deep(.ls-bell-message-item-content) {
+    font-size: 14px;
+    color: #606266;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
 
-/* 自定义消息时间样式 */
-.custom-bell-message :deep(.ls-bell-message-item-time) {
-  font-size: 12px;
-  color: #909399;
-}
+  /* 自定义消息时间样式 */
+  .custom-bell-message :deep(.ls-bell-message-item-time) {
+    font-size: 12px;
+    color: #909399;
+  }
 
-/* 自定义消息类型样式 */
-.custom-bell-message :deep(.ls-bell-message-item-type) {
-  font-size: 12px;
-  color: #409eff;
-  background-color: #ecf5ff;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}
+  /* 自定义消息类型样式 */
+  .custom-bell-message :deep(.ls-bell-message-item-type) {
+    font-size: 12px;
+    color: #409eff;
+    background-color: #ecf5ff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
 
-/* 自定义全部已读按钮样式 */
-.custom-bell-message :deep(.ls-bell-message-read-all) {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  color: #409eff;
-  background-color: #f5f7fa;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
+  /* 自定义全部已读按钮样式 */
+  .custom-bell-message :deep(.ls-bell-message-read-all) {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    color: #409eff;
+    background-color: #f5f7fa;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
 
-.custom-bell-message :deep(.ls-bell-message-read-all:hover) {
-  background-color: #ecf5ff;
-}
+  .custom-bell-message :deep(.ls-bell-message-read-all:hover) {
+    background-color: #ecf5ff;
+  }
 
-/* 自定义加载更多按钮样式 */
-.custom-bell-message :deep(.ls-bell-message-load-more) {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  color: #606266;
-  background-color: #f5f7fa;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
+  /* 自定义加载更多按钮样式 */
+  .custom-bell-message :deep(.ls-bell-message-load-more) {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    color: #606266;
+    background-color: #f5f7fa;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
 
-.custom-bell-message :deep(.ls-bell-message-load-more:hover) {
-  background-color: #ecf5ff;
-  color: #409eff;
-}
+  .custom-bell-message :deep(.ls-bell-message-load-more:hover) {
+    background-color: #ecf5ff;
+    color: #409eff;
+  }
 </style>
 ```
 
@@ -712,133 +743,140 @@ const readAll8 = () => {
 
 ```html
 <div class="responsive-bell-message">
-  <LSBellMessage :loading="false" :notice-num="noticeNum7" :list="list7" @read-msg="readMsg7" @load-more="loadMore7" @read-all="readAll8" />
+  <LSBellMessage
+    :loading="false"
+    :notice-num="noticeNum7"
+    :list="list7"
+    @read-msg="readMsg7"
+    @load-more="loadMore7"
+    @read-all="readAll8"
+  />
 </div>
 
 <style scoped>
-.responsive-bell-message {
-  /* 基础容器样式 */
-  width: 100%;
-  max-width: 500px;
-  border: 1px solid #e4e7ed;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
-
-/* 响应式设计 */
-@media screen and (max-width: 768px) {
   .responsive-bell-message {
-    /* 在平板和手机上的样式 */
-    max-width: 100%;
-    margin: 0 16px;
-    border-radius: 4px;
+    /* 基础容器样式 */
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #e4e7ed;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   }
-  
-  /* 调整消息项内边距 */
+
+  /* 响应式设计 */
+  @media screen and (max-width: 768px) {
+    .responsive-bell-message {
+      /* 在平板和手机上的样式 */
+      max-width: 100%;
+      margin: 0 16px;
+      border-radius: 4px;
+    }
+
+    /* 调整消息项内边距 */
+    .responsive-bell-message :deep(.ls-bell-message-item) {
+      padding: 12px;
+    }
+
+    /* 调整字体大小 */
+    .responsive-bell-message :deep(.ls-bell-message-item-title) {
+      font-size: 14px;
+    }
+
+    .responsive-bell-message :deep(.ls-bell-message-item-content) {
+      font-size: 13px;
+    }
+
+    /* 调整按钮大小 */
+    .responsive-bell-message :deep(.ls-bell-message-read-all),
+    .responsive-bell-message :deep(.ls-bell-message-load-more) {
+      padding: 10px;
+      font-size: 13px;
+    }
+  }
+
+  /* 自定义消息项样式 */
   .responsive-bell-message :deep(.ls-bell-message-item) {
-    padding: 12px;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s;
   }
-  
-  /* 调整字体大小 */
+
+  .responsive-bell-message :deep(.ls-bell-message-item:hover) {
+    background-color: #f5f7fa;
+  }
+
+  /* 自定义未读消息样式 */
+  .responsive-bell-message :deep(.ls-bell-message-item.unread) {
+    background-color: #ecf5ff;
+  }
+
+  /* 自定义消息标题样式 */
   .responsive-bell-message :deep(.ls-bell-message-item-title) {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+    margin-bottom: 8px;
   }
-  
+
+  /* 自定义消息内容样式 */
   .responsive-bell-message :deep(.ls-bell-message-item-content) {
-    font-size: 13px;
+    font-size: 14px;
+    color: #606266;
+    line-height: 1.5;
+    margin-bottom: 8px;
   }
-  
-  /* 调整按钮大小 */
-  .responsive-bell-message :deep(.ls-bell-message-read-all),
+
+  /* 自定义消息时间样式 */
+  .responsive-bell-message :deep(.ls-bell-message-item-time) {
+    font-size: 12px;
+    color: #909399;
+  }
+
+  /* 自定义消息类型样式 */
+  .responsive-bell-message :deep(.ls-bell-message-item-type) {
+    font-size: 12px;
+    color: #409eff;
+    background-color: #ecf5ff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
+
+  /* 自定义全部已读按钮样式 */
+  .responsive-bell-message :deep(.ls-bell-message-read-all) {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    color: #409eff;
+    background-color: #f5f7fa;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .responsive-bell-message :deep(.ls-bell-message-read-all:hover) {
+    background-color: #ecf5ff;
+  }
+
+  /* 自定义加载更多按钮样式 */
   .responsive-bell-message :deep(.ls-bell-message-load-more) {
-    padding: 10px;
-    font-size: 13px;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    color: #606266;
+    background-color: #f5f7fa;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
   }
-}
 
-/* 自定义消息项样式 */
-.responsive-bell-message :deep(.ls-bell-message-item) {
-  padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
-  transition: all 0.3s;
-}
-
-.responsive-bell-message :deep(.ls-bell-message-item:hover) {
-  background-color: #f5f7fa;
-}
-
-/* 自定义未读消息样式 */
-.responsive-bell-message :deep(.ls-bell-message-item.unread) {
-  background-color: #ecf5ff;
-}
-
-/* 自定义消息标题样式 */
-.responsive-bell-message :deep(.ls-bell-message-item-title) {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 8px;
-}
-
-/* 自定义消息内容样式 */
-.responsive-bell-message :deep(.ls-bell-message-item-content) {
-  font-size: 14px;
-  color: #606266;
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
-
-/* 自定义消息时间样式 */
-.responsive-bell-message :deep(.ls-bell-message-item-time) {
-  font-size: 12px;
-  color: #909399;
-}
-
-/* 自定义消息类型样式 */
-.responsive-bell-message :deep(.ls-bell-message-item-type) {
-  font-size: 12px;
-  color: #409eff;
-  background-color: #ecf5ff;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}
-
-/* 自定义全部已读按钮样式 */
-.responsive-bell-message :deep(.ls-bell-message-read-all) {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  color: #409eff;
-  background-color: #f5f7fa;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.responsive-bell-message :deep(.ls-bell-message-read-all:hover) {
-  background-color: #ecf5ff;
-}
-
-/* 自定义加载更多按钮样式 */
-.responsive-bell-message :deep(.ls-bell-message-load-more) {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  color: #606266;
-  background-color: #f5f7fa;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.responsive-bell-message :deep(.ls-bell-message-load-more:hover) {
-  background-color: #ecf5ff;
-  color: #409eff;
-}
+  .responsive-bell-message :deep(.ls-bell-message-load-more:hover) {
+    background-color: #ecf5ff;
+    color: #409eff;
+  }
 </style>
 ```
 
@@ -966,14 +1004,14 @@ const readAll9 = () => {
 <div class="integration-bell-message">
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
-      <LSBellMessage 
-        :loading="false" 
-        :notice-num="noticeNum8" 
-        :list="list8" 
-        :icon-config="dropdownIconConfig" 
-        @read-msg="readMsg8" 
-        @load-more="loadMore8" 
-        @read-all="readAll9" 
+      <LSBellMessage
+        :loading="false"
+        :notice-num="noticeNum8"
+        :list="list8"
+        :icon-config="dropdownIconConfig"
+        @read-msg="readMsg8"
+        @load-more="loadMore8"
+        @read-all="readAll9"
       />
     </span>
     <template #dropdown>
@@ -983,13 +1021,7 @@ const readAll9 = () => {
           <span class="read-all-btn" @click="readAll9">全部已读</span>
         </div>
         <div class="dropdown-body">
-          <LSBellMessage 
-            :loading="false" 
-            :notice-num="noticeNum8" 
-            :list="list8" 
-            :no-more="true" 
-            @read-msg="readMsg8" 
-          />
+          <LSBellMessage :loading="false" :notice-num="noticeNum8" :list="list8" :no-more="true" @read-msg="readMsg8" />
         </div>
       </div>
     </template>
@@ -997,70 +1029,70 @@ const readAll9 = () => {
 </div>
 
 <style scoped>
-.integration-bell-message {
-  /* 集成示例容器样式 */
-  margin: 20px 0;
-}
+  .integration-bell-message {
+    /* 集成示例容器样式 */
+    margin: 20px 0;
+  }
 
-.dropdown-content {
-  /* 下拉菜单内容样式 */
-  width: 400px;
-  max-height: 500px;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background-color: #fff;
-}
-
-.dropdown-header {
-  /* 下拉菜单头部样式 */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.dropdown-header h3 {
-  /* 标题样式 */
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.read-all-btn {
-  /* 全部已读按钮样式 */
-  font-size: 14px;
-  color: #409eff;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.read-all-btn:hover {
-  color: #66b1ff;
-}
-
-.dropdown-body {
-  /* 下拉菜单体部样式 */
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-/* 响应式设计 */
-@media screen and (max-width: 768px) {
   .dropdown-content {
-    width: 300px;
+    /* 下拉菜单内容样式 */
+    width: 400px;
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
   }
-  
+
   .dropdown-header {
-    padding: 12px;
+    /* 下拉菜单头部样式 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
   }
-  
+
   .dropdown-header h3 {
-    font-size: 14px;
+    /* 标题样式 */
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
   }
-}
+
+  .read-all-btn {
+    /* 全部已读按钮样式 */
+    font-size: 14px;
+    color: #409eff;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .read-all-btn:hover {
+    color: #66b1ff;
+  }
+
+  .dropdown-body {
+    /* 下拉菜单体部样式 */
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  /* 响应式设计 */
+  @media screen and (max-width: 768px) {
+    .dropdown-content {
+      width: 300px;
+    }
+
+    .dropdown-header {
+      padding: 12px;
+    }
+
+    .dropdown-header h3 {
+      font-size: 14px;
+    }
+  }
 </style>
 ```
 
@@ -1085,13 +1117,13 @@ const readAll9 = () => {
 
 ### 11. 常见问题与解决方案
 
-| 问题 | 原因 | 解决方案 |
-|------|------|----------|
-| 消息数量不更新 | 未正确处理`read-msg`和`read-all`事件 | 在事件回调中更新消息的`readStatus`和`noticeNum` |
-| 样式不生效 | CSS选择器优先级问题或使用了错误的选择器 | 使用`:deep()`选择器或增加选择器优先级 |
-| 响应式布局问题 | 未设置媒体查询或使用了固定像素值 | 使用相对单位和媒体查询，确保在不同屏幕尺寸上的适配 |
-| 性能问题 | 消息数量过多或频繁更新 | 使用虚拟滚动、懒加载等性能优化技术 |
-| 与其他组件冲突 | 样式或事件冲突 | 使用命名空间或隔离样式，避免事件名称冲突 |
+| 问题           | 原因                                    | 解决方案                                           |
+| -------------- | --------------------------------------- | -------------------------------------------------- |
+| 消息数量不更新 | 未正确处理`read-msg`和`read-all`事件    | 在事件回调中更新消息的`readStatus`和`noticeNum`    |
+| 样式不生效     | CSS选择器优先级问题或使用了错误的选择器 | 使用`:deep()`选择器或增加选择器优先级              |
+| 响应式布局问题 | 未设置媒体查询或使用了固定像素值        | 使用相对单位和媒体查询，确保在不同屏幕尺寸上的适配 |
+| 性能问题       | 消息数量过多或频繁更新                  | 使用虚拟滚动、懒加载等性能优化技术                 |
+| 与其他组件冲突 | 样式或事件冲突                          | 使用命名空间或隔离样式，避免事件名称冲突           |
 
 ## API
 
@@ -1101,27 +1133,27 @@ const readAll9 = () => {
 
 #### 属性详细说明
 
-| 属性名 | 类型 | 默认值 | 说明 | 使用场景 | 注意事项 |
-|-------|------|-------|------|----------|----------|
-| noticeNum | number | 0 | 消息通知未读数量 | 显示未读消息的数量，用于提醒用户 | 当所有消息都已读时，应设置为0 |
-| badgeMax | number | 99 | 徽章展示数值最大值 | 当未读消息数量超过该值时，显示为"99+" | 建议根据UI设计合理设置该值 |
-| iconConfig | object | {} | 图标配置，具体配置参考LSIcon | 自定义消息图标，包括名称、大小、颜色等 | 若不设置，将使用默认图标 |
-| loading | boolean | true | 是否展示列表数据加载loading样式 | 初始加载或加载更多数据时显示加载状态 | 数据加载完成后应设置为false |
-| noMore | boolean | false | 是否已经没有更多数据 | 当所有数据都已加载完成时显示"无更多数据" | 与loadMore事件配合使用 |
-| list | array | [] | 列表数据，具体结构见下方 | 展示消息列表内容 | 每个消息项必须包含id、title、msgType、content、createdTime、readStatus字段 |
+| 属性名     | 类型    | 默认值 | 说明                            | 使用场景                                 | 注意事项                                                                   |
+| ---------- | ------- | ------ | ------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------- |
+| noticeNum  | number  | 0      | 消息通知未读数量                | 显示未读消息的数量，用于提醒用户         | 当所有消息都已读时，应设置为0                                              |
+| badgeMax   | number  | 99     | 徽章展示数值最大值              | 当未读消息数量超过该值时，显示为"99+"    | 建议根据UI设计合理设置该值                                                 |
+| iconConfig | object  | {}     | 图标配置，具体配置参考LSIcon    | 自定义消息图标，包括名称、大小、颜色等   | 若不设置，将使用默认图标                                                   |
+| loading    | boolean | true   | 是否展示列表数据加载loading样式 | 初始加载或加载更多数据时显示加载状态     | 数据加载完成后应设置为false                                                |
+| noMore     | boolean | false  | 是否已经没有更多数据            | 当所有数据都已加载完成时显示"无更多数据" | 与loadMore事件配合使用                                                     |
+| list       | array   | []     | 列表数据，具体结构见下方        | 展示消息列表内容                         | 每个消息项必须包含id、title、msgType、content、createdTime、readStatus字段 |
 
 #### list属性数据结构
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-| 字段名 | 类型 | 说明 | 使用场景 | 注意事项 |
-|-------|------|------|----------|----------|
-| id | string | 消息id | 唯一标识每条消息，用于读取状态更新 | 必须唯一，建议使用后端返回的id |
-| title | string | 消息标题 | 显示消息的标题 | 建议简洁明了，突出消息主题 |
-| msgType | string | 消息类型文案 | 显示消息的类型，如"系统"、"审批"等 | 用于区分不同类型的消息 |
-| content | string | 消息内容 | 显示消息的详细内容 | 建议控制长度，过长时会自动截断 |
-| createdTime | string | 消息创建时间 | 显示消息的发送时间 | 建议使用标准时间格式，如"2024-02-01 12:00:00" |
-| readStatus | number | 消息状态: 0 未读 1 已读 | 控制消息的阅读状态和显示样式 | 未读消息会显示特殊样式，点击后应更新为已读 |
+| 字段名      | 类型   | 说明                    | 使用场景                           | 注意事项                                      |
+| ----------- | ------ | ----------------------- | ---------------------------------- | --------------------------------------------- |
+| id          | string | 消息id                  | 唯一标识每条消息，用于读取状态更新 | 必须唯一，建议使用后端返回的id                |
+| title       | string | 消息标题                | 显示消息的标题                     | 建议简洁明了，突出消息主题                    |
+| msgType     | string | 消息类型文案            | 显示消息的类型，如"系统"、"审批"等 | 用于区分不同类型的消息                        |
+| content     | string | 消息内容                | 显示消息的详细内容                 | 建议控制长度，过长时会自动截断                |
+| createdTime | string | 消息创建时间            | 显示消息的发送时间                 | 建议使用标准时间格式，如"2024-02-01 12:00:00" |
+| readStatus  | number | 消息状态: 0 未读 1 已读 | 控制消息的阅读状态和显示样式       | 未读消息会显示特殊样式，点击后应更新为已读    |
 
 ### Methods
 
@@ -1129,11 +1161,11 @@ const readAll9 = () => {
 
 #### 方法详细说明
 
-| 方法名 | 参数 | 说明 | 使用场景 | 注意事项 |
-|-------|------|------|----------|----------|
-| readAll | 无 | 点击全部已读回调方法 | 当用户点击"全部已读"按钮时触发 | 应在回调中更新所有消息的readStatus为1，并将noticeNum设置为0 |
-| readMsg | id: string | 点击单条消息回调方法，返回消息id | 当用户点击单条消息时触发 | 应在回调中更新对应消息的readStatus为1，并重新计算未读数量 |
-| loadMore | 无 | 点击加载更多回调方法 | 当用户点击"加载更多"按钮时触发 | 应在回调中加载新数据并添加到列表中 |
+| 方法名   | 参数       | 说明                             | 使用场景                       | 注意事项                                                    |
+| -------- | ---------- | -------------------------------- | ------------------------------ | ----------------------------------------------------------- |
+| readAll  | 无         | 点击全部已读回调方法             | 当用户点击"全部已读"按钮时触发 | 应在回调中更新所有消息的readStatus为1，并将noticeNum设置为0 |
+| readMsg  | id: string | 点击单条消息回调方法，返回消息id | 当用户点击单条消息时触发       | 应在回调中更新对应消息的readStatus为1，并重新计算未读数量   |
+| loadMore | 无         | 点击加载更多回调方法             | 当用户点击"加载更多"按钮时触发 | 应在回调中加载新数据并添加到列表中                          |
 
 <script setup>
 import { tableColumn, tableMethodColumn } from '../constant';
