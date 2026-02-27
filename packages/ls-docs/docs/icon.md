@@ -7,19 +7,9 @@ outline: deep
 ::: warning 基于 Element Plus Icon、iconify、img、svg 提供多种图标使用方式，支持丰富的样式定制和动画效果。
 :::
 
-## 功能介绍
-
-LSIcon 组件是对图标使用方式的统一封装，提供了以下增强功能：
-
-- 支持多种图标类型：Element Plus Icon、iconify、图片和 SVG
-- 提供统一的属性配置，如颜色、大小、宽度和高度
-- 支持丰富的样式定制，包括不同尺寸、颜色和动画效果
-- 支持与其他组件的无缝集成
-- 提供更多的使用场景和示例
-
 ## 使用方式
 
-### Element Plus Icon
+### 1. Element Plus Icon
 
 ::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
 并注册需要用到的icon图标，注册方式请查看ei-icon文档
@@ -30,7 +20,7 @@ LSIcon 组件是对图标使用方式的统一封装，提供了以下增强功�
 <LSIcon name="Notification" color="red" size="20" />
 ```
 
-### iconify
+### 2. iconify
 
 ::: tip 需安装依赖 [@iconify/vue](https://www.npmjs.com/package/@iconify/vue)。
 :::
@@ -40,7 +30,7 @@ LSIcon 组件是对图标使用方式的统一封装，提供了以下增强功�
 <LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />
 ```
 
-### img
+### 3. img
 
 <LSIcon :type="2" name="img" width="100" height="100" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
 
@@ -54,7 +44,7 @@ LSIcon 组件是对图标使用方式的统一封装，提供了以下增强功�
 />
 ```
 
-### svg
+### 4. svg
 
 <LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
 
@@ -66,7 +56,7 @@ import svgIcon from '/public/vue.svg';
 <LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
 ```
 
-### 不同尺寸的Element Plus图标
+### 5. 不同尺寸的Element Plus图标
 
 <div class="icon-size-example">
   <LSIcon name="Notification" color="red" size="16" />
@@ -96,7 +86,7 @@ import svgIcon from '/public/vue.svg';
 
 :::
 
-### 不同颜色的Element Plus图标
+### 6. 不同颜色的Element Plus图标
 
 <div class="icon-color-example">
   <LSIcon name="Notification" color="red" size="24" />
@@ -128,7 +118,7 @@ import svgIcon from '/public/vue.svg';
 
 :::
 
-### 带点击事件的图标
+### 7. 带点击事件的图标
 
 <div class="icon-click-example">
   <LSIcon 
@@ -172,7 +162,7 @@ const handleIconClick = () => {
 
 :::
 
-### 图标组的使用
+### 8. 图标组的使用
 
 <div class="icon-group-example">
   <div class="icon-group">
@@ -245,7 +235,7 @@ const handleIconClick = () => {
 
 :::
 
-### 动态切换图标
+### 9. 动态切换图标
 
 <div class="dynamic-icon-example">
   <LSIcon :name="currentIcon" :color="iconColor" size="32" />
@@ -317,7 +307,7 @@ const switchIcon = iconName => {
 
 :::
 
-### 样式定制
+### 10. 样式定制
 
 <div class="custom-icon-example">
   <h3>基础样式定制</h3>
@@ -462,7 +452,7 @@ const switchIcon = iconName => {
 
 :::
 
-### 与其他组件的集成
+### 11. 与其他组件的集成
 
 <div class="integration-example">
   <h3>与按钮组件的集成</h3>
@@ -796,7 +786,7 @@ const switchIcon = iconName => {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
@@ -813,7 +803,7 @@ const switchIcon = iconName => {
 | src      | string          | -      | img图片地址，type为2的时候使用            | 指定图片的URL地址          | 当type为2且使用图片时必须设置                                                                         |
 | symbolId | string / number | -      | 图标符号ID                                | 用于自定义SVG图标系统      | 当使用自定义SVG图标系统时可能需要设置                                                                 |
 
-### Slot
+### 2. Slot
 
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="tableData2" />
 

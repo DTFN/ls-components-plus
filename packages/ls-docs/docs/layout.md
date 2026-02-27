@@ -7,20 +7,9 @@ outline: deep
 ::: warning 基于el-container二次封装，保留原属性和方法，提供三种布局模式和丰富的自定义选项。
 :::
 
-## 功能介绍
-
-LSLayout 组件是对 Element Plus Container 组件的二次封装，提供了以下增强功能：
-
-- 支持三种布局模式，满足不同场景的需求
-- 提供丰富的自定义选项，包括头部高度、侧边栏宽度、底部高度等
-- 支持自定义 logo、标题和用户信息
-- 提供顶部交互功能，支持下拉菜单和命令回调
-- 支持丰富的插槽，可自定义各个区域的内容
-- 保持与 Element Plus Container 组件的完全兼容性
-
 ## 使用方式
 
-### 布局模式一：顶部导航栏 + 侧边栏 + 内容区域
+### 1. 布局模式一：顶部导航栏 + 侧边栏 + 内容区域
 
 <br />
 
@@ -384,7 +373,7 @@ function onCommand(key) {
 
 :::
 
-### 布局模式二：顶部导航栏 + 内容区域
+### 2. 布局模式二：顶部导航栏 + 内容区域
 
 <br />
 <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="布局模式二" mode="2" :command-list="commandList">
@@ -401,7 +390,7 @@ function onCommand(key) {
 
 :::
 
-### 布局模式三：侧边栏 + 顶部导航栏 + 内容区域
+### 3. 布局模式三：侧边栏 + 顶部导航栏 + 内容区域
 
 <br />
 <LSLayout
@@ -578,7 +567,7 @@ const MENU_CONFIG_LIST = [
 
 ## API
 
-### Layout Attributes
+### 1. Layout Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
@@ -600,7 +589,7 @@ const MENU_CONFIG_LIST = [
 | userIcon     | string                             | -      | 用户头像             | 设置顶部显示的用户头像     | -                                                                                              |
 | commandList  | array<{key: string, name: string}> | []     | 顶部交互功能列表     | 设置顶部下拉菜单的选项     | -                                                                                              |
 
-### Header Attributes
+### 2. Header Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="headerTableData" />
 
@@ -618,7 +607,7 @@ const MENU_CONFIG_LIST = [
 | userIcon    | string                             | -      | 用户头像             | 设置顶部显示的用户头像     | -                              |
 | commandList | array<{key: string, name: string}> | []     | 顶部交互功能列表     | 设置顶部下拉菜单的选项     | -                              |
 
-### Events
+### 3. Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
@@ -630,7 +619,7 @@ const MENU_CONFIG_LIST = [
 | onDropdownCommand  | 下拉菜单命令回调 | key  | 当用户点击下拉菜单选项时触发     |
 | onDropdownCommand2 | 下拉菜单命令回调 | key  | 当用户点击下拉菜单选项时触发     |
 
-### Slots
+### 4. Slots
 
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="slotTableData" />
 
@@ -646,7 +635,7 @@ const MENU_CONFIG_LIST = [
 | section     | 内容区域插槽 | 自定义内容区域内容 | 页面的主要内容区域             |
 | footer      | 底部插槽     | 自定义底部内容     | showFooter 为 true 时生效      |
 
-### 公共样式
+### 5. 公共样式
 
 <ApiIntro :tableColumn="tableStyleColumn" :tableData="styleTableData" />
 

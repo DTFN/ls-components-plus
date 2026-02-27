@@ -13,7 +13,7 @@ outline: deep
 
 <br />
 <ClientOnly>
-<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="true" />
+<LSLive ref="liveRef" class="live-wrap" type="flv" :is-live="true" />
 </ClientOnly>
 
 ::: details 点我查看代码
@@ -21,7 +21,7 @@ outline: deep
 ```js
 import { ref, onMounted } from 'vue';
 // http或https类型的直播地址，根据视频地址类型选择flv或mp4
-const m1 = '';
+const m1 = 'http://192.168.1.33:8009/live/test.flv';
 const liveRef = ref();
 const liveUrl = ref(m1);
 onMounted(() => {
@@ -202,7 +202,7 @@ function changeVideo() {
 <script setup>
 import { tableColumn, tableExposesColumn } from '../constant'
 import { ref, onMounted, nextTick } from 'vue';
-const m1 = ''
+const m1 = 'http://192.168.1.33:8009/live/test.flv'
 const m2 = 'http://192.168.1.33:8008/images/m1.mp4'
 const m3 = 'http://192.168.1.33:8008/images/m2.mp4'
 const liveRef = ref();

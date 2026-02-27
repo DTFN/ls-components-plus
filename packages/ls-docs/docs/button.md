@@ -7,18 +7,9 @@ outline: deep
 ::: warning 结合 el-button、el-button-group 组件进行二次封装，提供更多自定义选项和图标配置功能。
 :::
 
-## 功能介绍
-
-LSButton 组件是对 Element Plus Button 组件的二次封装，提供了以下增强功能：
-
-- 支持通过 `iconConfig` 属性配置图标，兼容 Element Plus 图标、iconify、图片和 SVG
-- 支持按钮组中的分隔符配置
-- 保持与 Element Plus Button 组件的完全兼容性
-- 提供更多的使用场景和示例
-
 ## 使用方式
 
-### 基础按钮
+### 1. 基础按钮
 
 <ClientOnly>
 <LSButton>默认按钮</LSButton>
@@ -42,7 +33,7 @@ LSButton 组件是对 Element Plus Button 组件的二次封装，提供了以�
 
 :::
 
-### 按钮尺寸
+### 2. 按钮尺寸
 
 <ClientOnly>
 <LSButton size="large">大型按钮</LSButton>
@@ -60,7 +51,7 @@ LSButton 组件是对 Element Plus Button 组件的二次封装，提供了以�
 
 :::
 
-### 带图标的按钮
+### 3. 带图标的按钮
 
 <ClientOnly>
 <LSButton type="primary" :icon="Edit">编辑</LSButton>
@@ -86,7 +77,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 仅图标按钮
+### 4. 仅图标按钮
 
 <ClientOnly>
 <LSButton type="primary" :icon="Edit"></LSButton>
@@ -108,7 +99,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 加载状态按钮
+### 5. 加载状态按钮
 
 <ClientOnly>
 <LSButton type="primary" :loading="true">加载中</LSButton>
@@ -130,7 +121,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 禁用状态按钮
+### 6. 禁用状态按钮
 
 <ClientOnly>
 <LSButton disabled>禁用按钮</LSButton>
@@ -154,7 +145,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 圆角按钮
+### 7. 圆角按钮
 
 <ClientOnly>
 <LSButton round>圆角按钮</LSButton>
@@ -178,7 +169,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 
 :::
 
-### 圆形按钮
+### 8. 圆形按钮
 
 <ClientOnly>
 <LSButton circle :icon="Edit"></LSButton>
@@ -206,7 +197,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 文字按钮
+### 9. 文字按钮
 
 <ClientOnly>
 <LSButton link>文字按钮</LSButton>
@@ -230,7 +221,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 朴素按钮
+### 10. 朴素按钮
 
 <ClientOnly>
 <LSButton plain>朴素按钮</LSButton>
@@ -254,7 +245,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 带自定义图标的按钮
+### 11. 带自定义图标的按钮
 
 <ClientOnly>
 <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">鱼图标</LSButton>
@@ -272,7 +263,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 带图标插槽的按钮
+### 12. 带图标插槽的按钮
 
 <ClientOnly>
 <LSButton type="primary">
@@ -320,7 +311,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 
 :::
 
-### 按钮组
+### 13. 按钮组
 
 <ClientOnly>
 <LSButtonGroup>
@@ -356,7 +347,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 
 :::
 
-### 带分隔符的按钮组
+### 14. 带分隔符的按钮组
 
 <ClientOnly>
 <LSButtonGroup type="primary" separator="|" :separator-size="14">
@@ -390,7 +381,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 
 :::
 
-### 带图标的按钮组
+### 15. 带图标的按钮组
 
 <ClientOnly>
 <LSButtonGroup type="primary">
@@ -416,7 +407,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 :::
 
-### 按钮组的嵌套使用
+### 16. 按钮组的嵌套使用
 
 <ClientOnly>
 <LSButtonGroup>
@@ -446,7 +437,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 :::
 
-### 响应式按钮
+### 17. 响应式按钮
 
 <ClientOnly>
 <div class="responsive-buttons">
@@ -488,7 +479,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 :::
 
-### 与其他组件的集成
+### 18. 与其他组件的集成
 
 <ClientOnly>
 <div class="integration-example">
@@ -560,7 +551,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 
 ## API
 
-### Button Attributes
+### 1. Button Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="buttonTableData" />
 
@@ -580,7 +571,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 | plain             | boolean        | false   | 朴素按钮     | 创建朴素样式的按钮           | 背景透明，仅显示边框和文字                            |
 | auto-insert-space | boolean        | true    | 自动插入空格 | 在文字和图标之间自动插入空格 | -                                                     |
 
-### ButtonGroup Attributes
+### 2. ButtonGroup Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="buttonGroupTableData" />
 
@@ -592,7 +583,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 | separatorColor | string          | #333   | 分隔符颜色       | 自定义分隔符的颜色     | 支持 CSS 颜色值              |
 | separatorSize  | string / number | 12     | 分隔符大小       | 自定义分隔符的字体大小 | 单位为像素                   |
 
-### Button Events
+### 3. Button Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="buttonEventTableData" />
 
