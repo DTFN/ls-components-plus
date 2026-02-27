@@ -7,21 +7,9 @@ outline: deep
 ::: warning 基于el-tree二次封装，保留原属性和方法。
 :::
 
-## 功能介绍
-
-LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增强功能：
-
-- 支持全选/取消全选功能
-- 支持水平/垂直展示方向
-- 支持自定义数据结构映射
-- 支持节点前缀过滤
-- 支持复选框状态管理
-- 支持与表单集成
-- 保留了 Element Plus Tree 的所有原有功能
-
 ## 使用方式
 
-### 基本使用
+### 1. 基本使用
 
 <LSButton type="primary" @click="getChecked">获取已选项</LSButton>
 
@@ -332,7 +320,7 @@ function getTreeCheckedData(ids) {
 
 :::
 
-### 水平展示
+### 2. 水平展示
 
 <ClientOnly>
 <LSTree
@@ -358,7 +346,7 @@ function getTreeCheckedData(ids) {
 
 组件通过在数据结构中设置 `isPenultimate: true` 属性来实现水平布局。当节点的 `isPenultimate` 属性为 `true` 时，组件会自动为其添加 `is-penultimate` 类，使其子节点水平排列。
 
-### 实现方式
+实现方式
 
 1. **数据结构设置**：在需要水平展示子节点的父节点上添加 `isPenultimate: true` 属性
 
@@ -439,7 +427,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 }
 ```
 
-### 注意事项
+注意事项
 
 - `isPenultimate` 属性需要设置在父节点上，而不是子节点上
 - 当设置 `isPenultimate: true` 后，该节点的所有子节点都会水平排列
@@ -447,7 +435,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 
 :::
 
-### 基本使用（非全选模式）
+### 3. 基本使用（非全选模式）
 
 <ClientOnly>
 <LSTree
@@ -462,7 +450,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 ```
 
-### 权限code包含p或d
+### 4. 权限code包含p或d
 
 <ClientOnly>
 <LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
@@ -578,7 +566,7 @@ function getPermissionChecked() {
 
 :::
 
-### 隐藏指定前缀节点
+### 5. 隐藏指定前缀节点
 
 <ClientOnly>
 
@@ -709,19 +697,19 @@ const hidePrefixTreeData = ref([
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### data 配置项
+#### 1.1 data 配置项
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-### Methods
+### 2. Methods
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
-### Exposes
+### 3. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData4" />
 

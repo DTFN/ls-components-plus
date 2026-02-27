@@ -519,22 +519,22 @@ LSMenu 组件支持多种跳转方式：
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Menu Item Attributes
+#### 1.1 Menu Item Attributes
 
 ::: warning 默认路由meta中bcList配置参数与之一致
 :::
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-### Events
+### 2. Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="tableData3" />
 
-### Slots
+### 3. Slots
 
 <ApiIntro :tableColumn="slotTableColumn" :tableData="tableData4" />
 

@@ -224,11 +224,11 @@ const customOptionFull = {
 
 ## API
 
-### Attributes 公共参数
+### 1. Attributes 公共参数
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Exposes
+### 2. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 

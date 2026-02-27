@@ -256,11 +256,11 @@ function handleChange(editor) {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Exposes
+### 2. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 

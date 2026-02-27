@@ -740,11 +740,11 @@ const styleConfig = {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Events
+### 2. Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="tableData2" />
 

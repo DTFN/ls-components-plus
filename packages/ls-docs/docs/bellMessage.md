@@ -1127,11 +1127,11 @@ const readAll9 = () => {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 属性详细说明
+#### 1.1 属性详细说明
 
 | 属性名     | 类型    | 默认值 | 说明                            | 使用场景                                 | 注意事项                                                                   |
 | ---------- | ------- | ------ | ------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------- |
@@ -1142,7 +1142,7 @@ const readAll9 = () => {
 | noMore     | boolean | false  | 是否已经没有更多数据            | 当所有数据都已加载完成时显示"无更多数据" | 与loadMore事件配合使用                                                     |
 | list       | array   | []     | 列表数据，具体结构见下方        | 展示消息列表内容                         | 每个消息项必须包含id、title、msgType、content、createdTime、readStatus字段 |
 
-#### list属性数据结构
+#### 1.2 list属性数据结构
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
@@ -1155,11 +1155,11 @@ const readAll9 = () => {
 | createdTime | string | 消息创建时间            | 显示消息的发送时间                 | 建议使用标准时间格式，如"2024-02-01 12:00:00" |
 | readStatus  | number | 消息状态: 0 未读 1 已读 | 控制消息的阅读状态和显示样式       | 未读消息会显示特殊样式，点击后应更新为已读    |
 
-### Methods
+### 2. Methods
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
-#### 方法详细说明
+#### 2.1 方法详细说明
 
 | 方法名   | 参数       | 说明                             | 使用场景                       | 注意事项                                                    |
 | -------- | ---------- | -------------------------------- | ------------------------------ | ----------------------------------------------------------- |
