@@ -154,23 +154,6 @@ function updateAllCheckStatus() {
   }
 }
 
-// 更新样式
-// function updateStyle() {
-//   if (props.direction == 'h') {
-//     const treeNodes = lsTreeRef.value?.el$?.getElementsByClassName('el-tree-node');
-//     for (let i = 0; i < treeNodes.length; i++) {
-//       const element = treeNodes[i] as HTMLElement;
-//       if (element) {
-//         const iconNode = element.querySelector('.el-tree-node__content .el-icon') as HTMLElement | null;
-//         if (iconNode && getComputedStyle(iconNode).visibility === 'hidden') {
-//           element.style.display = 'inline-block';
-//           element.style.verticalAlign = 'middle';
-//         }
-//       }
-//     }
-//   }
-// }
-
 defineExpose({
   lsTreeRef
 });
