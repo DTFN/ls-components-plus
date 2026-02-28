@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSXlsx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { xlsxProps } from './types';
-import { previewEmits } from '@cpo/_constants/previewType';
+import { fileEmpty, previewEmits } from '@cpo/_constants/previewType';
 import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
 import { isFile } from '@cpo/_utils/check';
 import * as XLSX from 'xlsx/xlsx.mjs';
@@ -22,18 +22,30 @@ const props = defineProps(xlsxProps);
 
 const emits = defineEmits(previewEmits);
 
+const attrs = useAttrs();
+
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
 watch(
   () => props.source,
   val => {
-    const { size }: any = val || {};
-    if (size / 1024 / 1024 <= fileSizeLimit) {
-      initXlsx(val);
-    } else {
-      if (!props.hasPagination) {
-        ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
-        emits('loadComplete');
+    if (val) {
+      const { size }: any = val || {};
+      if (size / 1024 / 1024 <= fileSizeLimit) {
+        initXlsx(val);
       } else {
-        initXlsxLarge(val);
+        if (!props.hasPagination) {
+          ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
+          emits('loadComplete');
+        } else {
+          initXlsxLarge(val);
+        }
       }
     }
   },
@@ -61,6 +73,7 @@ const closeFunc = () => {
 };
 
 async function initXlsx(val: File | string) {
+  let isCompleted = false;
   if (!(await initLuckySheet(val))) {
     return;
   }
@@ -69,6 +82,7 @@ async function initXlsx(val: File | string) {
       val,
       function (exportJson: { sheets: string | any[] | null; info: { name: { creator: any } } }) {
         if (exportJson.sheets == null) {
+          emits('loadError');
           return;
         }
 
@@ -78,9 +92,17 @@ async function initXlsx(val: File | string) {
           title: exportJson.info.name,
           ...luckysheetConfig
         });
+        isCompleted = true;
+        emits('loadComplete');
       }
     );
-    emits('loadComplete');
+    let timer = setTimeout(() => {
+      if (!isCompleted) {
+        ElMessage.error(fileEmpty);
+        emits('loadError');
+        clearTimeout(timer);
+      }
+    }, 6000);
   } catch (error) {
     emits('loadError');
   }
@@ -243,6 +265,10 @@ function resetLuckySheet() {
   }
 }
 
+function onDownload() {
+  emits('onDownload', attrs.downloadData);
+}
+
 onBeforeUnmount(() => {
   resetLuckySheet();
 });
@@ -250,9 +276,17 @@ onBeforeUnmount(() => {
 
 <template>
   <div :class="comClass">
-    <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+    <div :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <LSIcon name="Close" :size="24" color="#FFF" />
-    </span>
+    </div>
+    <div v-if="hasDownload" :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
+      <LSIcon
+        :class="{ 'is-loading': downloadLoading }"
+        :name="`${downloadLoading ? 'Loading' : 'Download'}`"
+        :size="24"
+        color="#FFF"
+      />
+    </div>
     <div id="luckysheet" class="luckysheet-wrap"></div>
   </div>
 </template>
@@ -347,7 +381,7 @@ onBeforeUnmount(() => {
   :deep(.luckysheet-loading-mask) {
     .luckysheet-loading-image,
     .luckysheet-loading-text {
-      display: none !important;
+      //  display: none !important;
     }
   }
   :deep(.luckysheet-stat-area) {
@@ -380,6 +414,16 @@ onBeforeUnmount(() => {
   }
   &.ls-xlsx__close {
     top: 40px;
+    right: 40px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+
+    @include op-icon;
+  }
+  &.ls-xlsx__download {
+    top: 100px;
     right: 40px;
     z-index: 3;
     width: 40px;

@@ -46,7 +46,7 @@ watch(
   }
 );
 
-const curBtnCancelConfig: ComputedRef<DialogBtnType> = computed(() => {
+const curBtnCancelConfig = computed<DialogBtnType>(() => {
   return merge(
     {
       txt: '取消'
@@ -55,7 +55,7 @@ const curBtnCancelConfig: ComputedRef<DialogBtnType> = computed(() => {
   );
 });
 
-const curBtnConfirmConfig: ComputedRef<DialogBtnType> = computed(() => {
+const curBtnConfirmConfig = computed<DialogBtnType>(() => {
   return merge(
     {
       type: 'primary',
@@ -84,7 +84,8 @@ async function updateHeight() {
 }
 
 defineExpose({
-  updateHeight
+  updateHeight,
+  lsDialogRef
 });
 </script>
 
@@ -112,7 +113,7 @@ defineExpose({
         <LSButton v-if="hasCancelBtn" v-bind="curBtnCancelConfig" :disabled="loading" @click="handleBtnClose">
           {{ curBtnCancelConfig.txt }}
         </LSButton>
-        <LSButton v-bind="curBtnConfirmConfig" :loading="loading" :disabled="loading" @click="handleConfirm">
+        <LSButton v-if="hasConfirmBtn" v-bind="curBtnConfirmConfig" :loading="loading" @click="handleConfirm">
           {{ curBtnConfirmConfig.txt }}
         </LSButton>
       </div>

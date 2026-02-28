@@ -10,6 +10,8 @@ lerna-debug.log*
 
 .DS_Store
 .history/
+.trae/
+.agents/
 node_modules/
 dist
 dist-ssr
@@ -19,6 +21,7 @@ tsconfig.tsbuildinfo
 tsconfig.lint.json
 
 packages/ls-components/lib/
+packages/ls-components-h5/lib/
 
 # Editor directories and files
 .idea

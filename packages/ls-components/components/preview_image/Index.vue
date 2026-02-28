@@ -15,6 +15,7 @@ defineOptions({
 const emits = defineEmits<{
   (e: 'loadComplete'): void;
   (e: 'loadError'): void;
+  (e: 'onDownload', data: any): void;
 }>();
 
 const props = defineProps(lsPreviewProp);
@@ -23,7 +24,7 @@ const previewVisible = defineModel({
   type: Boolean
 });
 
-const { comClass, defAttrs, closeLoading } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
 
 const loadComplete = () => {
   closeLoading();
@@ -34,15 +35,43 @@ const loadError = () => {
   closeLoading();
   emits('loadError');
 };
+
+function onDownload(data: any) {
+  emits('onDownload', data);
+}
 </script>
 
 <template>
   <div v-if="previewVisible" :class="comClass">
-    <LSImage v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError">
+    <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
+      <LSImage
+        v-bind="merge(defAttrs, $attrs)"
+        :hide-on-click-modal="props.hideOnClickModal"
+        @load-complete="loadComplete"
+        @load-error="loadError"
+        @on-download="onDownload"
+      >
+        <template #viewer>
+          <slot name="viewer"></slot>
+        </template>
+      </LSImage>
+    </el-watermark>
+    <LSImage
+      v-else
+      v-bind="merge(defAttrs, $attrs)"
+      :hide-on-click-modal="props.hideOnClickModal"
+      @load-complete="loadComplete"
+      @load-error="loadError"
+      @on-download="onDownload"
+    >
       <template #viewer>
         <slot name="viewer"></slot>
       </template>
     </LSImage>
+
+    <div class="ls-preview-extra">
+      <slot name="extra"></slot>
+    </div>
   </div>
 </template>
 

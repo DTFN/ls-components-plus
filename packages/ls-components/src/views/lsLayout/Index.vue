@@ -278,6 +278,8 @@ const commandList = ref([
 function goBack() {
   history.back();
 }
+
+const titleHtml = `test1`;
 </script>
 
 <template>
@@ -286,13 +288,17 @@ function goBack() {
       header-height="50px"
       aside-width="220px"
       :logo="logo"
-      title="Layout 测试"
+      :title="titleHtml"
       :user-name="'userName'"
       :command-list="commandList"
+      custom-css="header-gray aside-gray"
+      :show-command="false"
     >
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
+      <!-- <template #headerTitle>12312 </template> -->
+      <template #headerRight> qweqweqwe </template>
       <template #section>
         <div v-if="false" class="ls-main-container">
           <div class="ls-main-title">列表区域</div>

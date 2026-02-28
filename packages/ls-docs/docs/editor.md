@@ -4,7 +4,7 @@ outline: deep
 
 # Editor 富文本
 
-::: warning 基于[wangeditor](https://www.wangeditor.com/)二次封装。<br /
+::: warning 基于[wangeditor](https://www.wangeditor.com/)二次封装。<br />
 自定义样式请参考：[官方自定义样式](https://www.wangeditor.com/v5/content.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F)
 :::
 
@@ -20,6 +20,8 @@ outline: deep
 <LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" :uploadImgSize="1" height="400px" @handle-created="handleCreated" />
 </ClientOnly>
 
+::: details 点我查看代码
+
 ```js
 import { ref } from 'vue';
 const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
@@ -31,7 +33,7 @@ const valueHtml = ref(`<div>测试内容</div>`);
 function handleCreated(editor) {
   const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage;
   // 图片上传异常处理
-  uploadImgConfig.onError = (file) => {
+  uploadImgConfig.onError = file => {
     const isLt2M = file.size / 1024 / 1024 <= 1;
     if (!isLt2M) {
       ElMessage.error('上传图片大小不能超过 1M!');
@@ -43,10 +45,22 @@ function handleCreated(editor) {
 ```
 
 ```html
-<LSEditor ref="lsEditorRef" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" @handle-created="handleCreated" />
+<LSEditor
+  ref="lsEditorRef"
+  :upload-server="uploadServer"
+  :upload-token="uploadToken"
+  height="400px"
+  @handle-created="handleCreated"
+/>
 ```
 
-### 2. 自定义配置，以下例子为上传图片，更多自定义配置参考[wangeditor](https://www.wangeditor.com/)
+:::
+
+### 2. 自定义配置
+
+以下例子为上传图片的自定义配置，更多自定义配置参考[wangeditor](https://www.wangeditor.com/)
+
+::: details 点我查看代码
 
 ```js
 // 如上传接口返回格式如下，则无需配置：
@@ -67,15 +81,27 @@ const editorConfig = {
 };
 ```
 
-### 3. 内容获取， 判断是否为空 [isEmpty](https://www.wangeditor.com/v5/API.html#isempty) 方法
+```html
+<LSEditor ref="lsEditorRef" :editor-config="editorConfig" height="400px" />
+```
+
+:::
+
+### 3. 内容获取
+
+判断是否为空可使用 [isEmpty](https://www.wangeditor.com/v5/API.html#isempty) 方法
 
 <br />
 
+<ClientOnly>
 <LSButton type="primary" @click="getContent"> 内容获取 </LSButton>
 
 <div>文本： {{ content }}</div>
 
 <div>HTML: {{ contentHtml }}</div>
+</ClientOnly>
+
+::: details 点我查看代码
 
 ```js
 import { ref } from 'vue';
@@ -96,6 +122,137 @@ function getContent() {
 <div>文本： {{ content }}</div>
 <div>HTML: {{ contentHtml }}</div>
 ```
+
+:::
+
+### 4. 自定义工具栏
+
+<br />
+<ClientOnly>
+<LSEditor ref="lsEditorRef4" :toolbar-config="toolbarConfig" height="400px" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const lsEditorRef4 = ref();
+
+// 自定义工具栏配置
+const toolbarConfig = {
+  toolbarKeys: [
+    'bold',
+    'italic',
+    'underline',
+    'through', // 加粗、斜体、下划线、删除线
+    '|', // 分割线
+    'fontSize',
+    'fontFamily',
+    'textColor',
+    'bgColor', // 字体大小、字体、文字颜色、背景颜色
+    '|',
+    'bulletedList',
+    'numberedList',
+    'todo', // 无序列表、有序列表、待办
+    '|',
+    'indent',
+    'outdent', // 缩进、出缩进
+    '|',
+    'justifyLeft',
+    'justifyCenter',
+    'justifyRight',
+    'justifyJustify', // 左对齐、居中对齐、右对齐、两端对齐
+    '|',
+    'insertLink',
+    'insertImage', // 插入链接、插入图片
+    '|',
+    'code',
+    'codeBlock', // 行内代码、代码块
+    '|',
+    'undo',
+    'redo' // 撤销、重做
+  ]
+};
+```
+
+```html
+<LSEditor ref="lsEditorRef4" :toolbar-config="toolbarConfig" height="400px" />
+```
+
+:::
+
+### 5. 只读模式
+
+<br />
+<ClientOnly>
+<LSEditor ref="lsEditorRef5" :value-html="readOnlyContent" mode="simple" height="400px" :editorConfig="{
+  readOnly: true
+}" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const lsEditorRef5 = ref();
+
+const readOnlyContent = ref(`
+<div>
+  <h1>只读模式示例</h1>
+  <p>这是一段只读的富文本内容，用户无法编辑。</p>
+  <ul>
+    <li>项目 1</li>
+    <li>项目 2</li>
+    <li>项目 3</li>
+  </ul>
+  <p><strong>加粗文本</strong> 和 <em>斜体文本</em> 都能正常显示。</p>
+</div>
+`);
+```
+
+```html
+<LSEditor
+  ref="lsEditorRef5"
+  :value-html="readOnlyContent"
+  mode="simple"
+  height="400px"
+  :editorConfig="{
+  readOnly: true
+}"
+/>
+```
+
+:::
+
+### 6. 事件监听
+
+<br />
+<ClientOnly>
+<LSEditor ref="lsEditorRef6" @handle-change="handleChange" height="400px" />
+
+<div>内容变更次数： {{ changeCount }}</div>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+const lsEditorRef6 = ref();
+const changeCount = ref(0);
+
+// 监听内容变更
+function handleChange(editor) {
+  changeCount.value++;
+  console.log('内容变更:', editor.getHtml());
+}
+```
+
+```html
+<LSEditor ref="lsEditorRef6" @handle-change="handleChange" height="400px" />
+<div>内容变更次数： {{ changeCount }}</div>
+```
+
+:::
 
 ## API
 
@@ -120,6 +277,49 @@ const uploadToken =
 const valueHtml = ref(`<div>测试内容</div>`)
 const content = ref('');
 const contentHtml = ref('');
+
+// 自定义工具栏配置
+const toolbarConfig = {
+  toolbarKeys: [
+    'bold', 'italic', 'underline', 'through', // 加粗、斜体、下划线、删除线
+    '|', // 分割线
+    'fontSize', 'fontFamily', 'textColor', 'bgColor', // 字体大小、字体、文字颜色、背景颜色
+    '|',
+    'bulletedList', 'numberedList', 'todo', // 无序列表、有序列表、待办
+    '|',
+    'indent', 'outdent', // 缩进、出缩进
+    '|',
+    'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyJustify', // 左对齐、居中对齐、右对齐、两端对齐
+    '|',
+    'insertLink', 'insertImage', // 插入链接、插入图片
+    '|',
+    'code', 'codeBlock', // 行内代码、代码块
+    '|',
+    'undo', 'redo' // 撤销、重做
+  ]
+};
+
+// 只读模式内容
+const readOnlyContent = ref(`
+<div>
+  <h1>只读模式示例</h1>
+  <p>这是一段只读的富文本内容，用户无法编辑。</p>
+  <ul>
+    <li>项目 1</li>
+    <li>项目 2</li>
+    <li>项目 3</li>
+  </ul>
+  <p><strong>加粗文本</strong> 和 <em>斜体文本</em> 都能正常显示。</p>
+</div>
+`);
+
+// 编辑器引用
+const lsEditorRef4 = ref();
+const lsEditorRef5 = ref();
+const lsEditorRef6 = ref();
+
+// 事件监听
+const changeCount = ref(0);
 
 // 如上传接口返回格式如下，则无需配置：
 // {
@@ -153,6 +353,12 @@ function handleCreated(editor) {
       ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`);
     }
   };
+}
+
+// 监听内容变更
+function handleChange(editor) {
+  changeCount.value++;
+  console.log('内容变更:', editor.getHtml());
 }
 
 const tableData = ref([

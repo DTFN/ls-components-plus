@@ -111,7 +111,7 @@ export function usePDF(
 
   async function download(filename = 'filename') {
     if (!pdfDoc.value) throw new Error('Current PDFDocumentProxy have not loaded yet');
-    const bytes = await pdfDoc.value?.saveDocument();
+    const bytes: any = await pdfDoc.value?.saveDocument();
     const blobBytes = new Blob([bytes], { type: 'application/pdf' });
     const blobUrl = URL.createObjectURL(blobBytes);
 
@@ -130,7 +130,7 @@ export function usePDF(
 
   async function print(dpi = 150, filename = 'filename') {
     if (!pdfDoc.value) throw new Error('Current PDFDocumentProxy have not loaded yet');
-    const bytes = await pdfDoc.value?.saveDocument();
+    const bytes: any = await pdfDoc.value?.saveDocument();
     const savedLoadingTask = PDFJS.getDocument(bytes.buffer);
     const savedDocument = await savedLoadingTask.promise;
 

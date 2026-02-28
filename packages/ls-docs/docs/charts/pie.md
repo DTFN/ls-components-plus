@@ -197,6 +197,210 @@ const innerDataPie = [
 
 :::
 
+### 5. 案例五：环形饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template5" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template5: {
+    radius: ['40%', '70%'],
+    label: {
+      show: false
+    },
+    labelLine: {
+      show: false
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template5" height="400" ></LSChart>
+```
+
+:::
+
+### 6. 案例六：南丁格尔图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template6" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template6: {
+    radius: '60%',
+    roseType: 'area',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template6" height="400" ></LSChart>
+```
+
+:::
+
+### 7. 案例七：自定义颜色的饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template7" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template7: {
+    color: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+    radius: '60%'
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template7" height="400" ></LSChart>
+```
+
+:::
+
+### 8. 案例八：左侧图例的饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template8" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template8: {
+    legendOrient: 'vertical',
+    legendLeft: 'left',
+    legendTop: 'center',
+    radius: ['40%', '60%']
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template8" height="400" ></LSChart>
+```
+
+:::
+
+### 9. 案例九：无图例的饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template9" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template9: {
+    legendShow: false,
+    radius: '70%',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template9" height="400" ></LSChart>
+```
+
+:::
+
+### 10. 案例十：自定义标签的饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template10" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie = [
+  { value: 1048, name: '图例 A' },
+  { value: 735, name: '图例 B' },
+  { value: 580, name: '图例 C' },
+  { value: 484, name: '图例 D' },
+  { value: 300, name: '图例 E' }
+];
+const templateAllPie = ref({
+  template10: {
+    radius: ['40%', '60%'],
+    label: {
+      show: true,
+      formatter: '{b}\n占比: {d}%',
+      fontSize: 12,
+      color: '#333'
+    },
+    labelLine: {
+      length: 30,
+      length2: 20
+    }
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template10" height="400" ></LSChart>
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -277,6 +481,54 @@ const templateAllPie = ref({
   template4: {
     radius: ['45%', '60%'],
     innerRadius: [0, '35%']
+  },
+  template5: {
+    radius: ['40%', '70%'],
+    label: {
+      show: false
+    },
+    labelLine: {
+      show: false
+    }
+  },
+  template6: {
+    radius: '60%',
+    roseType: 'area',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
+  },
+  template7: {
+    color: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+    radius: '60%'
+  },
+  template8: {
+    legendOrient: 'vertical',
+    legendLeft: 'left',
+    legendTop: 'center',
+    radius: ['40%', '60%']
+  },
+  template9: {
+    legendShow: false,
+    radius: '70%',
+    label: {
+      show: true,
+      formatter: '{b}: {c} ({d}%)'
+    }
+  },
+  template10: {
+    radius: ['40%', '60%'],
+    label: {
+      show: true,
+      formatter: '{b}\n占比: {d}%',
+      fontSize: 12,
+      color: '#333'
+    },
+    labelLine: {
+      length: 30,
+      length2: 20
+    }
   }
 });
 const seriesDataPie = [
@@ -292,7 +544,7 @@ const innerDataPie = [
   { value: 679, name: '图例 3' }
 ];
 function changeChartStyle() {
-  ['template1', 'template2', 'template3', 'template4'].forEach((item) => {
+  ['template1', 'template2', 'template3', 'template4', 'template5', 'template6', 'template7', 'template8', 'template9', 'template10'].forEach((item) => {
     templateAllPie.value[item].theme = formInline.value.themeModel;
   });
 }

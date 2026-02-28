@@ -3,6 +3,7 @@
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import { RouterView } from 'vue-router';
 import { MENU_LIST } from './constant/index';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 
 const router = useRouter();
 
@@ -25,6 +26,14 @@ router.addRoute({
 router.push({
   path: location.pathname || '/'
 });
+
+// const instance = getCurrentInstance();
+// const isShow = ref(false);
+// setTimeout(() => {
+//   vAuth.permissions = ['a', 'b', 'c'];
+//   instance.appContext.app.directive('auth', vAuth);
+//   isShow.value = true;
+// }, 2000);
 </script>
 
 <template>

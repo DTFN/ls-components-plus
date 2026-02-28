@@ -13,6 +13,13 @@ export default function (props: any, previewVisible: any) {
 
   let timer: any = null;
 
+  const watermarkStyle = {
+    width: '100%',
+    height: '100%',
+    top: 0,
+    left: 0
+  };
+
   watch(
     () => previewVisible?.value,
     val => {
@@ -72,5 +79,5 @@ export default function (props: any, previewVisible: any) {
     closeLoading();
   });
 
-  return { previewVisible, comClass, defAttrs, closeLoading };
+  return { previewVisible, comClass, defAttrs, closeLoading, watermarkStyle };
 }

@@ -87,11 +87,12 @@ function optionApi() {
   return new Promise(resolve => {
     const optionData = [
       {
-        id: '1',
-        name1: '数据',
-        name2: '测试',
-        value1: 'data',
-        value2: 'test'
+        code: 1,
+        name: '隐私保护'
+      },
+      {
+        code: 2,
+        name: '数字车钥匙'
       }
     ];
     return resolve(optionData);
@@ -101,7 +102,7 @@ function optionApi() {
 const tooltipContent = ref('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试End');
 
 onMounted(async () => {
-  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  const data = await getSelOption(optionApi, ['name'], ['code']);
   console.log(data);
 });
 </script>
@@ -118,6 +119,8 @@ onMounted(async () => {
       :btn-confirm-config="btnConfirmConfig"
       @on-confirm="onConfirm"
       align-center
+      :has-confirm-btn="true"
+      transition="dialog-slide"
     >
       <template #header>
         <div>弹窗头部</div>
@@ -167,7 +170,7 @@ onMounted(async () => {
     width: 100%;
     font-size: 18px;
 
-    @include overflow-text-hidden(3);
+    @include cpo-utils.overflow-text-hidden(3);
   }
 }
 </style>

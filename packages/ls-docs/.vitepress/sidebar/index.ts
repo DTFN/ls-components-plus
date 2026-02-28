@@ -24,7 +24,11 @@ export default {
       items: [
         { text: 'Table 表格', link: '/docs/table' },
         { text: 'Descriptions 描述', link: '/docs/descriptions' },
-        { text: 'Preview 预览', link: '/docs/preview' },
+        { text: 'Preview 预览（旧，不再更新）', link: '/docs/preview' },
+        { text: 'ImagePreview 图片预览', link: '/docs/previewImage' },
+        { text: 'PdfPreview PDF预览', link: '/docs/previewPdf' },
+        { text: 'XlsxPreview Excel预览', link: '/docs/previewXlsx' },
+        { text: 'DocPreview 文档预览', link: '/docs/previewDocx' },
         { text: 'Tree 权限树', link: '/docs/tree' },
         { text: 'map 地图', link: '/docs/map' },
         { text: 'live 直播/视频', link: '/docs/live' },
@@ -62,16 +66,17 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
-        { text: 'Download 下载', link: '/docs/download' }
+        // { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
+        { text: 'Download 下载', link: '/docs/download' },
+        { text: 'Cropper 裁剪', link: '/docs/cropper' }
       ]
     }
   ],
   '/tools/': [
-    {
-      text: 'directives',
-      items: [{ text: 'auth', link: '/tools/directives/auth' }]
-    },
+    // {
+    //   text: 'directives',
+    //   items: [{ text: 'auth', link: '/tools/directives/auth' }]
+    // },
     {
       text: 'hooks',
       items: [

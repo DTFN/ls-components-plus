@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import axios from 'axios';
-import docx from '@/assets/files/333.docx?url';
+import docx from '@/assets/files/markdown2.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
-import xlsx from '@/assets/files/222.xlsx?url';
+// import xlsx from '@/assets/files/222.xlsx?url';
+import xlsx from '@/assets/files/test.xlsx?url';
 // import xlsx from 'D:/download/666.xlsx?url';
 // import xlsx from 'D:/download/777.xlsx?url';
-import pdf from '@/assets/files/系统部署文档&维护手册.pdf';
+import pdf from '@/assets/files/777.pdf';
+// import pdf from '@/assets/files/test.pdf';
 
 const type = ref('image');
 const source: any = ref('');
@@ -42,8 +44,18 @@ function openViewer(val: string) {
     case 'docx':
       axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
         source.value = data.data;
+        showViewerDocx.value = true;
       });
-      showViewerDocx.value = true;
+
+      // axios
+      //   .get(
+      //     'https://ctn-admin-pre.lingshu.net/api/v1/file/preview?fileName=20250928170155_26006275e0864c0f87c3d862e9cf1218.docx',
+      //     { responseType: 'arraybuffer' }
+      //   )
+      //   .then(data => {
+      //     source.value = data.data;
+      //     showViewerDocx.value = true;
+      //   });
       break;
     case 'xlsx':
       axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
@@ -82,9 +94,18 @@ function openViewer(val: string) {
   }
 }
 
+const downloadLoading = ref(false);
+
 function download(data: any) {
+  downloadLoading.value = true;
   console.log(data);
+
+  setTimeout(() => {
+    downloadLoading.value = false;
+  }, 1000);
 }
+
+const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg';
 </script>
 
 <template>
@@ -105,17 +126,95 @@ function download(data: any) {
       :on-close="closeViewer"
       :type="type"
       :source="source"
+      :download-loading="downloadLoading"
       :has-download="true"
       :download-data="downloadData"
-      @download="download"
+      @on-download="download"
+      :hide-on-click-modal="false"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
     >
-      <template #viewer>
+      <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
+      </template> -->
+
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
       </template>
     </LSPreviewImage>
-    <LSPreviewDocx v-model="showViewerDocx" :on-close="closeViewer" :type="type" :source="source" />
-    <LSPreviewPdf v-model="showViewerPdf" :c-map-url-path="'/cmaps/'" :on-close="closeViewer" :type="type" :source="source" />
-    <LSPreviewXlsx v-model="showViewerXlsx" :on-close="closeViewer" :type="type" :source="source" :has-pagination="true" />
+
+    <LSPreviewDocx
+      v-model="showViewerDocx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :hide-on-click-modal="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+      :has-download="false"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @on-download="download"
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewDocx>
+
+    <LSPreviewPdf
+      v-model="showViewerPdf"
+      :c-map-url-path="'/cmaps/'"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :hide-on-click-modal="true"
+      :init-no-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+      :has-download="false"
+      download-txt="下载文件"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @on-download="download"
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewPdf>
+
+    <LSPreviewXlsx
+      v-model="showViewerXlsx"
+      :on-close="closeViewer"
+      :type="type"
+      :source="source"
+      :has-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus']
+      }"
+      :has-download="false"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @on-download="download"
+    >
+      <template #extra>
+        <div class="extra-wrap">
+          <el-image :src="src" />
+        </div>
+      </template>
+    </LSPreviewXlsx>
 
     <!-- <el-image
       src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg"
@@ -132,4 +231,10 @@ function download(data: any) {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.extra-wrap {
+  :deep(.el-image) {
+    width: 200px;
+  }
+}
+</style>

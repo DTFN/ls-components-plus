@@ -7,7 +7,27 @@ outline: deep
 ::: warning 讲述如何安装依赖、按需引入依赖以及一些注意点。
 :::
 
-## 安装 [@lingshugroup/web-plus](https://www.npmjs.com/package/@lingshugroup/web-plus)
+## 一、注意点：
+::: tip 环境要求
+1、node 18+，pnpm 9.0+  
+2、需安装以下基础依赖：vue3.x、vue-router、element-plus、axios、lodash，并引入使用
+:::
+
+:::tip 项目中如使用 unplugin-auto-import/vite 插件，请添加 ignore: ['h'] 参数
+
+```js
+AutoImport({
+  // 需添加该参数，否则无法使用
+  ignore: ['h']
+});
+```
+:::
+
+::: tip 版本提示
+  1、@lingshugroup/web-plus v2.1.2+，element-plus更新至2.10.7。
+:::
+
+## 二、安装 [@lingshugroup/web-plus](https://www.npmjs.com/package/@lingshugroup/web-plus)
 
 ::: code-group
 
@@ -25,23 +45,10 @@ pnpm add @lingshugroup/web-plus
 
 :::
 
-::: tip 提示
-1、node 18+，pnpm 9.0+  
-2、需安装以下基础依赖：vue3.x、vue-router、element-plus、axios、lodash，并引入使用
-:::
 
-## 快速上手
 
-:::tip 项目中如使用 unplugin-auto-import/vite 插件，请添加 ignore: ['h'] 参数
+## 三、快速上手
 
-```js
-AutoImport({
-  // 需添加该参数，否则无法使用
-  ignore: ['h']
-});
-```
-
-:::
 
 ### 1. 按需引入组件（推荐）
 
@@ -157,12 +164,6 @@ app.use(LSWebPlus);
 ### 3. 引入常用方法
 
 ```js
-// 常用指令
-import { vAuth } from '@lingshugroup/web-plus/directives';
-// 权限code码
-vAuth.permissions = ['a', 'b', 'c'];
-app.directive('auth', vAuth);
-
 // 常用hooks
 import { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, useTableListHook } from '@lingshugroup/web-plus/hooks';
 

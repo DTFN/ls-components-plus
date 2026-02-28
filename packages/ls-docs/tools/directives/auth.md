@@ -14,9 +14,9 @@ outline: deep
 ### 1. 权限code控制
 
 <br />
-<LSButton v-auth="{ code: 'c' }">test1</LSButton>
+<!-- <LSButton v-auth="{ code: 'c' }">test1</LSButton> -->
 
-<LSButton v-auth="{ code: 'd' }">test2</LSButton>
+<!-- <LSButton v-auth="{ code: 'd' }">test2</LSButton> -->
 
 ```html
 <LSButton v-auth="{ code: 'c' }">test1</LSButton>
@@ -27,9 +27,9 @@ outline: deep
 ### 2. 其他条件配置
 
 <br />
-<LSButton v-auth="{ code: 'c', show: isShow }">test1</LSButton>
+<!-- <LSButton v-auth="{ code: 'c', show: isShow }">test1</LSButton> -->
 
-<LSButton v-auth="{ code: 'c', show: !isShow }">test2</LSButton>
+<!-- <LSButton v-auth="{ code: 'c', show: !isShow }">test2</LSButton> -->
 
 ```js
 import { ref } from 'vue';

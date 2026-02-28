@@ -40,6 +40,9 @@
       "@cpo/*": ["components/*"],
     }
   },
+  "vueCompilerOptions": {
+    "strictTemplates": false  // 降低模板类型检查的严格度
+  },
   "include": [
     "src/**/*",
     "src/**/*.ts",

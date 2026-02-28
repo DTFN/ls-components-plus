@@ -33,6 +33,10 @@ export const lsLayoutProp = buildProps({
   logo: {
     type: String,
     default: ''
+  },
+  customCss: {
+    type: String,
+    default: ''
   }
 });
 

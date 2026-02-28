@@ -99,8 +99,6 @@ const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left
     <LSLive ref="liveRef3" class="live-wrap" type="mp4" :is-live="false" :autoplay="true" :loop="false" :muted="false" />
 
     <br />
-
-    <LSButton v-auth="{ code: 'c', show: isShow }">test1</LSButton>
   </div>
 </template>
 

@@ -31,7 +31,13 @@
               <LSIcon name="RefreshRight" :size="24" color="#FFF" @click="handleActions('clockwise')" />
               <template v-if="attrs.hasDownload">
                 <i :class="ns.e('actions__divider')" />
-                <LSIcon name="Download" :size="24" color="#FFF" @click="handleActions('download')" />
+                <LSIcon
+                  :class="{ 'is-loading': downloadLoading }"
+                  :name="`${downloadLoading ? 'Loading' : 'Download'}`"
+                  :size="24"
+                  color="#FFF"
+                  @click="handleActions('download')"
+                />
               </template>
             </div>
           </div>
@@ -101,6 +107,10 @@ const props = defineProps(imageViewerProps);
 const emits = defineEmits(previewEmits);
 
 const attrs = useAttrs();
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
 
 const ns = useNamespace('image');
 const { nextZIndex } = useZIndex();
@@ -347,7 +357,7 @@ function handleActions(action: ImageViewerAction, options = {}) {
       transform.deg -= rotateDeg;
       break;
     case 'download':
-      emits('download', attrs.downloadData);
+      emits('onDownload', attrs.downloadData);
       break;
   }
   transform.enableTransition = enableTransition;

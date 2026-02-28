@@ -18,9 +18,9 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import FilesLoader from 'vite-plugin-files-loader';
 import svgLoader from 'vite-svg-loader';
 import path from 'path';
-import dts from 'vite-plugin-dts';
+// import dts from 'vite-plugin-dts';
 
-const pathSrc = path.resolve(__dirname, '../../ls-components');
+// const pathSrc = path.resolve(__dirname, '../../ls-components');
 
 /**
  * 创建 vite 插件
@@ -65,8 +65,8 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         IconsResolver({
           prefix: 'Icon'
         })
-      ],
-      dts: path.resolve(pathSrc, 'auto-imports.d.ts')
+      ]
+      // dts: path.resolve(pathSrc, 'auto-imports.d.ts')
     }),
     Components({
       resolvers: [
@@ -79,8 +79,8 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         //   enabledCollections: ['ep']
         // })
       ],
-      dirs: ['src/components'],
-      dts: path.resolve(pathSrc, 'components.d.ts')
+      dirs: ['src/components']
+      // dts: path.resolve(pathSrc, 'components.d.ts')
     }),
     Icons({
       autoInstall: true
@@ -90,21 +90,21 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
       symbolId: 'icon-[dir]-[name]'
     }),
     FilesLoader(),
-    svgLoader(),
-    dts({
-      include: [
-        'src/**/*.d.ts',
-        'components/**/*.vue',
-        'components/**/*.ts',
-        'components/**/*.d.ts',
-        'components.d.ts',
-        'auto-imports.d.ts'
-      ],
-      exclude: ['node_modules', 'dist', '**/*.js', '.npmrc', 'lib', 'components/main.ts', 'components/components.ts'],
-      outDir: 'lib/types',
-      staticImport: true,
-      rollupTypes: false
-    })
+    svgLoader()
+    // dts({
+    //   include: [
+    //     'src/**/*.d.ts',
+    //     'components/**/*.vue',
+    //     'components/**/*.ts',
+    //     'components/**/*.d.ts',
+    //     'components.d.ts',
+    //     'auto-imports.d.ts'
+    //   ],
+    //   exclude: ['node_modules', 'dist', '**/*.js', '.npmrc', 'lib', 'components/main.ts', 'components/components.ts'],
+    //   outDir: 'lib/types',
+    //   staticImport: true,
+    //   rollupTypes: false
+    // })
   ];
 };
 

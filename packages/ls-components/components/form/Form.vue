@@ -284,7 +284,7 @@ defineExpose({
   border-top: 1px solid #dcdfe6;
   border-right: 1px solid #dcdfe6;
   border-left: 1px solid #dcdfe6;
-  :deep() .el-form-item {
+  :deep(.el-form-item) {
     margin-bottom: 0;
     background: var(--bg-color-primary);
     border-bottom: 1px solid #dcdfe6;

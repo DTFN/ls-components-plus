@@ -274,18 +274,6 @@ const tableData = ref([
     value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
   },
   {
-    name: 'hasDownload',
-    desc: '是否需要下载按钮，当前仅image支持',
-    type: 'boolean',
-    value: 'false'
-  },
-  {
-    name: 'downloadData',
-    desc: '下载按钮返回数据，当前仅image支持',
-    type: 'object',
-    value: '{}'
-  },
-  {
     name: 'hasPagination',
     desc: '是否需要分页，当前仅xlsx支持，超过20m且常规表格（简单表格数据，无图，无合并单元格等）支持',
     type: 'boolean',
@@ -296,6 +284,37 @@ const tableData = ref([
     desc: 'pdf子图资源路径，即cmaps.zip解压到public的路径(1.7.10+)',
     type:'string',
     value: '-'
+  },
+  {
+    name:'hide-on-click-modal',
+    desc:'点击遮罩层是否隐藏，pdf、docx、image组件支持',
+    type:'boolean',
+    value:'false'
+  },
+  {
+    name: 'init-no-pagination',
+    desc: '初始化时是否不展示分页，仅PDF',
+    type: 'boolean',
+    value: 'false'
+  },
+  
+  {
+    name: 'hasDownload',
+    desc: '是否显示下载按钮, v2.4.2+',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'downloadData',
+    desc: '下载按钮返回数据, v2.4.2+',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'downloadLoading',
+    desc: '下载loading状态, v2.4.2+',
+    type: 'boolean',
+    value: 'false'
   }
 ]);
 
@@ -307,8 +326,8 @@ const tableData2 = ref([
     value: '-'
   },
   {
-    name: 'download',
-    desc: '下载回调方法, 当前仅image支持',
+    name: 'on-download',
+    desc: '下载回调方法, v2.4.2+',
     type: 'function',
     value: 'data'
   }
@@ -318,6 +337,10 @@ const tableData3 = ref([
   {
     name: 'viewer',
     desc: '插槽，同el-image，仅image支持'
+  },
+  {
+    name: 'extra',
+    desc: '扩展插槽，v2.4.2+'
   }
 ])
 

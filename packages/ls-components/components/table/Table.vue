@@ -77,6 +77,36 @@ watch(
     deep: true
   }
 );
+
+/**
+ * 连字符转驼峰
+ * @param str 需要转换的字符串
+ * @returns 转换后的驼峰格式字符串
+ */
+function kebabToCamel(str: string): string {
+  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+/**
+ * 对象的key由连字符转驼峰
+ * @param obj 需要转换key的对象
+ * @returns 转换后的对象
+ */
+function objectKeysToCamel(obj: Record<string, any>): any {
+  if (typeof obj !== 'object' || obj === null || isEmpty(obj)) return obj;
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => objectKeysToCamel(item)) as any;
+  }
+
+  return Object.keys(obj).reduce((acc: any, key) => {
+    const camelKey: string = kebabToCamel(key);
+    const value = obj[key];
+    acc[camelKey] = typeof value === 'object' ? objectKeysToCamel(value) : value;
+    return acc;
+  }, {});
+}
+
 // 获取行唯一标识值
 function getRowIdentity<T>(row: T, rowKey: string | ((row: T) => string)): string {
   if (!row) throw new Error('Row is required when get row identity');
@@ -97,10 +127,9 @@ function isSameRow<T>(row1: T, row2: T, rowKey: string | ((row: T) => string)): 
 watch(
   [() => props.tableData, () => props.showSelect, () => props.selection],
   ([tableData, showSelect, selection]) => {
-    if (showSelect && tableData && tableData.length > 0) {
+    if (showSelect && tableData && tableData.length > 0 && selection && selection.length > 0) {
       nextTick(() => {
         tableData.forEach((item: any) => {
-          // const checked = (selection || []).some(selectItem => selectItem.id === item.id);
           const checked = (selection || []).some(selectItem => isSameRow(selectItem, item, rowKey.value));
           if (checked) {
             TableRef.value.toggleRowSelection(item, true);
@@ -126,8 +155,29 @@ watch(
   }
 );
 
+// 新的选择列配置
+const newSelectColumnOptions = computed(() => {
+  const selectColumnOptions = objectKeysToCamel(props.selectColumnOptions);
+  const reserveSelection = get(selectColumnOptions, 'reserveSelection');
+  if (isEmpty(reserveSelection) && props.showSelect) {
+    return {
+      ...selectColumnOptions,
+      reserveSelection: true
+    };
+  } else {
+    return selectColumnOptions;
+  }
+});
+
 // 当前页
 watch(currentPage, newVal => {
+  if (props.showSelect) {
+    const reserveSelection = get(newSelectColumnOptions.value, 'reserveSelection');
+    // 选中数据清空
+    if (!isEmpty(selectionData.value) && !reserveSelection) {
+      selectionData.value = [];
+    }
+  }
   emit('currentPageChange', newVal);
   emit('update:current-page', newVal);
 });
@@ -170,47 +220,55 @@ function formatDate(val: string | null | undefined, template?: string) {
 // }
 
 // 单列选中监听
-function handleSelect(selection: any[], row: any) {
-  // const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
-  const filterIndex = (selection || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
-  // const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
-  const index = (selectionData.value || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
-  if (filterIndex > -1) {
-    selectionData.value.push(row);
-  } else {
-    selectionData.value.splice(index, 1);
-  }
+function handleSelect(selection: any[]) {
+  selectionData.value = selection || [];
+  // // const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
+  // const filterIndex = (selection || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
+  // // const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
+  // const index = (selectionData.value || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
+  // if (filterIndex > -1) {
+  //   selectionData.value.push(row);
+  // } else {
+  //   selectionData.value.splice(index, 1);
+  // }
 }
 
 // 全部选中和取消选中监听
 function handleSelectAll(selection: any[]) {
-  const isSelectAll = selection.length > 0 ? true : false;
-  if (props.tableData.length > 0) {
-    props.tableData.forEach((item: any) => {
-      // const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
-      const filterIndex = (selectionData.value || []).findIndex((row: any) => isSameRow(item, row, rowKey.value));
-      if (isSelectAll) {
-        if (filterIndex < 0) {
-          selectionData.value.push(item);
-        }
-      } else {
-        if (filterIndex >= 0) {
-          selectionData.value.splice(filterIndex, 1);
-        }
-      }
-    });
-  }
+  selectionData.value = selection || [];
+  // const isSelectAll = selection.length > 0 ? true : false;
+  // if (props.tableData.length > 0) {
+  //   props.tableData.forEach((item: any) => {
+  //     // const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
+  //     const filterIndex = (selectionData.value || []).findIndex((row: any) => isSameRow(item, row, rowKey.value));
+  //     if (isSelectAll) {
+  //       if (filterIndex < 0) {
+  //         selectionData.value.push(item);
+  //       }
+  //     } else {
+  //       if (filterIndex >= 0) {
+  //         selectionData.value.splice(filterIndex, 1);
+  //       }
+  //     }
+  //   });
+  // }
 }
 
 // 表格属性
 const attrsProps = computed(() => {
-  const newAttrs = { ...attrs };
+  const attrsProps = objectKeysToCamel(attrs);
+  const newAttrs = { ...attrsProps };
 
-  // 设置表格布局方式,默认为auto
-  if (!newAttrs['table-layout']) {
-    newAttrs['table-layout'] = 'auto';
+  const rowKey: string | ((row: any) => string) = get(attrsProps, 'rowKey') || 'id';
+  // // 设置行唯一标识
+  if (rowKey) {
+    newAttrs['rowKey'] = rowKey;
   }
 
+  // 设置表格布局方式,默认为auto
+  if (!newAttrs['tableLayout']) {
+    newAttrs['tableLayout'] = 'auto';
+  }
   // 多选功能
   if (props.showSelect) {
     // 添加选择事件处理
@@ -219,34 +277,36 @@ const attrsProps = computed(() => {
   }
 
   // 处理文字溢出提示
-  if (attrs && attrs.hasOwnProperty('show-overflow-tooltip')) {
+  const showOverflowTooltip = get(attrsProps, 'showOverflowTooltip');
+
+  if (attrs && !isEmpty(showOverflowTooltip)) {
     // 布尔值true时使用默认配置
-    if (typeof attrs['show-overflow-tooltip'] === 'boolean') {
-      if (attrs['show-overflow-tooltip'] === true) {
-        newAttrs['show-overflow-tooltip'] = {
+    if (typeof showOverflowTooltip === 'boolean') {
+      if (showOverflowTooltip === true) {
+        newAttrs['showOverflowTooltip'] = {
           popperClass: 'table-popper-css'
         };
       }
     }
     // 对象配置时合并配置
-    else if (typeof attrs['show-overflow-tooltip'] === 'object') {
-      const tooltip: any = attrs['show-overflow-tooltip'] || {};
-      const popperClass = `table-popper-css ${tooltip && tooltip?.popperClass}`;
-      newAttrs['show-overflow-tooltip'] = {
+    else if (typeof showOverflowTooltip === 'object') {
+      const tooltip: any = showOverflowTooltip || {};
+      const popperClass = `table-popper-css ${(tooltip && tooltip?.popperClass) || ''}`;
+      newAttrs['showOverflowTooltip'] = {
         ...tooltip,
         popperClass
       };
     }
     // 其他情况使用默认配置
     else {
-      newAttrs['show-overflow-tooltip'] = {
+      newAttrs['showOverflowTooltip'] = {
         popperClass: 'table-popper-css'
       };
     }
   }
   // 未配置时使用默认配置
   else {
-    newAttrs['show-overflow-tooltip'] = {
+    newAttrs['showOverflowTooltip'] = {
       popperClass: 'table-popper-css'
     };
   }
@@ -293,7 +353,7 @@ defineExpose({
         </el-table-column>
 
         <!-- 多选 -->
-        <el-table-column v-if="showSelect" width="60" v-bind="selectColumnOptions" type="selection" />
+        <el-table-column v-if="showSelect" width="60" v-bind="newSelectColumnOptions" type="selection" />
 
         <!-- 展开行 -->
         <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">

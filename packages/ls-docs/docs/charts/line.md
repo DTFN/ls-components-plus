@@ -187,56 +187,7 @@ const temperatureData = [
     propertyTime: 1726214400000
   }
 ];
-const humidity = [
-  {
-    propertyValue: '30.67',
-    propertyTime: 1726174800000
-  },
-  {
-    propertyValue: '28.82',
-    propertyTime: 1726178400000
-  },
-  {
-    propertyValue: '29.82',
-    propertyTime: 1726182000000
-  },
-  {
-    propertyValue: '29.25',
-    propertyTime: 1726185600000
-  },
-  {
-    propertyValue: '30.52',
-    propertyTime: 1726189200000
-  },
-  {
-    propertyValue: '29.65',
-    propertyTime: 1726192800000
-  },
-  {
-    propertyValue: '29.70',
-    propertyTime: 1726196400000
-  },
-  {
-    propertyValue: '30.18',
-    propertyTime: 1726200000000
-  },
-  {
-    propertyValue: '29.47',
-    propertyTime: 1726203600000
-  },
-  {
-    propertyValue: '29.33',
-    propertyTime: 1726207200000
-  },
-  {
-    propertyValue: '30.58',
-    propertyTime: 1726210800000
-  },
-  {
-    propertyValue: '29.13',
-    propertyTime: 1726214400000
-  }
-];
+
 const humidity = [
   {
     propertyValue: '30.67',
@@ -396,6 +347,274 @@ const templateAllLine = ref({
 
 ```html
 <LSChart template="line" :data="dynamicLine" :template-patch="templateAllLine.templateDynamicLine" width="800" height="400" />
+```
+
+:::
+
+### 5. templateAreaChart
+
+<ClientOnly>
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateAreaChart" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataAreaChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '最高温度',
+      type: 'line',
+      data: [10, 11, 13, 11, 12, 12, 9]
+    },
+    {
+      name: '最低温度',
+      type: 'line',
+      data: [1, -2, 2, 5, 3, 2, 0]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateAreaChart: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度'],
+    showBarFont: true
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateAreaChart" width="800" height="400" />
+```
+
+:::
+
+### 6. templateDualYAxis
+
+<ClientOnly>
+<LSChart template="line" :data="dataDualYAxis" :template-patch="templateAllLine.templateDualYAxis" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataDualYAxis = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130]
+    },
+    {
+      name: '订单数',
+      type: 'bar',
+      data: [20, 30, 25, 15, 10, 20, 25]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateDualYAxis: {
+    type: 'multiple',
+    lineBar: true,
+    tooltip: 'cross',
+    legend: ['销售额', '订单数']
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataDualYAxis" :template-patch="templateAllLine.templateDualYAxis" width="800" height="400" />
+```
+
+:::
+
+### 7. templateMarkLineChart
+
+<ClientOnly>
+<LSChart template="line" :data="dataMarkLineChart" :template-patch="templateAllLine.templateMarkLineChart" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataMarkLineChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [820, 932, 901, 934, 1290, 1330, 1320]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateMarkLineChart: {
+    type: 'multiple',
+    tooltip: 'cross',
+    markLine: {
+      data: [
+        { type: 'average', name: '平均值' },
+        { yAxis: 1000, name: '目标值' }
+      ]
+    },
+    markPoint: {
+      data: [
+        { type: 'max', name: '最大值' },
+        { type: 'min', name: '最小值' }
+      ]
+    },
+    showBarFont: true
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataMarkLineChart" :template-patch="templateAllLine.templateMarkLineChart" width="800" height="400" />
+```
+
+:::
+
+### 8. templateCustomColorLine
+
+<ClientOnly>
+<LSChart template="line" :data="dataSimpleLine" :template-patch="templateAllLine.templateCustomColorLine" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataSimpleLine = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [820, 932, 901, 934, 1290, 1330, 1320]
+};
+const templateAllLine = ref({
+  templateCustomColorLine: {
+    labelPosition: 'top',
+    tooltip: 'cross',
+    barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88']
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataSimpleLine" :template-patch="templateAllLine.templateCustomColorLine" width="800" height="400" />
+```
+
+:::
+
+### 9. templateVerticalZoomLine
+
+<ClientOnly>
+<LSChart template="line" :data="dataMultipleLine" :template-patch="templateAllLine.templateVerticalZoomLine" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataMultipleLine = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: 'Email',
+      type: 'line',
+      data: [120, 132, 101, 134, 90, 230, 210]
+    },
+    {
+      name: 'name',
+      type: 'line',
+      data: [220, 182, 191, 234, 290, 330, 310]
+    },
+    {
+      name: 'address',
+      type: 'line',
+      data: [22, 66, 99, 234, 33, 56, 310]
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateVerticalZoomLine: {
+    labelPosition: 'top',
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['Email', 'name', 'address'],
+    dataZoom: 'vertical'
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataMultipleLine" :template-patch="templateAllLine.templateVerticalZoomLine" width="800" height="400" />
+```
+
+:::
+
+### 10. templateDifferentLegendIconLine
+
+<ClientOnly>
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateDifferentLegendIconLine" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 使用与案例5相同的dataAreaChart数据
+const templateAllLine = ref({
+  templateDifferentLegendIconLine: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度'],
+    legendIcon: 'circle',
+    showBarFont: true
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateDifferentLegendIconLine" width="800" height="400" />
+```
+
+:::
+
+### 11. templateStepLine
+
+<ClientOnly>
+<LSChart template="line" :data="dataStepLine" :template-patch="templateAllLine.templateStepLine" width="800" height="400" />
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const dataStepLine = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '阶梯线',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130],
+      step: 'middle'
+    }
+  ]
+};
+const templateAllLine = ref({
+  templateStepLine: {
+    type: 'multiple',
+    tooltip: 'cross',
+    legend: ['阶梯线']
+  }
+});
+```
+
+```html
+<LSChart template="line" :data="dataStepLine" :template-patch="templateAllLine.templateStepLine" width="800" height="400" />
 ```
 
 :::
@@ -573,6 +792,69 @@ const templateAllLine = ref({
     type: 'multiple',
     tooltip: 'cross',
     dynamicAxis: true
+  },
+  templateAreaChart: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度'],
+    showBarFont: true
+  },
+  templateDualYAxis: {
+    type: 'multiple',
+    lineBar: true,
+    tooltip: 'cross',
+    legend: ['销售额', '订单数'],
+    showBarFont: true
+  },
+  templateMarkLineChart: {
+    type: 'multiple',
+    tooltip: 'cross',
+    markLine: {
+      data: [
+        { type: 'average', name: '平均值' },
+        { yAxis: 1000, name: '目标值' }
+      ]
+    },
+    markPoint: {
+      data: [
+        { type: 'max', name: '最大值' },
+        { type: 'min', name: '最小值' }
+      ]
+    },
+    showBarFont: true
+  },
+  templateCustomColorLine: {
+    labelPosition: 'top',
+    tooltip: 'cross',
+    barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88'],
+    showBarFont: true
+  },
+  templateVerticalZoomLine: {
+    labelPosition: 'top',
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['Email', 'name', 'address'],
+    dataZoom: 'vertical',
+    showBarFont: true
+  },
+  templateDifferentLegendIconLine: {
+    type: 'multiple',
+    smooth: true,
+    areaStyle: {},
+    tooltip: 'cross',
+    legend: ['最高温度', '最低温度'],
+    legendIcon: 'circle',
+    showBarFont: true
+  },
+  templateStepLine: {
+    type: 'multiple',
+    tooltip: 'cross',
+    legend: ['阶梯线'],
+    showBarFont: true
   }
 });
 
@@ -623,8 +905,67 @@ const dynamicLine = {
   ]
 };
 
+// 面积图数据
+const dataAreaChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '最高温度',
+      type: 'line',
+      data: [10, 11, 13, 11, 12, 12, 9]
+    },
+    {
+      name: '最低温度',
+      type: 'line',
+      data: [1, -2, 2, 5, 3, 2, 0]
+    }
+  ]
+};
+
+// 双Y轴数据
+const dataDualYAxis = {
+  axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130]
+    },
+    {
+      name: '订单数',
+      type: 'bar',
+      data: [20, 30, 25, 15, 10, 20, 25]
+    }
+  ]
+};
+
+// 标记线图数据
+const dataMarkLineChart = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '销售额',
+      type: 'line',
+      data: [820, 932, 901, 934, 1290, 1330, 1320]
+    }
+  ]
+};
+
+// 阶梯线图数据
+const dataStepLine = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [
+    {
+      name: '阶梯线',
+      type: 'line',
+      data: [120, 200, 150, 80, 70, 110, 130],
+      step: 'middle'
+    }
+  ]
+};
+
 function changeChartStyle() {
-  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item) => {
+  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine', 'templateAreaChart', 'templateDualYAxis', 'templateMarkLineChart', 'templateCustomColorLine', 'templateVerticalZoomLine', 'templateDifferentLegendIconLine', 'templateStepLine'].forEach((item) => {
     templateAllLine.value[item].theme = formInline.value.themeModel;
     templateAllLine.value[item].axis = formInline.value.axis;
     templateAllLine.value[item].labelPosition = formInline.value.pos;

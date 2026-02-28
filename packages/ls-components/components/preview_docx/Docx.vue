@@ -1,7 +1,7 @@
 <script setup lang="ts" name="LSDocx">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { docxProps } from './types';
-import { previewEmits } from '@cpo/_constants/previewType';
+import { previewEmits, fileEmpty } from '@cpo/_constants/previewType';
 import { isArrayBuffer } from '@cpo/_utils/check';
 
 const ns = useNamespace('docx');
@@ -13,12 +13,24 @@ const props = defineProps(docxProps);
 
 const emits = defineEmits(previewEmits);
 
+const attrs = useAttrs();
+
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
 const docxRef = ref();
 
 watch(
   () => props.source,
   val => {
-    updateDocx(val);
+    if (val) {
+      updateDocx(val);
+    }
   },
   {
     immediate: true,
@@ -28,6 +40,8 @@ watch(
 
 async function updateDocx(val: ArrayBuffer | String) {
   if (!val || !isArrayBuffer(val)) {
+    ElMessage.error(fileEmpty);
+    emits('loadError');
     return;
   }
 
@@ -39,8 +53,8 @@ async function updateDocx(val: ArrayBuffer | String) {
       ignoreWidth: false, //disables rendering width of page
       ignoreHeight: true, //disables rendering height of page
       ignoreFonts: false, //disables fonts rendering
-      breakPages: true, //enables page breaking on page breaks
-      ignoreLastRenderedPageBreak: true, //disables page breaking on lastRenderedPageBreak elements
+      breakPages: false, //enables page breaking on page breaks
+      ignoreLastRenderedPageBreak: false, //disables page breaking on lastRenderedPageBreak elements
       experimental: false, //enables experimental features (tab stops calculation)
       trimXmlDeclaration: true, //if true, xml declaration will be removed from xml documents before parsing
       useBase64URL: false, //if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
@@ -63,12 +77,24 @@ const closeFunc = () => {
   props.onClose && props.onClose();
   emits('update:source', []);
 };
+
+function onDownload() {
+  emits('onDownload', attrs.downloadData);
+}
 </script>
 
 <template>
   <div :class="comClass">
     <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
       <LSIcon name="Close" :size="24" color="#FFF" />
+    </span>
+    <span v-if="hasDownload" :class="[ns.e('btn'), ns.e('download')]" @click="onDownload">
+      <LSIcon
+        :class="{ 'is-loading': downloadLoading }"
+        :name="`${downloadLoading ? 'Loading' : 'Download'}`"
+        :size="24"
+        color="#FFF"
+      />
     </span>
     <div ref="docxRef"></div>
   </div>
@@ -107,8 +133,21 @@ const closeFunc = () => {
 
     @include op-icon;
   }
+  &.ls-docx__download {
+    top: 100px;
+    right: 40px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+
+    @include op-icon;
+  }
 }
 :deep(.docx-wrapper) {
   background-color: transparent !important;
+  .docx_3 {
+    border: none !important;
+  }
 }
 </style>

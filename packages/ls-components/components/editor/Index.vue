@@ -172,10 +172,10 @@ defineExpose({
 <style lang="scss" scoped>
 .ls-editor {
   z-index: 999;
-  border: 1px solid $color-text5;
+  border: 1px solid cpo-var.$color-text5;
 }
 .tool-bar-wrap {
-  border-bottom: 1px solid $color-text5;
+  border-bottom: 1px solid cpo-var.$color-text5;
   :deep(.w-e-bar-item) {
     justify-content: flex-start;
   }

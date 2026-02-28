@@ -57,7 +57,7 @@ const readAll = () => {
 </script>
 
 <template>
-  <LSLayout header-height="50px" :logo="logo" title="组件案例">
+  <LSLayout header-height="50px" :logo="logo" title="组件案例" :show-command="false">
     <template #aside>
       <LSMenu :menu-config-list="MENU_LIST" style="width: 200px" />
     </template>

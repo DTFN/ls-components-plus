@@ -3,11 +3,15 @@ import { UploadItemType } from '@cpo/_types';
 import axios from 'axios';
 import { ElMessageBox, UploadProps } from 'element-plus';
 
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.2.138:8778/api/v1/file/upload');
+const headers = ref({
+  Authorization: 'Bearer 536002a2-2084-4ad3-9167-8ffa0e6dde1d'
+});
 const item1: Ref<UploadItemType> = ref({
   isCover: false,
   limitFile: ['png', 'docx'],
-  tipContent: '上傳文件不超過2m'
+  limitSize: 50,
+  tipContent: '上傳文件不超過50m'
 });
 
 const item2: Ref<UploadItemType> = ref({
@@ -70,10 +74,11 @@ function formValidateFunc() {
 
 const fileList2: any = ref([]);
 function onChange2(file: any) {
-  fileList2.value.push({
-    name: file.name,
-    url: file.blob
-  });
+  console.log('onChange2', file);
+  // fileList2.value.push({
+  //   name: file.name,
+  //   url: file.blob
+  // });
 }
 
 const uploadRef = ref();
@@ -92,6 +97,27 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile: any) => {
 function onPreview(file: any) {
   console.log(file);
 }
+
+function onSuccessFunc(response: any, file: any) {
+  const { data, code } = response || {};
+  console.log('onSuccessFunc', response, file);
+  if (code === 200) {
+    fileList2.value.push({
+      name: data.originalName,
+      url: data.fileUrl,
+      uid: file.uid,
+      id: data.id,
+      raw: file.raw,
+      blob: file.blob
+    });
+  }
+}
+
+const fileList4: any = ref([]);
+
+function onHandleCropper(file: any, index: number) {
+  console.log('onHandleCropper', file, index);
+}
 </script>
 
 <template>
@@ -107,7 +133,8 @@ function onPreview(file: any) {
       :auto-upload="false"
       :item="{
         isCover: false,
-        limitAllFail: false
+        limitAllFail: false,
+        limitSize: 50
       }"
     ></LSUpload>
 
@@ -117,8 +144,10 @@ function onPreview(file: any) {
       :action="action"
       :item="item1"
       :file-list="fileList2"
+      :headers="headers"
       @on-change-func="onChange2"
       :before-remove="beforeRemove"
+      :on-success="onSuccessFunc"
     ></LSUpload>
 
     <br />
@@ -146,15 +175,21 @@ function onPreview(file: any) {
     <br />
 
     <LSUpload
-      list-type="picture-card"
       :limit="3"
+      list-type="picture-card"
       :action="action"
       :auto-upload="false"
-      :item="{ isCover: false, hideBtnReachLimit: false, hideCoverBtn: true, limitFile: ['bmp', 'jpg', 'png'] }"
+      :headers="headers"
+      :file-list="fileList4"
+      :item="{ isCover: false, limitSize: 50 }"
+      :custom-file="true"
+      :has-cropper="true"
+      @on-handle-cropper="onHandleCropper"
     >
     </LSUpload>
 
     <br />
+
     <LSUpload
       list-type="picture-card"
       :action="action"

@@ -3,7 +3,7 @@ import _LSPreviewPdf from './Index.vue';
 import { setGlobalConfig } from '@cpo/_utils/config';
 import type { LSOptions } from '@cpo/_utils/types';
 
-const LSPreviewPdf = Object.assign(_LSPreviewPdf, {
+const LSPreviewPdf: typeof _LSPreviewPdf & { install: (app: App, options?: LSOptions) => void } = Object.assign(_LSPreviewPdf, {
   install: (app: App, options?: LSOptions) => {
     setGlobalConfig(app, options);
     if (_LSPreviewPdf.name) {

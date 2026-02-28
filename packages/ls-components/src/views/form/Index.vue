@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { MonthDayOptions } from '@/constant';
 import LSFormText from './text.vue';
+import { isArray } from 'lodash-es';
 const FormRef = ref();
 const FormRef1 = ref();
 const loading = ref(false);
@@ -8,7 +9,7 @@ const formData = ref({
   username: '',
   password: ''
 });
-const formItems = ref<FormItemsType[]>([
+const formItems = ref<FormItemsType[] | any>([
   {
     type: 'input',
     label: '用户名',
@@ -101,7 +102,7 @@ const formData1 = ref({
   }
 });
 
-const formItems1 = ref<FormItemsType[]>([
+const formItems1 = ref<FormItemsType[] | any>([
   {
     type: 'input',
     label: '输入框',
@@ -493,6 +494,20 @@ function changeSelect(value: any, prop: string) {
 function changeRadio(value: any, prop: string) {
   console.log('changeRadio', value, prop);
 }
+
+const lsFormRef = ref();
+function getContext() {
+  console.log('--- getContext ---');
+  const fields = lsFormRef.value.FormRef.fields || [];
+  fields.forEach((item: any) => {
+    let props = item.prop;
+    if (isArray(props)) {
+      props = props.join('.');
+    }
+    console.log(lsFormRef.value.FormRef.getField(props).fieldValue);
+  });
+  console.log('--- getContext ---');
+}
 </script>
 
 <template>
@@ -530,7 +545,7 @@ function changeRadio(value: any, prop: string) {
     :loading="loading"
     has-def-read-style
     @submit="onSubmit"
-    @change-select="changeSelect"
+    @on-change="changeSelect"
     @change-radio="changeRadio"
   >
     <template #param1-input-prepend> 必填 </template>
@@ -556,7 +571,7 @@ function changeRadio(value: any, prop: string) {
     </template>
   </LSFormText>
 
-  <LSForm v-model:form-data="formData_2" :form-items="formItems_2">
+  <LSForm ref="lsFormRef" v-model:form-data="formData_2" :form-items="formItems_2">
     <template #item_1-slot>
       <div>
         <div v-for="(item, index) in formData_2.item_1" :key="index" class="item-center mb-24">
@@ -595,6 +610,9 @@ function changeRadio(value: any, prop: string) {
   </LSForm>
 
   <!-- <el-button type="primary" :loading="loading" :disabled="loading" @click="onLogin">登 录</el-button> -->
+
+  <!-- 获取字段的 context -->
+  <el-button type="primary" @click="getContext">获取字段的 context</el-button>
 </template>
 
 <style scoped></style>

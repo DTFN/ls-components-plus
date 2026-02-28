@@ -11,7 +11,9 @@ const emits = defineEmits(lsEmitNames);
 
 const props = defineProps(lsMenuItemProps);
 
-const menuProps = inject(lsMenuKey);
+const menuProps = inject(lsMenuKey) as {
+  fontSize: number;
+};
 
 const jumpRoute = (index: string, item: MenuBaseType) => {
   if (props.isDefineClick) {

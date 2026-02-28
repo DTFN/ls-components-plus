@@ -1,19 +1,27 @@
 <script setup lang="ts" name="LSChart">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import * as echarts from 'echarts/core';
-import { LineChart, PieChart, BarChart, GaugeChart } from 'echarts/charts';
+import { LineChart, PieChart, BarChart, GaugeChart, HeatmapChart } from 'echarts/charts';
 import {
   TooltipComponent,
   GridComponent,
   LegendComponent,
   ToolboxComponent,
   DataZoomComponent,
-  GraphicComponent
+  GraphicComponent,
+  MarkLineComponent,
+  VisualMapComponent,
+  TitleComponent
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import { lsChartProps } from './types';
 import config from './config';
+
+const ns = useNamespace('chart');
+const comClass: string = ns.b();
+
+const props = defineProps(lsChartProps);
 
 echarts.use([
   TooltipComponent,
@@ -28,13 +36,12 @@ echarts.use([
   CanvasRenderer,
   BarChart,
   GaugeChart,
-  GraphicComponent
+  GraphicComponent,
+  MarkLineComponent,
+  VisualMapComponent,
+  HeatmapChart,
+  TitleComponent
 ]);
-
-const ns = useNamespace('chart');
-const comClass: string = ns.b();
-
-const props = defineProps(lsChartProps);
 
 const lsChartRef = ref();
 const echartObj: Ref<echarts.ECharts | undefined> = ref();
@@ -119,7 +126,7 @@ defineExpose({
     font-size: 14px;
     font-weight: bold;
     line-height: 18px;
-    color: $color-text1;
+    color: cpo-var.$color-text1;
   }
   .content {
     display: flex;
@@ -137,7 +144,7 @@ defineExpose({
   .value {
     font-size: 12px;
     line-height: 20px;
-    color: $color-text2;
+    color: cpo-var.$color-text2;
   }
   .value {
     font-weight: bold;
@@ -159,7 +166,7 @@ defineExpose({
     .name,
     .serise-name,
     .value {
-      color: $color-light;
+      color: cpo-var.$color-light;
     }
   }
 }

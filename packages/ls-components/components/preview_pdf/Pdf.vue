@@ -14,6 +14,37 @@ const scale = ref(1);
 const showPagination = ref(true);
 const isComplete = ref(false);
 
+const attrs = useAttrs();
+
+const initNoPage = computed(() => {
+  const status = attrs['init-no-pagination'] || attrs['initNoPagination'];
+  return status;
+});
+
+const hasDownload = computed(() => {
+  return attrs['has-download'] || attrs['hasDownload'];
+});
+
+// 下载按钮文案
+const downloadTxt = computed(() => {
+  return attrs['download-txt'] || attrs['downloadTxt'] || '下载';
+});
+
+const downloadLoading = computed(() => {
+  return attrs['download-loading'] || attrs['downloadLoading'] || false;
+});
+
+watch(
+  initNoPage,
+  val => {
+    showPagination.value = !val;
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
 const props = withDefaults(
   defineProps<{
     source: string;
@@ -36,12 +67,15 @@ const emits = defineEmits<{
   (event: 'loadComplete'): void;
   (event: 'loadError'): void;
   (event: 'update:source'): void;
+  (event: 'onDownload', payload: any): void;
 }>();
 
 watch(
   () => props.source,
-  () => {
-    initPdf();
+  val => {
+    if (val) {
+      initPdf();
+    }
   },
   {
     immediate: true,
@@ -123,6 +157,10 @@ function loadComplete() {
 function loadError() {
   emits('loadError');
 }
+
+function onDownload() {
+  emits('onDownload', attrs.downloadData);
+}
 </script>
 
 <template>
@@ -139,6 +177,10 @@ function loadError() {
         <LSButton type="primary" icon="Plus" size="small" :disabled="scale == 2" @click="scalePdf(1)" />
       </div>
       <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
+
+      <LSButton v-if="hasDownload" type="primary" size="small" :loading="downloadLoading" @click="onDownload">{{
+        downloadTxt
+      }}</LSButton>
 
       <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
         <LSIcon name="Close" :size="26" />
@@ -192,6 +234,12 @@ function loadError() {
   }
   .pdf-content {
     margin-top: 40px;
+    > div {
+      position: absolute !important;
+      left: 50%;
+      padding-bottom: 6px;
+      transform: translateX(-50%);
+    }
   }
   .ls-pdf__btn {
     position: absolute;
@@ -236,7 +284,6 @@ function loadError() {
     }
     .el-button,
     .num-wrap {
-      display: inline-block;
       vertical-align: middle;
     }
     .num-wrap {
@@ -244,6 +291,11 @@ function loadError() {
       font-size: 12px;
       font-weight: bold;
       color: #606266;
+    }
+    .el-button {
+      :deep(> span) {
+        line-height: inherit;
+      }
     }
   }
   .infinite-list-wrapper {

@@ -13,7 +13,7 @@ import 'element-plus/dist/index.css';
 // import '../../../ls-components/lib/index.css';
 
 // import LSWebPlus from '@lingshugroup/web-plus';
-import { vAuth } from '@lingshugroup/web-plus/directives';
+// import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
@@ -47,7 +47,7 @@ import '@lingshugroup/web-plus/index.css';
 export default Object.assign({}, Theme, {
   // Layout: () => {
   // const props: Record<string, any> = {};
-  // // 获取 frontmatter
+  // 获取 frontmatter
   // const { frontmatter } = useData();
 
   // /* 添加自定义 class */
@@ -58,45 +58,45 @@ export default Object.assign({}, Theme, {
   // return h(Theme.Layout, props);
   // },
   async enhanceApp({ app }: { app: App }) {
-      app.component('ArticleMetadata', ArticleMetadata);
-      app.component('ApiIntro', ApiIntro);
-  
-      app.directive('print', print);
-  
-      vAuth.permissions = ['a', 'b', 'c'];
-      app.directive('auth', vAuth);
-      // [
-      //   LSIcon,
-      //   LSButton,
-      //   LSButtonGroup,
-      //   LSLayout,
-      //   LSForm,
-      //   LSFormItem,
-      //   LSUpload,
-      //   LSTable,
-      //   LSDescriptions,
-      //   LSTree,
-      //   LSMap,
-        // LSLive,
-        // LSEditor,
-        // LSList,
-        // LSChart,
-        // LSBackTop,
-        // LSBreadcrumb,
-        // LSMenu,
-        // LSConfirm,
-        // LSBellMessage,
-        // LSDialog,
-        // LSPrint,
-        // LSContainerBox
-      // ].map(item => {
-      //   app.component(item.name, item);
-      // });
-      
-    if (!import.meta.env.SSR) {
-      const plugin = await import('@lingshugroup/web-plus')
-      app.use(plugin.default)
-    }
+    app.component('ArticleMetadata', ArticleMetadata);
+    app.component('ApiIntro', ApiIntro);
 
+    app.directive('print', print);
+
+    // vAuth.permissions = ['a', 'b', 'c'];
+    // app.directive('auth', vAuth);
+    // [
+    //   LSIcon,
+    //   LSButton,
+    //   LSButtonGroup,
+    //   LSLayout,
+    //   LSForm,
+    //   LSFormItem,
+    //   LSUpload,
+    //   LSTable,
+    //   LSDescriptions,
+    //   LSTree,
+    //   LSMap,
+    // LSLive,
+    // LSEditor,
+    // LSList,
+    // LSChart,
+    // LSBackTop,
+    // LSBreadcrumb,
+    // LSMenu,
+    // LSConfirm,
+    // LSBellMessage,
+    // LSDialog,
+    // LSPrint,
+    // LSContainerBox
+    // ].map(item => {
+    //   app.component(item.name, item);
+    // });
+
+    if (!import.meta.env.SSR) {
+      const plugin = await import('@lingshugroup/web-plus');
+      app.use(plugin.default);
+    }
+    // app.use(LSWebPlus);
   }
 });

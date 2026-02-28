@@ -234,6 +234,7 @@ function handleCurrentChange(row) {
   :table-column="column_2"
   :table-data="data_3"
   :total="total"
+  :select-column-options="selectColumnOptions"
   >
 </LSTable>
 </ClientOnly>
@@ -292,6 +293,9 @@ const selection = ref([
   :table-column="column_2"
   :table-data="data_3"
   :total="total"
+  :select-column-options="{
+    reserveSelection: true
+  }"
 >
 </LSTable>
 ```
@@ -323,7 +327,7 @@ const selection = ref([
 <script setup>
 import { ElTag } from 'element-plus';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
-import { ref, computed } from 'vue';
+import { ref, computed, watch} from 'vue';
 
 // 示例1
 const column_1=[
@@ -473,6 +477,16 @@ const selection = ref([
     code3: '字段3----2'
   }
 ]);
+const selectColumnOptions={
+  reserveSelection:true
+}
+
+watch(
+  () => selection.value,
+  newVal => {
+    console.log('watch---选中数据', newVal);
+  }
+);
 
 // 属性
 const attrTableData=[
@@ -592,7 +606,7 @@ const attrTableData=[
   },
   {
     name: 'showSelect',
-    desc: '是否多选',
+    desc: '是否多选（为true 时 reserve-selection 默认 true）',
     type: 'boolean',
     value: 'false'
   },

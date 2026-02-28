@@ -1,32 +1,33 @@
 @charset 'utf-8';
+@use "sass:list";
 
 /*************** color *****************/
 @for $i from 1 through 10 {
-  $cbrand: nth($color-brands, $i);
+  $cbrand: list.nth(cpo-var.$color-brands, $i);
 
   .ls-color-brand#{$i} {
     color: $cbrand;
   }
 
-  $csuccess: nth($color-successs, $i);
+  $csuccess: list.nth(cpo-var.$color-successs, $i);
 
   .ls-color-success#{$i} {
     color: $csuccess;
   }
 
-  $cwarning: nth($color-warnings, $i);
+  $cwarning: list.nth(cpo-var.$color-warnings, $i);
 
   .ls-color-warning#{$i} {
     color: $cwarning;
   }
 
-  $cdanger: nth($color-dangers, $i);
+  $cdanger: list.nth(cpo-var.$color-dangers, $i);
 
   .ls-color-danger#{$i} {
     color: $cdanger;
   }
 
-  $cinfo: nth($color-infos, $i);
+  $cinfo: list.nth(cpo-var.$color-infos, $i);
 
   .ls-color-info#{$i} {
     color: $cinfo;
@@ -34,13 +35,13 @@
 }
 
 @for $i from 1 through 7 {
-  $cgray: nth($color-grays, $i);
+  $cgray: list.nth(cpo-var.$color-grays, $i);
 
   .ls-color-gray#{$i} {
     color: $cgray;
   }
 
-  $cfill: nth($color-fills, $i);
+  $cfill: list.nth(cpo-var.$color-fills, $i);
 
   .ls-color-fill#{$i} {
     color: $cfill;
@@ -48,7 +49,7 @@
 }
 
 @for $i from 1 through 6 {
-  $cborder: nth($color-borders, $i);
+  $cborder: list.nth(cpo-var.$color-borders, $i);
 
   .ls-color-border#{$i} {
     color: $cborder;
@@ -56,180 +57,180 @@
 }
 
 @for $i from 1 through 5 {
-  $ctext: nth($color-texts, $i);
+  $ctext: list.nth(cpo-var.$color-texts, $i);
 
   .ls-color-text#{$i} {
     color: $ctext;
   }
 }
 .ls-color-light {
-  color: $color-light;
+  color: cpo-var.$color-light;
 }
 .ls-color-dark {
-  color: $color-dark;
+  color: cpo-var.$color-dark;
 }
 
 /*********  font-size & line-height  *********/
 .ls-font-size-large {
-  font-size: $font-size-large;
+  font-size: cpo-var.$font-size-large;
 }
 .ls-line-height-large {
-  line-height: $line-height-large;
+  line-height: cpo-var.$line-height-large;
 }
 .ls-font-size-medium {
-  font-size: $font-size-medium;
+  font-size: cpo-var.$font-size-medium;
 }
 .ls-line-height-medium {
-  line-height: $line-height-medium;
+  line-height: cpo-var.$line-height-medium;
 }
 .ls-font-size-title-large {
-  font-size: $font-size-title-large;
+  font-size: cpo-var.$font-size-title-large;
 }
 .ls-line-height-title-large {
-  line-height: $line-height-title-large;
+  line-height: cpo-var.$line-height-title-large;
 }
 .ls-font-size-title-medium {
-  font-size: $font-size-title-medium;
+  font-size: cpo-var.$font-size-title-medium;
 }
 .ls-line-height-title-medium {
-  line-height: $line-height-title-medium;
+  line-height: cpo-var.$line-height-title-medium;
 }
 .ls-font-size-title-small {
-  font-size: $font-size-title-small;
+  font-size: cpo-var.$font-size-title-small;
 }
 .ls-line-height-title-small {
-  line-height: $line-height-title-small;
+  line-height: cpo-var.$line-height-title-small;
 }
 .ls-font-size-subtitle-large {
-  font-size: $font-size-subtitle-large;
+  font-size: cpo-var.$font-size-subtitle-large;
 }
 .ls-line-height-subtitle-large {
-  line-height: $line-height-subtitle-large;
+  line-height: cpo-var.$line-height-subtitle-large;
 }
 .ls-font-size-subtitle-medium {
-  font-size: $font-size-subtitle-medium;
+  font-size: cpo-var.$font-size-subtitle-medium;
 }
 .ls-line-height-subtitle-medium {
-  line-height: $line-height-subtitle-medium;
+  line-height: cpo-var.$line-height-subtitle-medium;
 }
 .ls-font-size-subtitle-small {
-  font-size: $font-size-subtitle-small;
+  font-size: cpo-var.$font-size-subtitle-small;
 }
 .ls-line-height-subtitle-small {
-  line-height: $line-height-subtitle-small;
+  line-height: cpo-var.$line-height-subtitle-small;
 }
 .ls-font-size-content-large {
-  font-size: $font-size-content-large;
+  font-size: cpo-var.$font-size-content-large;
 }
 .ls-line-height-content-large {
-  line-height: $line-height-content-large;
+  line-height: cpo-var.$line-height-content-large;
 }
 .ls-font-size-content-medium {
-  font-size: $font-size-content-medium;
+  font-size: cpo-var.$font-size-content-medium;
 }
 .ls-line-height-content-medium {
-  line-height: $line-height-content-medium;
+  line-height: cpo-var.$line-height-content-medium;
 }
 .ls-font-size-content-small {
-  font-size: $font-size-content-small;
+  font-size: cpo-var.$font-size-content-small;
 }
 .ls-line-height-content-small {
-  line-height: $line-height-content-small;
+  line-height: cpo-var.$line-height-content-small;
 }
 .ls-font-size-label-medium {
-  font-size: $font-size-label-medium;
+  font-size: cpo-var.$font-size-label-medium;
 }
 .ls-line-height-label-medium {
-  line-height: $line-height-label-medium;
+  line-height: cpo-var.$line-height-label-medium;
 }
 .ls-font-size-label-small {
-  font-size: $font-size-label-small;
+  font-size: cpo-var.$font-size-label-small;
 }
 .ls-line-height-label-small {
-  line-height: $line-height-label-small;
+  line-height: cpo-var.$line-height-label-small;
 }
 .ls-font-size-link-large {
-  font-size: $font-size-link-large;
+  font-size: cpo-var.$font-size-link-large;
 }
 .ls-line-height-link-large {
-  line-height: $line-height-link-large;
+  line-height: cpo-var.$line-height-link-large;
 }
 .ls-font-size-link-medium {
-  font-size: $font-size-link-medium;
+  font-size: cpo-var.$font-size-link-medium;
 }
 .ls-line-height-link-medium {
-  line-height: $line-height-link-medium;
+  line-height: cpo-var.$line-height-link-medium;
 }
 .ls-font-size-link-small {
-  font-size: $font-size-link-small;
+  font-size: cpo-var.$font-size-link-small;
 }
 .ls-line-height-link-small {
-  line-height: $line-height-link-small;
+  line-height: cpo-var.$line-height-link-small;
 }
 
 /*********************** box-shadow *************************/
 .lsbox-shadow-base {
-  box-shadow: $box-shadow-base;
+  box-shadow: cpo-var.$box-shadow-base;
 }
 .lsbox-shadow-mid {
-  box-shadow: $box-shadow-mid;
+  box-shadow: cpo-var.$box-shadow-mid;
 }
 .lsbox-shadow-up {
-  box-shadow: $box-shadow-up;
+  box-shadow: cpo-var.$box-shadow-up;
 }
 
 /****************** root ******************/
 :root {
   @for $i from 1 through 10 {
-    $cbrand: nth($color-brands, $i);
+    $cbrand: list.nth(cpo-var.$color-brands, $i);
 
     --color-brand#{$i}: #{$cbrand};
 
-    $csuccess: nth($color-successs, $i);
+    $csuccess: list.nth(cpo-var.$color-successs, $i);
 
     --color-success#{$i}: #{$csuccess};
 
-    $cwarning: nth($color-warnings, $i);
+    $cwarning: list.nth(cpo-var.$color-warnings, $i);
 
     --color-warning#{$i}: #{$cwarning};
 
-    $cdanger: nth($color-dangers, $i);
+    $cdanger: list.nth(cpo-var.$color-dangers, $i);
 
     --color-danger#{$i}: #{$cdanger};
 
-    $cinfo: nth($color-infos, $i);
+    $cinfo: list.nth(cpo-var.$color-infos, $i);
 
     --color-info#{$i}: #{$cinfo};
   }
 
   @for $i from 1 through 7 {
-    $cgray: nth($color-grays, $i);
+    $cgray: list.nth(cpo-var.$color-grays, $i);
 
     --color-gray#{$i}: #{$cgray};
 
-    $cfill: nth($color-fills, $i);
+    $cfill: list.nth(cpo-var.$color-fills, $i);
 
     --color-fill#{$i}: #{$cfill};
   }
 
   @for $i from 1 through 6 {
-    $cborder: nth($color-borders, $i);
+    $cborder: list.nth(cpo-var.$color-borders, $i);
 
     --color-border#{$i}: #{$cborder};
   }
 
   @for $i from 1 through 5 {
-    $ctext: nth($color-texts, $i);
+    $ctext: list.nth(cpo-var.$color-texts, $i);
 
     --color-text#{$i}: #{$ctext};
   }
 
-  --color-light: #{$color-light};
-  --color-dark: #{$color-dark};
+  --color-light: #{cpo-var.$color-light};
+  --color-dark: #{cpo-var.$color-dark};
 
-  -box-shadow-base: #{$box-shadow-base};
-  -box-shadow-mid: #{$box-shadow-mid};
-  -box-shadow-up: #{$box-shadow-up};
+  -box-shadow-base: #{cpo-var.$box-shadow-base};
+  -box-shadow-mid: #{cpo-var.$box-shadow-mid};
+  -box-shadow-up: #{cpo-var.$box-shadow-up};
 
   --bg-color-primary: #e2edff;
   --el-color-primary: #006eff;

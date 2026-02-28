@@ -6,6 +6,8 @@
 
 适用于 vue3.x
 
+1.element-plus升级至2.10.6
+
 ## 链接
 
 [vue3.x](https://cn.vuejs.org/guide/introduction.html) [element-plus](https://element-plus.org/zh-CN/component/overview.html)
