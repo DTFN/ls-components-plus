@@ -1,12 +1,12 @@
 <script setup lang="ts" name="LSXlsx">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { xlsxProps } from './types';
 import { fileEmpty, previewEmits } from '@cpo/_constants/previewType';
-import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { isFile } from '@cpo/_utils/check';
-import * as XLSX from 'xlsx/xlsx.mjs';
+import { loadCss, loadJs, removeCss, removeJs } from '@cpo/_utils/utils';
 import LuckyExcel from 'luckyexcel';
-import { fileSizeLimit, jsList, cssList, luckysheetConfig, rowsPerBatch } from './config';
+import * as XLSX from 'xlsx/xlsx.mjs';
+import { cssList, fileSizeLimit, jsList, luckysheetConfig, rowsPerBatch } from './config';
+import { xlsxProps } from './types';
 
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css
@@ -386,6 +386,13 @@ onBeforeUnmount(() => {
   }
   :deep(.luckysheet-stat-area) {
     background-color: transparent !important;
+  }
+  :deep(.luckysheet-row-count-show) {
+    width: 14px !important;
+    font-size: 12px !important;
+  }
+  :deep(.luckysheet-sheet-area) {
+    pointer-events: none;
   }
 }
 

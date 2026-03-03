@@ -15,7 +15,7 @@ export const luckysheetConfig = {
   lang: 'zh',
   gridKey: new Date().getTime(), // 表格唯一key
   showinfobar: false,
-  allowEdit: false,
+  allowEdit: true,
   allowCopy: false,
   allowUpdate: false,
   showtoolbar: false, // 是否显示工具栏
