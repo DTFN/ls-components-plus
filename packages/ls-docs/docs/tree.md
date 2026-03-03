@@ -7,36 +7,15 @@ outline: deep
 ::: warning 基于el-tree二次封装，保留原属性和方法。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [基本使用](#基本使用)
-  - [水平展示](#水平展示)
-  - [基本使用（非全选模式）](#基本使用（非全选模式）)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [data 配置项](#data-配置项)
-  - [Methods](#methods)
-  - [Exposes](#exposes)
-
-## 功能介绍
-
-LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增强功能：
-
-- 支持全选/取消全选功能
-- 支持水平/垂直展示方向
-- 支持自定义数据结构映射
-- 支持节点前缀过滤
-- 支持复选框状态管理
-- 支持与表单集成
-- 保留了 Element Plus Tree 的所有原有功能
-
 ## 使用方式
 
-### 基本使用
+### 1. 基本使用
 
-<LSButton type="primary" @click="getChecked">getChecked</LSButton>
+<LSButton type="primary" @click="getChecked">获取已选项</LSButton>
+
+<div>
+所有已选项：{{ checkedIds }}
+</div>
 
 <ClientOnly>
 <LSTree
@@ -58,6 +37,13 @@ LSTree 组件是对 Element Plus Tree 组件的二次封装，提供了以下增
 
 ```js
 import { ref } from 'vue';
+
+//获取已选项
+const tree1Ref = ref();
+const checkedIds = ref([]);
+function getChecked() {
+  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes();
+}
 
 // 权限树数据列表
 const treeData = ref([
@@ -334,7 +320,7 @@ function getTreeCheckedData(ids) {
 
 :::
 
-### 水平展示
+### 2. 水平展示
 
 <ClientOnly>
 <LSTree
@@ -360,7 +346,7 @@ function getTreeCheckedData(ids) {
 
 组件通过在数据结构中设置 `isPenultimate: true` 属性来实现水平布局。当节点的 `isPenultimate` 属性为 `true` 时，组件会自动为其添加 `is-penultimate` 类，使其子节点水平排列。
 
-### 实现方式
+实现方式
 
 1. **数据结构设置**：在需要水平展示子节点的父节点上添加 `isPenultimate: true` 属性
 
@@ -393,7 +379,22 @@ const horizontalTreeData = ref([
         parentId: 20100
       }
     ]
-  }z
+  },
+  {
+    id: 20200,
+    name: '测试权限',
+    permission: 'm2',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20201,
+        name: '测试权限1',
+        permission: 'm21',
+        parentId: 20200
+      }
+    ]
+  }
 ]);
 ```
 
@@ -426,7 +427,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 }
 ```
 
-### 注意事项
+注意事项
 
 - `isPenultimate` 属性需要设置在父节点上，而不是子节点上
 - 当设置 `isPenultimate: true` 后，该节点的所有子节点都会水平排列
@@ -434,7 +435,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 
 :::
 
-### 基本使用（非全选模式）
+### 3. 基本使用（非全选模式）
 
 <ClientOnly>
 <LSTree
@@ -449,21 +450,266 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 <LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 ```
 
+### 4. 权限code包含p或d
+
+<ClientOnly>
+<LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
+
+<div style="margin-top: 10px;">
+  已选权限code：{{ checkedPermissionCodes }}
+</div>
+
+<LSTree
+  ref="permissionTreeRef"
+  :tree-data="permissionTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="defaultPermissionIds"
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 获取已选权限
+const permissionTreeRef = ref();
+const checkedPermissionCodes = ref([]);
+const defaultPermissionIds = ref([11, 12]); // 默认选中查看列表和详情权限
+
+// permission 权限码示例数据
+const permissionTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1
+      },
+      {
+        id: 15,
+        name: '删除用户',
+        permission: 'm_user_delete',
+        parentId: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2
+      }
+    ]
+  }
+]);
+
+function getPermissionChecked() {
+  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes();
+  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ');
+}
+```
+
+```html
+<LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
+
+<div style="margin-top: 10px;">已选权限code：{{ checkedPermissionCodes }}</div>
+
+<LSTree
+  ref="permissionTreeRef"
+  :tree-data="permissionTreeData"
+  :is-check-all="true"
+  :show-checkbox="true"
+  :default-checked-keys="defaultPermissionIds"
+/>
+```
+
+:::
+
+### 5. 隐藏指定前缀节点
+
+<ClientOnly>
+
+<LSTree
+  ref="hidePrefixTreeRef"
+  :tree-data="hidePrefixTreeData"
+  :hide-node-prefix="hidePrefix"
+  :is-check-all="true"
+  :show-checkbox="true"
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+// 隐藏指定前缀节点
+const hidePrefixTreeRef = ref();
+const hidePrefix = ref('I'); // 默认隐藏接口节点
+
+// 隐藏指定前缀节点示例数据
+const hidePrefixTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1,
+        children: [
+          {
+            id: 131,
+            name: '新增用户接口',
+            permission: 'I_user_create_api',
+            parentId: 13
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1,
+        children: [
+          {
+            id: 141,
+            name: '编辑用户接口',
+            permission: 'I_user_edit_api',
+            parentId: 14
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2,
+        children: [
+          {
+            id: 221,
+            name: '详情接口',
+            permission: 'I_order_detail_api',
+            parentId: 22
+          }
+        ]
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2,
+        children: [
+          {
+            id: 231,
+            name: '导出订单接口',
+            permission: 'I_order_export_api',
+            parentId: 23
+          }
+        ]
+      }
+    ]
+  }
+]);
+```
+
+```html
+<LSButton type="primary" @click="toggleHidePrefix">切换隐藏/显示接口节点</LSButton>
+
+<LSTree
+  ref="hidePrefixTreeRef"
+  :tree-data="hidePrefixTreeData"
+  :hide-node-prefix="hidePrefix"
+  :is-check-all="true"
+  :show-checkbox="true"
+/>
+```
+
+:::
+
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### data 配置项
+#### 1.1 data 配置项
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
-### Methods
+### 2. Methods
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData3" />
 
-### Exposes
+### 3. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData4" />
 
@@ -709,8 +955,9 @@ function getTreeCheckedData(ids) {
 }
 
 const tree1Ref = ref();
+const checkedIds = ref([]);
 function getChecked() {
-  console.log(tree1Ref.value.lsTreeRef.getCheckedNodes());
+  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes();
 }
 
 // 水平展示示例数据
@@ -747,8 +994,200 @@ const horizontalTreeData = ref([
         parentId: 20100
       }
     ]
+  },
+  {
+    id: 20200,
+    name: '测试权限',
+    permission: 'm2',
+    parentId: 0,
+    isPenultimate: true, // 开启水平布局
+    children: [
+      {
+        id: 20201,
+        name: '测试权限1',
+        permission: 'm21',
+        parentId: 20200
+      }
+    ]
   }
 ]);
+
+// permission 权限码示例数据
+const permissionTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1
+      },
+      {
+        id: 15,
+        name: '删除用户',
+        permission: 'm_user_delete',
+        parentId: 1
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2
+      }
+    ]
+  }
+]);
+
+
+// 隐藏指定前缀节点
+const hidePrefixTreeRef = ref();
+const hidePrefix = ref('I');
+
+// 隐藏指定前缀节点示例数据
+const hidePrefixTreeData = ref([
+  {
+    id: 1,
+    name: '用户管理',
+    permission: 'm_user',
+    parentId: 0,
+    children: [
+      {
+        id: 11,
+        name: '查看列表',
+        permission: 'p_user_list',
+        parentId: 1
+      },
+      {
+        id: 12,
+        name: '查看详情',
+        permission: 'd_user_detail',
+        parentId: 1
+      },
+      {
+        id: 13,
+        name: '新增用户',
+        permission: 'm_user_create',
+        parentId: 1,
+        children: [
+          {
+            id: 131,
+            name: '新增用户接口',
+            permission: 'I_user_create_api',
+            parentId: 13
+          }
+        ]
+      },
+      {
+        id: 14,
+        name: '编辑用户',
+        permission: 'm_user_edit',
+        parentId: 1,
+        children: [
+          {
+            id: 141,
+            name: '编辑用户接口',
+            permission: 'I_user_edit_api',
+            parentId: 14
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '订单管理',
+    permission: 'm_order',
+    parentId: 0,
+    children: [
+      {
+        id: 21,
+        name: '查看列表',
+        permission: 'p_order_list',
+        parentId: 2
+      },
+      {
+        id: 22,
+        name: '查看详情',
+        permission: 'd_order_detail',
+        parentId: 2,
+        children: [
+          {
+            id: 221,
+            name: '详情接口',
+            permission: 'I_order_detail_api',
+            parentId: 22
+          }
+        ]
+      },
+      {
+        id: 23,
+        name: '导出订单',
+        permission: 'm_order_export',
+        parentId: 2,
+        children: [
+          {
+            id: 231,
+            name: '导出订单接口',
+            permission: 'I_order_export_api',
+            parentId: 23
+          }
+        ]
+      }
+    ]
+  }
+]);
+
+// 获取已选权限
+const permissionTreeRef = ref();
+const checkedPermissionCodes = ref([]);
+const defaultPermissionIds = ref([11, 12]); // 默认选中查看列表和详情权限
+
+function getPermissionChecked() {
+  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes();
+  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ');
+}
 
 const tableData = ref([
   {

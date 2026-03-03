@@ -7,42 +7,21 @@ outline: deep
 ::: warning 基于[flv.js](https://www.npmjs.com/package/flv.js)二次封装。
 :::
 
-## 目录
-
-- [功能介绍](#功能介绍)
-- [使用方式](#使用方式)
-  - [直播类型](#直播类型)
-  - [视频类型](#视频类型)
-  - [自定义控件](#自定义控件)
-- [API](#api)
-  - [Attributes](#attributes)
-  - [Exposes](#exposes)
-
-## 功能介绍
-
-LSLive 组件是对 flv.js 的二次封装，提供了以下功能：
-
-- 支持 FLV 格式的直播流播放
-- 支持 MP4 格式的视频播放
-- 支持音频/视频控制
-- 支持循环播放
-- 支持直播/点播模式切换
-- 提供简洁的 API 接口
-
 ## 使用方式
 
-### 直播类型
+### 1. 直播类型
 
 <br />
 <ClientOnly>
-<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="false" />
+<LSLive ref="liveRef" class="live-wrap" type="flv" :is-live="true" />
 </ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
 import { ref, onMounted } from 'vue';
-const m1 = 'http://192.168.1.33:8008/images/m1.mp4';
+// http或https类型的直播地址，根据视频地址类型选择flv或mp4
+const m1 = 'http://192.168.1.33:8009/live/test.flv';
 const liveRef = ref();
 const liveUrl = ref(m1);
 onMounted(() => {
@@ -51,7 +30,7 @@ onMounted(() => {
 ```
 
 ```html
-<LSLive ref="liveRef" class="live-wrap" type="mp4" :is-live="false" />
+<LSLive ref="liveRef" class="live-wrap" type="flv" :is-live="true" />
 ```
 
 ```scss
@@ -66,7 +45,7 @@ onMounted(() => {
 
 :::
 
-### 视频类型
+### 2. 视频类型
 
 <br />
 <ClientOnly>
@@ -101,7 +80,7 @@ onMounted(() => {
 
 :::
 
-### 自定义控件
+### 3. 自定义控件
 
 <br />
 <ClientOnly>
@@ -212,19 +191,20 @@ function changeVideo() {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Exposes
+### 2. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
 <script setup>
 import { tableColumn, tableExposesColumn } from '../constant'
 import { ref, onMounted, nextTick } from 'vue';
-const m1 = 'http://192.168.1.33:8008/images/m1.mp4'
-const m2 = 'http://192.168.1.33:8008/images/m2.mp4'
+const m1 = 'http://192.168.1.33:8009/live/test.flv'
+const m2 = 'http://192.168.1.33:8008/images/m1.mp4'
+const m3 = 'http://192.168.1.33:8008/images/m2.mp4'
 const liveRef = ref();
 const liveUrl = ref(m1);
 
@@ -232,7 +212,7 @@ const liveRef2 = ref();
 const liveUrl2 = ref(m2);
 
 const liveRef3 = ref();
-const liveUrl3 = ref(m1);
+const liveUrl3 = ref(m3);
 const anotherUrl = ref(m2);
 onMounted(() => {
   nextTick(() => {

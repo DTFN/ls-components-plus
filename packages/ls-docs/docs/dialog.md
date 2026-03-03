@@ -544,19 +544,19 @@ const handleConfirmWithLoading = () => {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="dialogTableData" />
 
-### Events
+### 2. Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="dialogEventTableData" />
 
-### Slots
+### 3. Slots
 
 <ApiIntro :tableColumn="slotTableColumn" :tableData="dialogSlotTableData" />
 
-### Exposes
+### 4. Exposes
 
 <ApiIntro :tableColumn="exposesTableColumn" :tableData="dialogExposesTableData" />
 

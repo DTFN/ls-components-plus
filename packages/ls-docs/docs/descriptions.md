@@ -7,18 +7,6 @@ outline: deep
 ::: warning 基于el-descriptions二次封装，保留原属性和方法。
 :::
 
-## 功能介绍
-
-LSDescriptions 组件是对 Element Plus Descriptions 组件的二次封装，提供了以下增强功能：
-
-- 支持图标配置
-- 支持日期格式化
-- 支持选择框类型数据
-- 支持自定义插槽
-- 支持响应式布局
-- 支持自定义样式
-- 支持与其他组件的集成
-
 ## 使用方式
 
 ### 1. 两栏模式
