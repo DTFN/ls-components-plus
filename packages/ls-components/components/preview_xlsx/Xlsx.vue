@@ -392,7 +392,11 @@ onBeforeUnmount(() => {
     font-size: 12px !important;
   }
   :deep(.luckysheet-sheet-area) {
-    pointer-events: none;
+    .luckysheet-sheets-item {
+      .luckysheet-sheets-item-name {
+        pointer-events: none;
+      }
+    }
   }
 }
 
