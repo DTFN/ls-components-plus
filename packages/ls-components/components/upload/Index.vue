@@ -127,14 +127,14 @@
 </template>
 
 <script setup lang="ts">
-import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
-import type { configsType, UploadChangeFile, UploadItemType } from './types';
-import { getVariable } from '@cpo/_utils/config';
-import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile, UploadProgressEvent } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { getVariable } from '@cpo/_utils/config';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
 import LSPreviewImage from '@cpo/preview_image';
+import type { UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadUserFile } from 'element-plus';
+import type { configsType, UploadChangeFile, UploadItemType } from './types';
+import { IMG_SUFFIX_LIST, lsUploadProps, UPLOAD_STATUS_MAP, UPLOAD_TYPE_MAP } from './types';
 // import { merge } from 'lodash-es';
 
 defineOptions({
@@ -324,7 +324,7 @@ watch(
 function updateFileAccept(files: Array<string>) {
   (defAttrs as any).accept = '';
   files.forEach((key: string) => {
-    const fileType = fileTypeMap[key] || '';
+    const fileType = `.${key}`;
     if (fileType) {
       if ((defAttrs as any).accept) (defAttrs as any).accept += ',';
       (defAttrs as any).accept += fileType;

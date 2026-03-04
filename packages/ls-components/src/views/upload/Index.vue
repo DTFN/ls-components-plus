@@ -134,7 +134,8 @@ function onHandleCropper(file: any, index: number) {
       :item="{
         isCover: false,
         limitAllFail: false,
-        limitSize: 50
+        limitSize: 50,
+        limitFile: ['rar', 'zip']
       }"
     ></LSUpload>
 
@@ -209,7 +210,6 @@ function onHandleCropper(file: any, index: number) {
 
     <br />
 
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleFormRef" label-width="100px" class="demo-ruleForm">
       <el-form-item label="文件上传：" prop="fileId">
         <LSUpload
           :action="action"

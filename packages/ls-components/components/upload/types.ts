@@ -1,7 +1,7 @@
-import type { LSUnionTypeSS } from '@cpo/_utils/types';
-import type { ExtractPropTypes, PropType } from 'vue';
-import type { UploadFile, UploadRawFile } from 'element-plus';
 import { buildProps } from '@cpo/_utils/runtime';
+import type { LSUnionTypeSS } from '@cpo/_utils/types';
+import type { UploadFile, UploadRawFile } from 'element-plus';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 export interface configsType {
   uploadFileList: Array<UploadFile>;
