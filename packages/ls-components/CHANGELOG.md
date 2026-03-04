@@ -1,3 +1,11 @@
+## [2.4.11](https://github.com/DTFN/ls-components-plus/compare/v2.4.10...v2.4.11) (2026-03-04)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([8aeb8fd](https://github.com/DTFN/ls-components-plus/commit/8aeb8fd75f57eb0d43baf79361c0cf25b1e6f29d))
+* **ls-component:** 🧩 修复upload组件选择文件过滤问题 ([5ca32e5](https://github.com/DTFN/ls-components-plus/commit/5ca32e5f8365ce9921f4a26e67d80d555acdc453))
+
 ## [2.4.10](https://github.com/DTFN/ls-components-plus/compare/v2.4.9...v2.4.10) (2026-03-03)
 
 
