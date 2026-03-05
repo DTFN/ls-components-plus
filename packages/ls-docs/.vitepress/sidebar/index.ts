@@ -89,9 +89,9 @@ export default {
     {
       text: 'utils',
       items: [
-        { text: 'validate', link: '/tools/utils/validate' },
-        { text: 'check', link: '/tools/utils/check' },
-        { text: 'util', link: '/tools/utils/util' }
+        { text: 'lsValidate', link: '/tools/utils/validate' },
+        { text: 'lsCheck', link: '/tools/utils/check' },
+        { text: 'lsUtil', link: '/tools/utils/util' }
       ]
     }
   ]

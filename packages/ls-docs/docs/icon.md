@@ -4,12 +4,12 @@ outline: deep
 
 # Icon 图标
 
-::: warning 基于 Element Plus Icon、iconify、img、svg 提供多种图标使用方式，支持丰富的样式定制和动画效果。
+::: warning 基于 element-plus icon、iconify、img、svg 提供多种图标使用方式，支持丰富的样式定制和动画效果。
 :::
 
 ## 使用方式
 
-### 1. Element Plus Icon
+### 1. element-plus icon
 
 ::: tip 需安装依赖 [@element-plus/icons-vue](https://element-plus.org/zh-CN/component/icon.html)。
 并注册需要用到的icon图标，注册方式请查看ei-icon文档
