@@ -30,9 +30,9 @@ export default {
         { text: 'PreviewXlsx Excel预览', link: '/docs/previewXlsx' },
         { text: 'PreviewDoc 文档预览', link: '/docs/previewDocx' },
         { text: 'Tree 权限树', link: '/docs/tree' },
-        { text: 'map 地图', link: '/docs/map' },
-        { text: 'live 直播/视频', link: '/docs/live' },
-        { text: 'Editor 编辑器', link: '/docs/editor' },
+        { text: 'Map 地图', link: '/docs/map' },
+        { text: 'Live 直播/视频', link: '/docs/live' },
+        { text: 'Editor 富文本', link: '/docs/editor' },
         { text: 'List 列表', link: '/docs/list' }
       ]
     },
@@ -57,8 +57,8 @@ export default {
       text: 'Feedback 反馈组件',
       items: [
         { text: 'Confirm 确认框', link: '/docs/confirm' },
-        { text: 'BellMessage 消息通知', link: '/docs/bellMessage' },
-        { text: 'Dialog 弹框', link: '/docs/dialog' },
+        { text: 'BellMessage 消息通知列表', link: '/docs/bellMessage' },
+        { text: 'Dialog 对话框', link: '/docs/dialog' },
         { text: 'Tooltip 弹出提示', link: '/docs/tooltip' }
       ]
     },
@@ -68,7 +68,7 @@ export default {
         { text: 'Print 打印', link: '/docs/print' },
         // { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
         { text: 'Download 下载', link: '/docs/download' },
-        { text: 'Cropper 裁剪', link: '/docs/cropper' }
+        { text: 'Cropper 图片裁剪', link: '/docs/cropper' }
       ]
     }
   ],
