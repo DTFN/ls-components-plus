@@ -10,7 +10,7 @@ LSForm 是基于 Element Plus Form 组件进行二次封装的表单组件，提
 
 ## 使用方式
 
-### 基础使用
+### 1. 基础使用
 
 配置 `formData` 和 `formItems` 即可快速生成表单：
 
@@ -50,7 +50,7 @@ function handleSubmit(form) {
 />
 ```
 
-### 表单验证案例
+### 2. 表单验证案例
 
 展示表单验证的使用方法，包括必填字段、正则表达式验证等。
 
@@ -127,7 +127,7 @@ function handleValidationSubmit(form) {
 />
 ```
 
-### 禁用表单案例
+### 3. 禁用表单案例
 
 展示如何禁用整个表单或单个表单项。
 
@@ -183,7 +183,7 @@ const disabledFormItems = ref([
 />
 ```
 
-### 自定义按钮案例
+### 4. 自定义按钮案例
 
 展示如何自定义表单按钮，包括修改按钮文本、样式和位置。
 
@@ -236,7 +236,7 @@ const customButtonFormItems = ref([
 />
 ```
 
-### 表单布局案例
+### 5. 表单布局案例
 
 展示不同的表单布局方式，包括多列布局和行内布局。
 
@@ -368,7 +368,7 @@ const inlineFormItems = ref([
 />
 ```
 
-### 动态表单项案例
+### 6. 动态表单项案例
 
 展示如何动态添加和删除表单项。
 
@@ -486,7 +486,7 @@ function removeField(index) {
 </LSForm>
 ```
 
-### 各种表单项类型案例
+### 7. 各种表单项类型案例
 
 展示各种类型的表单项使用方法。
 
@@ -633,7 +633,7 @@ const allTypesFormItems = ref([
 />
 ```
 
-### 高级表单验证案例
+### 8. 高级表单验证案例
 
 展示如何使用自定义验证规则和复杂的验证逻辑。
 
@@ -742,7 +742,7 @@ function handleAdvancedValidationSubmit(form) {
 />
 ```
 
-### 只读模式案例
+### 9. 只读模式案例
 
 展示表单的只读模式，适用于查看详情页面。
 
@@ -830,7 +830,7 @@ const readOnlyFormItems = ref([
 />
 ```
 
-### 表单事件案例
+### 10. 表单事件案例
 
 展示如何使用表单的各种事件。
 
@@ -927,7 +927,7 @@ function handleFormDataChange(value, prop, form) {
 />
 ```
 
-### 自定义插槽案例
+### 11. 自定义插槽案例
 
 展示如何使用自定义插槽来自定义表单项。
 
@@ -1011,7 +1011,7 @@ const slotFormItems = ref([
 
 ## API 文档
 
-### 属性
+### 1. 属性
 
 | 属性名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -1035,7 +1035,7 @@ const slotFormItems = ref([
 | hasDefReadStyle | 是否使用默认只读样式 | Boolean | false |
 | hideColumn | 是否隐藏列 | Boolean | false |
 
-### 事件
+### 2. 事件
 
 | 事件名 | 描述 | 类型 | 回调参数 |
 | --- | --- | --- | --- |
@@ -1045,7 +1045,7 @@ const slotFormItems = ref([
 | onChange | 表单项值变化事件 | Function | (value: any, prop: string, index?: number) => void |
 | changeFormData | 表单数据变化事件 | Function | (value: any, prop: any, form: any) => void |
 
-### 表单项配置
+### 3. 表单项配置
 
 | 属性名 | 描述 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -1072,7 +1072,7 @@ const slotFormItems = ref([
 | selectAll | 是否显示全选（checkbox） | Boolean | true |
 | slotKey | 插槽键名 | String | "" |
 
-### 表单项类型
+### 4. 表单项类型
 
 | 类型 | 描述 |
 | --- | --- |
