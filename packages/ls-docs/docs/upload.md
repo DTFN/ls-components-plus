@@ -58,7 +58,7 @@ LSUpload 组件是对 Element Plus Upload 组件的二次封装，提供了以�
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -74,7 +74,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 const item1 = ref({
   isCover: false
 });
@@ -93,7 +93,7 @@ const item1 = ref({
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 const item2 = ref({
   limitFile: ['png', 'docx']
 });
@@ -115,7 +115,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 const item3 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
+    return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
   }
 });
 function httpResponseFunc(res) {
@@ -138,7 +138,7 @@ function httpResponseFunc(res) {
 </ClientOnly>
 
 ```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -154,7 +154,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 </ClientOnly>
 
 ```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -309,7 +309,7 @@ function formValidateFunc() {
 </ClientOnly>
 
 ````js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 const fileList = ref([{ name: '', url: '' }]);
 
 ```html
@@ -416,7 +416,7 @@ const item8 = ref({
 ```js
 const item9 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -575,7 +575,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -842,7 +842,7 @@ function handleSubmitUpload() {
   import { ElForm, ElFormItem } from 'element-plus';
   import { tableColumn, tableMethodColumn } from '../constant';
 
-  const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+  const action = ref('http://192.168.1.33:3001/upload');
   const item1 = ref({
     isCover: false,
   })
@@ -852,7 +852,7 @@ function handleSubmitUpload() {
   })
   const item3 = ref({
     httpRequestFunc: function (formData, uploadProcessObj) {
-      return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
+      return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
     }
   })
   const item4 = ref({
@@ -872,7 +872,7 @@ const item8 = ref({
 });
 const item9 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -904,7 +904,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);

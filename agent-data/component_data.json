@@ -1,0 +1,157 @@
+[
+  {
+    "instruction": "写一个基础按钮组件",
+    "input": "",
+    "output": "<LSButton>默认按钮</LSButton>\n// 说明：创建最基本的按钮，显示文本内容"
+  },
+  {
+    "instruction": "创建一个主要类型按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\">主要按钮</LSButton>\n// 说明：type属性支持 primary/success/warning/danger/info，用于区分不同功能的按钮"
+  },
+  {
+    "instruction": "创建一个成功类型的按钮",
+    "input": "",
+    "output": "<LSButton type=\"success\">成功按钮</LSButton>\n// 说明：表示操作成功的绿色按钮"
+  },
+  {
+    "instruction": "创建一个警告类型的按钮",
+    "input": "",
+    "output": "<LSButton type=\"warning\">警告按钮</LSButton>\n// 说明：表示需要谨慎操作的黄色按钮"
+  },
+  {
+    "instruction": "创建一个危险类型的按钮",
+    "input": "",
+    "output": "<LSButton type=\"danger\">危险按钮</LSButton>\n// 说明：表示危险操作的红色按钮"
+  },
+  {
+    "instruction": "创建一个信息类型的按钮",
+    "input": "",
+    "output": "<LSButton type=\"info\">信息按钮</LSButton>\n// 说明：表示信息提示的蓝色按钮"
+  },
+  {
+    "instruction": "创建一个大型按钮",
+    "input": "",
+    "output": "<LSButton size=\"large\">大型按钮</LSButton>\n// 说明：size属性支持 large/default/small，用于适应不同空间的布局"
+  },
+  {
+    "instruction": "创建一个小型按钮",
+    "input": "",
+    "output": "<LSButton size=\"small\">小型按钮</LSButton>\n// 说明：小尺寸按钮，适合紧凑的布局"
+  },
+  {
+    "instruction": "创建一个带图标的按钮",
+    "input": "",
+    "output": "<LSButton :icon=\"Search\">搜索</LSButton>\n// 说明：icon属性支持Element Plus图标组件，需要从@element-plus/icons-vue导入对应的图标组件"
+  },
+  {
+    "instruction": "创建一个带自定义图标配置的按钮",
+    "input": "",
+    "output": "<LSButton :icon-config=\"{ type: 1, name: 'iconoir:heart', color: 'red', width: 20, height: 20 }\">喜欢</LSButton>\n// 说明：iconConfig属性支持配置更丰富的图标类型，包括iconify图标，需要指定type(1表示iconify)、name、color、width和height"
+  },
+  {
+    "instruction": "创建一个带图标插槽的按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\">\n  <template #icon>\n    <LSIcon :type=\"1\" name=\"iconoir:settings\" color=\"#fff\" width=\"18\" height=\"18\" />\n  </template>\n  设置\n</LSButton>\n// 说明：通过插槽方式自定义图标，使用LSIcon组件，支持更灵活的图标定制"
+  },
+  {
+    "instruction": "创建一个加载状态按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" :loading=\"true\">加载中</LSButton>\n// 说明：loading属性设置为true时，按钮会显示加载动画并禁用，用于表示正在处理的操作"
+  },
+  {
+    "instruction": "创建一个禁用状态按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" disabled>禁用按钮</LSButton>\n// 说明：disabled属性设置为true时，按钮会变为灰色且不可点击"
+  },
+  {
+    "instruction": "创建一个圆角按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" round>圆角按钮</LSButton>\n// 说明：round属性设置为true时，按钮会显示圆角样式"
+  },
+  {
+    "instruction": "创建一个圆形按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" circle>圆形按钮</LSButton>\n// 说明：circle属性设置为true时，按钮会显示为圆形，通常与图标配合使用"
+  },
+  {
+    "instruction": "创建一个文字链接按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" link>文字按钮</LSButton>\n// 说明：link属性设置为true时，按钮会显示为文字链接形式，没有背景和边框"
+  },
+  {
+    "instruction": "创建一个朴素按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" plain>朴素按钮</LSButton>\n// 说明：plain属性设置为true时，按钮会显示朴素样式，背景透明，仅显示边框和文字"
+  },
+  {
+    "instruction": "创建一个按钮组",
+    "input": "",
+    "output": "<LSButtonGroup>\n  <LSButton type=\"primary\">上一步</LSButton>\n  <LSButton type=\"primary\">下一步</LSButton>\n</LSButtonGroup>\n// 说明：使用LSButtonGroup包裹多个按钮，形成一组相关的按钮"
+  },
+  {
+    "instruction": "创建一个带分隔符的按钮组",
+    "input": "",
+    "output": "<LSButtonGroup separator=\"|\" :separator-size=\"14\">\n  <LSButton link>按钮1</LSButton>\n  <LSButton link>按钮2</LSButton>\n  <LSButton link>按钮3</LSButton>\n</LSButtonGroup>\n// 说明：separator属性设置按钮之间的分隔符，separatorSize设置分隔符大小，separatorColor设置分隔符颜色"
+  },
+  {
+    "instruction": "创建一个带不同类型按钮的按钮组",
+    "input": "",
+    "output": "<LSButtonGroup>\n  <LSButton type=\"success\">编辑</LSButton>\n  <LSButton type=\"warning\">复制</LSButton>\n  <LSButton type=\"danger\">删除</LSButton>\n</LSButtonGroup>\n// 说明：按钮组中可以包含不同类型的按钮，实现不同的功能区分"
+  },
+  {
+    "instruction": "创建一个带图标的按钮组",
+    "input": "",
+    "output": "<LSButtonGroup type=\"primary\">\n  <LSButton :icon=\"Edit\">编辑</LSButton>\n  <LSButton :icon=\"Check\">保存</LSButton>\n  <LSButton :icon=\"Delete\">删除</LSButton>\n</LSButtonGroup>\n// 说明：按钮组中的按钮可以带图标，需要从@element-plus/icons-vue导入对应的图标组件"
+  },
+  {
+    "instruction": "创建一个嵌套的按钮组",
+    "input": "",
+    "output": "<LSButtonGroup>\n  <LSButton type=\"primary\">文件</LSButton>\n  <LSButtonGroup>\n    <LSButton type=\"success\">新建</LSButton>\n    <LSButton type=\"warning\">打开</LSButton>\n    <LSButton type=\"info\">保存</LSButton>\n  </LSButtonGroup>\n  <LSButton type=\"danger\">退出</LSButton>\n</LSButtonGroup>\n// 说明：按钮组可以嵌套使用，实现更复杂的布局"
+  },
+  {
+    "instruction": "创建一个带点击事件的按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" @click=\"handleClick\">点击我</LSButton>\n\n// 在script中定义事件处理函数\n<script setup>\nconst handleClick = () => {\n  alert('按钮被点击了');\n};\n</script>\n// 说明：通过@click绑定点击事件，可以执行自定义的操作逻辑"
+  },
+  {
+    "instruction": "创建一个带鼠标事件的按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" \n  @mouseenter=\"handleMouseEnter\" \n  @mouseleave=\"handleMouseLeave\">\n  悬停效果\n</LSButton>\n\n<script setup>\nconst handleMouseEnter = () => {\n  console.log('鼠标进入按钮');\n};\n\nconst handleMouseLeave = () => {\n  console.log('鼠标离开按钮');\n};\n</script>\n// 说明：支持mouseenter和mouseleave事件，用于处理鼠标悬停效果"
+  },
+  {
+    "instruction": "创建一个响应式按钮",
+    "input": "",
+    "output": "<div class=\"responsive-buttons\">\n  <LSButton type=\"primary\" class=\"responsive-btn\">提交</LSButton>\n  <LSButton type=\"success\" class=\"responsive-btn\">保存</LSButton>\n  <LSButton type=\"danger\" class=\"responsive-btn\">取消</LSButton>\n</div>\n\n<style scoped>\n.responsive-buttons {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 10px;\n}\n\n.responsive-btn {\n  flex: 1;\n  min-width: 100px;\n}\n\n@media (max-width: 768px) {\n  .responsive-btn {\n    flex: 100%;\n  }\n}\n</style>\n// 说明：结合CSS实现响应式按钮布局，适应不同屏幕尺寸"
+  },
+  {
+    "instruction": "创建一个与表单集成的按钮",
+    "input": "",
+    "output": "<div class=\"form-buttons\">\n  <LSButton type=\"primary\">提交</LSButton>\n  <LSButton>重置</LSButton>\n</div>\n\n<style scoped>\n.form-buttons {\n  display: flex;\n  gap: 10px;\n  margin-bottom: 20px;\n}\n</style>\n// 说明：按钮与表单结合使用，提供提交和重置功能"
+  },
+  {
+    "instruction": "创建一个与对话框集成的按钮",
+    "input": "",
+    "output": "<div class=\"dialog-buttons\">\n  <LSButton>取消</LSButton>\n  <LSButton type=\"primary\">确认</LSButton>\n</div>\n\n<style scoped>\n.dialog-buttons {\n  display: flex;\n  gap: 10px;\n  margin-bottom: 20px;\n}\n</style>\n// 说明：按钮与对话框结合使用，提供取消和确认操作"
+  },
+  {
+    "instruction": "创建一个带自动空格插入的按钮",
+    "input": "",
+    "output": "<LSButton type=\"primary\" :auto-insert-space=\"true\">\n  <template #icon>\n    <LSIcon :type=\"1\" name=\"iconoir:save-floppy-disk\" />\n  </template>\n  保存\n</LSButton>\n// 说明：auto-insert-space属性默认为true，会在文字和图标之间自动插入空格，使布局更美观"
+  },
+  {
+    "instruction": "创建一个纯图标按钮",
+    "input": "",
+    "output": "<LSButton :icon=\"Search\" circle />\n// 说明：当按钮只有图标没有文字时，可以省略插槽内容，适用于圆形图标按钮"
+  },
+  {
+    "instruction": "创建一个带自定义样式的按钮",
+    "input": "需要给按钮添加自定义的样式类",
+    "output": "<LSButton type=\"primary\" class=\"custom-button\">自定义按钮</LSButton>\n\n<style scoped>\n.custom-button {\n  background: linear-gradient(45deg, #409eff, #67c23a);\n  border: none;\n  border-radius: 20px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n</style>\n// 说明：通过class属性添加自定义样式，实现个性化的按钮外观"
+  },
+  {
+    "instruction": "创建一个带有条件渲染的按钮",
+    "input": "根据条件显示不同的按钮状态",
+    "output": "<template>\n  <LSButton \n    v-if=\"isLoading\" \n    type=\"primary\" \n    :loading=\"true\">\n    加载中...\n  </LSButton>\n  <LSButton \n    v-else \n    type=\"primary\" \n    @click=\"handleSubmit\">\n    提交\n  </LSButton>\n</template>\n\n<script setup>\nimport { ref } from 'vue';\n\nconst isLoading = ref(false);\n\nconst handleSubmit = async () => {\n  isLoading.value = true;\n  // 模拟异步操作\n  await new Promise(resolve => setTimeout(resolve, 2000));\n  isLoading.value = false;\n};\n</script>\n// 说明：根据条件(isLoading)动态切换按钮状态，实现加载状态和正常状态的切换"
+  }
+]
