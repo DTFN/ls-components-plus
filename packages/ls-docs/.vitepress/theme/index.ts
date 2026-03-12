@@ -93,11 +93,11 @@ export default Object.assign({}, Theme, {
       //   app.component(item.name, item);
       // });
       
-    // if (!import.meta.env.SSR) {
-    //   const plugin = await import('@lingshugroup/web-plus')
-    //   app.use(plugin.default)
-    // }
-    app.use(LSWebPlus);
+    if (!import.meta.env.SSR) {
+      const plugin = await import('@lingshugroup/web-plus')
+      app.use(plugin.default)
+    }
+    // app.use(LSWebPlus);
 
   }
 });
