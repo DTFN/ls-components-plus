@@ -799,8 +799,9 @@ function handleSubmitUpload() {
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { ElForm, ElFormItem } from 'element-plus';
+  import { ElForm, ElFormItem, ElAlert, ElCard, ElButton, ElSwitch } from 'element-plus';
   import { tableColumn, tableMethodColumn } from '../constant';
+  import { Upload } from '@element-plus/icons-vue';
 
   const action = ref('http://192.168.1.33:3001/upload');
   const item1 = ref({

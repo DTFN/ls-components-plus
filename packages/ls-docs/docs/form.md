@@ -753,7 +753,7 @@ function handleAdvancedValidationSubmit(form) {
       :form-items="readOnlyFormItems"
       :read="true"
       :has-def-read-style="true"
-      show-buttons="false"
+      :show-buttons="false"
     />
   </div>
 </ClientOnly>
@@ -826,7 +826,7 @@ const readOnlyFormItems = ref([
   :form-items="readOnlyFormItems"
   :read="true"
   :has-def-read-style="true"
-  show-buttons="false"
+  :show-buttons="false"
 />
 ```
 
@@ -1096,6 +1096,7 @@ const slotFormItems = ref([
 
 <script setup>
 import { ref } from 'vue'
+import { ElInput, ElOption, ElSelect, ElButton, ElSlider } from 'element-plus'
 
 // 示例1：基础表单
 const basicFormData = ref({

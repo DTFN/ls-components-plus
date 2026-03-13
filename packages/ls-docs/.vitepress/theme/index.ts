@@ -58,46 +58,46 @@ export default Object.assign({}, Theme, {
   // return h(Theme.Layout, props);
   // },
   async enhanceApp({ app }: { app: App }) {
-      app.component('ArticleMetadata', ArticleMetadata);
-      app.component('ApiIntro', ApiIntro);
+    app.component('ArticleMetadata', ArticleMetadata);
+    app.component('ApiIntro', ApiIntro);
 
-      app.directive('print', print);
+    app.directive('print', print);
 
-      // vAuth.permissions = ['a', 'b', 'c'];
-      // app.directive('auth', vAuth);
-      // [
-      //   LSIcon,
-      //   LSButton,
-      //   LSButtonGroup,
-      //   LSLayout,
-      //   LSForm,
-      //   LSFormItem,
-      //   LSUpload,
-      //   LSTable,
-      //   LSDescriptions,
-      //   LSTree,
-      //   LSMap,
-        // LSLive,
-        // LSEditor,
-        // LSList,
-        // LSChart,
-        // LSBackTop,
-        // LSBreadcrumb,
-        // LSMenu,
-        // LSConfirm,
-        // LSBellMessage,
-        // LSDialog,
-        // LSPrint,
-        // LSContainerBox
-      // ].map(item => {
-      //   app.component(item.name, item);
-      // });
-      
-    if (!import.meta.env.SSR) {
-      const plugin = await import('@lingshugroup/web-plus')
-      app.use(plugin.default)
+    // vAuth.permissions = ['a', 'b', 'c'];
+    // app.directive('auth', vAuth);
+    // [
+    //   LSIcon,
+    //   LSButton,
+    //   LSButtonGroup,
+    //   LSLayout,
+    //   LSForm,
+    //   LSFormItem,
+    //   LSUpload,
+    //   LSTable,
+    //   LSDescriptions,
+    //   LSTree,
+    //   LSMap,
+    // LSLive,
+    // LSEditor,
+    // LSList,
+    // LSChart,
+    // LSBackTop,
+    // LSBreadcrumb,
+    // LSMenu,
+    // LSConfirm,
+    // LSBellMessage,
+    // LSDialog,
+    // LSPrint,
+    // LSContainerBox
+    // ].map(item => {
+    //   app.component(item.name, item);
+    // });
+
+    if (import.meta.env.MODE === 'development') {
+      app.use(LSWebPlus);
+    } else if (!import.meta.env.SSR) {
+      const plugin = await import('@lingshugroup/web-plus');
+      app.use(plugin.default);
     }
-    // app.use(LSWebPlus);
-
   }
 });
