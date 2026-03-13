@@ -4,8 +4,7 @@ outline: deep
 
 # Form 表单
 
-::: warning
-LSForm 是基于 Element Plus Form 组件进行二次封装的表单组件，提供了统一的配置化表单解决方案，支持多种表单控件类型、验证规则、多列布局和自定义插槽。
+::: warning LSForm 是基于 Element Plus Form 组件进行二次封装的表单组件，提供了统一的配置化表单解决方案，支持多种表单控件类型、验证规则、多列布局和自定义插槽。
 :::
 
 ## 使用方式

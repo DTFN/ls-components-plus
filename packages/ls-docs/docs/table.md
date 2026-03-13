@@ -510,13 +510,10 @@ const column_6 = [
   :table-column="column_7"
   :table-data="data_7"
 >
-  <template #default="{ row }">
+  <template #default="{ row }">1231231231
     <div>
       <h4>详细信息</h4>
-      <p>姓名: {{ row.name }}</p>
-      <p>年龄: {{ row.age }}</p>
-      <p>地址: {{ row.address }}</p>
-      <p>邮箱: {{ row.email }}</p>
+      <p>姓名: {{ row }}</p>
     </div>
   </template>
 </LSTable>
@@ -1561,7 +1558,7 @@ function handleExport() {
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData" />
 
 <script setup>
-import { ElTag } from 'element-plus';
+import { ElTag, ElButton, ElSpace, ElSwitch, ElAvatar, ElIcon, ElCard } from 'element-plus';
 import { UserFilled } from '@element-plus/icons-vue';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
 import { ref, computed, watch} from 'vue';
