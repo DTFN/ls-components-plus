@@ -505,16 +505,18 @@ const column_6 = [
 
 <ClientOnly>
 <LSTable
+  row-key="id"
   :show-pagination="false"
   :show-expand="true"
   :table-column="column_7"
   :table-data="data_7"
+  :default-expand-all="true"
+  :expand-row-keys="expandRowKeys"
 >
-  <template #default="{ row }">1231231231
-    <div>
-      <h4>详细信息</h4>
-      <p>姓名: {{ row }}</p>
-    </div>
+  <template #expand="props">
+    <el-table-column type="expand">
+      21312312321 
+    </el-table-column>
   </template>
 </LSTable>
 </ClientOnly>
@@ -522,20 +524,24 @@ const column_6 = [
 :::details 点我查看代码
 
 ```js
+const expandRowKeys = ref([1]);
 const data_7 = ref([
   {
+    id: 1,
     name: '张三',
     age: 25,
     address: '上海市浦东新区',
     email: 'zhangsan@example.com'
   },
   {
+    id: 2,  
     name: '李四',
     age: 30,
     address: '北京市朝阳区',
     email: 'lisi@example.com'
   },
   {
+    id: 3,  
     name: '王五',
     age: 22,
     address: '深圳市南山区',
@@ -561,19 +567,18 @@ const column_7 = [
 
 ```html
 <LSTable
+  row-key="id"
   :show-pagination="false"
   :show-expand="true"
   :table-column="column_7"
   :table-data="data_7"
+  :default-expand-all="true"
+  :expand-row-keys="expandRowKeys"
 >
-  <template #default="{ row }">
-    <div>
-      <h4>详细信息</h4>
-      <p>姓名: {{ row.name }}</p>
-      <p>年龄: {{ row.age }}</p>
-      <p>地址: {{ row.address }}</p>
-      <p>邮箱: {{ row.email }}</p>
-    </div>
+  <template #expand="props">
+    <el-table-column type="expand">
+      21312312321 
+    </el-table-column>
   </template>
 </LSTable>
 ```
@@ -1558,7 +1563,7 @@ function handleExport() {
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData" />
 
 <script setup>
-import { ElTag, ElButton, ElSpace, ElSwitch, ElAvatar, ElIcon, ElCard } from 'element-plus';
+import { ElTag, ElButton, ElSpace, ElSwitch, ElAvatar, ElIcon, ElCard, ElTableColumn } from 'element-plus';
 import { UserFilled } from '@element-plus/icons-vue';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
 import { ref, computed, watch} from 'vue';
@@ -1836,20 +1841,24 @@ const column_6 = [
 ];
 
 // 示例7：带展开行的表格
+const expandRowKeys = ref([1]);
 const data_7 = ref([
   {
+    id: 1,
     name: '张三',
     age: 25,
     address: '上海市浦东新区',
     email: 'zhangsan@example.com'
   },
   {
+    id: 2,  
     name: '李四',
     age: 30,
     address: '北京市朝阳区',
     email: 'lisi@example.com'
   },
   {
+    id: 3,  
     name: '王五',
     age: 22,
     address: '深圳市南山区',
