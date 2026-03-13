@@ -167,6 +167,880 @@ function dealData(res) {
 
 :::
 
+### 2. 高级搜索表单
+
+<ClientOnly>
+  <LSList
+    ref="ListRef2"
+    :list-api="listApi2"
+    :form-data="formData2"
+    :form-items="formItems2"
+    :table-column="tableColumn_2"
+    :deal-data="dealData2"
+    :form-attrs="{ column: 2 }"
+    :table-attrs="{
+      showSelect: true,
+      selectColumnOptions: {
+        reserveSelection: true
+      }
+    }"
+  >
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+
+const ListRef2 = ref(null);
+
+const formData2 = ref({
+  name: undefined,
+  type: undefined,
+  status: undefined,
+  createTime: []
+});
+
+const formItems2 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  },
+  {
+    type: 'select',
+    label: '类型',
+    prop: 'type',
+    options: [
+      { label: '全部', value: undefined },
+      { label: '类型A', value: 'A' },
+      { label: '类型B', value: 'B' }
+    ]
+  },
+  {
+    type: 'select',
+    label: '状态',
+    prop: 'status',
+    options: [
+      { label: '全部', value: undefined },
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 }
+    ]
+  },
+  {
+    type: 'datetimerange',
+    label: '创建时间',
+    prop: 'createTime',
+    attrs: {
+      range-separator: '至',
+      start-placeholder: '开始日期',
+      end-placeholder: '结束日期'
+    }
+  }
+];
+
+const tableColumn_2 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'status',
+    value: {
+      1: { type: 'success', label: '启用' },
+      0: { type: 'danger', label: '禁用' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  },
+  {
+    label: '操作',
+    prop: 'operate',
+    type: 'operate'
+  }
+];
+
+function generateTableData2(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi2() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData2(ListRef2.value?.currentPage, ListRef2.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData2(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef2"
+  :list-api="listApi2"
+  :form-data="formData2"
+  :form-items="formItems2"
+  :table-column="tableColumn_2"
+  :deal-data="dealData2"
+  :form-attrs="{ column: 2 }"
+  :table-attrs="{
+    showSelect: true,
+    selectColumnOptions: {
+      reserveSelection: true
+    }
+  }"
+>
+</LSList>
+```
+
+:::
+
+### 3. 自定义操作按钮
+
+<ClientOnly>
+  <LSList
+    ref="ListRef3"
+    :list-api="listApi3"
+    :form-data="formData3"
+    :form-items="formItems3"
+    :table-column="tableColumn_3"
+    :deal-data="dealData3"
+    :show-add="true"
+    :add-btn-text="'新增数据'"
+    :add-btn-attrs="{ type: 'primary', icon: 'Plus' }"
+    :show-operate="true"
+    :operate-class="'custom-operate'"
+  >
+    <template #operate-prepend>
+      <el-button type="info" icon="Refresh">刷新数据</el-button>
+    </template>
+    <template #operate-append>
+      <el-button type="warning" icon="Download">导出数据</el-button>
+    </template>
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+import { Plus, Refresh, Download } from '@element-plus/icons-vue';
+
+const ListRef3 = ref(null);
+
+const formData3 = ref({
+  name: undefined
+});
+
+const formItems3 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_3 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData3(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi3() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData3(ListRef3.value?.currentPage, ListRef3.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData3(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef3"
+  :list-api="listApi3"
+  :form-data="formData3"
+  :form-items="formItems3"
+  :table-column="tableColumn_3"
+  :deal-data="dealData3"
+  :show-add="true"
+  :add-btn-text="'新增数据'"
+  :add-btn-attrs="{ type: 'primary', icon: 'Plus' }"
+  :show-operate="true"
+  :operate-class="'custom-operate'"
+>
+  <template #operate-prepend>
+    <el-button type="info" icon="Refresh">刷新数据</el-button>
+  </template>
+  <template #operate-append>
+    <el-button type="warning" icon="Download">导出数据</el-button>
+  </template>
+</LSList>
+```
+
+:::
+
+### 4. 表格列自定义
+
+<ClientOnly>
+  <LSList
+    ref="ListRef4"
+    :list-api="listApi4"
+    :form-data="formData4"
+    :form-items="formItems4"
+    :table-column="tableColumn_4"
+    :deal-data="dealData4"
+  >
+    <template #table-slot-custom-column="{ row }">
+      <el-tag :type="row.status === 1 ? 'success' : 'danger'">
+        {{ row.status === 1 ? '启用' : '禁用' }}
+      </el-tag>
+    </template>
+    <template #table-slot-action-column="{ row }">
+      <el-space>
+        <el-button size="small" type="primary" link>查看</el-button>
+        <el-button size="small" type="warning" link>编辑</el-button>
+        <el-button size="small" type="danger" link>删除</el-button>
+      </el-space>
+    </template>
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+
+const ListRef4 = ref(null);
+
+const formData4 = ref({
+  name: undefined
+});
+
+const formItems4 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_4 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '状态',
+    prop: 'custom-column',
+    type: 'slot'
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  },
+  {
+    label: '操作',
+    prop: 'action-column',
+    type: 'slot'
+  }
+];
+
+function generateTableData4(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi4() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData4(ListRef4.value?.currentPage, ListRef4.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData4(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef4"
+  :list-api="listApi4"
+  :form-data="formData4"
+  :form-items="formItems4"
+  :table-column="tableColumn_4"
+  :deal-data="dealData4"
+>
+  <template #table-slot-custom-column="{ row }">
+    <el-tag :type="row.status === 1 ? 'success' : 'danger'">
+      {{ row.status === 1 ? '启用' : '禁用' }}
+    </el-tag>
+  </template>
+  <template #table-slot-action-column="{ row }">
+    <el-space>
+      <el-button size="small" type="primary" link>查看</el-button>
+      <el-button size="small" type="warning" link>编辑</el-button>
+      <el-button size="small" type="danger" link>删除</el-button>
+    </el-space>
+  </template>
+</LSList>
+```
+
+:::
+
+### 5. 骨架屏和加载状态
+
+<ClientOnly>
+  <LSList
+    ref="ListRef5"
+    :list-api="listApi5"
+    :form-data="formData5"
+    :form-items="formItems5"
+    :table-column="tableColumn_5"
+    :deal-data="dealData5"
+    :show-skeleton="true"
+    :skeleton-attrs="{ rows: 5 }"
+  >
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+
+const ListRef5 = ref(null);
+
+const formData5 = ref({
+  name: undefined
+});
+
+const formItems5 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_5 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData5(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi5() {
+  return new Promise(resolve => {
+    // 模拟网络延迟
+    setTimeout(() => {
+      resolve(generateTableData5(ListRef5.value?.currentPage, ListRef5.value?.pageSize));
+    }, 2000);
+  });
+}
+
+function dealData5(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef5"
+  :list-api="listApi5"
+  :form-data="formData5"
+  :form-items="formItems5"
+  :table-column="tableColumn_5"
+  :deal-data="dealData5"
+  :show-skeleton="true"
+  :skeleton-attrs="{ rows: 5 }"
+>
+</LSList>
+```
+
+:::
+
+### 6. 开关切换案例
+
+<ClientOnly>
+  <LSList
+    ref="ListRef6"
+    :list-api="listApi6"
+    :form-data="formData6"
+    :form-items="formItems6"
+    :table-column="tableColumn_6"
+    :deal-data="dealData6"
+    :show-table-switch="true"
+    :switch-prop="'status'"
+    :table-switch-column="{ width: 120 }"
+    :table-switch-attrs="{ active-text: '启用', inactive-text: '禁用' }"
+  >
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+
+const ListRef6 = ref(null);
+
+const formData6 = ref({
+  name: undefined
+});
+
+const formItems6 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_6 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData6(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi6() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData6(ListRef6.value?.currentPage, ListRef6.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData6(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef6"
+  :list-api="listApi6"
+  :form-data="formData6"
+  :form-items="formItems6"
+  :table-column="tableColumn_6"
+  :deal-data="dealData6"
+  :show-table-switch="true"
+  :switch-prop="'status'"
+  :table-switch-column="{ width: 120 }"
+  :table-switch-attrs="{ active-text: '启用', inactive-text: '禁用' }"
+>
+</LSList>
+```
+
+:::
+
+### 7. 自定义路由跳转
+
+<ClientOnly>
+  <LSList
+    ref="ListRef7"
+    :list-api="listApi7"
+    :form-data="formData7"
+    :form-items="formItems7"
+    :table-column="tableColumn_7"
+    :deal-data="dealData7"
+    :add-route-path="'/list/add'"
+    :edit-route-path="'/list/edit'"
+    :detail-route-path="'/list/detail'"
+  >
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+
+const ListRef7 = ref(null);
+
+const formData7 = ref({
+  name: undefined
+});
+
+const formItems7 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_7 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData7(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi7() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData7(ListRef7.value?.currentPage, ListRef7.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData7(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef7"
+  :list-api="listApi7"
+  :form-data="formData7"
+  :form-items="formItems7"
+  :table-column="tableColumn_7"
+  :deal-data="dealData7"
+  :add-route-path="'/list/add'"
+  :edit-route-path="'/list/edit'"
+  :detail-route-path="'/list/detail'"
+>
+</LSList>
+```
+
+:::
+
+### 8. 批量操作案例
+
+<ClientOnly>
+  <LSList
+    ref="ListRef8"
+    :list-api="listApi8"
+    :form-data="formData8"
+    :form-items="formItems8"
+    :table-column="tableColumn_8"
+    :deal-data="dealData8"
+    :table-attrs="{
+      showSelect: true,
+      selectColumnOptions: {
+        reserveSelection: true
+      }
+    }"
+  >
+    <template #operate>
+      <el-space>
+        <el-button type="primary" icon="Plus">新增</el-button>
+        <el-button type="danger" icon="Delete">批量删除</el-button>
+        <el-button type="warning" icon="Download">批量导出</el-button>
+      </el-space>
+    </template>
+  </LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue';
+import { Plus, Delete, Download } from '@element-plus/icons-vue';
+
+const ListRef8 = ref(null);
+
+const formData8 = ref({
+  name: undefined
+});
+
+const formItems8 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_8 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData8(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi8() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData8(ListRef8.value?.currentPage, ListRef8.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData8(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+```
+
+```html
+<LSList
+  ref="ListRef8"
+  :list-api="listApi8"
+  :form-data="formData8"
+  :form-items="formItems8"
+  :table-column="tableColumn_8"
+  :deal-data="dealData8"
+  :table-attrs="{
+    showSelect: true,
+    selectColumnOptions: {
+      reserveSelection: true
+    }
+  }"
+>
+  <template #operate>
+    <el-space>
+      <el-button type="primary" icon="Plus">新增</el-button>
+      <el-button type="danger" icon="Delete">批量删除</el-button>
+      <el-button type="warning" icon="Download">批量导出</el-button>
+    </el-space>
+  </template>
+</LSList>
+```
+
+:::
+
 ## API
 
 ### LSList
@@ -267,6 +1141,542 @@ function dealParams(params) {
 }
 
 function dealData(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例2：高级搜索表单
+const ListRef2 = ref(null);
+
+const formData2 = ref({
+  name: undefined,
+  type: undefined,
+  status: undefined,
+  createTime: []
+});
+
+const formItems2 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  },
+  {
+    type: 'select',
+    label: '类型',
+    prop: 'type',
+    options: [
+      { label: '全部', value: undefined },
+      { label: '类型A', value: 'A' },
+      { label: '类型B', value: 'B' }
+    ]
+  },
+  {
+    type: 'select',
+    label: '状态',
+    prop: 'status',
+    options: [
+      { label: '全部', value: undefined },
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 }
+    ]
+  },
+  {
+    type: 'datetimerange',
+    label: '创建时间',
+    prop: 'createTime',
+    attrs: {
+      range-separator: '至',
+      start-placeholder: '开始日期',
+      end-placeholder: '结束日期'
+    }
+  }
+];
+
+const tableColumn_2 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'status',
+    value: {
+      1: { type: 'success', label: '启用' },
+      0: { type: 'danger', label: '禁用' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  },
+  {
+    label: '操作',
+    prop: 'operate',
+    type: 'operate'
+  }
+];
+
+function generateTableData2(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi2() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData2(ListRef2.value?.currentPage, ListRef2.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData2(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例3：自定义操作按钮
+const ListRef3 = ref(null);
+
+const formData3 = ref({
+  name: undefined
+});
+
+const formItems3 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_3 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData3(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi3() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData3(ListRef3.value?.currentPage, ListRef3.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData3(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例4：表格列自定义
+const ListRef4 = ref(null);
+
+const formData4 = ref({
+  name: undefined
+});
+
+const formItems4 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_4 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '状态',
+    prop: 'custom-column',
+    type: 'slot'
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  },
+  {
+    label: '操作',
+    prop: 'action-column',
+    type: 'slot'
+  }
+];
+
+function generateTableData4(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi4() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData4(ListRef4.value?.currentPage, ListRef4.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData4(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例5：骨架屏和加载状态
+const ListRef5 = ref(null);
+
+const formData5 = ref({
+  name: undefined
+});
+
+const formItems5 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_5 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData5(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi5() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData5(ListRef5.value?.currentPage, ListRef5.value?.pageSize));
+    }, 2000);
+  });
+}
+
+function dealData5(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例6：开关切换案例
+const ListRef6 = ref(null);
+
+const formData6 = ref({
+  name: undefined
+});
+
+const formItems6 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_6 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData6(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      status: index % 2,
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi6() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData6(ListRef6.value?.currentPage, ListRef6.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData6(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例7：自定义路由跳转
+const ListRef7 = ref(null);
+
+const formData7 = ref({
+  name: undefined
+});
+
+const formItems7 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_7 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData7(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi7() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData7(ListRef7.value?.currentPage, ListRef7.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData7(res) {
+  return {
+    data: res,
+    total: 100
+  };
+}
+
+// 示例8：批量操作案例
+const ListRef8 = ref(null);
+
+const formData8 = ref({
+  name: undefined
+});
+
+const formItems8 = [
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name'
+  }
+];
+
+const tableColumn_8 = [
+  {
+    label: '名称',
+    prop: 'name',
+  },
+  {
+    label: '类型',
+    prop: 'type',
+    type: 'status',
+    value: {
+      A: { type: 'success', label: '类型A' },
+      B: { type: '', label: '类型B' }
+    },
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+];
+
+function generateTableData8(pageNum, pageSize) {
+  const result = [];
+  const startIndex = (pageNum - 1) * pageSize;
+
+  for (let i = 0; i < pageSize; i++) {
+    const index = startIndex + i + 1;
+    result.push({
+      id: index,
+      name: `测试数据${index}`,
+      type: index % 2 === 0 ? 'A' : 'B',
+      createTime: 1740000000000 + index * 1000 * 60 * 60 * 24
+    });
+  }
+
+  return result;
+}
+
+function listApi8() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(generateTableData8(ListRef8.value?.currentPage, ListRef8.value?.pageSize));
+    }, 1000);
+  });
+}
+
+function dealData8(res) {
   return {
     data: res,
     total: 100
@@ -813,4 +2223,27 @@ const exposesTableData=[
 </script>
 
 <style>
+/* API 文档表格样式 */
+table {
+  width: 100% !important;
+}
+
+/* 自定义操作区域样式 */
+.custom-operate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+  .custom-operate {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .custom-operate .el-button {
+    margin-bottom: 10px;
+  }
+}
 </style>

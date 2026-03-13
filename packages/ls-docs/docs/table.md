@@ -302,6 +302,1242 @@ const selection = ref([
 
 :::
 
+### 4. 带分页的表格
+
+<ClientOnly>
+<LSTable
+  v-model:current-page="currentPage4"
+  v-model:page-size="pageSize4"
+  :table-column="column_4"
+  :table-data="data_4"
+  :total="total4"
+  :page-sizes="[5, 10, 20, 50]"
+  :pagination-options="{ layout: 'total, sizes, prev, pager, next, jumper' }"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+function getData4() {
+  let list = [];
+  for (let i = 0; i < 50; i++) {
+    list.push({
+      id: i,
+      name: '用户' + i,
+      age: 18 + i % 20,
+      address: '地址' + i
+    });
+  }
+  return list;
+}
+const data4 = ref(getData4());
+const column_4 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+const currentPage4 = ref(1);
+const pageSize4 = ref(10);
+const total4 = data4.value.length;
+const data_4 = computed(() => data4.value.slice((currentPage4.value - 1) * pageSize4.value, currentPage4.value * pageSize4.value));
+```
+
+```html
+<LSTable
+  v-model:current-page="currentPage4"
+  v-model:page-size="pageSize4"
+  :table-column="column_4"
+  :table-data="data_4"
+  :total="total4"
+  :page-sizes="[5, 10, 20, 50]"
+  :pagination-options="{ layout: 'total, sizes, prev, pager, next, jumper' }"
+>
+</LSTable>
+```
+
+:::
+
+### 5. 带排序的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_5"
+  :table-data="data_5"
+  @sort-change="handleSortChange"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_5 = ref([
+  { name: '张三', age: 25, score: 88 },
+  { name: '李四', age: 30, score: 95 },
+  { name: '王五', age: 22, score: 76 },
+  { name: '赵六', age: 28, score: 92 },
+  { name: '刘七', age: 35, score: 84 }
+]);
+
+const column_5 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    sortable: true
+  },
+  {
+    label: '分数',
+    prop: 'score',
+    sortable: true,
+    type: 'number'
+  }
+];
+
+function handleSortChange({ column, prop, order }) {
+  console.log('排序变化:', { column, prop, order });
+  // 这里可以根据排序字段和顺序对数据进行排序
+  if (prop && order) {
+    data_5.value.sort((a, b) => {
+      if (order === 'ascending') {
+        return a[prop] > b[prop] ? 1 : -1;
+      } else {
+        return a[prop] < b[prop] ? 1 : -1;
+      }
+    });
+  }
+}
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_5"
+  :table-data="data_5"
+  @sort-change="handleSortChange"
+>
+</LSTable>
+```
+
+:::
+
+### 6. 带筛选的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_6"
+  :table-data="data_6"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_6 = ref([
+  { name: '张三', age: 25, gender: '男', department: '技术部' },
+  { name: '李四', age: 30, gender: '女', department: '市场部' },
+  { name: '王五', age: 22, gender: '男', department: '技术部' },
+  { name: '赵六', age: 28, gender: '女', department: '财务部' },
+  { name: '刘七', age: 35, gender: '男', department: '技术部' }
+]);
+
+const column_6 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '性别',
+    prop: 'gender',
+    filters: [
+      { text: '男', value: '男' },
+      { text: '女', value: '女' }
+    ],
+    filterMultiple: false,
+    filterMethod: (value, row) => row.gender === value
+  },
+  {
+    label: '部门',
+    prop: 'department',
+    filters: [
+      { text: '技术部', value: '技术部' },
+      { text: '市场部', value: '市场部' },
+      { text: '财务部', value: '财务部' }
+    ],
+    filterMethod: (value, row) => row.department === value
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_6"
+  :table-data="data_6"
+>
+</LSTable>
+```
+
+:::
+
+### 7. 带展开行的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :show-expand="true"
+  :table-column="column_7"
+  :table-data="data_7"
+>
+  <template #default="{ row }">
+    <div>
+      <h4>详细信息</h4>
+      <p>姓名: {{ row.name }}</p>
+      <p>年龄: {{ row.age }}</p>
+      <p>地址: {{ row.address }}</p>
+      <p>邮箱: {{ row.email }}</p>
+    </div>
+  </template>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_7 = ref([
+  {
+    name: '张三',
+    age: 25,
+    address: '上海市浦东新区',
+    email: 'zhangsan@example.com'
+  },
+  {
+    name: '李四',
+    age: 30,
+    address: '北京市朝阳区',
+    email: 'lisi@example.com'
+  },
+  {
+    name: '王五',
+    age: 22,
+    address: '深圳市南山区',
+    email: 'wangwu@example.com'
+  }
+]);
+
+const column_7 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :show-expand="true"
+  :table-column="column_7"
+  :table-data="data_7"
+>
+  <template #default="{ row }">
+    <div>
+      <h4>详细信息</h4>
+      <p>姓名: {{ row.name }}</p>
+      <p>年龄: {{ row.age }}</p>
+      <p>地址: {{ row.address }}</p>
+      <p>邮箱: {{ row.email }}</p>
+    </div>
+  </template>
+</LSTable>
+```
+
+:::
+
+### 8. 带合计行的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_8"
+  :table-data="data_8"
+  show-summary
+  :summary-method="getSummaries"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_8 = ref([
+  { name: '商品1', price: 100, quantity: 2, amount: 200 },
+  { name: '商品2', price: 50, quantity: 5, amount: 250 },
+  { name: '商品3', price: 80, quantity: 3, amount: 240 },
+  { name: '商品4', price: 120, quantity: 1, amount: 120 }
+]);
+
+const column_8 = [
+  {
+    label: '商品名称',
+    prop: 'name'
+  },
+  {
+    label: '单价',
+    prop: 'price',
+    type: 'number'
+  },
+  {
+    label: '数量',
+    prop: 'quantity',
+    type: 'number'
+  },
+  {
+    label: '金额',
+    prop: 'amount',
+    type: 'number'
+  }
+];
+
+function getSummaries(param) {
+  const { columns, data } = param;
+  const sums = [];
+  columns.forEach((column, index) => {
+    if (index === 0) {
+      sums[index] = '合计';
+      return;
+    }
+    const values = data.map(item => Number(item[column.property]));
+    const validValues = values.filter(value => !isNaN(value));
+    if (validValues.length) {
+      sums[index] = validValues.reduce((prev, curr) => {
+        const value = Number(curr);
+        if (!isNaN(value)) {
+          return prev + curr;
+        } else {
+          return prev;
+        }
+      }, 0);
+      sums[index] += ' 元';
+    } else {
+      sums[index] = '';
+    }
+  });
+  return sums;
+}
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_8"
+  :table-data="data_8"
+  show-summary
+  :summary-method="getSummaries"
+>
+</LSTable>
+```
+
+:::
+
+### 9. 带固定列的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_9"
+  :table-data="data_9"
+  style="width: 100%"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_9 = ref([
+  {
+    id: 1,
+    name: '张三',
+    age: 25,
+    address: '上海市浦东新区',
+    email: 'zhangsan@example.com',
+    phone: '13800138000',
+    department: '技术部',
+    position: '前端工程师',
+    salary: 15000
+  },
+  {
+    id: 2,
+    name: '李四',
+    age: 30,
+    address: '北京市朝阳区',
+    email: 'lisi@example.com',
+    phone: '13900139000',
+    department: '市场部',
+    position: '市场经理',
+    salary: 12000
+  },
+  {
+    id: 3,
+    name: '王五',
+    age: 22,
+    address: '深圳市南山区',
+    email: 'wangwu@example.com',
+    phone: '13700137000',
+    department: '技术部',
+    position: '后端工程师',
+    salary: 16000
+  }
+]);
+
+const column_9 = [
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80,
+    fixed: 'left'
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    width: 120,
+    fixed: 'left'
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    width: 80
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    minWidth: 200
+  },
+  {
+    label: '邮箱',
+    prop: 'email',
+    minWidth: 200
+  },
+  {
+    label: '电话',
+    prop: 'phone',
+    width: 150
+  },
+  {
+    label: '部门',
+    prop: 'department',
+    width: 120
+  },
+  {
+    label: '职位',
+    prop: 'position',
+    width: 150
+  },
+  {
+    label: '薪资',
+    prop: 'salary',
+    width: 100,
+    type: 'number',
+    fixed: 'right'
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_9"
+  :table-data="data_9"
+  style="width: 100%"
+>
+</LSTable>
+```
+
+:::
+
+### 10. 响应式表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_10"
+  :table-data="data_10"
+  :table-attrs="{ border: true }"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_10 = ref([
+  { name: '张三', age: 25, gender: '男', address: '上海市' },
+  { name: '李四', age: 30, gender: '女', address: '北京市' },
+  { name: '王五', age: 22, gender: '男', address: '深圳市' }
+]);
+
+const column_10 = [
+  {
+    label: '姓名',
+    prop: 'name',
+    responsive: ['xs', 'sm', 'md', 'lg', 'xl']
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    responsive: ['sm', 'md', 'lg', 'xl']
+  },
+  {
+    label: '性别',
+    prop: 'gender',
+    responsive: ['md', 'lg', 'xl']
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    responsive: ['lg', 'xl']
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_10"
+  :table-data="data_10"
+  :table-attrs="{ border: true }"
+>
+</LSTable>
+```
+
+:::
+
+### 11. 自定义列模板的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_11"
+  :table-data="data_11"
+>
+  <template #action="{ row }">
+    <el-space size="small">
+      <el-button type="primary" size="small" link>查看</el-button>
+      <el-button type="warning" size="small" link>编辑</el-button>
+      <el-button type="danger" size="small" link>删除</el-button>
+    </el-space>
+  </template>
+  <template #status="{ row }">
+    <el-switch v-model="row.status" active-text="启用" inactive-text="禁用" />
+  </template>
+  <template #avatar="{ row }">
+    <el-avatar :size="40">
+      {{ row.name.charAt(0) }}
+    </el-avatar>
+  </template>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_11 = ref([
+  { id: 1, name: '张三', status: true },
+  { id: 2, name: '李四', status: false },
+  { id: 3, name: '王五', status: true }
+]);
+
+const column_11 = [
+  {
+    label: '头像',
+    prop: 'avatar',
+    type: 'slot',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'slot',
+    width: 120
+  },
+  {
+    label: '操作',
+    prop: 'action',
+    type: 'slot',
+    width: 180
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_11"
+  :table-data="data_11"
+>
+  <template #action="{ row }">
+    <el-space size="small">
+      <el-button type="primary" size="small" link>查看</el-button>
+      <el-button type="warning" size="small" link>编辑</el-button>
+      <el-button type="danger" size="small" link>删除</el-button>
+    </el-space>
+  </template>
+  <template #status="{ row }">
+    <el-switch v-model="row.status" active-text="启用" inactive-text="禁用" />
+  </template>
+  <template #avatar="{ row }">
+    <el-avatar :size="40">
+      {{ row.name.charAt(0) }}
+    </el-avatar>
+  </template>
+</LSTable>
+```
+
+:::
+
+### 12. 带加载状态的表格
+
+<ClientOnly>
+<LSTable
+  :loading="loading"
+  :show-pagination="false"
+  :table-column="column_12"
+  :table-data="data_12"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const loading = ref(true);
+const data_12 = ref([
+  { name: '张三', age: 25, address: '上海市' },
+  { name: '李四', age: 30, address: '北京市' },
+  { name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_12 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+// 模拟加载数据
+setTimeout(() => {
+  loading.value = false;
+}, 2000);
+```
+
+```html
+<LSTable
+  :loading="loading"
+  :show-pagination="false"
+  :table-column="column_12"
+  :table-data="data_12"
+>
+</LSTable>
+```
+
+:::
+
+### 13. 带自定义空状态的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_13"
+  :table-data="data_13"
+  :empty-label="'暂无用户数据，请添加'"
+>
+  <template #empty>
+    <div style="text-align: center; padding: 40px 0;">
+      <el-icon style="font-size: 48px; color: #909399;">
+        <UserFilled />
+      </el-icon>
+      <p style="margin-top: 16px; color: #909399;">暂无用户数据</p>
+      <el-button type="primary" style="margin-top: 16px;">添加用户</el-button>
+    </div>
+  </template>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+import { UserFilled } from '@element-plus/icons-vue';
+
+const data_13 = ref([]);
+
+const column_13 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_13"
+  :table-data="data_13"
+  :empty-label="'暂无用户数据，请添加'"
+>
+  <template #empty>
+    <div style="text-align: center; padding: 40px 0;">
+      <el-icon style="font-size: 48px; color: #909399;">
+        <UserFilled />
+      </el-icon>
+      <p style="margin-top: 16px; color: #909399;">暂无用户数据</p>
+      <el-button type="primary" style="margin-top: 16px;">添加用户</el-button>
+    </div>
+  </template>
+</LSTable>
+```
+
+:::
+
+### 14. 带行样式和单元格样式的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_14"
+  :table-data="data_14"
+  :row-class-name="rowClassName"
+  :cell-class-name="cellClassName"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_14 = ref([
+  { name: '张三', age: 25, score: 88 },
+  { name: '李四', age: 30, score: 95 },
+  { name: '王五', age: 22, score: 76 },
+  { name: '赵六', age: 28, score: 65 }
+]);
+
+const column_14 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '分数',
+    prop: 'score',
+    type: 'number'
+  }
+];
+
+function rowClassName({ row, rowIndex }) {
+  return row.score < 70 ? 'row-low-score' : '';
+}
+
+function cellClassName({ row, column, rowIndex, columnIndex }) {
+  if (column.prop === 'score') {
+    return row.score >= 90 ? 'cell-high-score' : row.score < 70 ? 'cell-low-score' : '';
+  }
+  return '';
+}
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_14"
+  :table-data="data_14"
+  :row-class-name="rowClassName"
+  :cell-class-name="cellClassName"
+>
+</LSTable>
+
+<style scoped>
+.row-low-score {
+  background-color: #fef0f0;
+}
+.cell-high-score {
+  color: #67c23a;
+  font-weight: bold;
+}
+.cell-low-score {
+  color: #f56c6c;
+  font-weight: bold;
+}
+</style>
+```
+
+:::
+
+### 15. 带合并单元格的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_15"
+  :table-data="data_15"
+  :span-method="arraySpanMethod"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_15 = ref([
+  { id: 1, name: '张三', department: '技术部', position: '前端工程师' },
+  { id: 2, name: '李四', department: '技术部', position: '后端工程师' },
+  { id: 3, name: '王五', department: '技术部', position: '测试工程师' },
+  { id: 4, name: '赵六', department: '市场部', position: '市场经理' },
+  { id: 5, name: '刘七', department: '市场部', position: '销售顾问' }
+]);
+
+const column_15 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '部门',
+    prop: 'department'
+  },
+  {
+    label: '职位',
+    prop: 'position'
+  }
+];
+
+function arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+  if (columnIndex === 2) {
+    if (rowIndex === 0 || rowIndex === 1 || rowIndex === 2) {
+      return [3, 1];
+    } else if (rowIndex === 3 || rowIndex === 4) {
+      return [2, 1];
+    }
+  }
+}
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_15"
+  :table-data="data_15"
+  :span-method="arraySpanMethod"
+>
+</LSTable>
+```
+
+:::
+
+### 16. 带行点击事件的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_16"
+  :table-data="data_16"
+  @row-click="handleRowClick"
+  @row-dblclick="handleRowDblClick"
+  :row-style="{ cursor: 'pointer' }"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_16 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_16 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+function handleRowClick(row, column, event) {
+  console.log('行点击:', row);
+  alert(`点击了 ${row.name} 的行`);
+}
+
+function handleRowDblClick(row, column, event) {
+  console.log('行双击:', row);
+  alert(`双击了 ${row.name} 的行`);
+}
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_16"
+  :table-data="data_16"
+  @row-click="handleRowClick"
+  @row-dblclick="handleRowDblClick"
+  :row-style="{ cursor: 'pointer' }"
+>
+</LSTable>
+```
+
+:::
+
+### 17. 带表头分组的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_17"
+  :table-data="data_17"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_17 = ref([
+  {
+    name: '张三',
+    personal: { age: 25, gender: '男' },
+    contact: { email: 'zhangsan@example.com', phone: '13800138000' }
+  },
+  {
+    name: '李四',
+    personal: { age: 30, gender: '女' },
+    contact: { email: 'lisi@example.com', phone: '13900139000' }
+  }
+]);
+
+const column_17 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '个人信息',
+    children: [
+      {
+        label: '年龄',
+        prop: 'personal.age'
+      },
+      {
+        label: '性别',
+        prop: 'personal.gender'
+      }
+    ]
+  },
+  {
+    label: '联系方式',
+    children: [
+      {
+        label: '邮箱',
+        prop: 'contact.email'
+      },
+      {
+        label: '电话',
+        prop: 'contact.phone'
+      }
+    ]
+  }
+];
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_17"
+  :table-data="data_17"
+>
+</LSTable>
+```
+
+:::
+
+### 18. 带固定表头的表格
+
+<ClientOnly>
+<div style="height: 300px; overflow: auto;">
+  <LSTable
+    :show-pagination="false"
+    :table-column="column_18"
+    :table-data="data_18"
+    :max-height="300"
+  >
+  </LSTable>
+</div>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_18 = ref([]);
+for (let i = 0; i < 20; i++) {
+  data_18.value.push({
+    id: i + 1,
+    name: '用户' + (i + 1),
+    age: 18 + i % 20,
+    address: '地址' + (i + 1)
+  });
+}
+
+const column_18 = [
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    width: 120
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    width: 80
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    minWidth: 200
+  }
+];
+```
+
+```html
+<div style="height: 300px; overflow: auto;">
+  <LSTable
+    :show-pagination="false"
+    :table-column="column_18"
+    :table-data="data_18"
+    :max-height="300"
+  >
+  </LSTable>
+</div>
+```
+
+:::
+
+### 19. 带表格属性配置的表格
+
+<ClientOnly>
+<LSTable
+  :show-pagination="false"
+  :table-column="column_19"
+  :table-data="data_19"
+  :table-attrs="tableAttrs"
+>
+</LSTable>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const data_19 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_19 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+const tableAttrs = ref({
+  border: true,
+  stripe: true,
+  highlightCurrentRow: true,
+  showHeader: true,
+  tableLayout: 'fixed'
+});
+```
+
+```html
+<LSTable
+  :show-pagination="false"
+  :table-column="column_19"
+  :table-data="data_19"
+  :table-attrs="tableAttrs"
+>
+</LSTable>
+```
+
+:::
+
+### 20. 带导出功能的表格
+
+<ClientOnly>
+<el-card shadow="hover">
+  <template #header>
+    <div class="card-header">
+      <span>用户列表</span>
+      <el-button type="primary" @click="handleExport">导出数据</el-button>
+    </div>
+  </template>
+  <LSTable
+    ref="tableRef"
+    :show-pagination="false"
+    :table-column="column_20"
+    :table-data="data_20"
+  >
+  </LSTable>
+</el-card>
+</ClientOnly>
+
+:::details 点我查看代码
+
+```js
+const tableRef = ref(null);
+const data_20 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_20 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+function handleExport() {
+  // 这里可以实现导出逻辑
+  console.log('导出数据:', data_20.value);
+  alert('导出功能已触发');
+  // 实际项目中可以使用 xlsx 库等实现导出
+}
+```
+
+```html
+<el-card shadow="hover">
+  <template #header>
+    <div class="card-header">
+      <span>用户列表</span>
+      <el-button type="primary" @click="handleExport">导出数据</el-button>
+    </div>
+  </template>
+  <LSTable
+    ref="tableRef"
+    :show-pagination="false"
+    :table-column="column_20"
+    :table-data="data_20"
+  >
+  </LSTable>
+</el-card>
+
+<style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -326,6 +1562,7 @@ const selection = ref([
 
 <script setup>
 import { ElTag } from 'element-plus';
+import { UserFilled } from '@element-plus/icons-vue';
 import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
 import { ref, computed, watch} from 'vue';
 
@@ -487,6 +1724,664 @@ watch(
     console.log('watch---选中数据', newVal);
   }
 );
+
+// 示例4：带分页的表格
+function getData4() {
+  let list = [];
+  for (let i = 0; i < 50; i++) {
+    list.push({
+      id: i,
+      name: '用户' + i,
+      age: 18 + i % 20,
+      address: '地址' + i
+    });
+  }
+  return list;
+}
+const data4 = ref(getData4());
+const column_4 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+const currentPage4 = ref(1);
+const pageSize4 = ref(10);
+const total4 = data4.value.length;
+const data_4 = computed(() => data4.value.slice((currentPage4.value - 1) * pageSize4.value, currentPage4.value * pageSize4.value));
+
+// 示例5：带排序的表格
+const data_5 = ref([
+  { name: '张三', age: 25, score: 88 },
+  { name: '李四', age: 30, score: 95 },
+  { name: '王五', age: 22, score: 76 },
+  { name: '赵六', age: 28, score: 92 },
+  { name: '刘七', age: 35, score: 84 }
+]);
+
+const column_5 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    sortable: true
+  },
+  {
+    label: '分数',
+    prop: 'score',
+    sortable: true,
+    type: 'number'
+  }
+];
+
+function handleSortChange({ column, prop, order }) {
+  console.log('排序变化:', { column, prop, order });
+  if (prop && order) {
+    data_5.value.sort((a, b) => {
+      if (order === 'ascending') {
+        return a[prop] > b[prop] ? 1 : -1;
+      } else {
+        return a[prop] < b[prop] ? 1 : -1;
+      }
+    });
+  }
+}
+
+// 示例6：带筛选的表格
+const data_6 = ref([
+  { name: '张三', age: 25, gender: '男', department: '技术部' },
+  { name: '李四', age: 30, gender: '女', department: '市场部' },
+  { name: '王五', age: 22, gender: '男', department: '技术部' },
+  { name: '赵六', age: 28, gender: '女', department: '财务部' },
+  { name: '刘七', age: 35, gender: '男', department: '技术部' }
+]);
+
+const column_6 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '性别',
+    prop: 'gender',
+    filters: [
+      { text: '男', value: '男' },
+      { text: '女', value: '女' }
+    ],
+    filterMultiple: false,
+    filterMethod: (value, row) => row.gender === value
+  },
+  {
+    label: '部门',
+    prop: 'department',
+    filters: [
+      { text: '技术部', value: '技术部' },
+      { text: '市场部', value: '市场部' },
+      { text: '财务部', value: '财务部' }
+    ],
+    filterMethod: (value, row) => row.department === value
+  }
+];
+
+// 示例7：带展开行的表格
+const data_7 = ref([
+  {
+    name: '张三',
+    age: 25,
+    address: '上海市浦东新区',
+    email: 'zhangsan@example.com'
+  },
+  {
+    name: '李四',
+    age: 30,
+    address: '北京市朝阳区',
+    email: 'lisi@example.com'
+  },
+  {
+    name: '王五',
+    age: 22,
+    address: '深圳市南山区',
+    email: 'wangwu@example.com'
+  }
+]);
+
+const column_7 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+// 示例8：带合计行的表格
+const data_8 = ref([
+  { name: '商品1', price: 100, quantity: 2, amount: 200 },
+  { name: '商品2', price: 50, quantity: 5, amount: 250 },
+  { name: '商品3', price: 80, quantity: 3, amount: 240 },
+  { name: '商品4', price: 120, quantity: 1, amount: 120 }
+]);
+
+const column_8 = [
+  {
+    label: '商品名称',
+    prop: 'name'
+  },
+  {
+    label: '单价',
+    prop: 'price',
+    type: 'number'
+  },
+  {
+    label: '数量',
+    prop: 'quantity',
+    type: 'number'
+  },
+  {
+    label: '金额',
+    prop: 'amount',
+    type: 'number'
+  }
+];
+
+function getSummaries(param) {
+  const { columns, data } = param;
+  const sums = [];
+  columns.forEach((column, index) => {
+    if (index === 0) {
+      sums[index] = '合计';
+      return;
+    }
+    const values = data.map(item => Number(item[column.property]));
+    const validValues = values.filter(value => !isNaN(value));
+    if (validValues.length) {
+      sums[index] = validValues.reduce((prev, curr) => {
+        const value = Number(curr);
+        if (!isNaN(value)) {
+          return prev + curr;
+        } else {
+          return prev;
+        }
+      }, 0);
+      sums[index] += ' 元';
+    } else {
+      sums[index] = '';
+    }
+  });
+  return sums;
+}
+
+// 示例9：带固定列的表格
+const data_9 = ref([
+  {
+    id: 1,
+    name: '张三',
+    age: 25,
+    address: '上海市浦东新区',
+    email: 'zhangsan@example.com',
+    phone: '13800138000',
+    department: '技术部',
+    position: '前端工程师',
+    salary: 15000
+  },
+  {
+    id: 2,
+    name: '李四',
+    age: 30,
+    address: '北京市朝阳区',
+    email: 'lisi@example.com',
+    phone: '13900139000',
+    department: '市场部',
+    position: '市场经理',
+    salary: 12000
+  },
+  {
+    id: 3,
+    name: '王五',
+    age: 22,
+    address: '深圳市南山区',
+    email: 'wangwu@example.com',
+    phone: '13700137000',
+    department: '技术部',
+    position: '后端工程师',
+    salary: 16000
+  }
+]);
+
+const column_9 = [
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80,
+    fixed: 'left'
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    width: 120,
+    fixed: 'left'
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    width: 80
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    minWidth: 200
+  },
+  {
+    label: '邮箱',
+    prop: 'email',
+    minWidth: 200
+  },
+  {
+    label: '电话',
+    prop: 'phone',
+    width: 150
+  },
+  {
+    label: '部门',
+    prop: 'department',
+    width: 120
+  },
+  {
+    label: '职位',
+    prop: 'position',
+    width: 150
+  },
+  {
+    label: '薪资',
+    prop: 'salary',
+    width: 100,
+    type: 'number',
+    fixed: 'right'
+  }
+];
+
+// 示例10：响应式表格
+const data_10 = ref([
+  { name: '张三', age: 25, gender: '男', address: '上海市' },
+  { name: '李四', age: 30, gender: '女', address: '北京市' },
+  { name: '王五', age: 22, gender: '男', address: '深圳市' }
+]);
+
+const column_10 = [
+  {
+    label: '姓名',
+    prop: 'name',
+    responsive: ['xs', 'sm', 'md', 'lg', 'xl']
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    responsive: ['sm', 'md', 'lg', 'xl']
+  },
+  {
+    label: '性别',
+    prop: 'gender',
+    responsive: ['md', 'lg', 'xl']
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    responsive: ['lg', 'xl']
+  }
+];
+
+// 示例11：自定义列模板的表格
+const data_11 = ref([
+  { id: 1, name: '张三', status: true },
+  { id: 2, name: '李四', status: false },
+  { id: 3, name: '王五', status: true }
+]);
+
+const column_11 = [
+  {
+    label: '头像',
+    prop: 'avatar',
+    type: 'slot',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'slot',
+    width: 120
+  },
+  {
+    label: '操作',
+    prop: 'action',
+    type: 'slot',
+    width: 180
+  }
+];
+
+// 示例12：带加载状态的表格
+const loading = ref(true);
+const data_12 = ref([
+  { name: '张三', age: 25, address: '上海市' },
+  { name: '李四', age: 30, address: '北京市' },
+  { name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_12 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+// 模拟加载数据
+setTimeout(() => {
+  loading.value = false;
+}, 2000);
+
+// 示例13：带自定义空状态的表格
+const data_13 = ref([]);
+
+const column_13 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+// 示例14：带行样式和单元格样式的表格
+const data_14 = ref([
+  { name: '张三', age: 25, score: 88 },
+  { name: '李四', age: 30, score: 95 },
+  { name: '王五', age: 22, score: 76 },
+  { name: '赵六', age: 28, score: 65 }
+]);
+
+const column_14 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '分数',
+    prop: 'score',
+    type: 'number'
+  }
+];
+
+function rowClassName({ row, rowIndex }) {
+  return row.score < 70 ? 'row-low-score' : '';
+}
+
+function cellClassName({ row, column, rowIndex, columnIndex }) {
+  if (column.prop === 'score') {
+    return row.score >= 90 ? 'cell-high-score' : row.score < 70 ? 'cell-low-score' : '';
+  }
+  return '';
+}
+
+// 示例15：带合并单元格的表格
+const data_15 = ref([
+  { id: 1, name: '张三', department: '技术部', position: '前端工程师' },
+  { id: 2, name: '李四', department: '技术部', position: '后端工程师' },
+  { id: 3, name: '王五', department: '技术部', position: '测试工程师' },
+  { id: 4, name: '赵六', department: '市场部', position: '市场经理' },
+  { id: 5, name: '刘七', department: '市场部', position: '销售顾问' }
+]);
+
+const column_15 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '部门',
+    prop: 'department'
+  },
+  {
+    label: '职位',
+    prop: 'position'
+  }
+];
+
+function arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+  if (columnIndex === 2) {
+    if (rowIndex === 0 || rowIndex === 1 || rowIndex === 2) {
+      return [3, 1];
+    } else if (rowIndex === 3 || rowIndex === 4) {
+      return [2, 1];
+    }
+  }
+}
+
+// 示例16：带行点击事件的表格
+const data_16 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_16 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+function handleRowClick(row, column, event) {
+  console.log('行点击:', row);
+  alert(`点击了 ${row.name} 的行`);
+}
+
+function handleRowDblClick(row, column, event) {
+  console.log('行双击:', row);
+  alert(`双击了 ${row.name} 的行`);
+}
+
+// 示例17：带表头分组的表格
+const data_17 = ref([
+  {
+    name: '张三',
+    personal: { age: 25, gender: '男' },
+    contact: { email: 'zhangsan@example.com', phone: '13800138000' }
+  },
+  {
+    name: '李四',
+    personal: { age: 30, gender: '女' },
+    contact: { email: 'lisi@example.com', phone: '13900139000' }
+  }
+]);
+
+const column_17 = [
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '个人信息',
+    children: [
+      {
+        label: '年龄',
+        prop: 'personal.age'
+      },
+      {
+        label: '性别',
+        prop: 'personal.gender'
+      }
+    ]
+  },
+  {
+    label: '联系方式',
+    children: [
+      {
+        label: '邮箱',
+        prop: 'contact.email'
+      },
+      {
+        label: '电话',
+        prop: 'contact.phone'
+      }
+    ]
+  }
+];
+
+// 示例18：带固定表头的表格
+const data_18 = ref([]);
+for (let i = 0; i < 20; i++) {
+  data_18.value.push({
+    id: i + 1,
+    name: '用户' + (i + 1),
+    age: 18 + i % 20,
+    address: '地址' + (i + 1)
+  });
+}
+
+const column_18 = [
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    width: 120
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    width: 80
+  },
+  {
+    label: '地址',
+    prop: 'address',
+    minWidth: 200
+  }
+];
+
+// 示例19：带表格属性配置的表格
+const data_19 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_19 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+const tableAttrs = ref({
+  border: true,
+  stripe: true,
+  highlightCurrentRow: true,
+  showHeader: true,
+  tableLayout: 'fixed'
+});
+
+// 示例20：带导出功能的表格
+const tableRef = ref(null);
+const data_20 = ref([
+  { id: 1, name: '张三', age: 25, address: '上海市' },
+  { id: 2, name: '李四', age: 30, address: '北京市' },
+  { id: 3, name: '王五', age: 22, address: '深圳市' }
+]);
+
+const column_20 = [
+  {
+    label: 'ID',
+    prop: 'id'
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '地址',
+    prop: 'address'
+  }
+];
+
+function handleExport() {
+  // 这里可以实现导出逻辑
+  console.log('导出数据:', data_20.value);
+  alert('导出功能已触发');
+  // 实际项目中可以使用 xlsx 库等实现导出
+}
 
 // 属性
 const attrTableData=[
