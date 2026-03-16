@@ -4175,7 +4175,7 @@ const attrTableData = [
     name: 'table-attrs',
     type: 'Object',
     value: '{}',
-    desc: '表格属性'
+    desc: '表格属性，支持showSelect, showRadio单选、selectColumnOptions（选择列配置，包含reserveSelection（是否保留选择））'
   },
   {
     name: 'list-hook-config',
