@@ -327,8 +327,8 @@ function mockListApi4(params) {
 >
   <template #operate>
     <el-space>
-      <el-button type="primary" @click="handleBatchAdd">批量添加</el-button>
-      <el-button type="success" @click="handleExport">导出数据</el-button>
+      <LSButton type="primary" @click="handleBatchAdd">批量添加</LSButton>
+      <LSButton type="success" @click="handleExport">导出数据</LSButton>
     </el-space>
   </template>
 </LSList>
@@ -393,8 +393,8 @@ function mockListApi5(params) {
 <LSList :list-api="mockListApi5" :table-column="column_5" :form-data="formData_5" :form-items="formItems_5">
   <template #operate>
     <el-space>
-      <el-button type="primary" @click="handleBatchAdd">批量添加</el-button>
-      <el-button type="success" @click="handleExport">导出数据</el-button>
+      <LSButton type="primary" @click="handleBatchAdd">批量添加</LSButton>
+      <LSButton type="success" @click="handleExport">导出数据</LSButton>
     </el-space>
   </template>
 </LSList>
@@ -1298,16 +1298,16 @@ function mockListApi16(params) {
   :form-items="formItems_17"
 >
   <template #form-append>
-    <el-button type="info" @click="handleExtraQuery">额外查询</el-button>
+    <LSButton type="info" @click="handleExtraQuery">额外查询</LSButton>
   </template>
   <template #operate-prepend>
-    <el-button type="warning">前置操作</el-button>
+    <LSButton type="warning">前置操作</LSButton>
   </template>
   <template #operate-append>
-    <el-button type="success">后置操作</el-button>
+    <LSButton type="success">后置操作</LSButton>
   </template>
   <template #table-operate-prepend="{ row }">
-    <el-button type="info" link size="small">自定义操作</el-button>
+    <LSButton type="info" link size="small">自定义操作</LSButton>
   </template>
 </LSList>
 </ClientOnly>
@@ -1366,16 +1366,16 @@ function mockListApi17(params) {
 ```html
 <LSList :list-api="mockListApi17" :table-column="column_17" :form-data="formData_17" :form-items="formItems_17">
   <template #form-append>
-    <el-button type="info" @click="handleExtraQuery">额外查询</el-button>
+    <LSButton type="info" @click="handleExtraQuery">额外查询</LSButton>
   </template>
   <template #operate-prepend>
-    <el-button type="warning">前置操作</el-button>
+    <LSButton type="warning">前置操作</LSButton>
   </template>
   <template #operate-append>
-    <el-button type="success">后置操作</el-button>
+    <LSButton type="success">后置操作</LSButton>
   </template>
   <template #table-operate-prepend="{ row }">
-    <el-button type="info" link size="small">自定义操作</el-button>
+    <LSButton type="info" link size="small">自定义操作</LSButton>
   </template>
 </LSList>
 ```
@@ -1604,7 +1604,7 @@ function mockListApi19(params) {
   @switch-success="handleSwitchSuccess"
 >
   <template #form-append>
-    <el-button type="warning" @click="handleBatchExport">批量导出</el-button>
+    <LSButton type="warning" @click="handleBatchExport">批量导出</LSButton>
   </template>
 </LSList>
 </ClientOnly>
@@ -1741,7 +1741,7 @@ function handleBatchExport() {
   @switch-success="handleSwitchSuccess"
 >
   <template #form-append>
-    <el-button type="warning" @click="handleBatchExport">批量导出</el-button>
+    <LSButton type="warning" @click="handleBatchExport">批量导出</LSButton>
   </template>
 </LSList>
 ```
@@ -2150,12 +2150,12 @@ function mockListApi24(params) {
   @handle-loading="handleLoading25"
 >
   <template #form-append>
-    <el-button type="success" @click="handleBatchEnable" :disabled="selectedRows.length === 0">
+    <LSButton type="success" @click="handleBatchEnable" :disabled="selectedRows.length === 0">
       批量启用 ({{ selectedRows.length }})
-    </el-button>
-    <el-button type="danger" @click="handleBatchDisable" :disabled="selectedRows.length === 0">
+    </LSButton>
+    <LSButton type="danger" @click="handleBatchDisable" :disabled="selectedRows.length === 0">
       批量禁用 ({{ selectedRows.length }})
-    </el-button>
+    </LSButton>
   </template>
 </LSList>
 </ClientOnly>
@@ -2250,12 +2250,12 @@ function mockListApi25(params) {
   @handle-loading="handleLoading25"
 >
   <template #form-append>
-    <el-button type="success" @click="handleBatchEnable" :disabled="selectedRows.length === 0">
+    <LSButton type="success" @click="handleBatchEnable" :disabled="selectedRows.length === 0">
       批量启用 ({{ selectedRows.length }})
-    </el-button>
-    <el-button type="danger" @click="handleBatchDisable" :disabled="selectedRows.length === 0">
+    </LSButton>
+    <LSButton type="danger" @click="handleBatchDisable" :disabled="selectedRows.length === 0">
       批量禁用 ({{ selectedRows.length }})
-    </el-button>
+    </LSButton>
   </template>
 </LSList>
 ```
@@ -2436,6 +2436,1212 @@ function mockListApi3(params) {
           { id: 2, name: '李四', age: 30 }
         ],
         total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_4 = ref({
+  name: ''
+});
+
+const formItems_4 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_4 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi4(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_5 = ref({
+  name: ''
+});
+
+const formItems_5 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_5 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function handleBatchAdd() {
+  alert('批量添加');
+}
+
+function handleExport() {
+  alert('导出数据');
+}
+
+function mockListApi5(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_6 = ref({
+  name: ''
+});
+
+const formItems_6 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_6 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi6(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+function mockSwitchApi(id) {
+  console.log('开关切换:', id);
+  return Promise.resolve();
+}
+
+const formData_7 = ref({
+  name: ''
+});
+
+const formItems_7 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_7 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi7(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+function mockDelApi(id) {
+  console.log('删除:', id);
+  return Promise.resolve();
+}
+
+const formData_8 = ref({
+  name: ''
+});
+
+const formItems_8 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_8 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi8(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const showDetail = ref(true);
+const showEdit = ref(true);
+const showDel = ref(true);
+
+const formData_9 = ref({
+  name: ''
+});
+
+const formItems_9 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_9 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi9(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_10 = ref({
+  name: ''
+});
+
+const formItems_10 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_10 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi10(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+
+const formData_11 = ref({
+  name: ''
+});
+
+const formItems_11 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_11 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi11(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_12 = ref({
+  name: ''
+});
+
+const formItems_12 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_12 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function customDetail(row) {
+  alert('自定义查看: ' + JSON.stringify(row));
+}
+
+function customEdit(row) {
+  alert('自定义编辑: ' + JSON.stringify(row));
+}
+
+function customDel(row, callback) {
+  if (confirm('确定删除吗？')) {
+    callback(true);
+  }
+}
+
+function customAdd() {
+  alert('自定义添加');
+}
+
+function mockListApi12(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_13 = ref({
+  name: ''
+});
+
+const formItems_13 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_13 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi13(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_14 = ref({
+  name: ''
+});
+
+const formItems_14 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_14 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi14(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_15 = ref({
+  name: ''
+});
+
+const formItems_15 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_15 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi15(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 2000);
+  });
+}
+
+const formData_16 = ref({
+  name: ''
+});
+
+const formItems_16 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_16 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi16(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_17 = ref({
+  name: ''
+});
+
+const formItems_17 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_17 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function handleExtraQuery() {
+  alert('额外查询');
+}
+
+function mockListApi17(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_18 = ref({
+  name: ''
+});
+
+const formItems_18 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_18 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi18(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+function mockDelApi18(id) {
+  console.log('删除:', id);
+  return Promise.resolve();
+}
+
+const formData_19 = ref({
+  name: '',
+  status: ''
+});
+
+const formItems_19 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  },
+  {
+    type: 'select',
+    label: '状态',
+    prop: 'status',
+    placeholder: '请选择状态',
+    options: [
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 }
+    ]
+  }
+]);
+
+const column_19 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '状态',
+    prop: 'status'
+  }
+]);
+
+function customDealParams(params) {
+  console.log('原始参数:', params);
+  return {
+    ...params,
+    customField: 'customValue',
+    timestamp: Date.now()
+  };
+}
+
+function customDealData(response) {
+  console.log('原始响应:', response);
+  return {
+    records: response.records.map(item => ({
+      ...item,
+      customProcessed: true
+    })),
+    total: response.total
+  };
+}
+
+function mockListApi19(params) {
+  console.log('处理后参数:', params);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const listRef20 = ref(null);
+
+const formData_20 = ref({
+  name: '',
+  status: ''
+});
+
+const formItems_20 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  },
+  {
+    type: 'select',
+    label: '状态',
+    prop: 'status',
+    placeholder: '请选择状态',
+    options: [
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 }
+    ]
+  }
+]);
+
+const column_20 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'status',
+    value: {
+      1: { type: 'success', label: '启用' },
+      0: { type: 'info', label: '禁用' }
+    }
+  }
+]);
+
+function mockListApi20(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 },
+          { id: 3, name: '王五', age: 22, status: 1 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+
+function mockDelApi20(id) {
+  return Promise.resolve();
+}
+
+function mockSwitchApi20(id) {
+  return Promise.resolve();
+}
+
+function handleLoading20(loading) {
+  console.log('加载状态:', loading);
+}
+
+function handlePageChange(page) {
+  console.log('当前页:', page);
+}
+
+function handleSizeChange(size) {
+  console.log('每页条数:', size);
+}
+
+function handleSubmit20(formData) {
+  console.log('表单提交:', formData);
+}
+
+function handleReset20(formData) {
+  console.log('表单重置:', formData);
+}
+
+function handleDelSuccess(row, res) {
+  console.log('删除成功:', row, res);
+}
+
+function handleSwitchSuccess(row, status) {
+  console.log('开关切换成功:', row, status);
+}
+
+function handleBatchExport() {
+  alert('批量导出');
+}
+
+const formData_21 = ref({
+  name: ''
+});
+
+const formItems_21 = ref([
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name',
+    placeholder: '请输入名称'
+  }
+]);
+
+const column_21 = ref([
+  {
+    label: '名称',
+    prop: 'name'
+  },
+  {
+    label: '数量',
+    prop: 'count'
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+    type: 'date'
+  }
+]);
+
+function mockListApi21(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          {
+            id: 1,
+            name: '部门A',
+            count: 10,
+            createTime: '2024-01-01',
+            children: [
+              { id: 11, name: '小组A1', count: 5, createTime: '2024-01-02' },
+              { id: 12, name: '小组A2', count: 5, createTime: '2024-01-03' }
+            ]
+          },
+          {
+            id: 2,
+            name: '部门B',
+            count: 8,
+            createTime: '2024-01-04',
+            children: [
+              { id: 21, name: '小组B1', count: 4, createTime: '2024-01-05' },
+              { id: 22, name: '小组B2', count: 4, createTime: '2024-01-06' }
+            ]
+          }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_22 = ref({
+  name: ''
+});
+
+const formItems_22 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_22 = ref([
+  {
+    label: '头像',
+    prop: 'avatar',
+    type: 'slot',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '职位',
+    prop: 'position'
+  },
+  {
+    label: '标签',
+    prop: 'tags',
+    type: 'slot',
+    width: 200
+  }
+]);
+
+function mockListApi22(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          {
+            id: 1,
+            name: '张三',
+            position: '前端开发',
+            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            tags: [
+              { label: 'Vue', type: 'success' },
+              { label: 'React', type: 'primary' }
+            ]
+          },
+          {
+            id: 2,
+            name: '李四',
+            position: '后端开发',
+            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            tags: [
+              { label: 'Java', type: 'warning' },
+              { label: 'Go', type: 'danger' }
+            ]
+          }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_23 = ref({
+  name: ''
+});
+
+const formItems_23 = ref([
+  {
+    type: 'input',
+    label: '产品名称',
+    prop: 'name',
+    placeholder: '请输入产品名称'
+  }
+]);
+
+const column_23 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '产品名称',
+    prop: 'name'
+  },
+  {
+    label: '数量',
+    prop: 'quantity',
+    type: 'number'
+  },
+  {
+    label: '单价',
+    prop: 'price',
+    type: 'number'
+  },
+  {
+    label: '总价',
+    prop: 'total',
+    type: 'number'
+  }
+]);
+
+function getSummaries(param) {
+  const { columns, data } = param;
+  const sums = [];
+  columns.forEach((column, index) => {
+    if (index === 0) {
+      sums[index] = '合计';
+      return;
+    }
+    if (column.property === 'quantity') {
+      sums[index] = data.reduce((sum, row) => sum + row.quantity, 0);
+    } else if (column.property === 'total') {
+      sums[index] = data.reduce((sum, row) => sum + row.total, 0).toFixed(2);
+    } else {
+      sums[index] = '-';
+    }
+  });
+  return sums;
+}
+
+function mockListApi23(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '产品A', quantity: 10, price: 100, total: 1000 },
+          { id: 2, name: '产品B', quantity: 5, price: 200, total: 1000 },
+          { id: 3, name: '产品C', quantity: 3, price: 300, total: 900 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+
+const formData_24 = ref({
+  name: ''
+});
+
+const formItems_24 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_24 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi24(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const records = [];
+      for (let i = 1; i <= 50; i++) {
+        records.push({
+          id: i,
+          name: `用户${i}`,
+          age: 20 + Math.floor(Math.random() * 30)
+        });
+      }
+      resolve({
+        records: records,
+        total: 50
+      });
+    }, 1000);
+  });
+}
+
+const listRef25 = ref(null);
+const selectedRows = ref([]);
+
+const formData_25 = ref({
+  name: ''
+});
+
+const formItems_25 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_25 = ref([
+  {
+    type: 'selection',
+    width: 55
+  },
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    type: 'status',
+    value: {
+      1: { type: 'success', label: '启用' },
+      0: { type: 'info', label: '禁用' }
+    }
+  }
+]);
+
+function handleLoading25(loading) {
+  if (!loading && listRef25.value?.TableRef) {
+    const tableRef = listRef25.value.TableRef;
+    selectedRows.value = tableRef.getSelectionRows();
+  }
+}
+
+function handleBatchEnable() {
+  alert('批量启用: ' + JSON.stringify(selectedRows.value.map(row => row.id)));
+}
+
+function handleBatchDisable() {
+  alert('批量禁用: ' + JSON.stringify(selectedRows.value.map(row => row.id)));
+}
+
+function mockListApi25(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 },
+          { id: 3, name: '王五', age: 22, status: 1 }
+        ],
+        total: 3
       });
     }, 1000);
   });
