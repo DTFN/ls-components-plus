@@ -165,12 +165,16 @@ function handleReset(formData) {
 }
 
 function mockListApi2(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -223,12 +227,16 @@ const column_3 = ref([
 ]);
 
 function mockListApi3(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -286,12 +294,16 @@ const column_4 = ref([
 ]);
 
 function mockListApi4(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -363,12 +375,16 @@ function handleExport() {
 }
 
 function mockListApi5(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -435,12 +451,16 @@ const column_6 = ref([
 ]);
 
 function mockListApi6(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25, status: 1 },
-      { id: 2, name: '李四', age: 30, status: 0 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 
@@ -513,12 +533,16 @@ const column_7 = ref([
 ]);
 
 function mockListApi7(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 
@@ -591,12 +615,16 @@ const column_8 = ref([
 ]);
 
 function mockListApi8(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -669,12 +697,16 @@ const column_9 = ref([
 ]);
 
 function mockListApi9(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -743,13 +775,17 @@ const column_10 = ref([
 ]);
 
 function mockListApi10(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 },
-      { id: 3, name: '王五', age: 22 }
-    ],
-    total: 3
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
   });
 }
 ```
@@ -818,12 +854,16 @@ const column_11 = ref([
 ]);
 
 function mockListApi11(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -911,12 +951,16 @@ function customAdd() {
 }
 
 function mockListApi12(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -986,12 +1030,16 @@ const column_13 = ref([
 ]);
 
 function mockListApi13(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1060,12 +1108,16 @@ const column_14 = ref([
 ]);
 
 function mockListApi14(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1133,10 +1185,10 @@ const column_15 = ref([
 ]);
 
 function mockListApi15(params) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({
-        data: [
+        records: [
           { id: 1, name: '张三', age: 25 },
           { id: 2, name: '李四', age: 30 }
         ],
@@ -1208,12 +1260,16 @@ const column_16 = ref([
 ]);
 
 function mockListApi16(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1293,12 +1349,16 @@ function handleExtraQuery() {
 }
 
 function mockListApi17(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1372,12 +1432,16 @@ const column_18 = ref([
 ]);
 
 function mockListApi18(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25 },
-      { id: 2, name: '李四', age: 30 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 
@@ -1487,12 +1551,16 @@ function customDealData(response) {
 
 function mockListApi19(params) {
   console.log('处理后参数:', params);
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25, status: 1 },
-      { id: 2, name: '李四', age: 30, status: 0 }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1596,13 +1664,17 @@ const column_20 = ref([
 ]);
 
 function mockListApi20(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25, status: 1 },
-      { id: 2, name: '李四', age: 30, status: 0 },
-      { id: 3, name: '王五', age: 22, status: 1 }
-    ],
-    total: 3
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 },
+          { id: 3, name: '王五', age: 22, status: 1 }
+        ],
+        total: 3
+      });
+    }, 1000);
   });
 }
 
@@ -1724,30 +1796,34 @@ const column_21 = ref([
 ]);
 
 function mockListApi21(params) {
-  return Promise.resolve({
-    data: [
-      {
-        id: 1,
-        name: '部门A',
-        count: 10,
-        createTime: '2024-01-01',
-        children: [
-          { id: 11, name: '小组A1', count: 5, createTime: '2024-01-02' },
-          { id: 12, name: '小组A2', count: 5, createTime: '2024-01-03' }
-        ]
-      },
-      {
-        id: 2,
-        name: '部门B',
-        count: 8,
-        createTime: '2024-01-04',
-        children: [
-          { id: 21, name: '小组B1', count: 4, createTime: '2024-01-05' },
-          { id: 22, name: '小组B2', count: 4, createTime: '2024-01-06' }
-        ]
-      }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          {
+            id: 1,
+            name: '部门A',
+            count: 10,
+            createTime: '2024-01-01',
+            children: [
+              { id: 11, name: '小组A1', count: 5, createTime: '2024-01-02' },
+              { id: 12, name: '小组A2', count: 5, createTime: '2024-01-03' }
+            ]
+          },
+          {
+            id: 2,
+            name: '部门B',
+            count: 8,
+            createTime: '2024-01-04',
+            children: [
+              { id: 21, name: '小组B1', count: 4, createTime: '2024-01-05' },
+              { id: 22, name: '小组B2', count: 4, createTime: '2024-01-06' }
+            ]
+          }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1829,30 +1905,34 @@ const column_22 = ref([
 ]);
 
 function mockListApi22(params) {
-  return Promise.resolve({
-    data: [
-      {
-        id: 1,
-        name: '张三',
-        position: '前端开发',
-        avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-        tags: [
-          { label: 'Vue', type: 'success' },
-          { label: 'React', type: 'primary' }
-        ]
-      },
-      {
-        id: 2,
-        name: '李四',
-        position: '后端开发',
-        avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-        tags: [
-          { label: 'Java', type: 'warning' },
-          { label: 'Go', type: 'danger' }
-        ]
-      }
-    ],
-    total: 2
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          {
+            id: 1,
+            name: '张三',
+            position: '前端开发',
+            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            tags: [
+              { label: 'Vue', type: 'success' },
+              { label: 'React', type: 'primary' }
+            ]
+          },
+          {
+            id: 2,
+            name: '李四',
+            position: '后端开发',
+            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            tags: [
+              { label: 'Java', type: 'warning' },
+              { label: 'Go', type: 'danger' }
+            ]
+          }
+        ],
+        total: 2
+      });
+    }, 1000);
   });
 }
 ```
@@ -1949,13 +2029,17 @@ function getSummaries(param) {
 }
 
 function mockListApi23(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '产品A', quantity: 10, price: 100, total: 1000 },
-      { id: 2, name: '产品B', quantity: 5, price: 200, total: 1000 },
-      { id: 3, name: '产品C', quantity: 3, price: 300, total: 900 }
-    ],
-    total: 3
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '产品A', quantity: 10, price: 100, total: 1000 },
+          { id: 2, name: '产品B', quantity: 5, price: 200, total: 1000 },
+          { id: 3, name: '产品C', quantity: 3, price: 300, total: 900 }
+        ],
+        total: 3
+      });
+    }, 1000);
   });
 }
 ```
@@ -2020,17 +2104,21 @@ const column_24 = ref([
 ]);
 
 function mockListApi24(params) {
-  const data = [];
-  for (let i = 1; i <= 50; i++) {
-    data.push({
-      id: i,
-      name: `用户${i}`,
-      age: 20 + Math.floor(Math.random() * 30)
-    });
-  }
-  return Promise.resolve({
-    data: data,
-    total: 50
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const records = [];
+      for (let i = 1; i <= 50; i++) {
+        records.push({
+          id: i,
+          name: `用户${i}`,
+          age: 20 + Math.floor(Math.random() * 30)
+        });
+      }
+      resolve({
+        records: records,
+        total: 50
+      });
+    }, 1000);
   });
 }
 ```
@@ -2136,13 +2224,17 @@ function handleBatchDisable() {
 }
 
 function mockListApi25(params) {
-  return Promise.resolve({
-    data: [
-      { id: 1, name: '张三', age: 25, status: 1 },
-      { id: 2, name: '李四', age: 30, status: 0 },
-      { id: 3, name: '王五', age: 22, status: 1 }
-    ],
-    total: 3
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25, status: 1 },
+          { id: 2, name: '李四', age: 30, status: 0 },
+          { id: 3, name: '王五', age: 22, status: 1 }
+        ],
+        total: 3
+      });
+    }, 1000);
   });
 }
 ```
@@ -2314,6 +2406,36 @@ function mockListApi2(params) {
           { id: 3, name: '王五', age: 22, status: 1 }
         ],
         total: 3
+      });
+    }, 1000);
+  });
+}
+
+const column_3 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi3(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
       });
     }, 1000);
   });
