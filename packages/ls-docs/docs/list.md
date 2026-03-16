@@ -1855,11 +1855,26 @@ function mockListApi21(params) {
   <template #avatar="{ row }">
     <el-avatar :size="40" :src="row.avatar" />
   </template>
-  <template #tags="{ row }">
+  <template #tags-table-slot="{ row }">
     <el-space wrap>
-      <el-tag v-for="tag in row.tags" :key="tag" :type="tag.type">
+      <el-tag v-for="tag in row.tags" :key="tag.label" :type="tag.type">
         {{ tag.label }}
       </el-tag>
+    </el-space>
+  </template>
+  <template #status-table-slot="{ row }">
+    <el-tag :type="row.status === 1 ? 'success' : 'info'">
+      {{ row.status === 1 ? '在职' : '离职' }}
+    </el-tag>
+  </template>
+  <template #progress-table-slot="{ row }">
+    <el-progress :percentage="row.progress" :stroke-width="8" />
+  </template>
+  <template #action-table-slot="{ row }">
+    <el-space size="small">
+      <LSButton size="small" type="primary">查看</LSButton>
+      <LSButton size="small" type="success">编辑</LSButton>
+      <LSButton size="small" type="danger">删除</LSButton>
     </el-space>
   </template>
 </LSList>
@@ -1897,8 +1912,26 @@ const column_22 = ref([
     prop: 'position'
   },
   {
+    label: '状态',
+    prop: 'status',
+    type: 'slot',
+    width: 100
+  },
+  {
+    label: '完成度',
+    prop: 'progress',
+    type: 'slot',
+    width: 200
+  },
+  {
     label: '标签',
     prop: 'tags',
+    type: 'slot',
+    width: 200
+  },
+  {
+    label: '操作',
+    prop: 'action',
     type: 'slot',
     width: 200
   }
@@ -1914,6 +1947,8 @@ function mockListApi22(params) {
             name: '张三',
             position: '前端开发',
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            status: 1,
+            progress: 85,
             tags: [
               { label: 'Vue', type: 'success' },
               { label: 'React', type: 'primary' }
@@ -1924,13 +1959,27 @@ function mockListApi22(params) {
             name: '李四',
             position: '后端开发',
             avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            status: 1,
+            progress: 60,
             tags: [
               { label: 'Java', type: 'warning' },
               { label: 'Go', type: 'danger' }
             ]
+          },
+          {
+            id: 3,
+            name: '王五',
+            position: '产品经理',
+            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
+            status: 0,
+            progress: 100,
+            tags: [
+              { label: '产品', type: 'info' },
+              { label: '管理', type: 'warning' }
+            ]
           }
         ],
-        total: 2
+        total: 3
       });
     }, 1000);
   });
@@ -1942,9 +1991,24 @@ function mockListApi22(params) {
   <template #avatar="{ row }">
     <el-avatar :size="40" :src="row.avatar" />
   </template>
-  <template #tags="{ row }">
+  <template #tags-table-slot="{ row }">
     <el-space wrap>
-      <el-tag v-for="tag in row.tags" :key="tag" :type="tag.type"> {{ tag.label }} </el-tag>
+      <el-tag v-for="tag in row.tags" :key="tag.label" :type="tag.type"> {{ tag.label }} </el-tag>
+    </el-space>
+  </template>
+  <template #status-table-slot="{ row }">
+    <el-tag :type="row.status === 1 ? 'success' : 'info'">
+      {{ row.status === 1 ? '在职' : '离职' }}
+    </el-tag>
+  </template>
+  <template #progress-table-slot="{ row }">
+    <el-progress :percentage="row.progress" :stroke-width="8" />
+  </template>
+  <template #action-table-slot="{ row }">
+    <el-space size="small">
+      <LSButton size="small" type="primary">查看</LSButton>
+      <LSButton size="small" type="success">编辑</LSButton>
+      <LSButton size="small" type="danger">删除</LSButton>
     </el-space>
   </template>
 </LSList>
