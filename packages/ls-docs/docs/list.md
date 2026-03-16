@@ -2262,6 +2262,258 @@ function mockListApi25(params) {
 
 :::
 
+### 26. 自定义操作列宽度
+
+<br>
+<ClientOnly>
+<LSList
+  :list-api="mockListApi26"
+  :table-column="column_26"
+  :form-data="formData_26"
+  :form-items="formItems_26"
+  :table-operate-column="{width: 340 }"
+>
+</LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const formData_26 = ref({
+  name: ''
+});
+
+const formItems_26 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_26 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi26(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+```
+
+```html
+<LSList 
+  :list-api="mockListApi26" 
+  :table-column="column_26" 
+  :form-data="formData_26" 
+  :form-items="formItems_26"
+  :table-operate-column="{width: 340 }"
+>
+</LSList>
+```
+
+:::
+
+### 27. 多选案例
+
+<br>
+<ClientOnly>
+<LSList
+  :list-api="mockListApi27"
+  :table-column="column_27"
+  :form-data="formData_27"
+  :form-items="formItems_27"
+  :table-attrs="{
+    showSelect:true,
+    selectColumnOptions:{
+      reserveSelection:true
+    }
+  }"
+>
+</LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const formData_27 = ref({
+  name: ''
+});
+
+const formItems_27 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_27 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi27(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+```
+
+```html
+<LSList 
+  :list-api="mockListApi27" 
+  :table-column="column_27" 
+  :form-data="formData_27" 
+  :form-items="formItems_27"
+  :table-attrs="{
+    showSelect:true,
+    selectColumnOptions:{
+      reserveSelection:true
+    }
+  }"
+>
+</LSList>
+```
+
+:::
+
+### 28. 单选案例
+
+<br>
+<ClientOnly>
+<LSList
+  :list-api="mockListApi28"
+  :table-column="column_28"
+  :form-data="formData_28"
+  :form-items="formItems_28"
+  :table-attrs="{
+    showRadio:true,
+    currentRow: currentSelectedRow,
+    highlightCurrentRow: true,
+  }"
+  :table-listeners="{
+    'current-change': (val:any) => {
+      currentSelectedRow = val;
+    },
+  }"
+>
+</LSList>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const currentSelectedRow = ref([]);
+const formData_28 = ref({
+  name: ''
+});
+
+const formItems_28 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_28 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi28(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+```
+
+```html
+<LSList
+  :list-api="mockListApi28"
+  :table-column="column_28"
+  :form-data="formData_28"
+  :form-items="formItems_28"
+  :table-attrs="{
+    showRadio:true,
+    currentRow: currentSelectedRow,
+    highlightCurrentRow: true,
+  }"
+  :table-listeners="{
+    'current-change': (val:any) => {
+      currentSelectedRow = val;
+    },
+  }"
+>
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -3936,6 +4188,12 @@ const attrTableData = [
     type: 'Boolean',
     value: 'true',
     desc: '是否显示分页'
+  },
+  {
+    name: 'table-operate-column',
+    type: 'Object',
+    value: '{}',
+    desc: '操作列配置，可设置width等属性'
   }
 ];
 
@@ -4073,4 +4331,135 @@ const exposesTableData = [
     type: 'Number'
   }
 ];
+
+const formData_26 = ref({
+  name: ''
+});
+
+const formItems_26 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_26 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi26(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 }
+        ],
+        total: 2
+      });
+    }, 1000);
+  });
+}
+
+const formData_27 = ref({
+  name: ''
+});
+
+const formItems_27 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_27 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi27(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
+const currentSelectedRow = ref([]);
+const formData_28 = ref({
+  name: ''
+});
+
+const formItems_28 = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    placeholder: '请输入姓名'
+  }
+]);
+
+const column_28 = ref([
+  {
+    label: 'ID',
+    prop: 'id',
+    width: 80
+  },
+  {
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    label: '年龄',
+    prop: 'age'
+  }
+]);
+
+function mockListApi28(params) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        records: [
+          { id: 1, name: '张三', age: 25 },
+          { id: 2, name: '李四', age: 30 },
+          { id: 3, name: '王五', age: 22 }
+        ],
+        total: 3
+      });
+    }, 1000);
+  });
+}
 </script>
