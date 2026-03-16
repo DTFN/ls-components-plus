@@ -1755,7 +1755,7 @@ function handleBatchExport() {
 <LSList
   :list-api="mockListApi21"
   :table-column="column_21"
-  :table-attrs="{ 'row-key': 'id', 'default-expand-all': true }"
+  :table-attrs="{ 'row-key': 'id', 'value-expand-all': true }"
   :show-pagination="false"
   :form-data="formData_21"
   :form-items="formItems_21"
@@ -1832,7 +1832,7 @@ function mockListApi21(params) {
 <LSList
   :list-api="mockListApi21"
   :table-column="column_21"
-  :table-attrs="{ 'row-key': 'id', 'default-expand-all': true }"
+  :table-attrs="{ 'row-key': 'id', 'value-expand-all': true }"
   :show-pagination="false"
   :form-data="formData_21"
   :form-items="formItems_21"
@@ -3652,354 +3652,425 @@ const attrTableData = [
   {
     name: 'list-api',
     type: 'Function',
-    default: '',
-    description: '列表数据接口，返回Promise'
+    value: '',
+    desc: '列表数据接口，返回Promise'
   },
   {
     name: 'table-column',
     type: 'Array',
-    default: '[]',
-    description: '表格列配置'
+    value: '[]',
+    desc: '表格列配置'
   },
   {
     name: 'form-data',
     type: 'Object',
-    default: '{}',
-    description: '表单数据'
+    value: '{}',
+    desc: '表单数据'
   },
   {
     name: 'form-items',
     type: 'Array',
-    default: '[]',
-    description: '表单表单项配置'
+    value: '[]',
+    desc: '表单表单项配置'
   },
   {
     name: 'show-form',
     type: 'Boolean',
-    default: 'true',
-    description: '是否显示表单'
+    value: 'true',
+    desc: '是否显示表单'
   },
   {
     name: 'show-operate',
     type: 'Boolean',
-    default: 'true',
-    description: '是否显示操作按钮区域'
+    value: 'true',
+    desc: '是否显示操作按钮区域'
   },
   {
     name: 'show-add',
     type: 'Boolean',
-    default: 'true',
-    description: '是否显示添加按钮'
+    value: 'true',
+    desc: '是否显示添加按钮'
   },
   {
     name: 'add-route-path',
     type: 'String',
-    default: '',
-    description: '添加页面路由'
+    value: '',
+    desc: '添加页面路由'
   },
   {
     name: 'edit-route-path',
     type: 'String',
-    default: '',
-    description: '编辑页面路由'
+    value: '',
+    desc: '编辑页面路由'
   },
   {
     name: 'detail-route-path',
     type: 'String',
-    default: '',
-    description: '详情页面路由'
+    value: '',
+    desc: '详情页面路由'
   },
   {
     name: 'show-table-operate',
     type: 'Boolean',
-    default: 'true',
-    description: '是否显示表格操作列'
+    value: 'true',
+    desc: '是否显示表格操作列'
   },
   {
     name: 'show-table-detail',
     type: 'Boolean/Function',
-    default: 'true',
-    description: '是否显示详情按钮'
+    value: 'true',
+    desc: '是否显示详情按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'show-table-edit',
     type: 'Boolean/Function',
-    default: 'true',
-    description: '是否显示编辑按钮'
+    value: 'true',
+    desc: '是否显示编辑按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'show-table-del',
     type: 'Boolean/Function',
-    default: 'true',
-    description: '是否显示删除按钮'
+    value: 'true',
+    desc: '是否显示删除按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'show-table-switch',
     type: 'Boolean',
-    default: 'false',
-    description: '是否显示状态开关'
+    value: 'false',
+    desc: '是否显示状态开关'
   },
   {
     name: 'switch-prop',
     type: 'String',
-    default: 'status',
-    description: '开关状态字段'
+    value: 'status',
+    desc: '开关状态字段'
   },
   {
     name: 'switch-api',
     type: 'Function',
-    default: '',
-    description: '开关切换接口'
+    value: '',
+    desc: '开关切换接口'
   },
   {
     name: 'del-api',
     type: 'Function',
-    default: '',
-    description: '删除接口'
+    value: '',
+    desc: '删除接口'
   },
   {
     name: 'table-detail-text',
-    type: 'String',
-    default: '详情',
-    description: '详情按钮文本'
+    type: 'String/Function',
+    value: '详情',
+    desc: '详情按钮文本，可传入函数根据行数据动态生成'
   },
   {
     name: 'table-edit-text',
-    type: 'String',
-    default: '编辑',
-    description: '编辑按钮文本'
+    type: 'String/Function',
+    value: '编辑',
+    desc: '编辑按钮文本，可传入函数根据行数据动态生成'
   },
   {
     name: 'table-del-text',
-    type: 'String',
-    default: '删除',
-    description: '删除按钮文本'
+    type: 'String/Function',
+    value: '删除',
+    desc: '删除按钮文本，可传入函数根据行数据动态生成'
   },
   {
     name: 'add-btn-text',
     type: 'String',
-    default: '添加',
-    description: '添加按钮文本'
+    value: '添加',
+    desc: '添加按钮文本'
   },
   {
     name: 'disabled-add-btn',
     type: 'Boolean',
-    default: 'false',
-    description: '是否禁用添加按钮'
+    value: 'false',
+    desc: '是否禁用添加按钮'
   },
   {
     name: 'disabled-table-detail',
-    type: 'Boolean',
-    default: 'false',
-    description: '是否禁用详情按钮'
+    type: 'Boolean/Function',
+    value: 'false',
+    desc: '是否禁用详情按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'disabled-table-edit',
-    type: 'Boolean',
-    default: 'false',
-    description: '是否禁用编辑按钮'
+    type: 'Boolean/Function',
+    value: 'false',
+    desc: '是否禁用编辑按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'disabled-table-del',
-    type: 'Boolean',
-    default: 'false',
-    description: '是否禁用删除按钮'
+    type: 'Boolean/Function',
+    value: 'false',
+    desc: '是否禁用删除按钮，可传入函数根据行数据动态判断'
+  },
+  {
+    name: 'disabled-table-switch',
+    type: 'Boolean/Function',
+    value: 'false',
+    desc: '是否禁用开关按钮，可传入函数根据行数据动态判断'
   },
   {
     name: 'add-btn-attrs',
     type: 'Object',
-    default: '{}',
-    description: '添加按钮属性'
+    value: '{}',
+    desc: '添加按钮属性'
   },
   {
     name: 'table-detail-fn',
     type: 'Function',
-    default: '',
-    description: '详情按钮点击事件'
+    value: '',
+    desc: '详情按钮点击事件'
   },
   {
     name: 'table-edit-fn',
     type: 'Function',
-    default: '',
-    description: '编辑按钮点击事件'
+    value: '',
+    desc: '编辑按钮点击事件'
   },
   {
     name: 'table-del-fn',
     type: 'Function',
-    default: '',
-    description: '删除按钮点击事件'
+    value: '',
+    desc: '删除按钮点击事件'
   },
   {
     name: 'add-fn',
     type: 'Function',
-    default: '',
-    description: '添加按钮点击事件'
+    value: '',
+    desc: '添加按钮点击事件'
   },
   {
     name: 'query-fn',
     type: 'Function',
-    default: '',
-    description: '查询按钮点击事件'
+    value: '',
+    desc: '查询按钮点击事件'
   },
   {
     name: 'reset-fn',
     type: 'Function',
-    default: '',
-    description: '重置按钮点击事件'
+    value: '',
+    desc: '重置按钮点击事件'
   },
   {
     name: 'deal-params',
     type: 'Function',
-    default: '',
-    description: '处理接口参数'
+    value: '',
+    desc: '处理接口参数'
   },
   {
     name: 'deal-data',
     type: 'Function',
-    default: '',
-    description: '处理接口返回数据'
+    value: '',
+    desc: '处理接口返回数据'
+  },
+  {
+    name: 'deal-del-params',
+    type: 'Function',
+    value: '',
+    desc: '处理删除接口参数'
+  },
+  {
+    name: 'deal-switch-params',
+    type: 'Function',
+    value: '',
+    desc: '处理开关接口参数'
   },
   {
     name: 'popconfirm-txt',
+    type: 'String/Function',
+    value: '是否删除当前行数据？',
+    desc: '删除确认文本，可传入函数根据行数据动态生成'
+  },
+  {
+    name: 'table-switch-pop-txt',
     type: 'String',
-    default: '确定删除吗？',
-    description: '删除确认文本'
+    value: '请问是否关闭？',
+    desc: '开关操作确认文本'
+  },
+  {
+    name: 'table-switch-pop-attrs',
+    type: 'Object',
+    value: '{}',
+    desc: '开关操作确认弹窗属性'
   },
   {
     name: 'del-message',
-    type: 'String',
-    default: '删除成功',
-    description: '删除成功提示信息'
+    type: 'String/Function',
+    value: '删除成功',
+    desc: '删除成功提示信息，可传入函数根据行数据动态生成'
   },
   {
     name: 'table-del-pop-attrs',
     type: 'Object',
-    default: '{}',
-    description: '删除确认弹窗属性'
+    value: '{}',
+    desc: '删除确认弹窗属性'
   },
   {
     name: 'show-skeleton',
     type: 'Boolean',
-    default: 'false',
-    description: '是否显示骨架屏'
+    value: 'false',
+    desc: '是否显示骨架屏'
   },
   {
     name: 'skeleton-attrs',
     type: 'Object',
-    default: '{}',
-    description: '骨架屏属性'
+    value: '{}',
+    desc: '骨架屏属性'
   },
   {
     name: 'table-attrs',
     type: 'Object',
-    default: '{}',
-    description: '表格属性'
+    value: '{}',
+    desc: '表格属性'
   },
   {
     name: 'list-hook-config',
     type: 'Object',
-    default: '{}',
-    description: '列表hook配置'
+    value: '{}',
+    desc: '列表hook配置'
   },
   {
     name: 'show-pagination',
     type: 'Boolean',
-    default: 'true',
-    description: '是否显示分页'
+    value: 'true',
+    desc: '是否显示分页'
   }
 ];
 
 const eventsTableData = [
   {
     name: 'submit-form',
-    description: '表单提交事件',
-    params: 'formData'
+    desc: '表单提交事件',
+    type: 'Function',
+    value: 'formData'
   },
   {
     name: 'reset-form',
-    description: '表单重置事件',
-    params: 'formData'
+    desc: '表单重置事件',
+    type: 'Function',
+    value: 'formData'
   },
   {
     name: 'handle-loading',
-    description: '加载状态变化事件',
-    params: 'loading'
+    desc: '加载状态变化事件',
+    type: 'Function',
+    value: 'loading'
   },
   {
     name: 'handle-current-page',
-    description: '页码变化事件',
-    params: 'page'
+    desc: '页码变化事件',
+    type: 'Function',
+    value: 'page'
   },
   {
     name: 'handle-page-size',
-    description: '每页条数变化事件',
-    params: 'size'
+    desc: '每页条数变化事件',
+    type: 'Function',
+    value: 'size' 
   },
   {
     name: 'del-success',
-    description: '删除成功事件',
-    params: 'row, res'
+    desc: '删除成功事件',
+    type: 'Function',
+    value: 'row, res'
   },
   {
     name: 'switch-success',
-    description: '开关切换成功事件',
-    params: 'row, status'
+    desc: '开关切换成功事件',
+    type: 'Function',
+    value: 'row, status'
   }
 ];
 
 const slotTableData = [
   {
     name: 'operate',
-    description: '操作按钮区域插槽'
+    desc: '操作按钮区域插槽'
   },
   {
     name: 'operate-prepend',
-    description: '操作按钮区域前置插槽'
+    desc: '操作按钮区域前置插槽'
   },
   {
     name: 'operate-append',
-    description: '操作按钮区域后置插槽'
+    desc: '操作按钮区域后置插槽'
   },
   {
     name: 'form-append',
-    description: '表单区域后置插槽'
+    desc: '表单区域后置插槽'
   },
   {
     name: 'table-operate-prepend',
-    description: '表格操作列前置插槽',
-    params: '{ row, column, $index }'
+    desc: '表格操作列前置插槽',
   },
   {
     name: 'table-operate-append',
-    description: '表格操作列后置插槽',
-    params: '{ row, column, $index }'
+    desc: '表格操作列后置插槽',
   }
 ];
 
 const exposesTableData = [
   {
     name: 'TableRef',
-    description: '表格组件引用'
+    desc: '表格组件引用',
+    type: 'Object'
   },
   {
     name: 'FormRef',
-    description: '表单组件引用'
-  },
-  {
-    name: 'search',
-    description: '搜索方法'
-  },
-  {
-    name: 'reset',
-    description: '重置方法'
-  },
-  {
-    name: 'refresh',
-    description: '刷新列表方法'
+    desc: '表单组件引用',
+    type: 'Object'
   },
   {
     name: 'loadData',
-    description: '加载数据方法'
+    desc: '加载数据方法',
+    type: 'Function'
+  },
+  {
+    name: 'handleReset',
+    desc: '重置方法',
+    type: 'Function'
+  },
+  {
+    name: 'setCurrentPage',
+    desc: '设置当前页码',
+    type: 'Function'
+  },
+  {
+    name: 'setPageSize',
+    desc: '设置每页条数',
+    type: 'Function'
+  },
+  {
+    name: 'isFirst',
+    desc: '是否首次加载',
+    type: 'Boolean'
+  },
+  {
+    name: 'loading',
+    desc: '加载状态',
+    type: 'Boolean' 
+  },
+  {
+    name: 'routePath',
+    desc: '当前路由路径',
+    type: 'String'
+  },
+  {
+    name: 'currentPage',
+    desc: '当前页码',
+    type: 'Number'
+  },
+  {
+    name: 'pageSize',
+    desc: '每页条数',
+    type: 'Number'
+  },
+  {
+    name: 'total',
+    desc: '总条数',
+    type: 'Number'
   }
 ];
 </script>
