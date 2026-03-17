@@ -1008,6 +1008,141 @@ const slotFormItems = ref([
 </LSForm>
 ```
 
+### 12. 上传组件案例
+
+展示如何在表单中使用LSUpload上传组件，通过插槽方式实现。
+
+<ClientOnly>
+  <div class="demo-container">
+    <LSForm
+      :form-data="uploadFormData"
+      :form-items="uploadFormItems"
+      confirm-text="提交"
+    >
+      <template #avatar-slot-slot="{ value, updateFormData }">
+        <LSUpload
+          v-model="uploadFormData.avatar"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :item="{ isCover: false, limit: 1 }"
+          list-type="picture-card"
+        >
+          <template #trigger>
+            <div v-if="value" class="upload-preview">
+              <img :src="value" alt="avatar" class="avatar" />
+            </div>
+            <LSButton v-else type="primary">上传头像</LSButton>
+          </template>
+        </LSUpload>
+      </template>
+      <template #images-slot="{ value, updateFormData }">
+        <LSUpload
+          v-model="uploadFormData.images"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :item="{ isCover: false, limit: 5 }"
+          list-type="picture-card"
+          multiple
+        />
+      </template>
+      <template #files-slot="{ value, updateFormData }">
+        <LSUpload
+          v-model="uploadFormData.files"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :item="{ isCover: false, limit: 3 }"
+          multiple
+        >
+          <template #trigger>
+            <LSButton type="primary">点击上传文件</LSButton>
+          </template>
+        </LSUpload>
+      </template>
+    </LSForm>
+  </div>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import { ref } from 'vue'
+
+const uploadFormData = ref({
+  username: '',
+  avatar: '',
+  images: [],
+  files: []
+})
+
+const uploadFormItems = ref([
+  {
+    type: 'input',
+    label: '用户名',
+    prop: 'username',
+    attrs: { placeholder: '请输入用户名' }
+  },
+  {
+    type: 'itemSlot',
+    label: '头像上传',
+    prop: 'avatar-slot',
+  },
+  {
+    type: 'slot',
+    label: '图片上传',
+    prop: 'images-slot',
+  },
+  {
+    type: 'slot',
+    label: '文件上传',
+    prop: 'files-slot',
+  }
+])
+```
+
+```html
+<LSForm
+  :form-data="uploadFormData"
+  :form-items="uploadFormItems"
+  confirm-text="提交"
+>
+  <template #avatar-slot-slot="{ value, updateFormData }">
+    <LSUpload
+      v-model="uploadFormData.avatar"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :item="{ isCover: false, limit: 1 }"
+      list-type="picture-card"
+    >
+      <template #trigger>
+        <div v-if="value" class="upload-preview">
+          <img :src="value" alt="avatar" class="avatar" />
+        </div>
+        <LSButton v-else type="primary">上传头像</LSButton>
+      </template>
+    </LSUpload>
+  </template>
+  <template #images-slot="{ value, updateFormData }">
+    <LSUpload
+      v-model="uploadFormData.images"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :item="{ isCover: false, limit: 5 }"
+      list-type="picture-card"
+      multiple
+    />
+  </template>
+  <template #files-slot="{ value, updateFormData }">
+    <LSUpload
+      v-model="uploadFormData.files"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :item="{ isCover: false, limit: 3 }"
+      multiple
+    >
+      <template #trigger>
+        <LSButton type="primary">点击上传文件</LSButton>
+      </template>
+    </LSUpload>
+  </template>
+</LSForm>
+```
+
+:::
+
 ## API 文档
 
 ### 1. 属性
@@ -1685,6 +1820,38 @@ const slotFormItems = ref([
     label: '自定义滑块',
     prop: 'custom-slot',
     isRow: true
+  }
+])
+
+// 上传组件案例
+const uploadFormData = ref({
+  username: '',
+  avatar: '',
+  images: [],
+  files: []
+})
+
+const uploadFormItems = ref([
+  {
+    type: 'input',
+    label: '用户名',
+    prop: 'username',
+    attrs: { placeholder: '请输入用户名' }
+  },
+  {
+    type: 'itemSlot',
+    label: '头像上传',
+    prop: 'avatar-slot',
+  },
+  {
+    type: 'slot',
+    label: '图片上传',
+    prop: 'images-slot',
+  },
+  {
+    type: 'slot',
+    label: '文件上传',
+    prop: 'files-slot',
   }
 ])
 
