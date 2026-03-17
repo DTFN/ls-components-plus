@@ -9,7 +9,7 @@ outline: deep
 
 ## 使用方式
 
-### 普通覆盖上传
+### 1. 普通覆盖上传
 
 <br />
 <ClientOnly>
@@ -25,7 +25,7 @@ const action = ref('http://192.168.1.33:3001/upload');
 <LSUpload :action="action"></LSUpload>
 ```
 
-### 普通非覆盖上传
+### 2. 普通非覆盖上传
 
 <br />
 <ClientOnly>
@@ -44,7 +44,7 @@ const item1 = ref({
 <LSUpload :action="action" :item="item1"></LSUpload>
 ```
 
-### 限制上传文件格式和大小
+### 3. 限制上传文件格式和大小
 
 <br />
 <ClientOnly>
@@ -63,7 +63,7 @@ const item2 = ref({
 <LSUpload :action="action" :item="item2"></LSUpload>
 ```
 
-### 手动上传
+### 4. 手动上传
 
 <br />
 <ClientOnly>
@@ -90,7 +90,7 @@ function httpResponseFunc(res) {
 <LSUpload action="#" :auto-upload="false" :item="item3" @http-response-func="httpResponseFunc"></LSUpload>
 ```
 
-### 拖拽上传
+### 5. 拖拽上传
 
 <br />
 <ClientOnly>
@@ -105,7 +105,7 @@ const action = ref('http://192.168.1.33:3001/upload');
 <LSUpload :action="action" :drag="true"></LSUpload>
 ```
 
-### 图片上传
+### 6. 图片上传
 
 <br />
 
@@ -121,7 +121,7 @@ const action = ref('http://192.168.1.33:3001/upload');
 <LSUpload list-type="picture-card" :action="action"> </LSUpload>
 ```
 
-### 表单验证
+### 7. 表单验证
 
 <br />
 <!-- <LSForm
@@ -257,7 +257,7 @@ function formValidateFunc() {
 
 :::
 
-### 用户头像模式
+### 8. 用户头像模式
 
 <br />
 <ClientOnly>
@@ -276,7 +276,7 @@ const fileList = ref([{ name: '', url: '' }]);
 <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
 ````
 
-### 自定义上传按钮
+### 9. 自定义上传按钮
 
 <ClientOnly>
   <LSUpload :action="action">
@@ -294,7 +294,7 @@ const fileList = ref([{ name: '', url: '' }]);
 </LSUpload>
 ```
 
-### 带数量限制的上传
+### 10. 带数量限制的上传
 
 <ClientOnly>
   <LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
@@ -311,10 +311,10 @@ const item6 = ref({
 <LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
 ```
 
-### 带删除确认的上传
+### 11. 带删除确认的上传
 
 <ClientOnly>
-  <LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
+  <LSUpload :action="action" multiple :before-remove="handleRemove"></LSUpload>
 </ClientOnly>
 
 ```js
@@ -333,7 +333,7 @@ function handleRemove(file, fileList) {
 <LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
 ```
 
-### 带背景图片的上传
+### 12. 带背景图片的上传
 
 <ClientOnly>
   <LSUpload :action="action" :item="item7"></LSUpload>
@@ -350,7 +350,7 @@ const item7 = ref({
 <LSUpload :action="action" :item="item7"></LSUpload>
 ```
 
-### 多文件上传带预览
+### 13. 多文件上传带预览
 
 <ClientOnly>
   <LSUpload :action="action" multiple list-type="picture-card" :item="item8"></LSUpload>
@@ -367,7 +367,7 @@ const item8 = ref({
 <LSUpload :action="action" multiple list-type="picture-card" :limit="5" :item="item8"></LSUpload>
 ```
 
-### 带进度条的上传
+### 14. 带进度条的上传
 
 <ClientOnly>
   <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
@@ -391,7 +391,7 @@ const item9 = ref({
 <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
 ```
 
-### 自定义文件列表项
+### 15. 自定义文件列表项
 
 <ClientOnly>
   <LSUpload :action="action" multiple :item="item10">
@@ -427,7 +427,7 @@ function handleCustomRemove(file) {
 </LSUpload>
 ```
 
-### 与其他组件的集成
+### 16. 与其他组件的集成
 
 <ClientOnly>
   <el-card shadow="hover" style="width: 400px">
@@ -483,7 +483,7 @@ const item11 = ref({
 </el-card>
 ```
 
-### 拖拽上传带背景图片
+### 17. 拖拽上传带背景图片
 
 <ClientOnly>
   <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
@@ -501,7 +501,7 @@ const item12 = ref({
 <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
 ```
 
-### 图片上传带背景
+### 18. 图片上传带背景
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
@@ -521,7 +521,7 @@ const item13 = ref({
 <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
 ```
 
-### 多文件上传带进度条
+### 19. 多文件上传带进度条
 
 <ClientOnly>
   <LSUpload :action="action" multiple :show-file-list="true" :item="item14"></LSUpload>
@@ -550,7 +550,7 @@ const item14 = ref({
 <LSUpload :action="action" multiple :limit="3" :show-file-list="true" :item="item14"></LSUpload>
 ```
 
-### 自定义文件预览
+### 20. 自定义文件预览
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture" :item="item15">
@@ -625,7 +625,7 @@ const item15 = ref({
 </style>
 ```
 
-### 自动上传与手动上传切换
+### 21. 自动上传与手动上传切换
 
 <ClientOnly>
   <div class="upload-mode-toggle">
@@ -731,11 +731,11 @@ function handleSubmitUpload() {
 
 ## API
 
-### Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
+### 1. Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 属性详细说明
+#### 1.1 属性详细说明
 
 | 属性名            | 类型     | 默认值 | 说明                            | 使用场景                       | 注意事项                       |
 | ----------------- | -------- | ------ | ------------------------------- | ------------------------------ | ------------------------------ |
@@ -761,11 +761,11 @@ function handleSubmitUpload() {
 | beforeUpload      | function | -      | 上传前的钩子函数                | 上传前的验证和处理             | 返回false可阻止上传            |
 | onRemove          | function | -      | 文件删除前的钩子函数            | 删除文件前的确认和处理         | 返回false可阻止删除            |
 
-### Events
+### 2. Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
-#### 事件详细说明
+#### 2.1 事件详细说明
 
 | 事件名             | 说明             | 参数        | 使用场景                         |
 | ------------------ | ---------------- | ----------- | -------------------------------- |
@@ -777,7 +777,7 @@ function handleSubmitUpload() {
 | error              | 上传失败回调     | error, file, fileList | 上传失败时触发，用于处理失败逻辑 |
 | remove             | 文件移除回调     | file, fileList | 文件被移除时触发，用于处理移除逻辑 |
 
-### Slots
+### 3. Slots
 
 | 插槽名  | 说明               | 使用场景                 | 注意事项                       |
 | ------- | ------------------ | ------------------------ | ------------------------------ |
@@ -786,7 +786,7 @@ function handleSubmitUpload() {
 | tip     | 上传提示信息       | 自定义上传提示           | 可用于添加详细的上传规则说明   |
 | file    | 文件列表项         | 自定义文件列表项的内容   | 可用于自定义文件的显示样式和操作 |
 
-### 方法
+### 4. 方法
 
 | 方法名    | 说明               | 参数        | 使用场景                 |
 | --------- | ------------------ | ----------- | ------------------------ |
@@ -919,7 +919,7 @@ function handleCustomRemove(file) {
   }
 }
 const fileList = ref([
-  {name:'', url: ''}
+  {name:'', url: 'http://192.168.1.33:8008/images/fish1.png'}
 ])
 
   const ruleFormRef = ref();
@@ -1119,3 +1119,46 @@ const fileList = ref([
     }
   ])
 </script>
+
+<style scoped>
+.custom-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #f5f7fa;
+}
+
+.preview-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.preview-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preview-info span {
+  font-size: 14px;
+  color: #606266;
+}
+
+.upload-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+:deep(.el-upload-list) {
+  padding: 0 !important;
+}
+</style>
