@@ -4337,62 +4337,74 @@ const exposesTableData = [
   {
     name: 'TableRef',
     desc: '表格组件引用',
-    type: 'Object'
+    type: 'Object',
+    value: '{}',
   },
   {
     name: 'FormRef',
     desc: '表单组件引用',
-    type: 'Object'
+    type: 'Object',
+    value: '{}',
   },
   {
     name: 'loadData',
     desc: '加载数据方法',
-    type: 'Function'
+    type: 'Function',
+    value: '',
   },
   {
     name: 'handleReset',
     desc: '重置方法',
-    type: 'Function'
+    type: 'Function',
+    value: '',
   },
   {
     name: 'setCurrentPage',
     desc: '设置当前页码',
-    type: 'Function'
+    type: 'Function',
+    value: '',
   },
   {
     name: 'setPageSize',
     desc: '设置每页条数',
-    type: 'Function'
+    type: 'Function',
+    value: '',
   },
   {
     name: 'isFirst',
     desc: '是否首次加载',
-    type: 'Boolean'
+    type: 'Boolean',
+    value: 'true',
   },
   {
     name: 'loading',
     desc: '加载状态',
-    type: 'Boolean' 
+    type: 'Boolean',
+    value: 'false',
   },
   {
     name: 'routePath',
     desc: '当前路由路径',
-    type: 'String'
+    type: 'String',
+    value: ''
   },
   {
     name: 'currentPage',
     desc: '当前页码',
-    type: 'Number'
+    type: 'Number',
+    value: '1'
   },
   {
     name: 'pageSize',
     desc: '每页条数',
-    type: 'Number'
+    type: 'Number',
+    value: '20'
   },
   {
     name: 'total',
     desc: '总条数',
-    type: 'Number'
+    type: 'Number',
+    value: '0'
   }
 ];
 
