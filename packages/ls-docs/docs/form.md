@@ -1143,7 +1143,6 @@ const uploadFormItems = ref([
 
 :::
 
-
 ## API
 
 ### LSForm
@@ -1183,463 +1182,784 @@ const uploadFormItems = ref([
 <ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData_1" />
 
 <script setup>
-import { ElFormItem,ElButton,ElSwitch } from 'element-plus';
-import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { ElInput, ElOption, ElSelect, ElButton, ElSlider } from 'element-plus'
 
-const read=ref(false)
-
-const formData_1 = ref({
-  name: undefined,
-  type: undefined,
-  type1: undefined,
-  type2: undefined,
-  count: undefined,
-  date: undefined,
-  datetime: undefined,
-  city: [],
-  open: false,
-  remark: undefined,
+// 示例1：基础表单
+const basicFormData = ref({
+  username: '',
+  password: ''
 })
 
-const formItems_1 = [
+const basicFormItems = ref([
   {
     type: 'input',
-    label: '活动名称',
-    prop: 'name',
-    rules: {
-      required: true,
-      message: '请输入活动名称',
-      trigger: 'blur',
-    },
+    label: '用户名',
+    prop: 'username',
+    rules: [
+      {
+        required: true,
+        message: '请输入用户名',
+        trigger: 'blur'
+      }
+    ]
   },
   {
-    type: 'select',
-    label: '活动类型',
-    prop: 'type',
-    rules: {
-      required: true,
-      message: '请选择活动类型',
-      trigger: 'blur',
-    },
+    type: 'input',
+    label: '密码',
+    prop: 'password',
     attrs: {
-      multiple: true,
+      'show-password': true
     },
-    options: [
+    rules: [
       {
-        label: '体育',
-        value: 1,
-      },
-      {
-        label: '唱歌',
-        value: 2,
-      },
-      {
-        label: '美食',
-        value: 3,
-      },
-      {
-        label: '摄影',
-        value: 4,
-      },
-    ],
+        required: true,
+        message: '请输入密码',
+        trigger: 'blur'
+      }
+    ]
+  }
+])
+
+function handleBasicSubmit(form) {
+  console.log('基础表单提交:', form)
+}
+
+// 示例2：表单验证案例
+const validationFormData = ref({
+  email: '',
+  phone: '',
+  website: '',
+  age: undefined
+})
+
+const validationFormItems = ref([
+  {
+    type: 'input',
+    label: '邮箱',
+    prop: 'email',
+    rules: [
+      { required: true, message: '请输入邮箱', trigger: 'blur' },
+      { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
+    ]
   },
   {
-    type: 'radio',
-    label: '活动类型',
-    prop: 'type1',
-    rules: {
-      required: true,
-      message: '请选择活动类型',
-      trigger: 'blur',
-    },
-    attrs: {
-      multiple: true,
-    },
-    options: [
-      {
-        label: '体育',
-        value: 1,
-      },
-      {
-        label: '唱歌',
-        value: 2,
-      },
-      {
-        label: '美食',
-        value: 3,
-      },
-      {
-        label: '摄影',
-        value: 4,
-      },
-    ],
+    type: 'input',
+    label: '手机号',
+    prop: 'phone',
+    rules: [
+      { required: true, message: '请输入手机号', trigger: 'blur' },
+      { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' }
+    ]
   },
   {
-    type: 'checkbox',
-    label: '活动类型',
-    prop: 'type2',
-    rules: {
-      required: true,
-      message: '请选择活动类型',
-      trigger: 'blur',
-    },
-    attrs: {
-      multiple: true,
-    },
-    options: [
-      {
-        label: '体育',
-        value: 1,
-      },
-      {
-        label: '唱歌',
-        value: 2,
-      },
-      {
-        label: '美食',
-        value: 3,
-      },
-      {
-        label: '摄影',
-        value: 4,
-      },
-    ],
+    type: 'input',
+    label: '网站',
+    prop: 'website',
+    rules: [
+      { type: 'url', message: '请输入正确的网址格式', trigger: 'blur' }
+    ]
   },
   {
     type: 'number',
-    label: '活动人数',
-    prop: 'count',
-    rules: {
-      required: true,
-      message: '请输入活动人数',
-      trigger: 'blur',
-    },
-    attrs: {
-      max: 10,
-    },
-    tooltip: '最多人数10人',
+    label: '年龄',
+    prop: 'age',
+    rules: [
+      { required: true, message: '请输入年龄', trigger: 'blur' },
+      { min: 18, max: 100, message: '年龄必须在18-100之间', trigger: 'blur' }
+    ]
+  }
+])
+
+function handleValidationSubmit(form) {
+  console.log('验证表单提交:', form)
+}
+
+// 示例3：禁用表单案例
+const disabledFormData = ref({
+  name: '张三',
+  gender: 'male',
+  status: true
+})
+
+const disabledFormItems = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name'
   },
   {
-    type: 'date',
-    label: '活动日期',
-    prop: 'date',
-    dateFormat:'YYYY-MM-DD',
-    rules: {
-      required: true,
-      message: '请选择活动日期',
-      trigger: 'blur',
-    },
-  },
-  {
-    type: 'date',
-    label: '活动时间',
-    prop: 'datetime',
-    rules: {
-      required: true,
-      message: '请选择活动日期',
-      trigger: 'blur',
-    },
-    attrs: {
-      type: 'datetime',
-    },
-  },
-  {
-    type: 'cascader',
-    label: '活动城市',
-    prop: 'city',
-    rules: {
-      required: true,
-      message: '请选择活动城市',
-      trigger: 'blur',
-    },
+    type: 'select',
+    label: '性别',
+    prop: 'gender',
     options: [
-      {
-        value: 'shanghai',
-        label: '上海',
-        children: [
-          {
-            value: 'pdxq',
-            label: '浦东新区',
-          },
-          {
-            value: 'hp',
-            label: '黄浦区',
-          },
-          {
-            value: 'xh',
-            label: '徐汇区',
-          },
-        ],
-      },
-      {
-        value: 'sichuan',
-        label: '四川',
-        children: [
-          {
-            value: 'chengdu',
-            label: '成都市',
-          },
-          {
-            value: 'leshan',
-            label: '乐山市',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'inputNumberRange',
-    label: '活动人数范围',
-    prop: 'numberRange'
+      { label: '男', value: 'male' },
+      { label: '女', value: 'female' }
+    ]
   },
   {
     type: 'switch',
-    label: '是否开启',
-    prop: 'open',
+    label: '状态',
+    prop: 'status'
+  }
+])
+
+// 示例4：自定义按钮案例
+const customButtonFormData = ref({
+  name: '',
+  description: ''
+})
+
+const customButtonFormItems = ref([
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name',
+    rules: [{ required: true, message: '请输入名称', trigger: 'blur' }]
   },
   {
     type: 'textarea',
-    label: '备注',
-    prop: 'remark',
-  },
-]
-
-function submitFn(val){
-  console.log('submit success!', val);
-}
-
-const formData_2 = ref({
-  label: '嵌套表单',
-  item_1: [
-    {
-      name: undefined,
-      age: undefined
-    }
-  ],
-  item_2: [
-    {
-      type: undefined,
-      open: false
-    }
-  ]
-});
-
-const formItems_2 = [
-  {
-    type: 'label',
-    label: '标题',
-    prop: 'label'
-  },
-  {
-    type: 'itemSlot',
-    label: '第一段',
-    prop: 'item_1'
-  },
-  {
-    type: 'slot',
-    label: '第二段',
-    prop: 'item_2'
+    label: '描述',
+    prop: 'description'
   }
-];
+])
 
-const item_1_form = [
+// 示例5：表单布局案例
+const layoutFormData = ref({
+  name: '',
+  age: undefined,
+  gender: '',
+  email: '',
+  phone: '',
+  address: ''
+})
+
+const layoutFormItems = ref([
   {
     type: 'input',
     label: '姓名',
     prop: 'name',
-    required: true
+    rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
   },
   {
     type: 'number',
     label: '年龄',
     prop: 'age'
-  }
-];
-
-const item_2_form = [
+  },
   {
     type: 'select',
-    label: '类型',
-    prop: 'type',
-    rules: {
-      required: true,
-      message: '请选择活动类型',
-      trigger: 'blur'
-    },
+    label: '性别',
+    prop: 'gender',
+    options: [
+      { label: '男', value: 'male' },
+      { label: '女', value: 'female' }
+    ]
+  },
+  {
+    type: 'input',
+    label: '邮箱',
+    prop: 'email'
+  },
+  {
+    type: 'input',
+    label: '手机号',
+    prop: 'phone'
+  },
+  {
+    type: 'input',
+    label: '地址',
+    prop: 'address'
+  }
+])
+
+const inlineFormData = ref({
+  keyword: '',
+  category: '',
+  status: ''
+})
+
+const inlineFormItems = ref([
+  {
+    type: 'input',
+    label: '关键词',
+    prop: 'keyword',
+    attrs: { placeholder: '请输入关键词' }
+  },
+  {
+    type: 'select',
+    label: '分类',
+    prop: 'category',
+    options: [
+      { label: '全部', value: '' },
+      { label: '产品', value: 'product' },
+      { label: '服务', value: 'service' }
+    ]
+  },
+  {
+    type: 'select',
+    label: '状态',
+    prop: 'status',
+    options: [
+      { label: '全部', value: '' },
+      { label: '启用', value: 'active' },
+      { label: '禁用', value: 'inactive' }
+    ]
+  }
+])
+
+// 示例6：动态表单项案例
+const dynamicFormData = ref({
+  formName: '',
+  fields: [
+    { name: '', type: 'input' }
+  ]
+})
+
+const dynamicFormItems = ref([
+  {
+    type: 'input',
+    label: '表单名称',
+    prop: 'formName',
+    rules: [{ required: true, message: '请输入表单名称', trigger: 'blur' }]
+  },
+  {
+    type: 'slot',
+    label: '动态字段',
+    prop: 'dynamic-fields',
+    isRow: true
+  }
+])
+
+function addField() {
+  dynamicFormData.value.fields.push({ name: '', type: 'input' })
+}
+
+function removeField(index) {
+  dynamicFormData.value.fields.splice(index, 1)
+}
+
+// 示例7：各种表单项类型案例
+const allTypesFormData = ref({
+  input: '',
+  textarea: '',
+  number: undefined,
+  radio: 'option1',
+  checkbox: ['option1', 'option3'],
+  select: '',
+  date: '',
+  datetimerange: [],
+  timePicker: '',
+  timeSelect: '',
+  cascader: [],
+  switch: false
+})
+
+const allTypesFormItems = ref([
+  {
+    type: 'input',
+    label: '文本输入',
+    prop: 'input',
+    attrs: { placeholder: '请输入文本' }
+  },
+  {
+    type: 'textarea',
+    label: '文本域',
+    prop: 'textarea',
+    attrs: { placeholder: '请输入多行文本', rows: 3 }
+  },
+  {
+    type: 'number',
+    label: '数字输入',
+    prop: 'number',
+    attrs: { placeholder: '请输入数字' }
+  },
+  {
+    type: 'radio',
+    label: '单选框',
+    prop: 'radio',
+    options: [
+      { label: '选项1', value: 'option1' },
+      { label: '选项2', value: 'option2' }
+    ]
+  },
+  {
+    type: 'checkbox',
+    label: '复选框',
+    prop: 'checkbox',
+    options: [
+      { label: '选项1', value: 'option1' },
+      { label: '选项2', value: 'option2' },
+      { label: '选项3', value: 'option3' }
+    ]
+  },
+  {
+    type: 'select',
+    label: '下拉选择',
+    prop: 'select',
+    options: [
+      { label: '请选择', value: '' },
+      { label: '选项1', value: 'option1' },
+      { label: '选项2', value: 'option2' }
+    ],
+    attrs: { placeholder: '请选择' }
+  },
+  {
+    type: 'date',
+    label: '日期选择',
+    prop: 'date',
+    attrs: { type: 'date', placeholder: '请选择日期' }
+  },
+  {
+    type: 'datetimerange',
+    label: '日期时间范围',
+    prop: 'datetimerange',
+    attrs: { 'range-separator': '至', 'start-placeholder': '开始日期', 'end-placeholder': '结束日期' }
+  },
+  {
+    type: 'timePicker',
+    label: '时间选择器',
+    prop: 'timePicker',
+    attrs: { placeholder: '请选择时间' }
+  },
+  {
+    type: 'timeSelect',
+    label: '时间选择',
+    prop: 'timeSelect',
+    attrs: { placeholder: '请选择时间' }
+  },
+  {
+    type: 'cascader',
+    label: '级联选择',
+    prop: 'cascader',
     options: [
       {
-        label: '选项1',
-        value: 1
+        value: 'zhinan',
+        label: '指南',
+        children: [
+          { value: 'shejiyuanze', label: '设计原则' },
+          { value: 'daohang', label: '导航' }
+        ]
+      },
+      {
+        value: 'zujian',
+        label: '组件',
+        children: [
+          { value: 'basic', label: '基础' },
+          { value: 'form', label: '表单' }
+        ]
+      }
+    ],
+    attrs: { placeholder: '请选择' }
+  },
+  {
+    type: 'switch',
+    label: '开关',
+    prop: 'switch'
+  }
+])
+
+// 示例8：高级表单验证案例
+const advancedValidationFormData = ref({
+  password: '',
+  confirmPassword: '',
+  username: '',
+  idCard: ''
+})
+
+const advancedValidationFormItems = ref([
+  {
+    type: 'input',
+    label: '用户名',
+    prop: 'username',
+    rules: [
+      { required: true, message: '请输入用户名', trigger: 'blur' },
+      { min: 3, max: 20, message: '用户名长度应在3-20个字符之间', trigger: 'blur' }
+    ]
+  },
+  {
+    type: 'input',
+    label: '密码',
+    prop: 'password',
+    attrs: { 'show-password': true },
+    rules: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+      { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
+      { 
+        validator: (rule, value, callback) => {
+          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/.test(value)) {
+            callback(new Error('密码必须包含大小写字母和数字'))
+          } else {
+            callback()
+          }
+        },
+        trigger: 'blur'
       }
     ]
   },
   {
-    type: 'switch',
-    label: '开启',
-    prop: 'open'
-  }
-];
-
-function addItem_1() {
-  formData_2.value.item_1.push({
-    name: undefined,
-    age: undefined
-  });
-}
-
-function addItem_2() {
-  formData_2.value.item_2.push({
-    type: undefined,
-    open: false
-  });
-}
-
-function removeItem_1(index) {
-  formData_2.value.item_1.splice(index, 1);
-}
-
-function removeItem_2(index) {
-  formData_2.value.item_2.splice(index, 1);
-}
-
-// 属性
-const attrTableData=[
+    type: 'input',
+    label: '确认密码',
+    prop: 'confirmPassword',
+    attrs: { 'show-password': true },
+    rules: [
+      { required: true, message: '请确认密码', trigger: 'blur' },
+      { 
+        validator: (rule, value, callback) => {
+          if (value !== advancedValidationFormData.value.password) {
+            callback(new Error('两次输入的密码不一致'))
+          } else {
+            callback()
+          }
+        },
+        trigger: 'blur'
+      }
+    ]
+  },
   {
-    name: 'formData/v-model:form-data',
+    type: 'input',
+    label: '身份证号',
+    prop: 'idCard',
+    rules: [
+      { required: true, message: '请输入身份证号', trigger: 'blur' },
+      { 
+        validator: (rule, value, callback) => {
+          const reg = /^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/
+          if (!reg.test(value)) {
+            callback(new Error('请输入正确的身份证号'))
+          } else {
+            callback()
+          }
+        },
+        trigger: 'blur'
+      }
+    ]
+  }
+])
+
+function handleAdvancedValidationSubmit(form) {
+  console.log('高级验证表单提交:', form)
+}
+
+// 示例9：只读模式案例
+const readOnlyFormData = ref({
+  name: '张三',
+  age: 25,
+  gender: 'male',
+  email: 'zhangsan@example.com',
+  phone: '13800138000',
+  address: '北京市朝阳区',
+  status: true,
+  createTime: '2024-01-01 10:00:00'
+})
+
+const readOnlyFormItems = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name'
+  },
+  {
+    type: 'number',
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    type: 'select',
+    label: '性别',
+    prop: 'gender',
+    options: [
+      { label: '男', value: 'male' },
+      { label: '女', value: 'female' }
+    ]
+  },
+  {
+    type: 'input',
+    label: '邮箱',
+    prop: 'email'
+  },
+  {
+    type: 'input',
+    label: '手机号',
+    prop: 'phone'
+  },
+  {
+    type: 'input',
+    label: '地址',
+    prop: 'address'
+  },
+  {
+    type: 'switch',
+    label: '状态',
+    prop: 'status'
+  },
+  {
+    type: 'date',
+    label: '创建时间',
+    prop: 'createTime'
+  }
+])
+
+// 示例10：表单事件案例
+const eventFormData = ref({
+  name: '',
+  age: undefined,
+  email: ''
+})
+
+const eventFormItems = ref([
+  {
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
+  },
+  {
+    type: 'number',
+    label: '年龄',
+    prop: 'age'
+  },
+  {
+    type: 'input',
+    label: '邮箱',
+    prop: 'email',
+    rules: [{ type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }]
+  }
+])
+
+const eventLogs = ref([])
+
+function addLog(message) {
+  eventLogs.value.unshift(`${new Date().toLocaleTimeString()}: ${message}`)
+  if (eventLogs.value.length > 10) {
+    eventLogs.value.pop()
+  }
+}
+
+function handleEventSubmit(form) {
+  addLog(`表单提交: ${JSON.stringify(form)}`)
+}
+
+function handleEventReset(form) {
+  addLog('表单重置')
+}
+
+function handleFormDataUpdate(formData) {
+  addLog(`表单数据更新: ${JSON.stringify(formData)}`)
+}
+
+function handleFieldChange(value, prop, index) {
+  addLog(`字段变化 - ${prop}: ${value}`)
+}
+
+function handleFormDataChange(value, prop, form) {
+  addLog(`表单数据变化 - ${prop}: ${value}`)
+}
+
+// 示例11：自定义插槽案例
+const slotFormData = ref({
+  name: '',
+  customValue: 50
+})
+
+const slotFormItems = ref([
+  {
+    type: 'input',
+    label: '名称',
+    prop: 'name',
+    rules: [{ required: true, message: '请输入名称', trigger: 'blur' }]
+  },
+  {
+    type: 'slot',
+    label: '自定义滑块',
+    prop: 'custom-slot',
+    isRow: true
+  }
+])
+
+// 上传组件案例
+const uploadFormData = ref({
+  username: '',
+  avatar: '',
+  images: [],
+  files: []
+})
+
+const uploadFormItems = ref([
+  {
+    type: 'input',
+    label: '用户名',
+    prop: 'username',
+    attrs: { placeholder: '请输入用户名' }
+  },
+  {
+    type: 'itemSlot',
+    label: '头像上传',
+    prop: 'avatar-slot',
+  },
+  {
+    type: 'slot',
+    label: '图片上传',
+    prop: 'images-slot',
+  },
+  {
+    type: 'slot',
+    label: '文件上传',
+    prop: 'files-slot',
+  }
+])
+
+// API 数据
+import { tableColumn, tableMethodColumn, tableSlotColumn, tableExposesColumn } from '../constant'
+
+// 属性数据
+const attrTableData = [
+  {
+    name: 'formData',
     desc: '表单数据对象',
-    type: 'object',
-    value: '-'
+    type: 'Object',
+    value: '{}'
   },
   {
     name: 'formItems',
-    desc: 'formItem 配置数据',
-    type: 'array',
+    desc: '表单项配置数组',
+    type: 'Array',
     value: '[]'
   },
   {
     name: 'column',
-    desc: '列数',
-    type: 'number',
+    desc: '表单列数',
+    type: 'Number',
     value: '1'
   },
   {
     name: 'loading',
-    desc: '加载',
-    type: 'boolean',
+    desc: '加载状态',
+    type: 'Boolean',
     value: 'false'
   },
   {
     name: 'showBtnLoading',
-    desc: '是否展示confirm按钮加载状态',
-    type: 'boolean',
+    desc: '显示按钮加载状态',
+    type: 'Boolean',
     value: 'true'
   },
   {
     name: 'read',
-    desc: '是否只读',
-    type: 'boolean',
+    desc: '只读模式',
+    type: 'Boolean',
     value: 'false'
   },
   {
     name: 'disabled',
-    desc: '是否禁用',
-    type: 'boolean',
+    desc: '禁用状态',
+    type: 'Boolean',
     value: 'false'
   },
   {
     name: 'showButtons',
-    desc: '是否展示confirm和reset按钮',
-    type: 'boolean',
+    desc: '是否显示按钮',
+    type: 'Boolean',
     value: 'true'
   },
   {
     name: 'buttonsClass',
-    desc: '展示confirm和reset按钮区域的样式',
-    type: 'string',
-    value: '-'
+    desc: '按钮容器类名',
+    type: 'String',
+    value: '""'
   },
   {
     name: 'buttonsLeft',
-    desc: 'confirm和reset按钮是否在最左侧(inline为false时生效)',
-    type: 'boolean',
+    desc: '按钮左对齐',
+    type: 'Boolean',
     value: 'false'
   },
   {
     name: 'showReset',
     desc: '是否显示重置按钮',
-    type: 'boolean',
+    type: 'Boolean',
     value: 'true'
   },
   {
     name: 'showSubmit',
-    desc: '是否显示confirm按钮',
-    type: 'boolean',
+    desc: '是否显示提交按钮',
+    type: 'Boolean',
     value: 'true'
   },
   {
     name: 'confirmText',
-    desc: 'confirm 文案',
-    type: 'string',
-    value: '确认'
+    desc: '确认按钮文本',
+    type: 'String',
+    value: '"确认"'
   },
   {
     name: 'resetText',
-    desc: 'reset 文案',
-    type: 'string',
-    value: '重置'
+    desc: '重置按钮文本',
+    type: 'String',
+    value: '"重置"'
   },
   {
     name: 'confirmClassName',
-    desc: 'confirm 按钮 className',
-    type: 'string',
-    value: '-'
+    desc: '确认按钮类名',
+    type: 'String',
+    value: '""'
   },
   {
     name: 'colon',
-    desc: '冒号显示与否',
-    type: 'boolean',
-    value: 'true'
+    desc: '标签后是否加冒号',
+    type: 'Boolean',
+    value: 'false'
   },
   {
     name: 'labelEmpty',
-    desc: '空字段内容占位符',
-    type: 'string',
-    value: '--'
+    desc: '空值显示文本',
+    type: 'String',
+    value: '"--"'
   },
   {
     name: 'hasDefReadStyle',
-    desc: '表单详情默认样式，锦鲤适用',
-    type: 'boolean',
-    value: false
+    desc: '是否使用默认只读样式',
+    type: 'Boolean',
+    value: 'false'
+  },
+  {
+    name: 'hideColumn',
+    desc: '是否隐藏列',
+    type: 'Boolean',
+    value: 'false'
   }
 ]
 
-// 事件
-const eventsTableData=[
+// 事件数据
+const eventsTableData = [
   {
     name: 'submit',
-    desc: '提交验证时触发，成功返回表单数据对象',
+    desc: '表单提交事件',
     type: 'Function',
-    value: '表单数据对象'
+    value: '(form: any) => void'
   },
   {
     name: 'reset',
-    desc: '重置时触发',
+    desc: '表单重置事件',
     type: 'Function',
-    value: '表单数据对象'
+    value: '(form: any) => void'
+  },
+  {
+    name: 'update:form-data',
+    desc: '表单数据更新事件',
+    type: 'Function',
+    value: '(formData: any) => void'
   },
   {
     name: 'onChange',
-    desc: '表单select/radio切换时触发',
+    desc: '表单项值变化事件',
     type: 'Function',
-    value: 'value: 选中值, prop：form中的prop名，index：索引'
+    value: '(value: any, prop: string, index?: number) => void'
   },
   {
     name: 'changeFormData',
-    desc: '表单数据更新时触发',
+    desc: '表单数据变化事件',
     type: 'Function',
-    value: 'value: 更新值, prop: 更新prop, form: 更新后的form数据'
+    value: '(value: any, prop: any, form: any) => void'
   }
 ]
 
@@ -1853,7 +2173,7 @@ const attrTableData_1=[
   },
   {
     name: 'hideColumn',
-    desc: '隐藏某一列',
+    desc: '隐藏某一列，锦鲤适用',
     type: 'boolean',
     value: false
   }
@@ -2008,11 +2328,29 @@ const exposesTableData_1=[
 ]
 </script>
 
-<style>
+<style scoped>
 .demo-form_1{
   width: 500px;
 }
 .item-center{
+  display: flex;
+  align-items: center;
+}
+.demo-container {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #fff;
+}
+.event-log {
+  margin: 5px 0;
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.custom-slot {
   display: flex;
   align-items: center;
 }
