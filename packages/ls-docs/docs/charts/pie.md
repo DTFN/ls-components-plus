@@ -401,6 +401,167 @@ const templateAllPie = ref({
 
 :::
 
+### 11. 案例十一：2.5D饼图
+
+<ClientOnly>
+<LSChart template="pie" :data="{ seriesData: seriesDataPie25D }" :template-patch="templateAllPie.template11" :custom-option="customOptionPie25D" height="400" ></LSChart>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+const seriesDataPie25D = [
+  { value: 35, name: '上海汽检' },
+  { value: 25, name: '国创中心' },
+  { value: 20, name: '通过' },
+  { value: 20, name: '不通过' }
+];
+
+// 2.5D饼图配置
+const customOptionPie25D = ref({
+  series: []
+});
+
+// 生成2.5D饼图数据
+function setOptionData25D(data) {
+  const seriesArr = [];
+  
+  // 现代柔和的颜色方案
+  const COLORS = [
+    '#4F46E5', // 靛蓝色
+    '#06B6D4', // 青色
+    '#10B981', // 绿色
+    '#F59E0B'  // 橙色
+  ];
+  
+  // 三层结构，确保颜色一致
+  
+  // 底层（同色阴影）
+  seriesArr.push({
+    type: 'pie',
+    radius: '52%',
+    center: ['50%', '52%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          opacity: 0.3,
+          shadowBlur: 15,
+          shadowOffsetX: 0,
+          shadowOffsetY: 5,
+          shadowColor: color + '90'
+        },
+        label: { show: false },
+        labelLine: { show: false }
+      };
+    }),
+    silent: true,
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'cubicOut',
+    animationDelay: 0
+  });
+  
+  // 中层（同色过渡）
+  seriesArr.push({
+    type: 'pie',
+    radius: '50%',
+    center: ['50%', '51%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          opacity: 0.6,
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowOffsetY: 3,
+          shadowColor: color + '60'
+        },
+        label: { show: false },
+        labelLine: { show: false }
+      };
+    }),
+    silent: true,
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'cubicOut',
+    animationDelay: 20
+  });
+  
+  // 顶层（主层）
+  seriesArr.push({
+    type: 'pie',
+    radius: '48%',
+    center: ['50%', '50%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          shadowBlur: 20,
+          shadowOffsetX: 0,
+          shadowOffsetY: 8,
+          shadowColor: color + '40'
+        },
+        label: {
+          show: true,
+          position: 'outside',
+          formatter: '{b}\n{d}%',
+          color: color,
+          fontWeight: '600',
+          fontSize: 13,
+          distanceToLabelLine: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          padding: [4, 8],
+          borderRadius: 4,
+          borderColor: color,
+          borderWidth: 1
+        },
+        labelLine: {
+          show: true,
+          length: 12,
+          length2: 8,
+          lineStyle: {
+            color: color,
+            width: 1.2,
+            type: 'solid'
+          }
+        }
+      };
+    }),
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'elasticOut',
+    animationDelay: 40
+  });
+  
+  return seriesArr;
+}
+
+// 初始化2.5D饼图数据
+customOptionPie25D.value.series = setOptionData25D(seriesDataPie25D);
+
+const templateAllPie = ref({
+  template11: {
+    radius: '60%'
+  }
+});
+```
+
+```html
+<LSChart template="pie" :data="{ seriesData: seriesDataPie25D }" :template-patch="templateAllPie.template11" :custom-option="customOptionPie25D" height="400" ></LSChart>
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -469,6 +630,134 @@ const customOptionPie2 = ref({
     }
   ]
 });
+// 2.5D饼图
+const customOptionPie25D = ref({
+  series: []
+});
+
+// 生成2.5D饼图数据
+function setOptionData25D(data) {
+  const seriesArr = [];
+  
+  // 现代柔和的颜色方案
+  const COLORS = [
+    '#4F46E5', // 靛蓝色
+    '#06B6D4', // 青色
+    '#10B981', // 绿色
+    '#F59E0B'  // 橙色
+  ];
+  
+  // 三层结构，确保颜色一致
+  
+  // 底层（同色阴影）
+  seriesArr.push({
+    type: 'pie',
+    radius: '52%',
+    center: ['50%', '52%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          opacity: 0.3,
+          shadowBlur: 15,
+          shadowOffsetX: 0,
+          shadowOffsetY: 5,
+          shadowColor: color + '90'
+        },
+        label: { show: false },
+        labelLine: { show: false }
+      };
+    }),
+    silent: true,
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'cubicOut',
+    animationDelay: 0
+  });
+  
+  // 中层（同色过渡）
+  seriesArr.push({
+    type: 'pie',
+    radius: '50%',
+    center: ['50%', '51%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          opacity: 0.6,
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowOffsetY: 3,
+          shadowColor: color + '60'
+        },
+        label: { show: false },
+        labelLine: { show: false }
+      };
+    }),
+    silent: true,
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'cubicOut',
+    animationDelay: 20
+  });
+  
+  // 顶层（主层）
+  seriesArr.push({
+    type: 'pie',
+    radius: '48%',
+    center: ['50%', '50%'],
+    data: data.map((item, index) => {
+      const color = COLORS[index % COLORS.length];
+      return {
+        value: item.value,
+        name: item.name,
+        itemStyle: {
+          color: color,
+          shadowBlur: 20,
+          shadowOffsetX: 0,
+          shadowOffsetY: 8,
+          shadowColor: color + '40'
+        },
+        label: {
+          show: true,
+          position: 'outside',
+          formatter: '{b}\n{d}%',
+          color: color,
+          fontWeight: '600',
+          fontSize: 13,
+          distanceToLabelLine: 8,
+          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          padding: [4, 8],
+          borderRadius: 4,
+          borderColor: color,
+          borderWidth: 1
+        },
+        labelLine: {
+          show: true,
+          length: 12,
+          length2: 8,
+          lineStyle: {
+            color: color,
+            width: 1.2,
+            type: 'solid'
+          }
+        }
+      };
+    }),
+    animation: true,
+    animationType: 'scale',
+    animationEasing: 'elasticOut',
+    animationDelay: 40
+  });
+  
+  return seriesArr;
+}
 const templateAllPie = ref({
   template1: {},
   template2: {
@@ -529,6 +818,9 @@ const templateAllPie = ref({
       length: 30,
       length2: 20
     }
+  },
+  template11: {
+    radius: '60%'
   }
 });
 const seriesDataPie = [
@@ -543,8 +835,18 @@ const innerDataPie = [
   { value: 775, name: '图例 2' },
   { value: 679, name: '图例 3' }
 ];
+const seriesDataPie25D = [
+  { value: 35, name: '上海汽检' },
+  { value: 25, name: '国创中心' },
+  { value: 20, name: '通过' },
+  { value: 20, name: '不通过' }
+];
+
+// 初始化2.5D饼图数据
+customOptionPie25D.value.series = setOptionData25D(seriesDataPie25D);
+
 function changeChartStyle() {
-  ['template1', 'template2', 'template3', 'template4', 'template5', 'template6', 'template7', 'template8', 'template9', 'template10'].forEach((item) => {
+  ['template1', 'template2', 'template3', 'template4', 'template5', 'template6', 'template7', 'template8', 'template9', 'template10', 'template11'].forEach((item) => {
     templateAllPie.value[item].theme = formInline.value.themeModel;
   });
 }
