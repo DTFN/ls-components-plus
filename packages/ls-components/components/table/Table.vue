@@ -25,22 +25,38 @@ const currentPage = ref(1);
 const pageSize = ref(10);
 const selectionData = ref<any[]>([]);
 
+// 统一从 attrs 中获取 rowKey
+function getRowKeyFromAttrs(source: any): string | ((row: any) => string) {
+  return source?.rowKey || source?.rowkey || source?.['row-key'] || 'id';
+}
+
 // 获取行唯一标识
-const rowKey = computed<string | ((row: any) => string)>(() => {
-  const rowKey: string | ((row: any) => string) = attrs?.rowKey || attrs?.rowkey || attrs['row-key'] || 'id';
-  return rowKey;
-});
+const rowKey = computed<string | ((row: any) => string)>(() => getRowKeyFromAttrs(attrs));
 
 // 传入当前页
 watch(
   () => props.currentPage,
   newVal => {
-    if (newVal !== currentPage.value) {
-      const val = Math.max(1, Math.min(newVal, Math.ceil(props.total / pageSize.value)));
-      currentPage.value = val;
-      if (val !== newVal) {
-        emit('update:current-page', val);
-      }
+    if (newVal === currentPage.value) return;
+
+    // 无分页模式：直接接受传入值（最小为 1），不做 maxPage 限制
+    if (!props.showPagination) {
+      currentPage.value = Math.max(1, newVal);
+      return;
+    }
+
+    // total <= 0（数据未加载 / 暂无数据）：内部重置为 1，不向上 emit 避免干扰父组件
+    if (props.total <= 0) {
+      currentPage.value = 1;
+      return;
+    }
+
+    // 正常分页：将 currentPage 限制在 [1, maxPage]，越界时回写父组件
+    const maxPage = Math.ceil(props.total / pageSize.value);
+    const val = Math.max(1, Math.min(newVal, maxPage));
+    currentPage.value = val;
+    if (val !== newVal) {
+      emit('update:current-page', val);
     }
   },
   {
@@ -222,36 +238,11 @@ function formatDate(val: string | null | undefined, template?: string) {
 // 单列选中监听
 function handleSelect(selection: any[]) {
   selectionData.value = selection || [];
-  // // const filterIndex = (selection || []).findIndex((item: any) => item.id === row.id);
-  // const filterIndex = (selection || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
-  // // const index = (selectionData.value || []).findIndex((item: any) => item.id === row.id);
-  // const index = (selectionData.value || []).findIndex((item: any) => isSameRow(item, row, rowKey.value));
-  // if (filterIndex > -1) {
-  //   selectionData.value.push(row);
-  // } else {
-  //   selectionData.value.splice(index, 1);
-  // }
 }
 
 // 全部选中和取消选中监听
 function handleSelectAll(selection: any[]) {
   selectionData.value = selection || [];
-  // const isSelectAll = selection.length > 0 ? true : false;
-  // if (props.tableData.length > 0) {
-  //   props.tableData.forEach((item: any) => {
-  //     // const filterIndex = (selectionData.value || []).findIndex((row: any) => row.id === item.id);
-  //     const filterIndex = (selectionData.value || []).findIndex((row: any) => isSameRow(item, row, rowKey.value));
-  //     if (isSelectAll) {
-  //       if (filterIndex < 0) {
-  //         selectionData.value.push(item);
-  //       }
-  //     } else {
-  //       if (filterIndex >= 0) {
-  //         selectionData.value.splice(filterIndex, 1);
-  //       }
-  //     }
-  //   });
-  // }
 }
 
 // 表格属性
@@ -259,21 +250,17 @@ const attrsProps = computed(() => {
   const attrsProps = objectKeysToCamel(attrs);
   const newAttrs = { ...attrsProps };
 
-  const rowKey: string | ((row: any) => string) = get(attrsProps, 'rowKey') || 'id';
-  // // 设置行唯一标识
+  // 设置行唯一标识（与 rowKey 计算保持一致）
+  const rowKey: string | ((row: any) => string) = getRowKeyFromAttrs(attrsProps);
   if (rowKey) {
-    newAttrs['rowKey'] = rowKey;
+    newAttrs.rowKey = rowKey;
   }
 
-  // 设置表格布局方式,默认为auto
-  if (!newAttrs['tableLayout']) {
-    newAttrs['tableLayout'] = 'auto';
-  }
   // 多选功能
   if (props.showSelect) {
     // 添加选择事件处理
-    if (!newAttrs['onSelect']) newAttrs['onSelect'] = handleSelect;
-    if (!newAttrs['onSelectAll']) newAttrs['onSelectAll'] = handleSelectAll;
+    if (!newAttrs.onSelect) newAttrs.onSelect = handleSelect;
+    if (!newAttrs.onSelectAll) newAttrs.onSelectAll = handleSelectAll;
   }
 
   // 处理文字溢出提示
@@ -331,6 +318,54 @@ function getStatusClass(statusStyle: string = 'default', type?: string, classNam
   return classes.join(' ');
 }
 
+// 获取 link href
+function getLinkHref(item: any, row: any) {
+  const { href, hrefProp } = item || {};
+
+  if (typeof href === 'function') {
+    return href(row);
+  }
+
+  if (typeof href === 'string') {
+    return href;
+  }
+
+  if (hrefProp) {
+    return get(row, hrefProp);
+  }
+
+  return get(row, item?.prop);
+}
+
+// 获取单元格原始值
+function getCellValue(item: any, row: any) {
+  return get(row, item?.prop);
+}
+
+// 判断单元格是否为空
+function isCellEmpty(item: any, row: any) {
+  return isEmpty(getCellValue(item, row));
+}
+
+// 获取单元格展示文本（主要用于 link 类型）
+function getCellText(item: any, row: any) {
+  const { text, textProp, textFormatter } = item || {};
+
+  if (typeof textFormatter === 'function') {
+    return textFormatter(row, getCellValue(item, row));
+  }
+
+  if (!isEmpty(text)) {
+    return text;
+  }
+
+  if (textProp) {
+    return get(row, textProp);
+  }
+
+  return getCellValue(item, row);
+}
+
 defineExpose({
   TableRef
 });
@@ -340,99 +375,183 @@ defineExpose({
   <div class="ls-table-wrap">
     <el-config-provider :locale="zhCn">
       <el-table ref="TableRef" v-loading="loading" style="width: 100%" v-bind="attrsProps" :data="tableData">
-        <!-- 前置插槽  -->
-        <slot name="prepend"></slot>
+        <template #default>
+          <!-- 前置插槽  -->
+          <slot name="prepend"></slot>
 
-        <!-- 单选 -->
-        <el-table-column v-if="showRadio" width="60" v-bind="radioColumnOptions">
-          <template #default="{ row }">
-            <el-radio :model-value="currentRow ? currentRow[radioProp] : void 0" :label="row[radioProp]">
-              {{ showRadioLabel ? row[radioProp] : '' }}
-            </el-radio>
-          </template>
-        </el-table-column>
-
-        <!-- 多选 -->
-        <el-table-column v-if="showSelect" width="60" v-bind="newSelectColumnOptions" type="selection" />
-
-        <!-- 展开行 -->
-        <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">
-          <template #default="{ row }">
-            <slot name="expand" :row="row"></slot>
-          </template>
-        </el-table-column>
-
-        <!-- 序号 -->
-        <el-table-column
-          v-if="showTableIndex"
-          width="60"
-          :fixed="tableIndexfixed"
-          :label="tableIndexLabel"
-          :index="indexMethod"
-          v-bind="indexColumnOptions"
-          type="index"
-        />
-
-        <template v-for="item in tableColumn" :key="item.prop">
-          <el-table-column v-bind="item">
-            <template #default="{ row, column, $index }">
-              <!-- 日期 -->
-              <template v-if="item.type === 'date'">
-                {{ formatDate(get(row, item.prop), item.dateTemplate) }}
-              </template>
-
-              <!-- 状态 -->
-              <template v-else-if="item.type === 'status'">
-                <el-text
-                  :type="
-                    ['default', 'follow'].includes(item.statusStyle || 'default') ? getStatusType(item.value, row, item.prop) : ''
-                  "
-                  :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
-                >
-                  {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
-                </el-text>
-              </template>
-
-              <!-- 数字 -->
-              <template v-else-if="item.type === 'number'">
-                <template v-if="isEmpty(get(row, item.prop))">{{ labelEmpty || '--' }}</template>
-                <el-text v-else :type="Number(get(row, item.prop)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
-                  {{ get(row, item.prop) }}
-                </el-text>
-              </template>
-
-              <!-- 自定义 -->
-              <template v-else-if="item.type === 'slot'">
-                <slot :name="item.prop" :row="row" :column="column" :index="$index" />
-              </template>
-
-              <template v-else-if="isEmpty(get(row, item.prop))">
-                <div :class="labelEmptyClass">
-                  {{ labelEmpty || '--' }}
-                </div>
-              </template>
-            </template>
-
-            <!-- 自定义表头的内容 -->
-            <template v-if="item.headerSlot" #header="{ column, $index }">
-              <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
-            </template>
-
-            <!-- 自定义 filter 图标	-->
-            <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
-              <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
+          <!-- 单选 -->
+          <el-table-column v-if="showRadio" width="60" v-bind="radioColumnOptions">
+            <template #default="{ row }">
+              <el-radio :model-value="currentRow ? currentRow[radioProp] : void 0" :label="row[radioProp]">
+                {{ showRadioLabel ? row[radioProp] : '' }}
+              </el-radio>
             </template>
           </el-table-column>
+
+          <!-- 多选 -->
+          <el-table-column v-if="showSelect" width="60" v-bind="newSelectColumnOptions" type="selection" />
+
+          <!-- 展开行 -->
+          <el-table-column v-if="showExpand" v-bind="expandColumnOptions" type="expand">
+            <template #default="{ row }">
+              <slot name="expand" :row="row"></slot>
+            </template>
+          </el-table-column>
+
+          <!-- 序号 -->
+          <el-table-column
+            v-if="showTableIndex"
+            width="60"
+            :fixed="tableIndexfixed"
+            :label="tableIndexLabel"
+            :index="indexMethod"
+            v-bind="indexColumnOptions"
+            type="index"
+          />
+
+          <template v-for="item in tableColumn" :key="item.prop">
+            <el-table-column v-bind="item">
+              <template #default="{ row, column, $index }">
+                <!-- 自定义渲染组件（优先级最高，可完全接管单元格渲染） -->
+                <component
+                  v-if="item.render"
+                  :is="item.render"
+                  :row="row"
+                  :column="column"
+                  :index="$index"
+                  :value="getCellValue(item, row)"
+                  :item="item"
+                />
+
+                <!-- 默认渲染模板 -->
+                <template v-else>
+                  <!-- 日期 -->
+                  <template v-if="item.type === 'date'">
+                    {{ formatDate(getCellValue(item, row), item.dateTemplate) }}
+                  </template>
+
+                  <!-- 状态 -->
+                  <template v-else-if="item.type === 'status'">
+                    <el-text
+                      v-bind="
+                        typeof item.statusProps === 'function'
+                          ? item.statusProps({
+                              row,
+                              column,
+                              index: $index,
+                              value: get(row, item.prop),
+                              item
+                            })
+                          : item.statusProps
+                      "
+                      :type="
+                        ['default', 'follow'].includes(item.statusStyle || 'default')
+                          ? getStatusType(item.value, row, item.prop)
+                          : ''
+                      "
+                      :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
+                    >
+                      {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
+                    </el-text>
+                  </template>
+
+                  <!-- 数字 -->
+                  <template v-else-if="item.type === 'number'">
+                    <template v-if="isCellEmpty(item, row)">{{ labelEmpty || '--' }}</template>
+                    <el-text v-else :type="Number(getCellValue(item, row)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
+                      {{ getCellValue(item, row) }}
+                    </el-text>
+                  </template>
+
+                  <!-- 链接 -->
+                  <template v-else-if="item.type === 'link'">
+                    <!-- 若未配置自定义文本相关字段，且 prop 为空，则走统一空占位逻辑 -->
+                    <template v-if="!item.text && !item.textProp && !item.textFormatter && isCellEmpty(item, row)">
+                      <div :class="labelEmptyClass">
+                        {{ labelEmpty || '--' }}
+                      </div>
+                    </template>
+                    <el-link
+                      v-else
+                      :href="getLinkHref(item, row)"
+                      v-bind="
+                        typeof item.linkProps === 'function' ? item.linkProps({ row, column, index: $index }) : item.linkProps
+                      "
+                    >
+                      {{ getCellText(item, row) }}
+                    </el-link>
+                  </template>
+
+                  <!-- 按钮 -->
+                  <template v-else-if="item.type === 'button'">
+                    <el-button
+                      class="ls-table-button"
+                      v-bind="
+                        typeof item.buttonProps === 'function'
+                          ? item.buttonProps({
+                              row,
+                              column,
+                              index: $index,
+                              value: getCellValue(item, row),
+                              item
+                            })
+                          : item.buttonProps
+                      "
+                      @click="
+                        item.onClick?.({
+                          row,
+                          column,
+                          index: $index,
+                          value: getCellValue(item, row),
+                          item
+                        })
+                      "
+                    >
+                      {{ getCellText(item, row) }}
+                    </el-button>
+                  </template>
+
+                  <!-- 自定义 -->
+                  <template v-else-if="item.type === 'slot'">
+                    <slot :name="item.prop" :row="row" :column="column" :index="$index" />
+                  </template>
+
+                  <!-- 空值占位 -->
+                  <template v-else-if="isCellEmpty(item, row)">
+                    <div :class="labelEmptyClass">
+                      {{ labelEmpty || '--' }}
+                    </div>
+                  </template>
+
+                  <template v-else>
+                    {{ getCellValue(item, row) }}
+                  </template>
+                </template>
+              </template>
+
+              <!-- 自定义表头的内容 -->
+              <template v-if="item.headerSlot" #header="{ column, $index }">
+                <slot :name="`${item.prop}-header`" :column="column" :index="$index" />
+              </template>
+
+              <!-- 自定义 filter 图标	-->
+              <template v-if="item.filterIconSlot" #filter-icon="{ filterOpened }">
+                <slot :name="`${item.prop}-filter-icon`" :filter-opened="filterOpened" />
+              </template>
+            </el-table-column>
+          </template>
+
+          <!-- 后置插槽 -->
+          <slot></slot>
         </template>
 
-        <!-- 后置插槽 -->
-        <slot></slot>
-
+        <!-- 空状态 -->
         <template v-if="showEmpty" #empty>
           <el-empty v-if="!$slots.empty" :description="emptyLabel" />
           <slot name="empty" />
         </template>
 
+        <!-- 追加插槽 -->
         <template v-if="$slots.append" #append>
           <slot name="append" />
         </template>
@@ -458,14 +577,17 @@ defineExpose({
   width: 100%;
 }
 .ls-table-status {
-  display: flex;
-  align-items: center;
+  position: relative;
+  padding-left: 12px;
   &::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
     width: 8px;
     height: 8px;
-    margin-right: 6px;
     content: '';
     border-radius: 100%;
+    transform: translateY(-50%);
   }
   &.ls-table-status--default::before {
     background-color: var(--el-text-color);
@@ -485,6 +607,12 @@ defineExpose({
   &.ls-table-status--primary::before {
     background-color: var(--el-color-primary);
   }
+}
+.ls-table-button {
+  padding-left: 0 !important;
+}
+:deep(.el-text) {
+  line-height: 1;
 }
 :deep(.el-empty) {
   --el-empty-padding: 24px 0 10px 0;
