@@ -1143,890 +1143,876 @@ const uploadFormItems = ref([
 
 :::
 
-## API 文档
 
-### 1. 属性
+## API
 
-| 属性名 | 描述 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| formData | 表单数据对象 | Object | {} |
-| formItems | 表单项配置数组 | Array | [] |
-| column | 表单列数 | Number | 1 |
-| loading | 加载状态 | Boolean | false |
-| showBtnLoading | 显示按钮加载状态 | Boolean | true |
-| read | 只读模式 | Boolean | false |
-| disabled | 禁用状态 | Boolean | false |
-| showButtons | 是否显示按钮 | Boolean | true |
-| buttonsClass | 按钮容器类名 | String | "" |
-| buttonsLeft | 按钮左对齐 | Boolean | false |
-| showReset | 是否显示重置按钮 | Boolean | true |
-| showSubmit | 是否显示提交按钮 | Boolean | true |
-| confirmText | 确认按钮文本 | String | "确认" |
-| resetText | 重置按钮文本 | String | "重置" |
-| confirmClassName | 确认按钮类名 | String | "" |
-| colon | 标签后是否加冒号 | Boolean | false |
-| labelEmpty | 空值显示文本 | String | "--" |
-| hasDefReadStyle | 是否使用默认只读样式 | Boolean | false |
-| hideColumn | 是否隐藏列 | Boolean | false |
+### LSForm
 
-### 2. 事件
+### 1. Attributes
 
-| 事件名 | 描述 | 类型 | 回调参数 |
-| --- | --- | --- | --- |
-| submit | 表单提交事件 | Function | (form: any) => void |
-| reset | 表单重置事件 | Function | (form: any) => void |
-| update:form-data | 表单数据更新事件 | Function | (formData: any) => void |
-| onChange | 表单项值变化事件 | Function | (value: any, prop: string, index?: number) => void |
-| changeFormData | 表单数据变化事件 | Function | (value: any, prop: any, form: any) => void |
+<ApiIntro :tableColumn="tableColumn"  :tableData="attrTableData" />
 
-### 3. 表单项配置
+### 2. Events
 
-| 属性名 | 描述 | 类型 | 默认值 |
-| --- | --- | --- | --- |
-| type | 表单项类型 | String | - |
-| label | 表单项标签 | String | "" |
-| prop | 表单项字段名 | String/Array | "" |
-| rules | 验证规则 | Object | {} |
-| className | 表单项类名 | String | "" |
-| labelClass | 标签类名 | String | "" |
-| tooltip | 提示信息 | String | "" |
-| options | 选项数据（select/radio/checkbox） | Array | [] |
-| trim | 是否自动去除首尾空格 | Boolean | true |
-| attrs | 额外属性 | Object | {} |
-| listeners | 事件监听器 | Object | {} |
-| disabled | 禁用状态 | Boolean | false |
-| read | 只读模式 | Boolean | false |
-| labelEmpty | 空值显示文本 | String | "--" |
-| dateFormat | 日期格式 | String | "YYYY-MM-DD HH:mm:ss" |
-| formatReadValue | 只读模式下的格式化函数 | Function | - |
-| rangeSeparator | 范围选择器分隔符 | String | "~" |
-| rangeProps | 范围选择器的字段名 | Array | ["start", "end"] |
-| radioType | 单选框类型 | String | "" |
-| isRow | 是否占满整行 | Boolean | false |
-| selectAll | 是否显示全选（checkbox） | Boolean | true |
-| slotKey | 插槽键名 | String | "" |
+<ApiIntro :tableColumn="tableMethodColumn"  :tableData="eventsTableData" />
 
-### 4. 表单项类型
+### 3. Slots
 
-| 类型 | 描述 |
-| --- | --- |
-| input | 文本输入框 |
-| textarea | 文本域 |
-| number | 数字输入框 |
-| radio | 单选框 |
-| checkbox | 复选框 |
-| select | 下拉选择框 |
-| date | 日期选择器 |
-| datetimerange | 日期时间范围选择器 |
-| timePicker | 时间选择器 |
-| timeSelect | 时间选择 |
-| cascader | 级联选择器 |
-| multipleCascader | 多选级联选择器 |
-| switch | 开关 |
-| inputRange | 输入范围 |
-| inputNumberRange | 数字输入范围 |
-| slot | 自定义插槽 |
-| itemSlot | 表单项插槽 |
+<ApiIntro :tableColumn="tableSlotColumn"  :tableData="slotTableData" />
+
+### 4. Exposes
+
+<ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData" />
+
+### LSFormItem
+
+### 1. Attributes
+
+<ApiIntro :tableColumn="tableColumn"  :tableData="attrTableData_1" />
+
+#### 1.1 FormItemType
+
+<ApiIntro :tableColumn="formItemTypeColumn"  :tableData="formItemTypeData" />
+
+### 2. Slots
+
+<ApiIntro :tableColumn="tableSlotColumn"  :tableData="slotTableData_1" />
+
+### 3. Exposes
+
+<ApiIntro :tableColumn="tableExposesColumn"  :tableData="exposesTableData_1" />
 
 <script setup>
-import { ref } from 'vue'
-import { ElInput, ElOption, ElSelect, ElButton, ElSlider } from 'element-plus'
+import { ElFormItem,ElButton,ElSwitch } from 'element-plus';
+import { tableColumn,tableMethodColumn,tableSlotColumn,tableExposesColumn } from '../constant';
+import { ref } from 'vue';
 
-// 示例1：基础表单
-const basicFormData = ref({
-  username: '',
-  password: ''
+const read=ref(false)
+
+const formData_1 = ref({
+  name: undefined,
+  type: undefined,
+  type1: undefined,
+  type2: undefined,
+  count: undefined,
+  date: undefined,
+  datetime: undefined,
+  city: [],
+  open: false,
+  remark: undefined,
 })
 
-const basicFormItems = ref([
+const formItems_1 = [
   {
     type: 'input',
-    label: '用户名',
-    prop: 'username',
-    rules: [
-      {
-        required: true,
-        message: '请输入用户名',
-        trigger: 'blur'
-      }
-    ]
-  },
-  {
-    type: 'input',
-    label: '密码',
-    prop: 'password',
-    attrs: {
-      'show-password': true
+    label: '活动名称',
+    prop: 'name',
+    rules: {
+      required: true,
+      message: '请输入活动名称',
+      trigger: 'blur',
     },
-    rules: [
+  },
+  {
+    type: 'select',
+    label: '活动类型',
+    prop: 'type',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur',
+    },
+    attrs: {
+      multiple: true,
+    },
+    options: [
       {
-        required: true,
-        message: '请输入密码',
-        trigger: 'blur'
-      }
-    ]
-  }
-])
-
-function handleBasicSubmit(form) {
-  console.log('基础表单提交:', form)
-}
-
-// 示例2：表单验证案例
-const validationFormData = ref({
-  email: '',
-  phone: '',
-  website: '',
-  age: undefined
-})
-
-const validationFormItems = ref([
-  {
-    type: 'input',
-    label: '邮箱',
-    prop: 'email',
-    rules: [
-      { required: true, message: '请输入邮箱', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }
-    ]
-  },
-  {
-    type: 'input',
-    label: '手机号',
-    prop: 'phone',
-    rules: [
-      { required: true, message: '请输入手机号', trigger: 'blur' },
-      { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号格式', trigger: 'blur' }
-    ]
-  },
-  {
-    type: 'input',
-    label: '网站',
-    prop: 'website',
-    rules: [
-      { type: 'url', message: '请输入正确的网址格式', trigger: 'blur' }
-    ]
-  },
-  {
-    type: 'number',
-    label: '年龄',
-    prop: 'age',
-    rules: [
-      { required: true, message: '请输入年龄', trigger: 'blur' },
-      { min: 18, max: 100, message: '年龄必须在18-100之间', trigger: 'blur' }
-    ]
-  }
-])
-
-function handleValidationSubmit(form) {
-  console.log('验证表单提交:', form)
-}
-
-// 示例3：禁用表单案例
-const disabledFormData = ref({
-  name: '张三',
-  gender: 'male',
-  status: true
-})
-
-const disabledFormItems = ref([
-  {
-    type: 'input',
-    label: '姓名',
-    prop: 'name'
-  },
-  {
-    type: 'select',
-    label: '性别',
-    prop: 'gender',
-    options: [
-      { label: '男', value: 'male' },
-      { label: '女', value: 'female' }
-    ]
-  },
-  {
-    type: 'switch',
-    label: '状态',
-    prop: 'status'
-  }
-])
-
-// 示例4：自定义按钮案例
-const customButtonFormData = ref({
-  name: '',
-  description: ''
-})
-
-const customButtonFormItems = ref([
-  {
-    type: 'input',
-    label: '名称',
-    prop: 'name',
-    rules: [{ required: true, message: '请输入名称', trigger: 'blur' }]
-  },
-  {
-    type: 'textarea',
-    label: '描述',
-    prop: 'description'
-  }
-])
-
-// 示例5：表单布局案例
-const layoutFormData = ref({
-  name: '',
-  age: undefined,
-  gender: '',
-  email: '',
-  phone: '',
-  address: ''
-})
-
-const layoutFormItems = ref([
-  {
-    type: 'input',
-    label: '姓名',
-    prop: 'name',
-    rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
-  },
-  {
-    type: 'number',
-    label: '年龄',
-    prop: 'age'
-  },
-  {
-    type: 'select',
-    label: '性别',
-    prop: 'gender',
-    options: [
-      { label: '男', value: 'male' },
-      { label: '女', value: 'female' }
-    ]
-  },
-  {
-    type: 'input',
-    label: '邮箱',
-    prop: 'email'
-  },
-  {
-    type: 'input',
-    label: '手机号',
-    prop: 'phone'
-  },
-  {
-    type: 'input',
-    label: '地址',
-    prop: 'address'
-  }
-])
-
-const inlineFormData = ref({
-  keyword: '',
-  category: '',
-  status: ''
-})
-
-const inlineFormItems = ref([
-  {
-    type: 'input',
-    label: '关键词',
-    prop: 'keyword',
-    attrs: { placeholder: '请输入关键词' }
-  },
-  {
-    type: 'select',
-    label: '分类',
-    prop: 'category',
-    options: [
-      { label: '全部', value: '' },
-      { label: '产品', value: 'product' },
-      { label: '服务', value: 'service' }
-    ]
-  },
-  {
-    type: 'select',
-    label: '状态',
-    prop: 'status',
-    options: [
-      { label: '全部', value: '' },
-      { label: '启用', value: 'active' },
-      { label: '禁用', value: 'inactive' }
-    ]
-  }
-])
-
-// 示例6：动态表单项案例
-const dynamicFormData = ref({
-  formName: '',
-  fields: [
-    { name: '', type: 'input' }
-  ]
-})
-
-const dynamicFormItems = ref([
-  {
-    type: 'input',
-    label: '表单名称',
-    prop: 'formName',
-    rules: [{ required: true, message: '请输入表单名称', trigger: 'blur' }]
-  },
-  {
-    type: 'slot',
-    label: '动态字段',
-    prop: 'dynamic-fields',
-    isRow: true
-  }
-])
-
-function addField() {
-  dynamicFormData.value.fields.push({ name: '', type: 'input' })
-}
-
-function removeField(index) {
-  dynamicFormData.value.fields.splice(index, 1)
-}
-
-// 示例7：各种表单项类型案例
-const allTypesFormData = ref({
-  input: '',
-  textarea: '',
-  number: undefined,
-  radio: 'option1',
-  checkbox: ['option1', 'option3'],
-  select: '',
-  date: '',
-  datetimerange: [],
-  timePicker: '',
-  timeSelect: '',
-  cascader: [],
-  switch: false
-})
-
-const allTypesFormItems = ref([
-  {
-    type: 'input',
-    label: '文本输入',
-    prop: 'input',
-    attrs: { placeholder: '请输入文本' }
-  },
-  {
-    type: 'textarea',
-    label: '文本域',
-    prop: 'textarea',
-    attrs: { placeholder: '请输入多行文本', rows: 3 }
-  },
-  {
-    type: 'number',
-    label: '数字输入',
-    prop: 'number',
-    attrs: { placeholder: '请输入数字' }
+        label: '体育',
+        value: 1,
+      },
+      {
+        label: '唱歌',
+        value: 2,
+      },
+      {
+        label: '美食',
+        value: 3,
+      },
+      {
+        label: '摄影',
+        value: 4,
+      },
+    ],
   },
   {
     type: 'radio',
-    label: '单选框',
-    prop: 'radio',
+    label: '活动类型',
+    prop: 'type1',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur',
+    },
+    attrs: {
+      multiple: true,
+    },
     options: [
-      { label: '选项1', value: 'option1' },
-      { label: '选项2', value: 'option2' }
-    ]
+      {
+        label: '体育',
+        value: 1,
+      },
+      {
+        label: '唱歌',
+        value: 2,
+      },
+      {
+        label: '美食',
+        value: 3,
+      },
+      {
+        label: '摄影',
+        value: 4,
+      },
+    ],
   },
   {
     type: 'checkbox',
-    label: '复选框',
-    prop: 'checkbox',
+    label: '活动类型',
+    prop: 'type2',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur',
+    },
+    attrs: {
+      multiple: true,
+    },
     options: [
-      { label: '选项1', value: 'option1' },
-      { label: '选项2', value: 'option2' },
-      { label: '选项3', value: 'option3' }
-    ]
+      {
+        label: '体育',
+        value: 1,
+      },
+      {
+        label: '唱歌',
+        value: 2,
+      },
+      {
+        label: '美食',
+        value: 3,
+      },
+      {
+        label: '摄影',
+        value: 4,
+      },
+    ],
   },
   {
-    type: 'select',
-    label: '下拉选择',
-    prop: 'select',
-    options: [
-      { label: '请选择', value: '' },
-      { label: '选项1', value: 'option1' },
-      { label: '选项2', value: 'option2' }
-    ],
-    attrs: { placeholder: '请选择' }
+    type: 'number',
+    label: '活动人数',
+    prop: 'count',
+    rules: {
+      required: true,
+      message: '请输入活动人数',
+      trigger: 'blur',
+    },
+    attrs: {
+      max: 10,
+    },
+    tooltip: '最多人数10人',
   },
   {
     type: 'date',
-    label: '日期选择',
+    label: '活动日期',
     prop: 'date',
-    attrs: { type: 'date', placeholder: '请选择日期' }
+    dateFormat:'YYYY-MM-DD',
+    rules: {
+      required: true,
+      message: '请选择活动日期',
+      trigger: 'blur',
+    },
   },
   {
-    type: 'datetimerange',
-    label: '日期时间范围',
-    prop: 'datetimerange',
-    attrs: { 'range-separator': '至', 'start-placeholder': '开始日期', 'end-placeholder': '结束日期' }
-  },
-  {
-    type: 'timePicker',
-    label: '时间选择器',
-    prop: 'timePicker',
-    attrs: { placeholder: '请选择时间' }
-  },
-  {
-    type: 'timeSelect',
-    label: '时间选择',
-    prop: 'timeSelect',
-    attrs: { placeholder: '请选择时间' }
+    type: 'date',
+    label: '活动时间',
+    prop: 'datetime',
+    rules: {
+      required: true,
+      message: '请选择活动日期',
+      trigger: 'blur',
+    },
+    attrs: {
+      type: 'datetime',
+    },
   },
   {
     type: 'cascader',
-    label: '级联选择',
-    prop: 'cascader',
+    label: '活动城市',
+    prop: 'city',
+    rules: {
+      required: true,
+      message: '请选择活动城市',
+      trigger: 'blur',
+    },
     options: [
       {
-        value: 'zhinan',
-        label: '指南',
+        value: 'shanghai',
+        label: '上海',
         children: [
-          { value: 'shejiyuanze', label: '设计原则' },
-          { value: 'daohang', label: '导航' }
-        ]
+          {
+            value: 'pdxq',
+            label: '浦东新区',
+          },
+          {
+            value: 'hp',
+            label: '黄浦区',
+          },
+          {
+            value: 'xh',
+            label: '徐汇区',
+          },
+        ],
       },
       {
-        value: 'zujian',
-        label: '组件',
+        value: 'sichuan',
+        label: '四川',
         children: [
-          { value: 'basic', label: '基础' },
-          { value: 'form', label: '表单' }
-        ]
-      }
+          {
+            value: 'chengdu',
+            label: '成都市',
+          },
+          {
+            value: 'leshan',
+            label: '乐山市',
+          },
+        ],
+      },
     ],
-    attrs: { placeholder: '请选择' }
+  },
+  {
+    type: 'inputNumberRange',
+    label: '活动人数范围',
+    prop: 'numberRange'
   },
   {
     type: 'switch',
-    label: '开关',
-    prop: 'switch'
-  }
-])
-
-// 示例8：高级表单验证案例
-const advancedValidationFormData = ref({
-  password: '',
-  confirmPassword: '',
-  username: '',
-  idCard: ''
-})
-
-const advancedValidationFormItems = ref([
-  {
-    type: 'input',
-    label: '用户名',
-    prop: 'username',
-    rules: [
-      { required: true, message: '请输入用户名', trigger: 'blur' },
-      { min: 3, max: 20, message: '用户名长度应在3-20个字符之间', trigger: 'blur' }
-    ]
+    label: '是否开启',
+    prop: 'open',
   },
   {
-    type: 'input',
-    label: '密码',
-    prop: 'password',
-    attrs: { 'show-password': true },
-    rules: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
-      { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
-      { 
-        validator: (rule, value, callback) => {
-          if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/.test(value)) {
-            callback(new Error('密码必须包含大小写字母和数字'))
-          } else {
-            callback()
-          }
-        },
-        trigger: 'blur'
-      }
-    ]
+    type: 'textarea',
+    label: '备注',
+    prop: 'remark',
   },
-  {
-    type: 'input',
-    label: '确认密码',
-    prop: 'confirmPassword',
-    attrs: { 'show-password': true },
-    rules: [
-      { required: true, message: '请确认密码', trigger: 'blur' },
-      { 
-        validator: (rule, value, callback) => {
-          if (value !== advancedValidationFormData.value.password) {
-            callback(new Error('两次输入的密码不一致'))
-          } else {
-            callback()
-          }
-        },
-        trigger: 'blur'
-      }
-    ]
-  },
-  {
-    type: 'input',
-    label: '身份证号',
-    prop: 'idCard',
-    rules: [
-      { required: true, message: '请输入身份证号', trigger: 'blur' },
-      { 
-        validator: (rule, value, callback) => {
-          const reg = /^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/
-          if (!reg.test(value)) {
-            callback(new Error('请输入正确的身份证号'))
-          } else {
-            callback()
-          }
-        },
-        trigger: 'blur'
-      }
-    ]
-  }
-])
+]
 
-function handleAdvancedValidationSubmit(form) {
-  console.log('高级验证表单提交:', form)
+function submitFn(val){
+  console.log('submit success!', val);
 }
 
-// 示例9：只读模式案例
-const readOnlyFormData = ref({
-  name: '张三',
-  age: 25,
-  gender: 'male',
-  email: 'zhangsan@example.com',
-  phone: '13800138000',
-  address: '北京市朝阳区',
-  status: true,
-  createTime: '2024-01-01 10:00:00'
-})
+const formData_2 = ref({
+  label: '嵌套表单',
+  item_1: [
+    {
+      name: undefined,
+      age: undefined
+    }
+  ],
+  item_2: [
+    {
+      type: undefined,
+      open: false
+    }
+  ]
+});
 
-const readOnlyFormItems = ref([
+const formItems_2 = [
   {
-    type: 'input',
-    label: '姓名',
-    prop: 'name'
-  },
-  {
-    type: 'number',
-    label: '年龄',
-    prop: 'age'
-  },
-  {
-    type: 'select',
-    label: '性别',
-    prop: 'gender',
-    options: [
-      { label: '男', value: 'male' },
-      { label: '女', value: 'female' }
-    ]
-  },
-  {
-    type: 'input',
-    label: '邮箱',
-    prop: 'email'
-  },
-  {
-    type: 'input',
-    label: '手机号',
-    prop: 'phone'
-  },
-  {
-    type: 'input',
-    label: '地址',
-    prop: 'address'
-  },
-  {
-    type: 'switch',
-    label: '状态',
-    prop: 'status'
-  },
-  {
-    type: 'date',
-    label: '创建时间',
-    prop: 'createTime'
-  }
-])
-
-// 示例10：表单事件案例
-const eventFormData = ref({
-  name: '',
-  age: undefined,
-  email: ''
-})
-
-const eventFormItems = ref([
-  {
-    type: 'input',
-    label: '姓名',
-    prop: 'name',
-    rules: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
-  },
-  {
-    type: 'number',
-    label: '年龄',
-    prop: 'age'
-  },
-  {
-    type: 'input',
-    label: '邮箱',
-    prop: 'email',
-    rules: [{ type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur' }]
-  }
-])
-
-const eventLogs = ref([])
-
-function addLog(message) {
-  eventLogs.value.unshift(`${new Date().toLocaleTimeString()}: ${message}`)
-  if (eventLogs.value.length > 10) {
-    eventLogs.value.pop()
-  }
-}
-
-function handleEventSubmit(form) {
-  addLog(`表单提交: ${JSON.stringify(form)}`)
-}
-
-function handleEventReset(form) {
-  addLog('表单重置')
-}
-
-function handleFormDataUpdate(formData) {
-  addLog(`表单数据更新: ${JSON.stringify(formData)}`)
-}
-
-function handleFieldChange(value, prop, index) {
-  addLog(`字段变化 - ${prop}: ${value}`)
-}
-
-function handleFormDataChange(value, prop, form) {
-  addLog(`表单数据变化 - ${prop}: ${value}`)
-}
-
-// 示例11：自定义插槽案例
-const slotFormData = ref({
-  name: '',
-  customValue: 50
-})
-
-const slotFormItems = ref([
-  {
-    type: 'input',
-    label: '名称',
-    prop: 'name',
-    rules: [{ required: true, message: '请输入名称', trigger: 'blur' }]
-  },
-  {
-    type: 'slot',
-    label: '自定义滑块',
-    prop: 'custom-slot',
-    isRow: true
-  }
-])
-
-// 上传组件案例
-const uploadFormData = ref({
-  username: '',
-  avatar: '',
-  images: [],
-  files: []
-})
-
-const uploadFormItems = ref([
-  {
-    type: 'input',
-    label: '用户名',
-    prop: 'username',
-    attrs: { placeholder: '请输入用户名' }
+    type: 'label',
+    label: '标题',
+    prop: 'label'
   },
   {
     type: 'itemSlot',
-    label: '头像上传',
-    prop: 'avatar-slot',
+    label: '第一段',
+    prop: 'item_1'
   },
   {
     type: 'slot',
-    label: '图片上传',
-    prop: 'images-slot',
-  },
-  {
-    type: 'slot',
-    label: '文件上传',
-    prop: 'files-slot',
+    label: '第二段',
+    prop: 'item_2'
   }
-])
+];
 
-// API 数据
-import { tableColumn, tableMethodColumn, tableSlotColumn } from '../constant'
-
-// 属性数据
-const attrTableData = [
+const item_1_form = [
   {
-    name: 'formData',
+    type: 'input',
+    label: '姓名',
+    prop: 'name',
+    required: true
+  },
+  {
+    type: 'number',
+    label: '年龄',
+    prop: 'age'
+  }
+];
+
+const item_2_form = [
+  {
+    type: 'select',
+    label: '类型',
+    prop: 'type',
+    rules: {
+      required: true,
+      message: '请选择活动类型',
+      trigger: 'blur'
+    },
+    options: [
+      {
+        label: '选项1',
+        value: 1
+      }
+    ]
+  },
+  {
+    type: 'switch',
+    label: '开启',
+    prop: 'open'
+  }
+];
+
+function addItem_1() {
+  formData_2.value.item_1.push({
+    name: undefined,
+    age: undefined
+  });
+}
+
+function addItem_2() {
+  formData_2.value.item_2.push({
+    type: undefined,
+    open: false
+  });
+}
+
+function removeItem_1(index) {
+  formData_2.value.item_1.splice(index, 1);
+}
+
+function removeItem_2(index) {
+  formData_2.value.item_2.splice(index, 1);
+}
+
+// 属性
+const attrTableData=[
+  {
+    name: 'formData/v-model:form-data',
     desc: '表单数据对象',
-    type: 'Object',
-    value: '{}'
+    type: 'object',
+    value: '-'
   },
   {
     name: 'formItems',
-    desc: '表单项配置数组',
-    type: 'Array',
+    desc: 'formItem 配置数据',
+    type: 'array',
     value: '[]'
   },
   {
     name: 'column',
-    desc: '表单列数',
-    type: 'Number',
+    desc: '列数',
+    type: 'number',
     value: '1'
   },
   {
     name: 'loading',
-    desc: '加载状态',
-    type: 'Boolean',
+    desc: '加载',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'showBtnLoading',
-    desc: '显示按钮加载状态',
-    type: 'Boolean',
+    desc: '是否展示confirm按钮加载状态',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'read',
-    desc: '只读模式',
-    type: 'Boolean',
+    desc: '是否只读',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'disabled',
-    desc: '禁用状态',
-    type: 'Boolean',
+    desc: '是否禁用',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'showButtons',
-    desc: '是否显示按钮',
-    type: 'Boolean',
+    desc: '是否展示confirm和reset按钮',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'buttonsClass',
-    desc: '按钮容器类名',
-    type: 'String',
-    value: '""'
+    desc: '展示confirm和reset按钮区域的样式',
+    type: 'string',
+    value: '-'
   },
   {
     name: 'buttonsLeft',
-    desc: '按钮左对齐',
-    type: 'Boolean',
+    desc: 'confirm和reset按钮是否在最左侧(inline为false时生效)',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'showReset',
     desc: '是否显示重置按钮',
-    type: 'Boolean',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'showSubmit',
-    desc: '是否显示提交按钮',
-    type: 'Boolean',
+    desc: '是否显示confirm按钮',
+    type: 'boolean',
     value: 'true'
   },
   {
     name: 'confirmText',
-    desc: '确认按钮文本',
-    type: 'String',
-    value: '"确认"'
+    desc: 'confirm 文案',
+    type: 'string',
+    value: '确认'
   },
   {
     name: 'resetText',
-    desc: '重置按钮文本',
-    type: 'String',
-    value: '"重置"'
+    desc: 'reset 文案',
+    type: 'string',
+    value: '重置'
   },
   {
     name: 'confirmClassName',
-    desc: '确认按钮类名',
-    type: 'String',
-    value: '""'
+    desc: 'confirm 按钮 className',
+    type: 'string',
+    value: '-'
   },
   {
     name: 'colon',
-    desc: '标签后是否加冒号',
-    type: 'Boolean',
+    desc: '冒号显示与否',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'labelEmpty',
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
+  },
+  {
+    name: 'hasDefReadStyle',
+    desc: '表单详情默认样式，锦鲤适用',
+    type: 'boolean',
+    value: false
+  }
+]
+
+// 事件
+const eventsTableData=[
+  {
+    name: 'submit',
+    desc: '提交验证时触发，成功返回表单数据对象',
+    type: 'Function',
+    value: '表单数据对象'
+  },
+  {
+    name: 'reset',
+    desc: '重置时触发',
+    type: 'Function',
+    value: '表单数据对象'
+  },
+  {
+    name: 'onChange',
+    desc: '表单select/radio切换时触发',
+    type: 'Function',
+    value: 'value: 选中值, prop：form中的prop名，index：索引'
+  },
+  {
+    name: 'changeFormData',
+    desc: '表单数据更新时触发',
+    type: 'Function',
+    value: 'value: 更新值, prop: 更新prop, form: 更新后的form数据'
+  }
+]
+
+// 插槽
+const slotTableData=[
+  {
+    name: 'default',
+    desc: '后置自定义内容',
+  },
+  {
+    name: 'buttons-prepend',
+    desc: '按钮前置自定义内容',
+  },
+  {
+    name: 'buttons-append',
+    desc: '按钮后置自定义内容'
+  }
+]
+
+// Exposes
+const exposesTableData=[
+  {
+    name: 'FormRef',
+    desc: 'el-form 组件的实例',
+    type: '-',
+    value: '-'
+  },
+  {
+    name: 'validate',
+    desc: '对整个表单的内容进行验证。 返回 Promise',
+    type: '-',
+    value: '-'
+  },
+  {
+    name: 'submitForm',
+    desc: '表单提交',
+    type: '-',
+    value: '-'
+  }
+]
+
+// 属性
+const attrTableData_1=[
+  {
+    name: 'value/v-model',
+    desc: '绑定值',
+    type: 'any',
+    value: '-'
+  },
+  {
+    name: 'isValue',
+    desc: '使用value时须设置true',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'type',
+    desc: '控件类型',
+    type: 'FormItemType',
+    value: '-'
+  },
+  {
+    name: 'label',
+    desc: '显示的标题',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'prop',
+    desc: '字段名称 对应列内容的字段名',
+    type: 'string/string[]',
+    value: '-'
+  },
+  {
+    name: 'rules',
+    desc: '表单验证规则',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'className',
+    desc: 'FormItem 样式',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'labelClass',
+    desc: 'FormItem Label 样式',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'tooltip',
+    desc: '提示文本',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'options',
+    desc: 'select/cascader 控件选项值',
+    type: 'array',
+    value: '[]'
+  },
+  {
+    name: 'trim',
+    desc: 'textarea 是否去除首尾空格（只对textarea有效）',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'attrs',
+    desc: '控件配置项',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'listeners',
+    desc: '控件事件',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'colon',
+    desc: '是否展示冒号',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'read',
+    desc: '是否只读',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'disabled',
+    desc: '是否禁用',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'labelEmpty',
-    desc: '空值显示文本',
-    type: 'String',
-    value: '"--"'
+    desc: '空字段内容占位符',
+    type: 'string',
+    value: '--'
   },
   {
-    name: 'hasDefReadStyle',
-    desc: '是否使用默认只读样式',
-    type: 'Boolean',
+    name: 'labelNumber',
+    desc: 'type为Label时，文本内容是否是数字',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'dateFormat',
+    desc: 'type为date时，文本内容日期时间格式',
+    type: 'string',
+    value: 'YYYY-MM-DD HH:mm:ss'
+  },
+  {
+    name: 'formatReadValue',
+    desc: '只读模式时处理显示文本的方法',
+    type: 'Function',
+    value: '-'
+  },
+  {
+    name: 'rangeSeparator',
+    desc: 'type是inputRange和inputNumberRange时取值范围时的分隔符',
+    type: 'string',
+    value: '~'
+  },
+  {
+    name: 'rangeProps',
+    desc: 'type是inputRange和inputNumberRange时的前后字段名',
+    type: 'string[]',
+    value: `['start', 'end']`
+  },
+  {
+    name: 'isRow',
+    desc: '是否为一行',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'selectAll',
+    desc: 'select 多选时是否支持全选',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'index',
+    desc: '索引(onChange 方法中使用)',
+    type: 'number',
+    value: '0'
+  },
+  {
+    name: 'slotKey',
+    desc: '插槽key(覆盖插槽名中的prop)',
+    type: 'string',
+    value: ''
+  },
+  {
+    name: 'levelMatch',
+    desc: '级联控件是否匹配层级（value 是否匹配 options 的层级）',
+    type: 'boolean', 
+    value: 'false'
+  },
+  {
+    name: 'manualValidate',
+    desc: '是否手动验证（解决值变动未触发验证的情况下）',
+    type: 'boolean',
     value: 'false'
   },
   {
     name: 'hideColumn',
-    desc: '是否隐藏列',
-    type: 'Boolean',
-    value: 'false'
+    desc: '隐藏某一列',
+    type: 'boolean',
+    value: false
   }
 ]
 
-// 事件数据
-const eventsTableData = [
+const formItemTypeColumn=[
   {
-    name: 'submit',
-    desc: '表单提交事件',
-    type: 'Function',
-    value: '(form: any) => void'
+    prop: 'name',
+    label: '值',
   },
   {
-    name: 'reset',
-    desc: '表单重置事件',
-    type: 'Function',
-    value: '(form: any) => void'
+    prop: 'desc',
+    label: '说明'
+  },
+]
+
+const formItemTypeData=[
+  {
+    name:'label',
+    desc:'文本显示'
   },
   {
-    name: 'update:form-data',
-    desc: '表单数据更新事件',
-    type: 'Function',
-    value: '(formData: any) => void'
+    name:'input',
+    desc:'输入框（el-input）'
   },
   {
-    name: 'onChange',
-    desc: '表单项值变化事件',
-    type: 'Function',
-    value: '(value: any, prop: string, index?: number) => void'
+    name:'textarea',
+    desc:'文本域（el-input）'
   },
   {
-    name: 'changeFormData',
-    desc: '表单数据变化事件',
-    type: 'Function',
-    value: '(value: any, prop: any, form: any) => void'
+    name:'number',
+    desc:'数字输入（el-input-number）'
+  },
+  {
+    name:'radio',
+    desc:'单选框（el-radio）'
+  },
+  {
+    name:'checkbox',
+    desc:'复选框（el-checkbox）'
+  },
+  {
+    name:'select',
+    desc:'下拉选择框（el-select）'
+  },
+  {
+    name:'date',
+    desc:'日期（el-date-picker）'
+  },
+  {
+    name:'datetimerange',
+    desc:'日期范围（el-date-picker）'
+  },
+  {
+    name:'timePicker',
+    desc:'时间（el-time-picker）'
+  },
+  {
+    name:'timeSelect',
+    desc:'时间选择（el-time-select）'
+  },
+  {
+    name:'cascader',
+    desc:'级联（el-cascader）'
+  },
+  {
+    name:'multipleCascader',
+    desc:'多选级联（el-cascader）'
+  },
+  {
+    name:'switch',
+    desc:'开关（el-switch）'
+  },
+  {
+    name:'inputRange',
+    desc:'取值范围'
+  },
+  {
+    name:'inputNumberRange',
+    desc:'数字取值范围'
+  },
+  {
+    name:'slot',
+    desc:'自定义内容（建议使用LSFormItem插入）'
+  },
+  {
+    name:'itemSlot',
+    desc:'el-form-item 内自定义内容'
+  },
+  {
+    name:'扩展type',
+    desc:'支持扩展，二次封装，<LSForm>{{扩展插槽，插槽名是新增type}}</LSForm>'
   }
+]
+
+// 插槽
+const slotTableData_1=[
+  {
+    name: '[prop]',
+    desc: '自定义内容,插槽名 跟 prop 一致，返回slotRow、value和updateModelValue(value)（LSForm配置中type是slot时是updateFormData(prop, value)）方法',
+  },
+  {
+    name: '[prop]-prepend',
+    desc: '前置自定义内容，返回slotRow',
+  },
+  {
+    name: '[prop]-append',
+    desc: '后置自定义内容，返回slotRow',
+  },
+  {
+    name: '[prop]-slot',
+    desc: 'type是itemSlot时，FormItem内自定义内容，返回slotRow、value和updateModelValue(value)方法',
+  },
+  {
+    name: '[prop]-read-slot',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[type]-read-slot',
+    desc: 'read时，展示文本内容的自定义内容，返回slotRow和value',
+  },
+  {
+    name: '[prop]-label-icon/tooltip-icon',
+    desc: 'label 右侧图标,tooltip时展示',
+  },
+  {
+    name: '[prop]-input-prefix',
+    desc: 'type为input/inputRange/inputNumberRange时，input 前置自定义内容,也可在attrs.prefixStr(prefix会出现警告所以改成prefixStr)中配置文本内容（优先级低于于插槽）',
+  },
+  {
+      name: '[prop]-input-suffix',
+      desc: 'type为input/inputRange/inputNumberRange时，input 后置自定义内容,也可在attrs.suffix中配置文本内容（优先级低于于插槽）',
+  },
+  {
+    name: '[prop]-input-prepend',
+    desc: 'type为input/inputRange时，input 前置自定义内容,也可在attrs.prepend中配置文本内容（优先级低于于插槽）',
+  },
+  {
+    name: '[prop]-input-append',
+    desc: 'type为input/inputRange时，input 后置自定义内容,也可在attrs.append中配置文本内容（优先级低于于插槽）',
+  },
+]
+
+// Exposes
+const exposesTableData_1=[
+  {
+    name: 'FormItemRef',
+    desc: 'el-form-item 组件的实例',
+    type: '-',
+    value: '-'
+  },
 ]
 </script>
 
-<style scoped>
-.demo-container {
-  margin-bottom: 24px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background-color: #fff;
+<style>
+.demo-form_1{
+  width: 500px;
 }
-.event-log {
-  margin: 5px 0;
-  padding: 5px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  font-size: 14px;
-}
-.custom-slot {
+.item-center{
   display: flex;
   align-items: center;
 }
