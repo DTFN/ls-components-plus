@@ -34,11 +34,19 @@ setTimeout(() => {
 }, 2000);
 
 const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left-fill' });
+
+function showMessage() {
+  ElMessage({
+    message: '这是一条消息',
+    type: 'info',
+    duration: 0
+  });
+}
 </script>
 
 <template>
   <div>
-    <LSButton :icon="Edit" />
+    <LSButton :icon="Edit" @click="showMessage" />
     <LSButton :loading="true">按钮1</LSButton>
     <LSButton :icon-config="iconConfig"></LSButton>
     <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">按钮2</LSButton>

@@ -399,7 +399,7 @@ const list9 = ref([
 <script setup>
 import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
-import { ElButton, ElTag } from 'element-plus';
+import { ElButton, ElTag, ElCard } from 'element-plus';
 
 const iconColor = ref('red');
 const list1 = ref([

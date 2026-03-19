@@ -1170,6 +1170,7 @@ const readAll9 = () => {
 <script setup>
 import { tableColumn, tableMethodColumn } from '../constant';
 import { ref, computed } from 'vue';
+import { ElDropdown } from 'element-plus';
 
 const loading = ref(true);
 const noticeNum = ref(1);

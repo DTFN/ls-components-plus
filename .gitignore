@@ -12,6 +12,7 @@ lerna-debug.log*
 .history/
 .trae/
 .agents/
+agent-data/
 node_modules/
 dist
 dist-ssr

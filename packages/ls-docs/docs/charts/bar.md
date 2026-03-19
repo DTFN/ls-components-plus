@@ -435,6 +435,8 @@ const templateAll = ref({
 
 :::
 
+
+
 ## API
 
 ### 1. Attributes
@@ -451,6 +453,8 @@ const templateAll = ref({
 import { tableColumn } from '../../constant';
 import { ref } from 'vue';
 import { ElForm, ElFormItem, ElRadioGroup, ElRadio, ElSelect, ElOption } from 'element-plus';
+import * as echarts from 'echarts';
+import { TITLE_STYLE } from './config';
 
 const formInline = ref({
   themeModel: 'default',
@@ -678,6 +682,8 @@ const dataTwoSeries = {
     }
   ]
 };
+
+
 
 function changeChartStyle() {
   [

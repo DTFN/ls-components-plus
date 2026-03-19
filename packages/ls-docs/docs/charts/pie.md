@@ -401,6 +401,8 @@ const templateAllPie = ref({
 
 :::
 
+
+
 ## API
 
 ### 1. Attributes
@@ -543,6 +545,7 @@ const innerDataPie = [
   { value: 775, name: '图例 2' },
   { value: 679, name: '图例 3' }
 ];
+
 function changeChartStyle() {
   ['template1', 'template2', 'template3', 'template4', 'template5', 'template6', 'template7', 'template8', 'template9', 'template10'].forEach((item) => {
     templateAllPie.value[item].theme = formInline.value.themeModel;

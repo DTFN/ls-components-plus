@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# Chart 图表
+# Chart 介绍
 
 ::: warning 基于[echarts](https://echarts.apache.org/zh/option.html#title)二次封装， 目前支持bar、line、pie部分类型快速创建。
 :::
