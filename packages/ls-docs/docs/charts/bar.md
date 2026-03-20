@@ -467,7 +467,19 @@ const customOption25DBar = ref({
     textStyle: TITLE_STYLE
   },
   tooltip: {
-    trigger: 'axis'
+    trigger: 'axis',
+    formatter: function (params) {
+      const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+      const mainData = params.find(p => p.seriesName === '');
+      if (mainData) {
+        const color = colors[mainData.dataIndex % colors.length];
+        return `<div style="display:flex;align-items:center;gap:8px;">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};"></span>
+          <span>${mainData.name}: <strong>${mainData.value}</strong></span>
+        </div>`;
+      }
+      return '';
+    }
   },
   grid: {
     left: 50,
@@ -746,6 +758,18 @@ const customOption25DBar = ref({
   },
   tooltip: {
     trigger: 'axis',
+    formatter: function(params) {
+      const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+      const mainData = params.find(p => p.seriesName === '');
+      if (mainData) {
+        const color = colors[mainData.dataIndex % colors.length];
+        return `<div style="display:flex;align-items:center;gap:8px;">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};"></span>
+          <span>${mainData.name}: <strong>${mainData.value}</strong></span>
+        </div>`;
+      }
+      return '';
+    }
   },
   grid: {
     left: 50,
