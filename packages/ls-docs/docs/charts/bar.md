@@ -435,7 +435,168 @@ const templateAll = ref({
 
 :::
 
+### 10. 2.5D柱状体
 
+<ClientOnly>
+<LSChart 
+  template="bar" 
+  :data="data25DBar" 
+  :template-patch="templateAll.templatePatch25DBar"
+  :custom-option="customOption25DBar" 
+  height="400" 
+/>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import * as echarts from 'echarts';
+import { TITLE_STYLE } from './config';
+
+// 2.5D柱状体数据
+const data25DBar = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+
+// 2.5D柱状体配置
+const customOption25DBar = ref({
+  title: {
+    text: '2.5D柱状体示例',
+    left: 'left',
+    textStyle: TITLE_STYLE
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  grid: {
+    left: 50,
+    right: 30,
+    bottom: 30,
+    top: 60,
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    data: data25DBar.axisData,
+    axisLine: { lineStyle: { color: '#999' } },
+    axisLabel: {
+      margin: 12
+    }
+  },
+  yAxis: {
+    type: 'value',
+    axisLine: { lineStyle: { color: '#999' } },
+    splitLine: { lineStyle: { color: '#f0f0f0' } }
+  },
+  series: [
+    // 底部阴影层
+    {
+      name: 'shadow',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '55%',
+      barGap: '-100%',
+      itemStyle: {
+        color: 'rgba(0, 0, 0, 0.08)',
+        borderRadius: 0
+      },
+      z: 1,
+      animation: false
+    },
+    // 主体柱状图
+    {
+      name: '',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      itemStyle: {
+        color: function (params) {
+          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.4) },
+            { offset: 0.2, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.2) },
+            { offset: 0.5, color: colors[params.dataIndex % colors.length] },
+            { offset: 0.8, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.15) },
+            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.35) }
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0],
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
+        shadowBlur: 12,
+        shadowOffsetX: 4,
+        shadowOffsetY: 4
+      },
+      label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        fontWeight: 'bold',
+        distance: 10
+      },
+      z: 10,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000
+    },
+    // 左侧暗面（模拟侧面）
+    {
+      name: 'leftSide',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      barGap: '-100%',
+      itemStyle: {
+        color: function (params) {
+          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.25) },
+            { offset: 0.3, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.1) },
+            { offset: 1, color: 'rgba(0, 0, 0, 0)' }
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0]
+      },
+      z: 11,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000
+    },
+    // 右侧高光
+    {
+      name: 'highlight',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      barGap: '-100%',
+      itemStyle: {
+        color: function (params) {
+          return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: 'rgba(255, 255, 255, 0)' },
+            { offset: 0.5, color: 'rgba(255, 255, 255, 0.1)' },
+            { offset: 0.8, color: 'rgba(255, 255, 255, 0.25)' },
+            { offset: 1, color: 'rgba(255, 255, 255, 0.4)' }
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0]
+      },
+      z: 12,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000
+    }
+  ]
+});
+```
+
+```html
+<LSChart
+  template="bar"
+  :data="data25DBar"
+  :template-patch="templateAll.templatePatch25DBar"
+  :custom-option="customOption25DBar"
+  height="400"
+/>
+```
+
+:::
 
 ## API
 
@@ -563,7 +724,149 @@ const templateAll = ref({
     labelPosition: 'top',
     legend: ['Forest', 'Steppe'],
     showBarFont: true
+  },
+  templatePatch25DBar: {
+    labelPosition: 'top',
+    showBarFont: true
   }
+});
+
+// 2.5D柱状体数据
+const data25DBar = {
+  axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  seriesData: [120, 200, 150, 80, 70, 110, 130]
+};
+
+// 2.5D柱状体配置
+const customOption25DBar = ref({
+  title: {
+    text: '2.5D柱状体示例',
+    left: 'left',
+    textStyle: TITLE_STYLE,
+  },
+  tooltip: {
+    trigger: 'axis',
+  },
+  grid: {
+    left: 50,
+    right: 30,
+    bottom: 30,
+    top: 60,
+    containLabel: true,
+  },
+  xAxis: {
+    type: 'category',
+    data: data25DBar.axisData,
+    axisLine: { lineStyle: { color: '#999' } },
+    axisLabel: {
+      margin: 12,
+    },
+  },
+  yAxis: { 
+    type: 'value',
+    axisLine: { lineStyle: { color: '#999' } },
+    splitLine: { lineStyle: { color: '#f0f0f0' } }
+  },
+  series: [
+    // 底部阴影层
+    {
+      name: 'shadow',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '55%',
+      barGap: '-100%',
+      itemStyle: {
+        color: 'rgba(0, 0, 0, 0.08)',
+        borderRadius: 0,
+      },
+      tooltip: { show: false },
+      label: { show: false },
+      z: 1,
+      animation: false,
+    },
+    // 主体柱状图
+    {
+      name: '',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      itemStyle: {
+        color: function(params) {
+          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.4) },
+            { offset: 0.2, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.2) },
+            { offset: 0.5, color: colors[params.dataIndex % colors.length] },
+            { offset: 0.8, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.15) },
+            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.35) },
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0],
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
+        shadowBlur: 12,
+        shadowOffsetX: 4,
+        shadowOffsetY: 4,
+      },
+      label: {
+        show: true,
+        position: 'top',
+        color: '#333',
+        fontWeight: 'bold',
+        distance: 10,
+      },
+      z: 10,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000,
+    },
+    // 左侧暗面（模拟侧面）
+    {
+      name: 'leftSide',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      barGap: '-100%',
+      itemStyle: {
+        color: function(params) {
+          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.25) },
+            { offset: 0.3, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.1) },
+            { offset: 1, color: 'rgba(0, 0, 0, 0)' },
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0],
+      },
+      tooltip: { show: false },
+      label: { show: false },
+      z: 11,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000,
+    },
+    // 右侧高光
+    {
+      name: 'highlight',
+      type: 'bar',
+      data: data25DBar.seriesData,
+      barWidth: '50%',
+      barGap: '-100%',
+      itemStyle: {
+        color: function(params) {
+          return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: 'rgba(255, 255, 255, 0)' },
+            { offset: 0.5, color: 'rgba(255, 255, 255, 0.1)' },
+            { offset: 0.8, color: 'rgba(255, 255, 255, 0.25)' },
+            { offset: 1, color: 'rgba(255, 255, 255, 0.4)' },
+          ]);
+        },
+        borderRadius: [4, 4, 0, 0],
+      },
+      tooltip: { show: false },
+      label: { show: false },
+      z: 12,
+      animationEasing: 'elasticOut',
+      animationDuration: 1000,
+    },
+  ],
 });
 
 const dataSimple = {
@@ -693,7 +996,8 @@ function changeChartStyle() {
     'templatePatchCategory',
     'templatePatchMultiBar',
     'templatePatchCustomColor',
-    'templatePatchDifferentLegendIcon'
+    'templatePatchDifferentLegendIcon',
+    'templatePatch25DBar'
   ].forEach((item) => {
     templateAll.value[item].theme = formInline.value.themeModel;
     templateAll.value[item].axis = formInline.value.axis;
