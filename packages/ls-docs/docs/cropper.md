@@ -532,7 +532,7 @@ function onCropDataAvatar(data) {
 
 ## 完整使用示例
 
-### 实际项目中的完整裁剪流程
+### 1. 实际项目中的完整裁剪流程
 
 ```vue
 <template>
