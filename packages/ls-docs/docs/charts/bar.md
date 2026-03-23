@@ -459,7 +459,7 @@ const data25DBar = {
   seriesData: [120, 200, 150, 80, 70, 110, 130]
 };
 
-// 2.5D柱状体配置
+// 2.5D柱状体配置 - 使用Cool→Hot渐变配色
 const customOption25DBar = ref({
   title: {
     text: '2.5D柱状体示例',
@@ -468,14 +468,22 @@ const customOption25DBar = ref({
   },
   tooltip: {
     trigger: 'axis',
+    backgroundColor: 'rgba(30, 41, 59, 0.95)',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    textStyle: {
+      color: '#F8FAFC',
+      fontSize: 13
+    },
     formatter: function (params) {
-      const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+      const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
       const mainData = params.find(p => p.seriesName === '');
       if (mainData) {
         const color = colors[mainData.dataIndex % colors.length];
-        return `<div style="display:flex;align-items:center;gap:8px;">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};"></span>
-          <span>${mainData.name}: <strong>${mainData.value}</strong></span>
+        return `<div style="display:flex;align-items:center;gap:10px;padding:4px 2px;">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${color};box-shadow:0 2px 4px ${color}40;"></span>
+          <span style="font-weight:500;">${mainData.name}</span>
+          <span style="font-weight:700;margin-left:8px;">${mainData.value}</span>
         </div>`;
       }
       return '';
@@ -491,15 +499,22 @@ const customOption25DBar = ref({
   xAxis: {
     type: 'category',
     data: data25DBar.axisData,
-    axisLine: { lineStyle: { color: '#999' } },
+    axisLine: { lineStyle: { color: '#CBD5E1' } },
     axisLabel: {
-      margin: 12
-    }
+      margin: 12,
+      color: '#64748B',
+      fontSize: 12
+    },
+    axisTick: { show: false }
   },
   yAxis: {
     type: 'value',
-    axisLine: { lineStyle: { color: '#999' } },
-    splitLine: { lineStyle: { color: '#f0f0f0' } }
+    axisLine: { show: false },
+    splitLine: { lineStyle: { color: '#E2E8F0', type: 'dashed' } },
+    axisLabel: {
+      color: '#64748B',
+      fontSize: 12
+    }
   },
   series: [
     // 底部阴影层
@@ -510,9 +525,11 @@ const customOption25DBar = ref({
       barWidth: '55%',
       barGap: '-100%',
       itemStyle: {
-        color: 'rgba(0, 0, 0, 0.08)',
+        color: 'rgba(148, 163, 184, 0.15)',
         borderRadius: 0
       },
+      tooltip: { show: false },
+      label: { show: false },
       z: 1,
       animation: false
     },
@@ -524,31 +541,39 @@ const customOption25DBar = ref({
       barWidth: '50%',
       itemStyle: {
         color: function (params) {
-          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
           return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.4) },
-            { offset: 0.2, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.2) },
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.35) },
+            { offset: 0.25, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.15) },
             { offset: 0.5, color: colors[params.dataIndex % colors.length] },
-            { offset: 0.8, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.15) },
-            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.35) }
+            { offset: 0.75, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.12) },
+            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.3) }
           ]);
         },
-        borderRadius: [4, 4, 0, 0],
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-        shadowBlur: 12,
+        borderRadius: [6, 6, 0, 0],
+        shadowColor: 'rgba(15, 23, 42, 0.15)',
+        shadowBlur: 16,
         shadowOffsetX: 4,
-        shadowOffsetY: 4
+        shadowOffsetY: 6
       },
       label: {
         show: true,
         position: 'top',
-        color: '#333',
-        fontWeight: 'bold',
-        distance: 10
+        color: '#1E293B',
+        fontWeight: '600',
+        fontSize: 12,
+        distance: 12
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 24,
+          shadowOffsetX: 6,
+          shadowOffsetY: 8
+        }
       },
       z: 10,
       animationEasing: 'elasticOut',
-      animationDuration: 1000
+      animationDuration: 800
     },
     // 左侧暗面（模拟侧面）
     {
@@ -559,18 +584,20 @@ const customOption25DBar = ref({
       barGap: '-100%',
       itemStyle: {
         color: function (params) {
-          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.25) },
-            { offset: 0.3, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.1) },
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.22) },
+            { offset: 0.35, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.08) },
             { offset: 1, color: 'rgba(0, 0, 0, 0)' }
           ]);
         },
-        borderRadius: [4, 4, 0, 0]
+        borderRadius: [6, 6, 0, 0]
       },
+      tooltip: { show: false },
+      label: { show: false },
       z: 11,
       animationEasing: 'elasticOut',
-      animationDuration: 1000
+      animationDuration: 800
     },
     // 右侧高光
     {
@@ -583,16 +610,18 @@ const customOption25DBar = ref({
         color: function (params) {
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
             { offset: 0, color: 'rgba(255, 255, 255, 0)' },
-            { offset: 0.5, color: 'rgba(255, 255, 255, 0.1)' },
-            { offset: 0.8, color: 'rgba(255, 255, 255, 0.25)' },
-            { offset: 1, color: 'rgba(255, 255, 255, 0.4)' }
+            { offset: 0.4, color: 'rgba(255, 255, 255, 0.08)' },
+            { offset: 0.7, color: 'rgba(255, 255, 255, 0.2)' },
+            { offset: 1, color: 'rgba(255, 255, 255, 0.35)' }
           ]);
         },
-        borderRadius: [4, 4, 0, 0]
+        borderRadius: [6, 6, 0, 0]
       },
+      tooltip: { show: false },
+      label: { show: false },
       z: 12,
       animationEasing: 'elasticOut',
-      animationDuration: 1000
+      animationDuration: 800
     }
   ]
 });
@@ -749,7 +778,7 @@ const data25DBar = {
   seriesData: [120, 200, 150, 80, 70, 110, 130]
 };
 
-// 2.5D柱状体配置
+// 2.5D柱状体配置 - 使用Cool→Hot渐变配色
 const customOption25DBar = ref({
   title: {
     text: '2.5D柱状体示例',
@@ -758,14 +787,22 @@ const customOption25DBar = ref({
   },
   tooltip: {
     trigger: 'axis',
+    backgroundColor: 'rgba(30, 41, 59, 0.95)',
+    borderColor: 'transparent',
+    borderWidth: 0,
+    textStyle: {
+      color: '#F8FAFC',
+      fontSize: 13
+    },
     formatter: function(params) {
-      const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+      const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
       const mainData = params.find(p => p.seriesName === '');
       if (mainData) {
         const color = colors[mainData.dataIndex % colors.length];
-        return `<div style="display:flex;align-items:center;gap:8px;">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};"></span>
-          <span>${mainData.name}: <strong>${mainData.value}</strong></span>
+        return `<div style="display:flex;align-items:center;gap:10px;padding:4px 2px;">
+          <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${color};box-shadow:0 2px 4px ${color}40;"></span>
+          <span style="font-weight:500;">${mainData.name}</span>
+          <span style="font-weight:700;margin-left:8px;">${mainData.value}</span>
         </div>`;
       }
       return '';
@@ -781,15 +818,22 @@ const customOption25DBar = ref({
   xAxis: {
     type: 'category',
     data: data25DBar.axisData,
-    axisLine: { lineStyle: { color: '#999' } },
+    axisLine: { lineStyle: { color: '#CBD5E1' } },
     axisLabel: {
       margin: 12,
+      color: '#64748B',
+      fontSize: 12
     },
+    axisTick: { show: false }
   },
   yAxis: { 
     type: 'value',
-    axisLine: { lineStyle: { color: '#999' } },
-    splitLine: { lineStyle: { color: '#f0f0f0' } }
+    axisLine: { show: false },
+    splitLine: { lineStyle: { color: '#E2E8F0', type: 'dashed' } },
+    axisLabel: {
+      color: '#64748B',
+      fontSize: 12
+    }
   },
   series: [
     // 底部阴影层
@@ -800,7 +844,7 @@ const customOption25DBar = ref({
       barWidth: '55%',
       barGap: '-100%',
       itemStyle: {
-        color: 'rgba(0, 0, 0, 0.08)',
+        color: 'rgba(148, 163, 184, 0.15)',
         borderRadius: 0,
       },
       tooltip: { show: false },
@@ -816,31 +860,39 @@ const customOption25DBar = ref({
       barWidth: '50%',
       itemStyle: {
         color: function(params) {
-          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
           return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.4) },
-            { offset: 0.2, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.2) },
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.35) },
+            { offset: 0.25, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.15) },
             { offset: 0.5, color: colors[params.dataIndex % colors.length] },
-            { offset: 0.8, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.15) },
-            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.35) },
+            { offset: 0.75, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.12) },
+            { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.3) },
           ]);
         },
-        borderRadius: [4, 4, 0, 0],
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-        shadowBlur: 12,
+        borderRadius: [6, 6, 0, 0],
+        shadowColor: 'rgba(15, 23, 42, 0.15)',
+        shadowBlur: 16,
         shadowOffsetX: 4,
-        shadowOffsetY: 4,
+        shadowOffsetY: 6,
       },
       label: {
         show: true,
         position: 'top',
-        color: '#333',
-        fontWeight: 'bold',
-        distance: 10,
+        color: '#1E293B',
+        fontWeight: '600',
+        fontSize: 12,
+        distance: 12,
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 24,
+          shadowOffsetX: 6,
+          shadowOffsetY: 8,
+        }
       },
       z: 10,
       animationEasing: 'elasticOut',
-      animationDuration: 1000,
+      animationDuration: 800,
     },
     // 左侧暗面（模拟侧面）
     {
@@ -851,20 +903,20 @@ const customOption25DBar = ref({
       barGap: '-100%',
       itemStyle: {
         color: function(params) {
-          const colors = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452'];
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.25) },
-            { offset: 0.3, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.1) },
+            { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.22) },
+            { offset: 0.35, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.08) },
             { offset: 1, color: 'rgba(0, 0, 0, 0)' },
           ]);
         },
-        borderRadius: [4, 4, 0, 0],
+        borderRadius: [6, 6, 0, 0],
       },
       tooltip: { show: false },
       label: { show: false },
       z: 11,
       animationEasing: 'elasticOut',
-      animationDuration: 1000,
+      animationDuration: 800,
     },
     // 右侧高光
     {
@@ -877,18 +929,18 @@ const customOption25DBar = ref({
         color: function(params) {
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
             { offset: 0, color: 'rgba(255, 255, 255, 0)' },
-            { offset: 0.5, color: 'rgba(255, 255, 255, 0.1)' },
-            { offset: 0.8, color: 'rgba(255, 255, 255, 0.25)' },
-            { offset: 1, color: 'rgba(255, 255, 255, 0.4)' },
+            { offset: 0.4, color: 'rgba(255, 255, 255, 0.08)' },
+            { offset: 0.7, color: 'rgba(255, 255, 255, 0.2)' },
+            { offset: 1, color: 'rgba(255, 255, 255, 0.35)' },
           ]);
         },
-        borderRadius: [4, 4, 0, 0],
+        borderRadius: [6, 6, 0, 0],
       },
       tooltip: { show: false },
       label: { show: false },
       z: 12,
       animationEasing: 'elasticOut',
-      animationDuration: 1000,
+      animationDuration: 800,
     },
   ],
 });
