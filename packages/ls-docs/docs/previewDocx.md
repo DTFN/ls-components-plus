@@ -13,7 +13,7 @@ outline: deep
 
 <br />
 <ClientOnly>
-<LSPreviewDocx v-model="previewVisible1" :source="source1" :on-close="() => { previewVisible1 = false; }" />
+<LSPreviewDocx v-model="previewVisible1" :source="source1" :onClose="() => { previewVisible1 = false; }" />
 <LSButton @click="loadDocxFile">点击预览DOCX文档</LSButton>
 </ClientOnly>
 
@@ -33,7 +33,7 @@ function loadDocxFile() {
 ```
 
 ```html
-<LSPreviewDocx v-model="previewVisible1" :source="source1" :on-close="() => { previewVisible1 = false; }" />
+<LSPreviewDocx v-model="previewVisible1" :source="source1" :onClose="() => { previewVisible1 = false; }" />
 <LSButton @click="loadDocxFile">点击预览DOCX文档</LSButton>
 ```
 
@@ -43,7 +43,7 @@ function loadDocxFile() {
 
 <br />
 <ClientOnly>
-<LSPreviewDocx v-model="previewVisible2" :source="source1" :show-watermark="true" :watermark-option="watermarkOption" :on-close="() => { previewVisible2 = false; }" />
+<LSPreviewDocx v-model="previewVisible2" :source="source1" :showWatermark="true" :watermarkOption="watermarkOption" :onClose="() => { previewVisible2 = false; }" />
 <LSButton @click="loadDocxFileWithWatermark">点击预览带水印DOCX文档</LSButton>
 </ClientOnly>
 
@@ -69,9 +69,9 @@ function loadDocxFileWithWatermark() {
 <LSPreviewDocx
   v-model="previewVisible2"
   :source="source1"
-  :show-watermark="true"
-  :watermark-option="watermarkOption"
-  :on-close="() => { previewVisible2 = false; }"
+  :showWatermark="true"
+  :watermarkOption="watermarkOption"
+  :onClose="() => { previewVisible2 = false; }"
 />
 <LSButton @click="loadDocxFileWithWatermark">点击预览带水印DOCX文档</LSButton>
 ```
@@ -82,7 +82,7 @@ function loadDocxFileWithWatermark() {
 
 <br />
 <ClientOnly>
-<LSPreviewDocx v-model="previewVisible3" :source="source1" has-download @on-download="handleDocxDownload" :on-close="() => { previewVisible3 = false; }" />
+<LSPreviewDocx v-model="previewVisible3" :source="source1" :hasDownload="true" @onDownload="handleDocxDownload" :onClose="() => { previewVisible3 = false; }" />
 <LSButton @click="loadDocxFileWithDownload">点击预览带下载功能DOCX文档</LSButton>
 </ClientOnly>
 
@@ -108,9 +108,9 @@ function handleDocxDownload(data) {
 <LSPreviewDocx
   v-model="previewVisible3"
   :source="source1"
-  has-download
-  @on-download="handleDocxDownload"
-  :on-close="() => { previewVisible3 = false; }"
+  :hasDownload="true"
+  @onDownload="handleDocxDownload"
+  :onClose="() => { previewVisible3 = false; }"
 />
 <LSButton @click="loadDocxFileWithDownload">点击预览带下载功能DOCX文档</LSButton>
 ```
@@ -121,7 +121,7 @@ function handleDocxDownload(data) {
 
 <br />
 <ClientOnly>
-<LSPreviewDocx v-model="previewVisible4" :source="source1" :on-close="() => { previewVisible4 = false; }">
+<LSPreviewDocx v-model="previewVisible4" :source="source1" :onClose="() => { previewVisible4 = false; }">
   <template #extra>
     <div class="custom-controls">
       <LSButton type="primary" size="small" @click="previewVisible4 = false">关闭预览</LSButton>
@@ -150,7 +150,7 @@ function handleDocxDownload(data) {
 ```
 
 ```html
-<LSPreviewDocx v-model="previewVisible4" :source="source1" :on-close="() => { previewVisible4 = false; }">
+<LSPreviewDocx v-model="previewVisible4" :source="source1" :onClose="() => { previewVisible4 = false; }">
   <template #extra>
     <div class="custom-controls">
       <LSButton type="primary" size="small" @click="previewVisible4 = false">关闭预览</LSButton>
@@ -264,16 +264,58 @@ function handleDocxDownload(data) {
 // 属性
 const tableData = ref([
   {
-    name: 'previewVisible/v-model:preview-visible',
+    name: 'modelValue/v-model',
     desc: '是否显示预览',
     type: 'boolean',
     value: 'false'
   },
   {
     name: 'source',
-    desc: 'DOCX文件源，必须是ArrayBuffer格式',
-    type: 'ArrayBuffer',
+    desc: 'DOCX文件源，支持ArrayBuffer或URL字符串',
+    type: 'ArrayBuffer / string',
+    value: 'null'
+  },
+  {
+    name: 'onClose',
+    desc: '关闭预览时的回调函数',
+    type: 'function',
     value: '-'
+  },
+  {
+    name: 'zoomSize',
+    desc: '缩放尺寸',
+    type: 'number / string',
+    value: '1.5'
+  },
+  {
+    name: 'needLoading',
+    desc: '是否需要加载状态',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'loadingOption',
+    desc: '加载状态配置',
+    type: 'object',
+    value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
+  },
+  {
+    name: 'hasDownload',
+    desc: '是否显示下载按钮',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'downloadData',
+    desc: '下载数据，通过 onDownload 事件传出',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'hideOnClickModal',
+    desc: '点击遮罩层是否关闭预览',
+    type: 'boolean',
+    value: 'false'
   },
   {
     name: 'showWatermark',
@@ -283,27 +325,9 @@ const tableData = ref([
   },
   {
     name: 'watermarkOption',
-    desc: '水印配置，具体配置参考el-watermark',
+    desc: '水印配置，具体配置参考 el-watermark',
     type: 'object',
     value: '{}'
-  },
-  {
-    name: 'hideOnClickModal',
-    desc: '点击遮罩层是否关闭预览',
-    type: 'boolean',
-    value: 'true'
-  },
-  {
-    name: 'hasDownload',
-    desc: '是否显示下载按钮',
-    type: 'boolean',
-    value: 'false'
-  },
-  {
-    name: 'downloadLoading',
-    desc: '下载中状态',
-    type: 'boolean',
-    value: 'false'
   }
 ]);
 
@@ -323,9 +347,9 @@ const eventsTableData = ref([
   },
   {
     name: 'onDownload',
-    desc: '文档下载事件',
+    desc: '点击下载按钮触发的事件，传出 downloadData',
     type: 'function',
-    value: 'downloadData'
+    value: '(downloadData: object)'
   }
 ]);
 
