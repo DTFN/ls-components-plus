@@ -375,7 +375,19 @@ const menuItem = {
   cpoPath: 'view/component/path',
 
   // 权限编码
-  pCode: 'permission-code'
+  pCode: 'permission-code',
+
+  // 图标名称（字符串格式，与 iconConfig 二选一）
+  icon: 'House',
+
+  // 重定向路径
+  redirect: '/redirect-path',
+
+  // 路由元信息
+  meta: {
+    requiresAuth: true,
+    title: '页面标题'
+  }
 };
 ```
 
@@ -424,6 +436,62 @@ const menuWithChildren = {
 const menuWithLink = {
   title: '外部链接',
   link: 'https://www.example.com' // 配置后会在新窗口打开
+};
+```
+
+### 5. 图标字符串配置
+
+```js
+const menuWithIconString = {
+  title: '菜单名称',
+  icon: 'House', // 直接使用图标名称，与 iconConfig 二选一
+  key: 'menu-key'
+};
+```
+
+### 6. 权限控制
+
+```js
+const menuWithPermission = {
+  title: '需要权限的菜单',
+  pCode: 'admin-only' // 权限编码
+};
+
+// 在组件中使用
+<LSMenu
+  :menu-config-list="menuList"
+  :need-permission="true"
+  :permission-list="['admin-only']"
+/>
+```
+
+### 7. 重定向配置
+
+```js
+const menuWithRedirect = {
+  title: '带重定向的菜单',
+  path: '/dashboard',
+  redirect: '/dashboard/overview' // 访问 /dashboard 时自动重定向
+};
+```
+
+### 8. 特殊配置
+
+```js
+const specialMenu = {
+  title: '特殊菜单',
+
+  // 是否为叶子菜单（子菜单不显示）
+  leaf: true,
+
+  // 是否隐藏该菜单
+  hideMenu: false,
+
+  // 是否自定义跳转处理
+  defJump: true,
+
+  // 是否显示为图标菜单（收缩时）
+  iconSlot: 'custom-icon-name'
 };
 ```
 
@@ -513,9 +581,10 @@ if (location.pathname == '/') {
 
 LSMenu 组件支持多种跳转方式：
 
-1. **路由跳转**：配置 `name` 或 `path` 属性
+1. **路由跳转**：配置 `name` 或 `path` 属性，组件会自动使用 `useRouterHook` 进行跳转
 2. **外链跳转**：配置 `link` 属性，会在新窗口打开
 3. **自定义跳转**：配置 `defJump: true` 并监听 `onJump` 事件
+4. **自定义点击事件**：配置 `isDefineClick: true` 并监听 `defineSubClick` 或 `defineChildClick` 事件
 
 ## API
 
@@ -808,43 +877,50 @@ const tableData = ref([
     name: 'menuConfigList',
     desc: '菜单配置列表',
     type: 'Array<MenuBaseType>',
-    value: '[]'
+    value: '[]',
+    required: '是'
   },
   {
     name: 'needPermission',
-    desc: '是否需要权限',
+    desc: '是否需要权限控制',
     type: 'boolean',
-    value: 'false'
+    value: 'false',
+    required: '否'
   },
   {
     name: 'permissionList',
-    desc: '权限列表，内部存放code码，当needPermission为true时生效',
+    desc: '权限列表，内部存放pCode码，当needPermission为true时生效',
     type: 'Array<string|number>',
-    value: '[]'
+    value: '[]',
+    required: '否'
   },
   {
     name: 'hoverColor',
-    desc: '菜单hover时的颜色',
+    desc: '菜单hover时的文字和图标颜色',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'isDefineClick',
-    desc: '菜单点击是否自定义',
+    desc: '菜单点击是否自定义，为true时会触发defineSubClick和defineChildClick事件',
     type: 'boolean',
-    value: 'false'
+    value: 'false',
+    required: '否'
   },
   {
     name: 'showTooltip',
-    desc: '鼠标移入菜单项时是否显示tooltip',
+    desc: '鼠标移入菜单项时是否显示tooltip提示',
     type: 'boolean',
-    value: 'true'
+    value: 'true',
+    required: '否'
   },
   {
     name: 'fontSize',
-    desc: '菜单字体大小',
+    desc: '菜单字体大小，用于tooltip组件',
     type: 'number',
-    value: '14'
+    value: '14',
+    required: '否'
   }
 ])
 
@@ -853,85 +929,113 @@ const tableData2 = ref([
     name: 'title',
     desc: '菜单名称',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '是'
   },
   {
     name: 'name',
     desc: '菜单路由name',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'path',
     desc: '菜单路由path',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'iconConfig',
     desc: '菜单名称前面的图标配置，具体配置参考LSIcon',
     type: 'object',
-    value: '-'
+    value: '-',
+    required: '否'
+  },
+  {
+    name: 'icon',
+    desc: '图标名称（字符串格式，与iconConfig二选一）',
+    type: 'string',
+    value: '-',
+    required: '否'
   },
   {
     name: 'key',
-    desc: '菜单key, 参考el-menu',
+    desc: '菜单key，用于el-menu的索引，必须唯一',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '是'
   },
   {
     name: 'cpoPath',
-    desc: 'view层组件对应路径',
+    desc: 'view层组件对应路径，用于动态路由生成',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'pCode',
-    desc: '权限code',
+    desc: '权限code，用于权限控制',
     type: 'string|number',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'link',
-    desc: '外链地址，配置之后就不在走路由跳转',
+    desc: '外链地址，配置之后会在新窗口打开，不走路由跳转',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'leaf',
     desc: '是否为叶子菜单，如果是叶子菜单，那么该菜单下的children菜单配置不显示',
     type: 'boolean',
-    value: 'false'
+    value: 'false',
+    required: '否'
   },
   {
     name: 'hideMenu',
     desc: '是否隐藏该菜单',
     type: 'boolean',
-    value: 'false'
+    value: 'false',
+    required: '否'
   },
   {
     name: 'children',
     desc: '子菜单配置',
     type: 'Array<MenuBaseType>',
-    value: '[]'
+    value: '[]',
+    required: '否'
   },
   {
     name: 'defJump',
-    desc: '菜单点击自定义处理',
+    desc: '菜单点击自定义处理，为true时会触发onJump事件',
     type: 'boolean',
-    value: 'false'
+    value: 'false',
+    required: '否'
   },
   {
     name: 'iconSlot',
-    desc: '菜单栏左边icon插槽名',
+    desc: '菜单栏左边icon插槽名，用于自定义图标',
     type: 'string',
-    value: '-'
+    value: '-',
+    required: '否'
   },
   {
     name: 'meta',
-    desc: '路由元信息',
+    desc: '路由元信息，可存放自定义数据',
     type: 'object',
-    value: '{}'
+    value: '{}',
+    required: '否'
+  },
+  {
+    name: 'redirect',
+    desc: '重定向路径，访问当前菜单时会自动跳转到指定路径',
+    type: 'string',
+    value: '-',
+    required: '否'
   }
 ])
 
@@ -953,17 +1057,17 @@ const eventTableColumn = ref([
 const tableData3 = ref([
   {
     name: 'onJump',
-    desc: '点击菜单自定义处理方法，defJump为true生效',
+    desc: '点击菜单自定义处理方法，defJump为true时生效',
     params: 'item: MenuBaseType'
   },
   {
     name: 'defineSubClick',
-    desc: '点击子菜单标题回调方法，isDefineClick为true生效',
+    desc: '点击子菜单标题回调方法，isDefineClick为true时生效',
     params: 'item: MenuBaseType'
   },
   {
     name: 'defineChildClick',
-    desc: '点击子菜单项回调方法，isDefineClick为true生效',
+    desc: '点击子菜单项回调方法，isDefineClick为true时生效',
     params: 'item: MenuBaseType'
   }
 ])
