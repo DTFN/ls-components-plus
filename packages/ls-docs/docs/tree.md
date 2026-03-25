@@ -701,7 +701,7 @@ const hidePrefixTreeData = ref([
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 1.1 data 配置项
+#### 1.1 treeData 配置项
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData2" />
 
@@ -1314,6 +1314,12 @@ const tableData2 = ref([
   {
     name: 'isLeaf',
     desc: '是否为叶子节点',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'isPenultimate',
+    desc: '是否开启水平布局，设置为true时子节点将水平排列',
     type: 'boolean',
     value: 'false'
   }
