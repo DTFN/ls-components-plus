@@ -339,22 +339,28 @@ const tableData = ref([
     value: '-'
   },
   {
-    name: 'showWatermark',
-    desc: '是否显示水印',
-    type: 'boolean',
-    value: 'false'
+    name: 'onClose',
+    desc: '关闭预览时的回调函数',
+    type: 'function',
+    value: '-'
   },
   {
-    name: 'watermarkOption',
-    desc: '水印配置，具体配置参考el-watermark',
-    type: 'object',
-    value: '{}'
+    name: 'zoomSize',
+    desc: '缩放尺寸',
+    type: 'number / string',
+    value: '1.5'
   },
   {
-    name: 'hideOnClickModal',
-    desc: '点击遮罩层是否关闭预览',
+    name: 'needLoading',
+    desc: '是否需要加载状态',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'loadingOption',
+    desc: '加载状态配置',
+    type: 'object',
+    value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
   },
   {
     name: 'hasDownload',
@@ -363,11 +369,29 @@ const tableData = ref([
     value: 'false'
   },
   {
-    name: 'downloadLoading',
-    desc: '下载中状态',
+    name: 'downloadData',
+    desc: '下载数据，通过 onDownload 事件传出',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'hideOnClickModal',
+    desc: '点击遮罩层是否关闭预览',
     type: 'boolean',
     value: 'false'
   },
+  {
+    name: 'showWatermark',
+    desc: '是否显示水印',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'watermarkOption',
+    desc: '水印配置，具体配置参考 el-watermark',
+    type: 'object',
+    value: '{}'
+  }
 ]);
 
 // 事件

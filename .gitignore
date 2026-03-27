@@ -13,6 +13,7 @@ lerna-debug.log*
 .trae/
 .agents/
 agent-data/
+skills-lock.json
 node_modules/
 dist
 dist-ssr

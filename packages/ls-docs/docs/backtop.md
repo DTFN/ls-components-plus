@@ -109,17 +109,17 @@ outline: deep
   justify-content: center;
   width: 60px;
   height: 60px;
-  background-color: #409EFF;
+  background-color: #409eff;
   color: #fff;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s;
-  
+
   &:hover {
-    background-color: #66B1FF;
+    background-color: #66b1ff;
     transform: translateY(-2px);
   }
-  
+
   span {
     font-size: 12px;
     margin-top: 4px;
@@ -174,12 +174,7 @@ outline: deep
 ```html
 <div id="backtopContainer5" class="backtop-container">
   <div class="backtop-scroll">往下滚动展示置顶按钮（监听滚动）</div>
-  <LSBackTop 
-    :target="'#backtopContainer5'" 
-    :right="400" 
-    :bottom="200"
-    @click="handleBackTopClick"
-  > </LSBackTop>
+  <LSBackTop :target="'#backtopContainer5'" :right="400" :bottom="200" @click="handleBackTopClick"> </LSBackTop>
 </div>
 ```
 
@@ -193,15 +188,15 @@ const handleBackTopClick = () => {
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Events
+### 2. Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="eventTableData" />
 
-### Slots
+### 3. Slots
 
 <ApiIntro :tableColumn="slotTableColumn" :tableData="slotTableData" />
 

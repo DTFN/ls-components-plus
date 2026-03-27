@@ -26,7 +26,7 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 
 <br />
 <ClientOnly>
-<LSPreviewPdf v-model="previewVisible1" :source="pdfSource1" :c-map-url-path="cMapUrlPath" :on-close="() => { previewVisible1 = false; }" />
+<LSPreviewPdf v-model="previewVisible1" :source="pdfSource1" :cMapUrlPath="cMapUrlPath" :onClose="() => { previewVisible1 = false; }" />
 <LSButton @click="previewVisible1 = true">点击预览PDF文档</LSButton>
 </ClientOnly>
 
@@ -43,8 +43,8 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 <LSPreviewPdf
   v-model="previewVisible1"
   :source="pdfSource1"
-  :c-map-url-path="cMapUrlPath"
-  :on-close="() => { previewVisible1 = false; }"
+  :cMapUrlPath="cMapUrlPath"
+  :onClose="() => { previewVisible1 = false; }"
 />
 <LSButton @click="previewVisible1 = true">点击预览PDF文档</LSButton>
 ```
@@ -55,7 +55,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 
 <br />
 <ClientOnly>
-<LSPreviewPdf v-model="previewVisible2" :source="pdfSource1" :c-map-url-path="cMapUrlPath" :show-watermark="true" :watermark-option="watermarkOption" :on-close="() => { previewVisible2 = false; }" />
+<LSPreviewPdf v-model="previewVisible2" :source="pdfSource1" :cMapUrlPath="cMapUrlPath" :showWatermark="true" :watermarkOption="watermarkOption" :onClose="() => { previewVisible2 = false; }" />
 <LSButton @click="previewVisible2 = true">点击预览带水印PDF文档</LSButton>
 </ClientOnly>
 
@@ -77,10 +77,10 @@ const watermarkOption = ref({
 <LSPreviewPdf
   v-model="previewVisible2"
   :source="pdfSource1"
-  :c-map-url-path="cMapUrlPath"
-  :show-watermark="true"
-  :watermark-option="watermarkOption"
-  :on-close="() => { previewVisible2 = false; }"
+  :cMapUrlPath="cMapUrlPath"
+  :showWatermark="true"
+  :watermarkOption="watermarkOption"
+  :onClose="() => { previewVisible2 = false; }"
 />
 <LSButton @click="previewVisible2 = true">点击预览带水印PDF文档</LSButton>
 ```
@@ -91,7 +91,7 @@ const watermarkOption = ref({
 
 <br />
 <ClientOnly>
-<LSPreviewPdf v-model="previewVisible3" :source="pdfSource1" :c-map-url-path="cMapUrlPath" has-download @on-download="handlePdfDownload" :on-close="() => { previewVisible3 = false; }" />
+<LSPreviewPdf v-model="previewVisible3" :source="pdfSource1" :cMapUrlPath="cMapUrlPath" :hasDownload="true" @onDownload="handlePdfDownload" :onClose="() => { previewVisible3 = false; }" />
 <LSButton @click="previewVisible3 = true">点击预览带下载功能PDF文档</LSButton>
 </ClientOnly>
 
@@ -113,10 +113,10 @@ function handlePdfDownload(data) {
 <LSPreviewPdf
   v-model="previewVisible3"
   :source="pdfSource1"
-  :c-map-url-path="cMapUrlPath"
-  has-download
-  @on-download="handlePdfDownload"
-  :on-close="() => { previewVisible3 = false; }"
+  :cMapUrlPath="cMapUrlPath"
+  :hasDownload="true"
+  @onDownload="handlePdfDownload"
+  :onClose="() => { previewVisible3 = false; }"
 />
 <LSButton @click="previewVisible3 = true">点击预览带下载功能PDF文档</LSButton>
 ```
@@ -127,7 +127,7 @@ function handlePdfDownload(data) {
 
 <br />
 <ClientOnly>
-<LSPreviewPdf v-model="previewVisible4" :source="pdfSource1" :c-map-url-path="cMapUrlPath" :init-no-pagination="true" :on-close="() => { previewVisible4 = false; }" />
+<LSPreviewPdf v-model="previewVisible4" :source="pdfSource1" :cMapUrlPath="cMapUrlPath" :initNoPagination="true" :onClose="() => { previewVisible4 = false; }" />
 <LSButton @click="previewVisible4 = true">初始加载全部页面</LSButton>
 </ClientOnly>
 
@@ -144,9 +144,9 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 <LSPreviewPdf
   v-model="previewVisible4"
   :source="pdfSource1"
-  :c-map-url-path="cMapUrlPath"
-  init-no-pagination
-  :on-close="() => { previewVisible4 = false; }"
+  :cMapUrlPath="cMapUrlPath"
+  :initNoPagination="true"
+  :onClose="() => { previewVisible4 = false; }"
 />
 <LSButton @click="previewVisible4 = true">点击预览不分页PDF文档</LSButton>
 ```
@@ -157,7 +157,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 
 <br />
 <ClientOnly>
-<LSPreviewPdf v-model="previewVisible5" :source="pdfSource1" :c-map-url-path="cMapUrlPath" :on-close="() => { previewVisible5 = false; }">
+<LSPreviewPdf v-model="previewVisible5" :source="pdfSource1" :cMapUrlPath="cMapUrlPath" :onClose="() => { previewVisible5 = false; }">
   <template #extra>
     <div class="custom-controls">
       <LSButton type="primary" size="small" @click="previewVisible5 = false">关闭预览</LSButton>
@@ -185,8 +185,8 @@ function handlePdfDownload(data) {
 <LSPreviewPdf
   v-model="previewVisible5"
   :source="pdfSource1"
-  :c-map-url-path="cMapUrlPath"
-  :on-close="() => { previewVisible5 = false; }"
+  :cMapUrlPath="cMapUrlPath"
+  :onClose="() => { previewVisible5 = false; }"
 >
   <template #extra>
     <div class="custom-controls">
@@ -217,11 +217,17 @@ function handlePdfDownload(data) {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. Events
+### 2. $attrs Attributes
+
+以下属性通过 $attrs 传递：
+
+<ApiIntro :tableColumn="tableColumn" :tableData="attrsTableData" />
+
+### 3. Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="eventsTableData" />
 
-### 3. Slots
+### 4. Slots
 
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="slotTableData" />
 
@@ -276,14 +282,38 @@ const tableData = ref([
     value: '-'
   },
   {
-    name: 'showWatermark',
-    desc: '是否显示水印',
+    name: 'onClose',
+    desc: '关闭预览时的回调函数',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'zoomSize',
+    desc: '缩放尺寸',
+    type: 'number / string',
+    value: '1.5'
+  },
+  {
+    name: 'needLoading',
+    desc: '是否需要加载状态',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'loadingOption',
+    desc: '加载状态配置',
+    type: 'object',
+    value: '{ text: "Loading", background: "rgba(0, 0, 0, 0.3)" }'
+  },
+  {
+    name: 'hasDownload',
+    desc: '是否显示下载按钮',
     type: 'boolean',
     value: 'false'
   },
   {
-    name: 'watermarkOption',
-    desc: '水印配置，具体配置参考el-watermark',
+    name: 'downloadData',
+    desc: '下载数据，通过 onDownload 事件传出',
     type: 'object',
     value: '{}'
   },
@@ -291,11 +321,33 @@ const tableData = ref([
     name: 'hideOnClickModal',
     desc: '点击遮罩层是否关闭预览',
     type: 'boolean',
-    value: 'true'
+    value: 'false'
   },
   {
-    name: 'hasDownload',
-    desc: '是否显示下载按钮',
+    name: 'showWatermark',
+    desc: '是否显示水印',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'watermarkOption',
+    desc: '水印配置，具体配置参考 el-watermark',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'showSize',
+    desc: '是否显示缩放控制',
+    type: 'boolean',
+    value: 'true'
+  }
+]);
+
+// $attrs 属性（通过 attrs 传递）
+const attrsTableData = ref([
+  {
+    name: 'initNoPagination',
+    desc: '初始是否不分页展示',
     type: 'boolean',
     value: 'false'
   },
@@ -310,18 +362,6 @@ const tableData = ref([
     desc: '下载中状态',
     type: 'boolean',
     value: 'false'
-  },
-  {
-    name: 'initNoPagination',
-    desc: '初始是否不分页展示',
-    type: 'boolean',
-    value: 'false'
-  },
-  {
-    name: 'showSize',
-    desc: '是否显示缩放控制',
-    type: 'boolean',
-    value: 'true'
   }
 ]);
 
@@ -341,9 +381,9 @@ const eventsTableData = ref([
   },
   {
     name: 'onDownload',
-    desc: 'PDF下载事件',
+    desc: '点击下载按钮触发的事件，传出 downloadData',
     type: 'function',
-    value: 'downloadData'
+    value: '(downloadData: object)'
   }
 ]);
 

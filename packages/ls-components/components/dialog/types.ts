@@ -1,9 +1,9 @@
 import { buildProps } from '@cpo/_utils/runtime';
-import { buttonProps } from 'element-plus';
-import { PropType } from 'vue';
-import type { ExtractPropTypes } from 'vue';
-import { merge } from 'lodash-es';
 import { iconProps } from '@cpo/icon/types';
+import { buttonProps } from 'element-plus';
+import { merge } from 'lodash-es';
+import type { ExtractPropTypes } from 'vue';
+import { PropType } from 'vue';
 
 const btnTypeProp = merge(buttonProps, {
   txt: String,

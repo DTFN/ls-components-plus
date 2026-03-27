@@ -1,6 +1,6 @@
-***
-
-## outline: deep
+---
+outline: deep
+---
 
 # PreviewImage 图片预览
 
@@ -145,7 +145,7 @@ const source2 = ref([
 
 <br />
 <ClientOnly>
-<LSPreviewImage v-model="previewVisible5" :source="source1" @on-download="handleDownload" :on-close="() => { previewVisible5 = false; }" has-download download-data="{ url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' }" />
+<LSPreviewImage v-model="previewVisible5" :source="source1" @onDownload="handleDownload" :onClose="() => { previewVisible5 = false; }" :hasDownload="true" :downloadData="downloadData" />
 <LSButton @click="previewVisible5 = true">点击预览带下载功能</LSButton>
 </ClientOnly>
 
@@ -155,9 +155,14 @@ const source2 = ref([
 import { ref } from 'vue';
 const previewVisible5 = ref(false);
 const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
+const downloadData = ref({
+  url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+  name: 'image.jpeg'
+});
 
-function handleDownload() {
-  alert('下载图片');
+function handleDownload(data) {
+  console.log('下载数据:', data);
+  alert('下载图片: ' + data.url);
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -166,10 +171,10 @@ function handleDownload() {
 <LSPreviewImage
   v-model="previewVisible5"
   :source="source1"
-  @on-download="handleDownload"
-  :on-close="() => { previewVisible5 = false; }"
-  has-download
-  download-data="{ url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg' }"
+  @onDownload="handleDownload"
+  :onClose="() => { previewVisible5 = false; }"
+  :hasDownload="true"
+  :downloadData="downloadData"
 />
 <LSButton @click="previewVisible5 = true">点击预览带下载功能</LSButton>
 ```
@@ -213,15 +218,21 @@ const handlePreview6 = () => {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. Events
+### 2. $attrs Attributes
+
+以下属性通过 $attrs 传递：
+
+<ApiIntro :tableColumn="tableColumn" :tableData="attrsTableData" />
+
+### 3. Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="eventsTableData" />
 
-### 3. Slots
+### 4. Slots
 
 <ApiIntro :tableColumn="tableSlotColumn" :tableData="slotTableData" />
 
-### 4. Exposes
+### 5. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="exposesTableData" />
 
@@ -254,9 +265,14 @@ const previewVisible4 = ref(false);
 
 // 示例5
 const previewVisible5 = ref(false);
+const downloadData = ref({
+  url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+  name: 'image.jpeg'
+});
 
-function handleDownload() {
-  alert('下载图片');
+function handleDownload(data) {
+  console.log('下载数据:', data);
+  alert('下载图片: ' + data.url);
 }
 
 // 示例6
@@ -282,7 +298,49 @@ const tableData = ref([
   {
     name: 'source',
     desc: '图片源，支持字符串或数组',
-    type: 'string / array',
+    type: 'string / string[]',
+    value: '[]'
+  },
+  {
+    name: 'zIndex',
+    desc: '预览组件的层级',
+    type: 'number',
+    value: '-'
+  },
+  {
+    name: 'initialIndex',
+    desc: '初始预览图片索引',
+    type: 'number',
+    value: '0'
+  },
+  {
+    name: 'infinite',
+    desc: '是否无限循环预览',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'hideOnClickModal',
+    desc: '点击遮罩层是否关闭预览',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'teleported',
+    desc: '是否将预览组件挂载到 body 元素下',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'closeOnPressEscape',
+    desc: '按下 ESC 键是否关闭预览',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'onClose',
+    desc: '关闭预览时的回调函数',
+    type: 'function',
     value: '-'
   },
   {
@@ -290,7 +348,11 @@ const tableData = ref([
     desc: '缩放尺寸',
     type: 'number / string',
     value: '1.5'
-  },
+  }
+]);
+
+// $attrs 属性（通过 attrs 传递）
+const attrsTableData = ref([
   {
     name: 'needLoading',
     desc: '是否需要加载状态',
@@ -311,15 +373,9 @@ const tableData = ref([
   },
   {
     name: 'downloadData',
-    desc: '下载数据',
+    desc: '下载数据，通过 on-download 事件传出',
     type: 'object',
     value: '{}'
-  },
-  {
-    name: 'hideOnClickModal',
-    desc: '点击遮罩层是否关闭预览',
-    type: 'boolean',
-    value: 'false'
   },
   {
     name: 'showWatermark',
@@ -329,7 +385,7 @@ const tableData = ref([
   },
   {
     name: 'watermarkOption',
-    desc: '水印配置，具体配置参考el-watermark',
+    desc: '水印配置，具体配置参考 el-watermark',
     type: 'object',
     value: '{}'
   }
@@ -337,6 +393,24 @@ const tableData = ref([
 
 // 事件
 const eventsTableData = ref([
+  {
+    name: 'close',
+    desc: '关闭预览事件（v-model 绑定会同步更新）',
+    type: 'function',
+    value: '-'
+  },
+  {
+    name: 'switch',
+    desc: '图片切换事件',
+    type: 'function',
+    value: '(index: number)'
+  },
+  {
+    name: 'update:source',
+    desc: '图片源更新事件（关闭时清空 source）',
+    type: 'function',
+    value: '(source: string[])'
+  },
   {
     name: 'loadComplete',
     desc: '图片加载完成事件',
@@ -351,9 +425,9 @@ const eventsTableData = ref([
   },
   {
     name: 'onDownload',
-    desc: '图片下载事件',
+    desc: '点击下载按钮触发的事件，传出 downloadData',
     type: 'function',
-    value: 'downloadData'
+    value: '(downloadData: object)'
   }
 ]);
 
@@ -361,15 +435,11 @@ const eventsTableData = ref([
 const slotTableData = ref([
   {
     name: 'viewer',
-    desc: '自定义预览内容插槽，图片组件内层区域',
-  },
-  {
-    name: 'viewer',
-    desc: '自定义预览内容插槽，图片组件外层区域',
+    desc: '自定义预览内容插槽，位于图片组件内部',
   },
   {
     name: 'default',
-    desc: '默认插槽',
+    desc: '默认插槽，位于图片组件内部',
   }
 ]);
 

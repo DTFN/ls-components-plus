@@ -216,11 +216,11 @@ const defineBCListWithQuery = ref([
 
 ## API
 
-### Attributes
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### Breadcrumb Item Attributes
+### 2. Breadcrumb Item Attributes
 
 ::: warning 默认路由meta中bcList配置参数与之一致
 :::
@@ -268,11 +268,13 @@ const routes = [
 当需要更灵活地控制面包屑内容时，可以使用defineList属性自定义面包屑：
 
 ```html
-<LSBreadcrumb :define-list="[
+<LSBreadcrumb
+  :define-list="[
   { title: '首页', name: 'Home' },
   { title: '产品管理' },
   { title: '产品详情', name: 'ProductDetail', query: { id: productId } }
-]" />
+]"
+/>
 ```
 
 ### 3. 最佳实践

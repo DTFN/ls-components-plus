@@ -690,6 +690,12 @@ const tableData = ref([
     desc: '额外内容',
     type: 'string',
     value: '-'
+  },
+  {
+    name: 'showZero',
+    desc: '数值为0时是否展示',
+    type: 'boolean',
+    value: 'false'
   }
 ])
 
@@ -740,6 +746,12 @@ const tableData1 = ref([
     name: 'slotName',
     desc: '用于type=slot的插槽名称',
     type: 'string',
+    value: '-'
+  },
+  {
+    name: 'labelWidth',
+    desc: 'label宽度，支持string或number',
+    type: 'string / number',
     value: '-'
   },
   {
