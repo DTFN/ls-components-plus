@@ -4,7 +4,7 @@ outline: deep
 
 # LSTable 表格
 
-LSTable 基于 Element Plus 的 `el-table` 封装，用于展示多条结构类似的数据，支持配置化列、内置分页、单选/多选、展开行、序号列及日期/状态/数字等列类型，可与 Element Plus Table 的大部分属性和事件透传使用。
+LSTable 基于 Element Plus 的 `el-table` 封装，用于展示多条结构类似的数据，支持配置化列、内置分页、单选/多选、展开行、序号列及日期/状态/数字/`render` 自定义列等渲染方式，可与 Element Plus Table 的大部分属性和事件透传使用。
 
 ::: warning
 基于 el-table 二次封装，保留原属性和方法。
@@ -12,6 +12,8 @@ LSTable 基于 Element Plus 的 `el-table` 封装，用于展示多条结构类�
 
 ::: tip
 LSTable 内部使用 `el-config-provider` 注入中文语言包，表格与分页相关文案为中文。
+
+未透传 `table-layout` / `tableLayout` 时，组件内部会将 `el-table` 的表格布局设为 **`auto`**；[Element Plus Table](https://element-plus.org/zh-CN/component/table) 文档中 `el-table` 的 **`table-layout` 默认值为 `fixed`**，二者不一致。若需与官方默认一致或固定布局，请显式传入 `table-layout="fixed"`。
 :::
 
 ## table-column 配置速查
@@ -21,18 +23,19 @@ LSTable 内部使用 `el-config-provider` 注入中文语言包，表格与分�
 | `label` | 列标题 | `'场景名称'` |
 | `prop` | 字段名（支持 lodash get 路径） | `'dataName'`、`'user.name'` |
 | `minWidth` / `width` | 列宽 / 最小宽度 | `100`、`'120px'` |
-| `type` | 列渲染类型 | `'date'`、`'status'`、`'number'`、`'slot'`、`'link'`、`'button'` |
+| `type` | 列渲染类型 | `'date'`、`'status'`、`'number'`、`'slot'`、`'link'`、`'button'`、`'render'` |
+| `render` | `type: 'render'` 时的单元格组件（函数式组件或 Vue 组件） | 见 [列类型说明 · render](#column-type-render) / [§8 示例](#table-example-render) |
 | `value` | status 列映射 | `{ key: { type: 'success', label: '启用' } }` |
 | `dateTemplate` | 日期格式（dayjs，type 为 `date` 时生效） | `'YYYY-MM-DD HH:mm:ss'` |
 | `statusStyle` | 状态列样式（type 为 `status` 时生效） | `'default'`、`'dot'`、`'follow'` |
 | `href` / `hrefProp` | 链接地址配置（type 为 `link` 时生效） | `href: (row) => string`、`hrefProp: 'detailUrl'` |
-| `text` / `textProp` / `textFormatter` | 链接展示文案配置（type 为 `link` 时生效） | `text: '查看'`、`textProp: 'name'`、`textFormatter: (row, raw) => string` |
+| `text` / `textProp` / `textFormatter` | 链接 / 按钮展示文案（`link`、`button` 时生效） | `text: '查看'`、`textProp: 'name'`、`textFormatter: (row, raw) => string` |
 | `linkProps` | 透传给 `el-link` 的其余配置（支持对象或函数） | `{ type: 'primary' }`、`({ row }) => ({ disabled: row.disabled })` |
 | `buttonProps` | type 为 `button` 时透传给 `el-button` 的配置（支持对象或函数） | `{ type: 'primary', link: true }`、`({ row }) => ({ disabled: row.disabled })` |
 | `sortable` | 是否排序 | `true`、`'custom'` |
 | `headerSlot` | 是否使用插槽自定义表头 | `true`，插槽名 `#${prop}-header` |
 | `filterIconSlot` | 是否使用插槽自定义筛选图标 | `true`，插槽名 `#${prop}-filter-icon` |
-| `filters` / `filterMethod` | 筛选配置（透传 el-table-column） | 见 Element Plus Table |
+| `filters` / `filterMethod` | 筛选配置（透传 el-table-column） | [Element Plus Table · Table-column 属性](https://element-plus.org/zh-CN/component/table#table-column-%E5%B1%9E%E6%80%A7) |
 
 ---
 
@@ -480,11 +483,9 @@ const tableColumn = ref([
 
 ---
 
-### 8. 自定义渲染（render）
+### 8. 自定义渲染（`type: 'render'`） {#table-example-render}
 
-当内置 `type` 无法满足需求时，在列配置中设置 `render` 字段可完全接管单元格渲染，**优先级高于所有内置 `type`**。
-
-`render` 接收一个函数式组件或 Vue 组件，组件的 props 为：
+用法约定（须同时设置 `type` 与 `render`、空值与未配置 `render` 时的表现）见 [列类型说明 · render](#column-type-render)。下表为传入组件的 props 说明，可运行示例与可复制代码见本节后文。
 
 | 参数 | 说明 |
 |---|---|
@@ -504,19 +505,20 @@ const tableColumn = ref([
 ```js
 import { h, ref } from 'vue';
 
-const renderTableData = ref([
+const renderTableData_1 = ref([
   { id: 1, name: '张三', score: 95,  progress: 95, disabled: false },
   { id: 2, name: '李四', score: -10, progress: 40, disabled: true  },
   { id: 3, name: '王五', score: 72,  progress: 72, disabled: false },
   { id: 4, name: '赵六', score: null, progress: 0, disabled: false }
 ]);
 
-const tableColumn = ref([
+const renderColumns_1 = ref([
   { label: 'ID',   prop: 'id',   width: 70 },
-  // 内联 render：根据 disabled 状态改变文字颜色和粗细
+  // type: 'render' + render：根据 disabled 状态改变文字颜色和粗细
   {
     label: '姓名',
     prop: 'name',
+    type: 'render',
     minWidth: 120,
     render: ({ value, row }) =>
       h('span', {
@@ -531,6 +533,7 @@ const tableColumn = ref([
   {
     label: '评分',
     prop: 'score',
+    type: 'render',
     minWidth: 100,
     render: ({ value }) => {
       if (value === null || value === undefined) return h('span', { style: { color: '#c0c4cc' } }, '--');
@@ -541,6 +544,7 @@ const tableColumn = ref([
   {
     label: '完成度',
     prop: 'progress',
+    type: 'render',
     minWidth: 160,
     render: ({ value }) =>
       h('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } }, [
@@ -566,8 +570,8 @@ const tableColumn = ref([
 ```html
 <LSTable
   :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="renderTableData"
+  :table-column="renderColumns_1"
+  :table-data="renderTableData_1"
 />
 ```
 
@@ -723,7 +727,7 @@ LSTable 默认在最左侧显示序号列，可通过以下属性灵活配置：
 
 当单元格的值为 `null`、`undefined` 或空字符串时，LSTable 会显示 `labelEmpty` 指定的占位文案（默认 `'--'`）。可通过 `labelEmptyClass` 为占位文案添加自定义样式类。
 
-> 注意：`type` 为 `date`、`status`、`number`、`slot` 的列有各自的空值处理逻辑，此占位配置对这些类型无效。
+> 注意：`type` 为 `date`、`number` 时，空值仍会使用 `labelEmpty`（日期列走 `formatDate` 的空值分支）。`type` 为 `link` 且未配置 `text` / `textProp` / `textFormatter` 时，空值也会用 `labelEmpty` / `labelEmptyClass`。`status`、`slot`、`button`、`render` 等由各自模板渲染，是否出现占位文案及是否受 `labelEmpty` 影响见各类型说明；其中 `render` 完全由自定义组件决定。
 
 <br>
 <ClientOnly>
@@ -1437,13 +1441,13 @@ function callClearSort()          { tableRef.value?.TableRef?.clearSort() }
 
 通过 `table-column` 配置列、`table-data` 传入数据即可。列中的 `label` 为表头文案，`prop` 对应数据字段名；`prop` 支持嵌套路径（如 `user.name`），内部使用 `lodash.get` 取值。
 
-除 LSTable 自有属性外，**[Element Plus Table](https://element-plus.org/zh-CN/component/table) 的属性和事件均可透传**，例如：`stripe`、`border`、`height`、`max-height`、`row-key`、`highlight-current-row`、`show-overflow-tooltip`、`show-summary`、`summary-method`、`default-expand-all`、`expand-row-keys`、`row-class-name`、`@row-click`、`@sort-change`、`@selection-change`、`@current-change`、`@expand-change` 等。列配置中每一项会透传给 `el-table-column`，故 `width`、`minWidth`、`fixed`、`sortable`、`align`、`formatter`、`filters`、`filterMethod` 等均可使用。
+除 LSTable 自有属性外，**[Element Plus Table](https://element-plus.org/zh-CN/component/table) 的属性和事件均可透传**，例如：`stripe`、`border`、`height`、`max-height`、`row-key`、`table-layout`、`highlight-current-row`、`show-overflow-tooltip`、`show-summary`、`summary-method`、`default-expand-all`、`expand-row-keys`、`row-class-name`、`@row-click`、`@sort-change`、`@selection-change`、`@current-change`、`@expand-change` 等。列配置中每一项会透传给 `el-table-column`，故 `width`、`minWidth`、`fixed`、`sortable`、`align`、`formatter`、`filters`、`filterMethod` 等均可使用。
 
 ---
 
 ## 列类型说明
 
-LSTable 通过列配置中的 `type` 字段内置了多种渲染模式。下方示例在一张表格中同时展示了 `date`、`status`、`number`、`link`、`button`、`slot` 六种列类型。
+LSTable 通过列配置中的 `type` 字段内置了多种渲染模式。下方示例在一张表格中同时展示了 `date`、`status`、`number`、`link`、`button`、`slot` 六种列类型；`type: 'render'` 见下文 [render](#column-type-render)，完整示例见 [使用示例第 8 节](#table-example-render)。
 
 <br>
 <ClientOnly>
@@ -1549,7 +1553,7 @@ const typeColumns = ref([
 
 ### number
 
-该列按数字展示，空值显示 `labelEmpty`。可选 `isSuc: true` 表示正数用 success 样式，否则负数用 danger 样式。
+该列按数字展示，空值显示 `labelEmpty`（默认 `'--'`）。**负数**始终使用 `danger` 样式；**正数及零**在 `isSuc: true` 时使用 `success`，否则不加颜色类型。
 
 ### slot
 
@@ -1599,57 +1603,31 @@ const typeColumns = ref([
 
 自定义表头：列配置中 `headerSlot: true` 时，可使用插槽 `#{prop}-header`，作用域 `{ column, index }`。自定义筛选图标：`filterIconSlot: true` 时，可使用插槽 `#{prop}-filter-icon`，作用域 `{ filterOpened }`。
 
----
+### render {#column-type-render}
 
-## 自定义渲染：item.render
+列上同时设置 **`type: 'render'`** 与 **`render`**（函数式组件或 Vue 组件）时，单元格由该组件渲染。仅写 `render` 而不设 `type: 'render'` 不会进入该分支；已设 `type` 但未配置 `render` 时，单元格为空（内部 `v-if="item.render"`）。
 
-当内置 `type` 无法满足复杂展示需求时，可以通过 `item.render` 完全接管该列单元格的渲染。`render` 接收一个组件（包括函数式组件），组件 props 为 `{ row, column, index, value, item }`：
+空值如何展示由自定义组件自行处理，**不经过**表格默认的 `labelEmpty` 占位。
 
-<br>
-<ClientOnly>
-<LSTable :show-pagination="false" :table-column="renderColumns" :table-data="tableData"/>
-</ClientOnly>
+组件接收的 props 与 [使用示例第 8 节](#table-example-render) 中表格一致，即 `{ row, column, index, value, item }`（`value` 为当前列 `prop` 对应原始值）。**可运行示例与可复制代码**见该节。
 
-::: details 点我查看代码
+```ts
+import { h } from 'vue';
 
-```js
-import { h, ref } from 'vue';
-
-const renderColumns = ref([
-  { label: 'ID', prop: 'id', width: 70 },
-  {
-    label: '姓名', prop: 'name', minWidth: 130,
-    // render 优先级最高，存在时覆盖 type/slot 等默认渲染
-    render: ({ value, row }) =>
-      h('span', {
-        style: {
-          color: row.disabled ? '#909399' : '#409EFF',
-          fontWeight: row.disabled ? 400 : 600
-        }
-      }, value || '--')
-  },
-  {
-    label: '余额', prop: 'amount', minWidth: 100,
-    render: ({ value }) =>
-      h('span', {
-        style: { color: Number(value) < 0 ? '#F56C6C' : '#67C23A' }
-      }, value ?? '--')
-  }
-]);
+{
+  label: '自定义',
+  prop: 'extra',
+  type: 'render',
+  render: ({ value, row }) => h('span', {}, value ?? '--')
+}
 ```
-
-```html
-<LSTable :show-pagination="false" :table-column="renderColumns" :table-data="tableData"/>
-```
-
-:::
 
 ---
 
 ## 内容溢出与空数据
 
-- **show-overflow-tooltip**：可透传布尔或对象。未配置时沿用 Element Plus 默认行为（不开启溢出提示）；当传入 `true` 时使用默认配置 `popperClass: 'table-popper-css'`（最大宽度 60%）；当传入对象时会在原有 `popperClass` 基础上合并 `table-popper-css`。
-- **空数据**：`showEmpty` 为 true（默认）时无数据显示空状态；`emptyLabel` 为描述文案（默认「暂无数据」）；可通过 `#empty` 插槽完全自定义。单元格值为空时（非 date/status/number/slot 列）显示 `labelEmpty`（默认 `'--'`），可用 `labelEmptyClass` 指定占位文案的 class。
+- **show-overflow-tooltip**：可透传布尔或对象。LSTable 在透传属性中**未**给出 `showOverflowTooltip`（或其为空）时，仍会给内部的 `el-table` 注入默认 `{ popperClass: 'table-popper-css' }`，与「完全不传、完全交给 Element Plus 默认」的行为并不相同；传入 `true` 或对象时也会合并/附带 `table-popper-css`（便于统一气泡最大宽度等样式）。
+- **空数据**：`showEmpty` 为 true（默认）时无数据显示空状态；`emptyLabel` 为描述文案（默认「暂无数据」）；可通过 `#empty` 插槽完全自定义。单元格空值时：**未设置扩展 `type` 的列**走统一占位，显示 `labelEmpty`（默认 `'--'`），可用 `labelEmptyClass` 控制样式。`date`、`number`、部分场景下的 `link` 等仍会用到 `labelEmpty`，但不一定走同一套 DOM 分支；`status`、`slot`、`button`、`render` 等见各类型小节。
 
 <br>
 <ClientOnly>
@@ -1919,7 +1897,9 @@ const pagingColumns = ref([
 | **labelEmptyClass** | 上述空占位文案所在元素的 class | `string` | `''` |
 | **emptyLabel** | 无数据时空状态的描述文案 | `string` | `'暂无数据'` |
 
-透传属性（不在此表）：Element Plus Table 的所有属性均可透传，如 `stripe`、`border`、`height`、`max-height`、`row-key`、`highlight-current-row`、`show-overflow-tooltip`、`show-summary`、`summary-method`、`default-expand-all`、`expand-row-keys`、`row-class-name`、`row-style`、`cell-class-name`、`header-cell-class-name` 等。
+透传属性（不在此表）：Element Plus Table 的所有属性均可透传，如 `stripe`、`border`、`height`、`max-height`、`row-key`、`table-layout`、`highlight-current-row`、`show-overflow-tooltip`、`show-summary`、`summary-method`、`default-expand-all`、`expand-row-keys`、`row-class-name`、`row-style`、`cell-class-name`、`header-cell-class-name` 等。
+
+**`table-layout` / `tableLayout`**：未显式传入时由 LSTable 设为 **`auto`**；Element Plus `el-table` 文档中该属性默认值为 **`fixed`**。需要与文档默认一致时请显式设置 `table-layout="fixed"`。
 
 ---
 
@@ -1941,7 +1921,7 @@ const pagingColumns = ref([
 
 | 插槽名 | 说明 | 作用域参数 |
 |--------|------|------------|
-| **prepend** | 表格主体上方插入的内容（对应 el-table prepend） | — |
+| **prepend** | 插在配置列之前（位于 `el-table` 默认插槽内）；并非 Element Plus 文档中的表格级插槽名，仅为 LSTable 提供的具名插槽 | — |
 | **expand** | 展开行内容，需配合 showExpand 使用 | `{ row }` |
 | **empty** | 无数据时自定义内容，覆盖默认空状态 | — |
 | **append** | 表格最后一行之后插入的内容（对应 el-table append） | — |
@@ -1962,7 +1942,7 @@ const pagingColumns = ref([
 
 ---
 
-## table-column 列配置项
+## LSTable 列配置项（table-column）
 
 每项会原样透传给 `el-table-column`，下表为常用字段及 LSTable 扩展字段。
 
@@ -1970,7 +1950,7 @@ const pagingColumns = ref([
 |------|------|------|----------------|
 | **label** | 列标题 | `string` | — |
 | **prop** | 对应数据字段名，支持路径如 `user.name` | `string` | — |
-| **type** | 列类型：不设或 `default`、`date`、`status`、`number`、`slot`、`link`、`button` | `string` | 不设则按普通文本渲染 |
+| **type** | 列类型：不设或 `default`、`date`、`status`、`number`、`slot`、`link`、`button`、`render` | `string` | 不设则按普通文本渲染 |
 | **width** | 列宽度（固定） | `string` / `number` | — |
 | **minWidth** | 列最小宽度 | `string` / `number` | — |
 | **fixed** | 固定列：`true` / `'left'` / `'right'` | `boolean` / `string` | — |
@@ -1981,8 +1961,8 @@ const pagingColumns = ref([
 | **value** | type 为 status 时的映射：`{ [字段值]: { type?, label } }`，可含 default | `object` | — |
 | **statusStyle** | type 为 status 时的展示样式：default（仅颜色）、dot / follow（带圆点） | `string` | `'default'` |
 | **statusProps** | type 为 status 时透传给 `el-text` 的其余配置；支持对象或函数 `({ row, column, index, value, item }) => object` | `object` / `Function` | `{}` |
-| **isSuc** | type 为 number 时，为 true 表示正数用 success 样式 | `boolean` | — |
-| **href** | type 为 link 时的链接，可为固定字符串或函数 `(row) => string` | `string` / `Function` | 默认取 `hrefProp` 或当前 `prop` 对应值 |
+| **isSuc** | type 为 number 时，为 true 表示正数（含零）用 success；负数始终为 danger，与该项无关 | `boolean` | — |
+| **href** | type 为 link 时的链接，可为固定字符串或函数 `(row) => string` | `string` / `Function` | 未配置函数/字符串时依次使用 `hrefProp` 对应字段、否则回退为列 `prop` 对应字段值 |
 | **hrefProp** | type 为 link 时，从行数据中取链接的字段路径，如 `detailUrl` | `string` | — |
 | **linkProps** | type 为 link 时透传给 `el-link` 的其余配置，如 `type`、`underline`、`target` 等；支持对象或函数 `({ row, column, index }) => object` | `object` / `Function` | `{}` |
 | **text** | type 为 link 时的固定展示文案 | `string` | 默认取 `textProp` 或当前 `prop` 对应值 |
@@ -2003,7 +1983,7 @@ const pagingColumns = ref([
 | **sortMethod** | 排序方法（透传） | `Function` | — |
 | **sortBy** | 排序字段或函数（透传） | `string` / `Function` / `array` | — |
 | **resizable** | 是否可拖拽调整列宽（透传，需 border） | `boolean` | — |
-| **render** | 自定义单元格渲染组件，优先级最高；接收 `{ row, column, index, value, item }` 作为 props | `Component` / `FunctionalComponent` | — |
+| **render** | `type` 为 `render` 时的单元格组件；接收 `{ row, column, index, value, item }` 作为 props | `Component` / `FunctionalComponent` | — |
 
 其他 `el-table-column` 支持的属性（如 `index`、`column-key`、`sort-orders` 等）均可写在列配置中。
 
@@ -2325,7 +2305,7 @@ const slotColumns = ref([
   { label: '操作', prop: 'operate', type: 'slot', minWidth: 140, headerSlot: true }
 ]);
 
-// 8. 自定义渲染（render）
+// 8. 自定义渲染（type: render）
 const renderTableData_1 = ref([
   { id: 1, name: '张三', score: 95,   progress: 95, disabled: false },
   { id: 2, name: '李四', score: -10,  progress: 40, disabled: true  },
@@ -2335,7 +2315,7 @@ const renderTableData_1 = ref([
 const renderColumns_1 = ref([
   { label: 'ID', prop: 'id', width: 70 },
   {
-    label: '姓名', prop: 'name', minWidth: 120,
+    label: '姓名', prop: 'name', type: 'render', minWidth: 120,
     render: ({ value, row }) =>
       h('span', {
         style: {
@@ -2346,7 +2326,7 @@ const renderColumns_1 = ref([
       }, value || '--')
   },
   {
-    label: '评分', prop: 'score', minWidth: 100,
+    label: '评分', prop: 'score', type: 'render', minWidth: 100,
     render: ({ value }) => {
       if (value === null || value === undefined)
         return h('span', { style: { color: '#c0c4cc' } }, '--');
@@ -2356,7 +2336,7 @@ const renderColumns_1 = ref([
     }
   },
   {
-    label: '完成度', prop: 'progress', minWidth: 160,
+    label: '完成度', prop: 'progress', type: 'render', minWidth: 160,
     render: ({ value }) =>
       h('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } }, [
         h('div', { style: { flex: 1, height: '6px', borderRadius: '3px', background: '#f0f0f0', overflow: 'hidden' } }, [
@@ -2387,7 +2367,7 @@ const typeColumns = ref([
   { label: '余额', prop: 'amount', type: 'number', isSuc: true, minWidth: 90 },
   {
     label: '官网链接', prop: 'website', type: 'link', minWidth: 120,
-    href: 'websiteUrl',
+    hrefProp: 'websiteUrl',
     linkProps: ({ row }) => ({ type: 'primary', target: '_blank', disabled: row.disabled })
   },
   {
@@ -2396,23 +2376,6 @@ const typeColumns = ref([
     onClick({ row }) { alert(`查看：${row.name}`) }
   },
   { label: '备注', prop: 'remark', type: 'slot', minWidth: 100 }
-]);
-
-// 3. 自定义渲染
-const renderColumns = ref([
-  { label: 'ID', prop: 'id', width: 70 },
-  {
-    label: '姓名', prop: 'name', minWidth: 130,
-    render: ({ value, row }) =>
-      h('span', {
-        style: { color: row.disabled ? '#909399' : '#409EFF', fontWeight: row.disabled ? 400 : 600 }
-      }, value || '--')
-  },
-  {
-    label: '余额', prop: 'amount', minWidth: 100,
-    render: ({ value }) =>
-      h('span', { style: { color: Number(value) < 0 ? '#F56C6C' : '#67C23A' } }, value ?? '--')
-  }
 ]);
 
 // 4. 内容溢出 / 空数据
