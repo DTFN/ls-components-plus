@@ -57,7 +57,8 @@ const basicTableColumn = computed(() => [
   {
     label: '姓名',
     prop: 'name',
-    minWidth: 120
+    minWidth: 120,
+    formatter: (row: UserRow) => row.name + '（余额：' + row.amount + '）'
   },
   {
     label: '创建时间',
@@ -115,8 +116,6 @@ const linkAndButtonColumn = computed(() => [
     type: 'button',
     text: '查看详情',
     buttonProps: ({ row }: { row: UserRow }) => ({
-      type: 'primary',
-      link: true,
       disabled: row.disabled
     }),
     onClick({ row }: { row: UserRow }) {
@@ -131,6 +130,7 @@ const customRenderColumn = computed(() => [
     label: '自定义渲染',
     prop: 'name',
     minWidth: 180,
+    type: 'render',
     render: (props: { row: UserRow; value: any }) =>
       `自定义：${props.value ?? props.row.name ?? '--'}（余额：${props.row.amount}）`
   }

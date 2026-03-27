@@ -256,6 +256,11 @@ const attrsProps = computed(() => {
     newAttrs.rowKey = rowKey;
   }
 
+  // 设置表格布局方式,默认为auto
+  if (!newAttrs['tableLayout']) {
+    newAttrs['tableLayout'] = 'auto';
+  }
+
   // 多选功能
   if (props.showSelect) {
     // 添加选择事件处理
@@ -412,120 +417,118 @@ defineExpose({
           <template v-for="item in tableColumn" :key="item.prop">
             <el-table-column v-bind="item">
               <template #default="{ row, column, $index }">
-                <!-- 自定义渲染组件（优先级最高，可完全接管单元格渲染） -->
-                <component
-                  v-if="item.render"
-                  :is="item.render"
-                  :row="row"
-                  :column="column"
-                  :index="$index"
-                  :value="getCellValue(item, row)"
-                  :item="item"
-                />
-
                 <!-- 默认渲染模板 -->
-                <template v-else>
-                  <!-- 日期 -->
-                  <template v-if="item.type === 'date'">
-                    {{ formatDate(getCellValue(item, row), item.dateTemplate) }}
-                  </template>
+                <!-- 日期 -->
+                <template v-if="item.type === 'date'">
+                  {{ formatDate(getCellValue(item, row), item.dateTemplate) }}
+                </template>
 
-                  <!-- 状态 -->
-                  <template v-else-if="item.type === 'status'">
-                    <el-text
-                      v-bind="
-                        typeof item.statusProps === 'function'
-                          ? item.statusProps({
-                              row,
-                              column,
-                              index: $index,
-                              value: get(row, item.prop),
-                              item
-                            })
-                          : item.statusProps
-                      "
-                      :type="
-                        ['default', 'follow'].includes(item.statusStyle || 'default')
-                          ? getStatusType(item.value, row, item.prop)
-                          : ''
-                      "
-                      :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
-                    >
-                      {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
-                    </el-text>
-                  </template>
+                <!-- 状态 -->
+                <template v-else-if="item.type === 'status'">
+                  <el-text
+                    v-bind="
+                      typeof item.statusProps === 'function'
+                        ? item.statusProps({
+                            row,
+                            column,
+                            index: $index,
+                            value: get(row, item.prop),
+                            item
+                          })
+                        : item.statusProps
+                    "
+                    :type="
+                      ['default', 'follow'].includes(item.statusStyle || 'default')
+                        ? getStatusType(item.value, row, item.prop)
+                        : ''
+                    "
+                    :class="getStatusClass(item.statusStyle, getStatusType(item.value, row, item.prop), item.className)"
+                  >
+                    {{ item.value[get(row, item.prop)]?.label || item.value.default?.label || row[item.prop] }}
+                  </el-text>
+                </template>
 
-                  <!-- 数字 -->
-                  <template v-else-if="item.type === 'number'">
-                    <template v-if="isCellEmpty(item, row)">{{ labelEmpty || '--' }}</template>
-                    <el-text v-else :type="Number(getCellValue(item, row)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
-                      {{ getCellValue(item, row) }}
-                    </el-text>
-                  </template>
+                <!-- 数字 -->
+                <template v-else-if="item.type === 'number'">
+                  <template v-if="isCellEmpty(item, row)">{{ labelEmpty || '--' }}</template>
+                  <el-text v-else :type="Number(getCellValue(item, row)) < 0 ? 'danger' : `${item.isSuc ? 'success' : ''}`">
+                    {{ getCellValue(item, row) }}
+                  </el-text>
+                </template>
 
-                  <!-- 链接 -->
-                  <template v-else-if="item.type === 'link'">
-                    <!-- 若未配置自定义文本相关字段，且 prop 为空，则走统一空占位逻辑 -->
-                    <template v-if="!item.text && !item.textProp && !item.textFormatter && isCellEmpty(item, row)">
-                      <div :class="labelEmptyClass">
-                        {{ labelEmpty || '--' }}
-                      </div>
-                    </template>
-                    <el-link
-                      v-else
-                      :href="getLinkHref(item, row)"
-                      v-bind="
-                        typeof item.linkProps === 'function' ? item.linkProps({ row, column, index: $index }) : item.linkProps
-                      "
-                    >
-                      {{ getCellText(item, row) }}
-                    </el-link>
-                  </template>
-
-                  <!-- 按钮 -->
-                  <template v-else-if="item.type === 'button'">
-                    <el-button
-                      class="ls-table-button"
-                      v-bind="
-                        typeof item.buttonProps === 'function'
-                          ? item.buttonProps({
-                              row,
-                              column,
-                              index: $index,
-                              value: getCellValue(item, row),
-                              item
-                            })
-                          : item.buttonProps
-                      "
-                      @click="
-                        item.onClick?.({
-                          row,
-                          column,
-                          index: $index,
-                          value: getCellValue(item, row),
-                          item
-                        })
-                      "
-                    >
-                      {{ getCellText(item, row) }}
-                    </el-button>
-                  </template>
-
-                  <!-- 自定义 -->
-                  <template v-else-if="item.type === 'slot'">
-                    <slot :name="item.prop" :row="row" :column="column" :index="$index" />
-                  </template>
-
-                  <!-- 空值占位 -->
-                  <template v-else-if="isCellEmpty(item, row)">
+                <!-- 链接 -->
+                <template v-else-if="item.type === 'link'">
+                  <!-- 若未配置自定义文本相关字段，且 prop 为空，则走统一空占位逻辑 -->
+                  <template v-if="!item.text && !item.textProp && !item.textFormatter && isCellEmpty(item, row)">
                     <div :class="labelEmptyClass">
                       {{ labelEmpty || '--' }}
                     </div>
                   </template>
+                  <el-link
+                    v-else
+                    :href="getLinkHref(item, row)"
+                    v-bind="
+                      typeof item.linkProps === 'function' ? item.linkProps({ row, column, index: $index }) : item.linkProps
+                    "
+                  >
+                    {{ getCellText(item, row) }}
+                  </el-link>
+                </template>
 
-                  <template v-else>
-                    {{ getCellValue(item, row) }}
-                  </template>
+                <!-- 按钮 -->
+                <template v-else-if="item.type === 'button'">
+                  <el-button
+                    class="ls-table-button"
+                    type="primary"
+                    link
+                    v-bind="
+                      typeof item.buttonProps === 'function'
+                        ? item.buttonProps({
+                            row,
+                            column,
+                            index: $index,
+                            value: getCellValue(item, row),
+                            item
+                          })
+                        : item.buttonProps
+                    "
+                    @click="
+                      item.onClick?.({
+                        row,
+                        column,
+                        index: $index,
+                        value: getCellValue(item, row),
+                        item
+                      })
+                    "
+                  >
+                    {{ getCellText(item, row) }}
+                  </el-button>
+                </template>
+
+                <!-- 自定义 -->
+                <template v-else-if="item.type === 'slot'">
+                  <slot :name="item.prop" :row="row" :column="column" :index="$index" />
+                </template>
+
+                <!-- 自定义渲染 -->
+                <template v-else-if="item.type === 'render'">
+                  <component
+                    v-if="item.render"
+                    :is="item.render"
+                    :row="row"
+                    :column="column"
+                    :index="$index"
+                    :value="getCellValue(item, row)"
+                    :item="item"
+                  />
+                </template>
+
+                <!-- 空值占位 -->
+                <template v-else-if="isCellEmpty(item, row)">
+                  <div :class="labelEmptyClass">
+                    {{ labelEmpty || '--' }}
+                  </div>
                 </template>
               </template>
 
@@ -608,9 +611,9 @@ defineExpose({
     background-color: var(--el-color-primary);
   }
 }
-.ls-table-button {
-  padding-left: 0 !important;
-}
+// .ls-table-button {
+//   padding-left: 0 !important;
+// }
 :deep(.el-text) {
   line-height: 1;
 }
