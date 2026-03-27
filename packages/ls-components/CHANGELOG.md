@@ -1,3 +1,27 @@
+# [2.5.0](https://github.com/DTFN/ls-components-plus/compare/v2.4.12...v2.5.0) (2026-03-27)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([29664db](https://github.com/DTFN/ls-components-plus/commit/29664db2c5d4a645f8d077ea000a5bc23efef529))
+* **ls-component:** 🧩 update table ([3aea7c9](https://github.com/DTFN/ls-components-plus/commit/3aea7c9bac6c1394c9a27e901d3636f243d90c2a))
+* **ls-doc:** 🧩 update ([498b759](https://github.com/DTFN/ls-components-plus/commit/498b7593ea696de148601a2d5e01c08f461c4103))
+* **ls-doc:** 🧩 update ([98e9fce](https://github.com/DTFN/ls-components-plus/commit/98e9fcebda8a826fcda0c73a90cf31afce12bf23))
+* **ls-doc:** 🧩 update ([7572b54](https://github.com/DTFN/ls-components-plus/commit/7572b545dbb541f48739fe32af4229d4a9eeb583))
+* **ls-doc:** 🧩 update ([c751d37](https://github.com/DTFN/ls-components-plus/commit/c751d3733c51f70ae8465c61cf58753aa04ad141))
+* **ls-doc:** 🧩 update ([95cbf23](https://github.com/DTFN/ls-components-plus/commit/95cbf236c45b50a0837f8be6c2fa98eb37557d54))
+* **ls-doc:** 🧩 更新tree，editor 文档和api ([e67d5c2](https://github.com/DTFN/ls-components-plus/commit/e67d5c2141a61985581ccd6b2aa8dc30a8f54644))
+* **ls-doc:** 🧩 更新upload，description，previewImage，previewDocx中的案例和api ([30caeb1](https://github.com/DTFN/ls-components-plus/commit/30caeb1f6f1dcb0dba8ff3c7c7b58d5c26eee723))
+* **ls-doc:** 🧩 更新upload文档 ([71d724e](https://github.com/DTFN/ls-components-plus/commit/71d724e8293e426aabd6e5fb71085d0c29b7d876))
+
+
+### Features
+
+* **ls-component:** 🚀 map增加中国地图案例 ([f3a9d72](https://github.com/DTFN/ls-components-plus/commit/f3a9d72482c0c0d8a9b34a7358331a4e8d0de713))
+* **ls-doc:** 🚀 更新Dialog文档和api ([284ca14](https://github.com/DTFN/ls-components-plus/commit/284ca149af9013c5f45c8bf8ef43506a78e6c43b))
+* **ls-doc:** 🚀 更新menu文档案例和api ([6541237](https://github.com/DTFN/ls-components-plus/commit/6541237ba4f20cc7252b31a34936ef84338d6760))
+* **ls-doc:** 🚀 更新previewPdf,previewXlsx文档案例和api ([8f6de93](https://github.com/DTFN/ls-components-plus/commit/8f6de93230b0898a55a6453681f2e0cbce5540eb))
+
 ## [2.4.12](https://github.com/DTFN/ls-components-plus/compare/v2.4.11...v2.4.12) (2026-03-19)
 
 
