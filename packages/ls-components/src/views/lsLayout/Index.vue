@@ -148,7 +148,6 @@ const formItems = ref<FormItemsType[]>([
     label: '用户名',
     prop: 'username',
     read: true,
-    readLabel: true,
     rules: [
       {
         required: true,
@@ -291,7 +290,7 @@ const titleHtml = `test1`;
       :title="titleHtml"
       :user-name="'userName'"
       :command-list="commandList"
-      custom-css="header-gray aside-gray"
+      theme="glass"
       :show-command="false"
     >
       <template #aside>
@@ -346,8 +345,13 @@ const titleHtml = `test1`;
         </el-page-header>
       </template>
     </LSLayout>
-    <LSLayout header-height="50px" aside-width="220px" :logo="logo" title="Layout 测试2" mode="2" :command-list="commandList">
-      <template #section> Layout 测试2 </template>
+    <LSLayout theme="cyber">
+      <template #section>
+        <div style="padding: 20px">
+          <h2 style="margin-bottom: 20px; color: #10b981">赛博朋克主题</h2>
+          <p>这是主题内容区域测试，具有边框、背景和暗黑风格。</p>
+        </div>
+      </template>
     </LSLayout>
     <LSLayout
       header-height="50px"
@@ -357,15 +361,20 @@ const titleHtml = `test1`;
       title="Layout 测试3"
       mode="3"
       :command-list="commandList"
+      theme="minimal"
     >
-      <!-- <template #header> header test </template> -->
       <template #aside>
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
       <template #headerLeft>
         <LSIcon name="House" color="red" />
       </template>
-      <template #section> Layout 测试3 </template>
+      <template #section>
+        <div style="padding: 20px">
+          <h2 style="margin-bottom: 20px; color: #2563eb">极简柔和主题</h2>
+          <p>这是内容区域测试，带有阴影、圆角和优雅的白色背景。</p>
+        </div>
+      </template>
     </LSLayout>
   </div>
 </template>

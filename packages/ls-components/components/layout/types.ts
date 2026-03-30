@@ -37,6 +37,10 @@ export const lsLayoutProp = buildProps({
   customCss: {
     type: String,
     default: ''
+  },
+  theme: {
+    type: String,
+    default: '' // 'glass', 'cyber', 'minimal'
   }
 });
 
