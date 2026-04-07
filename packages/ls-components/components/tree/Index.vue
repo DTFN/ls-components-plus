@@ -1,8 +1,8 @@
 <script setup lang="ts" name="LSTree">
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { emitNames, lsTreeProps } from './types';
 import { excutePowerTree } from '@cpo/_utils/power';
 import type { TreeNodeData } from 'element-plus';
+import { emitNames, lsTreeProps } from './types';
 
 const emitAll = defineEmits(emitNames);
 

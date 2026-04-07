@@ -1,9 +1,9 @@
-import { App } from 'vue';
 import Theme from 'vitepress/theme';
-import './style.scss';
-import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
-import ApiIntro from './components/ApiIntro.vue';
+import { App } from 'vue';
 import print from 'vue3-print-nb';
+import ApiIntro from './components/ApiIntro.vue';
+import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
+import './style.scss';
 // import { defineClientComponent } from 'vitepress';
 
 import 'element-plus/dist/index.css';
@@ -12,7 +12,7 @@ import 'element-plus/dist/index.css';
 // import { vAuth } from '../../../ls-components/lib/directives';
 // import '../../../ls-components/lib/index.css';
 
-import LSWebPlus from '@lingshugroup/web-plus';
+// import LSWebPlus from '@lingshugroup/web-plus';
 // import { vAuth } from '@lingshugroup/web-plus/directives';
 import '@lingshugroup/web-plus/index.css';
 
@@ -94,6 +94,7 @@ export default Object.assign({}, Theme, {
     // });
 
     if (import.meta.env.MODE === 'development') {
+      const LSWebPlus = await import('@lingshugroup/web-plus');
       app.use(LSWebPlus);
     } else if (!import.meta.env.SSR) {
       const plugin = await import('@lingshugroup/web-plus');
