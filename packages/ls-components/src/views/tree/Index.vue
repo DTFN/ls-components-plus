@@ -2,37 +2,405 @@
 import { isEmpty } from '@cpo/_utils/utils';
 const treeData = ref([
   {
-    id: 1,
-    name: '权益管理',
-    permission: '1',
+    id: 200000,
+    name: '首页',
+    url: '/v1/homepage/**',
+    type: 1,
+    permission: 'm00',
+    method: null,
+    sort: 0,
     parentId: 0,
+    status: 1,
+    children: null
+  },
+  {
+    id: 201000,
+    name: '学校管理',
+    url: null,
+    type: 1,
+    permission: 'm01',
+    method: null,
+    sort: 1,
+    parentId: 0,
+    status: 1,
     children: [
       {
-        id: 11,
-        name: '权益车辆',
-        permission: '11',
-        parentId: 1,
-        isPenultimate: true,
+        id: 201010,
+        name: '学校管理',
+        url: '/school/**',
+        type: 1,
+        permission: 'm0101',
+        method: null,
+        sort: 1,
+        parentId: 201000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 201020,
+        name: '食堂管理',
+        url: '/canteen/**',
+        type: 1,
+        permission: 'm0102',
+        method: null,
+        sort: 2,
+        parentId: 201000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 201030,
+        name: '供应商管理',
+        url: '/supplier/**',
+        type: 1,
+        permission: 'm0103',
+        method: null,
+        sort: 3,
+        parentId: 201000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 201040,
+        name: '学生管理',
+        url: '/v1/student-management/page,/v1/student-management/detail/**,/v1/term-meal-leave/**',
+        type: 1,
+        permission: 'm0104',
+        method: null,
+        sort: 4,
+        parentId: 201000,
+        status: 1,
         children: [
           {
-            id: 111,
-            name: '导出',
-            permission: '111',
-            parentId: 11
+            id: 201041,
+            name: '查看',
+            url: '/v1/student-management/page,/v1/student-management/detail/**',
+            type: 1,
+            permission: 'p010400',
+            method: null,
+            sort: 1,
+            parentId: 201040,
+            status: 1,
+            children: null
           },
           {
-            id: 112,
-            name: '导入',
-            permission: '112',
-            parentId: 11
+            id: 201042,
+            name: '编辑',
+            url: '/v1/student-management/modify',
+            type: 1,
+            permission: 'm010401',
+            method: null,
+            sort: 2,
+            parentId: 201040,
+            status: 1,
+            children: null
           }
         ]
       },
       {
-        id: 22,
-        name: '权益海报',
-        permission: '11',
-        parentId: 1
+        id: 201050,
+        name: '膳食家委会',
+        url: '/v1/dietary-parent-committee/**',
+        type: 1,
+        permission: 'm0105',
+        method: null,
+        sort: 5,
+        parentId: 201000,
+        status: 1,
+        children: null
+      }
+    ]
+  },
+  {
+    id: 202000,
+    name: '食材管理',
+    url: null,
+    type: 1,
+    permission: 'm02',
+    method: null,
+    sort: 2,
+    parentId: 0,
+    status: 1,
+    children: [
+      {
+        id: 202010,
+        name: '产品管理',
+        url: '/product/**',
+        type: 1,
+        permission: 'm0201',
+        method: null,
+        sort: 1,
+        parentId: 202000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 202020,
+        name: '订单管理',
+        url: '/order/**',
+        type: 1,
+        permission: 'm0202',
+        method: null,
+        sort: 2,
+        parentId: 202000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 202030,
+        name: '验收图片',
+        url: '/v1/order/check/image/record/**',
+        type: 1,
+        permission: 'm0203',
+        method: null,
+        sort: 3,
+        parentId: 202000,
+        status: 1,
+        children: null
+      }
+    ]
+  },
+  {
+    id: 205000,
+    name: '菜谱管理',
+    url: null,
+    type: 1,
+    permission: 'm05',
+    method: null,
+    sort: 3,
+    parentId: 0,
+    status: 1,
+    children: [
+      {
+        id: 205010,
+        name: '菜谱列表',
+        url: '/v1/dish/**',
+        type: 1,
+        permission: 'm0501',
+        method: null,
+        sort: 1,
+        parentId: 205000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 205040,
+        name: '选餐记录',
+        url: '/v1/meal/selection/record/**',
+        type: 1,
+        permission: 'm0504',
+        method: null,
+        sort: 2,
+        parentId: 205000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 205030,
+        name: '评价列表',
+        url: '/v1/dish/meal/type/evaluation/**',
+        type: 1,
+        permission: 'm0503',
+        method: null,
+        sort: 3,
+        parentId: 205000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 205020,
+        name: '流程监控',
+        url: '/v1/workflow/**',
+        type: 1,
+        permission: 'm0502',
+        method: null,
+        sort: 4,
+        parentId: 205000,
+        status: 1,
+        children: null
+      }
+    ]
+  },
+  {
+    id: 203000,
+    name: '模型管理',
+    url: null,
+    type: 1,
+    permission: 'm03',
+    method: null,
+    sort: 4,
+    parentId: 0,
+    status: 1,
+    children: [
+      {
+        id: 203010,
+        name: 'AI巡检预警',
+        url: '/inspection/**',
+        type: 1,
+        permission: 'm0301',
+        method: null,
+        sort: 1,
+        parentId: 203000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 203020,
+        name: '食品安全预警',
+        url: '/orderWarn/**',
+        type: 1,
+        permission: 'm0302',
+        method: null,
+        sort: 2,
+        parentId: 203000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 203030,
+        name: '供应商信用报告',
+        url: '/v1/credit/report/**',
+        type: 1,
+        permission: 'm0303',
+        method: null,
+        sort: 3,
+        parentId: 203000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 203040,
+        name: '数据接入管理',
+        url: '/v1/qianjingDataRecord/**',
+        type: 1,
+        permission: 'm0304',
+        method: null,
+        sort: 4,
+        parentId: 203000,
+        status: 1,
+        children: null
+      }
+    ]
+  },
+  {
+    id: 206000,
+    name: '问卷管理',
+    url: '',
+    type: 1,
+    permission: 'm06',
+    method: null,
+    sort: 5,
+    parentId: 0,
+    status: 1,
+    children: [
+      {
+        id: 206010,
+        name: '问卷设计',
+        url: '/v1/questionnaire/**,/v1/question/**',
+        type: 1,
+        permission: 'm0601',
+        method: null,
+        sort: 0,
+        parentId: 206000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 206020,
+        name: '问卷结果',
+        url: '/v1/questionnaire/questionnaire-result-**',
+        type: 1,
+        permission: 'm0602',
+        method: null,
+        sort: 0,
+        parentId: 206000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 206030,
+        name: '问卷统计',
+        url: '/v1/questionnaire/stat/**',
+        type: 1,
+        permission: 'm0603',
+        method: null,
+        sort: 0,
+        parentId: 206000,
+        status: 1,
+        children: null
+      }
+    ]
+  },
+  {
+    id: 204000,
+    name: '系统管理',
+    url: null,
+    type: 1,
+    permission: 'm04',
+    method: null,
+    sort: 6,
+    parentId: 0,
+    status: 1,
+    children: [
+      {
+        id: 204050,
+        name: '日志管理',
+        url: '/v1/operation-log/**',
+        type: 1,
+        permission: 'm0405',
+        method: null,
+        sort: 0,
+        parentId: 204000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 204030,
+        name: '参数配置',
+        url: '/nutrition/**',
+        type: 1,
+        permission: 'm0403',
+        method: null,
+        sort: 1,
+        parentId: 204000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 204040,
+        name: '家长注册列表',
+        url: '/v1/parentUser/**',
+        type: 1,
+        permission: 'm0404',
+        method: null,
+        sort: 2,
+        parentId: 204000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 204010,
+        name: '用户管理',
+        url: '/v1/admin/user/**',
+        type: 1,
+        permission: 'm0401',
+        method: null,
+        sort: 3,
+        parentId: 204000,
+        status: 1,
+        children: null
+      },
+      {
+        id: 204020,
+        name: '角色管理',
+        url: '/v1/sys/role/**,/v1/sys/permission/**',
+        type: 1,
+        permission: 'm0402',
+        method: null,
+        sort: 4,
+        parentId: 204000,
+        status: 1,
+        children: null
       }
     ]
   }
@@ -667,13 +1035,16 @@ const roleData = ref([
   }
 ]);
 
-const checkedPermissionIds = ref();
+const checkedPermissionIds = ref([
+  200000, 201000, 201010, 201020, 201030, 201040, 201041, 201042, 201050, 202000, 202010, 202020, 202030, 205000, 205010, 205040,
+  205030, 205020, 203000, 203010, 203020, 203030, 203040, 206000, 206010, 206020, 206030, 204000, 204050, 204030, 204040, 204010,
+  204020
+]);
+const checkedPermissionIds2 = ref();
 setTimeout(() => {
-  checkedPermissionIds.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
-  // console.log(checkedPermissionIds.value);
+  checkedPermissionIds2.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
   setTimeout(() => {
-    checkedPermissionIds.value = [20101];
-    // console.log(checkedPermissionIds.value);
+    checkedPermissionIds2.value = [20101];
   }, 2000);
 }, 2000);
 
@@ -704,20 +1075,31 @@ function getTreeCheckedData(ids: any) {
 const canPrint = ref(true);
 
 const visible = ref(false);
+
+function handleCheck(data: any, checkeds: any) {
+  console.log(data, checkeds);
+}
 </script>
 
 <template>
   <div>
-    <LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+    <LSTree
+      :tree-data="treeData"
+      :is-check-all="true"
+      :show-checkbox="true"
+      :default-checked-keys="checkedPermissionIds"
+      @handle-check="handleCheck"
+    />
 
     <LSTree
       :tree-data="treeData2"
       :is-check-all="false"
       :show-checkbox="true"
-      :default-checked-keys="checkedPermissionIds"
+      :default-checked-keys="checkedPermissionIds2"
       :attrs="{
         'check-on-click-leaf': false
       }"
+      @handle-check="handleCheck"
     />
 
     <br />

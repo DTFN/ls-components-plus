@@ -45,7 +45,11 @@ function setCheckedNodes(list: any, checkedNodes: any, curPermission: any, isChe
 
     if (isChecked) {
       if (isD ? permission.startsWith(POWER_KEY.P) : permission.startsWith(POWER_KEY.P) || permission.startsWith(POWER_KEY.D)) {
-        checkedNodes.push(child);
+        // 检查节点是否已存在，防止重复添加
+        const exists = checkedNodes.some((node: any) => node.permission === permission);
+        if (!exists) {
+          checkedNodes.push(child);
+        }
       }
     } else {
       checkedNodes.forEach((node: any, i: number) => {
