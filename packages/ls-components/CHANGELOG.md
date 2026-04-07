@@ -1,3 +1,16 @@
+## [2.5.1](https://github.com/DTFN/ls-components-plus/compare/v2.5.0...v2.5.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([43d8dcd](https://github.com/DTFN/ls-components-plus/commit/43d8dcd438919a116ffe3e3de5f492e9d46d6e2c))
+* **ls-component:** 🧩 update ([a7be927](https://github.com/DTFN/ls-components-plus/commit/a7be927309fe3065d76f52e9bb637291c302c8d4))
+* **ls-doc:** 🧩 update ([9f406a5](https://github.com/DTFN/ls-components-plus/commit/9f406a5a0fd4ee65bb6338d83322ab87a8b1ab74))
+* **ls-doc:** 🧩 update ([cc64ff9](https://github.com/DTFN/ls-components-plus/commit/cc64ff96644976894481a5c9b20bf990acc4ab8f))
+* **ls-doc:** 🧩 update ([9611567](https://github.com/DTFN/ls-components-plus/commit/9611567a61fd8267daa2efc7aeadd112a0b77475))
+* **ls-doc:** 🧩 修复tree组件联动按钮切换node值不一致问题 ([201895a](https://github.com/DTFN/ls-components-plus/commit/201895aa8f2b9dc41dbf42fd7cd898bb71752130))
+* **ls-doc:** 🧩 更新list、form和table 文档 ([84c4337](https://github.com/DTFN/ls-components-plus/commit/84c43371dc28749f42689e9cac0f1f8343227b0a))
+
 # [2.5.0](https://github.com/DTFN/ls-components-plus/compare/v2.4.12...v2.5.0) (2026-03-27)
 
 
