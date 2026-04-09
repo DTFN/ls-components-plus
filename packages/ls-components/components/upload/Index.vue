@@ -127,6 +127,87 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * @summary 上传组件 - 基于 Element Plus 上传的二次封装
+ *
+ * 这是自研库的标准文件上传组件，提供了丰富的上传功能和灵活的配置选项。
+ * 支持单文件/多文件上传、拖拽上传、图片卡片、头像上传、文件类型限制、文件大小限制、
+ * 自动/手动上传、图片预览、图片裁剪等高级功能，适用于各种文件上传场景。
+ *
+ * @attr {boolean} customFile - 是否自定义文件列表
+ * @attr {boolean} hasCropper - 是否启用图片裁剪
+ * @attr {object} item - 上传配置项对象
+ * @attr {function} onExceed - 文件超出限制回调
+ * @attr {function} beforeUpload - 上传前校验回调
+ * @attr {function} onChange - 文件变更回调
+ * @attr {function} onSuccess - 上传成功回调
+ * @attr {function} onError - 上传失败回调
+ * @attr {function} onRemove - 文件移除回调
+ * @attr {function} onProgress - 上传进度回调
+ * @attr {function} onPreview - 文件预览回调
+ * @attr {function} httpRequest - 自定义上传请求
+ *
+ * @slot trigger - 触发上传区域插槽
+ * @slot default - 默认插槽，用于在上传区域插入自定义内容
+ * @slot tip - 提示文本插槽
+ * @slot file - 文件列表项插槽，参数：{ file, index }
+ *
+ * @event uploadErrorFunc - 上传错误事件，参数：errorMsg
+ * @event onChangeFunc - 文件变更事件，参数：file
+ * @event httpResponseFunc - HTTP响应事件，参数：response
+ * @event onHandleCropper - 图片裁剪事件，参数：file, index
+ *
+ * @csspart upload - 上传组件容器
+ * @csspart upload-btn - 上传按钮
+ * @csspart upload-list - 上传文件列表
+ *
+ * @example
+ * <!-- 基础上传 -->
+ * <LSUpload
+ *   v-model:file-list="fileList"
+ *   action="/api/upload"
+ *   :limit="3"
+ *   :on-success="handleSuccess"
+ * />
+ *
+ * @example
+ * <!-- 图片卡片上传 -->
+ * <LSUpload
+ *   v-model:file-list="imageList"
+ *   action="/api/upload"
+ *   list-type="picture-card"
+ *   :limit="9"
+ *   :has-cropper="true"
+ * />
+ *
+ * @example
+ * <!-- 拖拽上传 -->
+ * <LSUpload
+ *   v-model:file-list="fileList"
+ *   action="/api/upload"
+ *   drag
+ *   :auto-upload="false"
+ * />
+ *
+ * @example
+ * <!-- 头像上传 -->
+ * <LSUpload
+ *   v-model:file-list="avatar"
+ *   action="/api/upload"
+ *   :item="{ profile: true }"
+ *   :limit="1"
+ * />
+ *
+ * @example
+ * <!-- 手动上传 -->
+ * <LSUpload
+ *   ref="uploadRef"
+ *   v-model:file-list="fileList"
+ *   action="/api/upload"
+ *   :auto-upload="false"
+ * />
+ * <button @click="$refs.uploadRef.comfirmUpload()">开始上传</button>
+ */
 import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
 import type { configsType, UploadChangeFile, UploadItemType } from './types';
 import { getVariable } from '@cpo/_utils/config';

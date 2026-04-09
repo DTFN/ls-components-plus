@@ -1,4 +1,35 @@
 <script setup lang="ts" name="LSChart">
+/**
+ * @summary 图表组件 - 基于 ECharts 的数据可视化
+ *
+ * 这是自研库的标准图表组件，基于 ECharts 实现，支持多种图表类型：
+ * 折线图、柱状图、饼图、仪表盘、热力图等。提供模板化配置和自定义配置两种方式。
+ *
+ * @attr {string} template - 图表模板名称
+ * @attr {any} data - 图表数据
+ * @attr {any} customOption - 自定义图表配置
+ * @attr {any} templatePatch - 模板补丁配置
+ * @attr {number|string} width - 图表宽度
+ * @attr {number|string} height - 图表高度
+ *
+ * @slot default - 默认插槽，自定义图表内容
+ *
+ * @event 无
+ *
+ * @csspart chart - 图表容器
+ *
+ * @example
+ * <!-- 使用模板 -->
+ * <LSChart template="line" :data="chartData" />
+ *
+ * @example
+ * <!-- 自定义配置 -->
+ * <LSChart :customOption="customChartOption" />
+ *
+ * @example
+ * <!-- 自定义尺寸 -->
+ * <LSChart template="bar" :data="chartData" :width="800" :height="400" />
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import * as echarts from 'echarts/core';
 import { LineChart, PieChart, BarChart, GaugeChart, HeatmapChart } from 'echarts/charts';

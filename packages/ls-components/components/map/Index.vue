@@ -1,4 +1,35 @@
 <script setup lang="ts" name="LSMap">
+/**
+ * @summary 地图组件 - 基于高德地图的二次封装
+ *
+ * 这是自研库的地图组件，基于高德地图JSAPI实现。
+ * 支持地图加载、区域搜索、标记点、多边形绘制等功能。
+ *
+ * @attr {string} mapKey - 高德地图Key
+ * @attr {string} securityCode - 安全密钥
+ * @attr {number[]} center - 地图中心坐标
+ * @attr {number} zoom - 缩放级别
+ * @attr {number[]} zooms - 缩放范围
+ * @attr {string} searchWord - 搜索区域关键词
+ * @attr {any[]} markers - 标记点数据
+ * @attr {string} width - 地图宽度
+ * @attr {string} height - 地图高度
+ *
+ * @slot 无
+ *
+ * @event 无
+ *
+ * @csspart map - 地图容器
+ *
+ * @example
+ * <!-- 基础地图 -->
+ * <LSMap
+ *   mapKey="your-amap-key"
+ *   securityCode="your-security-code"
+ *   :center="[116.397428, 39.90923]"
+ *   :zoom="13"
+ * />
+ */
 import AMapLoader from '@amap/amap-jsapi-loader';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsMapProps } from './types';

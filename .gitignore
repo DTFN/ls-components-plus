@@ -35,3 +35,6 @@ packages/ls-components-h5/lib/
 *.njsproj
 *.sln
 *.sw?
+component-meta.json
+mcp-server.json
+MCP_SETUP.md

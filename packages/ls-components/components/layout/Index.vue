@@ -1,4 +1,97 @@
 <script setup lang="ts">
+/**
+ * @summary 布局组件 - 页面基础布局容器
+ *
+ * 这是自研库的标准布局组件，提供了完整的页面布局解决方案。
+ * 支持顶部导航栏、侧边栏、内容区域、底部页脚的组合布局，
+ * 提供多种布局模式和响应式设计，适用于后台管理系统和复杂页面布局。
+ *
+ * @attr {string} headerHeight - 头部高度，默认为'60px'
+ * @attr {string} footerHeight - 底部高度，默认为'40px'
+ * @attr {boolean} showFooter - 是否显示底部
+ * @attr {any} headerTitle - 头部标题配置
+ * @attr {any} headerMenu - 头部菜单配置
+ * @attr {any} headerAvatar - 头部头像配置
+ * @attr {any[]} headerTags - 头部标签数组
+ * @attr {any[]} headerNavs - 头部导航数组
+ * @attr {string} layoutMode - 布局模式，默认为'1'
+ * @attr {boolean} asideCollapsible - 侧边栏是否可折叠
+ * @attr {string} asideWidth - 侧边栏宽度，默认为'200px'
+ * @attr {boolean} asideCollapsed - 侧边栏是否已折叠
+ * @attr {any[]} asideMenu - 侧边栏菜单数据
+ * @attr {any} asideLogo - 侧边栏logo配置
+ * @attr {string} designTheme - 设计主题，可选值：glass/neumorphism/minimalism/tech
+ * @attr {string} colorTheme - 颜色主题，可选值：default/ocean/sunset/forest/purple/monochrome/candy
+ *
+ * @slot header-left - 头部左侧插槽
+ * @slot header-center - 头部中间插槽
+ * @slot header-right - 头部右侧插槽
+ * @slot header-logo - 头部logo插槽
+ * @slot header-menu - 头部菜单插槽
+ * @slot header-title - 头部标题插槽
+ * @slot header-tags - 头部标签插槽
+ * @slot header-navs - 头部导航插槽
+ * @slot header-actions - 头部操作插槽
+ * @slot header-avatar - 头部头像插槽
+ * @slot aside-logo - 侧边栏logo插槽
+ * @slot aside-menu - 侧边栏菜单插槽
+ * @slot aside-extra - 侧边栏额外内容插槽
+ * @slot footer - 底部插槽
+ * @slot default - 默认插槽，内容区域
+ *
+ * @event onCommand - 下拉命令事件，参数：command (命令值)
+ * @event update:asideCollapsed - 更新侧边栏折叠状态，参数：collapsed (是否折叠)
+ *
+ * @csspart layout - 布局容器
+ * @csspart header - 头部区域
+ * @csspart aside - 侧边栏区域
+ * @csspart main - 内容区域
+ * @csspart footer - 底部区域
+ *
+ * @example
+ * <!-- 基础布局 -->
+ * <LSLayout
+ *   :headerTitle="{ text: '管理系统' }"
+ *   :asideMenu="menuData"
+ * >
+ *   <RouterView />
+ * </LSLayout>
+ *
+ * @example
+ * <!-- 带底部布局 -->
+ * <LSLayout
+ *   :showFooter="true"
+ *   :headerTitle="{ text: '管理系统' }"
+ *   :asideMenu="menuData"
+ * >
+ *   <template #footer>
+ *     <div>© 2024 Company</div>
+ *   </template>
+ *   <RouterView />
+ * </LSLayout>
+ *
+ * @example
+ * <!-- 可折叠侧边栏 -->
+ * <LSLayout
+ *   :asideCollapsible="true"
+ *   v-model:asideCollapsed="isCollapsed"
+ *   :asideMenu="menuData"
+ * >
+ *   <RouterView />
+ * </LSLayout>
+ *
+ * @example
+ * <!-- 自定义头部 -->
+ * <LSLayout :asideMenu="menuData">
+ *   <template #header-left>
+ *     <CustomLogo />
+ *   </template>
+ *   <template #header-right>
+ *     <UserActions />
+ *   </template>
+ *   <RouterView />
+ * </LSLayout>
+ */
 import { computed, useSlots } from 'vue';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsLayoutProp } from './types';

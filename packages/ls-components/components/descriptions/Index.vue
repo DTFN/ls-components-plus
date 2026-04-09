@@ -1,4 +1,35 @@
 <script setup lang="ts" name="LSDescriptions">
+/**
+ * @summary 描述列表组件 - 基于 Element Plus Descriptions 的二次封装
+ *
+ * 这是自研库的标准描述列表组件，用于展示多个字段的信息。
+ * 支持自定义标签颜色、背景色、图标、空值处理等功能。
+ *
+ * @attr {any[]} list - 描述项列表
+ * @attr {string} labelColor - 标签文本颜色
+ * @attr {string} labelBgColor - 标签背景颜色
+ * @attr {string} labelEmpty - 空值占位符
+ *
+ * @slot default - 默认插槽
+ * @slot extra - 额外内容插槽
+ * @slot title - 标题插槽
+ *
+ * @event 无
+ *
+ * @csspart descriptions - 描述列表容器
+ *
+ * @example
+ * <!-- 基础用法 -->
+ * <LSDescriptions :list="descList" />
+ *
+ * @example
+ * <!-- 自定义样式 -->
+ * <LSDescriptions
+ *   :list="descList"
+ *   labelColor="#606266"
+ *   labelBgColor="#f5f7fa"
+ * />
+ */
 import LSIcon from '@cpo/icon/Index.vue';
 import dayjs from 'dayjs';
 import { lsDescProp } from './types';

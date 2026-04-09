@@ -1,3 +1,8 @@
+/**
+ * @file 组件库主入口文件
+ * @description 导出所有组件，供按需导入使用
+ */
+
 import '@cpo/_style/common/root.scss';
 import '@cpo/_style/common/base.scss';
 import '@cpo/_style/container.scss';

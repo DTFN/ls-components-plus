@@ -1,4 +1,93 @@
 <script setup lang="ts" name="LSTable">
+/**
+ * @summary 表格组件 - 基于 Element Plus 表格的二次封装
+ *
+ * 这是自研库的标准表格组件，提供了丰富的数据展示和操作功能。
+ * 支持分页、多选、单选、展开行、序号列、多种列类型（日期、状态、数字、链接、按钮、自定义渲染等），
+ * 以及灵活的配置选项和事件回调，适用于各种复杂的数据展示场景。
+ *
+ * @attr {boolean} loading - 是否显示加载中状态
+ * @attr {any[]} tableData - 表格数据数组
+ * @attr {any[]} tableColumn - 表格列配置数组
+ * @attr {boolean} showTableIndex - 是否显示序号列
+ * @attr {string} tableIndexLabel - 序号列标题，默认为"序号"
+ * @attr {boolean} tableIndexInPage - 序号是否在当前页内计算，true则从1开始，false则全局计算
+ * @attr {boolean} tableIndexStart - 序号是否从0开始，true则从0开始，false从1开始
+ * @attr {string} tableIndexfixed - 序号列是否固定，可选值：true/false/left/right
+ * @attr {any} indexColumnOptions - 序号列配置选项
+ * @attr {boolean} showSelect - 是否显示多选列
+ * @attr {any} selectColumnOptions - 多选列配置选项
+ * @attr {boolean} showRadio - 是否显示单选列
+ * @attr {any} radioColumnOptions - 单选列配置选项
+ * @attr {string} radioProp - 单选绑定的属性名，默认为"id"
+ * @attr {boolean} showRadioLabel - 是否显示单选label文本
+ * @attr {boolean} showExpand - 是否显示展开行
+ * @attr {any} expandColumnOptions - 展开行列配置选项
+ * @attr {boolean} showPagination - 是否显示分页
+ * @attr {number} currentPage - 当前页码
+ * @attr {number} pageSize - 每页条数
+ * @attr {number[]} pageSizes - 每页条数选项数组
+ * @attr {number} total - 数据总数
+ * @attr {any} paginationOptions - 分页配置选项
+ * @attr {string} paginationClass - 分页组件自定义类名
+ * @attr {boolean} showEmpty - 是否显示空状态
+ * @attr {string} emptyLabel - 空状态描述文本
+ * @attr {string} labelEmpty - 空值占位符，默认为"--"
+ * @attr {string} labelEmptyClass - 空值占位符样式类名
+ * @attr {any} selection - 已选中的数据数组
+ * @attr {any} status - 状态配置对象，用于状态列的样式定义
+ *
+ * @slot prepend - 前置插槽，在表格列之前插入自定义内容
+ * @slot append - 追加插槽，在表格列之后插入自定义内容
+ * @slot empty - 空状态插槽，自定义数据为空时的展示内容
+ * @slot [column.prop] - 列插槽，自定义列内容，名称为列的prop值
+ * @slot [column.prop]-header - 表头插槽，自定义表头内容，名称为`${prop}-header`
+ * @slot [column.prop]-filter-icon - 筛选图标插槽，自定义筛选图标，名称为`${prop}-filter-icon`
+ * @slot expand - 展开行插槽，自定义展开行内容，参数：{ row }
+ *
+ * @event sizeChange - 每页条数变化事件，参数：pageSize
+ * @event currentPageChange - 当前页变化事件，参数：currentPage
+ * @event update:page-size - 更新每页条数，参数：pageSize
+ * @event update:current-page - 更新当前页，参数：currentPage
+ * @event update:selection - 更新选中数据，参数：selection
+ *
+ * @csspart table - 表格主体元素
+ * @csspart pagination - 分页组件元素
+ *
+ * @example
+ * <!-- 基础表格 -->
+ * <LSTable
+ *   :tableData="dataList"
+ *   :tableColumn="columns"
+ *   :total="total"
+ *   v-model:current-page="currentPage"
+ *   v-model:page-size="pageSize"
+ * />
+ *
+ * @example
+ * <!-- 带多选和序号的表格 -->
+ * <LSTable
+ *   :tableData="dataList"
+ *   :tableColumn="columns"
+ *   :showSelect="true"
+ *   :showTableIndex="true"
+ *   v-model:selection="selectedRows"
+ * />
+ *
+ * @example
+ * <!-- 自定义列类型 -->
+ * <LSTable
+ *   :tableData="dataList"
+ *   :tableColumn="[
+ *     { prop: 'name', label: '姓名' },
+ *     { prop: 'date', label: '日期', type: 'date', dateTemplate: 'YYYY-MM-DD' },
+ *     { prop: 'status', label: '状态', type: 'status', value: statusMap },
+ *     { prop: 'amount', label: '金额', type: 'number' },
+ *     { prop: 'link', label: '链接', type: 'link', href: 'url' },
+ *     { prop: 'action', label: '操作', type: 'button', onClick: handleAction }
+ *   ]"
+ * />
+ */
 import dayjs from 'dayjs';
 import { get } from 'lodash-es';
 import { lsTableProps } from './types';

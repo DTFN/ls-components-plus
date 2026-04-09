@@ -1,6 +1,16 @@
+/**
+ * @file 表格列表Hook
+ * @description 列表页面获取数据的通用Hook，集成表单查询、分页、数据加载等功能
+ */
+
 import useDelayLoader from './useDelayLoader';
 
-// 列表页面获取数据的hook
+/**
+ * 列表页面获取数据的hook
+ * @param requestFn - 请求函数
+ * @param requestParams - 请求参数
+ * @param config - 配置项
+ */
 export default function (
   requestFn: Function | undefined,
   requestParams: any,

@@ -1,8 +1,22 @@
+/**
+ * @file 上传组件类型定义
+ * @description 定义上传组件的props类型、接口和常量
+ */
+
 import { buildProps } from '@cpo/_utils/runtime';
 import type { LSUnionTypeSS } from '@cpo/_utils/types';
 import type { UploadFile, UploadRawFile } from 'element-plus';
 import type { ExtractPropTypes, PropType } from 'vue';
 
+/**
+ * 上传配置接口
+ * @interface configsType
+ * @property {Array<UploadFile>} uploadFileList - 上传文件列表
+ * @property {boolean} initUploadStatus - 初始上传状态
+ * @property {boolean} showPreview - 是否显示预览
+ * @property {any} sourcePreview - 预览源
+ * @property {string} iconColor - 图标颜色
+ */
 export interface configsType {
   uploadFileList: Array<UploadFile>;
   initUploadStatus: boolean;
@@ -11,11 +25,40 @@ export interface configsType {
   iconColor: string;
 }
 
+/**
+ * 上传文件变化接口
+ * @interface UploadChangeFile
+ * @extends UploadFile
+ * @property {string} [blob] - Blob数据
+ * @property {UploadRawFile} [raw] - 原始文件
+ */
 export interface UploadChangeFile extends UploadFile {
   blob?: string;
   raw?: UploadRawFile;
 }
 
+/**
+ * 上传项类型
+ * @typedef {Object} UploadItemType
+ * @property {boolean} [isCover] - 是否覆盖上传
+ * @property {Array<string>} [limitFile] - 限制文件类型
+ * @property {string} [limitFileMsg] - 文件类型限制提示消息
+ * @property {number} [limitSize] - 限制文件大小
+ * @property {'GB' | 'MB' | 'KB'} [limitUnit] - 文件大小单位
+ * @property {string} [limitSizeMsg] - 文件大小限制提示消息
+ * @property {string} [limitNumMsg] - 文件数量限制提示消息
+ * @property {boolean} [isToast] - 是否显示提示
+ * @property {string} [emptyFileMsg] - 空文件提示消息
+ * @property {Function} [formRuleFunc] - 表单规则函数
+ * @property {Function} [formValidateFunc] - 表单验证函数
+ * @property {Function} [httpRequestFunc] - HTTP请求函数
+ * @property {boolean} [profile] - 是否是头像模式
+ * @property {string} [defProfile] - 默认展示的头像图片
+ * @property {boolean} [hideCoverBtn] - 覆盖上传后是否隐藏上传按钮（适用图片模式）
+ * @property {string} [tipContent] - 提示内容
+ * @property {boolean} [limitAllFail] - 超出limit限制时，是否全部阻止
+ * @property {boolean} [hideBtnReachLimit] - 达到limit限制时，是否隐藏上传按钮（适用图片模式）
+ */
 export type UploadItemType = {
   isCover?: boolean;
   limitFile?: Array<string>;
@@ -29,17 +72,17 @@ export type UploadItemType = {
   formRuleFunc?: Function;
   formValidateFunc?: Function;
   httpRequestFunc?: Function;
-  // 是否是头像模式
+  /** 是否是头像模式 */
   profile?: boolean;
-  // 默认展示的头像图片
+  /** 默认展示的头像图片 */
   defProfile?: string;
-  // 覆盖上传后是否隐藏上传按钮 适用图片模式
+  /** 覆盖上传后是否隐藏上传按钮，适用图片模式 */
   hideCoverBtn?: boolean;
-  // tip提示
+  /** 提示内容 */
   tipContent?: string;
-  // 超出limit限制时，是否全部阻止
+  /** 超出limit限制时，是否全部阻止 */
   limitAllFail?: boolean;
-  // 达到limit限制时，是否隐藏上传按钮 适用图片模式
+  /** 达到limit限制时，是否隐藏上传按钮，适用图片模式 */
   hideBtnReachLimit?: boolean;
 };
 

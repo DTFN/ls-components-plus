@@ -1,4 +1,13 @@
-// 判断是否是空可以为0
+/**
+ * @file 工具函数
+ * @description 通用工具函数集合
+ */
+
+/**
+ * 判断是否是空值（可以为0）
+ * @param val - 需要判断的值
+ * @returns 是否为空
+ */
 export function isEmpty(val: any) {
   if (val === null) return true;
 

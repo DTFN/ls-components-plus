@@ -1,4 +1,34 @@
 <script setup lang="ts" name="LSDownloadFile">
+/**
+ * @summary 文件下载组件 - 支持分片下载和进度显示
+ *
+ * 这是自研库的文件下载组件，支持大文件分片下载、断点续传、进度显示等功能。
+ * 提供下载进度、速度、剩余时间等信息展示。
+ *
+ * @attr {number} chunkSize - 分片大小
+ * @attr {number} chunkTotal - 分片总数
+ * @attr {number} maxErrorNum - 最大错误数
+ * @attr {number} poolLimit - 并发限制
+ * @attr {function} requestFn - 请求函数
+ * @attr {string} fileName - 文件名
+ *
+ * @slot 无
+ *
+ * @event onStart - 下载开始事件
+ * @event onProgress - 下载进度事件
+ * @event onSuccess - 下载成功事件
+ * @event onError - 下载错误事件
+ *
+ * @csspart download-file - 下载容器
+ *
+ * @example
+ * <!-- 基础下载 -->
+ * <LSDownloadFile
+ *   :requestFn="downloadApi"
+ *   fileName="example.zip"
+ *   @onSuccess="handleSuccess"
+ * />
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsDownloadProp } from './types';
 

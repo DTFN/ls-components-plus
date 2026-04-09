@@ -12,7 +12,8 @@
     "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "release": "standard-version",
-    "commit": "git add -A && git-cz"
+    "commit": "git add -A && git-cz",
+    "mcp": "pnpm -r --filter @lingshugroup/web-plus run mcp:setup"
   },
   "engines": {
     "node": ">=18.0.0",

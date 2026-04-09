@@ -1,5 +1,83 @@
 <script setup lang="ts" name="LSForm">
-// Form 公共组件
+/**
+ * @summary 表单组件 - 基于 Element Plus 表单的二次封装
+ *
+ * 这是自研库的标准表单组件，提供了丰富的表单控件类型和灵活的配置选项。
+ * 支持输入框、文本域、数字输入、单选、多选、下拉选择、日期选择、级联选择、开关等20+种表单类型，
+ * 支持多列布局、只读模式、自定义插槽、表单校验等高级功能，适用于各种复杂表单场景。
+ *
+ * @attr {any} formData - 表单数据对象
+ * @attr {any[]} formItems - 表单项配置数组
+ * @attr {number} column - 表单列数，默认为1
+ * @attr {boolean} loading - 是否显示加载中状态
+ * @attr {boolean} disabled - 是否禁用整个表单
+ * @attr {boolean} showButtons - 是否显示按钮区域
+ * @attr {boolean} showSubmit - 是否显示提交按钮
+ * @attr {boolean} showReset - 是否显示重置按钮
+ * @attr {boolean} showBtnLoading - 提交按钮是否显示加载状态
+ * @attr {string} confirmText - 提交按钮文本，默认为"提交"
+ * @attr {string} resetText - 重置按钮文本，默认为"重置"
+ * @attr {string} confirmClassName - 提交按钮自定义类名
+ * @attr {string} buttonsClass - 按钮区域自定义类名
+ * @attr {boolean} buttonsLeft - 按钮是否左对齐
+ * @attr {boolean} read - 是否只读模式
+ * @attr {boolean} hasDefReadStyle - 只读模式是否使用默认样式
+ * @attr {boolean} colon - 表单项标签是否显示冒号
+ * @attr {string} labelEmpty - 空值占位符，默认为"--"
+ *
+ * @slot [formItem.type] - 自定义表单项类型插槽，名称为表单项的type值
+ * @slot [formItem.prop] - 自定义表单项插槽，名称为表单项的prop值
+ * @slot [formItem.slotKey] - 自定义表单项插槽，使用配置的slotKey作为名称
+ * @slot buttons-prepend - 按钮前置插槽
+ * @slot buttons-append - 按钮后置插槽
+ * @slot default - 默认插槽，用于在表单项之间插入自定义内容
+ *
+ * @event submit - 表单提交事件，参数：form (表单数据)
+ * @event reset - 表单重置事件，参数：form (表单数据)
+ * @event update:form-data - 更新表单数据，参数：formData
+ * @event onChange - 表单项值变化事件，参数：value (值), prop (属性名), index (索引)
+ * @event changeFormData - 表单数据变化事件，参数：value (值), prop (属性名), form (表单数据)
+ *
+ * @csspart form - 表单主体元素
+ * @csspart buttons - 按钮区域元素
+ *
+ * @example
+ * <!-- 基础表单 -->
+ * <LSForm
+ *   :formData="formData"
+ *   :formItems="formItems"
+ *   @submit="handleSubmit"
+ *   @reset="handleReset"
+ * />
+ *
+ * @example
+ * <!-- 多列表单 -->
+ * <LSForm
+ *   :formData="formData"
+ *   :formItems="formItems"
+ *   :column="2"
+ *   :showButtons="true"
+ *   :showSubmit="true"
+ *   :showReset="true"
+ * />
+ *
+ * @example
+ * <!-- 只读表单 -->
+ * <LSForm
+ *   :formData="formData"
+ *   :formItems="formItems"
+ *   :read="true"
+ *   :hasDefReadStyle="true"
+ * />
+ *
+ * @example
+ * <!-- 自定义表单项 -->
+ * <LSForm :formData="formData" :formItems="formItems">
+ *   <template #customType="{ value, updateFormData }">
+ *     <CustomComponent :modelValue="value" @update:modelValue="updateFormData" />
+ *   </template>
+ * </LSForm>
+ */
 import type { FormInstance } from 'element-plus';
 import { get, set } from 'lodash-es';
 import { reactive, ref } from 'vue';

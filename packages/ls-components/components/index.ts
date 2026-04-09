@@ -1,3 +1,8 @@
+/**
+ * @file 组件库入口文件
+ * @description LS Components Plus 组件库主入口，导出所有组件和安装函数
+ */
+
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import type { App, Plugin } from 'vue';
 import { LSButton, LSButtonGroup } from './button/index';

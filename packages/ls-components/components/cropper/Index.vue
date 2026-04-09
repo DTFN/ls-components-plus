@@ -1,4 +1,45 @@
 <script setup lang="ts" name="LSCropper">
+/**
+ * @summary 图片裁剪组件 - 基于 Vue-Cropper 的二次封装
+ *
+ * 这是自研库的图片裁剪组件，基于 Vue-Cropper 实现。
+ * 支持方形、圆形裁剪，支持实时预览、固定比例、旋转缩放等功能。
+ *
+ * @attr {string} imgUrl - 图片地址
+ * @attr {string} graphicsType - 裁剪形状，square 或 circle
+ * @attr {array} autoCropWidth - 裁剪框宽度
+ * @attr {array} autoCropHeight - 裁剪框高度
+ * @attr {boolean} fixed - 是否固定比例
+ * @attr {array} fixedNumber - 固定比例值
+ * @attr {boolean} full - 是否显示完整图片
+ * @attr {boolean} canMove - 是否可以移动图片
+ * @attr {boolean} canMoveBox - 是否可以移动裁剪框
+ * @attr {boolean} original - 是否显示原图
+ * @attr {boolean} autoCrop - 是否自动裁剪
+ * @attr {boolean} centerBox - 裁剪框是否居中
+ * @attr {boolean} high - 是否高质量裁剪
+ * @attr {boolean} infoTrue - 是否显示真实大小
+ * @attr {number} maxImgSize - 图片最大尺寸
+ * @attr {boolean} enlarge - 是否放大
+ * @attr {boolean} mode - 裁剪模式
+ * @attr {number} limitMinSize - 最小裁剪尺寸
+ *
+ * @slot 无
+ *
+ * @event onRealTime - 实时预览事件
+ * @event onImgMoving - 图片移动事件
+ * @event onCropMoving - 裁剪框移动事件
+ *
+ * @csspart cropper - 裁剪容器
+ *
+ * @example
+ * <!-- 基础裁剪 -->
+ * <LSCropper
+ *   :imgUrl="imageUrl"
+ *   graphicsType="square"
+ *   :autoCropWidth="[200, 200]"
+ * />
+ */
 import { VueCropper } from 'vue-cropper';
 import 'vue-cropper/dist/index.css';
 import { lsEmits, lsProps } from './types';

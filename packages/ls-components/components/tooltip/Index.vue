@@ -1,4 +1,31 @@
 <script setup lang="ts" name="LSTooltip">
+/**
+ * @summary 工具提示组件 - 文本溢出提示
+ *
+ * 这是自研库的工具提示组件，自动检测文本是否溢出，溢出时显示Tooltip。
+ * 支持单行和多行文本溢出检测，可自定义宽度、字体大小等。
+ *
+ * @attr {number|string} width - 容器宽度
+ * @attr {number} fontSize - 字体大小
+ * @attr {number} lineHeight - 行高
+ * @attr {number} lineClamp - 行数限制
+ *
+ * @slot default - 默认插槽，提示内容
+ *
+ * @event 无
+ *
+ * @csspart tooltip - 提示容器
+ *
+ * @example
+ * <!-- 单行溢出提示 -->
+ * <LSTooltip width="200">长文本内容...</LSTooltip>
+ *
+ * @example
+ * <!-- 多行溢出提示 -->
+ * <LSTooltip width="300" :lineClamp="3">
+ *   多行长文本内容...
+ * </LSTooltip>
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsTooltipProps } from './types';
 import { isEmpty } from '@cpo/_utils/utils';

@@ -1,7 +1,98 @@
 <script setup lang="ts" name="LSFormItem">
 /**
- * Form item 组件
- * !!!最多支持101个 el-form-item
+ * @summary 表单项组件 - 表单组件的子组件
+ *
+ * 这是自研库的标准表单项组件，支持20+种表单控件类型，包括：
+ * - 基础输入：input、textarea、number
+ * - 选择类：radio、checkbox、select、cascader、multipleCascader
+ * - 日期时间：date、datetimerange、timePicker、timeSelect
+ * - 开关：switch
+ * - 范围输入：inputRange、inputNumberRange
+ * - 自定义：slot、itemSlot、label
+ *
+ * 支持只读模式、前后缀、范围分隔、全选功能、级联选择等高级特性。
+ *
+ * @attr {string} type - 表单项类型
+ * @attr {string} label - 标签文本
+ * @attr {string} prop - 表单域 model 字段名
+ * @attr {any} modelValue - 绑定值
+ * @attr {any} value - 默认值
+ * @attr {boolean} isValue - 是否使用value作为初始值
+ * @attr {any} attrs - 组件属性对象
+ * @attr {any} listeners - 组件事件监听器对象
+ * @attr {any[]} options - 选项数组（用于select、radio、checkbox等）
+ * @attr {any} rules - 校验规则
+ * @attr {string} className - 自定义类名
+ * @attr {string} labelClass - 标签样式类名
+ * @attr {string} labelIconClass - 标签图标样式类名
+ * @attr {string} tooltip - 提示文本
+ * @attr {boolean} disabled - 是否禁用
+ * @attr {boolean} read - 是否只读
+ * @attr {boolean} colon - 是否显示冒号
+ * @attr {boolean} trim - 是否去除首尾空格
+ * @attr {boolean} manualValidate - 是否手动触发校验
+ * @attr {string} dateFormat - 日期格式
+ * @attr {string} rangeSeparator - 范围分隔符，默认为"-"
+ * @attr {string[]} rangeProps - 范围字段名数组
+ * @attr {boolean} levelMatch - 级联选择是否层级匹配
+ * @attr {boolean} selectAll - 是否显示全选按钮
+ * @attr {string} radioType - 单选类型，可选值：button
+ * @attr {boolean} labelNumber - 标签是否为数字
+ * @attr {string} labelEmpty - 空值占位符
+ * @attr {string} slotKey - 自定义插槽名称
+ * @attr {number} index - 索引
+ * @attr {function} formatReadValue - 自定义格式化只读值的函数
+ *
+ * @slot [slotKey] - 自定义表单项插槽，名称为slotKey或prop值
+ * @slot [slotKey]-prepend - 前置内容插槽
+ * @slot [slotKey]-append - 后置内容插槽
+ * @slot [slotKey]-input-prefix - 输入框前缀插槽
+ * @slot [slotKey]-input-suffix - 输入框后缀插槽
+ * @slot [slotKey]-input-prepend - 输入框前置插槽
+ * @slot [slotKey]-input-append - 输入框后置插槽
+ * @slot [slotKey]-slot - 自定义内容插槽（用于itemSlot类型）
+ * @slot [slotKey]-read-slot - 只读模式插槽
+ * @slot tooltip-icon - 工具提示图标插槽
+ * @slot [slotKey]-label-icon - 标签图标插槽
+ *
+ * @event update:value - 更新值事件，参数：key (字段名), value (值)
+ * @event onChange - 值变化事件，参数：value (值), prop (字段名), index (索引)
+ *
+ * @csspart form-item - 表单项元素
+ * @csspart input - 输入框元素
+ * @csspart select - 选择框元素
+ * @csspart date-picker - 日期选择器元素
+ *
+ * @example
+ * <!-- 输入框 -->
+ * <LSFormItem type="input" v-model="form.name" label="姓名" prop="name" />
+ *
+ * @example
+ * <!-- 下拉选择 -->
+ * <LSFormItem
+ *   type="select"
+ *   v-model="form.status"
+ *   label="状态"
+ *   prop="status"
+ *   :options="statusOptions"
+ * />
+ *
+ * @example
+ * <!-- 日期范围 -->
+ * <LSFormItem
+ *   type="datetimerange"
+ *   v-model="form.dateRange"
+ *   label="日期范围"
+ *   prop="dateRange"
+ * />
+ *
+ * @example
+ * <!-- 自定义插槽 -->
+ * <LSFormItem type="slot" prop="custom" slotKey="myCustomField">
+ *   <template #myCustomField="{ value, updateModelValue }">
+ *     <CustomComponent :modelValue="value" @update:modelValue="updateModelValue" />
+ *   </template>
+ * </LSFormItem>
  */
 import { isEqual, get, set } from 'lodash-es';
 import { ref, computed } from 'vue';

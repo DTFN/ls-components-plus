@@ -1,4 +1,56 @@
 <script setup lang="ts" name="LSConfirm">
+/**
+ * @summary 确认框组件 - 基于 Element Plus MessageBox 的二次封装
+ *
+ * 这是自研库的确认框组件，提供统一的确认/取消交互弹窗。
+ * 支持自定义标题、内容、按钮文本、图标、类型等配置。
+ *
+ * @attr {boolean} v-model - 双向绑定，控制确认框显示
+ * @attr {string} title - 标题
+ * @attr {string} message - 消息内容
+ * @attr {string} confirmBtnTxt - 确认按钮文本
+ * @attr {string} cancelBtnTxt - 取消按钮文本
+ * @attr {string} type - 消息类型
+ * @attr {any} icon - 图标
+ * @attr {boolean} center - 是否居中
+ * @attr {boolean} draggable - 是否可拖拽
+ * @attr {boolean} useHtml - 是否使用HTML内容
+ * @attr {boolean} showCancelBtn - 是否显示取消按钮
+ * @attr {boolean} showConfirmBtn - 是否显示确认按钮
+ * @attr {boolean} showClose - 是否显示关闭按钮
+ * @attr {boolean} closeOnClickModal - 点击遮罩是否关闭
+ * @attr {boolean} closeOnPressEscape - 按ESC是否关闭
+ * @attr {string|HTMLElement} appendTo - 挂载元素
+ * @attr {boolean} beforeClose - 关闭前回调
+ * @attr {string} customClass - 自定义类名
+ * @attr {string} customStyle - 自定义样式
+ * @attr {function} callback - 回调函数
+ * @attr {string} lockScroll - 锁定滚动
+ * @attr {boolean} showInput - 是否显示输入框
+ * @attr {string} inputValue - 输入框值
+ * @attr {string} inputPattern - 输入框校验正则
+ * @attr {string} inputValidator - 输入框校验函数
+ * @attr {string} inputErrorMessage - 输入框错误信息
+ * @attr {string} inputPlaceholder - 输入框占位符
+ * @attr {string} inputType - 输入框类型
+ *
+ * @slot 无
+ *
+ * @event onConfirm - 确认事件
+ * @event onCancel - 取消事件
+ * @event onClose - 关闭事件
+ *
+ * @csspart confirm - 确认框容器
+ *
+ * @example
+ * <!-- 基础确认框 -->
+ * <LSConfirm
+ *   v-model="visible"
+ *   title="提示"
+ *   message="确定要删除吗？"
+ *   @onConfirm="handleConfirm"
+ * />
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { ElMessageBox } from 'element-plus';
 import { emitNames, lsConfirmProps } from './types';

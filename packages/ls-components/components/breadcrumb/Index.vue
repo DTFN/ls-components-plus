@@ -1,4 +1,36 @@
 <script setup lang="ts" name="LSBreadcrumb">
+/**
+ * @summary 面包屑组件 - 导航路径展示
+ *
+ * 这是自研库的标准面包屑组件，用于显示当前页面的导航路径。
+ * 支持自动路由解析和自定义路径列表，支持点击跳转和新窗口打开。
+ *
+ * @attr {any[]} defineList - 自定义面包屑列表
+ * @attr {boolean} showPos - 是否显示位置前缀
+ * @attr {string} posTitle - 位置前缀文本
+ *
+ * @event 无
+ *
+ * @csspart breadcrumb - 面包屑容器
+ *
+ * @example
+ * <!-- 自动路由面包屑 -->
+ * <LSBreadcrumb />
+ *
+ * @example
+ * <!-- 自定义面包屑 -->
+ * <LSBreadcrumb
+ *   :defineList="[
+ *     { title: '首页', path: '/' },
+ *     { title: '用户管理', path: '/users' },
+ *     { title: '用户详情' }
+ *   ]"
+ * />
+ *
+ * @example
+ * <!-- 显示位置前缀 -->
+ * <LSBreadcrumb showPos posTitle="当前位置" />
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsBreadcrumbProp } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';

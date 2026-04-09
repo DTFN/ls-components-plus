@@ -1,4 +1,35 @@
 <script setup lang="ts" name="LSEditor">
+/**
+ * @summary 富文本编辑器组件 - 基于 WangEditor 的二次封装
+ *
+ * 这是自研库的富文本编辑器组件，基于 WangEditor 实现。
+ * 支持图片上传、自定义工具栏、字数限制、内容校验等功能。
+ *
+ * @attr {string} modelValue - 绑定值
+ * @attr {string} uploadServer - 图片上传服务器地址
+ * @attr {string} uploadFieldName - 上传字段名
+ * @attr {number} uploadImgSize - 图片大小限制
+ * @attr {string} uploadImgSizeUnit - 图片大小单位
+ * @attr {object} uploadHeaders - 上传请求头
+ * @attr {string} placeholder - 占位文本
+ * @attr {number} maxLength - 最大长度
+ * @attr {string} mode - 编辑器模式
+ * @attr {boolean} readOnly - 是否只读
+ * @attr {object} toolbarConfig - 工具栏配置
+ * @attr {object} editorConfig - 编辑器配置
+ *
+ * @slot 无
+ *
+ * @event update:modelValue - 更新值事件
+ * @event onChange - 内容变化事件
+ * @event onCreated - 编辑器创建完成事件
+ *
+ * @csspart editor - 编辑器容器
+ *
+ * @example
+ * <!-- 基础用法 -->
+ * <LSEditor v-model="content" :uploadServer="'/api/upload'" />
+ */
 import { IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { useNamespace } from '@cpo/_hooks/useNamespace';

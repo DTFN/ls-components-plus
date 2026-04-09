@@ -1,4 +1,61 @@
 <script setup lang="ts" name="LSList">
+/**
+ * @summary 列表页面组件 - 标准列表页面模板
+ *
+ * 这是自研库的标准列表页面组件，集成了表单查询、数据表格、分页等功能。
+ * 提供完整的CRUD操作支持，适用于后台管理系统的列表页面。
+ *
+ * @attr {any} formData - 表单数据
+ * @attr {any[]} formItems - 表单项配置
+ * @attr {any} tableColumn - 表格列配置
+ * @attr {function} listApi - 列表数据API函数
+ * @attr {function} delApi - 删除API函数
+ * @attr {function} switchApi - 开关API函数
+ * @attr {function} queryFn - 查询函数
+ * @attr {any} listHookConfig - 列表Hook配置
+ * @attr {any} formConfig - 表单配置
+ * @attr {any} tableConfig - 表格配置
+ * @attr {boolean} showForm - 是否显示查询表单
+ * @attr {boolean} showBtn - 是否显示操作按钮
+ * @attr {boolean} showDelBtn - 是否显示删除按钮
+ * @attr {boolean} showSwitchBtn - 是否显示开关按钮
+ * @attr {boolean} showDetailBtn - 是否显示详情按钮
+ * @attr {boolean} showPage - 是否显示分页
+ * @attr {boolean} hidePage - 是否隐藏分页
+ * @attr {boolean} pageAtTable - 分页是否在表格内
+ * @attr {string} pageAlign - 分页对齐方式
+ * @attr {number} currentPage - 当前页
+ * @attr {number} pageSize - 每页条数
+ * @attr {string} primaryKey - 主键字段名
+ *
+ * @slot 表单插槽 - [name]-form-slot
+ * @slot 表格插槽 - [name]-table-slot
+ * @slot 按钮前置插槽 - buttons-prepend
+ * @slot 按钮后置插槽 - buttons-append
+ * @slot 自定义按钮插槽 - custom-btns
+ * @slot 额外内容插槽 - extra
+ *
+ * @event submitForm - 表单提交事件
+ * @event resetForm - 表单重置事件
+ * @event delSuccess - 删除成功事件
+ * @event switchSuccess - 开关成功事件
+ * @event handleLoading - 加载状态变化事件
+ * @event handleCurrentPage - 当前页变化事件
+ * @event handlePageSize - 每页条数变化事件
+ *
+ * @csspart list - 列表容器
+ * @csspart form - 表单区域
+ * @csspart table - 表格区域
+ * @csspart buttons - 按钮区域
+ *
+ * @example
+ * <!-- 基础列表 -->
+ * <LSList
+ *   :formItems="formItems"
+ *   :tableColumn="tableColumn"
+ *   :listApi="getListApi"
+ * />
+ */
 // 公共列表页面
 import { h } from 'vue';
 import useTableListHook from '@cpo/_hooks/useTableListHook';

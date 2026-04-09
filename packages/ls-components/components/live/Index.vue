@@ -1,4 +1,33 @@
 <script setup lang="ts" name="LSLive">
+/**
+ * @summary 直播/视频播放组件 - 支持 FLV 和 MP4
+ *
+ * 这是自研库的视频播放组件，支持 FLV 格式的直播流和 MP4 视频文件。
+ * 基于 flv.js 实现，支持自动播放、卡顿检测、重连等功能。
+ *
+ * @attr {string} type - 视频类型，flv 或 mp4
+ * @attr {string} url - 视频地址
+ * @attr {boolean} isLiving - 是否正在直播
+ * @attr {boolean} controls - 是否显示控制条
+ * @attr {boolean} autoplay - 是否自动播放
+ * @attr {boolean} muted - 是否静音
+ * @attr {boolean} fluid - 是否流体布局
+ *
+ * @slot 无
+ *
+ * @event update:isLiving - 更新直播状态事件
+ * @event onError - 错误事件
+ *
+ * @csspart live - 视频容器
+ *
+ * @example
+ * <!-- FLV直播 -->
+ * <LSLive type="flv" url="live.flv" v-model:isLiving="isLiving" />
+ *
+ * @example
+ * <!-- MP4视频 -->
+ * <LSLive type="mp4" url="video.mp4" />
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import flvjs from 'flv.js';
 import { lsLiveProps } from './types';

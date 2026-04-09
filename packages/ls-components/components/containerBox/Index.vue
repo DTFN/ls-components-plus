@@ -1,4 +1,29 @@
 <script setup lang="ts" name="LSContainerBox">
+/**
+ * @summary 容器盒子组件 - 响应式缩放容器
+ *
+ * 这是自研库的容器盒子组件，提供基于16:9比例的响应式缩放功能。
+ * 根据窗口大小自动计算缩放比例，适用于需要固定比例展示的内容区域。
+ *
+ * @attr {number} width - 容器宽度，默认为1920
+ * @attr {number} height - 容器高度，默认为1080
+ *
+ * @slot default - 默认插槽，容器内容
+ *
+ * @csspart container-box - 容器盒子
+ *
+ * @example
+ * <!-- 基础用法 -->
+ * <LSContainerBox>
+ *   <DashboardContent />
+ * </LSContainerBox>
+ *
+ * @example
+ * <!-- 自定义尺寸 -->
+ * <LSContainerBox :width="1920" :height="1080">
+ *   <FullHDContent />
+ * </LSContainerBox>
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsContainerBoxProps } from './types';
 
