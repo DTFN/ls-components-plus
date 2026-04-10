@@ -69,7 +69,7 @@ import { buildProps } from '@cpo/_utils/runtime';
  * @property {Object} tableDelBtnAttrs - 表格删除按钮配置
  * @property {Object} skeletonAttrs - 表格骨架屏配置
  * @property {boolean} showSkeleton - 表格骨架屏是否展示，默认为true
- * @property {string|Function} popconfirmTxt - popconfirm提示语
+ * @property {string|Function} popconfirmTxt - popconfirm 提示语/函数
  */
 export const lsListProps = buildProps({
   /** 列表查询API */

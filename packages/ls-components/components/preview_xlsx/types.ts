@@ -18,7 +18,7 @@ export const xlsxProps = buildProps({
     type: [File, String],
     default: null
   },
-  /** 是否显示分页 */
+  /** 大文件预览时是否启用分页渲染 */
   hasPagination: {
     type: Boolean,
     default: false

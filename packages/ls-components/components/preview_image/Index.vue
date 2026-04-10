@@ -2,38 +2,42 @@
 /**
  * @summary 图片预览组件
  *
- * 用于预览图片文件，支持单张或多张图片预览，支持水印、下载、缩放、旋转等功能
+ * 用于预览单张或多张图片，支持关闭回调、水印、下载扩展以及查看器内容插槽。
  *
  * @attr {boolean} v-model - 控制预览弹窗显示/隐藏
- * @attr {string} title - 预览标题
- * @attr {string|string[]} source - 图片源（单张图片URL或图片数组）
+ * @attr {string|string[]} source - 图片源（单张图片 URL 或图片数组）
+ * @attr {Function} onClose - 关闭预览时的回调函数
  * @attr {boolean} hideOnClickModal - 是否允许点击遮罩关闭
  * @attr {boolean} showWatermark - 是否显示水印
- * @attr {object} watermarkOption - 水印配置
- * @attr {boolean} showDownload - 是否显示下载按钮
- * @attr {function} beforeDownload - 下载前回调
- * @attr {string} customClass - 自定义类名
- * @attr {object} modalStyle - 弹窗样式
- * @attr {boolean} showErrorMsg - 是否显示错误信息
+ * @attr {object} watermarkOption - 水印配置，具体参考 `el-watermark`
+ * @attr {boolean} hasDownload - 是否显示下载按钮
+ * @attr {object} downloadData - 下载数据，点击下载时通过 `onDownload` 事件传出
  *
- * @slot 无
+ * @slot viewer - 自定义图片查看器内容
+ * @slot extra - 自定义额外操作区域
  *
- * @event loadComplete - 加载完成事件
- * @event loadError - 加载错误事件
- * @event onDownload - 下载事件
+ * @event loadComplete - 图片加载完成事件
+ * @event loadError - 图片加载失败事件
+ * @event onDownload - 点击下载按钮触发，参数为 `downloadData`
  *
  * @csspart preview-image - 预览容器
  *
  * @example
  * <!-- 单张图片预览 -->
- * <LSPreviewImage v-model="visible" :source="imageUrl" title="图片预览" />
+ * <LSPreviewImage
+ *   v-model="visible"
+ *   :source="imageUrl"
+ *   :onClose="() => (visible = false)"
+ * />
  *
  * @example
- * <!-- 多张图片预览 -->
+ * <!-- 多张图片预览并启用下载 -->
  * <LSPreviewImage
  *   v-model="visible"
  *   :source="imageList"
- *   :showDownload="true"
+ *   :onClose="() => (visible = false)"
+ *   :hasDownload="true"
+ *   :downloadData="{ fileName: '图片预览资源' }"
  * />
  */
 import LSImage from './Image.vue';

@@ -5,14 +5,14 @@
  * 这是自研库的标准按钮组件，提供了丰富的样式类型、尺寸选项和扩展功能。
  * 支持图标、文字、分隔符等多种组合方式，可独立使用或作为按钮组的一部分。
  *
- * @attr {string} type - 按钮类型 (primary/success/warning/danger/info/text)，决定按钮的颜色主题
- * @attr {string} size - 按钮尺寸 (large/medium/small/mini)，控制按钮的高度和内边距
+ * @attr {string} type - 按钮类型，透传 `el-button` 的 `type` 配置
+ * @attr {string} size - 按钮尺寸（large / default / small）
  * @attr {boolean} plain - 是否使用朴素按钮样式，背景为白色，边框为主题色
  * @attr {boolean} round - 是否使用圆角按钮，圆角半径为 999px
  * @attr {boolean} circle - 是否使用圆形按钮，适用于仅包含图标的场景
  * @attr {boolean} loading - 是否显示加载中状态，显示加载动画并禁用点击
  * @attr {boolean} disabled - 是否禁用按钮，禁用后按钮变灰且无法点击
- * @attr {string} icon - 按钮图标，支持 Element Plus 图标名称或自定义图标
+ * @attr {Component} icon - Element Plus 图标组件；也可结合 `iconConfig` 或 `icon` 插槽自定义图标
  * @attr {boolean} autofocus - 是否自动获取焦点
  * @attr {string} native-type - 原生 button 元素的 type 属性 (button/submit/reset)
  * @attr {object} iconConfig - 图标配置对象，包含图标名称、大小、颜色等属性

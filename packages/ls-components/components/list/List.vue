@@ -2,59 +2,96 @@
 /**
  * @summary 列表页面组件 - 标准列表页面模板
  *
- * 这是自研库的标准列表页面组件，集成了表单查询、数据表格、分页等功能。
- * 提供完整的CRUD操作支持，适用于后台管理系统的列表页面。
+ * 标准列表页组合组件，集成查询表单（行内）、数据表格与分页，内置新增/详情/编辑/删除与开关等常见操作的可配置支持。
  *
- * @attr {any} formData - 表单数据
- * @attr {any[]} formItems - 表单项配置
- * @attr {any} tableColumn - 表格列配置
- * @attr {function} listApi - 列表数据API函数
- * @attr {function} delApi - 删除API函数
- * @attr {function} switchApi - 开关API函数
- * @attr {function} queryFn - 查询函数
- * @attr {any} listHookConfig - 列表Hook配置
- * @attr {any} formConfig - 表单配置
- * @attr {any} tableConfig - 表格配置
- * @attr {boolean} showForm - 是否显示查询表单
- * @attr {boolean} showBtn - 是否显示操作按钮
- * @attr {boolean} showDelBtn - 是否显示删除按钮
- * @attr {boolean} showSwitchBtn - 是否显示开关按钮
- * @attr {boolean} showDetailBtn - 是否显示详情按钮
- * @attr {boolean} showPage - 是否显示分页
- * @attr {boolean} hidePage - 是否隐藏分页
- * @attr {boolean} pageAtTable - 分页是否在表格内
- * @attr {string} pageAlign - 分页对齐方式
- * @attr {number} currentPage - 当前页
- * @attr {number} pageSize - 每页条数
- * @attr {string} primaryKey - 主键字段名
+ * 常用属性（与 props 定义保持一致，仅摘录要点）：
+ * @attr {Function} listApi            列表查询 API
+ * @attr {Function} dealParams         查询参数处理函数
+ * @attr {Function} dealData           返回数据处理函数
+ * @attr {Object}   listHookConfig     useTableListHook 其他配置
+ * @attr {Function} delApi             删除 API
+ * @attr {Function} dealDelParams      删除参数处理
+ * @attr {String|Function} delMessage  删除成功提示语/函数
+ * @attr {Function} switchApi          开关 API
+ * @attr {Function} dealSwitchParams   开关参数处理
+ * @attr {Boolean}  showForm=true      是否显示表单
+ * @attr {String}   formClass          表单区附加类名
+ * @attr {Object}   formData           表单数据对象
+ * @attr {Array}    formItems          表单项配置
+ * @attr {Object}   formAttrs          表单透传属性
+ * @attr {Function} queryFn            自定义查询事件（覆盖默认）
+ * @attr {Function} resetFn            自定义重置事件（覆盖默认）
+ * @attr {Array}    tableColumn        表格列配置
+ * @attr {String}   tableRowKey='id'   表格行 key
+ * @attr {Object}   tableAttrs         表格透传属性
+ * @attr {Object}   tableListeners     表格事件监听
+ * @attr {Boolean}  showOperate=true   是否显示“操作按钮展示区”
+ * @attr {Boolean}  showOperateDivider=true 操作区是否显示分割线
+ * @attr {String}   operateClass       操作区附加类名
+ * @attr {Boolean}  showAdd=true       是否显示新增按钮
+ * @attr {Boolean}  disabledAddBtn     新增按钮是否禁用
+ * @attr {String}   addBtnText='添加'  新增按钮文案
+ * @attr {Object}   addBtnAttrs        新增按钮透传属性
+ * @attr {Function} addFn              新增点击事件（覆盖默认）
+ * @attr {Boolean}  showTableSwitch=false 是否显示表格内开关列
+ * @attr {String}   switchProp='status'   开关字段名
+ * @attr {Object}   tableSwitchColumn  开关列配置
+ * @attr {Object}   tableSwitchAttrs   开关控件透传属性
+ * @attr {Object}   tableSwitchPopAttrs 开关确认弹窗属性
+ * @attr {String}   tableSwitchPopTxt='请问是否关闭？' 开关确认弹窗文案
+ * @attr {Boolean|Function} disabledTableSwitch 是否禁用开关
+ * @attr {Boolean}  showTableOperate=true 是否显示表格操作列
+ * @attr {Object}   tableOperateColumn 表格操作列配置
+ * @attr {Function} tableDetailFn      自定义“查看”事件（覆盖默认）
+ * @attr {Function} tableEditFn        自定义“编辑”事件（覆盖默认）
+ * @attr {Function} tableDelFn         自定义“删除”事件（覆盖默认）
+ * @attr {Boolean|Function} showTableDetail   “查看”是否显示
+ * @attr {Boolean|Function} disabledTableDetail “查看”是否禁用
+ * @attr {Boolean|Function} showTableEdit     “编辑”是否显示
+ * @attr {Boolean|Function} disabledTableEdit “编辑”是否禁用
+ * @attr {Boolean|Function} showTableDel      “删除”是否显示
+ * @attr {Boolean|Function} disabledTableDel  “删除”是否禁用
+ * @attr {Object}   tableDelPopAttrs   删除确认弹窗属性
+ * @attr {String}   addRoutePath       新增页路由
+ * @attr {String}   detailRoutePath    详情页路由
+ * @attr {String}   editRoutePath      编辑页路由
+ * @attr {String|Function} tableDetailText='查看'  查看按钮文案/函数
+ * @attr {String|Function} tbleEditText='编辑'    编辑按钮文案/函数
+ * @attr {String|Function} tableDelText='删除'     删除按钮文案/函数
+ * @attr {String|Function} tableDetailType='primary' 查看按钮类型/函数
+ * @attr {String|Function} tableEditType='primary'   编辑按钮类型/函数
+ * @attr {String|Function} tableDelType='danger'     删除按钮类型/函数
+ * @attr {Object}   tableDetailBtnAttrs 查看按钮透传属性
+ * @attr {Object}   tableEditBtnAttrs   编辑按钮透传属性
+ * @attr {Object}   tableDelBtnAttrs    删除按钮透传属性
+ * @attr {Object}   skeletonAttrs       骨架屏属性
+ * @attr {Boolean}  showSkeleton=true   是否显示骨架屏
+ * @attr {String|Function} popconfirmTxt 删除确认弹窗提示语/函数
  *
- * @slot 表单插槽 - [name]-form-slot
- * @slot 表格插槽 - [name]-table-slot
- * @slot 按钮前置插槽 - buttons-prepend
- * @slot 按钮后置插槽 - buttons-append
- * @slot 自定义按钮插槽 - custom-btns
- * @slot 额外内容插槽 - extra
+ * 动态插槽（名称以字段名为前缀）：
+ * @slot [field]-form-slot    表单项插槽（与字段匹配）
+ * @slot [field]-table-slot   表格列插槽（与字段匹配）
  *
- * @event submitForm - 表单提交事件
- * @event resetForm - 表单重置事件
- * @event delSuccess - 删除成功事件
- * @event switchSuccess - 开关成功事件
- * @event handleLoading - 加载状态变化事件
- * @event handleCurrentPage - 当前页变化事件
- * @event handlePageSize - 每页条数变化事件
+ * 通用插槽：
+ * @slot form-append            表单区域追加内容
+ * @slot operate                自定义整块操作区
+ * @slot operate-prepend        操作区前置内容
+ * @slot operate-append         操作区后置内容
+ * @slot table-operate-prepend  表格操作列按钮前置内容
+ * @slot table-operate-append   表格操作列按钮后置内容
+ * @slot table-append           表格区域追加内容
  *
- * @csspart list - 列表容器
- * @csspart form - 表单区域
- * @csspart table - 表格区域
- * @csspart buttons - 按钮区域
+ * 事件：
+ * @event submitForm(formData)      提交查询
+ * @event resetForm(formData)       重置查询
+ * @event delSuccess(row,res)       删除成功
+ * @event switchSuccess(row,status) 开关操作成功
+ * @event handleLoading(loading)    加载状态变化
+ * @event handleCurrentPage(page)   当前页变化
+ * @event handlePageSize(size)      每页条数变化
  *
  * @example
- * <!-- 基础列表 -->
- * <LSList
- *   :formItems="formItems"
- *   :tableColumn="tableColumn"
- *   :listApi="getListApi"
- * />
+ * <LSList :formItems="formItems" :tableColumn="tableColumn" :listApi="getListApi" />
  */
 // 公共列表页面
 import { h } from 'vue';

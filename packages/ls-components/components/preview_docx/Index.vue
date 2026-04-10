@@ -1,40 +1,44 @@
 <script setup lang="ts" name="LSPreviewDocx">
 /**
- * @summary Word文档预览组件
+ * @summary Word 文档预览组件
  *
- * 用于预览DOCX格式的Word文档，支持水印、下载等功能
+ * 用于预览 DOCX 格式文档，支持关闭回调、水印、下载扩展和额外操作区插槽。
  *
  * @attr {boolean} v-model - 控制预览弹窗显示/隐藏
- * @attr {string} title - 预览标题
- * @attr {string} source - 文档数据源
+ * @attr {ArrayBuffer|string} source - 文档数据源
+ * @attr {Function} onClose - 关闭预览时的回调函数
  * @attr {boolean} hideOnClickModal - 是否允许点击遮罩关闭
  * @attr {boolean} showWatermark - 是否显示水印
- * @attr {object} watermarkOption - 水印配置
- * @attr {boolean} showDownload - 是否显示下载按钮
- * @attr {function} beforeDownload - 下载前回调
- * @attr {string} customClass - 自定义类名
- * @attr {object} modalStyle - 弹窗样式
- * @attr {boolean} showErrorMsg - 是否显示错误信息
+ * @attr {object} watermarkOption - 水印配置，具体参考 `el-watermark`
+ * @attr {boolean} hasDownload - 是否显示下载按钮
+ * @attr {object} downloadData - 下载数据，点击下载时通过 `onDownload` 事件传出
  *
- * @slot 无
+ * @slot extra - 自定义额外操作区域
  *
- * @event loadComplete - 加载完成事件
- * @event loadError - 加载错误事件
- * @event onDownload - 下载事件
+ * @event loadComplete - 文档加载完成事件
+ * @event loadError - 文档加载失败事件
+ * @event onDownload - 点击下载按钮触发，参数为 `downloadData`
  *
  * @csspart preview-docx - 预览容器
  *
  * @example
  * <!-- 基础预览 -->
- * <LSPreviewDocx v-model="visible" :source="docxData" title="文档预览" />
- *
- * @example
- * <!-- 带水印 -->
  * <LSPreviewDocx
  *   v-model="visible"
  *   :source="docxData"
+ *   :onClose="() => (visible = false)"
+ * />
+ *
+ * @example
+ * <!-- 带下载和水印 -->
+ * <LSPreviewDocx
+ *   v-model="visible"
+ *   :source="docxData"
+ *   :onClose="() => (visible = false)"
  *   :showWatermark="true"
- *   :watermarkOption="{ content: '机密' }"
+ *   :watermarkOption="{ content: '临港集团' }"
+ *   :hasDownload="true"
+ *   :downloadData="{ fileName: '示例文档.docx' }"
  * />
  */
 import LSDocx from './Docx.vue';

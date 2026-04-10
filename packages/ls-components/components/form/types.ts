@@ -25,8 +25,8 @@ import { buildProps } from '@cpo/_utils/runtime';
  * @property {string} confirmClassName - 确认按钮样式类名
  * @property {boolean} colon - 是否显示冒号，默认为false
  * @property {string} labelEmpty - 空值占位符，默认为'--'
- * @property {boolean} hasDefReadStyle - 详情样式（锦鲤适用），默认为false
- * @property {boolean} hideColumn - 隐藏某一列（锦鲤适用），默认为false
+ * @property {boolean} hasDefReadStyle - 是否启用只读态默认展示样式，默认为false
+ * @property {boolean} hideColumn - 是否隐藏当前表单项，默认为false
  */
 export const lsFormProps = buildProps({
   /** 表单数据对象 */
@@ -116,12 +116,12 @@ export const lsFormProps = buildProps({
     type: String,
     default: '--'
   },
-  /** 详情样式（锦鲤适用） */
+  /** 是否启用只读态默认展示样式 */
   hasDefReadStyle: {
     type: Boolean,
     default: false
   },
-  /** 隐藏某一列（锦鲤适用） */
+  /** 是否隐藏当前表单项 */
   hideColumn: {
     type: Boolean,
     default: false

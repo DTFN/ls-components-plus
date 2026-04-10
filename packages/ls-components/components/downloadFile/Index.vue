@@ -1,33 +1,39 @@
 <script setup lang="ts" name="LSDownloadFile">
 /**
- * @summary 文件下载组件 - 支持分片下载和进度显示
+ * @summary 文件下载组件 - 支持分片下载与进度展示
  *
- * 这是自研库的文件下载组件，支持大文件分片下载、断点续传、进度显示等功能。
- * 提供下载进度、速度、剩余时间等信息展示。
+ * 基于分片请求实现大文件下载进度展示，支持控制初始并发数、异常重试上限，
+ * 并可在失败达到上限时中止剩余请求。组件本身渲染 `el-progress`，额外进度条属性可直接透传。
  *
- * @attr {number} chunkSize - 分片大小
- * @attr {number} chunkTotal - 分片总数
- * @attr {number} maxErrorNum - 最大错误数
- * @attr {number} poolLimit - 并发限制
- * @attr {function} requestFn - 请求函数
- * @attr {string} fileName - 文件名
+ * @attr {string|number} recordId - 数据记录标识
+ * @attr {number} chunkTotal - 下载分片总数量
+ * @attr {Function} chunkDataRequest - 分片下载请求函数
+ * @attr {object} chunkDataRequestParams - 自定义分片请求参数
+ * @attr {object} chunkDataRequestConfig - 自定义分片请求配置
+ * @attr {number} initRequstNum - 初始并发请求数量
+ * @attr {number} maxErrorNum - 最大异常请求数
+ * @attr {boolean} cancelUploadInLimit - 达到最大异常请求数后是否中止剩余下载请求
  *
  * @slot 无
  *
- * @event onStart - 下载开始事件
- * @event onProgress - 下载进度事件
- * @event onSuccess - 下载成功事件
- * @event onError - 下载错误事件
+ * @event onDownloadSuccess - 所有分片下载成功后触发
+ * @event onDownloadError - 下载失败或达到异常上限时触发
  *
- * @csspart download-file - 下载容器
+ * @csspart download-file - 下载进度容器
  *
  * @example
- * <!-- 基础下载 -->
+ * <!-- 基础分片下载 -->
  * <LSDownloadFile
- *   :requestFn="downloadApi"
- *   fileName="example.zip"
- *   @onSuccess="handleSuccess"
+ *   ref="downloadFileRef"
+ *   :record-id="3"
+ *   :chunk-total="chunkTotal"
+ *   :init-requst-num="2"
+ *   :chunk-data-request="chunkDownload"
+ *   :max-error-num="2"
+ *   @on-download-success="handleSuccess"
+ *   @on-download-error="handleError"
  * />
+ * <LSButton type="primary" @click="downloadFileRef?.start()">下载</LSButton>
  */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { emitNames, lsDownloadProp } from './types';

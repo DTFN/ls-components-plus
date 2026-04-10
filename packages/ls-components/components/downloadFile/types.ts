@@ -15,7 +15,7 @@ import { buildProps } from '@cpo/_utils/runtime';
  * @property {Object} chunkDataRequestConfig - 分片下载请求配置，默认为null
  * @property {number} initRequstNum - 初始请求数量，默认为10
  * @property {number} maxErrorNum - 最大异常请求数，默认为6
- * @property {boolean} cancelUploadInLimit - 超出上限是否取消上传，默认为true
+ * @property {boolean} cancelUploadInLimit - 达到最大异常请求数后是否中止剩余下载请求，默认为true
  */
 export const lsDownloadProp = buildProps({
   /** 数据记录id */
@@ -53,7 +53,7 @@ export const lsDownloadProp = buildProps({
     type: Number,
     default: 6
   },
-  /** 超出上限是否取消上传 */
+  /** 达到最大异常请求数后是否中止剩余下载请求 */
   cancelUploadInLimit: {
     type: Boolean,
     default: true
