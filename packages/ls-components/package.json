@@ -142,7 +142,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "extract:meta": "node scripts/extract-components.js",
-    "mcp:setup": "npm run extract:meta && echo 'MCP配置已更新，请查看 component-meta.json 和 mcp-server.json'"
+    "mcp:setup": "npm run extract:meta && component-meta.json 和 mcp-server.json'"
   },
   "files": [
     "lib"
