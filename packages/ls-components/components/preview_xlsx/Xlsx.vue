@@ -1,4 +1,21 @@
 <script setup lang="ts" name="LSXlsx">
+/**
+ * @summary Excel 渲染组件 - `LSPreviewXlsx` 的内部渲染器
+ *
+ * `LSXlsx` 是 `LSPreviewXlsx` 的内部子组件，负责加载 `Luckysheet` 相关静态资源并将 Excel 文件渲染到页面。
+ * 小文件场景下会通过 `LuckyExcel.transformExcelToLucky` 直接转换渲染；文件超过体积阈值且 `hasPagination=true` 时，
+ * 会改为基于 `xlsx` 做分批分页渲染。
+ * 当前实现会先校验 `source` 是否为 `File`；若传入字符串或空值，会直接终止初始化。
+ *
+ * @attr {File|string} source Excel 文件源；类型层面兼容 `File` / `string`，当前渲染实现实际依赖 `File`
+ * @attr {boolean} hasPagination 大文件预览时是否启用分页渲染，默认 `false`
+ * @attr {Function} onClose 关闭预览时的回调函数
+ *
+ * @event loadComplete Excel 渲染完成后触发
+ * @event loadError Excel 渲染失败或资源异常时触发
+ * @event update:source 点击关闭按钮后触发，用于将外部 `source` 重置为空数组
+ * @event onDownload 点击下载按钮后触发，参数来自透传的 `downloadData`
+ */
 import { fileEmpty, previewEmits } from '@cpo/_constants/previewType';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { isFile } from '@cpo/_utils/check';

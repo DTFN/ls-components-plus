@@ -78,6 +78,34 @@
 </template>
 
 <script setup lang="ts" name="LSImage">
+/**
+ * @summary 图片查看器组件 - `LSPreviewImage` 的内部渲染器
+ *
+ * `LSImage` 负责真正的图片查看与交互，支持单图 / 多图切换、拖拽、滚轮缩放、旋转、模式切换、键盘快捷键和下载动作。
+ * 组件接收 `imageViewerProps` 中定义的查看器配置，并从 `$attrs` 读取 `hasDownload`、`downloadData`、`downloadLoading` 等扩展数据。
+ * 关闭时会执行 `onClose` 回调并触发 `update:source([])`；当前实现没有单独 `emit('close')`，即使 `previewEmits` 中保留了该事件名。
+ *
+ * @attr {string|string[]} source 图片源，支持单张图片 URL 或图片 URL 数组
+ * @attr {number} zIndex 预览层级；未传时由内部 `useZIndex` 动态生成
+ * @attr {number} initialIndex 初始预览图片索引，默认 `0`
+ * @attr {boolean} infinite 是否无限循环预览，默认 `true`
+ * @attr {boolean} hideOnClickModal 点击遮罩层是否关闭预览，默认 `false`
+ * @attr {boolean} teleported 是否使用 `Teleport` 挂载到 `body`，默认 `false`
+ * @attr {boolean} closeOnPressEscape 按下 `ESC` 是否关闭预览，默认 `true`
+ * @attr {Function} onClose 关闭预览时的回调函数
+ * @attr {number|string} zoomSize 对外暴露的缩放尺寸配置，默认 `1.5`；当前缩放步长仍由内部动作逻辑控制
+ *
+ * @slot viewer 自定义预览内容插槽
+ * @slot default 默认插槽
+ *
+ * @event switch(index) 图片切换事件
+ * @event update:source(source) 图片源更新事件；关闭时重置为空数组
+ * @event loadComplete 图片加载完成事件
+ * @event loadError 图片加载失败事件
+ * @event onDownload 点击下载按钮触发，参数来自 `$attrs.downloadData`
+ *
+ * @expose setActiveItem(index) 手动切换当前预览图片
+ */
 import { useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-unified';
 import { useNamespace } from '@cpo/_hooks/useNamespace';

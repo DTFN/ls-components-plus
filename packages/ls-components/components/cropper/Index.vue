@@ -1,44 +1,36 @@
 <script setup lang="ts" name="LSCropper">
 /**
- * @summary 图片裁剪组件 - 基于 Vue-Cropper 的二次封装
+ * @summary 图片裁剪组件 - 基于 `vue-cropper` 的二次封装
  *
- * 这是自研库的图片裁剪组件，基于 Vue-Cropper 实现。
- * 支持方形、圆形裁剪，支持实时预览、固定比例、旋转缩放等功能。
+ * `LSCropper` 在保留 `vue-cropper` 原生属性与方法的基础上，补充了统一的
+ * 裁剪结果回传与预览能力；支持方形裁剪与圆形裁剪，其中圆形模式会在
+ * `vue-cropper` 结果上再经过一次 Canvas 二次裁剪，生成真正的圆形图片。
  *
- * @attr {string} imgUrl - 图片地址
- * @attr {string} graphicsType - 裁剪形状，square 或 circle
- * @attr {array} autoCropWidth - 裁剪框宽度
- * @attr {array} autoCropHeight - 裁剪框高度
- * @attr {boolean} fixed - 是否固定比例
- * @attr {array} fixedNumber - 固定比例值
- * @attr {boolean} full - 是否显示完整图片
- * @attr {boolean} canMove - 是否可以移动图片
- * @attr {boolean} canMoveBox - 是否可以移动裁剪框
- * @attr {boolean} original - 是否显示原图
- * @attr {boolean} autoCrop - 是否自动裁剪
- * @attr {boolean} centerBox - 裁剪框是否居中
- * @attr {boolean} high - 是否高质量裁剪
- * @attr {boolean} infoTrue - 是否显示真实大小
- * @attr {number} maxImgSize - 图片最大尺寸
- * @attr {boolean} enlarge - 是否放大
- * @attr {boolean} mode - 裁剪模式
- * @attr {number} limitMinSize - 最小裁剪尺寸
+ * 组件自有属性：
+ * @attr {string} imgUrl 待裁剪图片地址
+ * @attr {string} fileName 裁剪结果文件名，默认使用时间戳加 `.png`
+ * @attr {number} limitMinSize 最小裁剪尺寸，默认 `37`
+ * @attr {'square'|'circular'} graphicsType 裁剪形状；`square` 为方形，`circular` 为圆形
+ * @attr {'png'|'jpeg'|'webp'} outputType 输出图片格式，默认 `png`
+ * @attr {boolean} showPreview 是否显示裁剪结果预览，默认 `true`
+ *
+ * 透传属性（来自 `vue-cropper`，通过 `$attrs` 传入）：
+ * @attr {boolean} fixed 是否开启固定比例裁剪
+ * @attr {number[]} fixedNumber 固定比例值，如 `[1, 1]`
+ * @attr {number|string} autoCropWidth 默认裁剪宽度
+ * @attr {number|string} autoCropHeight 默认裁剪高度
+ * @attr {boolean} fixedBox 是否固定裁剪框大小
  *
  * @slot 无
  *
- * @event onRealTime - 实时预览事件
- * @event onImgMoving - 图片移动事件
- * @event onCropMoving - 裁剪框移动事件
- *
- * @csspart cropper - 裁剪容器
+ * @event onCropData({ file, url, data }) 裁剪结果变化并成功生成文件时触发
+ * @event onCropError(error) 图片读取、绘制或裁剪失败时触发
  *
  * @example
- * <!-- 基础裁剪 -->
- * <LSCropper
- *   :imgUrl="imageUrl"
- *   graphicsType="square"
- *   :autoCropWidth="[200, 200]"
- * />
+ * <LSCropper :img-url="imgUrl" graphics-type="circular" :show-preview="true" @on-crop-data="onCropData" />
+ *
+ * @example
+ * <LSCropper :img-url="imgUrl" graphics-type="square" :fixed="true" :fixed-number="[1, 1]" output-type="jpeg" />
  */
 import { VueCropper } from 'vue-cropper';
 import 'vue-cropper/dist/index.css';

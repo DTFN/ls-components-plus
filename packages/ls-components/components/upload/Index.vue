@@ -128,94 +128,51 @@
 
 <script setup lang="ts">
 /**
- * @summary 上传组件 - 基于 Element Plus 上传的二次封装
+ * @summary 上传组件 - 基于 Element Plus `el-upload` 的二次封装
  *
- * 这是自研库的标准文件上传组件，提供了丰富的上传功能和灵活的配置选项。
- * 支持单文件/多文件上传、拖拽上传、图片卡片、头像上传、文件类型限制、文件大小限制、
- * 自动/手动上传、图片预览、图片裁剪等高级功能，适用于各种文件上传场景。
+ * `LSUpload` 在保留 `el-upload` 原生能力的基础上，补充了业务侧常用的上传增强能力：
+ * 1. 通过 `item` 对象集中配置覆盖上传、格式 / 大小校验、表单验证联动、头像模式等扩展选项。
+ * 2. 通过内部默认文案和按钮状态处理，支持普通上传、拖拽上传、图片卡片、手动上传等常见展示形态。
+ * 3. 提供图片预览、自定义文件项操作区以及裁剪入口等扩展交互。
  *
- * @attr {boolean} customFile - 是否自定义文件列表
- * @attr {boolean} hasCropper - 是否启用图片裁剪
- * @attr {object} item - 上传配置项对象
- * @attr {function} onExceed - 文件超出限制回调
- * @attr {function} beforeUpload - 上传前校验回调
- * @attr {function} onChange - 文件变更回调
- * @attr {function} onSuccess - 上传成功回调
- * @attr {function} onError - 上传失败回调
- * @attr {function} onRemove - 文件移除回调
- * @attr {function} onProgress - 上传进度回调
- * @attr {function} onPreview - 文件预览回调
- * @attr {function} httpRequest - 自定义上传请求
+ * 组件显式声明的 props 只有 `item`、`onExceed`、`beforeUpload`、`onChange`、`onSuccess`、
+ * `onError`、`onRemove`、`onPreview`、`onProgress`、`httpRequest`、`customFile`、`hasCropper`；
+ * 其余大部分 `el-upload` 原生属性会继续通过 `$attrs` 透传给内部组件，因此仍可直接使用
+ * `action`、`file-list`、`limit`、`multiple`、`drag`、`list-type`、`auto-upload`、`disabled` 等配置。
  *
- * @slot trigger - 触发上传区域插槽
- * @slot default - 默认插槽，用于在上传区域插入自定义内容
- * @slot tip - 提示文本插槽
- * @slot file - 文件列表项插槽，参数：{ file, index }
+ * @attr {object} item 业务扩展配置对象；用于控制覆盖上传、格式 / 大小限制、头像模式、手动上传适配、表单联动等能力，默认 `{}`
+ * @attr {function|null} onExceed 超出 `limit` 时的钩子；未传时走组件内置数量限制处理，默认 `null`
+ * @attr {function|null} beforeUpload 上传前钩子；返回 `false` 可阻止上传，默认 `null`
+ * @attr {function|null} onChange 文件状态变化钩子；未传时走组件内置文件校验与 `onChangeFunc` 事件，默认 `null`
+ * @attr {function|null} onSuccess 上传成功钩子，默认 `null`
+ * @attr {function|null} onError 上传失败钩子，默认 `null`
+ * @attr {function|null} onRemove 文件移除钩子，对应 `el-upload` 的 `on-remove`，默认 `null`
+ * @attr {function|null} onPreview 文件预览钩子；未传时图片场景走组件内置预览逻辑，默认 `null`
+ * @attr {function|null} onProgress 上传进度钩子，默认 `null`
+ * @attr {function|null} httpRequest 自定义上传请求；优先级高于 `item.httpRequestFunc`，默认 `null`
+ * @attr {boolean} customFile 是否启用内置的图片卡片自定义操作区，默认 `false`
+ * @attr {boolean} hasCropper 是否在内置图片卡片操作区显示裁剪入口；通常与 `customFile` 搭配使用，默认 `false`
  *
- * @event uploadErrorFunc - 上传错误事件，参数：errorMsg
- * @event onChangeFunc - 文件变更事件，参数：file
- * @event httpResponseFunc - HTTP响应事件，参数：response
- * @event onHandleCropper - 图片裁剪事件，参数：file, index
+ * @slot trigger 上传触发区域插槽；用于替换默认上传按钮 / 拖拽区入口
+ * @slot default 默认插槽；通常用于替换上传区域默认内容；当 `customFile=true` 时，该插槽内容会额外渲染到内置文件操作区，并携带 `{ file, index }`
+ * @slot tip 提示文案插槽；未传时展示组件根据限制条件生成的默认提示
+ * @slot file 文件列表项插槽；当前主要在 `customFile=false` 时透传给内部 `el-upload` 的 `file` 插槽，参数：`{ file, index }`
  *
- * @csspart upload - 上传组件容器
- * @csspart upload-btn - 上传按钮
- * @csspart upload-list - 上传文件列表
+ * @event uploadErrorFunc 上传校验或上传流程错误事件，参数：`msg`
+ * @event onChangeFunc 文件变化事件；在组件内置处理链路中返回包含 `blob` 的文件对象或清空结果，参数：`file`
+ * @event httpResponseFunc 使用内置 `httpRequestAction` 时的接口响应事件，参数：`response`
+ * @event onHandleCropper 点击裁剪入口时触发，参数：`file`、`index`
  *
- * @example
- * <!-- 基础上传 -->
- * <LSUpload
- *   v-model:file-list="fileList"
- *   action="/api/upload"
- *   :limit="3"
- *   :on-success="handleSuccess"
- * />
- *
- * @example
- * <!-- 图片卡片上传 -->
- * <LSUpload
- *   v-model:file-list="imageList"
- *   action="/api/upload"
- *   list-type="picture-card"
- *   :limit="9"
- *   :has-cropper="true"
- * />
- *
- * @example
- * <!-- 拖拽上传 -->
- * <LSUpload
- *   v-model:file-list="fileList"
- *   action="/api/upload"
- *   drag
- *   :auto-upload="false"
- * />
- *
- * @example
- * <!-- 头像上传 -->
- * <LSUpload
- *   v-model:file-list="avatar"
- *   action="/api/upload"
- *   :item="{ profile: true }"
- *   :limit="1"
- * />
- *
- * @example
- * <!-- 手动上传 -->
- * <LSUpload
- *   ref="uploadRef"
- *   v-model:file-list="fileList"
- *   action="/api/upload"
- *   :auto-upload="false"
- * />
- * <button @click="$refs.uploadRef.comfirmUpload()">开始上传</button>
+ * @expose uploadRef 内部 `el-upload` 实例；可通过 `uploadRef.value.uploadRef` 继续调用 `submit`、`clearFiles`、`abort`、`handleStart`、`handleRemove` 等原生方法
  */
-import { lsUploadProps, UPLOAD_TYPE_MAP, UPLOAD_STATUS_MAP, IMG_SUFFIX_LIST, fileTypeMap } from './types';
-import type { configsType, UploadChangeFile, UploadItemType } from './types';
-import { getVariable } from '@cpo/_utils/config';
-import type { UploadUserFile, UploadFiles, UploadRawFile, UploadFile, UploadProgressEvent } from 'element-plus';
 import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { getVariable } from '@cpo/_utils/config';
 import LSButton from '@cpo/button/Button.vue';
 import LSIcon from '@cpo/icon/Index.vue';
 import LSPreviewImage from '@cpo/preview_image';
+import type { UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadUserFile } from 'element-plus';
+import type { configsType, UploadChangeFile, UploadItemType } from './types';
+import { fileTypeMap, IMG_SUFFIX_LIST, lsUploadProps, UPLOAD_STATUS_MAP, UPLOAD_TYPE_MAP } from './types';
 // import { merge } from 'lodash-es';
 
 defineOptions({

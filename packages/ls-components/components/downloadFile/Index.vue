@@ -2,27 +2,25 @@
 /**
  * @summary 文件下载组件 - 支持分片下载与进度展示
  *
- * 基于分片请求实现大文件下载进度展示，支持控制初始并发数、异常重试上限，
- * 并可在失败达到上限时中止剩余请求。组件本身渲染 `el-progress`，额外进度条属性可直接透传。
+ * `LSDownloadFile` 是一个分片下载进度组件：内部按分片并发请求文件数据，
+ * 使用 `el-progress` 展示下载进度，并通过组件暴露的 `start()` 方法主动启动下载流程。
+ * 除了自身下载相关 props 外，其余进度条样式属性会继续透传给 `el-progress`。
  *
- * @attr {string|number} recordId - 数据记录标识
- * @attr {number} chunkTotal - 下载分片总数量
- * @attr {Function} chunkDataRequest - 分片下载请求函数
- * @attr {object} chunkDataRequestParams - 自定义分片请求参数
- * @attr {object} chunkDataRequestConfig - 自定义分片请求配置
- * @attr {number} initRequstNum - 初始并发请求数量
- * @attr {number} maxErrorNum - 最大异常请求数
- * @attr {boolean} cancelUploadInLimit - 达到最大异常请求数后是否中止剩余下载请求
+ * @attr {string|number} recordId 当前文件所在记录的 id
+ * @attr {number} chunkTotal 分片总数
+ * @attr {Function} chunkDataRequest 分片数据请求函数；调用时会传入 `(params, config)`
+ * @attr {object|null} chunkDataRequestParams 自定义请求参数；内部会额外合并当前 `chunk`
+ * @attr {object|null} chunkDataRequestConfig 分片请求配置；未传时默认注入 `{ signal }`
+ * @attr {number} initRequstNum 初始化请求分片数，默认 `10`
+ * @attr {number} maxErrorNum 最大错误请求次数，默认 `6`
+ * @attr {boolean} cancelUploadInLimit 请求异常达到限制后是否取消剩余下载，默认 `true`
  *
  * @slot 无
  *
- * @event onDownloadSuccess - 所有分片下载成功后触发
- * @event onDownloadError - 下载失败或达到异常上限时触发
- *
- * @csspart download-file - 下载进度容器
+ * @event onDownloadSuccess(data) 所有分片请求成功后触发，返回下载的分片数据数组
+ * @event onDownloadError(data) 下载失败时触发，返回失败分片信息，如 `{ errChunk }`
  *
  * @example
- * <!-- 基础分片下载 -->
  * <LSDownloadFile
  *   ref="downloadFileRef"
  *   :record-id="3"

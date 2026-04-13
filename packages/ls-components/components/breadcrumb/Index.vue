@@ -2,41 +2,44 @@
 /**
  * @summary 面包屑组件 - 导航路径展示
  *
- * 这是自研库的标准面包屑组件，用于显示当前页面的导航路径。
- * 支持自动路由解析和自定义路径列表，支持点击跳转和新窗口打开。
+ * 基于 Element Plus `el-breadcrumb` 的二次封装组件，用于展示当前页面层级路径。
+ * 默认从当前路由 `meta.bcList` 自动渲染，也支持通过 `defineList` 自定义数据；
+ * 当项中存在 `name` 时执行路由跳转，存在 `link` 时在新窗口打开外链，其余项仅作文本展示。
  *
- * @attr {any[]} defineList - 自定义面包屑列表
- * @attr {boolean} showPos - 是否显示位置前缀
- * @attr {string} posTitle - 位置前缀文本
+ * @attr {BreadCrumpListType} defineList 自定义面包屑数据，结构与路由 `meta.bcList` 一致
+ * @attr {boolean} showPos=true 是否显示“当前位置”前缀
+ * @attr {string} posTitle='当前位置' 当前位置前缀文案
  *
  * @event 无
  *
- * @csspart breadcrumb - 面包屑容器
- *
  * @example
- * <!-- 自动路由面包屑 -->
+ * <!-- 根据当前路由 meta.bcList 自动渲染 -->
  * <LSBreadcrumb />
  *
  * @example
  * <!-- 自定义面包屑 -->
  * <LSBreadcrumb
- *   :defineList="[
- *     { title: '首页', path: '/' },
- *     { title: '用户管理', path: '/users' },
- *     { title: '用户详情' }
+ *   :define-list="[
+ *     { title: '首页', name: 'Home' },
+ *     { title: '产品管理' },
+ *     { title: '产品详情', name: 'ProductDetail', query: { id: '123' } }
  *   ]"
  * />
  *
  * @example
- * <!-- 显示位置前缀 -->
- * <LSBreadcrumb showPos posTitle="当前位置" />
+ * <!-- 隐藏当前位置前缀 -->
+ * <LSBreadcrumb :define-list="defineBCList" :show-pos="false" />
+ *
+ * @example
+ * <!-- 自定义当前位置文案 -->
+ * <LSBreadcrumb :define-list="defineBCList" pos-title="当前路径" />
  */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsBreadcrumbProp } from './types';
 import useRouterHook from '@cpo/_hooks/useRouterHook';
 import type { JumpParamsType } from '@cpo/menu/types';
 import { RouteMeta } from 'vue-router';
 import type { BreadCrumpListType } from './types';
+import { lsBreadcrumbProp } from './types';
 
 const props = defineProps(lsBreadcrumbProp);
 

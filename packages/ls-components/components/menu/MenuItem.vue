@@ -1,4 +1,23 @@
 <script setup lang="ts" name="LSMenuItem">
+/**
+ * @summary 菜单项组件 - `LSMenu` 的递归子项渲染器
+ *
+ * `MenuItem` 是 `LSMenu` 的内部子组件，负责按菜单配置递归渲染 `el-menu-item` 或 `el-sub-menu`。
+ * 当菜单项不存在 `children` 或显式标记 `leaf=true` 时渲染为普通菜单项；否则渲染子菜单。
+ * 组件同时处理 3 类点击行为：默认路由跳转、外链打开，以及 `defJump` / `isDefineClick` 对应的自定义事件分发。
+ *
+ * @attr {MenuBaseType} item 当前菜单项配置
+ * @attr {boolean} needPermission 是否开启权限过滤；开启后结合 `permissionList` 与 `item.pCode` 控制显示
+ * @attr {Array<string|number>} permissionList 权限列表
+ * @attr {boolean} isDefineClick 是否启用自定义点击模式
+ * @attr {boolean} showTooltip 是否为叶子菜单标题启用 tooltip
+ *
+ * @slot [iconSlot] 动态图标插槽名；当 `item.iconSlot` 存在时渲染对应插槽
+ *
+ * @event onJump(item) 菜单项 `defJump=true` 时向外层继续抛出
+ * @event defineSubClick(item) 点击子菜单标题时向外层继续抛出
+ * @event defineChildClick(item) 点击叶子菜单项且 `isDefineClick=true` 时向外层继续抛出
+ */
 import LSIcon from '@cpo/icon/Index.vue';
 import LSTooltip from '@cpo/tooltip/Index.vue';
 import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';

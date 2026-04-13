@@ -3,29 +3,29 @@
  * @description 定义菜单组件的props类型、接口和事件
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
 import { IconConfigType } from '@cpo/_types';
+import { buildProps } from '@cpo/_utils/runtime';
 import { LocationQueryRaw } from 'vue-router';
 
 /**
- * 菜单基础类型
+ * 菜单配置基础类型
  * @typedef {Object} MenuBaseType
- * @property {string} title - 菜单标题
- * @property {string} [name] - 菜单名称
- * @property {string} [path] - 菜单路径
- * @property {string} [key] - 菜单key
- * @property {string} [cpoPath] - 组件路径
- * @property {IconConfigType} [iconConfig] - 图标配置
- * @property {boolean} [leaf] - 是否为叶子节点
- * @property {boolean} [hideMenu] - 是否隐藏菜单
- * @property {string} [redirect] - 重定向路径
- * @property {string|number} [pCode] - 父级code
- * @property {string} [iconSlot] - 图标插槽
- * @property {boolean} [defJump] - 是否默认跳转
- * @property {string} [link] - 外部链接
- * @property {Array<MenuBaseType>} [children] - 子菜单
- * @property {String} [icon] - 图标
- * @property {any} [meta] - 元数据
+ * @property {string} title - 菜单名称
+ * @property {string} [name] - 菜单路由 `name`
+ * @property {string} [path] - 菜单路由 `path`
+ * @property {string} [key] - 菜单 `key`；作为 `el-menu` 的索引值，需保持唯一
+ * @property {string} [cpoPath] - `view` 层组件对应路径，用于动态路由生成
+ * @property {IconConfigType} [iconConfig] - 菜单标题前面的图标配置，具体参考 `LSIcon`
+ * @property {boolean} [leaf] - 是否为叶子菜单；为 `true` 时其 `children` 不参与菜单渲染
+ * @property {boolean} [hideMenu] - 是否隐藏该菜单
+ * @property {string} [redirect] - 重定向路径，访问当前菜单时会自动跳转到指定路径
+ * @property {string|number} [pCode] - 权限 code，用于权限控制
+ * @property {string} [iconSlot] - 菜单左侧图标插槽名，用于自定义图标
+ * @property {boolean} [defJump] - 菜单点击自定义处理开关；为 `true` 时触发 `onJump`
+ * @property {string} [link] - 外链地址；配置后会在新窗口打开，不走路由跳转
+ * @property {Array<MenuBaseType>} [children] - 子菜单配置
+ * @property {string} [icon] - 图标名称字符串；与 `iconConfig` 二选一
+ * @property {any} [meta] - 路由元信息，可存放自定义数据
  */
 export type MenuBaseType = {
   title: string;
@@ -115,24 +115,20 @@ export type GroupOptionType = {
 };
 
 /**
- * 菜单组件事件名
- * @constant {Array<string>}
- * @property {string} onJump - 跳转事件
- * @property {string} defineSubClick - 子菜单点击事件
- * @property {string} defineChildClick - 子项点击事件
+ * 组件事件名：`onJump` 用于 `defJump` 自定义跳转；`defineSubClick` / `defineChildClick` 用于 `isDefineClick` 模式下的菜单点击回调。
  */
 export const lsEmitNames = ['onJump', 'defineSubClick', 'defineChildClick'];
 
 /**
- * 菜单组件props
+ * 菜单组件 props
  * @typedef {Object} lsMenuProps
- * @property {Array<MenuBaseType>} menuConfigList - 菜单配置列表，默认为[]
- * @property {boolean} needPermission - 是否需要权限控制，默认为false
- * @property {Array<string|number>} permissionList - 权限列表，默认为[]
- * @property {string} hoverColor - 悬停颜色，默认为''
- * @property {boolean} isDefineClick - 是否自定义点击事件，默认为false
- * @property {boolean} showTooltip - 是否显示提示，默认为true
- * @property {number} fontSize - 字体大小，默认为14
+ * @property {Array<MenuBaseType>} menuConfigList - 菜单配置列表，默认为 `[]`
+ * @property {boolean} needPermission - 是否开启权限控制；为 `true` 时结合 `permissionList` 与菜单项 `pCode` 控制显示，默认为 `false`
+ * @property {Array<string|number>} permissionList - 权限列表，内部存放 `pCode` 码，默认为 `[]`
+ * @property {string} hoverColor - 菜单 hover 时的文字和图标颜色，默认为 `''`
+ * @property {boolean} isDefineClick - 菜单点击是否自定义；为 `true` 时触发 `defineSubClick` 和 `defineChildClick`，默认为 `false`
+ * @property {boolean} showTooltip - 鼠标移入菜单项时是否显示 tooltip 提示，默认为 `true`
+ * @property {number} fontSize - 菜单字体大小；用于 tooltip 组件，默认为 `14`
  */
 export const lsMenuProps = buildProps({
   /** 菜单配置列表 */
@@ -140,32 +136,32 @@ export const lsMenuProps = buildProps({
     type: Array<MenuBaseType>,
     default: () => []
   },
-  /** 是否需要权限控制 */
+  /** 是否开启权限控制；为 `true` 时结合 `permissionList` 与菜单项 `pCode` 控制显示 */
   needPermission: {
     type: Boolean,
     default: false
   },
-  /** 权限列表 */
+  /** 权限列表，内部存放 `pCode` 码 */
   permissionList: {
     type: Array<string | number>,
     default: () => []
   },
-  /** 悬停颜色 */
+  /** 菜单 hover 时的文字和图标颜色 */
   hoverColor: {
     type: String,
     default: ''
   },
-  /** 是否自定义点击事件 */
+  /** 菜单点击是否自定义；为 `true` 时触发 `defineSubClick` 和 `defineChildClick` */
   isDefineClick: {
     type: Boolean,
     default: false
   },
-  /** 是否显示提示 */
+  /** 鼠标移入菜单项时是否显示 tooltip 提示 */
   showTooltip: {
     type: Boolean,
     default: true
   },
-  /** 字体大小 */
+  /** 菜单字体大小；用于 tooltip 组件 */
   fontSize: {
     type: Number,
     default: 14
@@ -173,16 +169,16 @@ export const lsMenuProps = buildProps({
 });
 
 /**
- * 菜单项组件props
+ * 菜单项组件 props
  * @typedef {Object} lsMenuItemProps
- * @property {boolean} needPermission - 是否需要权限控制，默认为true
- * @property {Array<string|number>} permissionList - 权限列表，默认为[]
- * @property {Object} item - 菜单项数据，必填
- * @property {boolean} isDefineClick - 是否自定义点击事件，默认为false
- * @property {boolean} showTooltip - 是否显示提示，默认为false
+ * @property {boolean} needPermission - 是否开启权限控制；为 `true` 时结合 `permissionList` 与 `item.pCode` 控制显示，默认为 `true`
+ * @property {Array<string|number>} permissionList - 权限列表，默认为 `[]`
+ * @property {MenuBaseType} item - 当前菜单项配置，必填
+ * @property {boolean} isDefineClick - 是否启用自定义点击模式，默认为 `false`
+ * @property {boolean} showTooltip - 是否为叶子菜单标题显示 tooltip，默认为 `false`
  */
 export const lsMenuItemProps = buildProps({
-  /** 是否需要权限控制 */
+  /** 是否开启权限控制；为 `true` 时结合 `permissionList` 与 `item.pCode` 控制显示 */
   needPermission: {
     type: Boolean,
     default: true
@@ -192,7 +188,7 @@ export const lsMenuItemProps = buildProps({
     type: Array<string | number>,
     default: () => []
   },
-  /** 菜单项数据 */
+  /** 当前菜单项配置 */
   item: {
     type: Object,
     required: true,
@@ -200,12 +196,12 @@ export const lsMenuItemProps = buildProps({
       return {};
     }
   },
-  /** 是否自定义点击事件 */
+  /** 是否启用自定义点击模式 */
   isDefineClick: {
     type: Boolean,
     default: false
   },
-  /** 是否显示提示 */
+  /** 是否为叶子菜单标题显示 tooltip */
   showTooltip: {
     type: Boolean,
     default: false

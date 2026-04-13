@@ -28,11 +28,11 @@ export type BreadCrumpType = {
 export type BreadCrumpListType = BreadCrumpType[];
 
 /**
- * 面包屑组件props
+ * 面包屑组件 props
  * @typedef {Object} lsBreadcrumbProp
- * @property {BreadCrumpListType} defineList - 自定义面包屑内容
- * @property {boolean} showPos - 是否显示位置提示，默认为true
- * @property {string} posTitle - 位置提示文字，默认为'当前位置'
+ * @property {BreadCrumpListType} defineList - 自定义面包屑数据；未传时默认读取当前路由 `meta.bcList`
+ * @property {boolean} showPos - 是否显示当前位置前缀，默认为 true
+ * @property {string} posTitle - 当前位置前缀文案，默认为 '当前位置'
  */
 export const lsBreadcrumbProp = buildProps({
   /** 自定义面包屑内容 */

@@ -8,13 +8,14 @@ import { buildProps } from '@cpo/_utils/runtime';
 /**
  * 图标配置类型
  * @typedef {Object} IconConfigType
- * @property {string|number} [type] - 图标类型：1=iconify, 2=svg, 默认=el-icon
- * @property {string|object} name - 图标名称或对象
+ * @property {string|number} [type] - 图标类型；空值表示 `element-plus` 图标，`1` 表示 `iconify`，`2` 表示 `img/svg`
+ * @property {string|object} name - 图标名称或对象；可传 `element-plus` 图标名、iconify 图标名、`img` 或 SVG 资源对象
  * @property {string} [color] - 图标颜色
- * @property {string|number} [width] - 图标宽度
- * @property {string|number} [height] - 图标高度
- * @property {string|number} [size] - 图标大小（适用于el-icon）
- * @property {string} [src] - 图标源地址
+ * @property {string|number} [width] - 图标宽度，主要用于 `iconify` 与 `type=2`
+ * @property {string|number} [height] - 图标高度，主要用于 `iconify` 与 `type=2`
+ * @property {string|number} [size] - 图标大小，仅默认 `element-plus` 图标模式使用
+ * @property {string} [src] - 图片地址；当 `type=2` 且使用 `img` 渲染时生效
+ * @property {string|number} [symbolId] - 预留的 SVG symbol 标识字段；当前 `Index.vue` 未消费
  */
 export type IconConfigType = {
   type?: string | number;
@@ -74,7 +75,7 @@ export const iconProps = {
     type: String,
     default: ''
   },
-  /** 图标symbolId */
+  /** 预留的 SVG symbol 标识字段；当前 `Index.vue` 未消费 */
   symbolId: {
     type: [String, Number],
     default: ''

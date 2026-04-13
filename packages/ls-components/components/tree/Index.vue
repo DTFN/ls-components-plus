@@ -1,117 +1,40 @@
 <script setup lang="ts" name="LSTree">
 /**
- * @summary 树形组件 - 基于 Element Plus Tree 的二次封装
+ * @summary 树形组件 - 基于 Element Plus `el-tree` 的二次封装
  *
- * 这是自研库的标准树形组件，支持树形数据展示、权限控制、全选/半选状态、
- * 节点过滤、自定义节点样式等功能。适用于权限树、部门树、分类树等场景。
+ * `LSTree` 主要用于权限树等层级数据展示场景，内部在 `el-tree` 之上补充了三层业务能力：
+ * 1. 可选的“全选 / 半选”复选框联动。
+ * 2. 基于节点 `permission` 前缀的隐藏控制。
+ * 3. 当树节点数据包含 `isPenultimate: true` 时，其子节点自动水平排列。
  *
- * @attr {array} treeData - 树形数据，包含节点信息和层级关系
- * @attr {string} nodeKey - 每个树节点用来作为唯一标识的属性，整棵树应该是唯一的
- * @attr {object} dataProps - 树节点的配置选项，包含 label、children、disabled 等属性映射
- * @attr {array} defaultCheckedKeys - 默认勾选的节点的 key 数组
- * @attr {array} defaultExpandedKeys - 默认展开的节点的 key 数组
- * @attr {boolean} showCheckbox - 节点是否可被选择 (默认: false)
- * @attr {boolean} defaultExpandAll - 是否默认展开所有节点 (默认: false)
- * @attr {boolean} isCheckStrictly - 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法 (默认: false)
- * @attr {boolean} isCheckAll - 是否显示全选复选框 (默认: false)
- * @attr {boolean} isExpand - 是否允许点击节点展开/收起子节点 (默认: true)
- * @attr {string} hideNodePrefix - 需要隐藏的节点权限前缀，用于权限控制
- * @attr {string} height - 树组件的高度，支持 CSS 单位
- * @attr {string} filterText - 过滤文本，用于实时过滤树节点
- * @attr {string} emptyText - 内容为空的时候展示的文本
- * @attr {boolean} renderAfterExpand - 是否在第一次展开某个树节点后才渲染其子节点 (默认: true)
- * @attr {number} indent - 相邻级节点间的水平缩进，单位为像素 (默认: 16)
- * @attr {function} load - 加载子树数据的方法，仅当 lazy 属性为 true 时生效
- * @attr {boolean} lazy - 是否懒加载子节点，需与 load 方法结合使用 (默认: false)
- * @attr {string} draggable - 是否开启拖拽节点功能 (默认: false)
- * @attr {boolean} allowDrag - 判断节点能否被拖拽
- * @attr {boolean} allowDrop - 拖拽时判定位置能否被放置
+ * 组件显式声明的自有 props 只有 `isExpand`、`height`、`treeData`、`dataProps`、
+ * `hideNodePrefix`、`isCheckAll`、`showCheckbox`、`defaultExpandAll`、`nodeKey`、
+ * `isCheckStrictly`、`defaultCheckedKeys`、`attrs`；其中 `attrs` 会以对象形式透传给内部
+ * `el-tree`，用于兼容 `empty-text`、`default-expanded-keys`、`render-after-expand`、
+ * `draggable`、`allow-drop`、`load`、`lazy` 等原生属性。
  *
- * @slot - 默认插槽，树节点的内容区域
- * @slot default - 树节点的内容作用域插槽，参数：{ node, data }
+ * 当前实现中，节点文案固定读取 `node.label` 渲染，并根据 `hideNodePrefix` 判断是否追加
+ * `hide-child-node` 样式；组件本身**未向外暴露自定义节点插槽**。
  *
- * @event handleCheck - 节点复选框点击事件，返回点击的节点数据和当前勾选状态
- * @event handleChekChange - 节点复选框状态变化事件，返回节点数据和勾选状态
- * @event nodeClick - 节点被点击时的回调
- * @event nodeContextmenu - 当某一节点被鼠标右键点击时会触发该事件
- * @event checkChange - 节点选中状态发生变化时的回调
- * @event currentChange - 当前选中节点变化时触发的事件
- * @event nodeExpand - 节点被展开时触发的事件
- * @event nodeCollapse - 节点被关闭时触发的事件
- * @event nodeDragStart - 节点开始拖拽时触发的事件
- * @event nodeDragEnter - 拖拽进入其他节点时触发的事件
- * @event nodeDragOver - 在拖拽节点时触发的事件（类似浏览器的 mouseover 事件）
- * @event nodeDragLeave - 拖拽离开其他节点时触发的事件
- * @event nodeDragEnd - 拖拽结束时（可能未成功）触发的事件
- * @event nodeDrop - 拖拽成功完成时触发的事件
+ * @attr {boolean} isExpand 是否支持点击节点展开 / 收起；为 `false` 时会隐藏展开图标，默认 `true`
+ * @attr {string} height 展示区域最大高度；内部以 `maxHeight` 方式应用，默认 `''`
+ * @attr {Array} treeData 树形结构数据，默认 `[]`
+ * @attr {object} dataProps 树节点字段映射配置，默认 `{ children: 'children', label: 'name', class: '' }`
+ * @attr {string} hideNodePrefix 需要隐藏的节点 `permission` 前缀，默认 `'I'`
+ * @attr {boolean} isCheckAll 是否显示顶部“全选”复选框，默认 `false`
+ * @attr {boolean} showCheckbox 是否显示节点复选框，默认 `true`
+ * @attr {boolean} defaultExpandAll 是否默认展开所有节点，默认 `true`
+ * @attr {string} nodeKey 节点唯一标识字段，默认 `'id'`
+ * @attr {boolean} isCheckStrictly 是否严格勾选（父子节点不联动），默认 `false`
+ * @attr {Array} defaultCheckedKeys 默认选中的节点 key 数组，默认 `[]`
+ * @attr {object} attrs 兼容部分 `el-tree` 原生属性的对象透传，默认 `{}`
  *
- * @csspart tree - 树组件主体容器
- * @csspart tree-node - 树节点元素
- * @csspart checkbox - 复选框元素
- * @csspart node-content - 节点内容区域
- * @csspart expand-icon - 展开/折叠图标
- * @csspart loading-icon - 加载中图标
- * @csspart empty-text - 空数据提示文本
+ * @slot 无；当前实现未对外提供可自定义节点内容的插槽
  *
- * @example
- * <!-- 基础用法 -->
- * <LSTree :data="treeData" :props="defaultProps" />
+ * @event handleCheck 节点 `check` 事件的二次转发，参数：`data`、`checkeds`
+ * @event handleChekChange 节点 `check-change` 事件的二次转发，参数：`data`、`checked`
  *
- * @example
- * <!-- 带复选框 -->
- * <LSTree
- *   :data="treeData"
- *   :props="defaultProps"
- *   show-checkbox
- *   node-key="id"
- *   :default-checked-keys="[1, 2, 3]"
- * />
- *
- * @example
- * <!-- 全选功能 -->
- * <LSTree
- *   :data="treeData"
- *   :props="defaultProps"
- *   show-checkbox
- *   node-key="id"
- *   :is-check-all="true"
- * />
- *
- * @example
- * <!-- 权限树 -->
- * <LSTree
- *   :data="permissionTree"
- *   :props="{ label: 'name', children: 'children' }"
- *   show-checkbox
- *   node-key="id"
- *   :hide-node-prefix="'p:'"
- * />
- *
- * @example
- * <!-- 过滤节点 -->
- * <LSTree
- *   :data="treeData"
- *   :props="defaultProps"
- *   :filter-text="searchText"
- * />
- *
- * @example
- * <!-- 懒加载 -->
- * <LSTree
- *   :data="treeData"
- *   :props="defaultProps"
- *   :load="loadNode"
- *   lazy
- *   node-key="id"
- * />
- *
- * @example
- * <!-- 水平展示最后一级 -->
- * <LSTree
- *   :data="treeData"
- *   :props="defaultProps"
- *   :node-class="customNodeClass"
- * />
+ * @expose lsTreeRef 内部 `el-tree` 实例，可调用 `getCheckedNodes`、`setCheckedKeys`、`filter` 等 Element Plus Tree 原生方法
  */
 
 import { useNamespace } from '@cpo/_hooks/useNamespace';

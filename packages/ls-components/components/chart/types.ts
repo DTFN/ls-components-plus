@@ -1,6 +1,7 @@
 import { buildProps } from '@cpo/_utils/runtime';
 import { EChartsOption } from 'echarts/types/dist/shared';
 
+/** 图表主题令牌映射。 */
 export type themeType = {
   [key: string]: {
     fontColor: string;
@@ -116,15 +117,10 @@ export const lsChartProps = buildProps({
     default: () => {}
   },
   /**
-   * 数据
-   * pie: []
+   * 图表数据。
    *
-   * ***************柱状图参数*******************
-   * 坐标轴的数据
-   * axisData: Array
-   * 内容区域数据
-   * seriesData: Array
-   * ***************柱状图参数*******************
+   * - `bar/line`：通常传 `{ axisData, seriesData }`
+   * - `pie`：通常传 `{ seriesData }`，嵌套环形图可额外传 `{ innerData }`
    */
   data: {
     type: Object as PropType<ChartDataType>,

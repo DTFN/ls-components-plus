@@ -6,17 +6,17 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 /**
- * Word文档预览组件props
+ * Word 文档渲染组件 props
  * @typedef {Object} docxProps
- * @property {ArrayBuffer|string} source - 文档数据源，可以是ArrayBuffer或字符串
- * @property {Function} onClose - 关闭事件回调函数
+ * @property {ArrayBuffer|string} source - 文档数据源；类型层面兼容 `ArrayBuffer` / `string`，但当前 `Docx.vue` 实际仅在 `ArrayBuffer` 场景执行渲染
+ * @property {Function} onClose - 关闭预览时的回调函数
  */
 export const docxProps = buildProps({
-  /** 文档数据源，可以是ArrayBuffer或字符串 */
+  /** 文档数据源；类型层面兼容 `ArrayBuffer` / `string`，当前渲染实现实际依赖 `ArrayBuffer` */
   source: {
     type: [ArrayBuffer, String],
     default: null
   },
-  /** 关闭事件回调函数 */
+  /** 关闭预览时的回调函数 */
   onClose: Function
 });

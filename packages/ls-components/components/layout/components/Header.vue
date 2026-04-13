@@ -1,4 +1,27 @@
 <script setup lang="ts">
+/**
+ * @summary 默认头部组件 - `LSLayout` 的内部导航头
+ *
+ * `Header` 是 `LSLayout` 的内部头部实现，负责渲染 logo、标题、左/右扩展插槽、
+ * 以及右侧的头像与命令下拉区。组件复用 `lsHeaderProp`，并将命令点击结果通过
+ * `onDropdownCommand2` 向外层 `LSLayout` 继续上抛，最终汇总为 `onCommand`。
+ *
+ * @attr {string|number} mode 布局模式
+ * @attr {string} title 头部标题
+ * @attr {boolean} showLogo 是否显示 logo
+ * @attr {string} logo logo 图片地址
+ * @attr {string} height 头部高度
+ * @attr {boolean} showCommand 是否显示右侧交互区
+ * @attr {string} userName 用户名
+ * @attr {string} userIcon 用户头像地址
+ * @attr {Array<{key: string, name: string}>} commandList 顶部交互功能列表
+ *
+ * @slot left 头部左侧扩展插槽
+ * @slot title 头部标题区域插槽
+ * @slot right 头部右侧扩展插槽
+ *
+ * @event onDropdownCommand2(key) 命令列表点击后触发，返回对应命令 key
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsEmitNames, lsHeaderProp } from '../types';
 import CommandList from './CommandList.vue';

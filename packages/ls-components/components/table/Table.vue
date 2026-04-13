@@ -1,98 +1,72 @@
 <script setup lang="ts" name="LSTable">
 /**
- * @summary 表格组件 - 基于 Element Plus 表格的二次封装
+ * @summary 表格组件 - 基于 Element Plus `el-table` 的二次封装
  *
- * 这是自研库的标准表格组件，提供了丰富的数据展示和操作功能。
- * 支持分页、多选、单选、展开行、序号列、多种列类型（日期、状态、数字、链接、按钮、自定义渲染等），
- * 以及灵活的配置选项和事件回调，适用于各种复杂的数据展示场景。
+ * `LSTable` 用于展示结构化列表数据，保留了 `el-table` / `el-table-column` 的大部分原生属性、事件与方法，
+ * 并在此基础上补充了配置化列渲染、内置分页、单选 / 多选、展开行、序号列、空状态与默认中文文案。
+ * 组件支持 `date`、`status`、`number`、`slot`、`link`、`button`、`render` 等列类型；
+ * `tableColumn` 中的每一项会透传给 `el-table-column`，`$attrs` 则继续透传给内部 `el-table`。
  *
- * @attr {boolean} loading - 是否显示加载中状态
- * @attr {any[]} tableData - 表格数据数组
- * @attr {any[]} tableColumn - 表格列配置数组
- * @attr {boolean} showTableIndex - 是否显示序号列
- * @attr {string} tableIndexLabel - 序号列标题，默认为"序号"
- * @attr {boolean} tableIndexInPage - 序号是否在当前页内计算，true则从1开始，false则全局计算
- * @attr {boolean} tableIndexStart - 序号是否从0开始，true则从0开始，false从1开始
- * @attr {string} tableIndexfixed - 序号列是否固定，可选值：true/false/left/right
- * @attr {any} indexColumnOptions - 序号列配置选项
- * @attr {boolean} showSelect - 是否显示多选列
- * @attr {any} selectColumnOptions - 多选列配置选项
- * @attr {boolean} showRadio - 是否显示单选列
- * @attr {any} radioColumnOptions - 单选列配置选项
- * @attr {string} radioProp - 单选绑定的属性名，默认为"id"
- * @attr {boolean} showRadioLabel - 是否显示单选label文本
- * @attr {boolean} showExpand - 是否显示展开行
- * @attr {any} expandColumnOptions - 展开行列配置选项
- * @attr {boolean} showPagination - 是否显示分页
- * @attr {number} currentPage - 当前页码
- * @attr {number} pageSize - 每页条数
- * @attr {number[]} pageSizes - 每页条数选项数组
- * @attr {number} total - 数据总数
- * @attr {any} paginationOptions - 分页配置选项
- * @attr {string} paginationClass - 分页组件自定义类名
- * @attr {boolean} showEmpty - 是否显示空状态
- * @attr {string} emptyLabel - 空状态描述文本
- * @attr {string} labelEmpty - 空值占位符，默认为"--"
- * @attr {string} labelEmptyClass - 空值占位符样式类名
- * @attr {any} selection - 已选中的数据数组
- * @attr {any} status - 状态配置对象，用于状态列的样式定义
+ * 当前实现还包含以下默认处理：
+ * 1. 未透传 `table-layout` / `tableLayout` 时，内部会将 `el-table` 的布局方式设为 `auto`。
+ * 2. 未透传 `row-key` / `rowKey` 时，内部默认按 `id` 作为行唯一标识。
+ * 3. `showSelect=true` 且未显式配置 `reserveSelection` 时，多选列默认启用 `reserveSelection: true`。
+ * 4. `showOverflowTooltip` 未传、传 `true` 或传对象时，都会为气泡补充 `table-popper-css` 样式类。
  *
- * @slot prepend - 前置插槽，在表格列之前插入自定义内容
- * @slot append - 追加插槽，在表格列之后插入自定义内容
- * @slot empty - 空状态插槽，自定义数据为空时的展示内容
- * @slot [column.prop] - 列插槽，自定义列内容，名称为列的prop值
- * @slot [column.prop]-header - 表头插槽，自定义表头内容，名称为`${prop}-header`
- * @slot [column.prop]-filter-icon - 筛选图标插槽，自定义筛选图标，名称为`${prop}-filter-icon`
- * @slot expand - 展开行插槽，自定义展开行内容，参数：{ row }
+ * @attr {Array} tableColumn 列配置数组；每项都会透传给 `el-table-column`，支持 `date` / `status` / `number` / `slot` / `link` / `button` / `render` 等扩展列类型，默认 `[]`
+ * @attr {Array} tableData 表格数据源，默认 `[]`
+ * @attr {boolean} loading 是否显示加载状态（`v-loading`），默认 `false`
+ * @attr {boolean} showPagination 是否显示底部分页，默认 `true`
+ * @attr {string} paginationClass 分页容器根元素的 class，默认 `''`
+ * @attr {number} total 数据总条数，供分页显示，默认 `0`
+ * @attr {number} currentPage 当前页码，支持 `v-model:current-page`，默认 `1`
+ * @attr {number} pageSize 每页条数，支持 `v-model:page-size`，默认 `10`
+ * @attr {number[]} pageSizes 每页条数可选值列表，默认 `[10, 20, 30, 40, 50, 100]`
+ * @attr {object} paginationOptions 透传给 `el-pagination` 的配置，默认 `{}`
+ * @attr {boolean} showTableIndex 是否显示序号列，默认 `true`
+ * @attr {boolean} tableIndexfixed 是否固定序号列到左侧；当前 props 类型为 `boolean`，默认 `false`
+ * @attr {string} tableIndexLabel 序号列表头文案，默认 `'序号'`
+ * @attr {boolean} tableIndexInPage 为 `true` 时序号在当前页内累加；为 `false` 时按分页全局连续，默认 `false`
+ * @attr {boolean} tableIndexStart 为 `true` 时序号从 `0` 开始，否则从 `1` 开始，默认 `false`
+ * @attr {object} indexColumnOptions 透传给序号列 `el-table-column` 的配置，默认 `{}`
+ * @attr {boolean} showRadio 是否显示单选列，默认 `false`
+ * @attr {object} radioColumnOptions 透传给单选列 `el-table-column` 的配置，默认 `{}`
+ * @attr {boolean} showRadioLabel 是否在单选列显示 radio 的 label 文案，默认 `false`
+ * @attr {string} radioProp 单选用作取值比较的字段名，默认 `'id'`
+ * @attr {object} currentRow 当前选中的行（单选），通常配合透传的 `highlight-current-row` 与 `current-change` 使用
+ * @attr {boolean} showSelect 是否显示多选列，默认 `false`
+ * @attr {object} selectColumnOptions 透传给多选列的配置，如 `selectable(row)`、`reserveSelection`，默认 `{}`
+ * @attr {Array} selection 当前选中的行数组（多选），支持 `v-model:selection`，默认 `[]`
+ * @attr {boolean} showExpand 是否显示展开列，默认 `false`
+ * @attr {object} expandColumnOptions 透传给展开列 `el-table-column` 的配置，默认 `{}`
+ * @attr {boolean} showEmpty 无数据时是否显示空状态区域，默认 `true`
+ * @attr {string} labelEmpty 单元格值为空时显示的占位文案，默认 `'--'`
+ * @attr {string} labelEmptyClass 空占位文案所在元素的 class，默认 `''`
+ * @attr {string} emptyLabel 无数据时空状态的描述文案，默认 `'暂无数据'`
  *
- * @event sizeChange - 每页条数变化事件，参数：pageSize
- * @event currentPageChange - 当前页变化事件，参数：currentPage
- * @event update:page-size - 更新每页条数，参数：pageSize
- * @event update:current-page - 更新当前页，参数：currentPage
- * @event update:selection - 更新选中数据，参数：selection
+ * @slot prepend 插在配置列之前的具名插槽；位于 `el-table` 默认插槽内
+ * @slot expand 展开行内容插槽，需配合 `showExpand` 使用，参数：`{ row }`
+ * @slot empty 无数据时自定义内容，覆盖默认空状态
+ * @slot append 表格最后一行之后插入的内容，对应 `el-table` 的 `append` 插槽
+ * @slot default 默认插槽；用于在配置列之后追加自定义 `el-table-column`
+ * @slot [column.prop] 列类型为 `slot` 时的列内容插槽，参数：`{ row, column, index }`
+ * @slot [column.prop]-header 列自定义表头插槽，列配置需设置 `headerSlot: true`，参数：`{ column, index }`
+ * @slot [column.prop]-filter-icon 列自定义筛选图标插槽，列配置需设置 `filterIconSlot: true`，参数：`{ filterOpened }`
  *
- * @csspart table - 表格主体元素
- * @csspart pagination - 分页组件元素
+ * @event sizeChange 每页条数改变时触发，参数：`pageSize`
+ * @event currentPageChange 当前页改变时触发，参数：`currentPage`
+ * @event update:page-size `v-model:page-size` 同步事件，参数：`pageSize`
+ * @event update:current-page `v-model:current-page` 同步事件，参数：`currentPage`
+ * @event update:selection `v-model:selection` 同步事件，参数：`selection`
+ * @event 透传事件 `el-table` 的原生事件也可直接监听，如 `row-click`、`cell-click`、`sort-change`、`selection-change`、`current-change`、`expand-change` 等
  *
- * @example
- * <!-- 基础表格 -->
- * <LSTable
- *   :tableData="dataList"
- *   :tableColumn="columns"
- *   :total="total"
- *   v-model:current-page="currentPage"
- *   v-model:page-size="pageSize"
- * />
- *
- * @example
- * <!-- 带多选和序号的表格 -->
- * <LSTable
- *   :tableData="dataList"
- *   :tableColumn="columns"
- *   :showSelect="true"
- *   :showTableIndex="true"
- *   v-model:selection="selectedRows"
- * />
- *
- * @example
- * <!-- 自定义列类型 -->
- * <LSTable
- *   :tableData="dataList"
- *   :tableColumn="[
- *     { prop: 'name', label: '姓名' },
- *     { prop: 'date', label: '日期', type: 'date', dateTemplate: 'YYYY-MM-DD' },
- *     { prop: 'status', label: '状态', type: 'status', value: statusMap },
- *     { prop: 'amount', label: '金额', type: 'number' },
- *     { prop: 'link', label: '链接', type: 'link', href: 'url' },
- *     { prop: 'action', label: '操作', type: 'button', onClick: handleAction }
- *   ]"
- * />
+ * @expose TableRef 内部 `el-table` 实例，可调用 `clearSelection`、`toggleAllSelection`、`doLayout`、`clearSort` 等原生方法
  */
 import dayjs from 'dayjs';
-import { get } from 'lodash-es';
-import { lsTableProps } from './types';
-import { isEmpty } from '../_utils/utils';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+import { get } from 'lodash-es';
+import { isEmpty } from '../_utils/utils';
+import { lsTableProps } from './types';
 
 defineOptions({
   inheritAttrs: false // 禁用属性透传
@@ -700,6 +674,7 @@ defineExpose({
     background-color: var(--el-color-primary);
   }
 }
+
 // .ls-table-button {
 //   padding-left: 0 !important;
 // }

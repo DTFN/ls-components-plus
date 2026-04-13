@@ -1,4 +1,27 @@
 <script setup lang="ts" name="LSPrint">
+/**
+ * @summary 打印组件 - 基于 `vue3-print-nb` 的二次封装
+ *
+ * `LSPrint` 用于触发页面内容打印，内部渲染一个 `LSButton` 并通过 `v-print` 指令执行打印。
+ * 组件同时支持两种打印方式：
+ * 1. 普通打印：通过 `printObj.id` 指向页面中已有的打印区域。
+ * 2. 内嵌打印：通过默认插槽传入需要打印的内容，组件会为插槽内容生成内部打印容器。
+ *
+ * 除 `printObj`、`content`、`btnTxt`、`canPrint` 外，其余属性会通过 `$attrs` 透传给内部 `LSButton`，
+ * 因此可继续使用 `type`、`iconConfig` 等按钮能力。
+ *
+ * @attr {object} printObj 打印对象参数配置，常用参数为 `id`，其他参数参考 `vue3-print-nb` 官方 API，默认 `{}`
+ * @attr {string} content 打印按钮禁用时，鼠标移入显示的提示文案，默认 `''`
+ * @attr {string} btnTxt 按钮文案，默认 `'打印'`
+ * @attr {boolean} canPrint 是否允许打印，默认 `true`
+ *
+ * @slot default 默认插槽；用于传入内嵌打印内容，未使用插槽时通常配合 `printObj.id` 进行普通打印
+ *
+ * @event 无
+ *
+ * @example 普通打印：通过 `printObj.id` 指向页面中已有的打印区域
+ * @example 内嵌打印：通过默认插槽传入需要打印的内容
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { lsPrintProps } from './types';
 import { merge } from 'lodash-es';

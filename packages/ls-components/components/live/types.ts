@@ -20,7 +20,7 @@ export const lsLiveProps = buildProps({
     type: String as PropType<'flv' | 'mp4'>,
     default: 'flv'
   },
-  /** 是否是直播流 */
+  /** 是否按直播流模式创建播放器 */
   isLive: {
     type: Boolean,
     default: true
@@ -30,7 +30,7 @@ export const lsLiveProps = buildProps({
     type: Boolean,
     default: true
   },
-  /** 是否包含视频 */
+  /** 当前媒体是否包含视频轨道 */
   hasVideo: {
     type: Boolean,
     default: true

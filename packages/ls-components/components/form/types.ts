@@ -121,7 +121,7 @@ export const lsFormProps = buildProps({
     type: Boolean,
     default: false
   },
-  /** 是否隐藏当前表单项 */
+  /** 根级隐藏列开关；当前 `Form.vue` 未消费，隐藏项请在 `formItems` 单项上配置 */
   hideColumn: {
     type: Boolean,
     default: false

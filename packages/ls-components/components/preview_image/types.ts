@@ -1,6 +1,6 @@
 /**
- * @file 图片预览组件类型定义
- * @description 定义图片预览组件的props类型和接口
+ * @file 图片查看器类型定义
+ * @description 定义 `LSImage` 内部查看器使用的操作类型、props 与实例类型。
  */
 
 import { buildProps, definePropType, mutable } from '@cpo/_utils/runtime';
@@ -9,62 +9,62 @@ import type { ExtractPropTypes } from 'vue';
 import type LSImage from './Image.vue';
 
 /**
- * 图片查看器操作类型
+ * 图片查看器操作类型：缩小、放大、顺时针旋转、逆时针旋转、下载。
  * @typedef {'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise' | 'download'} ImageViewerAction
  */
 export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise' | 'download';
 
 /**
- * 图片查看器组件props
+ * 图片查看器 props
  * @typedef {Object} imageViewerProps
- * @property {string[]|string} source - 图片源，可以是字符串数组或单个字符串
- * @property {number} zIndex - z-index层级
- * @property {number} initialIndex - 初始索引，默认为0
- * @property {boolean} infinite - 是否无限循环，默认为true
- * @property {boolean} hideOnClickModal - 点击模态框是否隐藏，默认为false
- * @property {boolean} teleported - 是否使用teleport，默认为false
- * @property {boolean} closeOnPressEscape - 按ESC键是否关闭，默认为true
- * @property {Function} onClose - 关闭事件回调
- * @property {number|string} zoomSize - 缩放大小，默认为1.5
+ * @property {string[]|string} source - 图片源，支持单张图片 URL 或图片 URL 数组，默认 `[]`
+ * @property {number} [zIndex] - 预览层级；未传时由内部 `useZIndex` 动态生成
+ * @property {number} initialIndex - 初始预览图片索引，默认 `0`
+ * @property {boolean} infinite - 是否无限循环预览，默认 `true`
+ * @property {boolean} hideOnClickModal - 点击遮罩层是否关闭预览，默认 `false`
+ * @property {boolean} teleported - 是否使用 `Teleport` 挂载到 `body`，默认 `false`
+ * @property {boolean} closeOnPressEscape - 按下 `ESC` 是否关闭预览，默认 `true`
+ * @property {Function} [onClose] - 关闭预览时的回调函数
+ * @property {number|string} zoomSize - 对外暴露的缩放尺寸配置，默认 `1.5`；当前 `Image.vue` 的缩放步长仍由内部动作逻辑控制
  */
 export const imageViewerProps = buildProps({
-  /** 图片源，可以是字符串数组或单个字符串 */
+  /** 图片源，支持单张图片 URL 或图片 URL 数组 */
   source: {
     type: [definePropType<string[]>(Array), String],
     default: () => mutable([] as const)
   },
-  /** z-index层级 */
+  /** 预览层级；未传时由内部 `useZIndex` 动态生成 */
   zIndex: {
     type: Number
   },
-  /** 初始索引 */
+  /** 初始预览图片索引 */
   initialIndex: {
     type: Number,
     default: 0
   },
-  /** 是否无限循环 */
+  /** 是否无限循环预览 */
   infinite: {
     type: Boolean,
     default: true
   },
-  /** 点击模态框是否隐藏 */
+  /** 点击遮罩层是否关闭预览 */
   hideOnClickModal: {
     type: Boolean,
     default: false
   },
-  /** 是否使用teleport */
+  /** 是否使用 `Teleport` 挂载到 `body` */
   teleported: {
     type: Boolean,
     default: false
   },
-  /** 按ESC键是否关闭 */
+  /** 按下 `ESC` 是否关闭预览 */
   closeOnPressEscape: {
     type: Boolean,
     default: true
   },
-  /** 关闭事件回调 */
+  /** 关闭预览时的回调函数 */
   onClose: Function,
-  /** 缩放大小 */
+  /** 对外暴露的缩放尺寸配置；当前缩放步长仍由内部动作逻辑控制 */
   zoomSize: {
     type: [Number, String],
     default: 1.5
@@ -75,14 +75,14 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>;
 /**
  * 图片查看器模式接口
  * @interface ImageViewerMode
- * @property {string} name - 模式名称
+ * @property {string} name - 当前显示模式名称，对应操作栏里的模式切换图标
  */
 export interface ImageViewerMode {
   name: string;
 }
 
 /**
- * 图片查看器实例类型
+ * 图片查看器实例类型；可通过实例调用 `setActiveItem` 手动切换当前图片。
  * @typedef {InstanceType<typeof LSImage>} ImageViewerInstance
  */
 export type ImageViewerInstance = InstanceType<typeof LSImage>;

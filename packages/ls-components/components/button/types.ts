@@ -21,11 +21,11 @@ export const lsBtnProp = buildProps({
 });
 
 /**
- * 按钮组组件props
+ * 按钮组组件 props
  * @typedef {Object} lsBtnGroupProp
- * @property {string} separator - 分隔符，默认为''
- * @property {string} separatorColor - 分隔符颜色，默认为'#333'
- * @property {string|number} separatorSize - 分隔符大小，默认为'12'
+ * @property {string} separator - 按钮之间的分隔符文本，默认为 ''
+ * @property {string} separatorColor - 分隔符颜色，默认为 '#333'
+ * @property {string|number} separatorSize - 分隔符字号，默认为 '12'
  */
 export const lsBtnGroupProp = buildProps({
   /** 分隔符 */

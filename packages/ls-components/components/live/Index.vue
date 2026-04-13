@@ -1,32 +1,25 @@
 <script setup lang="ts" name="LSLive">
 /**
- * @summary 直播/视频播放组件 - 支持 FLV 和 MP4
+ * @summary 直播 / 视频组件 - 基于 `flv.js` 的 FLV / MP4 播放封装
  *
- * 这是自研库的视频播放组件，支持 FLV 格式的直播流和 MP4 视频文件。
- * 基于 flv.js 实现，支持自动播放、卡顿检测、重连等功能。
+ * `LSLive` 用于承载直播流或普通视频播放，内部基于 `flv.js` 创建播放器实例，
+ * 支持 `flv` 直播流与 `mp4` 视频两种类型，并在 FLV 场景下处理页面切换后的重建与卡顿重连。
+ * 组件本身不接收声明式播放地址，需通过 `ref` 暴露的 `createPlayer(url)` 方法主动创建播放器。
  *
- * @attr {string} type - 视频类型，flv 或 mp4
- * @attr {string} url - 视频地址
- * @attr {boolean} isLiving - 是否正在直播
- * @attr {boolean} controls - 是否显示控制条
- * @attr {boolean} autoplay - 是否自动播放
- * @attr {boolean} muted - 是否静音
- * @attr {boolean} fluid - 是否流体布局
+ * @attr {'flv'|'mp4'} type 播放类型，支持 `flv` / `mp4`，默认 `flv`
+ * @attr {boolean} isLive 是否按直播流模式创建播放器；直播场景通常为 `true`，点播 MP4 通常为 `false`，默认 `true`
+ * @attr {boolean} hasAudio 当前媒体是否包含音频轨道，默认 `true`
+ * @attr {boolean} hasVideo 当前媒体是否包含视频轨道，默认 `true`
  *
  * @slot 无
  *
- * @event update:isLiving - 更新直播状态事件
- * @event onError - 错误事件
- *
- * @csspart live - 视频容器
+ * @expose createPlayer(url) 创建并加载播放器，参数为播放地址
  *
  * @example
- * <!-- FLV直播 -->
- * <LSLive type="flv" url="live.flv" v-model:isLiving="isLiving" />
+ * <LSLive ref="liveRef" class="live-wrap" type="flv" :is-live="true" />
  *
  * @example
- * <!-- MP4视频 -->
- * <LSLive type="mp4" url="video.mp4" />
+ * <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" />
  */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import flvjs from 'flv.js';

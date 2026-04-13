@@ -1,90 +1,48 @@
 <script setup lang="ts" name="LSMenu">
 /**
- * @summary 菜单组件 - 基于 Element Plus Menu 的二次封装
+ * @summary 菜单组件 - 基于 `el-menu` 的二次封装
  *
- * 这是自研库的标准导航菜单组件，支持多级菜单、权限控制、路由集成等功能。
- * 提供了灵活的菜单配置和丰富的自定义选项，适用于企业级后台管理系统。
+ * `LSMenu` 用于渲染多级导航菜单，保留 Element Plus `el-menu` 的原生属性、事件与方法，
+ * 并额外补充菜单配置模型、权限过滤、自定义点击回调、hover 颜色与 tooltip 能力。
+ * 组件内部会递归渲染 `menuConfigList`，并通过 `$attrs` 透传 `default-active`、`collapse`、
+ * `mode`、`unique-opened` 等 `el-menu` 原生能力。
  *
- * @attr {array} menuConfigList - 菜单配置列表，包含菜单项的所有配置信息
- * @attr {string} fontSize - 菜单字体大小 (默认: '14px')
- * @attr {boolean} needPermission - 是否需要权限控制 (默认: false)
- * @attr {array} permissionList - 权限列表，用于控制菜单项的显示与隐藏
- * @attr {boolean} isDefineClick - 是否使用自定义点击事件处理 (默认: false)
- * @attr {boolean} showTooltip - 是否显示工具提示 (默认: false)
- * @attr {string} default-active - 当前激活菜单的 key 值
- * @attr {string} mode - 菜单模式 (vertical/horizontal)，支持垂直和水平布局
- * @attr {boolean} collapse - 是否水平折叠收起菜单 (仅在 mode 为 vertical 时可用)
- * @attr {boolean} unique-opened - 是否只保持一个子菜单的展开 (默认: false)
- * @attr {string} menu-trigger - 子菜单打开的触发方式 (hover/click)
- * @attr {string} router - 是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 (默认: false)
- * @attr {string} background-color - 菜单的背景色 (默认: #ffffff)
- * @attr {string} text-color - 菜单的文字颜色 (默认: #303133)
- * @attr {string} active-text-color - 当前激活菜单的文字颜色 (默认: #409EFF)
- * @attr {string} default-openeds - 当前打开的 sub-menu 的 key 数组
+ * 自有属性：
+ * @attr {Array<MenuBaseType>} menuConfigList 菜单配置列表，必填
+ * @attr {boolean} needPermission 是否开启权限过滤；开启后结合 `permissionList` 与菜单项 `pCode` 控制显示，默认 `false`
+ * @attr {Array<string|number>} permissionList 权限列表，内部存放菜单权限码，默认 `[]`
+ * @attr {string} hoverColor 菜单 hover 时的文字和图标颜色，默认 `''`
+ * @attr {boolean} isDefineClick 菜单点击是否改为自定义处理；为 `true` 时触发 `defineSubClick` / `defineChildClick`，默认 `false`
+ * @attr {boolean} showTooltip 鼠标移入菜单项时是否显示 tooltip 提示，默认 `true`
+ * @attr {number} fontSize 菜单字体大小；用于内部 tooltip 组件，默认 `14`
  *
- * @slot - 默认插槽，用于放置菜单内容
- * @slot icon - 图标插槽，用于自定义菜单图标
- * @slot title - 标题插槽，用于自定义菜单标题
- * @slot submenu - 子菜单插槽，用于自定义子菜单内容
+ * @slot [iconSlot] 动态图标插槽名；当菜单项配置 `iconSlot` 时渲染对应具名插槽
  *
- * @event onJump - 菜单跳转事件，点击菜单项时触发，返回菜单项数据
- * @event defineSubClick - 子菜单点击事件，点击子菜单时触发
- * @event defineChildClick - 子菜单项点击事件，点击子菜单项时触发
- * @event select - 菜单选中事件，菜单项被选中时触发
- * @event open - sub-menu 展开的回调
- * @event close - sub-menu 收起的回调
+ * @event onJump(item) 菜单点击自定义处理事件；当菜单项 `defJump=true` 时触发
+ * @event defineSubClick(item) 点击子菜单标题时触发；仅在 `isDefineClick=true` 时生效
+ * @event defineChildClick(item) 点击子菜单项时触发；仅在 `isDefineClick=true` 时生效
  *
- * @csspart menu - 菜单主体容器
- * @csspart menu-item - 菜单项元素
- * @csspart sub-menu - 子菜单容器
- * @csspart menu-icon - 菜单图标
- * @csspart menu-title - 菜单标题
+ * @expose lsComMenuRef 内部 `el-menu` 实例引用，可用于访问保留的方法
  *
  * @example
- * <!-- 基础用法 -->
- * <LSMenu :menu-config-list="menuList" />
+ * <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" />
  *
  * @example
- * <!-- 权限控制 -->
  * <LSMenu
- *   :menu-config-list="menuList"
+ *   :menu-config-list="MENU_CONFIG_LIST"
  *   :need-permission="true"
- *   :permission-list="['user:view', 'user:add']"
+ *   :permission-list="['c1', 'c2', 'c21', 'c22']"
+ *   class="menu-wrap"
  * />
  *
  * @example
- * <!-- 自定义点击事件 -->
  * <LSMenu
- *   :menu-config-list="menuList"
+ *   :menu-config-list="MENU_CONFIG_LIST2"
  *   :is-define-click="true"
- *   @onJump="handleMenuJump"
+ *   :default-active="defaultActive"
+ *   @define-sub-click="defineSubClickFunc"
+ *   @define-child-click="defineChildClickFunc"
  * />
- *
- * @example
- * <!-- 多级菜单 -->
- * <LSMenu :menu-config-list="menuList">
- *   <template #icon="{ item }">
- *     <el-icon><component :is="item.icon" /></el-icon>
- *   </template>
- * </LSMenu>
- *
- * @example
- * <!-- 菜单项配置 -->
- * const menuList = [
- *   {
- *     key: '1',
- *     title: '仪表盘',
- *     icon: 'Odometer',
- *     path: '/dashboard',
- *     children: [
- *       {
- *         key: '1-1',
- *         title: '分析页',
- *         path: '/dashboard/analysis'
- *       }
- *     ]
- *   }
- * ];
  */
 
 import { useNamespace } from '@cpo/_hooks/useNamespace';

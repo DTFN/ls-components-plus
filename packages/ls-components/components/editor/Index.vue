@@ -1,41 +1,51 @@
 <script setup lang="ts" name="LSEditor">
 /**
- * @summary 富文本编辑器组件 - 基于 WangEditor 的二次封装
+ * @summary 富文本编辑器组件 - 基于 `wangeditor` 的二次封装
  *
- * 这是自研库的富文本编辑器组件，基于 WangEditor 实现。
- * 支持图片上传、自定义工具栏、字数限制、内容校验等功能。
+ * `LSEditor` 基于 `@wangeditor/editor` 与 `@wangeditor/editor-for-vue` 实现，
+ * 提供统一的图片上传配置、工具栏配置、编辑器实例暴露以及菜单越界位置修正能力。
+ * 组件使用 `valueHtml` 作为回显内容输入，并将 `toolbarConfig`、`editorConfig` 与默认配置合并后传给 `wangeditor`。
+ * 如需只读模式、占位文案或更多行为控制，请通过 `editorConfig` 传入原生配置。
  *
- * @attr {string} modelValue - 绑定值
- * @attr {string} uploadServer - 图片上传服务器地址
- * @attr {string} uploadFieldName - 上传字段名
- * @attr {number} uploadImgSize - 图片大小限制
- * @attr {string} uploadImgSizeUnit - 图片大小单位
- * @attr {object} uploadHeaders - 上传请求头
- * @attr {string} placeholder - 占位文本
- * @attr {number} maxLength - 最大长度
- * @attr {string} mode - 编辑器模式
- * @attr {boolean} readOnly - 是否只读
- * @attr {object} toolbarConfig - 工具栏配置
- * @attr {object} editorConfig - 编辑器配置
+ * @attr {string} valueHtml 富文本 HTML 内容，用于回显
+ * @attr {string} height 编辑区域高度，默认 `300px`
+ * @attr {'default'|'simple'} mode 编辑器模式，默认 `default`
+ * @attr {object} toolbarConfig 工具栏配置，与 `wangeditor` 配置保持一致
+ * @attr {object} editorConfig 编辑器配置，与 `wangeditor` 配置保持一致
+ * @attr {string} uploadServer 图片上传服务器地址
+ * @attr {string} uploadToken 图片上传所需 token；未传且 `uploadHeaders` 为空时会自动写入请求头
+ * @attr {string} uploadFieldName 图片上传字段名，默认 `file`
+ * @attr {object|null} uploadHeaders 自定义上传请求头，优先级高于 `uploadToken`
+ * @attr {number} uploadImgSize 图片上传大小限制，默认 `2`
+ * @attr {string} uploadImgSizeUnit 图片上传大小单位，可选 `GB` / `MB` / `KB`，默认 `MB`
+ * @attr {object|null} containerDom 可视区域 DOM，用于修正图片/视频菜单越界位置，默认 `null`
  *
  * @slot 无
  *
- * @event update:modelValue - 更新值事件
- * @event onChange - 内容变化事件
- * @event onCreated - 编辑器创建完成事件
- *
- * @csspart editor - 编辑器容器
+ * @event handleCreated(editor) 编辑器创建完成时触发
+ * @event handleChange(editor) 编辑器内容变化时触发
+ * @event handleDestroyed(editor) 编辑器销毁时触发
+ * @event handleFocus(editor) 编辑器获得焦点时触发
+ * @event handleBlur(editor) 编辑器失去焦点时触发
+ * @event customAlert(info, type) 自定义 alert 事件
+ * @event customPaste(editor, event, callback) 自定义粘贴事件
  *
  * @example
- * <!-- 基础用法 -->
- * <LSEditor v-model="content" :uploadServer="'/api/upload'" />
+ * <LSEditor
+ *   ref="lsEditorRef"
+ *   :value-html="valueHtml"
+ *   :upload-server="uploadServer"
+ *   :upload-token="uploadToken"
+ *   height="400px"
+ *   @handle-created="handleCreated"
+ * />
  */
+import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { elementOutOfBounds } from '@cpo/_utils/utils';
 import { IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsEditorProps, lsEditorEmits } from './types';
 import { merge } from 'lodash-es';
-import { elementOutOfBounds } from '@cpo/_utils/utils';
+import { lsEditorEmits, lsEditorProps } from './types';
 
 const ns = useNamespace('editor');
 const comClass: string = ns.b();

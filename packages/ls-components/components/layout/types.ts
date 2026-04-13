@@ -6,20 +6,20 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 /**
- * 布局组件props
+ * 布局组件 props
  * @typedef {Object} lsLayoutProp
- * @property {string|number} mode - 布局模式：1=header+aside+main, 2=header+main, 3=aside+header+main，默认为1
- * @property {string} headerHeight - 头部高度，默认为'60px'
- * @property {boolean} showFooter - 是否显示底部，默认为false
- * @property {string} footerHeight - 底部高度，默认为'60px'
- * @property {string} asideWidth - 侧边栏宽度，默认为'200px'
- * @property {boolean} showLogo - 是否显示Logo，默认为true
- * @property {string} logo - Logo图片地址，默认为''
- * @property {string} customCss - 自定义CSS类名，默认为''
- * @property {string} theme - 主题样式：'glass'|'cyber'|'minimal'，默认为''
+ * @property {string|number} mode - 布局模式：`1` 顶部导航+侧边栏+内容区，`2` 顶部导航+内容区，`3` 侧边栏+顶部导航+内容区，默认为 `1`
+ * @property {string} headerHeight - 头部高度，传值需带单位，默认为 `60px`
+ * @property {boolean} showFooter - 是否显示底部区域，默认为 `false`
+ * @property {string} footerHeight - 底部高度，传值需带单位，默认为 `60px`
+ * @property {string} asideWidth - 侧边栏宽度，传值需带单位，默认为 `200px`
+ * @property {boolean} showLogo - 是否显示 logo；模式 `1/2` 显示在头部，模式 `3` 显示在侧栏顶部，默认为 `true`
+ * @property {string} logo - logo 图片地址，默认为 `''`
+ * @property {string} customCss - 追加到根节点的自定义 class，默认为 `''`
+ * @property {string} theme - 主题风格类名，可选 `glass` / `cyber` / `minimal`，默认为 `''`
  */
 export const lsLayoutProp = buildProps({
-  /** 布局模式：1=header+aside+main, 2=header+main, 3=aside+header+main */
+  /** 布局模式：`1` 顶部导航+侧边栏+内容区，`2` 顶部导航+内容区，`3` 侧边栏+顶部导航+内容区 */
   mode: {
     type: [String, Number],
     default: 1
@@ -29,7 +29,7 @@ export const lsLayoutProp = buildProps({
     type: String,
     default: '60px'
   },
-  /** 是否显示底部 */
+  /** 是否显示底部区域 */
   showFooter: {
     type: Boolean,
     default: false
@@ -44,22 +44,22 @@ export const lsLayoutProp = buildProps({
     type: String,
     default: '200px'
   },
-  /** 是否显示Logo */
+  /** 是否显示 logo；模式 `1/2` 显示在头部，模式 `3` 显示在侧栏顶部 */
   showLogo: {
     type: Boolean,
     default: true
   },
-  /** Logo图片地址 */
+  /** logo 图片地址 */
   logo: {
     type: String,
     default: ''
   },
-  /** 自定义CSS类名 */
+  /** 追加到根节点的自定义 class */
   customCss: {
     type: String,
     default: ''
   },
-  /** 主题样式：'glass'|'cyber'|'minimal' */
+  /** 主题风格类名：`glass` / `cyber` / `minimal` */
   theme: {
     type: String,
     default: ''
@@ -67,17 +67,19 @@ export const lsLayoutProp = buildProps({
 });
 
 /**
- * 头部组件props
+ * 头部组件 props
  * @typedef {Object} lsHeaderProp
- * @property {string|number} mode - 布局模式，默认为1
- * @property {string} title - 标题，默认为''
- * @property {boolean} showLogo - 是否显示Logo，默认为true
- * @property {string} logo - Logo图片地址，默认为''
- * @property {string} height - 头部高度，默认为'60px'
- * @property {boolean} showCommand - 是否显示命令区域，默认为true
- * @property {string} userName - 用户名，默认为'Admin'
- * @property {string} userIcon - 用户头像，默认为''
- * @property {Array<{key: string, name: string}>} commandList - 命令列表，默认为[]
+ * @property {string|number} mode - 布局模式，默认为 `1`
+ * @property {string} title - 头部标题，默认为 `''`
+ * @property {boolean} showLogo - 是否显示 logo，默认为 `true`
+ * @property {string} logo - logo 图片地址，默认为 `''`
+ * @property {string} height - 头部高度，默认为 `60px`
+ * @property {boolean} showCommand - 是否显示右侧交互区；关闭时回退为静态头像+用户名，默认为 `true`
+ * @property {string} userName - 用户名，默认为 `Admin`
+ * @property {string} userIcon - 用户头像地址，默认为 `''`
+ * @property {Array<{key: string, name: string}>} commandList - 顶部交互功能列表，默认为 `[]`
+ *
+ * 该组属性既供内部 `Header` / `CommandList` 使用，也可作为 `LSLayout` 的透传属性传入。
  */
 export const lsHeaderProp = buildProps({
   /** 布局模式 */
@@ -85,17 +87,17 @@ export const lsHeaderProp = buildProps({
     type: [String, Number],
     default: 1
   },
-  /** 标题 */
+  /** 头部标题 */
   title: {
     type: String,
     default: ''
   },
-  /** 是否显示Logo */
+  /** 是否显示 logo */
   showLogo: {
     type: Boolean,
     default: true
   },
-  /** Logo图片地址 */
+  /** logo 图片地址 */
   logo: {
     type: String,
     default: ''
@@ -105,7 +107,7 @@ export const lsHeaderProp = buildProps({
     type: String,
     default: '60px'
   },
-  /** 是否显示命令区域 */
+  /** 是否显示右侧交互区；关闭时回退为静态头像与用户名 */
   showCommand: {
     type: Boolean,
     default: true
@@ -115,12 +117,12 @@ export const lsHeaderProp = buildProps({
     type: String,
     default: 'Admin'
   },
-  /** 用户头像 */
+  /** 用户头像地址 */
   userIcon: {
     type: String,
     default: ''
   },
-  /** 命令列表 */
+  /** 顶部交互功能列表，项结构为 `{ key, name }` */
   commandList: {
     type: Array<{
       key: string;
@@ -131,10 +133,6 @@ export const lsHeaderProp = buildProps({
 });
 
 /**
- * 布局组件事件名
- * @constant {Array<string>}
- * @property {string} onCommand - 命令点击事件
- * @property {string} onDropdownCommand - 下拉命令事件
- * @property {string} onDropdownCommand2 - 下拉命令事件2
+ * 组件事件名：`onCommand` 为 `LSLayout` 对外事件；`onDropdownCommand` 与 `onDropdownCommand2` 为 `CommandList`、`Header` 内部桥接事件。
  */
 export const lsEmitNames = ['onCommand', 'onDropdownCommand', 'onDropdownCommand2'];

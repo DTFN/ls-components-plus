@@ -1,3 +1,11 @@
+/**
+ * 折线图模板配置生成器。
+ *
+ * 支持 `simple`、`multiple` 以及折线/柱状混合（`lineBar`）模式，
+ * 常用数据结构为 `{ axisData, seriesData }`，并读取 `templatePatch` 中的
+ * `smooth`、`areaStyle`、`tooltip`、`legend`、`dataZoom`、`dynamicAxis`、
+ * `symbol`、`labelPosition` 等字段生成 ECharts option。
+ */
 import { formatChartAxis, numberFixed } from '@cpo/_utils/utils';
 import {
   BAR_COLOR_MAP,
@@ -358,7 +366,7 @@ const setOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) =
   return option;
 };
 
-// 处理数据方法
+/** 根据折线图模板数据与补充配置生成 ECharts option。 */
 export function dealOption(data = {}, templatePatch = {}) {
   return setOption(data, templatePatch);
 }

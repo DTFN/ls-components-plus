@@ -1,34 +1,30 @@
 <script setup lang="ts" name="LSChart">
 /**
- * @summary 图表组件 - 基于 ECharts 的数据可视化
+ * @summary 图表组件 - 基于 ECharts 的模板化图表封装
  *
- * 这是自研库的标准图表组件，基于 ECharts 实现，支持多种图表类型：
- * 折线图、柱状图、饼图、仪表盘、热力图等。提供模板化配置和自定义配置两种方式。
+ * `LSChart` 目前内置 `line`、`bar`、`pie` 三类模板；可通过 `template + data + templatePatch`
+ * 快速生成常用图表，也可仅传 `customOption` 直接渲染自定义 ECharts 配置。
+ * 当 `template` 存在时，会先生成模板配置，再叠加 `customOption`；组件会在窗口尺寸变化时自动 `resize`。
  *
- * @attr {string} template - 图表模板名称
- * @attr {any} data - 图表数据
- * @attr {any} customOption - 自定义图表配置
- * @attr {any} templatePatch - 模板补丁配置
- * @attr {number|string} width - 图表宽度
- * @attr {number|string} height - 图表高度
+ * @attr {'line'|'bar'|'pie'|''} template 图表模板类型；为空时直接使用 `customOption`
+ * @attr {ChartDataType} data 模板数据；`bar/line` 常用 `{ axisData, seriesData }`，`pie` 常用 `{ seriesData, innerData? }`
+ * @attr {ChartTemplatePatchType} templatePatch 模板补充配置，不同模板读取的字段不同
+ * @attr {EChartsOption} customOption 自定义 ECharts 配置；在模板模式下会叠加到模板结果上
+ * @attr {number|string} width 图表宽度；传数字时内部会追加 `px`
+ * @attr {number|string} height 图表高度；传数字时内部会追加 `px`，默认高度为 `30vh`
  *
- * @slot default - 默认插槽，自定义图表内容
+ * @slot 无
  *
  * @event 无
  *
- * @csspart chart - 图表容器
+ * @example
+ * <LSChart template="bar" :data="barData" :template-patch="{ type: 'multiBar', legend: ['A', 'B'] }" />
  *
  * @example
- * <!-- 使用模板 -->
- * <LSChart template="line" :data="chartData" />
+ * <LSChart template="pie" :data="{ seriesData }" :template-patch="{ radius: ['45%', '60%'] }" />
  *
  * @example
- * <!-- 自定义配置 -->
- * <LSChart :customOption="customChartOption" />
- *
- * @example
- * <!-- 自定义尺寸 -->
- * <LSChart template="bar" :data="chartData" :width="800" :height="400" />
+ * <LSChart :custom-option="option" height="400" />
  */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import * as echarts from 'echarts/core';

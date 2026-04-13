@@ -93,15 +93,7 @@ export const lsEditorProps = buildProps({
 });
 
 /**
- * 编辑器事件名
- * @constant {Array<string>}
- * @property {string} handleCreated - 创建完成事件
- * @property {string} handleChange - 内容变化事件
- * @property {string} handleDestroyed - 销毁事件
- * @property {string} handleFocus - 聚焦事件
- * @property {string} handleBlur - 失焦事件
- * @property {string} customAlert - 自定义警告事件
- * @property {string} customPaste - 自定义粘贴事件
+ * 组件事件名：依次对应创建、变更、销毁、聚焦、失焦、自定义提示与自定义粘贴事件。
  */
 export const lsEditorEmits = [
   'handleCreated',

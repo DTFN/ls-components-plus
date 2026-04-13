@@ -1,4 +1,19 @@
 <script setup lang="ts" name="LSDocx">
+/**
+ * @summary Word 文档渲染组件 - `LSPreviewDocx` 的内部渲染器
+ *
+ * `LSDocx` 是 `LSPreviewDocx` 的内部子组件，负责基于 `docx-preview` 将 DOCX 数据渲染到容器节点。
+ * 组件监听 `source` 变化后执行异步渲染，并通过通用预览事件把加载成功、加载失败、下载点击与数据清空行为继续向外层透传。
+ * 当前实现会先校验 `source` 是否为 `ArrayBuffer`；若为空或不是 `ArrayBuffer`，会提示文件为空并触发 `loadError`。
+ *
+ * @attr {ArrayBuffer|string} source 文档数据源；类型层面兼容 `ArrayBuffer` / `string`，当前渲染实现实际依赖 `ArrayBuffer`
+ * @attr {Function} onClose 关闭预览时的回调函数
+ *
+ * @event loadComplete 文档渲染完成后触发
+ * @event loadError 文档渲染失败或数据源不合法时触发
+ * @event update:source 点击关闭按钮后触发，用于将外部 `source` 重置为空数组
+ * @event onDownload 点击下载按钮后触发，参数来自透传的 `downloadData`
+ */
 import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { docxProps } from './types';
 import { previewEmits, fileEmpty } from '@cpo/_constants/previewType';

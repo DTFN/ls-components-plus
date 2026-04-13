@@ -1,54 +1,44 @@
 <script setup lang="ts" name="LSConfirm">
 /**
- * @summary 确认框组件 - 基于 Element Plus MessageBox 的二次封装
+ * @summary 确认框组件 - 基于 Element Plus `ElMessageBox` 的二次封装
  *
- * 这是自研库的确认框组件，提供统一的确认/取消交互弹窗。
- * 支持自定义标题、内容、按钮文本、图标、类型等配置。
+ * `LSConfirm` 是一个行为型确认组件：当 `v-model` 变为 `true` 时，会调用
+ * `ElMessageBox` 打开确认框；确认或取消后会自动将 `v-model` 置回 `false`。
+ * 组件保留了文档中常用的标题、内容、类型、按钮文案、关闭行为、异步请求等配置。
  *
- * @attr {boolean} v-model - 双向绑定，控制确认框显示
- * @attr {string} title - 标题
- * @attr {string} message - 消息内容
- * @attr {string} confirmBtnTxt - 确认按钮文本
- * @attr {string} cancelBtnTxt - 取消按钮文本
- * @attr {string} type - 消息类型
- * @attr {any} icon - 图标
- * @attr {boolean} center - 是否居中
- * @attr {boolean} draggable - 是否可拖拽
- * @attr {boolean} useHtml - 是否使用HTML内容
- * @attr {boolean} showCancelBtn - 是否显示取消按钮
- * @attr {boolean} showConfirmBtn - 是否显示确认按钮
- * @attr {boolean} showClose - 是否显示关闭按钮
- * @attr {boolean} closeOnClickModal - 点击遮罩是否关闭
- * @attr {boolean} closeOnPressEscape - 按ESC是否关闭
- * @attr {string|HTMLElement} appendTo - 挂载元素
- * @attr {boolean} beforeClose - 关闭前回调
- * @attr {string} customClass - 自定义类名
- * @attr {string} customStyle - 自定义样式
- * @attr {function} callback - 回调函数
- * @attr {string} lockScroll - 锁定滚动
- * @attr {boolean} showInput - 是否显示输入框
- * @attr {string} inputValue - 输入框值
- * @attr {string} inputPattern - 输入框校验正则
- * @attr {string} inputValidator - 输入框校验函数
- * @attr {string} inputErrorMessage - 输入框错误信息
- * @attr {string} inputPlaceholder - 输入框占位符
- * @attr {string} inputType - 输入框类型
+ * @attr {boolean} v-model 控制确认框打开/关闭
+ * @attr {string|object} title 确认框标题
+ * @attr {string|object|HTMLElement} message 确认框内容
+ * @attr {''|'success'|'info'|'warning'|'error'} type 状态类型
+ * @attr {string} confirmBtnTxt 确认按钮文案，默认 `确定`
+ * @attr {string} cancelBtnTxt 取消按钮文案，默认 `取消`
+ * @attr {boolean} showCancelBtn 是否显示取消按钮
+ * @attr {boolean} showConfirmBtn 是否显示确认按钮
+ * @attr {boolean} showClose 是否显示右上角关闭按钮
+ * @attr {boolean} center 是否居中显示
+ * @attr {boolean} draggable 是否允许拖拽
+ * @attr {boolean} useHtml 是否按 HTML 字符串渲染 `message`
+ * @attr {boolean} closeOnClickModal 是否允许点击蒙层关闭
+ * @attr {boolean} closeOnPressEscape 是否允许按 `ESC` 关闭
+ * @attr {string|HTMLElement} appendTo 弹层挂载目标
+ * @attr {string} customClass 自定义弹层类名
+ * @attr {object} icon 自定义状态图标
+ * @attr {object} closeIcon 自定义关闭图标
+ * @attr {Function|null} requestApi 点击确认后执行的异步请求函数
+ * @attr {object} requestParams 调用 `requestApi` 时携带的参数
  *
  * @slot 无
  *
- * @event onConfirm - 确认事件
- * @event onCancel - 取消事件
- * @event onClose - 关闭事件
- *
- * @csspart confirm - 确认框容器
+ * @event onConfirm(requestData) 点击确认后触发；若配置了 `requestApi`，会返回请求结果的 `ref`
+ * @event onCancel 取消、关闭或关闭失败时触发
  *
  * @example
- * <!-- 基础确认框 -->
  * <LSConfirm
  *   v-model="visible"
- *   title="提示"
- *   message="确定要删除吗？"
- *   @onConfirm="handleConfirm"
+ *   :title="title"
+ *   :message="message"
+ *   @on-confirm="onConfirm"
+ *   @on-cancel="onCancel"
  * />
  */
 import { useNamespace } from '@cpo/_hooks/useNamespace';

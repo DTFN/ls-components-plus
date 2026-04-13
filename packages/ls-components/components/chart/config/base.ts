@@ -41,6 +41,7 @@ interface seriesLabelType {
   };
 }
 
+/** 预置的系列 label 配置，目前主要用于多系列柱状图。 */
 const SERIES_LABEL_MAP: seriesLabelType = {
   multiBar: {
     show: true,
@@ -108,14 +109,6 @@ const LABEL_POSITION_MAP: labelPositionType = {
 setThemeColor();
 
 export {
-  SERIES_LABEL_MAP,
-  BAR_COLOR_MAP,
-  FONT_COLOR_MAP,
-  BG_COLOR_MAP,
-  DEF_THEME,
-  DATA_ZOOM_COLOR,
-  SPLIT_LINE_COLOR,
-  LABEL_POSITION_MAP,
-  BG_BAR_COLOR_MAP,
-  TOOLTIP_COLOR_MAP
+  BAR_COLOR_MAP, BG_BAR_COLOR_MAP, BG_COLOR_MAP, DATA_ZOOM_COLOR, DEF_THEME, FONT_COLOR_MAP, LABEL_POSITION_MAP, SERIES_LABEL_MAP, SPLIT_LINE_COLOR, TOOLTIP_COLOR_MAP
 };
+

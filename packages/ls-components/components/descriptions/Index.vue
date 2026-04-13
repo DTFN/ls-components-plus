@@ -1,40 +1,41 @@
 <script setup lang="ts" name="LSDescriptions">
 /**
- * @summary 描述列表组件 - 基于 Element Plus Descriptions 的二次封装
+ * @summary 描述列表组件 - 基于 Element Plus `el-descriptions` 的二次封装
  *
- * 这是自研库的标准描述列表组件，用于展示多个字段的信息。
- * 支持自定义标签颜色、背景色、图标、空值处理等功能。
+ * `LSDescriptions` 用于按标签/内容的形式展示字段信息，内置 label 颜色、背景色、
+ * 图标和空值处理逻辑，并保留 `el-descriptions` 的常用属性透传能力。
+ * 组件当前始终以带边框形式渲染，常见透传属性可通过 `$attrs` 传入，如
+ * `column`、`title`、`extra`、`size`、`align`、`label-width` 等。
  *
- * @attr {any[]} list - 描述项列表
- * @attr {string} labelColor - 标签文本颜色
- * @attr {string} labelBgColor - 标签背景颜色
- * @attr {string} labelEmpty - 空值占位符
+ * 组件自有属性：
+ * @attr {DescriptionsListType} list 描述项数据列表
+ * @attr {string} labelColor label 文本颜色
+ * @attr {string} labelBgColor label 区域背景色，默认 `#e2edff`
+ * @attr {boolean} showZero 值为 `0` 时是否显示 `0`，默认 `false`
  *
- * @slot default - 默认插槽
- * @slot extra - 额外内容插槽
- * @slot title - 标题插槽
+ * 插槽：
+ * @slot title 标题区域插槽
+ * @slot extra 右侧额外区域插槽
+ * @slot icon 全局图标插槽，会渲染在配置了 `iconConfig` 的描述项前
+ * @slot [slotName] 当描述项 `type='slot'` 时使用的动态内容插槽
  *
  * @event 无
  *
- * @csspart descriptions - 描述列表容器
+ * @example
+ * <LSDescriptions :list="list" label-bg-color="#f0f9ff" label-color="#1890ff" :column="2" />
  *
  * @example
- * <!-- 基础用法 -->
- * <LSDescriptions :list="descList" />
- *
- * @example
- * <!-- 自定义样式 -->
- * <LSDescriptions
- *   :list="descList"
- *   labelColor="#606266"
- *   labelBgColor="#f5f7fa"
- * />
+ * <LSDescriptions :list="list">
+ *   <template #status>
+ *     <el-tag type="success">已完成</el-tag>
+ *   </template>
+ * </LSDescriptions>
  */
+import { useNamespace } from '@cpo/_hooks/useNamespace';
 import LSIcon from '@cpo/icon/Index.vue';
 import dayjs from 'dayjs';
-import { lsDescProp } from './types';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
 import { merge } from 'lodash-es';
+import { lsDescProp } from './types';
 
 const slots: any = useSlots();
 

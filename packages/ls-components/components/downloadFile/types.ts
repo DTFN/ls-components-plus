@@ -61,9 +61,6 @@ export const lsDownloadProp = buildProps({
 });
 
 /**
- * 下载组件事件名
- * @constant {Array<string>}
- * @property {string} onDownloadSuccess - 下载成功事件
- * @property {string} onDownloadError - 下载错误事件
+ * 组件事件名：`onDownloadSuccess` 为成功事件，`onDownloadError` 为失败事件。
  */
 export const emitNames = ['onDownloadSuccess', 'onDownloadError'];

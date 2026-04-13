@@ -1,3 +1,11 @@
+/**
+ * 柱状图模板配置生成器。
+ *
+ * 支持 `simple`、`multiBar`、`negative`、`waterfall`、`categoryStack` 等模板，
+ * 常用数据结构为 `{ axisData, seriesData }`，并结合 `templatePatch` 中的
+ * `axis`、`tooltip`、`legend`、`dataZoom`、`showBarFont`、`labelPosition`、
+ * `dynamicAxis`、`showBackground`、`barColorList` 等字段生成 ECharts option。
+ */
 import { formatChartAxis, numberFixed } from '@cpo/_utils/utils';
 import {
   BAR_COLOR_MAP,

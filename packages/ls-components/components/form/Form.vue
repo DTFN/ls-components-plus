@@ -1,82 +1,57 @@
 <script setup lang="ts" name="LSForm">
 /**
- * @summary 表单组件 - 基于 Element Plus 表单的二次封装
+ * @summary 表单组件 - 基于 Element Plus `el-form` 的配置化封装
  *
- * 这是自研库的标准表单组件，提供了丰富的表单控件类型和灵活的配置选项。
- * 支持输入框、文本域、数字输入、单选、多选、下拉选择、日期选择、级联选择、开关等20+种表单类型，
- * 支持多列布局、只读模式、自定义插槽、表单校验等高级功能，适用于各种复杂表单场景。
+ * `LSForm` 通过 `formData` 与 `formItems` 配置快速生成表单，内置 18 种常用控件类型，
+ * 支持多列布局、禁用/只读模式、按钮区定制、自定义插槽以及 `el-form` 大部分属性与方法透传。
+ * 组件内部默认注入中文语言包，并可通过 `ref` 访问 `FormRef`、`validate()`、`submitForm()`、`resetForm()`。
  *
- * @attr {any} formData - 表单数据对象
- * @attr {any[]} formItems - 表单项配置数组
- * @attr {number} column - 表单列数，默认为1
- * @attr {boolean} loading - 是否显示加载中状态
- * @attr {boolean} disabled - 是否禁用整个表单
- * @attr {boolean} showButtons - 是否显示按钮区域
- * @attr {boolean} showSubmit - 是否显示提交按钮
- * @attr {boolean} showReset - 是否显示重置按钮
- * @attr {boolean} showBtnLoading - 提交按钮是否显示加载状态
- * @attr {string} confirmText - 提交按钮文本，默认为"提交"
- * @attr {string} resetText - 重置按钮文本，默认为"重置"
- * @attr {string} confirmClassName - 提交按钮自定义类名
- * @attr {string} buttonsClass - 按钮区域自定义类名
- * @attr {boolean} buttonsLeft - 按钮是否左对齐
- * @attr {boolean} read - 是否只读模式
- * @attr {boolean} hasDefReadStyle - 只读模式是否使用默认样式
- * @attr {boolean} colon - 表单项标签是否显示冒号
- * @attr {string} labelEmpty - 空值占位符，默认为"--"
+ * 组件自有属性：
+ * @attr {object} formData 表单数据对象，支持嵌套路径字段
+ * @attr {array} formItems 表单项配置数组，每项会传给 `LSFormItem`
+ * @attr {number} column 表单列数；大于 `1` 时启用多列布局，默认 `1`
+ * @attr {boolean} loading 加载状态；为 `true` 时禁用表单，且可联动提交按钮 loading，默认 `false`
+ * @attr {boolean} showBtnLoading `loading` 时是否在提交按钮上显示 loading 图标，默认 `true`
+ * @attr {boolean} read 是否启用只读模式，默认 `false`
+ * @attr {boolean} disabled 是否禁用整个表单，默认 `false`
+ * @attr {boolean} showButtons 是否显示底部按钮区域，默认 `true`
+ * @attr {string} buttonsClass 按钮区域根元素追加的 class
+ * @attr {boolean} buttonsLeft 按钮是否左对齐；行内表单时会自动左对齐，默认 `false`
+ * @attr {boolean} showReset 是否显示重置按钮，默认 `true`
+ * @attr {boolean} showSubmit 是否显示提交按钮，默认 `true`
+ * @attr {string} confirmText 提交按钮文案，默认 `确认`
+ * @attr {string} resetText 重置按钮文案，默认 `重置`
+ * @attr {string} confirmClassName 提交按钮追加的 class
+ * @attr {boolean} colon 是否为 label 追加冒号，默认 `false`
+ * @attr {string} labelEmpty 只读模式下空值占位文案，默认 `--`
+ * @attr {boolean} hasDefReadStyle 是否为只读表单启用表格风格边框样式，默认 `false`
  *
- * @slot [formItem.type] - 自定义表单项类型插槽，名称为表单项的type值
- * @slot [formItem.prop] - 自定义表单项插槽，名称为表单项的prop值
- * @slot [formItem.slotKey] - 自定义表单项插槽，使用配置的slotKey作为名称
- * @slot buttons-prepend - 按钮前置插槽
- * @slot buttons-append - 按钮后置插槽
- * @slot default - 默认插槽，用于在表单项之间插入自定义内容
+ * 常用透传属性（来自 `el-form` / `$attrs`）：
+ * @attr {boolean} inline 是否启用行内表单
+ * @attr {'left'|'right'|'top'} labelPosition label 对齐方式
+ * @attr {string|number} labelWidth label 宽度
+ * @attr {string} size 表单尺寸
+ * @attr {boolean} scrollToError 校验失败时是否滚动到错误项
  *
- * @event submit - 表单提交事件，参数：form (表单数据)
- * @event reset - 表单重置事件，参数：form (表单数据)
- * @event update:form-data - 更新表单数据，参数：formData
- * @event onChange - 表单项值变化事件，参数：value (值), prop (属性名), index (索引)
- * @event changeFormData - 表单数据变化事件，参数：value (值), prop (属性名), form (表单数据)
+ * @slot default 在配置表单项之后、按钮区域之前插入自定义内容
+ * @slot buttons-prepend 按钮区域前置插槽
+ * @slot buttons-append 按钮区域后置插槽
+ * @slot [slotKey|prop] 当 `formItems[].type='slot'` 时使用的插槽；插槽名优先取 `slotKey`，否则取 `prop`
+ * @slot [type] 当 `formItems[].type` 不属于内置类型时的扩展插槽
+ * @slot [FormItemSlots] `LSFormItem` 的内部插槽（如 `-slot`、`-read-slot`、`-input-prefix` 等）会自动透传
  *
- * @csspart form - 表单主体元素
- * @csspart buttons - 按钮区域元素
+ * @event submit(form) 表单校验通过后触发
+ * @event reset(form) 点击重置按钮后触发
+ * @event onChange(value, prop, index) 任意表单项 change 时触发
+ * @event changeFormData(value, prop, form) 通过 `updateFormData` 更新字段值时触发
  *
  * @example
- * <!-- 基础表单 -->
  * <LSForm
- *   :formData="formData"
- *   :formItems="formItems"
+ *   :form-data="formData"
+ *   :form-items="formItems"
+ *   confirm-text="提交"
  *   @submit="handleSubmit"
- *   @reset="handleReset"
  * />
- *
- * @example
- * <!-- 多列表单 -->
- * <LSForm
- *   :formData="formData"
- *   :formItems="formItems"
- *   :column="2"
- *   :showButtons="true"
- *   :showSubmit="true"
- *   :showReset="true"
- * />
- *
- * @example
- * <!-- 只读表单 -->
- * <LSForm
- *   :formData="formData"
- *   :formItems="formItems"
- *   :read="true"
- *   :hasDefReadStyle="true"
- * />
- *
- * @example
- * <!-- 自定义表单项 -->
- * <LSForm :formData="formData" :formItems="formItems">
- *   <template #customType="{ value, updateFormData }">
- *     <CustomComponent :modelValue="value" @update:modelValue="updateFormData" />
- *   </template>
- * </LSForm>
  */
 import type { FormInstance } from 'element-plus';
 import { get, set } from 'lodash-es';

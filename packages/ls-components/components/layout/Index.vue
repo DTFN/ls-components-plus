@@ -1,95 +1,54 @@
 <script setup lang="ts">
 /**
- * @summary 布局组件 - 页面基础布局容器
+ * @summary 布局组件 - 基于 `el-container` 的页面框架容器
  *
- * 这是自研库的标准布局组件，提供了完整的页面布局解决方案。
- * 支持顶部导航栏、侧边栏、内容区域、底部页脚的组合布局，
- * 提供多种布局模式和响应式设计，适用于后台管理系统和复杂页面布局。
+ * `LSLayout` 基于 Element Plus 容器组件封装，提供 3 种后台常用布局模式：
+ * `1` 为“顶部导航 + 侧边栏 + 内容区”、`2` 为“顶部导航 + 内容区”、`3` 为“侧边栏 + 顶部导航 + 内容区”。
+ * 组件保留 `el-container` 结构写法，并将标题、用户信息、命令列表等头部属性透传给内部 `Header` 组件。
  *
- * @attr {string} headerHeight - 头部高度，默认为'60px'
- * @attr {string} footerHeight - 底部高度，默认为'40px'
- * @attr {boolean} showFooter - 是否显示底部
- * @attr {any} headerTitle - 头部标题配置
- * @attr {any} headerMenu - 头部菜单配置
- * @attr {any} headerAvatar - 头部头像配置
- * @attr {any[]} headerTags - 头部标签数组
- * @attr {any[]} headerNavs - 头部导航数组
- * @attr {string} layoutMode - 布局模式，默认为'1'
- * @attr {boolean} asideCollapsible - 侧边栏是否可折叠
- * @attr {string} asideWidth - 侧边栏宽度，默认为'200px'
- * @attr {boolean} asideCollapsed - 侧边栏是否已折叠
- * @attr {any[]} asideMenu - 侧边栏菜单数据
- * @attr {any} asideLogo - 侧边栏logo配置
- * @attr {string} designTheme - 设计主题，可选值：glass/neumorphism/minimalism/tech
- * @attr {string} colorTheme - 颜色主题，可选值：default/ocean/sunset/forest/purple/monochrome/candy
+ * 组件自有属性：
+ * @attr {string|number} mode 布局模式，可选 `1 / 2 / 3`，默认 `1`
+ * @attr {string} headerHeight 头部高度，传值需带单位，默认 `60px`
+ * @attr {boolean} showFooter 是否显示底部区域，默认 `false`
+ * @attr {string} footerHeight 底部高度，传值需带单位，默认 `60px`
+ * @attr {string} asideWidth 侧边栏宽度，传值需带单位，默认 `200px`
+ * @attr {boolean} showLogo 是否显示 logo；模式 `1/2` 显示在头部，模式 `3` 显示在侧栏顶部，默认 `true`
+ * @attr {string} logo logo 图片地址，默认 `''`
+ * @attr {string} customCss 追加到根节点的自定义 class，默认 `''`
+ * @attr {string} theme 主题风格类名，可选 `glass` / `cyber` / `minimal`，默认 `''`
  *
- * @slot header-left - 头部左侧插槽
- * @slot header-center - 头部中间插槽
- * @slot header-right - 头部右侧插槽
- * @slot header-logo - 头部logo插槽
- * @slot header-menu - 头部菜单插槽
- * @slot header-title - 头部标题插槽
- * @slot header-tags - 头部标签插槽
- * @slot header-navs - 头部导航插槽
- * @slot header-actions - 头部操作插槽
- * @slot header-avatar - 头部头像插槽
- * @slot aside-logo - 侧边栏logo插槽
- * @slot aside-menu - 侧边栏菜单插槽
- * @slot aside-extra - 侧边栏额外内容插槽
- * @slot footer - 底部插槽
- * @slot default - 默认插槽，内容区域
+ * 常用头部透传属性（通过 `$attrs` 传给内部 `Header`）：
+ * @attr {string} title 头部标题
+ * @attr {boolean} showCommand 是否显示右侧交互区，默认 `true`
+ * @attr {string} userName 用户名，默认 `Admin`
+ * @attr {string} userIcon 用户头像地址
+ * @attr {Array<{key: string, name: string}>} commandList 顶部交互功能列表
  *
- * @event onCommand - 下拉命令事件，参数：command (命令值)
- * @event update:asideCollapsed - 更新侧边栏折叠状态，参数：collapsed (是否折叠)
+ * @slot header 自定义整个头部；提供时会覆盖默认 `Header`
+ * @slot headerLeft 默认头部左侧插槽
+ * @slot headerRight 默认头部右侧插槽
+ * @slot headerTitle 默认头部中间标题插槽
+ * @slot aside 侧边栏插槽；模式 `1/3` 时使用
+ * @slot section 主内容区域插槽
+ * @slot footer 底部插槽；`showFooter=true` 时使用
  *
- * @csspart layout - 布局容器
- * @csspart header - 头部区域
- * @csspart aside - 侧边栏区域
- * @csspart main - 内容区域
- * @csspart footer - 底部区域
+ * @event onCommand(key) 点击顶部交互功能后触发，返回 `commandList` 对应项的 `key`
  *
  * @example
- * <!-- 基础布局 -->
  * <LSLayout
- *   :headerTitle="{ text: '管理系统' }"
- *   :asideMenu="menuData"
+ *   header-height="50px"
+ *   aside-width="220px"
+ *   :logo="logo"
+ *   title="Layout 测试"
+ *   :command-list="commandList"
+ *   @onCommand="onCommand"
  * >
- *   <RouterView />
- * </LSLayout>
- *
- * @example
- * <!-- 带底部布局 -->
- * <LSLayout
- *   :showFooter="true"
- *   :headerTitle="{ text: '管理系统' }"
- *   :asideMenu="menuData"
- * >
- *   <template #footer>
- *     <div>© 2024 Company</div>
+ *   <template #aside>
+ *     <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" style="width: 220px" />
  *   </template>
- *   <RouterView />
- * </LSLayout>
- *
- * @example
- * <!-- 可折叠侧边栏 -->
- * <LSLayout
- *   :asideCollapsible="true"
- *   v-model:asideCollapsed="isCollapsed"
- *   :asideMenu="menuData"
- * >
- *   <RouterView />
- * </LSLayout>
- *
- * @example
- * <!-- 自定义头部 -->
- * <LSLayout :asideMenu="menuData">
- *   <template #header-left>
- *     <CustomLogo />
+ *   <template #section>
+ *     <div class="ls-main-container">列表区域</div>
  *   </template>
- *   <template #header-right>
- *     <UserActions />
- *   </template>
- *   <RouterView />
  * </LSLayout>
  */
 import { computed, useSlots } from 'vue';
