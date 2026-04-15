@@ -81,7 +81,7 @@ export default {
       text: 'hooks',
       items: [
         { text: 'useWSHook', link: '/tools/hooks/useWSHook' },
-        { text: 'useOptionHook', link: '/tools/hooks/useOptionHook' },
+        { text: 'useOptionsHook', link: '/tools/hooks/useOptionsHook' },
         { text: 'useTableListHook', link: '/tools/hooks/useTableListHook' }
       ]
     },
