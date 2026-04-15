@@ -137,9 +137,116 @@ function handleClearAllCache() {
 }
 ```
 
+### 完整示例
+
+<br />
+<ClientOnly>
+<div class="demo-form-box">
+  <p style="margin:0 0 10px;font-size:13px;color:#909399">LSForm + useOptionsHook 完整示例</p>
+  <LSForm
+    ref="demoFormRef"
+    :form-data="demoFormData"
+    :form-items="demoFormItems"
+    :loading="demoLoading"
+    :column="2"
+    confirm-text="提交"
+    @submit="handleDemoSubmit"
+    @reset="handleDemoReset"
+  />
+</div>
+</ClientOnly>
+
+::: details 点我查看完整代码
+
+```vue
+<template>
+  <LSForm
+    ref="formRef"
+    :form-data="formData"
+    :form-items="formItems"
+    :options-data="optionsData"
+    :column="2"
+    confirm-text="提交"
+    @submit="handleSubmit"
+    @reset="handleReset"
+  />
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+
+const { getSelOptions } = useOptionsHook();
+
+const formRef = ref(null);
+const formData = reactive({
+  username: '',
+  realName: '',
+  role: '',
+  department: '',
+  status: ''
+});
+
+const optionsData = ref({
+  role: [],
+  status: [],
+  department: []
+});
+
+async function loadOptions() {
+  const roleApi = () =>
+    Promise.resolve([
+      { id: '1', roleName: '管理员' },
+      { id: '2', roleName: '编辑' },
+      { id: '3', roleName: '访客' }
+    ]);
+
+  const statusApi = () =>
+    Promise.resolve([
+      { id: '1', statusName: '启用' },
+      { id: '0', statusName: '禁用' }
+    ]);
+
+  const deptApi = () =>
+    Promise.resolve([
+      { id: 'dept1', deptName: '技术部' },
+      { id: 'dept2', deptName: '运营部' }
+    ]);
+
+  const roleResult = await getSelOptions(roleApi, ['roleName'], ['id']);
+  optionsData.value.role = roleResult.options;
+
+  const statusResult = await getSelOptions(statusApi, ['statusName'], ['id']);
+  optionsData.value.status = statusResult.options;
+
+  const deptResult = await getSelOptions(deptApi, ['deptName'], ['id']);
+  optionsData.value.department = deptResult.options;
+}
+
+const formItems = [
+  { type: 'input', prop: 'username', label: '用户名', placeholder: '请输入用户名' },
+  { type: 'input', prop: 'realName', label: '真实姓名', placeholder: '请输入真实姓名' },
+  { type: 'select', prop: 'role', label: '角色', placeholder: '请选择角色', options: [] },
+  { type: 'select', prop: 'department', label: '部门', placeholder: '请选择部门', options: [] },
+  { type: 'select', prop: 'status', label: '状态', placeholder: '请选择状态', options: [] }
+];
+
+function handleSubmit(form) {
+  console.log('表单提交', form);
+}
+
+function handleReset() {
+  console.log('表单重置');
+}
+
+loadOptions();
+</script>
+```
+
+:::
+
 ## 功能特性
 
-- **多字段组合**：labelKey 和 valueKey 支持数组，多个字段值以 `-` 拼接
 - **缓存机制**：支持全局缓存池，相同 cacheKey 在有效期内直接返回缓存数据
 - **防抖搜索**：内置防抖远程搜索，避免频繁请求接口
 - **额外字段**：支持将接口返回的指定字段复制到选项中
@@ -183,7 +290,10 @@ function handleClearAllCache() {
 
 <script setup>
 import { tableColumn, tableMethodColumn } from '../../constant';
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+
+const { getSelOptions } = useOptionsHook();
 
 function optionApi() {
   return new Promise(resolve => {
@@ -318,4 +428,96 @@ const methodsTableData = ref([
     value: '-'
   }
 ]);
+
+const demoFormRef = ref(null);
+const demoLoading = ref(false);
+
+const demoFormData = reactive({
+  username: '',
+  realName: '',
+  email: '',
+  phone: '',
+  role: '',
+  department: '',
+  city: '',
+  status: ''
+});
+
+const demoFormItems = [
+  { type: 'input', prop: 'username', label: '用户名', placeholder: '请输入用户名', rules: [{ required: true, message: '请输入用户名' }] },
+  { type: 'input', prop: 'realName', label: '真实姓名', placeholder: '请输入真实姓名' },
+  { type: 'input', prop: 'email', label: '邮箱', placeholder: '请输入邮箱' },
+  { type: 'input', prop: 'phone', label: '手机号', placeholder: '请输入手机号' },
+  {
+    type: 'select',
+    prop: 'role',
+    label: '角色',
+    placeholder: '请选择角色',
+    options: [
+      { label: '超级管理员', value: '1', disabled: true },
+      { label: '系统管理员', value: '2' },
+      { label: '运营专员', value: '3' },
+      { label: '财务专员', value: '4' },
+      { label: '普通用户', value: '5' }
+    ]
+  },
+  {
+    type: 'select',
+    prop: 'department',
+    label: '部门',
+    placeholder: '请选择部门',
+    options: [
+      { label: '技术研发部', value: 'dept1' },
+      { label: '产品运营部', value: 'dept2' },
+      { label: '市场营销部', value: 'dept3' },
+      { label: '财务审计部', value: 'dept4' },
+      { label: '人力资源部', value: 'dept5' }
+    ]
+  },
+  {
+    type: 'select',
+    prop: 'city',
+    label: '城市',
+    placeholder: '请选择城市',
+    options: [
+      { label: '北京', value: 'bj' },
+      { label: '上海', value: 'sh' },
+      { label: '广州', value: 'gz' },
+      { label: '深圳', value: 'sz' },
+      { label: '成都', value: 'cd' },
+      { label: '武汉', value: 'wh' }
+    ]
+  },
+  {
+    type: 'select',
+    prop: 'status',
+    label: '状态',
+    placeholder: '请选择状态',
+    options: [
+      { label: '启用', value: '1' },
+      { label: '禁用', value: '0' }
+    ]
+  }
+];
+
+function handleDemoSubmit(form) {
+  window.ElMessage.success(`表单提交成功: ${JSON.stringify(form)}`);
+}
+
+function handleDemoReset() {
+  window.ElMessage.info('表单已重置');
+}
 </script>
+
+<style scoped>
+.demo-form-box {
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 15px;
+  margin-top: 10px;
+}
+</style>
+
+```
+
+```
