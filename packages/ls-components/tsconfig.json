@@ -37,30 +37,21 @@
       "@": ["src"],
       "@/*": ["src/*"],
       "@cpo": ["components"],
-      "@cpo/*": ["components/*"],
+      "@cpo/*": ["components/*"]
     }
   },
   "vueCompilerOptions": {
-    "strictTemplates": false  // 降低模板类型检查的严格度
+    "strictTemplates": false // 降低模板类型检查的严格度
   },
   "include": [
     "src/**/*",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
     "components/**/*",
-    "components/**/*.ts",
-    "components/**/*.d.ts",
-    "components/**/*.tsx",
-    "components/**/*.vue",
     "components.d.ts",
     "build/**/*.ts",
     "build/**/*.d.ts",
     "vite.config.ts",
-    "vitest.config.ts",
     "auto-imports.d.ts",
-    "src/typings/*.ts",
+    "src/typings/*.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.js", ".npmrc", "lib"]
 }

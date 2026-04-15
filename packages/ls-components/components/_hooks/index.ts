@@ -5,3 +5,12 @@ import useWSHook from '@cpo/_hooks/useWSHook';
 
 export { useOptionsHook, useRouterHook, useTableListHook, useWSHook };
 
+export type {
+  RequestFn,
+  DealDataFn,
+  DealParamsFn,
+  CallbackAfterFn,
+  UseTableListOptions,
+  UseTableListReturn
+} from '@cpo/_hooks/useTableListHook';
+

@@ -2,18 +2,20 @@
 outline: deep
 ---
 
-# useOptionHook
+# useOptionsHook
 
-::: warning 根据请求数据，获取下拉框数据。
+::: warning 根据请求数据，获取下拉框数据。支持缓存、防抖远程搜索、多字段组合等功能。
 :::
 
 ## 使用方式
 
-```js
-import { useOptionHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted, ref } from 'vue';
+### 基础用法
 
-const { getSelOption } = useOptionHook();
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { onMounted } from 'vue';
+
+const { getSelOptions } = useOptionsHook();
 
 function optionApi() {
   return new Promise(resolve => {
@@ -31,22 +33,158 @@ function optionApi() {
 }
 
 onMounted(async () => {
-  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  const data = await getSelOptions(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
   console.log(data);
 });
 ```
 
+### 带缓存用法
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { onMounted } from 'vue';
+
+const { getSelOptions, clearCache } = useOptionsHook({
+  cacheKey: 'userOptions',
+  cacheTime: 60000
+});
+
+onMounted(async () => {
+  const data = await getSelOptions(userApi);
+  // 60秒内再次调用会直接返回缓存数据
+});
+
+// 需要时手动清除缓存
+clearCache('userOptions');
+```
+
+### 远程搜索用法
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { ref } from 'vue';
+
+const { remoteSearchSelOptions, selData, loading } = useOptionsHook({
+  debounceTime: 500
+});
+
+const keyword = ref('');
+
+async function handleSearch(query) {
+  keyword.value = query;
+  await remoteSearchSelOptions(searchApi, { status: 1 }, keyword.value);
+}
+```
+
+### 根据 value 获取 label
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { onMounted } from 'vue';
+
+const { getSelOptions, getLabelByValue } = useOptionsHook();
+
+onMounted(async () => {
+  await getSelOptions(optionApi);
+  const label = getLabelByValue('1');
+  console.log(label);
+});
+```
+
+### 过滤选项用法
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { onMounted } from 'vue';
+
+const { getSelOptions, filterOptions } = useOptionsHook();
+
+onMounted(async () => {
+  await getSelOptions(optionApi);
+  const filtered = filterOptions(['1', '2', '3']);
+  console.log(filtered);
+});
+```
+
+### 同步获取选项
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { onMounted } from 'vue';
+
+const { getSelOptions, getOptionsSync } = useOptionsHook();
+
+onMounted(async () => {
+  await getSelOptions(optionApi);
+  const syncData = getOptionsSync();
+  console.log(syncData);
+});
+```
+
+### 清除缓存
+
+```js
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+
+const { clearCache } = useOptionsHook();
+
+function handleClearSpecificCache() {
+  clearCache('userOptions');
+}
+
+function handleClearAllCache() {
+  clearCache();
+}
+```
+
+## 功能特性
+
+- **多字段组合**：labelKey 和 valueKey 支持数组，多个字段值以 `-` 拼接
+- **缓存机制**：支持全局缓存池，相同 cacheKey 在有效期内直接返回缓存数据
+- **防抖搜索**：内置防抖远程搜索，避免频繁请求接口
+- **额外字段**：支持将接口返回的指定字段复制到选项中
+- **分页兼容**：自动兼容分页（result.records）和非分页格式
+- **禁用支持**：自动识别接口数据中的 disabled 字段
+
+## 配置选项
+
+<ApiIntro :tableColumn="tableColumn" :tableData="configTableData" />
+
 ## API
 
-### 1. methods
+### 1. Params
 
-<ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData" />
+<ApiIntro :tableColumn="tableColumn" :tableData="paramsTableData" />
+
+### 2. Attributes
+
+<ApiIntro :tableColumn="tableColumn" :tableData="attributesTableData" />
+
+### 3. Methods
+
+<ApiIntro :tableColumn="tableMethodColumn" :tableData="methodsTableData" />
+
+### 4. SelDataType
+
+| 属性      | 类型                                                    | 说明                                  |
+| --------- | ------------------------------------------------------- | ------------------------------------- |
+| allOption | `OptionType[]`                                          | 全部选项（包含"全部"选项 + 实际选项） |
+| options   | `OptionType[]`                                          | 实际选项列表                          |
+| maps      | `Record<string, { label: string; [key: string]: any }>` | 以 value 为 key 的映射表，可快速查找  |
+
+### 5. OptionType
+
+| 属性          | 类型               | 说明                              |
+| ------------- | ------------------ | --------------------------------- |
+| label         | `string`           | 选项显示文本                      |
+| value         | `string \| number` | 选项值                            |
+| disabled      | `boolean`          | 是否禁用（可选）                  |
+| [key: string] | `any`              | 额外字段（通过 extraFields 配置） |
 
 <script setup>
-import { useOptionHook } from '@lingshugroup/web-plus/hooks';
-import { tableMethodColumn } from '../../constant';
+import { tableColumn, tableMethodColumn } from '../../constant';
 import { ref, onMounted } from 'vue';
-const { getSelOption } = useOptionHook();
+
 function optionApi() {
   return new Promise(resolve => {
     const optionData = [
@@ -63,17 +201,121 @@ function optionApi() {
 }
 
 onMounted(async () => {
-  const data = await getSelOption(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
+  const data = await getSelOptions(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
   console.log(data);
 });
 
-const tableData = ref([
+const configTableData = ref([
   {
-    name: 'getSelOption',
-    desc: `根据请求数据，获取下拉框数据，参数：1.请求接口方法 2.labelKey对应label为数组，默认为['name']  3.valueKey对应value为数组，默认为['id'] 3.params请求参数 4.展示全部所传数组值，默认[{ label: '全部', value: '' }]`,
-    type: 'Promise',
-    value: '{ allOption, options, maps }'
+    name: 'cacheKey',
+    desc: '缓存 key，相同 key 会缓存结果',
+    type: 'string',
+    value: '-'
+  },
+  {
+    name: 'cacheTime',
+    desc: '缓存有效期(ms)，默认 0 不缓存',
+    type: 'number',
+    value: '0'
+  },
+  {
+    name: 'debounceTime',
+    desc: '防抖延迟(ms)，用于远程搜索，默认 300',
+    type: 'number',
+    value: '300'
   }
-])
+]);
 
+const paramsTableData = ref([
+  {
+    name: 'apiFunc',
+    desc: '请求接口函数，接收可选参数，返回 Promise',
+    type: '(params?: any) => Promise<any>',
+    value: '-'
+  },
+  {
+    name: 'labelKey',
+    desc: '标签字段数组，多个字段以 - 拼接',
+    type: 'string[]',
+    value: "['name']"
+  },
+  {
+    name: 'valueKey',
+    desc: '值字段数组，多个字段以 - 拼接',
+    type: 'string[]',
+    value: "['id']"
+  },
+  {
+    name: 'params',
+    desc: '请求参数，传入后会深拷贝再传给接口',
+    type: 'object',
+    value: '-'
+  },
+  {
+    name: 'allOption',
+    desc: '全部选项前置数据，默认 [{ label: "全部", value: "" }]',
+    type: 'OptionType[]',
+    value: "[{ label: '全部', value: '' }]"
+  },
+  {
+    name: 'extraFields',
+    desc: '额外字段数组，指定接口数据中需要复制到选项的字段名',
+    type: 'string[]',
+    value: '[]'
+  }
+]);
+
+const attributesTableData = ref([
+  {
+    name: 'selData',
+    desc: '选项数据对象，包含 allOption、options、maps',
+    type: 'SelDataType',
+    value: '{ allOption: [], options: [], maps: {} }'
+  },
+  {
+    name: 'loading',
+    desc: '请求加载状态',
+    type: 'Ref<boolean>',
+    value: 'false'
+  }
+]);
+
+const methodsTableData = ref([
+  {
+    name: 'getSelOptions',
+    desc: '根据请求数据获取下拉框选项，支持缓存。参数：apiFunc / labelKey / valueKey / params / allOption / extraFields',
+    type: '(apiFunc, labelKey?, valueKey?, params?, allOption?, extraFields?) => Promise<SelDataType>',
+    value: '{ allOption, options, maps }'
+  },
+  {
+    name: 'remoteSearchSelOptions',
+    desc: '带防抖的远程搜索，参数：apiFunc / params / keyword / labelKey / valueKey / extraFields',
+    type: '(apiFunc, params, keyword, labelKey?, valueKey?, extraFields?) => Promise<OptionType[]>',
+    value: 'OptionType[]'
+  },
+  {
+    name: 'getOptionsSync',
+    desc: '同步获取当前选项数据（不发起请求，从已有数据获取）',
+    type: '() => SelDataType',
+    value: '{ allOption, options, maps }'
+  },
+  {
+    name: 'getLabelByValue',
+    desc: '根据 value 获取对应的 label，未找到则返回原始值字符串',
+    type: '(value: string | number) => string',
+    value: 'string'
+  },
+  {
+    name: 'filterOptions',
+    desc: '根据 value 数组过滤选项，返回匹配的选项列表',
+    type: '(values: (string | number)[]) => OptionType[]',
+    value: 'OptionType[]'
+  },
+  {
+    name: 'clearCache',
+    desc: '清除缓存，传入 key 清除指定缓存，不传则清除全部缓存',
+    type: '(key?: string) => void',
+    value: '-'
+  }
+]);
 </script>

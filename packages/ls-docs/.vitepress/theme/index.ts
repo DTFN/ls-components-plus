@@ -93,10 +93,7 @@ export default Object.assign({}, Theme, {
     //   app.component(item.name, item);
     // });
 
-    if (import.meta.env.MODE === 'development') {
-      const LSWebPlus = await import('@lingshugroup/web-plus');
-      app.use(LSWebPlus);
-    } else if (!import.meta.env.SSR) {
+    if (import.meta.env.MODE === 'development' || !import.meta.env.SSR) {
       const plugin = await import('@lingshugroup/web-plus');
       app.use(plugin.default);
     }

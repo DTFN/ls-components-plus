@@ -56,25 +56,20 @@ export default function (options: UseOptionsOptions = {}) {
    */
   const getValueByKeys = (keys: string[], data: any): string => {
     if (!keys || !keys.length) return '';
-    return keys.map((key) => data[key] ?? '').join('-');
+    return keys.map(key => data[key] ?? '').join('-');
   };
 
   /**
    * 格式化单个选项
    */
-  const formatOption = (
-    item: any,
-    labelKey: string[],
-    valueKey: string[],
-    extraFields: string[] = []
-  ): OptionType => {
+  const formatOption = (item: any, labelKey: string[], valueKey: string[], extraFields: string[] = []): OptionType => {
     const value = getValueByKeys(valueKey, item);
     const label = getValueByKeys(labelKey, item);
 
     const option: OptionType = { label, value };
 
     // 复制额外字段
-    extraFields.forEach((key) => {
+    extraFields.forEach(key => {
       if (key in item) {
         option[key] = item[key];
       }
@@ -108,8 +103,8 @@ export default function (options: UseOptionsOptions = {}) {
    * @param allOption 全部选项，默认为 [{ label: '全部', value: '' }]
    * @param extraFields 额外字段，会复制到 option 中
    */
-  const getSelOption = async (
-    apiFunc: () => Promise<any>,
+  const getSelOptions = async (
+    apiFunc: (params?: any) => Promise<any>,
     labelKey: string[] = ['name'],
     valueKey: string[] = ['id'],
     params?: any,
@@ -117,7 +112,7 @@ export default function (options: UseOptionsOptions = {}) {
     extraFields: string[] = []
   ): Promise<SelDataType> => {
     if (!(apiFunc instanceof Function)) {
-      console.warn('getSelOption: apiFunc must be a function');
+      console.warn('getSelOptions: apiFunc must be a function');
       return selData;
     }
 
@@ -165,7 +160,7 @@ export default function (options: UseOptionsOptions = {}) {
 
       return selData;
     } catch (error) {
-      console.error('getSelOption error:', error);
+      console.error('getSelOptions error:', error);
       selData.options = [];
       selData.allOption = [...allOption];
       return selData;
@@ -183,15 +178,15 @@ export default function (options: UseOptionsOptions = {}) {
    * @param valueKey 值字段
    * @param extraFields 额外字段
    */
-  const remoteSearchSelOption = (
-    apiFunc: (params?:any) => Promise<any>,
+  const remoteSearchSelOptions = (
+    apiFunc: (params?: any) => Promise<any>,
     params: any,
     keyword: string,
     labelKey: string[] = ['name'],
     valueKey: string[] = ['id'],
     extraFields: string[] = []
   ): Promise<OptionType[]> => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       // 清除之前的定时器
       if (debounceTimer) {
         clearTimeout(debounceTimer);
@@ -200,17 +195,10 @@ export default function (options: UseOptionsOptions = {}) {
       debounceTimer = setTimeout(async () => {
         try {
           loading.value = true;
-          const result = await getSelOption(
-            apiFunc,
-            labelKey,
-            valueKey,
-            { ...params, keyword },
-            [],
-            extraFields
-          );
+          const result = await getSelOptions(apiFunc, labelKey, valueKey, { ...params, keyword }, [], extraFields);
           resolve(result.options);
         } catch (error) {
-          console.error('remoteSearchSelOption error:', error);
+          console.error('remoteSearchSelOptions error:', error);
           resolve([]);
         } finally {
           loading.value = false;
@@ -237,16 +225,14 @@ export default function (options: UseOptionsOptions = {}) {
    * 根据 value 过滤选项
    */
   const filterOptions = (values: (string | number)[]): OptionType[] => {
-    return selData.options.filter((option) =>
-      values.includes(option.value as string | number)
-    );
+    return selData.options.filter(option => values.includes(option.value as string | number));
   };
 
   return {
     selData,
     loading,
-    getSelOption,
-    remoteSearchSelOption,
+    getSelOptions,
+    remoteSearchSelOptions,
     getOptionsSync,
     getLabelByValue,
     filterOptions,
