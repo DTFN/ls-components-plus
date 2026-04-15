@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useOptionsHook } from '@cpo/_hooks';
 import { DialogBtnType } from '@cpo/_types';
-import { useOptionHook } from '@cpo/_hooks';
 
-const { getSelOption } = useOptionHook();
+const { getSelOption } = useOptionsHook();
 
 const visible = ref(false);
 const loading = ref(false);

@@ -165,10 +165,10 @@ app.use(LSWebPlus);
 
 ```js
 // 常用hooks
-import { useRouterHook, useColorthiefHook, useWSHook, useOptionHook, useTableListHook } from '@lingshugroup/web-plus/hooks';
+import { useWSHook, useOptionsHook, useTableListHook } from '@lingshugroup/web-plus/hooks';
 
 // 常用公共方法
-import { lsValidate, lsCheck } from '@lingshugroup/web-plus/utils';
+import { lsValidate, lsCheck, lsUtil } from '@lingshugroup/web-plus/utils';
 ```
 
 ### 4. 类型检查 v1.3.1+
