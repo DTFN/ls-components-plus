@@ -1,125 +1,129 @@
 <script setup lang="ts" name="LSPdf">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import type { PDFDocumentLoadingTask } from 'pdfjs-dist';
-import type { AnnotationEventPayload, HighlightEventPayload, LoadedEventPayload, TextLayerLoadedEventPayload } from '../types';
-import { usePDF } from '../composable';
-import PdfItem from './pdfs/PdfItem.vue';
-
-const ns = useNamespace('pdf');
-const comClass: string = ns.b();
-const pdfObj: Ref<PDFDocumentLoadingTask | undefined | any> = ref(undefined);
-const curPage = ref(1);
-const allPages = ref(0);
-const scale = ref(1);
-const showPagination = ref(true);
-const isComplete = ref(false);
+import type { PDFDocumentLoadingTask } from 'pdfjs-dist'
+import type { AnnotationEventPayload, HighlightEventPayload, LoadedEventPayload, TextLayerLoadedEventPayload } from '../types'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { usePDF } from '../composable'
+import PdfItem from './pdfs/PdfItem.vue'
 
 const props = withDefaults(
   defineProps<{
-    source: string;
-    onClose: Function;
-    showSize?: boolean;
+    source: string
+    onClose: Function
+    showSize?: boolean
   }>(),
   {
-    showSize: true
-  }
-);
-
+    showSize: true,
+  },
+)
 const emits = defineEmits<{
-  (event: 'annotation', payload: AnnotationEventPayload): void;
-  (event: 'highlight', payload: HighlightEventPayload): void;
-  (event: 'loaded', payload: LoadedEventPayload): void;
-  (event: 'textLoaded', payload: TextLayerLoadedEventPayload): void;
-  (event: 'annotationLoaded', payload: any[]): void;
-  (event: 'xfaLoaded'): void;
-  (event: 'loadComplete'): void;
-  (event: 'loadError'): void;
-  (event: 'update:source'): void;
-}>();
+  (event: 'annotation', payload: AnnotationEventPayload): void
+  (event: 'highlight', payload: HighlightEventPayload): void
+  (event: 'loaded', payload: LoadedEventPayload): void
+  (event: 'textLoaded', payload: TextLayerLoadedEventPayload): void
+  (event: 'annotationLoaded', payload: any[]): void
+  (event: 'xfaLoaded'): void
+  (event: 'loadComplete'): void
+  (event: 'loadError'): void
+  (event: 'update:source'): void
+}>()
+const ns = useNamespace('pdf')
+const comClass: string = ns.b()
+const pdfObj: Ref<PDFDocumentLoadingTask | undefined | any> = ref(undefined)
+const curPage = ref(1)
+const allPages = ref(0)
+const scale = ref(1)
+const showPagination = ref(true)
+const isComplete = ref(false)
 
 watch(
   () => props.source,
   () => {
-    initPdf();
+    initPdf()
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 const paginationTxt = computed(() => {
-  return showPagination.value ? '取消分页' : '分页展示';
-});
+  return showPagination.value ? '取消分页' : '分页展示'
+})
 
 async function initPdf() {
   if (props.source) {
     try {
       const { pdf, processLoadingTask, pages }: any = usePDF(props.source, {
-        onError: loadError
-      });
-      await processLoadingTask(props.source);
-      pdfObj.value = pdf.value;
-      allPages.value = pages.value;
-      loadComplete();
-    } catch {
-      loadError();
-    } finally {
-      isComplete.value = true;
+        onError: loadError,
+      })
+      await processLoadingTask(props.source)
+      pdfObj.value = pdf.value
+      allPages.value = pages.value
+      loadComplete()
+    }
+    catch {
+      loadError()
+    }
+    finally {
+      isComplete.value = true
     }
   }
 }
 
-const closeFunc = () => {
-  isComplete.value = false;
-  props.onClose && props.onClose();
-  emits('update:source');
-};
+function closeFunc() {
+  isComplete.value = false
+  props.onClose && props.onClose()
+  emits('update:source')
+}
 
 function prevPdf() {
   if (curPage.value > 1) {
-    curPage.value--;
+    curPage.value--
   }
 }
 
 function nextPdf() {
   if (curPage.value < allPages.value) {
-    curPage.value++;
+    curPage.value++
   }
 }
 
 function scalePdf(val: number) {
   if (val === 0) {
-    scale.value = scale.value > 0.25 ? scale.value - 0.25 : scale.value;
-  } else {
-    scale.value = scale.value < 2 ? scale.value + 0.25 : scale.value;
+    scale.value = scale.value > 0.25 ? scale.value - 0.25 : scale.value
+  }
+  else {
+    scale.value = scale.value < 2 ? scale.value + 0.25 : scale.value
   }
 }
 
-const noMore = ref(false);
-const count = ref(0);
-const load = () => {
+const noMore = ref(false)
+const count = ref(0)
+
+function load() {
   if (count.value >= allPages.value) {
-    noMore.value = true;
-    return;
+    noMore.value = true
+
+    return
   }
-  count.value++;
-};
+  count.value++
+}
 
 function changePagition() {
-  showPagination.value = !showPagination.value;
+  showPagination.value = !showPagination.value
+
   if (!showPagination.value) {
-    noMore.value = false;
-    count.value = allPages.value > 10 ? 10 : allPages.value;
+    noMore.value = false
+    count.value = allPages.value > 10 ? 10 : allPages.value
   }
 }
 
 function loadComplete() {
-  emits('loadComplete');
+  emits('loadComplete')
 }
 
 function loadError() {
-  emits('loadError');
+  emits('loadError')
 }
 </script>
 
@@ -127,16 +131,20 @@ function loadError() {
   <div v-if="isComplete" :class="comClass">
     <div class="opt-wrap">
       <div v-if="showPagination" class="page-wrap">
-        <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">上一页</LSButton
-        ><span class="num-wrap">{{ curPage }} / {{ allPages }}</span
-        ><LSButton type="primary" size="small" :disabled="curPage == allPages" @click="nextPdf">下一页</LSButton>
+        <LSButton type="primary" size="small" :disabled="curPage == 1" @click="prevPdf">
+          上一页
+        </LSButton><span class="num-wrap">{{ curPage }} / {{ allPages }}</span><LSButton type="primary" size="small" :disabled="curPage == allPages" @click="nextPdf">
+          下一页
+        </LSButton>
       </div>
       <div v-if="showSize" class="size-wrap">
         <LSButton type="primary" icon="Minus" size="small" :disabled="scale == 0.25" @click="scalePdf(0)" />
         <span class="num-wrap">{{ scale * 100 }}%</span>
         <LSButton type="primary" icon="Plus" size="small" :disabled="scale == 2" @click="scalePdf(1)" />
       </div>
-      <LSButton type="primary" size="small" @click="changePagition">{{ paginationTxt }}</LSButton>
+      <LSButton type="primary" size="small" @click="changePagition">
+        {{ paginationTxt }}
+      </LSButton>
 
       <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
         <LSIcon name="Close" :size="26" />
@@ -153,7 +161,7 @@ function loadError() {
         @load-error="loadError"
       />
       <div v-else class="infinite-list-wrapper" style="overflow: auto">
-        <el-scrollbar :height="'calc(100vh - 48px)'">
+        <el-scrollbar height="calc(100vh - 48px)">
           <ul v-infinite-scroll="load" :infinite-scroll-disabled="noMore" class="infinite-list">
             <li v-for="page in count" :key="page" class="infinite-list-item">
               <PdfItem

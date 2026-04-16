@@ -26,29 +26,28 @@
  * @example
  * <LSChart :custom-option="option" height="400" />
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import * as echarts from 'echarts/core';
-import { LineChart, PieChart, BarChart, GaugeChart, HeatmapChart } from 'echarts/charts';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { BarChart, GaugeChart, HeatmapChart, LineChart, PieChart } from 'echarts/charts'
 import {
-  TooltipComponent,
-  GridComponent,
-  LegendComponent,
-  ToolboxComponent,
   DataZoomComponent,
   GraphicComponent,
+  GridComponent,
+  LegendComponent,
   MarkLineComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
   VisualMapComponent,
-  TitleComponent
-} from 'echarts/components';
-import { LabelLayout, UniversalTransition } from 'echarts/features';
-import { CanvasRenderer } from 'echarts/renderers';
-import { lsChartProps } from './types';
-import config from './config';
+} from 'echarts/components'
+import * as echarts from 'echarts/core'
+import { LabelLayout, UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
+import config from './config'
+import { lsChartProps } from './types'
 
-const ns = useNamespace('chart');
-const comClass: string = ns.b();
-
-const props = defineProps(lsChartProps);
+const props = defineProps(lsChartProps)
+const ns = useNamespace('chart')
+const comClass: string = ns.b()
 
 echarts.use([
   TooltipComponent,
@@ -67,30 +66,30 @@ echarts.use([
   MarkLineComponent,
   VisualMapComponent,
   HeatmapChart,
-  TitleComponent
-]);
+  TitleComponent,
+])
 
-const lsChartRef = ref();
-const echartObj: Ref<echarts.ECharts | undefined> = ref();
-const chartOption: Ref<any> = ref({});
+const lsChartRef = ref()
+const echartObj: Ref<echarts.ECharts | undefined> = ref()
+const chartOption: Ref<any> = ref({})
 
 const chartStyle = computed(() => {
   return {
     width: props.width ? `${props.width}px` : '100%',
-    height: props.height ? `${props.height}px` : '30vh'
-  };
-});
+    height: props.height ? `${props.height}px` : '30vh',
+  }
+})
 
 watch(
   () => [props.width, props.height, props.template, props.data, props.customOption, props.templatePatch],
   () => {
-    setChartOption();
+    setChartOption()
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 async function setChartOption() {
   if (props.template) {
@@ -98,49 +97,52 @@ async function setChartOption() {
       template: props.template,
       data: props.data,
       templatePatch: props.templatePatch,
-      customOption: props.customOption
-    });
-  } else {
-    chartOption.value = props.customOption;
+      customOption: props.customOption,
+    })
   }
+  else {
+    chartOption.value = props.customOption
+  }
+
   if (echartObj.value) {
     echartObj.value.setOption(chartOption.value, {
-      notMerge: true
-    });
-    await nextTick();
-    resizeChart();
-  } else {
-    await nextTick();
-    initChart();
-    setChartOption();
+      notMerge: true,
+    })
+    await nextTick()
+    resizeChart()
+  }
+  else {
+    await nextTick()
+    initChart()
+    setChartOption()
   }
 }
 
 function initChart() {
-  echartObj.value = markRaw(echarts.init(lsChartRef.value));
-  window.removeEventListener('resize', resizeChart);
-  window.addEventListener('resize', resizeChart);
+  echartObj.value = markRaw(echarts.init(lsChartRef.value))
+  window.removeEventListener('resize', resizeChart)
+  window.addEventListener('resize', resizeChart)
 }
 
 function resizeChart() {
-  echartObj.value && echartObj.value.resize();
+  echartObj.value && echartObj.value.resize()
 }
 
 onMounted(() => {
-  initChart();
-});
+  initChart()
+})
 
 onUnmounted(() => {
-  echartObj.value && echartObj.value.dispose();
-});
+  echartObj.value && echartObj.value.dispose()
+})
 
 defineExpose({
-  echartObj
-});
+  echartObj,
+})
 </script>
 
 <template>
-  <div :class="comClass" :style="chartStyle" ref="lsChartRef"></div>
+  <div ref="lsChartRef" :class="comClass" :style="chartStyle"></div>
 </template>
 
 <style lang="scss" scoped>

@@ -3,15 +3,15 @@
  * @description 定义PDF文档预览组件的props类型和接口，包含PDF渲染、文本处理、事件处理等
  */
 
-import type { PageViewport } from 'pdfjs-dist';
+import type { PageViewport } from 'pdfjs-dist'
 import type {
   DocumentInitParameters,
   OnProgressParameters,
   PDFDataRangeTransport,
   TextContent,
-  TypedArray
-} from 'pdfjs-dist/types/src/display/api';
-import type { Metadata } from 'pdfjs-dist/types/src/display/metadata';
+  TypedArray,
+} from 'pdfjs-dist/types/src/display/api'
+import type { Metadata } from 'pdfjs-dist/types/src/display/metadata'
 
 /**
  * 匹配接口
@@ -27,22 +27,22 @@ import type { Metadata } from 'pdfjs-dist/types/src/display/metadata';
  */
 export interface Match {
   start: {
-    idx: number;
-    offset: number;
-  };
+    idx: number
+    offset: number
+  }
   end: {
-    idx: number;
-    offset: number;
-  };
-  str: string;
-  oindex: number;
+    idx: number
+    offset: number
+  }
+  str: string
+  oindex: number
 }
 
 /**
  * 加载事件负载类型
  * @typedef {PageViewport} LoadedEventPayload
  */
-export type LoadedEventPayload = PageViewport;
+export type LoadedEventPayload = PageViewport
 
 /**
  * 注释事件负载接口
@@ -51,8 +51,8 @@ export type LoadedEventPayload = PageViewport;
  * @property {any} data - 注释数据
  */
 export interface AnnotationEventPayload {
-  type: string;
-  data: any;
+  type: string
+  data: any
 }
 
 /**
@@ -64,10 +64,10 @@ export interface AnnotationEventPayload {
  * @property {HTMLElement[]} textDivs - 文本div元素数组
  */
 export interface HighlightEventPayload {
-  matches: Match[];
-  page: number;
-  textContent: TextContent;
-  textDivs: HTMLElement[];
+  matches: Match[]
+  page: number
+  textContent: TextContent
+  textDivs: HTMLElement[]
 }
 
 /**
@@ -77,8 +77,8 @@ export interface HighlightEventPayload {
  * @property {TextContent|undefined} textContent - 文本内容
  */
 export interface TextLayerLoadedEventPayload {
-  textDivs: HTMLElement[];
-  textContent: TextContent | undefined;
+  textDivs: HTMLElement[]
+  textContent: TextContent | undefined
 }
 
 /**
@@ -91,11 +91,11 @@ export interface TextLayerLoadedEventPayload {
  * @property {string} [color] - 颜色
  */
 export interface WatermarkOptions {
-  columns?: number;
-  rows?: number;
-  rotation?: number;
-  fontSize?: number;
-  color?: string;
+  columns?: number
+  rows?: number
+  rotation?: number
+  fontSize?: number
+  color?: string
 }
 
 /**
@@ -105,8 +105,8 @@ export interface WatermarkOptions {
  * @property {boolean} [completeWords] - 是否完整单词匹配
  */
 export interface HighlightOptions {
-  ignoreCase?: boolean;
-  completeWords?: boolean;
+  ignoreCase?: boolean
+  completeWords?: boolean
 }
 
 /**
@@ -116,8 +116,8 @@ export interface HighlightOptions {
  * @property {S} spec - 规格
  */
 export interface Base<T, S> {
-  type: T;
-  spec: S;
+  type: T
+  spec: S
 }
 
 /**
@@ -129,55 +129,55 @@ export interface Base<T, S> {
  * XYZ位置类型
  * @typedef {Base<'XYZ', [left: number, top: number, zoom: number]>} XYZ
  */
-export type XYZ = Base<'XYZ', [left: number, top: number, zoom: number]>;
+export type XYZ = Base<'XYZ', [left: number, top: number, zoom: number]>
 
 /**
  * Fit位置类型
  * @typedef {Base<'Fit', []>} Fit
  */
-export type Fit = Base<'Fit', []>;
+export type Fit = Base<'Fit', []>
 
 /**
  * FitH位置类型
  * @typedef {Base<'FitH', [top: number]>} FitH
  */
-export type FitH = Base<'FitH', [top: number]>;
+export type FitH = Base<'FitH', [top: number]>
 
 /**
  * FitV位置类型
  * @typedef {Base<'FitV', [left: number]>} FitV
  */
-export type FitV = Base<'FitV', [left: number]>;
+export type FitV = Base<'FitV', [left: number]>
 
 /**
  * FitR位置类型
  * @typedef {Base<'FitR', [left: number, bottom: number, right: number, top: number]>} FitR
  */
-export type FitR = Base<'FitR', [left: number, bottom: number, right: number, top: number]>;
+export type FitR = Base<'FitR', [left: number, bottom: number, right: number, top: number]>
 
 /**
  * FitB位置类型
  * @typedef {Base<'FitB', []>} FitB
  */
-export type FitB = Base<'FitB', []>;
+export type FitB = Base<'FitB', []>
 
 /**
  * FitBH位置类型
  * @typedef {Base<'FitBH', [top: number]>} FitBH
  */
-export type FitBH = Base<'FitBH', [top: number]>;
+export type FitBH = Base<'FitBH', [top: number]>
 
 /**
  * FitBV位置类型
  * @typedef {Base<'FitBV', [left: number]>} FitBV
  */
-export type FitBV = Base<'FitBV', [left: number]>;
+export type FitBV = Base<'FitBV', [left: number]>
 
 /**
  * PDF位置类型
  * @typedef {XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV} PDFLocation
  */
-export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV;
+export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV
 
 /**
  * PDF目标接口
@@ -186,44 +186,44 @@ export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV;
  * @property {PDFLocation} location - 位置信息
  */
 export interface PDFDestination {
-  pageIndex: number;
-  location: PDFLocation;
+  pageIndex: number
+  location: PDFLocation
 }
 
 /**
  * 进度回调函数类型
- * @typedef {function} OnProgressCallback
+ * @typedef {Function} OnProgressCallback
  * @param {OnProgressParameters} progressData - 进度数据
  */
-export type OnProgressCallback = (progressData: OnProgressParameters) => void;
+export type OnProgressCallback = (progressData: OnProgressParameters) => void
 
 /**
  * 更新密码函数类型
- * @typedef {function} UpdatePasswordFn
+ * @typedef {Function} UpdatePasswordFn
  * @param {string} newPassword - 新密码
  */
-export type UpdatePasswordFn = (newPassword: string) => void;
+export type UpdatePasswordFn = (newPassword: string) => void
 
 /**
  * 密码回调函数类型
- * @typedef {function} OnPasswordCallback
+ * @typedef {Function} OnPasswordCallback
  * @param {UpdatePasswordFn} updatePassword - 更新密码函数
  * @param {any} reason - 原因
  */
-export type OnPasswordCallback = (updatePassword: UpdatePasswordFn, reason: any) => void;
+export type OnPasswordCallback = (updatePassword: UpdatePasswordFn, reason: any) => void
 
 /**
  * 错误回调函数类型
- * @typedef {function} OnErrorCallback
+ * @typedef {Function} OnErrorCallback
  * @param {any} error - 错误信息
  */
-export type OnErrorCallback = (error: any) => void;
+export type OnErrorCallback = (error: any) => void
 
 /**
  * PDF源类型
  * @typedef {string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null} PDFSrc
  */
-export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null;
+export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null
 
 /**
  * PDF选项接口
@@ -234,21 +234,21 @@ export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | Documen
  * @property {string} [password] - 密码
  */
 export interface PDFOptions {
-  onProgress?: OnProgressCallback;
-  onPassword?: OnPasswordCallback;
-  onError?: OnErrorCallback;
-  password?: string;
+  onProgress?: OnProgressCallback
+  onPassword?: OnPasswordCallback
+  onError?: OnErrorCallback
+  password?: string
 }
 
 /**
  * PDF元数据接口
  * @interface PDFInfoMetadata
- * @property {Object} info - 信息对象
+ * @property {object} info - 信息对象
  * @property {Metadata} metadata - 元数据
  */
 export interface PDFInfoMetadata {
-  info: Object;
-  metadata: Metadata;
+  info: object
+  metadata: Metadata
 }
 
 /**
@@ -260,8 +260,8 @@ export interface PDFInfoMetadata {
  * @property {any} outline - 大纲信息
  */
 export interface PDFInfo {
-  metadata: PDFInfoMetadata;
-  attachments: Record<string, unknown>;
-  javascript: string[] | null;
-  outline: any;
+  metadata: PDFInfoMetadata
+  attachments: Record<string, unknown>
+  javascript: string[] | null
+  outline: any
 }

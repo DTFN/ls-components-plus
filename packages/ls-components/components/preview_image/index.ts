@@ -1,18 +1,19 @@
-import type { App } from 'vue';
-import _LSPreviewImage from './Index.vue';
-import { setGlobalConfig } from '@cpo/_utils/config';
-import type { LSOptions } from '@cpo/_utils/types';
+import type { LSOptions } from '@cpo/_utils/types'
+import type { App } from 'vue'
+import { setGlobalConfig } from '@cpo/_utils/config'
+import _LSPreviewImage from './Index.vue'
 
 const LSPreviewImage: typeof _LSPreviewImage & { install: (app: App, options?: LSOptions) => void } = Object.assign(
   _LSPreviewImage,
   {
     install: (app: App, options?: LSOptions) => {
-      setGlobalConfig(app, options);
-      if (_LSPreviewImage.name) {
-        app.component(_LSPreviewImage.name, _LSPreviewImage);
-      }
-    }
-  }
-);
+      setGlobalConfig(app, options)
 
-export default LSPreviewImage;
+      if (_LSPreviewImage.name) {
+        app.component(_LSPreviewImage.name, _LSPreviewImage)
+      }
+    },
+  },
+)
+
+export default LSPreviewImage

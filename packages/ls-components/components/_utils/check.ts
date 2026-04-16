@@ -1,119 +1,119 @@
-/* eslint-disable no-unused-vars */
-import type { ComponentPublicInstance, VNodeNormalizedChildren } from 'vue';
-import type { VNode } from 'vue';
-import { isClient } from '@vueuse/core';
+import type { ComponentPublicInstance, VNode, VNodeNormalizedChildren } from 'vue'
+import { isClient } from '@vueuse/core'
 
-const opt = Object.prototype.toString;
+const opt = Object.prototype.toString
 
-// eslint-disable-next-line vue/prefer-import-from-vue
-export { hasOwn } from '@vue/shared';
+export { hasOwn } from '@vue/shared'
 
 export function isArray(obj: any): obj is any[] {
-  return opt.call(obj) === '[object Array]';
+  return opt.call(obj) === '[object Array]'
 }
 
 export function isNull(obj: any): obj is null {
-  return opt.call(obj) === '[object Null]';
+  return opt.call(obj) === '[object Null]'
 }
 
 export function isBoolean(obj: unknown): obj is boolean {
-  return opt.call(obj) === '[object Boolean]';
+  return opt.call(obj) === '[object Boolean]'
 }
 
 export function isObject(obj: any): obj is Record<string, unknown> {
-  return opt.call(obj) === '[object Object]';
+  return opt.call(obj) === '[object Object]'
 }
 
 export function isPromise<T>(obj: unknown): obj is Promise<T> {
-  return opt.call(obj) === '[object Promise]';
+  return opt.call(obj) === '[object Promise]'
 }
 
 export function isString(obj: any): obj is string {
-  return opt.call(obj) === '[object String]';
+  return opt.call(obj) === '[object String]'
 }
 
 export function isNumber(obj: any): obj is number {
-  return opt.call(obj) === '[object Number]' && obj === obj; // eslint-disable-line
+  return opt.call(obj) === '[object Number]' && !Number.isNaN(Number(obj))
 }
 
 export function isRegExp(obj: any) {
-  return opt.call(obj) === '[object RegExp]';
+  return opt.call(obj) === '[object RegExp]'
 }
 
 export function isDate(obj: any) {
-  return opt.call(obj) === '[object Date]';
+  return opt.call(obj) === '[object Date]'
 }
 
 function isHex(color: any) {
-  return /^#[a-fA-F0-9]{3}$|#[a-fA-F0-9]{6}$/.test(color);
+  return /^#[a-f0-9]{3}$|#[a-f0-9]{6}$/i.test(color)
 }
 
 function isRgb(color: any) {
-  return /^rgb\((\s*\d+\s*,?){3}\)$/.test(color);
+  return /^rgb\((\s*\d+\s*,?){3}\)$/.test(color)
 }
 
 function isRgba(color: any) {
-  return /^rgba\((\s*\d+\s*,\s*){3}\s*\d(\.\d+)?\s*\)$/.test(color);
+  return /^rgba\((\s*\d+\s*,\s*){3}\d(\.\d+)?\s*\)$/.test(color)
 }
 
 export function isColor(color: any): boolean {
-  return isHex(color) || isRgb(color) || isRgba(color);
+  return isHex(color) || isRgb(color) || isRgba(color)
 }
 
 export function isUndefined(obj: any): obj is undefined {
-  return obj === undefined;
+  return obj === undefined
 }
 
 export function isFunction(obj: any): obj is (...args: any[]) => any {
-  return typeof obj === 'function';
+  return typeof obj === 'function'
 }
 
 export function isEmptyObject(obj: any): boolean {
-  return isObject(obj) && Object.keys(obj).length === 0;
+  return isObject(obj) && Object.keys(obj).length === 0
 }
 
 export function isExist(obj: any): boolean {
-  return obj || obj === 0;
+  return obj || obj === 0
 }
 
 export function isWindow(el: any): el is Window {
-  return el === window;
+  return el === window
 }
 
 export function isComponentInstance(value: any): value is ComponentPublicInstance {
-  return value?.$ !== undefined;
+  return value?.$ !== undefined
 }
 
 export function isArrayChildren(children: VNodeNormalizedChildren): children is VNode[] {
-  return isArray(children);
+  return isArray(children)
 }
 
 export function isQuarter(fromat: string) {
-  return /\[Q]Q/.test(fromat);
+  return /\[Q\]Q/.test(fromat)
 }
 
 export function isFirefox(): boolean {
-  return isClient && /firefox/i.test(window.navigator.userAgent);
+  return isClient && /firefox/i.test(window.navigator.userAgent)
 }
 
 export function isArrayBuffer(arrayBuffer: any) {
-  return arrayBuffer instanceof ArrayBuffer || ArrayBuffer.isView(arrayBuffer);
+  return arrayBuffer instanceof ArrayBuffer || ArrayBuffer.isView(arrayBuffer)
 }
 
 export function isFile(file: any) {
-  return file instanceof File;
+  return file instanceof File
 }
 
 export function isValidJSON(str: any) {
   try {
-    str = JSON.parse(str);
+    str = JSON.parse(str)
+
     if (str !== null && typeof str === 'object') {
-      return str.constructor === Object;
-    } else {
-      return false;
+      return str.constructor === Object
     }
-  } catch {
-    return false;
+    else {
+      return false
+    }
+  }
+  catch {
+    return false
   }
 }
 
@@ -142,5 +142,5 @@ export default {
   isFirefox,
   isArrayBuffer,
   isFile,
-  isValidJSON
-};
+  isValidJSON,
+}

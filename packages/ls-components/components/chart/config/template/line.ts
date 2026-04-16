@@ -1,3 +1,5 @@
+import type { ChartDataType, ChartTemplatePatchType } from '@cpo/_types'
+import type { ChartMapDataType } from '@cpo/chart/types'
 /**
  * 折线图模板配置生成器。
  *
@@ -6,64 +8,56 @@
  * `smooth`、`areaStyle`、`tooltip`、`legend`、`dataZoom`、`dynamicAxis`、
  * `symbol`、`labelPosition` 等字段生成 ECharts option。
  */
-import { formatChartAxis, numberFixed } from '@cpo/_utils/utils';
+import { formatChartAxis, numberFixed } from '@cpo/_utils/utils'
 import {
   BAR_COLOR_MAP,
+  BG_BAR_COLOR_MAP,
   BG_COLOR_MAP,
-  FONT_COLOR_MAP,
   DEF_THEME,
+  FONT_COLOR_MAP,
+  SPLIT_LINE_COLOR,
   // DATA_ZOOM_COLOR,
   TOOLTIP_COLOR_MAP,
-  BG_BAR_COLOR_MAP,
-  SPLIT_LINE_COLOR
-} from '../base';
-import { ChartDataType, ChartTemplatePatchType } from '@cpo/_types';
-import { ChartMapDataType } from '@cpo/chart/types';
+} from '../base'
 
-const setTooltipFormat = (
-  data: any,
-  legend: boolean,
-  legendIcon: string | undefined,
-  i: number,
-  defBarColor: Array<string>,
-  tooltipValueFormatter: Function | undefined,
-  dataIndex: number
-) => {
-  const { name, seriesName, value, color } = data;
-  const nameHtml = i == 0 ? `<div class="name">${name}</div>` : '';
-  const seriesHtml =
-    legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : '';
-  const valueHtml =
-    value !== '-' && seriesName !== 'temp'
-      ? `<span class="value">${tooltipValueFormatter ? tooltipValueFormatter(value, dataIndex) : value || value == 0 ? value : '-'}</span>`
-      : '';
-  const badgeHtml =
-    value !== '-' && seriesName !== 'temp'
+function setTooltipFormat(data: any, legend: boolean, legendIcon: string | undefined, i: number, defBarColor: Array<string>, tooltipValueFormatter: any | undefined, dataIndex: number) {
+  const { name, seriesName, value, color } = data
+  const nameHtml = i === 0 ? `<div class="name">${name}</div>` : ''
+  const seriesHtml
+    = legend && value !== '-' && seriesName !== 'temp' ? `<span class="serise-name">${legend ? seriesName : ''}</span>` : ''
+  const valueHtml
+    = value !== '-' && seriesName !== 'temp'
+      ? `<span class="value">${tooltipValueFormatter ? tooltipValueFormatter(value, dataIndex) : value || value === 0 ? value : '-'}</span>`
+      : ''
+  const badgeHtml
+    = value !== '-' && seriesName !== 'temp'
       ? `<div class="content-badge ${legendIcon}" style="background-color: ${typeof color === 'string' ? color : defBarColor};"></div>`
-      : '';
-  return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `;
-};
+      : ''
 
-const setTooltip = (templatePatch: ChartTemplatePatchType) => {
-  let { legend, legendIcon, tooltip = 'shadow', theme, tooltipFormatter, barColorList, tooltipValueFormatter } = templatePatch;
-  const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME][0];
-  tooltipFormatter = tooltipFormatter
-    ? tooltipFormatter
-    : function (params: any) {
-        let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`;
-        params.forEach((item: any, i: number) => {
-          formatterHtml += setTooltipFormat(
-            item,
-            Boolean(legend),
-            legendIcon,
-            i,
-            defBarColor,
-            tooltipValueFormatter,
-            item.dataIndex
-          );
-        });
-        return formatterHtml + '</div>';
-      };
+  return ` ${nameHtml} <div class="content"> <div class="serise-wrap"> ${badgeHtml} ${seriesHtml} </div> ${valueHtml} </div> `
+}
+
+function setTooltip(templatePatch: ChartTemplatePatchType) {
+  let { legend, legendIcon, tooltip = 'shadow', theme, tooltipFormatter, barColorList, tooltipValueFormatter } = templatePatch
+  const defBarColor = barColorList || BAR_COLOR_MAP[theme || DEF_THEME]?.[0]
+
+  tooltipFormatter = tooltipFormatter || function (params: any) {
+    let formatterHtml = `<div class="ls-bar-tooltip-wrap ${theme}">`
+    params.forEach((item: any, i: number) => {
+      formatterHtml += setTooltipFormat(
+        item,
+        Boolean(legend),
+        legendIcon,
+        i,
+        defBarColor,
+        tooltipValueFormatter,
+        item.dataIndex,
+      )
+    })
+
+    return `${formatterHtml}</div>`
+  }
+
   return tooltip
     ? {
         trigger: 'axis',
@@ -71,22 +65,23 @@ const setTooltip = (templatePatch: ChartTemplatePatchType) => {
           type: tooltip,
           z: 1,
           label: {
-            color: TOOLTIP_COLOR_MAP[theme || DEF_THEME]['color']
-          }
+            color: TOOLTIP_COLOR_MAP[theme || DEF_THEME]?.color,
+          },
         },
         textStyle: {
-          color: FONT_COLOR_MAP[theme || DEF_THEME]
+          color: FONT_COLOR_MAP[theme || DEF_THEME],
         },
         padding: 12,
-        backgroundColor: TOOLTIP_COLOR_MAP[theme || DEF_THEME]['bgColor'],
-        extraCssText: `box-shadow: ${TOOLTIP_COLOR_MAP[theme || DEF_THEME]['shadowColor']};`,
-        formatter: tooltipFormatter
+        backgroundColor: TOOLTIP_COLOR_MAP[theme || DEF_THEME]?.bgColor,
+        extraCssText: `box-shadow: ${TOOLTIP_COLOR_MAP[theme || DEF_THEME]?.shadowColor};`,
+        formatter: tooltipFormatter,
       }
-    : null;
-};
+    : null
+}
 
-const setLegend = (templatePatch: ChartTemplatePatchType) => {
-  const { legend, legendIcon = 'rect', theme } = templatePatch;
+function setLegend(templatePatch: ChartTemplatePatchType) {
+  const { legend, legendIcon = 'rect', theme } = templatePatch
+
   return {
     type: 'scroll',
     data: legend || [],
@@ -99,72 +94,76 @@ const setLegend = (templatePatch: ChartTemplatePatchType) => {
       height: 10,
       rich: {
         a: {
-          verticalAlign: 'middle'
-        }
-      }
-    }
-  };
-};
+          verticalAlign: 'middle',
+        },
+      },
+    },
+  }
+}
 
-const setGrid = (templatePatch: ChartTemplatePatchType) => {
-  const { dataZoom } = templatePatch;
+function setGrid(templatePatch: ChartTemplatePatchType) {
+  const { dataZoom } = templatePatch
   const params: any = {
     left: '3%',
     right: '3%',
     top: '12%',
     bottom: '3%',
-    containLabel: true
-  };
-  if (dataZoom === 'vertical') {
-    delete params['right'];
+    containLabel: true,
   }
-  if (dataZoom === 'horizontal') {
-    delete params['bottom'];
-  }
-  return params;
-};
 
-const setAxis = (data: ChartDataType, templatePatch: ChartTemplatePatchType, axisType: string) => {
-  const { axisData, seriesData } = data as ChartMapDataType;
-  const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch;
+  if (dataZoom === 'vertical') {
+    delete params.right
+  }
+
+  if (dataZoom === 'horizontal') {
+    delete params.bottom
+  }
+
+  return params
+}
+
+function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axisType: string) {
+  const { axisData, seriesData } = data as ChartMapDataType
+  const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch
   let params: any = [
     {
-      type: axis == axisType ? 'category' : 'value',
+      type: axis === axisType ? 'category' : 'value',
       axisTick: {
-        show: false
+        show: false,
       },
       axisLine: {
-        show: axis == axisType,
+        show: axis === axisType,
         lineStyle: {
           width: 1,
-          color: FONT_COLOR_MAP[theme || DEF_THEME]
-        }
+          color: FONT_COLOR_MAP[theme || DEF_THEME],
+        },
       },
       axisLabel: {
-        margin: 18
+        margin: 18,
       },
       splitLine: {
         lineStyle: {
           type: 'dashed',
-          color: SPLIT_LINE_COLOR[theme || DEF_THEME]
-        }
+          color: SPLIT_LINE_COLOR[theme || DEF_THEME],
+        },
       },
-      data: axis == axisType ? axisData : []
-    }
-  ];
+      data: axis === axisType ? axisData : [],
+    },
+  ]
+
   if (axis !== axisType) {
     if (lineBar) {
-      params =
-        axis == 'x'
+      params
+        = axis === 'x'
           ? [
               {
                 type: 'value',
                 splitLine: {
                   show: false,
                   lineStyle: {
-                    color: SPLIT_LINE_COLOR[theme || DEF_THEME]
-                  }
-                }
+                    color: SPLIT_LINE_COLOR[theme || DEF_THEME],
+                  },
+                },
               },
               {
                 type: 'value',
@@ -173,46 +172,52 @@ const setAxis = (data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
                     color: SPLIT_LINE_COLOR[theme || DEF_THEME],
                     type: 'dashed',
                     width: 2,
-                    dashOffset: 2
-                  }
-                }
-              }
+                    dashOffset: 2,
+                  },
+                },
+              },
             ]
           : [
               {
-                type: 'value'
-              }
-            ];
+                type: 'value',
+              },
+            ]
     }
+
     if (dynamicAxis) {
-      let mathData: any = [];
-      if (type === 'multiple' && (!lineBar || (axis == 'y' && lineBar))) {
-        mathData = (seriesData || []).reduce((acc: any, item: any) => acc.concat(item.data), []);
+      let mathData: any = []
+
+      if (type === 'multiple' && (!lineBar || (axis === 'y' && lineBar))) {
+        mathData = (seriesData || []).reduce((acc: any, item: any) => acc.concat(item.data), [])
       }
       params.map((item: any, i: number) => {
         if (type === 'multiple') {
-          if (lineBar && axis == 'x') {
-            mathData = ((seriesData || [])[i]?.data || []).map((item: any) => numberFixed(item));
+          if (lineBar && axis === 'x') {
+            mathData = ((seriesData || [])[i]?.data || []).map((item: any) => numberFixed(item))
           }
-        } else {
-          mathData = (seriesData || []).map((item: any) => numberFixed(item));
         }
-        mathData = mathData.filter((item: number) => item > 0);
-        const max = Math.max(...mathData);
-        const min = Math.min(...mathData);
-        const { aInterval, aMax, aMin } = formatChartAxis(max, min);
-        item.min = aMin;
-        item.max = aMax;
-        item.interval = aInterval;
-        return item;
-      });
+        else {
+          mathData = (seriesData || []).map((item: any) => numberFixed(item))
+        }
+        mathData = mathData.filter((item: number) => item > 0)
+        const max = Math.max(...mathData)
+        const min = Math.min(...mathData)
+        const { aInterval, aMax, aMin } = formatChartAxis(max, min)
+        item.min = aMin
+        item.max = aMax
+        item.interval = aInterval
+
+        return item
+      })
     }
   }
-  return params;
-};
 
-const setDataZoom = (templatePatch: ChartTemplatePatchType) => {
-  const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch;
+  return params
+}
+
+function setDataZoom(templatePatch: ChartTemplatePatchType) {
+  const { dataZoom, dataZoomColorOut, dataZoomColorIn, theme } = templatePatch
+
   return dataZoom
     ? [
         {
@@ -226,8 +231,8 @@ const setDataZoom = (templatePatch: ChartTemplatePatchType) => {
             //   color: 'transparent'
             // },
             areaStyle: {
-              color: dataZoomColorIn || '#d2dbee'
-            }
+              color: dataZoomColorIn || '#d2dbee',
+            },
           },
           fillerColor: dataZoomColorOut || 'rgba(207, 223, 243, 0.25)',
           // moveHandleStyle: {
@@ -235,27 +240,27 @@ const setDataZoom = (templatePatch: ChartTemplatePatchType) => {
           // },
           // borderColor: null,
           textStyle: {
-            color: FONT_COLOR_MAP[theme || DEF_THEME]
-          }
+            color: FONT_COLOR_MAP[theme || DEF_THEME],
+          },
         },
         {
           type: 'inside',
           start: 0,
           end: 100,
-          orient: dataZoom
+          orient: dataZoom,
         },
         {
           show: false,
           filterMode: 'empty',
           right: 0,
-          showDataShadow: true
-        }
+          showDataShadow: true,
+        },
       ]
-    : null;
-};
+    : null
+}
 
-const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType) => {
-  const { seriesData } = data;
+function setSeries(data: ChartMapDataType, templatePatch: ChartTemplatePatchType) {
+  const { seriesData } = data
   const {
     type = 'simple',
     showBarFont = true,
@@ -268,8 +273,9 @@ const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType
     lineBar,
     axis,
     symbol = 'circle',
-    seriesLabelFormatter
-  } = templatePatch;
+    seriesLabelFormatter,
+  } = templatePatch
+
   if (type === 'multiple') {
     return (seriesData || []).map((item: any, i: number) => {
       const params: any = {
@@ -277,77 +283,81 @@ const setSeries = (data: ChartMapDataType, templatePatch: ChartTemplatePatchType
         type: item.type,
         symbol,
         emphasis: item.emphasis || {
-          focus: 'series'
+          focus: 'series',
         },
         smooth,
-        areaStyle: areaStyle ? areaStyle : null,
+        areaStyle: areaStyle || null,
         label: {
           show: showBarFont,
           position: labelPosition,
-          formatter: seriesLabelFormatter
-            ? seriesLabelFormatter
-            : function (params: any) {
-                const val = params.value;
-                if (val !== 0) {
-                  return val;
-                } else {
-                  return '';
-                }
-              }
+          formatter: seriesLabelFormatter || function (params: any) {
+            const val = params.value
+
+            if (val !== 0) {
+              return val
+            }
+            else {
+              return ''
+            }
+          },
         },
-        showBackground: showBackground,
+        showBackground,
         backgroundStyle: {
-          color: BG_BAR_COLOR_MAP[theme || DEF_THEME]
+          color: BG_BAR_COLOR_MAP[theme || DEF_THEME],
         },
         itemStyle: item.itemStyle || {},
-        data: item.data || []
-      };
+        data: item.data || [],
+      }
+
       if (lineBar) {
         if (axis !== 'y' && i === 1) {
-          params.yAxisIndex = i;
-        } else {
+          params.yAxisIndex = i
+        }
+        else {
           if (params.yAxisIndex) {
-            delete params.yAxisIndex;
+            delete params.yAxisIndex
           }
         }
       }
-      return params;
-    });
-  } else {
+
+      return params
+    })
+  }
+  else {
     return [
       {
         name,
         label: {
           show: showBarFont,
           position: labelPosition,
-          formatter: seriesLabelFormatter
-            ? seriesLabelFormatter
-            : function (params: any) {
-                const val = params.value;
-                if (val !== 0) {
-                  return val;
-                } else {
-                  return '';
-                }
-              }
+          formatter: seriesLabelFormatter || function (params: any) {
+            const val = params.value
+
+            if (val !== 0) {
+              return val
+            }
+            else {
+              return ''
+            }
+          },
         },
-        showBackground: showBackground,
+        showBackground,
         backgroundStyle: {
-          color: BG_BAR_COLOR_MAP[theme || DEF_THEME]
+          color: BG_BAR_COLOR_MAP[theme || DEF_THEME],
         },
         data: seriesData || [],
         smooth,
         symbol,
         // 设置填充透明度
-        areaStyle: areaStyle ? areaStyle : null,
-        type: 'line'
-      }
-    ];
+        areaStyle: areaStyle || null,
+        type: 'line',
+      },
+    ]
   }
-};
+}
 
-const setOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) => {
-  const { theme, barColorList } = templatePatch;
+function setOption(data: ChartDataType, templatePatch: ChartTemplatePatchType) {
+  const { theme, barColorList } = templatePatch
   const option: any = {
     textStyle: {},
     backgroundColor: BG_COLOR_MAP[theme || DEF_THEME],
@@ -357,16 +367,18 @@ const setOption = (data: ChartDataType, templatePatch: ChartTemplatePatchType) =
     xAxis: setAxis(data, templatePatch, 'x'),
     yAxis: setAxis(data, templatePatch, 'y'),
     series: setSeries(data as ChartMapDataType, templatePatch),
-    dataZoom: setDataZoom(templatePatch)
-  };
-  const tooltip = setTooltip(templatePatch);
-  if (tooltip) {
-    option.tooltip = tooltip;
+    dataZoom: setDataZoom(templatePatch),
   }
-  return option;
-};
+  const tooltip = setTooltip(templatePatch)
+
+  if (tooltip) {
+    option.tooltip = tooltip
+  }
+
+  return option
+}
 
 /** 根据折线图模板数据与补充配置生成 ECharts option。 */
 export function dealOption(data = {}, templatePatch = {}) {
-  return setOption(data, templatePatch);
+  return setOption(data, templatePatch)
 }

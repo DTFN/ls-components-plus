@@ -1,55 +1,59 @@
 <script setup lang="ts">
-import { Edit } from '@element-plus/icons-vue';
-import SvgIconVue from '@/assets/vue.svg';
-import SvgIconCount from '@/assets/count.svg';
-import SvgIconDataIcv from '@/assets/data_icv.svg';
-import m1 from '@/assets/m1.mp4?url';
-import m2 from '@/assets/m2.mp4?url';
-import { IconConfigType } from '@cpo/_types';
+import type { IconConfigType } from '@cpo/_types'
+import { Edit } from '@element-plus/icons-vue'
+import SvgIconCount from '@/assets/count.svg'
+import SvgIconDataIcv from '@/assets/data_icv.svg'
+import m1 from '@/assets/m1.mp4?url'
+import m2 from '@/assets/m2.mp4?url'
+import SvgIconVue from '@/assets/vue.svg'
 
-const iconName = ref('iconoir:fish');
-const separatorColor = ref('red');
+const iconName = ref('iconoir:fish')
+const separatorColor = ref('red')
 
 setTimeout(() => {
-  separatorColor.value = 'blue';
-  iconName.value = 'game-icons:whale-tail';
-}, 2000);
+  separatorColor.value = 'blue'
+  iconName.value = 'game-icons:whale-tail'
+}, 2000)
 
-const liveRef = ref();
-const liveRef2 = ref();
-const liveRef3 = ref();
-const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv');
-const liveUrl2 = ref('https://video.shipin520.com/video_listen/588ku_video/21/03/15/12/06/22/video604edd3ee67a6.mp4');
-liveUrl2.value = m1;
+const liveRef = ref()
+const liveRef2 = ref()
+const liveRef3 = ref()
+const liveUrl = ref('http://192.168.2.144:10086/flv/live/9G3D6xLIg.flv')
+const liveUrl2 = ref('https://video.shipin520.com/video_listen/588ku_video/21/03/15/12/06/22/video604edd3ee67a6.mp4')
+liveUrl2.value = m1
 onMounted(() => {
-  liveRef.value && liveRef.value.createPlayer(liveUrl);
-  liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
-  liveRef3.value && liveRef3.value.createPlayer(m2);
-});
+  liveRef.value && liveRef.value.createPlayer(liveUrl)
+  liveRef2.value && liveRef2.value.createPlayer(liveUrl2)
+  liveRef3.value && liveRef3.value.createPlayer(m2)
+})
 
-const isShow = ref(false);
+const isShow = ref(false)
 
 setTimeout(() => {
-  isShow.value = true;
-}, 2000);
+  isShow.value = true
+}, 2000)
 
-const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left-fill' });
+const iconConfig: Ref<IconConfigType> = ref({ type: 1, name: 'mingcute:look-left-fill' })
 
 function showMessage() {
   ElMessage({
     message: '这是一条消息',
     type: 'info',
-    duration: 0
-  });
+    duration: 0,
+  })
 }
 </script>
 
 <template>
   <div>
     <LSButton :icon="Edit" @click="showMessage" />
-    <LSButton :loading="true">按钮1</LSButton>
+    <LSButton :loading="true">
+      按钮1
+    </LSButton>
     <LSButton :icon-config="iconConfig"></LSButton>
-    <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">按钮2</LSButton>
+    <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">
+      按钮2
+    </LSButton>
     <LSButton>
       <SvgIconDataIcv />
     </LSButton>
@@ -60,23 +64,35 @@ function showMessage() {
     <br />
 
     <LSButtonGroup type="primary" separator="|" :separator-color="separatorColor" :separator-size="12">
-      <LSButton :icon="Edit" link>按钮3</LSButton>
-      <LSButton :icon-config="{ type: 1, name: iconName }" link>按钮4</LSButton>
-      <LSButton link>按钮5</LSButton>
+      <LSButton :icon="Edit" link>
+        按钮3
+      </LSButton>
+      <LSButton :icon-config="{ type: 1, name: iconName }" link>
+        按钮4
+      </LSButton>
+      <LSButton link>
+        按钮5
+      </LSButton>
     </LSButtonGroup>
 
     <br />
 
-    <LSButtonGroup type="primary" separator="#" :separator-color="'green'" :separator-size="16">
-      <LSButton :icon="Edit" link>按钮6</LSButton>
-      <LSButton :icon-config="{ type: 1, name: iconName }" link>按钮7</LSButton>
+    <LSButtonGroup type="primary" separator="#" separator-color="green" :separator-size="16">
+      <LSButton :icon="Edit" link>
+        按钮6
+      </LSButton>
+      <LSButton :icon-config="{ type: 1, name: iconName }" link>
+        按钮7
+      </LSButton>
       <LSButton link>
         <template #icon>
-          <el-icon size="20"> <Edit /> </el-icon>
+          <el-icon size="20">
+            <Edit />
+          </el-icon>
           <SvgIconVue />
         </template>
-        按钮8</LSButton
-      >
+        按钮8
+      </LSButton>
     </LSButtonGroup>
 
     <LSIcon :type="1" name="iconoir:fish" width="30" height="30" color="red" />

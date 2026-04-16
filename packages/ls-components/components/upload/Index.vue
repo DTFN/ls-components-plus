@@ -1,132 +1,6 @@
-<template>
-  <div
-    :class="[
-      comClass,
-      isDrag ? 'ls-upload-drag' : '',
-      isProfile ? 'ls-profile' : '',
-      isHideCover ? 'hide-cover-btn' : '',
-      hideBtn ? 'hide-btn' : ''
-    ]"
-  >
-    <el-upload
-      ref="uploadRef"
-      v-bind="Object.assign(defAttrs, $attrs)"
-      :on-exceed="onExceedAction"
-      :before-upload="beforeUploadAction"
-      :on-change="onChangeAction"
-      :on-success="onSuccessAction"
-      :on-error="onErrorAction"
-      :on-remove="onRemoveAction"
-      :on-progress="onProgressAction"
-      :on-preview="onPreviewAction"
-    >
-      <template #trigger>
-        <template v-if="!isProfile">
-          <template v-if="!slots.trigger">
-            <template v-if="isDrag">
-              <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
-              <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
-              <div class="ls-drag">
-                <div class="drag-txt ls-color-brand6">{{ btnText }}</div>
-                <template v-if="!uploading">
-                  &nbsp;&nbsp;/&nbsp;&nbsp;
-                  <div class="drag-txt ls-color-text2">拖拽到此区域</div>
-                </template>
-              </div>
-            </template>
-            <template v-else>
-              <div v-if="isPicCard" class="btn-picture-card">
-                <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
-                <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
-                <div>{{ btnText }}</div>
-              </div>
-              <LSButton v-else plain icon="upload" :loading="uploading" :disabled="disabled">{{ btnText }}</LSButton>
-            </template>
-          </template>
-          <slot v-else name="trigger"> </slot>
-        </template>
-        <template v-else-if="item.defProfile && configs.uploadFileList.length < 1">
-          <el-avatar :size="60" :src="item.defProfile" fit="contain" />
-        </template>
-      </template>
-
-      <template #default>
-        <template v-if="!slots.default">
-          <div
-            v-if="!autoUpload && (isDefault || isDrag)"
-            class="upload-btn-handle"
-            :class="[isDrag ? 'drag-css' : 'nor-css', !isCover || isMultiple ? 'multi-css' : '']"
-          >
-            <LSButton
-              v-if="!isDrag"
-              type="primary"
-              class="ls-upload-btn-com ls-upload-btn-comfirm"
-              :class="{ 'is-ready': hasReadyFile() }"
-              :loading="uploading"
-              :disabled="disabled"
-              @click="comfirmUpload"
-              >开始上传
-            </LSButton>
-            <template v-else>
-              <LSButton
-                v-if="!isCover || isMultiple"
-                type="primary"
-                :loading="uploading"
-                :disabled="disabled"
-                @click="cancelUpload"
-                class="ls-upload-btn-com ls-upload-btn-cancel"
-                >取消上传</LSButton
-              >
-              <LSButton
-                class="start-upload ls-upload-btn-com ls-upload-btn-comfirm"
-                :class="{ 'is-ready': hasReadyFile() }"
-                type="primary"
-                :loading="uploading"
-                :disabled="disabled"
-                @click="comfirmUpload"
-                >开始上传</LSButton
-              >
-            </template>
-          </div>
-        </template>
-        <slot v-else></slot>
-      </template>
-
-      <template #tip>
-        <div v-if="!slots.tip" class="ls-tip">{{ tipContent || tipText }}</div>
-        <slot v-else name="tip"> </slot>
-      </template>
-
-      <!-- 自定义且图片卡片时支持 -->
-      <template v-if="customFile" #file="{ file, index }">
-        <img :src="configs.uploadFileList[index]?.url || file.url" class="el-upload-list__item-thumbnail" />
-        <div class="el-upload-list__item-actions">
-          <slot :file="file" :index="index"></slot>
-          <span v-if="hasCropper" class="el-upload-list__item-cropper" @click="onHandleCropper(file, index)">
-            <el-icon><Crop /></el-icon>
-          </span>
-          <span class="el-upload-list__item-preview" @click="onHandlePreview(file, index)">
-            <el-icon><ZoomIn /></el-icon>
-          </span>
-          <span class="el-upload-list__item-delete" @click="onHandleRemove(file)">
-            <el-icon><Delete /></el-icon>
-          </span>
-        </div>
-      </template>
-      <template v-else #file="{ file, index }">
-        <slot name="file" :file="file" :index="index"></slot>
-      </template>
-    </el-upload>
-
-    <LSPreviewImage v-model="configs.showPreview" :source="configs.sourcePreview" :on-close="closePreview" />
-
-    <teleport to="body">
-      <el-image-viewer v-if="viewerVisible" :url-list="viewerUrlList" @close="viewerVisible = false" />
-    </teleport>
-  </div>
-</template>
-
 <script setup lang="ts">
+import type { UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadUserFile } from 'element-plus'
+import type { configsType, UploadChangeFile, UploadItemType } from './types'
 /**
  * @summary 上传组件 - 基于 Element Plus `el-upload` 的二次封装
  *
@@ -141,15 +15,15 @@
  * `action`、`file-list`、`limit`、`multiple`、`drag`、`list-type`、`auto-upload`、`disabled` 等配置。
  *
  * @attr {object} item 业务扩展配置对象；用于控制覆盖上传、格式 / 大小限制、头像模式、手动上传适配、表单联动等能力，默认 `{}`
- * @attr {function|null} onExceed 超出 `limit` 时的钩子；未传时走组件内置数量限制处理，默认 `null`
- * @attr {function|null} beforeUpload 上传前钩子；返回 `false` 可阻止上传，默认 `null`
- * @attr {function|null} onChange 文件状态变化钩子；未传时走组件内置文件校验与 `onChangeFunc` 事件，默认 `null`
- * @attr {function|null} onSuccess 上传成功钩子，默认 `null`
- * @attr {function|null} onError 上传失败钩子，默认 `null`
- * @attr {function|null} onRemove 文件移除钩子，对应 `el-upload` 的 `on-remove`，默认 `null`
- * @attr {function|null} onPreview 文件预览钩子；未传时图片场景走组件内置预览逻辑，默认 `null`
- * @attr {function|null} onProgress 上传进度钩子，默认 `null`
- * @attr {function|null} httpRequest 自定义上传请求；优先级高于 `item.httpRequestFunc`，默认 `null`
+ * @attr {Function | null} onExceed 超出 `limit` 时的钩子；未传时走组件内置数量限制处理，默认 `null`
+ * @attr {Function | null} beforeUpload 上传前钩子；返回 `false` 可阻止上传，默认 `null`
+ * @attr {Function | null} onChange 文件状态变化钩子；未传时走组件内置文件校验与 `onChangeFunc` 事件，默认 `null`
+ * @attr {Function | null} onSuccess 上传成功钩子，默认 `null`
+ * @attr {Function | null} onError 上传失败钩子，默认 `null`
+ * @attr {Function | null} onRemove 文件移除钩子，对应 `el-upload` 的 `on-remove`，默认 `null`
+ * @attr {Function | null} onPreview 文件预览钩子；未传时图片场景走组件内置预览逻辑，默认 `null`
+ * @attr {Function | null} onProgress 上传进度钩子，默认 `null`
+ * @attr {Function | null} httpRequest 自定义上传请求；优先级高于 `item.httpRequestFunc`，默认 `null`
  * @attr {boolean} customFile 是否启用内置的图片卡片自定义操作区，默认 `false`
  * @attr {boolean} hasCropper 是否在内置图片卡片操作区显示裁剪入口；通常与 `customFile` 搭配使用，默认 `false`
  *
@@ -165,348 +39,385 @@
  *
  * @expose uploadRef 内部 `el-upload` 实例；可通过 `uploadRef.value.uploadRef` 继续调用 `submit`、`clearFiles`、`abort`、`handleStart`、`handleRemove` 等原生方法
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { getVariable } from '@cpo/_utils/config';
-import LSButton from '@cpo/button/Button.vue';
-import LSIcon from '@cpo/icon/Index.vue';
-import LSPreviewImage from '@cpo/preview_image';
-import type { UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadUserFile } from 'element-plus';
-import type { configsType, UploadChangeFile, UploadItemType } from './types';
-import { fileTypeMap, IMG_SUFFIX_LIST, lsUploadProps, UPLOAD_STATUS_MAP, UPLOAD_TYPE_MAP } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { getVariable } from '@cpo/_utils/config'
+import LSButton from '@cpo/button/Button.vue'
+import LSIcon from '@cpo/icon/Index.vue'
+import LSPreviewImage from '@cpo/preview_image'
+import { fileTypeMap, IMG_SUFFIX_LIST, lsUploadProps, UPLOAD_STATUS_MAP, UPLOAD_TYPE_MAP } from './types'
 // import { merge } from 'lodash-es';
 
 defineOptions({
   name: 'LSUpload',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-const slots: any = useSlots();
-const attrs = useAttrs();
+const props = defineProps(lsUploadProps)
+const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc', 'onHandleCropper'])
+const slots: any = useSlots()
+const attrs = useAttrs()
 
-const ns = useNamespace('upload');
-const comClass: string = ns.b();
+const ns = useNamespace('upload')
+const comClass: string = ns.b()
 
-const uploadRef = ref();
-const uploading = ref(false);
+const uploadRef = ref()
+const uploading = ref(false)
 
-type TempType = {
-  'http-request': Function;
-};
+interface TempType {
+  'http-request': (options: any) => Promise<any> | void
+}
 
 const defAttrs: UploadItemType | TempType = reactive({
   isCover: true,
   accept: '',
-  disabled: false
-});
+  disabled: false,
+})
 const configs: configsType = reactive({
   uploadFileList: [],
   initUploadStatus: true,
   showPreview: false,
   sourcePreview: '',
-  iconColor: getVariable('colorText1')
-});
-
-const props = defineProps(lsUploadProps);
-
-const emits = defineEmits(['uploadErrorFunc', 'onChangeFunc', 'httpResponseFunc', 'onHandleCropper']);
+  iconColor: getVariable('colorText1'),
+})
 
 watch(
   () => attrs['file-list'],
   (val: any) => {
-    configs.uploadFileList = val || [];
+    configs.uploadFileList = val || []
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 const isToast = computed(() => {
-  return props?.item?.isToast || typeof props?.item?.isToast === 'undefined' ? true : false;
-});
+  return !!(props?.item?.isToast || typeof props?.item?.isToast === 'undefined')
+})
 const isCover = computed(() => {
-  const status = props?.item?.isCover;
+  const status = props?.item?.isCover
 
-  return typeof status === 'undefined' ? true : status;
-});
+  return typeof status === 'undefined' ? true : status
+})
 const isMultiple = computed(() => {
-  return attrs.multiple;
-});
+  return attrs.multiple
+})
 const autoUpload = computed(() => {
-  const status = attrs['auto-upload'];
-  return typeof status === 'undefined' ? true : status;
-});
+  const status = attrs['auto-upload']
+
+  return typeof status === 'undefined' ? true : status
+})
 const emptyFileMsg = computed(() => {
-  return props?.item?.emptyFileMsg || '';
-});
+  return props?.item?.emptyFileMsg || ''
+})
 const listType = computed(() => {
-  return attrs['list-type'];
-});
+  return attrs['list-type']
+})
 const isPicCard = computed(() => {
-  return listType.value === UPLOAD_TYPE_MAP.picCard;
-});
+  return listType.value === UPLOAD_TYPE_MAP.picCard
+})
 const isDefault = computed(() => {
-  return !listType.value || listType.value == 'text';
-});
+  return !listType.value || listType.value === 'text'
+})
 const limitFile = computed(() => {
-  return props?.item?.limitFile || [];
-});
+  return props?.item?.limitFile || []
+})
 const limitFileMsg = computed(() => {
-  return props?.item?.limitFileMsg || '';
-});
+  return props?.item?.limitFileMsg || ''
+})
 const limitSize = computed(() => {
-  return props?.item?.limitSize || 2;
-});
+  return props?.item?.limitSize || 2
+})
 const limitSizeMsg = computed(() => {
-  return props?.item?.limitSizeMsg || '';
-});
+  return props?.item?.limitSizeMsg || ''
+})
 const limitUnit = computed(() => {
-  return props?.item?.limitUnit || 'MB';
-});
+  return props?.item?.limitUnit || 'MB'
+})
 const limitNumMsg = computed(() => {
-  return props?.item?.limitNumMsg || '';
-});
+  return props?.item?.limitNumMsg || ''
+})
 const limitAllFail = computed(() => {
-  return props?.item?.limitAllFail;
-});
+  return props?.item?.limitAllFail
+})
 const isProfile = computed(() => {
-  return props?.item?.profile || false;
-});
+  return props?.item?.profile || false
+})
 const isDrag = computed(() => {
-  return attrs.drag;
-});
+  return attrs.drag
+})
 const isHideCover = computed(() => {
-  return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0;
-});
+  return props?.item?.hideCoverBtn && isCover.value && configs.uploadFileList.length > 0
+})
 const disabled = computed(() => {
-  return attrs.disabled;
-});
+  return attrs.disabled
+})
 const btnText = computed(() => {
-  const hint = isPicCard.value ? '图片' : '文件';
-  let text = `选择${hint}`;
+  const hint = isPicCard.value ? '图片' : '文件'
+  let text = `选择${hint}`
+
   if (uploading.value) {
-    text = '正在上传...';
-  } else if (isCover.value && !isMultiple.value) {
+    text = '正在上传...'
+  }
+  else if (isCover.value && !isMultiple.value) {
     if (autoUpload.value) {
       if (configs.initUploadStatus) {
-        text = '点击上传';
-      } else {
-        text = '重新上传';
+        text = '点击上传'
       }
-    } else {
-      if (configs.initUploadStatus) {
-        text = `选择${hint}`;
-      } else {
-        text = '重新上传';
+      else {
+        text = '重新上传'
       }
     }
-  } else {
-    if (autoUpload.value) {
-      text = '点击上传';
+    else {
+      if (configs.initUploadStatus) {
+        text = `选择${hint}`
+      }
+      else {
+        text = '重新上传'
+      }
     }
   }
-  return text;
-});
+  else {
+    if (autoUpload.value) {
+      text = '点击上传'
+    }
+  }
+
+  return text
+})
 const tipText = computed(() => {
-  let text = '不限制上传格式，';
+  let text = '不限制上传格式，'
+
   if (isPicCard.value) {
-    text = '文件须为图片格式，';
+    text = '文件须为图片格式，'
   }
-  return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`;
-});
+
+  return `${text}文件大小不超过${limitSize.value}${limitUnit.value}`
+})
 const tipContent = computed(() => {
-  return props?.item?.tipContent || '';
-});
+  return props?.item?.tipContent || ''
+})
 const httpRequestFunc = computed(() => {
-  return props?.item?.httpRequestFunc;
-});
+  return props?.item?.httpRequestFunc
+})
 // const textPreview = computed(() => {
 //   return props?.item?.textPreview;
 // });
 
 const hideBtn = computed(() => {
-  const limitNum = Number(attrs.limit || 0);
+  const limitNum = Number(attrs.limit || 0)
+
   if (!limitNum) {
-    return false;
+    return false
   }
-  return props?.item?.hideBtnReachLimit && configs.uploadFileList.length >= limitNum;
-});
+
+  return props?.item?.hideBtnReachLimit && configs.uploadFileList.length >= limitNum
+})
 
 watch(
   [isCover, httpRequestFunc],
   ([nVal1, nVal2]) => {
-    defAttrs.isCover = nVal1;
-    if (nVal2 && nVal2 instanceof Function) {
-      (defAttrs as TempType)['http-request'] = httpRequestAction;
+    defAttrs.isCover = nVal1
+
+    if (nVal2 && typeof nVal2 === 'function') {
+      (defAttrs as TempType)['http-request'] = httpRequestAction
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => limitFile.value,
-  val => {
+  (val) => {
     if (val && val.length > 0) {
-      updateFileAccept(val);
+      updateFileAccept(val)
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function updateFileAccept(files: Array<string>) {
-  (defAttrs as any).accept = '';
+  (defAttrs as any).accept = ''
   files.forEach((key: string) => {
-    const fileType = fileTypeMap[key] || '';
+    const fileType = fileTypeMap[key] || ''
+
     if (fileType) {
-      if ((defAttrs as any).accept) (defAttrs as any).accept += ',';
-      (defAttrs as any).accept += fileType;
+      if ((defAttrs as any).accept)
+        (defAttrs as any).accept += ',';
+      (defAttrs as any).accept += fileType
     }
-  });
+  })
 }
 
-function validateForm(msg: String) {
-  const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
-  if (formRuleFunc && formRuleFunc.value instanceof Function && formValidateFunc && formValidateFunc.value instanceof Function) {
-    const formRule = formRuleFunc.value();
-    const { message } = formRule;
-    formRule.message = msg;
-    formValidateFunc.value();
-    formRule.message = message;
+function validateForm(msg: string) {
+  const { formRuleFunc, formValidateFunc }: any = toRefs(props?.item)
+
+  if (formRuleFunc.value && typeof formRuleFunc.value === 'function' && formValidateFunc && typeof formValidateFunc.value === 'function') {
+    const formRule = formRuleFunc.value()
+    const { message } = formRule
+    formRule.message = msg
+    formValidateFunc.value()
+    formRule.message = message
   }
-  emits('uploadErrorFunc', msg);
+  emits('uploadErrorFunc', msg)
 }
 
 async function onExceedAction(files: any, fileList: UploadUserFile[]) {
-  uploading.value = false;
+  uploading.value = false
 
   if (props.onExceed) {
-    return props.onExceed(files, fileList);
+    return props.onExceed(files, fileList)
   }
 
-  const limitNum: number = Number(attrs.limit || 0);
-  let curLimitNum: number = 0;
+  const limitNum: number = Number(attrs.limit || 0)
+  let curLimitNum: number = 0
+
   if (!limitAllFail.value) {
-    curLimitNum = limitNum - configs.uploadFileList.length;
+    curLimitNum = limitNum - configs.uploadFileList.length
+
     if (curLimitNum > 0) {
-      comHandleStart(files.slice(0, curLimitNum));
+      comHandleStart(files.slice(0, curLimitNum))
+
       if (autoUpload.value) {
-        comfirmUpload();
+        comfirmUpload()
       }
     }
   }
 
-  const msg: any =
-    limitNumMsg.value || `当前限制选择 ${limitNum} 个文件，本次选择了 ${files.length} 个文件，已成功上传 ${curLimitNum} 个文件`;
+  const msg: any
+    = limitNumMsg.value || `当前限制选择 ${limitNum} 个文件，本次选择了 ${files.length} 个文件，已成功上传 ${curLimitNum} 个文件`
+
   if (isToast.value) {
     setTimeout(() => {
-      ElMessage.warning(msg);
-    }, 200);
-  } else {
-    validateForm(msg);
+      ElMessage.warning(msg)
+    }, 200)
+  }
+  else {
+    validateForm(msg)
   }
 }
 
 function beforeUploadAction(file: UploadRawFile) {
   if (props.beforeUpload) {
-    const beforeStatus = props.beforeUpload(file);
+    const beforeStatus = props.beforeUpload(file)
+
     if (beforeStatus && isCover.value && !isMultiple.value) {
-      updateCoverFileList();
+      updateCoverFileList()
     }
-    return beforeStatus;
+
+    return beforeStatus
   }
-  const isSuccess = validateUploadFile(file, true);
+  const isSuccess = validateUploadFile(file, true)
+
   if (isSuccess && autoUpload.value && isCover.value && !isMultiple.value) {
-    updateCoverFileList();
+    updateCoverFileList()
   }
-  return isSuccess;
+
+  return isSuccess
 }
 
-function validateUploadFile(file: UploadRawFile, showMsg: Boolean): Boolean {
-  let isSuccess: Boolean = true;
-  const { size, name } = file;
-  const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name);
+function validateUploadFile(file: UploadRawFile, showMsg: boolean): boolean {
+  let isSuccess: boolean = true
+  const { size, name } = file
+  const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name)
 
-  let isLimitSize = false;
+  let isLimitSize = false
+
   switch (limitUnit.value) {
     case 'KB':
-      isLimitSize = size / 1024 > limitSize.value;
-      break;
+      isLimitSize = size / 1024 > limitSize.value
+      break
     case 'MB':
-      isLimitSize = size / 1024 / 1024 > limitSize.value;
-      break;
+      isLimitSize = size / 1024 / 1024 > limitSize.value
+      break
     default:
-      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value;
-      break;
+      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value
+      break
   }
 
   if (isLimitFile) {
-    const msg =
-      limitFileMsg.value ||
-      `上传文件 ${file.name} 只能是 ${limitFile.value
-        .filter(item => item)
-        .join('，')
-        .toLocaleLowerCase()} 格式！`;
+    const msg
+      = limitFileMsg.value
+        || `上传文件 ${file.name} 只能是 ${limitFile.value
+          .filter(item => item)
+          .join('，')
+          .toLocaleLowerCase()} 格式！`
+
     if (isToast.value && showMsg) {
       setTimeout(() => {
-        ElMessage.error(msg);
-      }, 200);
-    } else {
-      validateForm(msg);
+        ElMessage.error(msg)
+      }, 200)
     }
-    isSuccess = false;
+    else {
+      validateForm(msg)
+    }
+    isSuccess = false
   }
+
   if (isLimitSize) {
-    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`;
+    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`
+
     if (isToast.value && showMsg) {
       setTimeout(() => {
-        ElMessage.error(msg);
-      }, 200);
-    } else {
-      validateForm(msg);
+        ElMessage.error(msg)
+      }, 200)
     }
-    isSuccess = false;
+    else {
+      validateForm(msg)
+    }
+    isSuccess = false
   }
+
   if (!isLimitFile && isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
-    const msg = `上传文件 ${file.name} 不是图片格式的文件！`;
+    const msg = `上传文件 ${file.name} 不是图片格式的文件！`
+
     if (isToast.value && showMsg) {
       setTimeout(() => {
-        ElMessage.error(msg);
-      }, 200);
-    } else {
-      validateForm(msg);
+        ElMessage.error(msg)
+      }, 200)
     }
-    isSuccess = false;
+    else {
+      validateForm(msg)
+    }
+    isSuccess = false
   }
-  return isSuccess;
+
+  return isSuccess
 }
 
 function fileTypeMatch(name: string, list?: Array<string>) {
-  let fileData: Array<any> = [];
+  let fileData: Array<any> = []
+
   if (limitFile.value.length > 0) {
-    fileData = limitFile.value;
-  } else if (list) {
-    fileData = list;
+    fileData = limitFile.value
   }
+  else if (list) {
+    fileData = list
+  }
+
   if (fileData.length <= 0) {
-    return true;
+    return true
   }
+
   for (let i = 0; i < fileData.length; i++) {
-    const elem = (fileData[i] || '').toLowerCase();
+    const elem = (fileData[i] || '').toLowerCase()
+
     if (name.toLowerCase().endsWith(elem)) {
-      return true;
+      return true
     }
   }
-  return false;
+
+  return false
 }
 
 function updateCoverFileList(preIndex?: number, endIndex?: number) {
-  configs.uploadFileList.splice(preIndex || 0, endIndex || configs.uploadFileList.length - 1);
+  configs.uploadFileList.splice(preIndex || 0, endIndex || configs.uploadFileList.length - 1)
 }
 
 /**
@@ -516,43 +427,48 @@ function updateCoverFileList(preIndex?: number, endIndex?: number) {
  */
 function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
   // 更新文件列表
-  configs.uploadFileList = fileList;
+  configs.uploadFileList = fileList
 
   // 验证文件是否合法
-  const isSuccess = file.raw && validateUploadFile(file.raw, !autoUpload.value);
+  const isSuccess = file.raw && validateUploadFile(file.raw, !autoUpload.value)
 
   // 如果是覆盖模式且不是多选模式，则更新文件列表
   if (isSuccess && isCover.value && !isMultiple.value) {
-    updateCoverFileList();
+    updateCoverFileList()
   }
 
   // 如果有自定义onChange处理函数，则执行
   if (props.onChange) {
-    return props.onChange(file, fileList);
+    return props.onChange(file, fileList)
   }
 
   // 检查文件大小
-  const { size = 0 } = file;
+  const { size = 0 } = file
+
   if (size <= 0) {
-    setChangeRes();
-    const msg = emptyFileMsg.value || '禁止上传空文件，请检查后重新上传！';
+    setChangeRes()
+    const msg = emptyFileMsg.value || '禁止上传空文件，请检查后重新上传！'
+
     if (isToast.value) {
-      ElMessage.error(msg);
-    } else {
-      validateForm(msg);
+      ElMessage.error(msg)
     }
-    return;
+    else {
+      validateForm(msg)
+    }
+
+    return
   }
 
   // 处理原始文件
   if (file.raw) {
     if (!autoUpload.value && !isSuccess) {
       // 非自动上传且验证失败时，清除文件
-      setChangeRes();
-    } else {
+      setChangeRes()
+    }
+    else {
       // 创建文件Blob URL并触发change事件
-      file.blob = URL.createObjectURL(file.raw) || '';
-      emits('onChangeFunc', file);
+      file.blob = URL.createObjectURL(file.raw) || ''
+      emits('onChangeFunc', file)
     }
   }
 }
@@ -562,47 +478,53 @@ function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
  * 当文件验证失败或为空文件时调用此函数清理文件列表
  */
 function setChangeRes() {
-  let startIndex = 0;
+  let startIndex = 0
+
   // 如果文件列表中有多个文件，则从最后一个开始清除
   if (configs.uploadFileList.length > 1) {
-    startIndex = configs.uploadFileList.length - 1;
+    startIndex = configs.uploadFileList.length - 1
   }
   // 清除指定位置的文件
-  updateCoverFileList(startIndex, 1);
+  updateCoverFileList(startIndex, 1)
   // 触发change事件，传递空对象表示清除
-  emits('onChangeFunc', {});
+  emits('onChangeFunc', {})
 }
 
 function onSuccessAction(response: any, file: UploadFile, fileList: UploadFiles) {
-  uploading.value = false;
-  configs.initUploadStatus = false;
-  const { formRuleFunc, formValidateFunc } = toRefs(props?.item);
-  if (formRuleFunc && formRuleFunc.value instanceof Function && formValidateFunc && formValidateFunc.value instanceof Function) {
-    formValidateFunc.value();
+  uploading.value = false
+  configs.initUploadStatus = false
+  const { formRuleFunc, formValidateFunc }: any = toRefs(props?.item)
+
+  if (formRuleFunc.value && typeof formRuleFunc.value === 'function' && formValidateFunc.value && typeof formValidateFunc.value === 'function') {
+    formValidateFunc.value()
   }
+
   if (props.onSuccess) {
-    return props.onSuccess(response, file, fileList);
+    return props.onSuccess(response, file, fileList)
   }
 }
 
 function onErrorAction(err: Error, file: UploadFile, fileList: UploadFiles) {
-  uploading.value = false;
+  uploading.value = false
+
   if (props.onError) {
-    return props.onError(err, file, fileList);
+    return props.onError(err, file, fileList)
   }
 }
 
 function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
-  uploading.value = false;
-  configs.initUploadStatus = !fileList.length;
+  uploading.value = false
+  configs.initUploadStatus = !fileList.length
   configs.uploadFileList = configs.uploadFileList.filter((item: any) => {
     if (item.uid === file.uid || item.name === file.name) {
-      return null;
+      return null
     }
-    return item;
-  });
+
+    return item
+  })
+
   if (props.onRemove) {
-    return props.onRemove(file, fileList);
+    return props.onRemove(file, fileList)
   }
 }
 
@@ -659,116 +581,273 @@ function onRemoveAction(file: UploadFile, fileList: UploadFiles) {
 // }
 
 async function httpRequestAction(data: any) {
-  const { file } = data;
+  const { file } = data
+
   if (!file) {
-    return;
+    return
   }
-  const { size } = file;
+  const { size } = file
+
   if (size <= 0 || !validateUploadFile(file, false)) {
-    return;
+    return
   }
+
   if (props.httpRequest) {
-    return props.httpRequest(data);
+    return props.httpRequest(data)
   }
-  const formData = new FormData();
-  formData.append('file', file);
-  if (httpRequestFunc.value instanceof Function) {
-    uploading.value = true;
-    let res: any = {};
+  const formData = new FormData()
+  formData.append('file', file)
+
+  if (typeof httpRequestFunc.value === 'function') {
+    uploading.value = true
+    let res: any = {}
+
     try {
-      res = await httpRequestFunc.value(formData);
-    } catch (error) {
-      res = error;
-    } finally {
-      uploading.value = false;
-      emits('httpResponseFunc', res);
+      res = await httpRequestFunc.value(formData)
+    }
+    catch (error) {
+      res = error
+    }
+    finally {
+      uploading.value = false
+      emits('httpResponseFunc', res)
     }
   }
 }
 
 function hasReadyFile() {
-  let status = false;
+  let status = false
+
   for (let i = 0; i < configs.uploadFileList.length; i++) {
-    const file = configs.uploadFileList[i];
+    const file = configs.uploadFileList[i]
+
     if (file.status === UPLOAD_STATUS_MAP.ready) {
-      status = true;
-      break;
+      status = true
+      break
     }
   }
-  return status;
+
+  return status
 }
 
 function comfirmUpload() {
-  uploadRef?.value?.submit();
+  uploadRef?.value?.submit()
 }
 
 function comHandleStart(files: Array<UploadRawFile>) {
   (files || []).forEach((file: UploadRawFile) => {
-    uploadRef?.value?.handleStart(file);
-  });
+    uploadRef?.value?.handleStart(file)
+  })
 }
 
 function removeFile(file: UploadFile) {
-  uploadRef?.value.handleRemove(file);
+  uploadRef?.value.handleRemove(file)
 }
 
 function cancelUpload() {
   configs.uploadFileList.forEach((file: UploadFile) => {
     if (file) {
       try {
-        uploadRef?.value?.abort(file);
-        removeFile(file);
-      } catch (error) {}
+        uploadRef?.value?.abort(file)
+        removeFile(file)
+      }
+      catch (error) {
+        console.log(error)
+      }
     }
-  });
+  })
 }
 
 function onProgressAction(evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) {
-  uploading.value = true;
+  uploading.value = true
+
   if (props.onProgress) {
-    return props.onProgress(evt, uploadFile, uploadFiles);
+    return props.onProgress(evt, uploadFile, uploadFiles)
   }
 }
 
 function onPreviewAction(uploadFile: UploadFile) {
   if (props.onPreview) {
-    return props.onPreview(uploadFile);
+    return props.onPreview(uploadFile)
   }
+
   if (isPicCard.value) {
-    const { url }: any = uploadFile || {};
+    const { url }: any = uploadFile || {}
+
     if (url) {
-      configs.sourcePreview = url;
-      configs.showPreview = true;
+      configs.sourcePreview = url
+      configs.showPreview = true
     }
   }
 }
 
 function closePreview() {
-  configs.showPreview = false;
-  configs.sourcePreview = '';
+  configs.showPreview = false
+  configs.sourcePreview = ''
 }
 
 // 自定义预览图片
-const viewerVisible = ref(false);
-const viewerUrlList = ref<string[]>([]);
+const viewerVisible = ref(false)
+const viewerUrlList = ref<string[]>([])
 
 function onHandlePreview(file: any, index: number) {
-  viewerUrlList.value = [configs.uploadFileList[index]?.url || file?.url];
-  viewerVisible.value = true;
+  viewerUrlList.value = [configs.uploadFileList[index]?.url || file?.url]
+  viewerVisible.value = true
 }
 
 function onHandleRemove(file: any) {
-  removeFile(file);
+  removeFile(file)
 }
 
 function onHandleCropper(file: any, index: number) {
-  emits('onHandleCropper', file, index);
+  emits('onHandleCropper', file, index)
 }
 
 defineExpose({
-  uploadRef
-});
+  uploadRef,
+})
 </script>
+
+<template>
+  <div
+    :class="[
+      comClass,
+      isDrag ? 'ls-upload-drag' : '',
+      isProfile ? 'ls-profile' : '',
+      isHideCover ? 'hide-cover-btn' : '',
+      hideBtn ? 'hide-btn' : '',
+    ]"
+  >
+    <el-upload
+      ref="uploadRef"
+      v-bind="Object.assign(defAttrs, $attrs)"
+      :on-exceed="onExceedAction"
+      :before-upload="beforeUploadAction"
+      :on-change="onChangeAction"
+      :on-success="onSuccessAction"
+      :on-error="onErrorAction"
+      :on-remove="onRemoveAction"
+      :on-progress="onProgressAction"
+      :on-preview="onPreviewAction"
+    >
+      <template #trigger>
+        <template v-if="!isProfile">
+          <template v-if="!slots.trigger">
+            <template v-if="isDrag">
+              <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
+              <LSIcon v-else class="upload-icon" name="UploadFilled" size="56" color="#E7E7E7"></LSIcon>
+              <div class="ls-drag">
+                <div class="drag-txt ls-color-brand6">
+                  {{ btnText }}
+                </div>
+                <template v-if="!uploading">
+                  &nbsp;&nbsp;/&nbsp;&nbsp;
+                  <div class="drag-txt ls-color-text2">
+                    拖拽到此区域
+                  </div>
+                </template>
+              </div>
+            </template>
+            <template v-else>
+              <div v-if="isPicCard" class="btn-picture-card">
+                <LSButton v-if="uploading" text :loading="uploading" :disabled="disabled"></LSButton>
+                <LSIcon v-else class="upload-btn-plus" name="Plus" :size="28" :color="configs.iconColor"></LSIcon>
+                <div>{{ btnText }}</div>
+              </div>
+              <LSButton v-else plain icon="upload" :loading="uploading" :disabled="disabled">
+                {{ btnText }}
+              </LSButton>
+            </template>
+          </template>
+          <slot v-else name="trigger">
+          </slot>
+        </template>
+        <template v-else-if="item.defProfile && configs.uploadFileList.length < 1">
+          <el-avatar :size="60" :src="item.defProfile" fit="contain" />
+        </template>
+      </template>
+
+      <template #default>
+        <template v-if="!slots.default">
+          <div
+            v-if="!autoUpload && (isDefault || isDrag)"
+            class="upload-btn-handle"
+            :class="[isDrag ? 'drag-css' : 'nor-css', !isCover || isMultiple ? 'multi-css' : '']"
+          >
+            <LSButton
+              v-if="!isDrag"
+              type="primary"
+              class="ls-upload-btn-com ls-upload-btn-comfirm"
+              :class="{ 'is-ready': hasReadyFile() }"
+              :loading="uploading"
+              :disabled="disabled"
+              @click="comfirmUpload"
+            >
+              开始上传
+            </LSButton>
+            <template v-else>
+              <LSButton
+                v-if="!isCover || isMultiple"
+                type="primary"
+                :loading="uploading"
+                :disabled="disabled"
+                class="ls-upload-btn-com ls-upload-btn-cancel"
+                @click="cancelUpload"
+              >
+                取消上传
+              </LSButton>
+              <LSButton
+                class="start-upload ls-upload-btn-com ls-upload-btn-comfirm"
+                :class="{ 'is-ready': hasReadyFile() }"
+                type="primary"
+                :loading="uploading"
+                :disabled="disabled"
+                @click="comfirmUpload"
+              >
+                开始上传
+              </LSButton>
+            </template>
+          </div>
+        </template>
+        <slot v-else></slot>
+      </template>
+
+      <template #tip>
+        <div v-if="!slots.tip" class="ls-tip">
+          {{ tipContent || tipText }}
+        </div>
+        <slot v-else name="tip">
+        </slot>
+      </template>
+
+      <!-- 自定义且图片卡片时支持 -->
+      <template v-if="customFile" #file="{ file, index }">
+        <img :src="configs.uploadFileList[index]?.url || file.url" class="el-upload-list__item-thumbnail" />
+        <div class="el-upload-list__item-actions">
+          <slot :file="file" :index="index"></slot>
+          <span v-if="hasCropper" class="el-upload-list__item-cropper" @click="onHandleCropper(file, index)">
+            <el-icon><Crop /></el-icon>
+          </span>
+          <span class="el-upload-list__item-preview" @click="onHandlePreview(file, index)">
+            <el-icon><ZoomIn /></el-icon>
+          </span>
+          <span class="el-upload-list__item-delete" @click="onHandleRemove(file)">
+            <el-icon><Delete /></el-icon>
+          </span>
+        </div>
+      </template>
+      <template v-else #file="{ file, index }">
+        <slot name="file" :file="file" :index="index"></slot>
+      </template>
+    </el-upload>
+
+    <LSPreviewImage v-model="configs.showPreview" :source="configs.sourcePreview" :on-close="closePreview" />
+
+    <teleport to="body">
+      <el-image-viewer v-if="viewerVisible" :url-list="viewerUrlList" @close="viewerVisible = false" />
+    </teleport>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .ls-upload {

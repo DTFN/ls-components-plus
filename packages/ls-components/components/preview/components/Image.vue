@@ -1,3 +1,327 @@
+<script setup lang="ts" name="LSImage">
+import type { CSSProperties } from 'vue'
+import type { ImageViewerAction, ImageViewerMode } from '../types'
+import { EVENT_CODE } from '@cpo/_constants'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { useZIndex } from '@cpo/_hooks/useZIndex'
+import { isFirefox, isNumber } from '@cpo/_utils/check'
+import { keysOf } from '@cpo/_utils/types'
+import LSIcon from '@cpo/icon/Index.vue'
+import { useEventListener } from '@vueuse/core'
+import { merge } from 'lodash-es'
+import { throttle } from 'lodash-unified'
+import { imageViewerProps, previewEmits } from '../types'
+
+const props = defineProps(imageViewerProps)
+
+const emits = defineEmits(previewEmits)
+
+const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
+  CONTAIN: {
+    name: 'FullScreen',
+  },
+  ORIGINAL: {
+    name: 'ScaleToOriginal',
+  },
+}
+
+const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
+
+const ns = useNamespace('image')
+const { nextZIndex } = useZIndex()
+const wrapper = ref<HTMLDivElement>()
+const imgRefs = ref<HTMLImageElement[]>([])
+
+const scopeEventListener = effectScope()
+
+const loading = ref(true)
+const activeIndex = ref(props.initialIndex)
+const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
+const transform = reactive({
+  scale: 1,
+  deg: 0,
+  offsetX: 0,
+  offsetY: 0,
+  enableTransition: false,
+  width: 'auto',
+  height: 'auto',
+  objectFit: 'none',
+})
+const isSingle = computed(() => {
+  const { source } = props
+
+  if (!source) {
+    return true
+  }
+
+  return source.length <= 1
+})
+const isFirst = computed(() => {
+  return activeIndex.value === 0
+})
+const isLast = computed(() => {
+  return props.source ? activeIndex.value === props.source.length - 1 : false
+})
+const currentImg = computed(() => {
+  return props.source ? props.source[activeIndex.value] : null
+})
+const imgStyle = computed(() => {
+  const { scale, deg, offsetX, offsetY, enableTransition, width, height, objectFit } = transform
+  let translateX = offsetX / scale
+  let translateY = offsetY / scale
+
+  switch (deg % 360) {
+    case 90:
+    case -270:
+      [translateX, translateY] = [translateY, -translateX]
+      break
+    case 180:
+    case -180:
+      [translateX, translateY] = [-translateX, -translateY]
+      break
+    case 270:
+    case -90:
+      [translateX, translateY] = [-translateY, translateX]
+      break
+  }
+
+  const style: CSSProperties | any = {
+    transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
+    transition: enableTransition ? 'transform .3s' : '',
+  }
+
+  if (mode.value.name === modes.CONTAIN.name) {
+    style.maxWidth = style.maxHeight = '100%'
+  }
+  style.width = width
+  style.height = height
+  style.objectFit = objectFit
+
+  return style
+})
+const computedZIndex = computed(() => {
+  return isNumber(props.zIndex) ? props.zIndex : nextZIndex()
+})
+
+function closeFunc() {
+  props.onClose && props.onClose()
+  emits('update:source', [])
+}
+
+function hide() {
+  unregisterEventListener()
+  closeFunc()
+}
+
+function registerEventListener() {
+  const keydownHandler = throttle((e: KeyboardEvent) => {
+    switch (e.code) {
+      // ESC
+      case EVENT_CODE.esc:
+        props.closeOnPressEscape && hide()
+        break
+      // SPACE
+      case EVENT_CODE.space:
+        toggleMode()
+        break
+      // LEFT_ARROW
+      case EVENT_CODE.left:
+        prev()
+        break
+      // UP_ARROW
+      case EVENT_CODE.up:
+        handleActions('zoomIn')
+        break
+      // RIGHT_ARROW
+      case EVENT_CODE.right:
+        next()
+        break
+      // DOWN_ARROW
+      case EVENT_CODE.down:
+        handleActions('zoomOut')
+        break
+    }
+  })
+  const mousewheelHandler = throttle((e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
+    const delta = e.wheelDelta ? e.wheelDelta : -e.detail
+
+    if (delta > 0) {
+      handleActions('zoomIn', {
+        zoomRate: 1.2,
+        enableTransition: false,
+      })
+    }
+    else {
+      handleActions('zoomOut', {
+        zoomRate: 1.2,
+        enableTransition: false,
+      })
+    }
+  })
+
+  scopeEventListener.run(() => {
+    useEventListener(document, 'keydown', keydownHandler)
+    useEventListener(document, mousewheelEventName, mousewheelHandler)
+  })
+}
+
+function unregisterEventListener() {
+  scopeEventListener.stop()
+}
+
+function handleImgLoad() {
+  loading.value = false
+  emits('loadComplete')
+}
+
+function handleImgError(e: Event) {
+  loading.value = false;
+  (e.target as HTMLImageElement).alt = 'ls.image.error'
+  emits('loadError')
+}
+
+function handleMouseDown(e: MouseEvent) {
+  if (loading.value || e.button !== 0 || !wrapper.value)
+    return
+  transform.enableTransition = false
+
+  const { offsetX, offsetY } = transform
+  const startX = e.pageX
+  const startY = e.pageY
+
+  const dragHandler = throttle((ev: MouseEvent) => {
+    transform.offsetX = offsetX + ev.pageX - startX
+    transform.offsetY = offsetY + ev.pageY - startY
+  })
+  const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
+  useEventListener(document, 'mouseup', () => {
+    removeMousemove()
+  })
+
+  e.preventDefault()
+}
+
+function reset() {
+  merge(transform, {
+    scale: 1,
+    deg: 0,
+    offsetX: 0,
+    offsetY: 0,
+    enableTransition: false,
+    width: 'auto',
+    height: 'auto',
+    objectFit: 'none',
+  })
+}
+
+function fullScreen() {
+  merge(transform, {
+    scale: 1,
+    deg: 0,
+    offsetX: 0,
+    offsetY: 0,
+    enableTransition: false,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  })
+}
+
+function toggleMode() {
+  if (loading.value)
+    return
+
+  const modeNames = keysOf(modes)
+  const modeValues = Object.values(modes)
+  const currentMode = mode.value.name
+  const index = modeValues.findIndex(i => i.name === currentMode)
+  const nextIndex = (index + 1) % modeNames.length
+  mode.value = modes[modeNames[nextIndex]]
+
+  if (currentMode === modes.CONTAIN.name) {
+    fullScreen()
+  }
+  else {
+    reset()
+  }
+}
+
+function setActiveItem(index: number) {
+  const len = props.source?.length ?? 0
+  activeIndex.value = (index + len) % len
+}
+
+function prev() {
+  if (isFirst.value && !props.infinite)
+    return
+  setActiveItem(activeIndex.value - 1)
+}
+
+function next() {
+  if (isLast.value && !props.infinite)
+    return
+  setActiveItem(activeIndex.value + 1)
+}
+
+function handleActions(action: ImageViewerAction, options = {}) {
+  if (loading.value)
+    return
+  const { zoomRate, rotateDeg, enableTransition } = {
+    zoomRate: 1.4,
+    rotateDeg: 90,
+    enableTransition: true,
+    ...options,
+  }
+
+  switch (action) {
+    case 'zoomOut':
+      if (transform.scale > 0.2) {
+        transform.scale = Number.parseFloat((transform.scale / zoomRate).toFixed(3))
+      }
+      break
+    case 'zoomIn':
+      if (transform.scale < 7) {
+        transform.scale = Number.parseFloat((transform.scale * zoomRate).toFixed(3))
+      }
+      break
+    case 'clockwise':
+      transform.deg += rotateDeg
+      break
+    case 'anticlockwise':
+      transform.deg -= rotateDeg
+      break
+  }
+  transform.enableTransition = enableTransition
+}
+
+watch(currentImg, () => {
+  nextTick(() => {
+    const $img = imgRefs.value[0]
+
+    if (!$img?.complete) {
+      loading.value = true
+    }
+  })
+})
+
+watch(activeIndex, (val) => {
+  // reset();
+  emits('switch', val)
+})
+
+onMounted(() => {
+  registerEventListener()
+  // add tabindex then wrapper can be focusable via Javascript
+  // focus wrapper so arrow key can't cause inner scroll behavior underneath
+  wrapper.value?.focus?.()
+})
+
+defineExpose({
+  /** @description manually switch image */
+  setActiveItem,
+})
+</script>
+
 <template>
   <teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
@@ -50,308 +374,6 @@
     </transition>
   </teleport>
 </template>
-
-<script setup lang="ts" name="LSImage">
-import { useEventListener } from '@vueuse/core';
-import { throttle } from 'lodash-unified';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { useZIndex } from '@cpo/_hooks/useZIndex';
-import { EVENT_CODE } from '@cpo/_constants';
-import { isFirefox, isNumber } from '@cpo/_utils/check';
-import { keysOf } from '@cpo/_utils/types';
-import { previewEmits, imageViewerProps } from '../types';
-import type { CSSProperties } from 'vue';
-import type { ImageViewerAction, ImageViewerMode } from '../types';
-import LSIcon from '@cpo/icon/Index.vue';
-import { merge } from 'lodash-es';
-
-const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
-  CONTAIN: {
-    name: 'FullScreen'
-  },
-  ORIGINAL: {
-    name: 'ScaleToOriginal'
-  }
-};
-
-const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel';
-
-const props = defineProps(imageViewerProps);
-const emits = defineEmits(previewEmits);
-
-const ns = useNamespace('image');
-const { nextZIndex } = useZIndex();
-const wrapper = ref<HTMLDivElement>();
-const imgRefs = ref<HTMLImageElement[]>([]);
-
-const scopeEventListener = effectScope();
-
-const loading = ref(true);
-const activeIndex = ref(props.initialIndex);
-const mode = shallowRef<ImageViewerMode>(modes.CONTAIN);
-const transform = reactive({
-  scale: 1,
-  deg: 0,
-  offsetX: 0,
-  offsetY: 0,
-  enableTransition: false,
-  width: 'auto',
-  height: 'auto',
-  objectFit: 'none'
-});
-const isSingle = computed(() => {
-  const { source } = props;
-  if (!source) {
-    return true;
-  }
-  return source.length <= 1;
-});
-const isFirst = computed(() => {
-  return activeIndex.value === 0;
-});
-const isLast = computed(() => {
-  return props.source ? activeIndex.value === props.source.length - 1 : false;
-});
-const currentImg = computed(() => {
-  return props.source ? props.source[activeIndex.value] : null;
-});
-const imgStyle = computed(() => {
-  const { scale, deg, offsetX, offsetY, enableTransition, width, height, objectFit } = transform;
-  let translateX = offsetX / scale;
-  let translateY = offsetY / scale;
-
-  switch (deg % 360) {
-    case 90:
-    case -270:
-      [translateX, translateY] = [translateY, -translateX];
-      break;
-    case 180:
-    case -180:
-      [translateX, translateY] = [-translateX, -translateY];
-      break;
-    case 270:
-    case -90:
-      [translateX, translateY] = [-translateY, translateX];
-      break;
-  }
-
-  const style: CSSProperties | any = {
-    transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
-    transition: enableTransition ? 'transform .3s' : ''
-  };
-  if (mode.value.name === modes.CONTAIN.name) {
-    style.maxWidth = style.maxHeight = '100%';
-  }
-  style.width = width;
-  style.height = height;
-  style.objectFit = objectFit;
-  return style;
-});
-const computedZIndex = computed(() => {
-  return isNumber(props.zIndex) ? props.zIndex : nextZIndex();
-});
-
-const closeFunc = () => {
-  props.onClose && props.onClose();
-  emits('update:source', []);
-};
-
-function hide() {
-  unregisterEventListener();
-  closeFunc();
-}
-
-function registerEventListener() {
-  const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
-      // ESC
-      case EVENT_CODE.esc:
-        props.closeOnPressEscape && hide();
-        break;
-      // SPACE
-      case EVENT_CODE.space:
-        toggleMode();
-        break;
-      // LEFT_ARROW
-      case EVENT_CODE.left:
-        prev();
-        break;
-      // UP_ARROW
-      case EVENT_CODE.up:
-        handleActions('zoomIn');
-        break;
-      // RIGHT_ARROW
-      case EVENT_CODE.right:
-        next();
-        break;
-      // DOWN_ARROW
-      case EVENT_CODE.down:
-        handleActions('zoomOut');
-        break;
-    }
-  });
-  const mousewheelHandler = throttle((e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
-    const delta = e.wheelDelta ? e.wheelDelta : -e.detail;
-    if (delta > 0) {
-      handleActions('zoomIn', {
-        zoomRate: 1.2,
-        enableTransition: false
-      });
-    } else {
-      handleActions('zoomOut', {
-        zoomRate: 1.2,
-        enableTransition: false
-      });
-    }
-  });
-
-  scopeEventListener.run(() => {
-    useEventListener(document, 'keydown', keydownHandler);
-    useEventListener(document, mousewheelEventName, mousewheelHandler);
-  });
-}
-function unregisterEventListener() {
-  scopeEventListener.stop();
-}
-function handleImgLoad() {
-  loading.value = false;
-  emits('loadComplete');
-}
-function handleImgError(e: Event) {
-  loading.value = false;
-  (e.target as HTMLImageElement).alt = 'ls.image.error';
-  emits('loadError');
-}
-
-function handleMouseDown(e: MouseEvent) {
-  if (loading.value || e.button !== 0 || !wrapper.value) return;
-  transform.enableTransition = false;
-
-  const { offsetX, offsetY } = transform;
-  const startX = e.pageX;
-  const startY = e.pageY;
-
-  const dragHandler = throttle((ev: MouseEvent) => {
-    transform.offsetX = offsetX + ev.pageX - startX;
-    transform.offsetY = offsetY + ev.pageY - startY;
-  });
-  const removeMousemove = useEventListener(document, 'mousemove', dragHandler);
-  useEventListener(document, 'mouseup', () => {
-    removeMousemove();
-  });
-
-  e.preventDefault();
-}
-
-function reset() {
-  merge(transform, {
-    scale: 1,
-    deg: 0,
-    offsetX: 0,
-    offsetY: 0,
-    enableTransition: false,
-    width: 'auto',
-    height: 'auto',
-    objectFit: 'none'
-  });
-}
-
-function fullScreen() {
-  merge(transform, {
-    scale: 1,
-    deg: 0,
-    offsetX: 0,
-    offsetY: 0,
-    enableTransition: false,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover'
-  });
-}
-
-function toggleMode() {
-  if (loading.value) return;
-
-  const modeNames = keysOf(modes);
-  const modeValues = Object.values(modes);
-  const currentMode = mode.value.name;
-  const index = modeValues.findIndex(i => i.name === currentMode);
-  const nextIndex = (index + 1) % modeNames.length;
-  mode.value = modes[modeNames[nextIndex]];
-  if (currentMode === modes.CONTAIN.name) {
-    fullScreen();
-  } else {
-    reset();
-  }
-}
-function setActiveItem(index: number) {
-  const len = props.source?.length ?? 0;
-  activeIndex.value = (index + len) % len;
-}
-function prev() {
-  if (isFirst.value && !props.infinite) return;
-  setActiveItem(activeIndex.value - 1);
-}
-
-function next() {
-  if (isLast.value && !props.infinite) return;
-  setActiveItem(activeIndex.value + 1);
-}
-function handleActions(action: ImageViewerAction, options = {}) {
-  if (loading.value) return;
-  const { zoomRate, rotateDeg, enableTransition } = {
-    zoomRate: 1.4,
-    rotateDeg: 90,
-    enableTransition: true,
-    ...options
-  };
-  switch (action) {
-    case 'zoomOut':
-      if (transform.scale > 0.2) {
-        transform.scale = Number.parseFloat((transform.scale / zoomRate).toFixed(3));
-      }
-      break;
-    case 'zoomIn':
-      if (transform.scale < 7) {
-        transform.scale = Number.parseFloat((transform.scale * zoomRate).toFixed(3));
-      }
-      break;
-    case 'clockwise':
-      transform.deg += rotateDeg;
-      break;
-    case 'anticlockwise':
-      transform.deg -= rotateDeg;
-      break;
-  }
-  transform.enableTransition = enableTransition;
-}
-
-watch(currentImg, () => {
-  nextTick(() => {
-    const $img = imgRefs.value[0];
-    if (!$img?.complete) {
-      loading.value = true;
-    }
-  });
-});
-
-watch(activeIndex, val => {
-  // reset();
-  emits('switch', val);
-});
-
-onMounted(() => {
-  registerEventListener();
-  // add tabindex then wrapper can be focusable via Javascript
-  // focus wrapper so arrow key can't cause inner scroll behavior underneath
-  wrapper.value?.focus?.();
-});
-
-defineExpose({
-  /** @description manually switch image */
-  setActiveItem
-});
-</script>
 
 <style lang="scss" scoped>
 @mixin op-icon() {

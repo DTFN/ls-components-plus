@@ -1,36 +1,46 @@
-import { buildProps } from '@cpo/_utils/runtime';
-import { EChartsOption } from 'echarts/types/dist/shared';
+import type { EChartsOption } from 'echarts/types/dist/shared'
+import { buildProps } from '@cpo/_utils/runtime'
 
 /** 图表主题令牌映射。 */
-export type themeType = {
+export interface themeType {
   [key: string]: {
-    fontColor: string;
-    bgColor: string;
-    splitLineColor: string;
-    barColor: Array<string>;
-    dataZoomColor: Array<string>;
-    barBgColor: string;
+    fontColor: string
+    bgColor: string
+    splitLineColor: string
+    barColor: Array<string>
+    dataZoomColor: Array<string>
+    barBgColor: string
     toolTip: {
-      color: string;
-      bgColor: string;
-      shadowColor: string;
-    };
-  };
-};
+      color: string
+      bgColor: string
+      shadowColor: string
+    }
+  }
+}
 
-export type ChartTemplateType = '' | 'line' | 'bar' | 'pie';
-export type ChartTemplatePatchType = {
-  type?: 'simple' | 'multiBar' | 'negative' | 'waterfall' | 'categoryStack' | 'gradient' | 'multiple';
-  axis?: string;
-  tooltip?: string;
-  tooltipFormatter?: Function;
-  tooltipValueFormatter?: Function;
-  legend?: Array<string>;
-  theme?: string;
-  barColorList?: Array<string>;
-  dataZoom?: 'vertical' | 'horizontal';
-  showBarFont?: boolean;
-  dynamicAxis?: boolean;
+export type ChartTemplateType = '' | 'line' | 'bar' | 'pie'
+
+/** 对应 ECharts `tooltip.formatter`，轴类图多为 `(params) => string`，`params` 形态与触发方式一致 */
+export type ChartTooltipFormatter = (params: unknown) => string | HTMLElement
+
+/** 轴类图 tooltip 内单项数值展示；`value` 为当前项数值，`dataIndex` 为类目下标 */
+export type ChartTooltipValueFormatter = (value: unknown, dataIndex: number) => string | number
+
+/** ECharts `series.label.formatter` 等与类目项相关的 `params` 回调 */
+export type ChartSeriesLabelFormatter = (params: unknown) => string | number
+
+export interface ChartTemplatePatchType {
+  type?: 'simple' | 'multiBar' | 'negative' | 'waterfall' | 'categoryStack' | 'gradient' | 'multiple'
+  axis?: string
+  tooltip?: string
+  tooltipFormatter?: ChartTooltipFormatter
+  tooltipValueFormatter?: ChartTooltipValueFormatter
+  legend?: Array<string>
+  theme?: string
+  barColorList?: Array<string>
+  dataZoom?: 'vertical' | 'horizontal'
+  showBarFont?: boolean
+  dynamicAxis?: boolean
   labelPosition?:
     | 'top'
     | 'left'
@@ -46,40 +56,40 @@ export type ChartTemplatePatchType = {
     | 'insideTopRight'
     | 'insideBottomRight'
     | 'both'
-    | 'insideBoth';
-  lineBar?: boolean;
-  legendIcon?: string;
-  showBackground?: boolean;
-  dataZoomColorOut?: string;
-  dataZoomColorIn?: string;
-  smooth?: boolean;
-  areaStyle?: object;
-  name?: string | number;
-  symbol?: 'circle' | 'rect' | 'roundRect' | 'triangle' | 'diamond' | 'pin' | 'arrow';
-  seriesFormatter?: Function;
-  seriesLabelFormatter?: Function;
-};
+    | 'insideBoth'
+  lineBar?: boolean
+  legendIcon?: string
+  showBackground?: boolean
+  dataZoomColorOut?: string
+  dataZoomColorIn?: string
+  smooth?: boolean
+  areaStyle?: object
+  name?: string | number
+  symbol?: 'circle' | 'rect' | 'roundRect' | 'triangle' | 'diamond' | 'pin' | 'arrow'
+  seriesFormatter?: ChartSeriesLabelFormatter
+  seriesLabelFormatter?: ChartSeriesLabelFormatter
+}
 
-export type ChartMapDataType = {
-  axisData?: Array<any>;
-  seriesData?: Array<any>;
-  pie?: Array<any>;
-};
+export interface ChartMapDataType {
+  axisData?: Array<any>
+  seriesData?: Array<any>
+  pie?: Array<any>
+}
 
-export type ChartDataType = ChartMapDataType | any[];
+export type ChartDataType = ChartMapDataType | any[]
 
 export const lsChartProps = buildProps({
   template: {
     type: String as PropType<ChartTemplateType>,
-    default: ''
+    default: '',
   },
   width: {
     type: [Number, String],
-    default: undefined
+    default: undefined,
   },
   height: {
     type: [Number, String],
-    default: undefined
+    default: undefined,
   },
   /**
    * 模板参数补充
@@ -114,7 +124,7 @@ export const lsChartProps = buildProps({
    */
   templatePatch: {
     type: Object as PropType<ChartTemplatePatchType>,
-    default: () => {}
+    default: () => {},
   },
   /**
    * 图表数据。
@@ -124,11 +134,11 @@ export const lsChartProps = buildProps({
    */
   data: {
     type: Object as PropType<ChartDataType>,
-    default: () => {}
+    default: () => {},
   },
   // 自定义配置（优先级别高于模板配置数据）
   customOption: {
     type: Object as PropType<EChartsOption>,
-    default: () => {}
-  }
-});
+    default: () => {},
+  },
+})

@@ -12,13 +12,13 @@ outline: deep
 ### 基础用法
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { onMounted } from 'vue'
 
-const { getSelOptions } = useOptionsHook();
+const { getSelOptions } = useOptionsHook()
 
 function optionApi() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const optionData = [
       {
         id: '1',
@@ -27,113 +27,114 @@ function optionApi() {
         value1: 'data',
         value2: 'test'
       }
-    ];
-    return resolve(optionData);
-  });
+    ]
+
+    return resolve(optionData)
+  })
 }
 
 onMounted(async () => {
-  const data = await getSelOptions(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2']);
-  console.log(data);
-});
+  const data = await getSelOptions(optionApi, ['name1', 'name2'], ['id', 'value1', 'value2'])
+  console.log(data)
+})
 ```
 
 ### 带缓存用法
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { onMounted } from 'vue'
 
 const { getSelOptions, clearCache } = useOptionsHook({
   cacheKey: 'userOptions',
   cacheTime: 60000
-});
+})
 
 onMounted(async () => {
-  const data = await getSelOptions(userApi);
+  const data = await getSelOptions(userApi)
   // 60秒内再次调用会直接返回缓存数据
-});
+})
 
 // 需要时手动清除缓存
-clearCache('userOptions');
+clearCache('userOptions')
 ```
 
 ### 远程搜索用法
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { ref } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { ref } from 'vue'
 
 const { remoteSearchSelOptions, selData, loading } = useOptionsHook({
   debounceTime: 500
-});
+})
 
-const keyword = ref('');
+const keyword = ref('')
 
 async function handleSearch(query) {
-  keyword.value = query;
-  await remoteSearchSelOptions(searchApi, { status: 1 }, keyword.value);
+  keyword.value = query
+  await remoteSearchSelOptions(searchApi, { status: 1 }, keyword.value)
 }
 ```
 
 ### 根据 value 获取 label
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { onMounted } from 'vue'
 
-const { getSelOptions, getLabelByValue } = useOptionsHook();
+const { getSelOptions, getLabelByValue } = useOptionsHook()
 
 onMounted(async () => {
-  await getSelOptions(optionApi);
-  const label = getLabelByValue('1');
-  console.log(label);
-});
+  await getSelOptions(optionApi)
+  const label = getLabelByValue('1')
+  console.log(label)
+})
 ```
 
 ### 过滤选项用法
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { onMounted } from 'vue'
 
-const { getSelOptions, filterOptions } = useOptionsHook();
+const { getSelOptions, filterOptions } = useOptionsHook()
 
 onMounted(async () => {
-  await getSelOptions(optionApi);
-  const filtered = filterOptions(['1', '2', '3']);
-  console.log(filtered);
-});
+  await getSelOptions(optionApi)
+  const filtered = filterOptions(['1', '2', '3'])
+  console.log(filtered)
+})
 ```
 
 ### 同步获取选项
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-import { onMounted } from 'vue';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { onMounted } from 'vue'
 
-const { getSelOptions, getOptionsSync } = useOptionsHook();
+const { getSelOptions, getOptionsSync } = useOptionsHook()
 
 onMounted(async () => {
-  await getSelOptions(optionApi);
-  const syncData = getOptionsSync();
-  console.log(syncData);
-});
+  await getSelOptions(optionApi)
+  const syncData = getOptionsSync()
+  console.log(syncData)
+})
 ```
 
 ### 清除缓存
 
 ```js
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
 
-const { clearCache } = useOptionsHook();
+const { clearCache } = useOptionsHook()
 
 function handleClearSpecificCache() {
-  clearCache('userOptions');
+  clearCache('userOptions')
 }
 
 function handleClearAllCache() {
-  clearCache();
+  clearCache()
 }
 ```
 
@@ -159,6 +160,76 @@ function handleClearAllCache() {
 ::: details 点我查看完整代码
 
 ```vue
+<script setup>
+import { useOptionsHook } from '@lingshugroup/web-plus/hooks'
+import { reactive, ref } from 'vue'
+
+const { getSelOptions } = useOptionsHook()
+
+const formRef = ref(null)
+const formData = reactive({
+  username: '',
+  realName: '',
+  role: '',
+  department: '',
+  status: ''
+})
+
+const optionsData = ref({
+  role: [],
+  status: [],
+  department: []
+})
+
+async function loadOptions() {
+  const roleApi = () =>
+    Promise.resolve([
+      { id: '1', roleName: '管理员' },
+      { id: '2', roleName: '编辑' },
+      { id: '3', roleName: '访客' }
+    ])
+
+  const statusApi = () =>
+    Promise.resolve([
+      { id: '1', statusName: '启用' },
+      { id: '0', statusName: '禁用' }
+    ])
+
+  const deptApi = () =>
+    Promise.resolve([
+      { id: 'dept1', deptName: '技术部' },
+      { id: 'dept2', deptName: '运营部' }
+    ])
+
+  const roleResult = await getSelOptions(roleApi, ['roleName'], ['id'])
+  optionsData.value.role = roleResult.options
+
+  const statusResult = await getSelOptions(statusApi, ['statusName'], ['id'])
+  optionsData.value.status = statusResult.options
+
+  const deptResult = await getSelOptions(deptApi, ['deptName'], ['id'])
+  optionsData.value.department = deptResult.options
+}
+
+const formItems = [
+  { type: 'input', prop: 'username', label: '用户名', placeholder: '请输入用户名' },
+  { type: 'input', prop: 'realName', label: '真实姓名', placeholder: '请输入真实姓名' },
+  { type: 'select', prop: 'role', label: '角色', placeholder: '请选择角色', options: [] },
+  { type: 'select', prop: 'department', label: '部门', placeholder: '请选择部门', options: [] },
+  { type: 'select', prop: 'status', label: '状态', placeholder: '请选择状态', options: [] }
+]
+
+function handleSubmit(form) {
+  console.log('表单提交', form)
+}
+
+function handleReset() {
+  console.log('表单重置')
+}
+
+loadOptions()
+</script>
+
 <template>
   <LSForm
     ref="formRef"
@@ -171,76 +242,6 @@ function handleClearAllCache() {
     @reset="handleReset"
   />
 </template>
-
-<script setup>
-import { ref, reactive } from 'vue';
-import { useOptionsHook } from '@lingshugroup/web-plus/hooks';
-
-const { getSelOptions } = useOptionsHook();
-
-const formRef = ref(null);
-const formData = reactive({
-  username: '',
-  realName: '',
-  role: '',
-  department: '',
-  status: ''
-});
-
-const optionsData = ref({
-  role: [],
-  status: [],
-  department: []
-});
-
-async function loadOptions() {
-  const roleApi = () =>
-    Promise.resolve([
-      { id: '1', roleName: '管理员' },
-      { id: '2', roleName: '编辑' },
-      { id: '3', roleName: '访客' }
-    ]);
-
-  const statusApi = () =>
-    Promise.resolve([
-      { id: '1', statusName: '启用' },
-      { id: '0', statusName: '禁用' }
-    ]);
-
-  const deptApi = () =>
-    Promise.resolve([
-      { id: 'dept1', deptName: '技术部' },
-      { id: 'dept2', deptName: '运营部' }
-    ]);
-
-  const roleResult = await getSelOptions(roleApi, ['roleName'], ['id']);
-  optionsData.value.role = roleResult.options;
-
-  const statusResult = await getSelOptions(statusApi, ['statusName'], ['id']);
-  optionsData.value.status = statusResult.options;
-
-  const deptResult = await getSelOptions(deptApi, ['deptName'], ['id']);
-  optionsData.value.department = deptResult.options;
-}
-
-const formItems = [
-  { type: 'input', prop: 'username', label: '用户名', placeholder: '请输入用户名' },
-  { type: 'input', prop: 'realName', label: '真实姓名', placeholder: '请输入真实姓名' },
-  { type: 'select', prop: 'role', label: '角色', placeholder: '请选择角色', options: [] },
-  { type: 'select', prop: 'department', label: '部门', placeholder: '请选择部门', options: [] },
-  { type: 'select', prop: 'status', label: '状态', placeholder: '请选择状态', options: [] }
-];
-
-function handleSubmit(form) {
-  console.log('表单提交', form);
-}
-
-function handleReset() {
-  console.log('表单重置');
-}
-
-loadOptions();
-</script>
 ```
 
 :::

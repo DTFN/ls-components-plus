@@ -3,19 +3,18 @@
  * @description 定义通用预览组件的props类型，支持图片、Word、Excel、PDF等多种格式
  */
 
-import { buildProps, definePropType, mutable } from '@cpo/_utils/runtime';
-import type { ExtractPropTypes, PropType } from 'vue';
-import type { PageViewport } from 'pdfjs-dist';
+import type { PageViewport } from 'pdfjs-dist'
 import type {
   DocumentInitParameters,
   OnProgressParameters,
   PDFDataRangeTransport,
   TextContent,
-  TypedArray
-} from 'pdfjs-dist/types/src/display/api';
-import type { Metadata } from 'pdfjs-dist/types/src/display/metadata';
-
-import type LSImage from './components/Image.vue';
+  TypedArray,
+} from 'pdfjs-dist/types/src/display/api'
+import type { Metadata } from 'pdfjs-dist/types/src/display/metadata'
+import type { ExtractPropTypes, PropType } from 'vue'
+import type LSImage from './components/Image.vue'
+import { buildProps, definePropType, mutable } from '@cpo/_utils/runtime'
 
 /**
  * 预览组件事件名
@@ -24,19 +23,19 @@ import type LSImage from './components/Image.vue';
  * @property {string} loadComplete - 加载完成事件
  * @property {string} loadError - 加载错误事件
  */
-const emitNames = ['update:source', 'loadComplete', 'loadError'];
+const emitNames = ['update:source', 'loadComplete', 'loadError']
 
-export { emitNames };
+export { emitNames }
 
 /**
  * 图片查看器操作类型
  * @typedef {'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'} ImageViewerAction
  */
-export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise';
+export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
 
 /**
  * 图片查看器props
- * @typedef {Object} imageViewerProps
+ * @typedef {object} imageViewerProps
  * @property {string[]|string} source - 图片源
  * @property {number} zIndex - z-index层级
  * @property {number} initialIndex - 初始索引，默认为0
@@ -50,38 +49,39 @@ export type ImageViewerAction = 'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockw
 export const imageViewerProps = buildProps({
   source: {
     type: [definePropType<string[]>(Array), String],
-    default: () => mutable([] as const)
+    default: () => mutable([] as const),
   },
   zIndex: {
-    type: Number
+    type: Number,
   },
   initialIndex: {
     type: Number,
-    default: 0
+    default: 0,
   },
   infinite: {
     type: Boolean,
-    default: true
+    default: true,
   },
   hideOnClickModal: {
     type: Boolean,
-    default: false
+    default: false,
   },
   teleported: {
     type: Boolean,
-    default: false
+    default: false,
   },
   closeOnPressEscape: {
     type: Boolean,
-    default: true
+    default: true,
   },
   onClose: Function,
   zoomSize: {
     type: [Number, String],
-    default: 1.5
-  }
-} as const);
-export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>;
+    default: 1.5,
+  },
+} as const)
+
+export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 /**
  * 预览组件事件
@@ -89,9 +89,9 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>;
  * @property {string} close - 关闭事件
  * @property {string} switch - 切换事件
  */
-export const previewEmits = ['close', 'switch'].concat(emitNames);
+export const previewEmits = ['close', 'switch'].concat(emitNames)
 
-export type PreviewEmits = typeof previewEmits;
+export type PreviewEmits = typeof previewEmits
 
 /**
  * 图片查看器模式接口
@@ -99,18 +99,18 @@ export type PreviewEmits = typeof previewEmits;
  * @property {string} name - 模式名称
  */
 export interface ImageViewerMode {
-  name: string;
+  name: string
 }
 
 /**
  * 图片查看器实例类型
  * @typedef {InstanceType<typeof LSImage>} ImageViewerInstance
  */
-export type ImageViewerInstance = InstanceType<typeof LSImage>;
+export type ImageViewerInstance = InstanceType<typeof LSImage>
 
 /**
  * Word文档预览props
- * @typedef {Object} docxProps
+ * @typedef {object} docxProps
  * @property {ArrayBuffer|string} source - 文档源
  * @property {Function} onClose - 关闭回调
  */
@@ -118,14 +118,14 @@ export type ImageViewerInstance = InstanceType<typeof LSImage>;
 export const docxProps = buildProps({
   source: {
     type: [ArrayBuffer, String],
-    default: null
+    default: null,
   },
-  onClose: Function
-});
+  onClose: Function,
+})
 
 /**
  * Excel文档预览props
- * @typedef {Object} xlsxProps
+ * @typedef {object} xlsxProps
  * @property {File|string} source - Excel源
  * @property {Function} onClose - 关闭回调
  */
@@ -133,10 +133,10 @@ export const docxProps = buildProps({
 export const xlsxProps = buildProps({
   source: {
     type: [File, String],
-    default: null
+    default: null,
   },
-  onClose: Function
-});
+  onClose: Function,
+})
 
 /**
  * 匹配接口
@@ -152,22 +152,22 @@ export const xlsxProps = buildProps({
  */
 export interface Match {
   start: {
-    idx: number;
-    offset: number;
-  };
+    idx: number
+    offset: number
+  }
   end: {
-    idx: number;
-    offset: number;
-  };
-  str: string;
-  oindex: number;
+    idx: number
+    offset: number
+  }
+  str: string
+  oindex: number
 }
 
 /**
  * 加载事件负载
  * @typedef {PageViewport} LoadedEventPayload
  */
-export type LoadedEventPayload = PageViewport;
+export type LoadedEventPayload = PageViewport
 
 /**
  * 注释事件负载接口
@@ -176,8 +176,8 @@ export type LoadedEventPayload = PageViewport;
  * @property {any} data - 数据
  */
 export interface AnnotationEventPayload {
-  type: string;
-  data: any;
+  type: string
+  data: any
 }
 
 /**
@@ -189,10 +189,10 @@ export interface AnnotationEventPayload {
  * @property {HTMLElement[]} textDivs - 文本div元素
  */
 export interface HighlightEventPayload {
-  matches: Match[];
-  page: number;
-  textContent: TextContent;
-  textDivs: HTMLElement[];
+  matches: Match[]
+  page: number
+  textContent: TextContent
+  textDivs: HTMLElement[]
 }
 
 /**
@@ -202,8 +202,8 @@ export interface HighlightEventPayload {
  * @property {TextContent|undefined} textContent - 文本内容
  */
 export interface TextLayerLoadedEventPayload {
-  textDivs: HTMLElement[];
-  textContent: TextContent | undefined;
+  textDivs: HTMLElement[]
+  textContent: TextContent | undefined
 }
 
 /**
@@ -216,11 +216,11 @@ export interface TextLayerLoadedEventPayload {
  * @property {string} [color] - 颜色
  */
 export interface WatermarkOptions {
-  columns?: number;
-  rows?: number;
-  rotation?: number;
-  fontSize?: number;
-  color?: string;
+  columns?: number
+  rows?: number
+  rotation?: number
+  fontSize?: number
+  color?: string
 }
 
 /**
@@ -230,8 +230,8 @@ export interface WatermarkOptions {
  * @property {boolean} [completeWords] - 完整单词
  */
 export interface HighlightOptions {
-  ignoreCase?: boolean;
-  completeWords?: boolean;
+  ignoreCase?: boolean
+  completeWords?: boolean
 }
 
 /**
@@ -241,8 +241,8 @@ export interface HighlightOptions {
  * @property {S} spec - 规格
  */
 export interface Base<T, S> {
-  type: T;
-  spec: S;
+  type: T
+  spec: S
 }
 
 /**
@@ -254,55 +254,55 @@ export interface Base<T, S> {
  * XYZ位置类型
  * @typedef {Base<'XYZ', [left: number, top: number, zoom: number]>} XYZ
  */
-export type XYZ = Base<'XYZ', [left: number, top: number, zoom: number]>;
+export type XYZ = Base<'XYZ', [left: number, top: number, zoom: number]>
 
 /**
  * Fit位置类型
  * @typedef {Base<'Fit', []>} Fit
  */
-export type Fit = Base<'Fit', []>;
+export type Fit = Base<'Fit', []>
 
 /**
  * FitH位置类型
  * @typedef {Base<'FitH', [top: number]>} FitH
  */
-export type FitH = Base<'FitH', [top: number]>;
+export type FitH = Base<'FitH', [top: number]>
 
 /**
  * FitV位置类型
  * @typedef {Base<'FitV', [left: number]>} FitV
  */
-export type FitV = Base<'FitV', [left: number]>;
+export type FitV = Base<'FitV', [left: number]>
 
 /**
  * FitR位置类型
  * @typedef {Base<'FitR', [left: number, bottom: number, right: number, top: number]>} FitR
  */
-export type FitR = Base<'FitR', [left: number, bottom: number, right: number, top: number]>;
+export type FitR = Base<'FitR', [left: number, bottom: number, right: number, top: number]>
 
 /**
  * FitB位置类型
  * @typedef {Base<'FitB', []>} FitB
  */
-export type FitB = Base<'FitB', []>;
+export type FitB = Base<'FitB', []>
 
 /**
  * FitBH位置类型
  * @typedef {Base<'FitBH', [top: number]>} FitBH
  */
-export type FitBH = Base<'FitBH', [top: number]>;
+export type FitBH = Base<'FitBH', [top: number]>
 
 /**
  * FitBV位置类型
  * @typedef {Base<'FitBV', [left: number]>} FitBV
  */
-export type FitBV = Base<'FitBV', [left: number]>;
+export type FitBV = Base<'FitBV', [left: number]>
 
 /**
  * PDF位置类型
  * @typedef {XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV} PDFLocation
  */
-export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV;
+export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV
 
 /**
  * PDF目标接口
@@ -311,44 +311,44 @@ export type PDFLocation = XYZ | Fit | FitH | FitV | FitR | FitB | FitBH | FitBV;
  * @property {PDFLocation} location - 位置
  */
 export interface PDFDestination {
-  pageIndex: number;
-  location: PDFLocation;
+  pageIndex: number
+  location: PDFLocation
 }
 
 /**
  * 进度回调函数类型
- * @typedef {function} OnProgressCallback
+ * @typedef {Function} OnProgressCallback
  * @param {OnProgressParameters} progressData - 进度数据
  */
-export type OnProgressCallback = (progressData: OnProgressParameters) => void;
+export type OnProgressCallback = (progressData: OnProgressParameters) => void
 
 /**
  * 更新密码函数类型
- * @typedef {function} UpdatePasswordFn
+ * @typedef {Function} UpdatePasswordFn
  * @param {string} newPassword - 新密码
  */
-export type UpdatePasswordFn = (newPassword: string) => void;
+export type UpdatePasswordFn = (newPassword: string) => void
 
 /**
  * 密码回调函数类型
- * @typedef {function} OnPasswordCallback
+ * @typedef {Function} OnPasswordCallback
  * @param {UpdatePasswordFn} updatePassword - 更新密码函数
  * @param {any} reason - 原因
  */
-export type OnPasswordCallback = (updatePassword: UpdatePasswordFn, reason: any) => void;
+export type OnPasswordCallback = (updatePassword: UpdatePasswordFn, reason: any) => void
 
 /**
  * 错误回调函数类型
- * @typedef {function} OnErrorCallback
+ * @typedef {Function} OnErrorCallback
  * @param {any} error - 错误
  */
-export type OnErrorCallback = (error: any) => void;
+export type OnErrorCallback = (error: any) => void
 
 /**
  * PDF源类型
  * @typedef {string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null} PDFSrc
  */
-export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null;
+export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | DocumentInitParameters | undefined | null
 
 /**
  * PDF选项接口
@@ -359,21 +359,21 @@ export type PDFSrc = string | URL | TypedArray | PDFDataRangeTransport | Documen
  * @property {string} [password] - 密码
  */
 export interface PDFOptions {
-  onProgress?: OnProgressCallback;
-  onPassword?: OnPasswordCallback;
-  onError?: OnErrorCallback;
-  password?: string;
+  onProgress?: OnProgressCallback
+  onPassword?: OnPasswordCallback
+  onError?: OnErrorCallback
+  password?: string
 }
 
 /**
  * PDF元数据接口
  * @interface PDFInfoMetadata
- * @property {Object} info - 信息
+ * @property {object} info - 信息
  * @property {Metadata} metadata - 元数据
  */
 export interface PDFInfoMetadata {
-  info: Object;
-  metadata: Metadata;
+  info: object
+  metadata: Metadata
 }
 
 /**
@@ -385,45 +385,45 @@ export interface PDFInfoMetadata {
  * @property {any} outline - 大纲
  */
 export interface PDFInfo {
-  metadata: PDFInfoMetadata;
-  attachments: Record<string, unknown>;
-  javascript: string[] | null;
-  outline: any;
+  metadata: PDFInfoMetadata
+  attachments: Record<string, unknown>
+  javascript: string[] | null
+  outline: any
 }
 
 /**
  * 预览类型
  * @typedef {'image' | 'docx' | 'xlsx' | 'pdf'} PreviewType
  */
-type PreviewType = 'image' | 'docx' | 'xlsx' | 'pdf';
+type PreviewType = 'image' | 'docx' | 'xlsx' | 'pdf'
 
 /**
  * 通用预览组件props
- * @typedef {Object} lsPreviewProp
+ * @typedef {object} lsPreviewProp
  * @property {PreviewType} type - 预览类型，必填
  * @property {any} source - 预览源数据
  * @property {number|string} zoomSize - 缩放大小，默认为1.5
  * @property {boolean} needLoading - 是否需要加载动画，默认为true
- * @property {Object} loadingOption - 加载配置
+ * @property {object} loadingOption - 加载配置
  */
 export const lsPreviewProp = {
   /** 预览类型 */
   type: {
     type: String as PropType<PreviewType>,
     require: true,
-    default: ''
+    default: '',
   },
   /** 预览源数据 */
   source: {},
   /** 缩放大小 */
   zoomSize: {
     type: [Number, String],
-    default: 1.5
+    default: 1.5,
   },
   /** 是否需要加载动画 */
   needLoading: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /** 加载配置 */
   loadingOption: {
@@ -431,8 +431,8 @@ export const lsPreviewProp = {
     default: () => {
       return {
         text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.3)'
-      };
-    }
-  }
-};
+        background: 'rgba(0, 0, 0, 0.3)',
+      }
+    },
+  },
+}

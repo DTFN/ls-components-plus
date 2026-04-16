@@ -8,7 +8,7 @@
  *
  * 组件自有属性：
  * @attr {object} formData 表单数据对象，支持嵌套路径字段
- * @attr {array} formItems 表单项配置数组，每项会传给 `LSFormItem`
+ * @attr {Array} formItems 表单项配置数组，每项会传给 `LSFormItem`
  * @attr {number} column 表单列数；大于 `1` 时启用多列布局，默认 `1`
  * @attr {boolean} loading 加载状态；为 `true` 时禁用表单，且可联动提交按钮 loading，默认 `false`
  * @attr {boolean} showBtnLoading `loading` 时是否在提交按钮上显示 loading 图标，默认 `true`
@@ -53,76 +53,82 @@
  *   @submit="handleSubmit"
  * />
  */
-import type { FormInstance } from 'element-plus';
-import { get, set } from 'lodash-es';
-import { reactive, ref } from 'vue';
-import FormItem from './FormItem.vue';
-import { lsFormProps } from './types';
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+import type { FormInstance } from 'element-plus'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { get, set } from 'lodash-es'
+import { reactive, ref } from 'vue'
+import FormItem from './FormItem.vue'
+import { lsFormProps } from './types'
 
-const props = defineProps(lsFormProps);
+const props = defineProps(lsFormProps)
 
 const emit = defineEmits<{
-  submit: [form: any];
-  reset: [form: any];
-  'update:form-data': [formData: any];
-  onChange: [value: any, prop: string, index?: number];
-  changeFormData: [value: any, prop: any, form: any];
-}>();
+  'submit': [form: any]
+  'reset': [form: any]
+  'update:form-data': [formData: any]
+  'onChange': [value: any, prop: string, index?: number]
+  'changeFormData': [value: any, prop: any, form: any]
+}>()
 
-const attrs = useAttrs();
-const slots: any = useSlots();
+const attrs = useAttrs()
+const slots: any = useSlots()
 
 // 统一处理 attrs 中的属性名格式，优先使用后定义的值
 function formatAttrs(attrsValue: any) {
-  const result: Record<string, any> = {};
+  const result: Record<string, any> = {}
 
-  if (!attrsValue) return result;
+  if (!attrsValue)
+    return result
 
   Object.entries(attrsValue).forEach(([key, value]) => {
     // 转换成驼峰格式
-    const camelKey = key.replace(/-(\w)/g, (_, c) => c.toUpperCase());
+    const camelKey = key.replace(/-(\w)/g, (_, c) => c.toUpperCase())
 
     // 如果已存在相同的驼峰key，说明后面的会覆盖前面的值
-    result[camelKey] = value;
-  });
+    result[camelKey] = value
+  })
 
-  return result;
+  return result
 }
 
 const buttonsAttrs = computed(() => {
-  const newAttrs = formatAttrs(attrs);
+  const newAttrs = formatAttrs(attrs)
 
-  let buttonsLeft = props.buttonsLeft;
+  let buttonsLeft = props.buttonsLeft
   const buttonsAttrs: any = {
     label: '',
-    labelWidth: '0px'
-  };
+    labelWidth: '0px',
+  }
 
+  // eslint-disable-next-line no-prototype-builtins
   if (newAttrs && newAttrs.hasOwnProperty('inline')) {
-    if (typeof newAttrs['inline'] === 'boolean' && newAttrs['inline'] === false) {
-      buttonsLeft = props.buttonsLeft;
-    } else {
-      buttonsLeft = true;
+    if (typeof newAttrs.inline === 'boolean' && newAttrs.inline === false) {
+      buttonsLeft = props.buttonsLeft
     }
-    if (newAttrs['labelPosition'] === 'top') {
-      buttonsAttrs['class'] = 'ls-form-item-buttons';
+    else {
+      buttonsLeft = true
+    }
+
+    if (newAttrs.labelPosition === 'top') {
+      buttonsAttrs.class = 'ls-form-item-buttons'
     }
   }
 
   if (!buttonsLeft) {
-    buttonsAttrs.label = ' ';
-    if (newAttrs['labelWidth']) {
-      buttonsAttrs.labelWidth = newAttrs['labelWidth'];
-    } else {
-      buttonsAttrs.labelWidth = 'auto';
+    buttonsAttrs.label = ' '
+
+    if (newAttrs.labelWidth) {
+      buttonsAttrs.labelWidth = newAttrs.labelWidth
+    }
+    else {
+      buttonsAttrs.labelWidth = 'auto'
     }
   }
 
-  return buttonsAttrs;
-});
+  return buttonsAttrs
+})
 
-const FormRef = ref<FormInstance>();
+const FormRef = ref<FormInstance>()
 
 // 表单项类型
 const ITEM_TYPES = [
@@ -143,70 +149,75 @@ const ITEM_TYPES = [
   'inputRange',
   'inputNumberRange',
   'slot',
-  'itemSlot'
-];
+  'itemSlot',
+]
 
-let form = reactive<{ [key: string]: any }>({});
+let form = reactive<{ [key: string]: any }>({})
 
 // 重置
 function resetForm(formEl: FormInstance | undefined) {
-  if (!formEl) return;
-  formEl.resetFields();
-  emit('reset', form);
+  if (!formEl)
+    return
+  formEl.resetFields()
+  emit('reset', form)
 }
 
 // 校验
 async function submitForm(formEl: FormInstance | undefined) {
-  if (!formEl) return;
+  if (!formEl)
+    return
   await formEl.validate((valid, fields) => {
-    if (valid) emit('submit', form);
-    else console.warn('error submit!', fields);
-  });
+    if (valid)
+      emit('submit', form)
+    else console.warn('error submit!', fields)
+  })
 }
 
 // 校验方法
 function validate() {
   return new Promise((resolve, reject) => {
-    if (!FormRef.value) return resolve(false);
+    if (!FormRef.value)
+      return resolve(false)
 
     FormRef.value.validate((valid, fields) => {
       if (valid) {
-        resolve(form);
-      } else {
-        console.warn('error submit!', fields);
-        reject(fields);
+        resolve(form)
       }
-    });
-  });
+      else {
+        console.warn('error submit!', fields)
+        reject(fields)
+      }
+    })
+  })
 }
 
 // 更新表单数据
 function updateFormData(key: string | number | string[], value: any) {
-  set(form, key, value);
-  emit('changeFormData', value, key, form);
+  set(form, key, value)
+  emit('changeFormData', value, key, form)
 }
 
 watch(
   () => props.formData,
-  newVal => {
-    form = newVal || {};
+  (newVal) => {
+    form = newVal || {}
   },
   {
     deep: true,
-    immediate: true
-  }
-);
+    immediate: true,
+  },
+)
 
 function onChange(value: any, prop: string, index?: number) {
-  emit('onChange', value, prop, index);
+  emit('onChange', value, prop, index)
 }
 
 defineExpose({
   FormRef,
   validate,
   submitForm,
-  resetForm
-});
+  resetForm,
+})
 </script>
 
 <template>
@@ -317,7 +328,9 @@ defineExpose({
             {{ confirmText }}
           </el-button>
 
-          <el-button v-if="showReset" @click="resetForm(FormRef)">{{ resetText || '重置' }}</el-button>
+          <el-button v-if="showReset" @click="resetForm(FormRef)">
+            {{ resetText || '重置' }}
+          </el-button>
 
           <slot v-if="$slots['buttons-append']" name="buttons-append" />
         </el-form-item>

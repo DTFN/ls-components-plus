@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { isEmpty } from '@cpo/_utils/utils';
+import { isEmpty } from '@cpo/_utils/utils'
+
 const treeData = ref([
   {
     id: 200000,
@@ -11,7 +12,7 @@ const treeData = ref([
     sort: 0,
     parentId: 0,
     status: 1,
-    children: null
+    children: null,
   },
   {
     id: 201000,
@@ -34,7 +35,7 @@ const treeData = ref([
         sort: 1,
         parentId: 201000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 201020,
@@ -46,7 +47,7 @@ const treeData = ref([
         sort: 2,
         parentId: 201000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 201030,
@@ -58,7 +59,7 @@ const treeData = ref([
         sort: 3,
         parentId: 201000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 201040,
@@ -81,7 +82,7 @@ const treeData = ref([
             sort: 1,
             parentId: 201040,
             status: 1,
-            children: null
+            children: null,
           },
           {
             id: 201042,
@@ -93,9 +94,9 @@ const treeData = ref([
             sort: 2,
             parentId: 201040,
             status: 1,
-            children: null
-          }
-        ]
+            children: null,
+          },
+        ],
       },
       {
         id: 201050,
@@ -107,9 +108,9 @@ const treeData = ref([
         sort: 5,
         parentId: 201000,
         status: 1,
-        children: null
-      }
-    ]
+        children: null,
+      },
+    ],
   },
   {
     id: 202000,
@@ -132,7 +133,7 @@ const treeData = ref([
         sort: 1,
         parentId: 202000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 202020,
@@ -144,7 +145,7 @@ const treeData = ref([
         sort: 2,
         parentId: 202000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 202030,
@@ -156,9 +157,9 @@ const treeData = ref([
         sort: 3,
         parentId: 202000,
         status: 1,
-        children: null
-      }
-    ]
+        children: null,
+      },
+    ],
   },
   {
     id: 205000,
@@ -181,7 +182,7 @@ const treeData = ref([
         sort: 1,
         parentId: 205000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 205040,
@@ -193,7 +194,7 @@ const treeData = ref([
         sort: 2,
         parentId: 205000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 205030,
@@ -205,7 +206,7 @@ const treeData = ref([
         sort: 3,
         parentId: 205000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 205020,
@@ -217,9 +218,9 @@ const treeData = ref([
         sort: 4,
         parentId: 205000,
         status: 1,
-        children: null
-      }
-    ]
+        children: null,
+      },
+    ],
   },
   {
     id: 203000,
@@ -242,7 +243,7 @@ const treeData = ref([
         sort: 1,
         parentId: 203000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 203020,
@@ -254,7 +255,7 @@ const treeData = ref([
         sort: 2,
         parentId: 203000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 203030,
@@ -266,7 +267,7 @@ const treeData = ref([
         sort: 3,
         parentId: 203000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 203040,
@@ -278,9 +279,9 @@ const treeData = ref([
         sort: 4,
         parentId: 203000,
         status: 1,
-        children: null
-      }
-    ]
+        children: null,
+      },
+    ],
   },
   {
     id: 206000,
@@ -303,7 +304,7 @@ const treeData = ref([
         sort: 0,
         parentId: 206000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 206020,
@@ -315,7 +316,7 @@ const treeData = ref([
         sort: 0,
         parentId: 206000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 206030,
@@ -327,9 +328,9 @@ const treeData = ref([
         sort: 0,
         parentId: 206000,
         status: 1,
-        children: null
-      }
-    ]
+        children: null,
+      },
+    ],
   },
   {
     id: 204000,
@@ -352,7 +353,7 @@ const treeData = ref([
         sort: 0,
         parentId: 204000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 204030,
@@ -364,7 +365,7 @@ const treeData = ref([
         sort: 1,
         parentId: 204000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 204040,
@@ -376,7 +377,7 @@ const treeData = ref([
         sort: 2,
         parentId: 204000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 204010,
@@ -388,7 +389,7 @@ const treeData = ref([
         sort: 3,
         parentId: 204000,
         status: 1,
-        children: null
+        children: null,
       },
       {
         id: 204020,
@@ -400,11 +401,11 @@ const treeData = ref([
         sort: 4,
         parentId: 204000,
         status: 1,
-        children: null
-      }
-    ]
-  }
-]);
+        children: null,
+      },
+    ],
+  },
+])
 
 const treeData2 = ref([
   {
@@ -431,7 +432,7 @@ const treeData2 = ref([
         createdTime: '2024-04-16 00:00:00',
         updatedTime: '2024-05-13 18:09:16',
         createdBy: -1,
-        updatedBy: -1
+        updatedBy: -1,
       },
       {
         id: 20102,
@@ -459,7 +460,7 @@ const treeData2 = ref([
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
+            updatedBy: -1,
           },
           {
             id: 20104,
@@ -485,7 +486,7 @@ const treeData2 = ref([
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
+                updatedBy: -1,
               },
               {
                 id: 20106,
@@ -501,13 +502,13 @@ const treeData2 = ref([
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
-              }
+                updatedBy: -1,
+              },
             ],
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
+            updatedBy: -1,
           },
           {
             id: 20107,
@@ -523,7 +524,7 @@ const treeData2 = ref([
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
+            updatedBy: -1,
           },
           {
             id: 20108,
@@ -572,7 +573,7 @@ const treeData2 = ref([
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
+                        updatedBy: -1,
                       },
                       {
                         id: 20112,
@@ -588,7 +589,7 @@ const treeData2 = ref([
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
+                        updatedBy: -1,
                       },
                       {
                         id: 20113,
@@ -604,13 +605,13 @@ const treeData2 = ref([
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
-                      }
+                        updatedBy: -1,
+                      },
                     ],
                     createdTime: '2024-04-16 00:00:00',
                     updatedTime: '2024-05-13 18:09:16',
                     createdBy: -1,
-                    updatedBy: -1
+                    updatedBy: -1,
                   },
                   {
                     id: 20114,
@@ -650,7 +651,7 @@ const treeData2 = ref([
                             createdTime: '2024-04-16 00:00:00',
                             updatedTime: '2024-05-13 18:09:16',
                             createdBy: -1,
-                            updatedBy: -1
+                            updatedBy: -1,
                           },
                           {
                             id: 20117,
@@ -666,7 +667,7 @@ const treeData2 = ref([
                             createdTime: '2024-04-16 00:00:00',
                             updatedTime: '2024-05-13 18:09:16',
                             createdBy: -1,
-                            updatedBy: -1
+                            updatedBy: -1,
                           },
                           {
                             id: 20118,
@@ -682,7 +683,7 @@ const treeData2 = ref([
                             createdTime: '2024-04-16 00:00:00',
                             updatedTime: '2024-05-13 18:09:16',
                             createdBy: -1,
-                            updatedBy: -1
+                            updatedBy: -1,
                           },
                           {
                             id: 20119,
@@ -698,13 +699,13 @@ const treeData2 = ref([
                             createdTime: '2024-04-16 00:00:00',
                             updatedTime: '2024-05-13 18:09:16',
                             createdBy: -1,
-                            updatedBy: -1
-                          }
+                            updatedBy: -1,
+                          },
                         ],
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
+                        updatedBy: -1,
                       },
                       {
                         id: 20120,
@@ -720,19 +721,19 @@ const treeData2 = ref([
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
-                      }
+                        updatedBy: -1,
+                      },
                     ],
                     createdTime: '2024-04-16 00:00:00',
                     updatedTime: '2024-05-13 18:09:16',
                     createdBy: -1,
-                    updatedBy: -1
-                  }
+                    updatedBy: -1,
+                  },
                 ],
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
+                updatedBy: -1,
               },
               {
                 id: 20121,
@@ -759,7 +760,7 @@ const treeData2 = ref([
                     createdTime: '2024-04-16 00:00:00',
                     updatedTime: '2024-05-13 18:09:16',
                     createdBy: -1,
-                    updatedBy: -1
+                    updatedBy: -1,
                   },
                   {
                     id: 20123,
@@ -787,37 +788,37 @@ const treeData2 = ref([
                         createdTime: '2024-04-16 00:00:00',
                         updatedTime: '2024-05-13 18:09:16',
                         createdBy: -1,
-                        updatedBy: -1
-                      }
+                        updatedBy: -1,
+                      },
                     ],
                     createdTime: '2024-04-16 00:00:00',
                     updatedTime: '2024-05-13 18:09:16',
                     createdBy: -1,
-                    updatedBy: -1
-                  }
+                    updatedBy: -1,
+                  },
                 ],
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
-              }
+                updatedBy: -1,
+              },
             ],
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
-          }
+            updatedBy: -1,
+          },
         ],
         createdTime: '2024-04-16 00:00:00',
         updatedTime: '2024-05-13 18:09:16',
         createdBy: -1,
-        updatedBy: -1
-      }
+        updatedBy: -1,
+      },
     ],
     createdTime: '2024-04-16 00:00:00',
     updatedTime: '2024-05-13 18:09:16',
     createdBy: -1,
-    updatedBy: -1
+    updatedBy: -1,
   },
   {
     id: 20200,
@@ -843,7 +844,7 @@ const treeData2 = ref([
         createdTime: '2024-04-16 00:00:00',
         updatedTime: '2024-05-13 18:09:16',
         createdBy: -1,
-        updatedBy: -1
+        updatedBy: -1,
       },
       {
         id: 20202,
@@ -872,7 +873,7 @@ const treeData2 = ref([
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
+            updatedBy: -1,
           },
           {
             id: 20204,
@@ -898,7 +899,7 @@ const treeData2 = ref([
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
+                updatedBy: -1,
               },
               {
                 id: 20206,
@@ -914,13 +915,13 @@ const treeData2 = ref([
                 createdTime: '2024-04-16 00:00:00',
                 updatedTime: '2024-05-13 18:09:16',
                 createdBy: -1,
-                updatedBy: -1
-              }
+                updatedBy: -1,
+              },
             ],
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
+            updatedBy: -1,
           },
           {
             id: 20207,
@@ -936,21 +937,21 @@ const treeData2 = ref([
             createdTime: '2024-04-16 00:00:00',
             updatedTime: '2024-05-13 18:09:16',
             createdBy: -1,
-            updatedBy: -1
-          }
+            updatedBy: -1,
+          },
         ],
         createdTime: '2024-04-16 00:00:00',
         updatedTime: '2024-05-13 18:09:16',
         createdBy: -1,
-        updatedBy: -1
-      }
+        updatedBy: -1,
+      },
     ],
     createdTime: '2024-04-16 00:00:00',
     updatedTime: '2024-05-13 18:09:24',
     createdBy: -1,
-    updatedBy: -1
-  }
-]);
+    updatedBy: -1,
+  },
+])
 
 const roleData = ref([
   {
@@ -958,126 +959,160 @@ const roleData = ref([
     roleId: 5,
     permissionId: 20100,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20432,
     roleId: 5,
     permissionId: 20101,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20436,
     roleId: 5,
     permissionId: 20102,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20440,
     roleId: 5,
     permissionId: 20103,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20444,
     roleId: 5,
     permissionId: 20104,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
-    permissionId: 20107
+    permissionId: 20107,
   },
   {
     id: 20448,
     roleId: 5,
     permissionId: 20105,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20452,
     roleId: 5,
     permissionId: 20106,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20456,
     roleId: 5,
     permissionId: 20107,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20460,
     roleId: 5,
     permissionId: 20108,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20464,
     roleId: 5,
     permissionId: 20109,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
+    updatedTime: '2024-07-02 17:50:17',
   },
   {
     id: 20468,
     roleId: 5,
     permissionId: 20110,
     createdTime: '2024-07-02 17:50:17',
-    updatedTime: '2024-07-02 17:50:17'
-  }
-]);
+    updatedTime: '2024-07-02 17:50:17',
+  },
+])
 
 const checkedPermissionIds = ref([
-  200000, 201000, 201010, 201020, 201030, 201040, 201041, 201042, 201050, 202000, 202010, 202020, 202030, 205000, 205010, 205040,
-  205030, 205020, 203000, 203010, 203020, 203030, 203040, 206000, 206010, 206020, 206030, 204000, 204050, 204030, 204040, 204010,
-  204020
-]);
-const checkedPermissionIds2 = ref();
+  200000,
+  201000,
+  201010,
+  201020,
+  201030,
+  201040,
+  201041,
+  201042,
+  201050,
+  202000,
+  202010,
+  202020,
+  202030,
+  205000,
+  205010,
+  205040,
+  205030,
+  205020,
+  203000,
+  203010,
+  203020,
+  203030,
+  203040,
+  206000,
+  206010,
+  206020,
+  206030,
+  204000,
+  204050,
+  204030,
+  204040,
+  204010,
+  204020,
+])
+const checkedPermissionIds2 = ref()
 setTimeout(() => {
-  checkedPermissionIds2.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId));
+  checkedPermissionIds2.value = getTreeCheckedData((roleData.value || []).map((item: any) => item.permissionId))
   setTimeout(() => {
-    checkedPermissionIds2.value = [20101];
-  }, 2000);
-}, 2000);
+    checkedPermissionIds2.value = [20101]
+  }, 2000)
+}, 2000)
 
 // 筛选去掉父级id
 function getTreeCheckedData(ids: any) {
-  let newIds = ids || [];
+  let newIds = ids || []
+
   if (!isEmpty(treeData.value) && !isEmpty(ids)) {
     const lunData = (list: any) => {
       if (!isEmpty(list)) {
         list.forEach((item: any) => {
-          const { id, children } = item;
+          const { id, children } = item
+
           if (!isEmpty(children)) {
-            let index = newIds.indexOf(id);
+            let index = newIds.indexOf(id)
+
             if (index >= 0) {
               // 有子节点 并且 子节点有勾选 去掉当前父节点id
-              newIds.splice(index, 1);
+              newIds.splice(index, 1)
             }
-            lunData(children);
+            lunData(children)
           }
-        });
+        })
       }
-    };
-    lunData(treeData.value);
+    }
+    lunData(treeData.value)
   }
-  return newIds;
+
+  return newIds
 }
 
-const canPrint = ref(true);
+const canPrint = ref(true)
 
-const visible = ref(false);
+const visible = ref(false)
 
 function handleCheck(data: any, checkeds: any) {
-  console.log(data, checkeds);
+  console.log(data, checkeds)
 }
 </script>
 
@@ -1097,13 +1132,15 @@ function handleCheck(data: any, checkeds: any) {
       :show-checkbox="true"
       :default-checked-keys="checkedPermissionIds2"
       :attrs="{
-        'check-on-click-leaf': false
+        'check-on-click-leaf': false,
       }"
       @handle-check="handleCheck"
     />
 
     <br />
-    <LSButton @click="visible = true">测试</LSButton>
+    <LSButton @click="visible = true">
+      测试
+    </LSButton>
     <LSDialog v-model="visible" title="基础用法Title">
       <LSTree :tree-data="treeData2" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
     </LSDialog>
@@ -1117,7 +1154,7 @@ function handleCheck(data: any, checkeds: any) {
     <LSPrint
       :print-obj="{
         id: '#treeV',
-        popTitle: '打印测试2'
+        popTitle: '打印测试2',
       }"
       content="正在测试打印功能2"
       btn-txt="打印3"

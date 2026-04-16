@@ -29,6 +29,7 @@ outline: deep
 <LSButton type="warning">警告按钮</LSButton>
 <LSButton type="danger">危险按钮</LSButton>
 <LSButton type="info">信息按钮</LSButton>
+
 ```
 
 :::
@@ -47,6 +48,7 @@ outline: deep
 <LSButton size="large">大型按钮</LSButton>
 <LSButton>默认按钮</LSButton>
 <LSButton size="small">小型按钮</LSButton>
+
 ```
 
 :::
@@ -64,7 +66,7 @@ outline: deep
 :::details 点我查看代码
 
 ```js
-import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vue';
+import { Check, Delete, Edit, InfoFilled, Warning } from '@element-plus/icons-vue'
 ```
 
 ```html
@@ -73,6 +75,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 <LSButton type="warning" :icon="Warning">警告</LSButton>
 <LSButton type="danger" :icon="Delete">删除</LSButton>
 <LSButton type="info" :icon="InfoFilled">信息</LSButton>
+
 ```
 
 :::
@@ -95,6 +98,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 <LSButton type="warning" :icon="Warning"></LSButton>
 <LSButton type="danger" :icon="Delete"></LSButton>
 <LSButton type="info" :icon="InfoFilled"></LSButton>
+
 ```
 
 :::
@@ -117,6 +121,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 <LSButton type="warning" :loading="true">加载中</LSButton>
 <LSButton type="danger" :loading="true">加载中</LSButton>
 <LSButton type="info" :loading="true">加载中</LSButton>
+
 ```
 
 :::
@@ -141,6 +146,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 <LSButton type="warning" disabled>禁用警告按钮</LSButton>
 <LSButton type="danger" disabled>禁用危险按钮</LSButton>
 <LSButton type="info" disabled>禁用信息按钮</LSButton>
+
 ```
 
 :::
@@ -165,6 +171,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 <LSButton type="warning" round>警告圆角按钮</LSButton>
 <LSButton type="danger" round>危险圆角按钮</LSButton>
 <LSButton type="info" round>信息圆角按钮</LSButton>
+
 ```
 
 :::
@@ -183,7 +190,7 @@ import { Edit, Check, Warning, Delete, InfoFilled } from '@element-plus/icons-vu
 :::details 点我查看代码
 
 ```js
-import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/icons-vue';
+import { Check, Delete, Edit, InfoFilled, Search, Warning } from '@element-plus/icons-vue'
 ```
 
 ```html
@@ -193,6 +200,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 <LSButton type="warning" circle :icon="Delete"></LSButton>
 <LSButton type="danger" circle :icon="InfoFilled"></LSButton>
 <LSButton type="info" circle :icon="Search"></LSButton>
+
 ```
 
 :::
@@ -217,6 +225,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 <LSButton type="warning" link>警告文字按钮</LSButton>
 <LSButton type="danger" link>危险文字按钮</LSButton>
 <LSButton type="info" link>信息文字按钮</LSButton>
+
 ```
 
 :::
@@ -241,6 +250,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 <LSButton type="warning" plain>警告朴素按钮</LSButton>
 <LSButton type="danger" plain>危险朴素按钮</LSButton>
 <LSButton type="info" plain>信息朴素按钮</LSButton>
+
 ```
 
 :::
@@ -259,6 +269,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 <LSButton :icon-config="{ type: 1, name: 'iconoir:fish', color: 'blue', width: 20, height: 20 }">鱼图标</LSButton>
 <LSButton :icon-config="{ type: 1, name: 'iconoir:heart', color: 'red', width: 20, height: 20 }">心形图标</LSButton>
 <LSButton :icon-config="{ type: 1, name: 'iconoir:star', color: 'yellow', width: 20, height: 20 }">星形图标</LSButton>
+
 ```
 
 :::
@@ -307,6 +318,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
   </template>
   删除
 </LSButton>
+
 ```
 
 :::
@@ -329,7 +341,7 @@ import { Edit, Check, Warning, Delete, InfoFilled, Search } from '@element-plus/
 :::details 点我查看代码
 
 ```js
-import { ArrowLeft } from '@element-plus/icons-vue';
+import { ArrowLeft } from '@element-plus/icons-vue'
 ```
 
 ```html
@@ -338,11 +350,12 @@ import { ArrowLeft } from '@element-plus/icons-vue';
   <LSButton type="primary">下一步</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup style="margin-left: 20px;">
+<LSButtonGroup style="margin-left: 20px">
   <LSButton type="success">编辑</LSButton>
   <LSButton type="warning">复制</LSButton>
   <LSButton type="danger">删除</LSButton>
 </LSButtonGroup>
+
 ```
 
 :::
@@ -372,11 +385,12 @@ import { ArrowLeft } from '@element-plus/icons-vue';
   <LSButton link>按钮3</LSButton>
 </LSButtonGroup>
 
-<LSButtonGroup type="success" separator="/" :separator-size="14" style="margin-left: 20px;">
+<LSButtonGroup type="success" separator="/" :separator-size="14" style="margin-left: 20px">
   <LSButton link>按钮A</LSButton>
   <LSButton link>按钮B</LSButton>
   <LSButton link>按钮C</LSButton>
 </LSButtonGroup>
+
 ```
 
 :::
@@ -394,7 +408,7 @@ import { ArrowLeft } from '@element-plus/icons-vue';
 :::details 点我查看代码
 
 ```js
-import { Edit, Check, Delete } from '@element-plus/icons-vue';
+import { Check, Delete, Edit } from '@element-plus/icons-vue'
 ```
 
 ```html
@@ -403,6 +417,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
   <LSButton :icon="Check">保存</LSButton>
   <LSButton :icon="Delete">删除</LSButton>
 </LSButtonGroup>
+
 ```
 
 :::
@@ -433,6 +448,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
   </LSButtonGroup>
   <LSButton type="danger">退出</LSButton>
 </LSButtonGroup>
+
 ```
 
 :::
@@ -475,6 +491,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
     }
   }
 </style>
+
 ```
 
 :::
@@ -488,13 +505,13 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
     <LSButton type="primary">提交</LSButton>
     <LSButton>重置</LSButton>
   </div>
-  
+
   <h3>与对话框的集成</h3>
   <div class="dialog-buttons">
     <LSButton>取消</LSButton>
     <LSButton type="primary">确认</LSButton>
   </div>
-  
+
   <h3>与卡片的集成</h3>
   <div class="card-buttons">
     <LSButton type="success" size="small">编辑</LSButton>
@@ -545,6 +562,7 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
     margin-bottom: 20px;
   }
 </style>
+
 ```
 
 :::
@@ -602,9 +620,9 @@ import { Edit, Check, Delete } from '@element-plus/icons-vue';
 :::details 点我查看代码
 
 ```js
-const handleClick = () => {
-  alert('按钮被点击了');
-};
+function handleClick() {
+  alert('按钮被点击了')
+}
 ```
 
 ```html

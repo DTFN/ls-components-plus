@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo.png'
 
 const MENU_CONFIG_LIST = [
   {
@@ -10,7 +10,7 @@ const MENU_CONFIG_LIST = [
     key: '1',
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
-    link: 'https://www.lingshu.net/'
+    link: 'https://www.lingshu.net/',
   },
   {
     title: '养殖单元管理',
@@ -36,9 +36,9 @@ const MENU_CONFIG_LIST = [
             key: '2-1',
             cpoPath: 'pondManager/GroupDetail',
             pCode: 'c21',
-            hideMenu: true
-          }
-        ]
+            hideMenu: true,
+          },
+        ],
       },
       {
         title: '养殖池管理',
@@ -46,7 +46,7 @@ const MENU_CONFIG_LIST = [
         path: 'pond-manager',
         key: '2-2',
         cpoPath: 'pondManager/Index',
-        pCode: 'c22'
+        pCode: 'c22',
       },
       {
         title: '养殖品种',
@@ -54,7 +54,7 @@ const MENU_CONFIG_LIST = [
         path: 'fishCategory',
         key: '2-3',
         cpoPath: 'prodManager/fishCategory/Index',
-        pCode: 'c23'
+        pCode: 'c23',
       },
       {
         title: '养殖区域可视化',
@@ -62,7 +62,7 @@ const MENU_CONFIG_LIST = [
         path: 'area-view',
         key: '2-4',
         cpoPath: 'pondManager/AreaView',
-        pCode: 'c24'
+        pCode: 'c24',
       },
       {
         title: '养殖周期管理',
@@ -90,13 +90,13 @@ const MENU_CONFIG_LIST = [
                 key: '2-5',
                 cpoPath: 'pondManager/cycle/HistoryCycleDetail',
                 pCode: 'c25',
-                hideMenu: true
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                hideMenu: true,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     title: '规划管理',
@@ -114,7 +114,7 @@ const MENU_CONFIG_LIST = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
+        hideMenu: true,
       },
       {
         title: '编辑规划',
@@ -123,7 +123,7 @@ const MENU_CONFIG_LIST = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
+        hideMenu: true,
       },
       {
         title: '规划详情',
@@ -132,16 +132,16 @@ const MENU_CONFIG_LIST = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
-      }
-    ]
-  }
-];
+        hideMenu: true,
+      },
+    ],
+  },
+]
 
 const formData = ref({
   username: '',
-  password: ''
-});
+  password: '',
+})
 const formItems = ref<FormItemsType[]>([
   {
     type: 'input',
@@ -152,14 +152,14 @@ const formItems = ref<FormItemsType[]>([
       {
         required: true,
         message: '请输入用户名',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9]{4,36}$/i,
         message: '4-36位数字字母组合',
-        trigger: 'blur'
-      }
-    ]
+        trigger: 'blur',
+      },
+    ],
   },
   {
     type: 'input',
@@ -167,118 +167,118 @@ const formItems = ref<FormItemsType[]>([
     prop: 'password',
     attrs: {
       'show-password': true,
-      maxlength: 24
+      'maxlength': 24,
     },
     rules: [
       {
         required: true,
         message: '请输入用户密码',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9@]*$/i,
         message: '8-24位数字大小写字母组合',
-        trigger: 'blur'
-      }
-    ]
-  }
-]);
+        trigger: 'blur',
+      },
+    ],
+  },
+])
 
 const tableColumn = [
   {
     label: '参数名称',
-    prop: 'code'
+    prop: 'code',
   },
   {
     label: '参数描述',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '默认值',
-    prop: 'defaultValue'
-  }
-];
+    prop: 'defaultValue',
+  },
+]
 const tableData = ref([
   {
     id: '1',
     code: 'EquipmentTypeEnum',
     name: '机组类型',
-    defaultValue: '0'
+    defaultValue: '0',
   },
   {
     id: '2',
     code: 'EquipmentCategoryEnum',
     name: '机组类别',
-    defaultValue: '1'
+    defaultValue: '1',
   },
   {
     id: '3',
     code: 'capacity',
     name: '装机容量(MW)',
-    defaultValue: '0'
+    defaultValue: '0',
   },
   {
     id: '4',
     code: 'ratedPower',
     name: '额定功率',
-    defaultValue: '0'
+    defaultValue: '0',
   },
   {
     id: '5',
     code: 'ProductTypeEnum',
     name: '产品类型',
-    defaultValue: '1'
+    defaultValue: '1',
   },
   {
     id: '6',
     code: 'BoilerTypeEnum',
     name: '锅炉类型',
-    defaultValue: '1'
+    defaultValue: '1',
   },
   {
     id: '7',
     code: 'boiler_productionCapacity',
     name: '生产能力',
-    defaultValue: '1'
+    defaultValue: '1',
   },
   {
     id: '8',
     code: 'TurbineTypeEnum',
     name: '汽轮机类型',
-    defaultValue: '0'
+    defaultValue: '0',
   },
   {
     id: '9',
     code: 'PressureParamsTypeEnum',
     name: '汽轮机压力参数',
-    defaultValue: '0'
+    defaultValue: '0',
   },
   {
     id: '10',
     code: 'turbine_ratedPower',
     name: '汽轮机额定功率',
-    defaultValue: '1'
+    defaultValue: '1',
   },
   {
     id: '11',
     code: 'EquipmentTypeEnum',
     name: '机组类型1',
-    defaultValue: '2'
-  }
-]);
+    defaultValue: '2',
+  },
+])
 
 const commandList = ref([
   {
     key: 'test',
-    name: '测试Command'
-  }
-]);
+    name: '测试Command',
+  },
+])
 
 function goBack() {
-  history.back();
+  history.back()
 }
 
-const titleHtml = `test1`;
+const titleHtml = `test1`
 </script>
 
 <template>
@@ -288,7 +288,7 @@ const titleHtml = `test1`;
       aside-width="220px"
       :logo="logo"
       :title="titleHtml"
-      :user-name="'userName'"
+      user-name="userName"
       :command-list="commandList"
       theme="glass"
       :show-command="false"
@@ -297,13 +297,16 @@ const titleHtml = `test1`;
         <LSMenu :menu-config-list="MENU_CONFIG_LIST" style="width: 220px" />
       </template>
       <!-- <template #headerTitle>12312 </template> -->
-      <template #headerRight> qweqweqwe </template>
+      <template #headerRight>
+        qweqweqwe
+      </template>
       <template #section>
         <div v-if="false" class="ls-main-container">
-          <div class="ls-main-title">列表区域</div>
+          <div class="ls-main-title">
+            列表区域
+          </div>
           <div class="ls-search-wrap">
             <LSForm
-              ref="FormRef"
               inline
               confirm-text="查询"
               :form-data="formData"
@@ -320,7 +323,8 @@ const titleHtml = `test1`;
               :table-column="tableColumn"
               :table-data="tableData"
             >
-              <el-table-column prop="operate" label="操作" width="120px"> </el-table-column>
+              <el-table-column prop="operate" label="操作" width="120px">
+              </el-table-column>
             </LSTable>
           </div>
         </div>
@@ -332,7 +336,6 @@ const titleHtml = `test1`;
           <div class="main-container">
             <div class="ls-edit-from-wrap">
               <LSForm
-                ref="FormRef"
                 confirm-text="查询"
                 :form-data="formData"
                 :form-items="formItems"
@@ -348,7 +351,9 @@ const titleHtml = `test1`;
     <LSLayout theme="cyber">
       <template #section>
         <div style="padding: 20px">
-          <h2 style="margin-bottom: 20px; color: #10b981">赛博朋克主题</h2>
+          <h2 style="margin-bottom: 20px; color: #10b981">
+            赛博朋克主题
+          </h2>
           <p>这是主题内容区域测试，具有边框、背景和暗黑风格。</p>
         </div>
       </template>
@@ -371,7 +376,9 @@ const titleHtml = `test1`;
       </template>
       <template #section>
         <div style="padding: 20px">
-          <h2 style="margin-bottom: 20px; color: #2563eb">极简柔和主题</h2>
+          <h2 style="margin-bottom: 20px; color: #2563eb">
+            极简柔和主题
+          </h2>
           <p>这是内容区域测试，带有阴影、圆角和优雅的白色背景。</p>
         </div>
       </template>

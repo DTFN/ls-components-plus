@@ -30,34 +30,34 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const downloadFileRef = ref();
-const chunkTotal = ref(3);
-const initRequstNum = ref(2);
-const maxErrorNum = ref(2);
+const downloadFileRef = ref()
+const chunkTotal = ref(3)
+const initRequstNum = ref(2)
+const maxErrorNum = ref(2)
 
 // 分片下载接口
 function chunkDownload(params, config) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // 模拟分片下载
     setTimeout(() => {
-      resolve({ data: `chunk ${params.chunk} data` });
-    }, 1000);
-  });
+      resolve({ data: `chunk ${params.chunk} data` })
+    }, 1000)
+  })
 }
 
 function downloadFunc() {
-  downloadFileRef.value.start();
+  downloadFileRef.value.start()
 }
 
 function onDownloadSuccess(data) {
-  console.log('下载成功:', data);
+  console.log('下载成功:', data)
   // 处理下载完成的数据
 }
 
 function onDownloadError(data) {
-  console.log('下载失败:', data);
+  console.log('下载失败:', data)
   // 处理下载错误
 }
 ```
@@ -100,33 +100,34 @@ function onDownloadError(data) {
 ::: details 点我查看代码
 
 ```js
-const downloadFileRef2 = ref();
-const chunkTotal2 = ref(5);
-const initRequstNum2 = ref(3);
-const maxErrorNum2 = ref(3);
-const requestParams = { token: 'your-token', userId: 123 };
+const downloadFileRef2 = ref()
+const chunkTotal2 = ref(5)
+const initRequstNum2 = ref(3)
+const maxErrorNum2 = ref(3)
+const requestParams = { token: 'your-token', userId: 123 }
 
 // 带自定义参数的分片下载
 function chunkDownloadWithParams(params, config) {
-  console.log('请求参数:', params);
-  console.log('请求配置:', config);
-  return new Promise(resolve => {
+  console.log('请求参数:', params)
+  console.log('请求配置:', config)
+
+  return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ data: `chunk ${params.chunk} data`, params });
-    }, 800);
-  });
+      resolve({ data: `chunk ${params.chunk} data`, params })
+    }, 800)
+  })
 }
 
 function downloadFunc2() {
-  downloadFileRef2.value.start();
+  downloadFileRef2.value.start()
 }
 
 function onDownloadSuccess2(data) {
-  console.log('带参数下载成功:', data);
+  console.log('带参数下载成功:', data)
 }
 
 function onDownloadError2(data) {
-  console.log('带参数下载失败:', data);
+  console.log('带参数下载失败:', data)
 }
 ```
 
@@ -168,10 +169,10 @@ function onDownloadError2(data) {
 ::: details 点我查看代码
 
 ```js
-const downloadFileRef3 = ref();
-const chunkTotal3 = ref(4);
-const initRequstNum3 = ref(2);
-const maxErrorNum3 = ref(2);
+const downloadFileRef3 = ref()
+const chunkTotal3 = ref(4)
+const initRequstNum3 = ref(2)
+const maxErrorNum3 = ref(2)
 
 // 带错误处理的分片下载
 function chunkDownloadWithError(params, config) {
@@ -179,26 +180,27 @@ function chunkDownloadWithError(params, config) {
     // 模拟偶尔失败的情况
     if (params.chunk === 2) {
       setTimeout(() => {
-        reject(new Error(`Chunk ${params.chunk} failed`));
-      }, 500);
-    } else {
-      setTimeout(() => {
-        resolve({ data: `chunk ${params.chunk} data` });
-      }, 800);
+        reject(new Error(`Chunk ${params.chunk} failed`))
+      }, 500)
     }
-  });
+    else {
+      setTimeout(() => {
+        resolve({ data: `chunk ${params.chunk} data` })
+      }, 800)
+    }
+  })
 }
 
 function downloadFunc3() {
-  downloadFileRef3.value.start();
+  downloadFileRef3.value.start()
 }
 
 function onDownloadSuccess3(data) {
-  console.log('带错误处理下载成功:', data);
+  console.log('带错误处理下载成功:', data)
 }
 
 function onDownloadError3(data) {
-  console.log('带错误处理下载失败:', data);
+  console.log('带错误处理下载失败:', data)
   // 可以在这里实现重试逻辑
 }
 ```
@@ -241,35 +243,35 @@ function onDownloadError3(data) {
 ::: details 点我查看代码
 
 ```js
-const downloadFileRef4 = ref();
-const chunkTotal4 = ref(10);
-const initRequstNum4 = ref(5);
-const maxErrorNum4 = ref(3);
+const downloadFileRef4 = ref()
+const chunkTotal4 = ref(10)
+const initRequstNum4 = ref(5)
+const maxErrorNum4 = ref(3)
 
 // 大文件分片下载
 function chunkDownloadLargeFile(params, config) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // 模拟大文件分片下载
     setTimeout(() => {
       resolve({
         multipartFile: `large-file-chunk-${params.chunk}`,
         length: 1024 * 1024 // 模拟1MB分片
-      });
-    }, 500);
-  });
+      })
+    }, 500)
+  })
 }
 
 function downloadFunc4() {
-  downloadFileRef4.value.start();
+  downloadFileRef4.value.start()
 }
 
 function onDownloadSuccess4(data) {
-  console.log('大文件下载成功:', data.length, '个分片');
+  console.log('大文件下载成功:', data.length, '个分片')
   // 这里可以实现分片合并逻辑
 }
 
 function onDownloadError4(data) {
-  console.log('大文件下载失败:', data);
+  console.log('大文件下载失败:', data)
 }
 ```
 
@@ -315,30 +317,30 @@ function onDownloadError4(data) {
 ::: details 点我查看代码
 
 ```js
-const downloadFileRef5 = ref();
-const chunkTotal5 = ref(4);
-const initRequstNum5 = ref(2);
-const maxErrorNum5 = ref(2);
+const downloadFileRef5 = ref()
+const chunkTotal5 = ref(4)
+const initRequstNum5 = ref(2)
+const maxErrorNum5 = ref(2)
 
 // 分片下载接口
 function chunkDownloadStyled(params, config) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ data: `chunk ${params.chunk} data` });
-    }, 800);
-  });
+      resolve({ data: `chunk ${params.chunk} data` })
+    }, 800)
+  })
 }
 
 function downloadFunc5() {
-  downloadFileRef5.value.start();
+  downloadFileRef5.value.start()
 }
 
 function onDownloadSuccess5(data) {
-  console.log('样式定制下载成功:', data);
+  console.log('样式定制下载成功:', data)
 }
 
 function onDownloadError5(data) {
-  console.log('样式定制下载失败:', data);
+  console.log('样式定制下载失败:', data)
 }
 ```
 
@@ -385,6 +387,99 @@ function onDownloadError5(data) {
 ### 实际项目中的完整下载流程
 
 ```vue
+<script setup>
+import axios from 'axios'
+import { reactive, ref } from 'vue'
+
+const downloadFileRef = ref()
+const fileId = ref('file-123')
+const chunkTotal = ref(5)
+const userToken = ref('your-auth-token')
+const isDownloading = ref(false)
+const taskId = ref('')
+
+// 初始化分片下载任务
+async function initDownloadTask() {
+  try {
+    const response = await axios.get(`/api/download/init/${fileId.value}`, {
+      headers: { Authorization: `Bearer ${userToken.value}` }
+    })
+    taskId.value = response.data.taskId
+    chunkTotal.value = response.data.chunkTotal
+
+    return true
+  }
+  catch (error) {
+    console.error('初始化下载任务失败:', error)
+
+    return false
+  }
+}
+
+// 分片下载实现
+function chunkDownload(params, config) {
+  return axios.get(`/api/download/chunk/${fileId.value}/${params.chunk}`, {
+    headers: { Authorization: `Bearer ${userToken.value}` },
+    params: { taskId: taskId.value, ...params },
+    responseType: 'blob',
+    signal: config.signal
+  })
+}
+
+// 完成下载任务
+async function completeDownloadTask() {
+  try {
+    await axios.get(`/api/download/complete/${fileId.value}/${taskId.value}`, {
+      headers: { Authorization: `Bearer ${userToken.value}` }
+    })
+  }
+  catch (error) {
+    console.error('完成下载任务失败:', error)
+  }
+}
+
+// 开始下载
+async function startDownload() {
+  const initSuccess = await initDownloadTask()
+
+  if (initSuccess) {
+    isDownloading.value = true
+    downloadFileRef.value.start()
+  }
+}
+
+// 取消下载
+function cancelDownload() {
+  // 这里可以实现取消逻辑
+  isDownloading.value = false
+}
+
+// 处理下载成功
+async function handleDownloadSuccess(data) {
+  console.log('下载成功:', data)
+  await completeDownloadTask()
+
+  // 处理下载的数据（例如合并分片、保存文件等）
+  processDownloadedData(data)
+
+  isDownloading.value = false
+}
+
+// 处理下载失败
+function handleDownloadError(data) {
+  console.error('下载失败:', data)
+  isDownloading.value = false
+  // 可以在这里显示错误提示
+}
+
+// 处理下载的数据
+function processDownloadedData(data) {
+  // 实现分片合并和文件保存逻辑
+  console.log('处理下载的数据:', data.length, '个分片')
+  // 例如：合并二进制数据、创建Blob对象、下载文件等
+}
+</script>
+
 <template>
   <div>
     <LSDownloadFile
@@ -400,98 +495,14 @@ function onDownloadError5(data) {
       @on-download-error="handleDownloadError"
     />
     <br />
-    <LSButton type="primary" @click="startDownload">开始下载</LSButton>
-    <LSButton @click="cancelDownload" :disabled="!isDownloading">取消下载</LSButton>
+    <LSButton type="primary" @click="startDownload">
+      开始下载
+    </LSButton>
+    <LSButton :disabled="!isDownloading" @click="cancelDownload">
+      取消下载
+    </LSButton>
   </div>
 </template>
-
-<script setup>
-import { ref, reactive } from 'vue';
-import axios from 'axios';
-
-const downloadFileRef = ref();
-const fileId = ref('file-123');
-const chunkTotal = ref(5);
-const userToken = ref('your-auth-token');
-const isDownloading = ref(false);
-const taskId = ref('');
-
-// 初始化分片下载任务
-async function initDownloadTask() {
-  try {
-    const response = await axios.get(`/api/download/init/${fileId.value}`, {
-      headers: { Authorization: `Bearer ${userToken.value}` }
-    });
-    taskId.value = response.data.taskId;
-    chunkTotal.value = response.data.chunkTotal;
-    return true;
-  } catch (error) {
-    console.error('初始化下载任务失败:', error);
-    return false;
-  }
-}
-
-// 分片下载实现
-function chunkDownload(params, config) {
-  return axios.get(`/api/download/chunk/${fileId.value}/${params.chunk}`, {
-    headers: { Authorization: `Bearer ${userToken.value}` },
-    params: { taskId: taskId.value, ...params },
-    responseType: 'blob',
-    signal: config.signal
-  });
-}
-
-// 完成下载任务
-async function completeDownloadTask() {
-  try {
-    await axios.get(`/api/download/complete/${fileId.value}/${taskId.value}`, {
-      headers: { Authorization: `Bearer ${userToken.value}` }
-    });
-  } catch (error) {
-    console.error('完成下载任务失败:', error);
-  }
-}
-
-// 开始下载
-async function startDownload() {
-  const initSuccess = await initDownloadTask();
-  if (initSuccess) {
-    isDownloading.value = true;
-    downloadFileRef.value.start();
-  }
-}
-
-// 取消下载
-function cancelDownload() {
-  // 这里可以实现取消逻辑
-  isDownloading.value = false;
-}
-
-// 处理下载成功
-async function handleDownloadSuccess(data) {
-  console.log('下载成功:', data);
-  await completeDownloadTask();
-
-  // 处理下载的数据（例如合并分片、保存文件等）
-  processDownloadedData(data);
-
-  isDownloading.value = false;
-}
-
-// 处理下载失败
-function handleDownloadError(data) {
-  console.error('下载失败:', data);
-  isDownloading.value = false;
-  // 可以在这里显示错误提示
-}
-
-// 处理下载的数据
-function processDownloadedData(data) {
-  // 实现分片合并和文件保存逻辑
-  console.log('处理下载的数据:', data.length, '个分片');
-  // 例如：合并二进制数据、创建Blob对象、下载文件等
-}
-</script>
 ```
 
 ## 常见问题及解决方案
@@ -741,13 +752,13 @@ const tableData = ref([
     name: 'chunkDataRequestParams',
     desc: '分片数据请求函数参数',
     type: 'object',
-    value: '-' 
+    value: '-'
   },
   {
     name: 'chunkDataRequestConfig',
     desc: '分片数据请求函数配置',
     type: 'object',
-    value: '-' 
+    value: '-'
   },
   {
     name: 'initRequstNum',

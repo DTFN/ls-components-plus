@@ -1,55 +1,55 @@
 <script setup lang="ts">
-import { XfaLayer } from 'pdfjs-dist';
-import { onMounted, ref, toRaw, watch } from 'vue';
-
-import type { PDFDocumentProxy, PDFPageProxy, PageViewport } from 'pdfjs-dist';
-import type { XfaLayerParameters } from 'pdfjs-dist/types/src/display/xfa_layer';
-
-import { SimpleLinkService } from './linkService';
+import type { PageViewport, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist'
+import type { XfaLayerParameters } from 'pdfjs-dist/types/src/display/xfa_layer'
+import { XfaLayer } from 'pdfjs-dist'
+import { onMounted, ref, toRaw, watch } from 'vue'
+import { SimpleLinkService } from './linkService'
 
 const props = defineProps<{
-  page?: PDFPageProxy;
-  document?: PDFDocumentProxy;
-  viewport?: PageViewport;
-}>();
+  page?: PDFPageProxy
+  document?: PDFDocumentProxy
+  viewport?: PageViewport
+}>()
 
 const emit = defineEmits<{
-  (event: 'xfaLoaded'): void;
-}>();
+  (event: 'xfaLoaded'): void
+}>()
 
-const layer = ref<HTMLDivElement>();
+const layer = ref<HTMLDivElement>()
 
 async function render() {
-  layer.value!.replaceChildren?.();
+  layer.value!.replaceChildren?.()
 
-  const pdf = toRaw(props.document);
-  const page = props.page;
-  const viewport = props.viewport;
+  const pdf = toRaw(props.document)
+  const page = props.page
+  const viewport = props.viewport
 
   if (pdf!.isPureXfa) {
-    const xfaHTML = await page!.getXfa();
+    const xfaHTML = await page!.getXfa()
     const parameters: XfaLayerParameters = {
       div: layer.value!,
       viewport: viewport!.clone({ dontFlip: true }),
       linkService: new SimpleLinkService(),
       annotationStorage: pdf?.annotationStorage,
-      xfaHtml: xfaHTML!
-    };
-    XfaLayer.render(parameters);
-    emit('xfaLoaded');
+      xfaHtml: xfaHTML!,
+    }
+    XfaLayer.render(parameters)
+    emit('xfaLoaded')
   }
 }
 
 watch(
   () => props.viewport,
   () => {
-    if (props.page && props.viewport && layer.value) render();
-  }
-);
+    if (props.page && props.viewport && layer.value)
+      render()
+  },
+)
 
 onMounted(() => {
-  if (props.page && props.viewport && layer.value) render();
-});
+  if (props.page && props.viewport && layer.value)
+    render()
+})
 </script>
 
 <template>

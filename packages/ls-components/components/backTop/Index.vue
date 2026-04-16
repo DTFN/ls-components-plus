@@ -27,42 +27,41 @@
  *   <CustomIcon />
  * </LSBackTop>
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsBackTopProps } from './types';
-import { merge } from 'lodash-es';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { merge } from 'lodash-es'
+import { lsBackTopProps } from './types'
 
 defineOptions({
   name: 'LSBackTop',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-const ns = useNamespace('back-top');
-const comClass: string = ns.b();
-const optClass: string = ns.b('opt');
+const props = defineProps(lsBackTopProps)
+const ns = useNamespace('back-top')
+const comClass: string = ns.b()
+const optClass: string = ns.b('opt')
 
-const slots = useSlots();
+const slots = useSlots()
 
-const props = defineProps(lsBackTopProps);
-
-const lsBackTopRef = ref();
+const lsBackTopRef = ref()
 
 const defAttrs: Ref<{
-  right: number;
-  bottom: number;
+  right: number
+  bottom: number
 }> = ref({
   right: 36,
-  bottom: 60
-});
-const aniClass = ref('');
+  bottom: 60,
+})
+const aniClass = ref('')
 
 function onClickFunc(): void {
   if (props.aniSwitch) {
-    aniClass.value = 'launch';
+    aniClass.value = 'launch'
     const timer = setTimeout(() => {
-      aniClass.value = '';
-      lsBackTopRef.value.querySelector('.el-backtop').style.opacity = 0;
-      clearTimeout(timer);
-    }, 500);
+      aniClass.value = ''
+      lsBackTopRef.value.querySelector('.el-backtop').style.opacity = 0
+      clearTimeout(timer)
+    }, 500)
   }
 }
 </script>

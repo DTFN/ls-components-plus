@@ -34,12 +34,8 @@ LSList 由三个可独立控制的区块构成：
 
 ```html
 <!-- 三区块：表单 / 操作栏 / 表格+分页，可分别用 show-form、show-operate 关闭 -->
-<LSList
-  :list-api="listApi"
-  :table-column="tableColumn"
-  :form-data="formData"
-  :form-items="formItems"
-/>
+<LSList :list-api="listApi" :table-column="tableColumn" :form-data="formData" :form-items="formItems" />
+
 ```
 
 ### 请求与数据流（速览）
@@ -54,18 +50,18 @@ LSList 由三个可独立控制的区块构成：
 
 ## 适用场景速查
 
-| 场景 | 关键配置 |
-|------|---------|
-| 标准 CRUD 列表（路由跳转） | `listApi` + `delApi` + `tableColumn` |
-| 弹框操作列表 | `addFn` + `tableDetailFn` + `tableEditFn` |
-| 纯数据展示列表（无操作） | `show-operate="false"` + `show-table-operate="false"` |
-| 仅查询无增删改 | `show-add="false"` + `show-table-edit="false"` + `show-table-del="false"` |
-| 带状态开关管理列表 | `show-table-switch` + `switchApi` |
-| 搜索筛选列表 | `formData` + `formItems` + `dealParams` |
-| 自定义列渲染 | `#{prop}-table-slot` |
-| 自定义搜索控件 | `#{prop}-form-slot` |
-| 外部触发刷新 | `ref` + `loadData()` / `handleReset()` |
-| 延后首次请求 / 手动拉数 | `list-hook-config="{ autoFetch: false }"` + `ref` 上 `loadData()` |
+| 场景                          | 关键配置                                                                         |
+| ----------------------------- | -------------------------------------------------------------------------------- |
+| 标准 CRUD 列表（路由跳转）    | `listApi` + `delApi` + `tableColumn`                                             |
+| 弹框操作列表                  | `addFn` + `tableDetailFn` + `tableEditFn`                                        |
+| 纯数据展示列表（无操作）      | `show-operate="false"` + `show-table-operate="false"`                            |
+| 仅查询无增删改                | `show-add="false"` + `show-table-edit="false"` + `show-table-del="false"`        |
+| 带状态开关管理列表            | `show-table-switch` + `switchApi`                                                |
+| 搜索筛选列表                  | `formData` + `formItems` + `dealParams`                                          |
+| 自定义列渲染                  | `#{prop}-table-slot`                                                             |
+| 自定义搜索控件                | `#{prop}-form-slot`                                                              |
+| 外部触发刷新                  | `ref` + `loadData()` / `handleReset()`                                           |
+| 延后首次请求 / 手动拉数       | `list-hook-config="{ autoFetch: false }"` + `ref` 上 `loadData()`                |
 | 表单单卡 + 表格区成卡（样式） | `form-class` + `operate-class` + 外层样式（见 [§18 样式定制](#list-style-card)） |
 
 ```html
@@ -77,76 +73,77 @@ LSList 由三个可独立控制的区块构成：
 
 <!-- 弹框编辑（不走路由） -->
 <LSList :list-api="listApi" :table-column="cols" :add-fn="openAdd" :table-edit-fn="openEdit" />
+
 ```
 
 ## 属性速查
 
 与 `lsListProps`（`types.ts`）顺序一致；模板中常用 **kebab-case** 写法，示例如下。
 
-| 属性 | 说明 | 默认值 | 示例 |
-| --- | --- | --- | --- |
-| `listApi` | 列表数据接口，须返回 `Promise`；无 `dealData` 时响应为 `{ records, total }` | — | `:list-api="listApi"` |
-| `dealParams` | 请求参数预处理，返回值作为 `listApi` 入参 | — | `:deal-params="dealParams"` |
-| `dealData` | 适配列表响应，须返回 `{ data: [], total: number }` | — | `:deal-data="dealData"` |
-| `listHookConfig` | 透传 `useTableListHook`（勿在此写 `dealData`/`dealParams`，会被覆盖） | — | `:list-hook-config="{ pageSizeProp: 20 }"` |
-| `delApi` | 删除接口，`Promise`；默认参数为 `row[tableRowKey]` | — | `:del-api="delApi"` |
-| `dealDelParams` | 删除参数预处理，入参整行 `row` | — | `:deal-del-params="(row) => ({ id: row.id })"` |
-| `delMessage` | 删除成功提示；可为 `(row) => string` | `''` | `del-message="已删除"`；`:del-message="(row) => '已删 ' + row.name"` |
-| `switchApi` | 开关切换接口，`Promise` | — | `:switch-api="switchApi"` |
-| `dealSwitchParams` | 开关请求参数预处理 | — | `:deal-switch-params="(row) => row.id"` |
-| `showForm` | 是否显示搜索表单区 | `true` | `:show-form="false"` |
-| `formClass` | 表单根节点追加 class | `''` | `form-class="ls-search-form"` |
-| `formData` | 搜索表单绑定数据（同 LSForm） | `{}` | `:form-data="formData"` |
-| `formItems` | 搜索表单项配置（同 LSForm `form-items`） | `[]` | `:form-items="formItems"` |
-| `formAttrs` | 透传内部 LSForm（如 `column`、`label-width`） | `{}` | `:form-attrs="{ column: 3 }"` |
-| `queryFn` | 覆盖查询时 `loadData`；查询前仍会页码置 1 | — | `:query-fn="onQuery"` |
-| `resetFn` | 覆盖列表侧 `handleReset`；表单仍会先 `resetFields` | — | `:reset-fn="onReset"` |
-| `tableColumn` | 表格列配置（同 LSTable） | `[]` | `:table-column="tableColumn"` |
-| `tableRowKey` | 行主键字段，用于操作列/删除/开关传参 | `'id'` | `table-row-key="uuid"` |
-| `tableAttrs` | 透传内部 LSTable / `el-table` | `{}` | `:table-attrs="{ stripe: true, border: true }"` |
-| `tableListeners` | 透传表格事件，如 `selection-change` | `{}` | `:table-listeners="{ 'selection-change': onSel }"` |
-| `showOperate` | 是否显示操作按钮区域 | `true` | `:show-operate="false"` |
-| `showOperateDivider` | 表单区与操作区间分割线 | `true` | `:show-operate-divider="false"` |
-| `operateClass` | 操作区容器追加 class | `''` | `operate-class="toolbar"` |
-| `showAdd` | 是否显示「添加」按钮 | `true` | `:show-add="false"` |
-| `disabledAddBtn` | 是否禁用添加按钮 | `false` | `:disabled-add-btn="loading"` |
-| `addBtnText` | 添加按钮文案 | `'添加'` | `add-btn-text="新建"` |
-| `addBtnAttrs` | 透传添加按钮 `el-button` | `{}` | `:add-btn-attrs="{ type: 'success' }"` |
-| `addFn` | 覆盖添加按钮行为（弹框等） | — | `:add-fn="openAddDialog"` |
-| `showTableSwitch` | 是否显示开关列 | `false` | `:show-table-switch="true"` |
-| `switchProp` | 开关绑定的行字段名 | `'status'` | `switch-prop="enabled"` |
-| `tableSwitchColumn` | 透传开关列表头列 `el-table-column` | `{}` | `:table-switch-column="{ label: '启用', width: '90' }"` |
-| `tableSwitchAttrs` | 透传 `el-switch` | `{}` | `:table-switch-attrs="{ inlinePrompt: true }"` |
-| `tableSwitchPopAttrs` | 透传关开关前 `ElMessageBox` | `{}` | `:table-switch-pop-attrs="{ type: 'warning' }"` |
-| `tableSwitchPopTxt` | 关开关前确认文案 | `'请问是否关闭？'` | `table-switch-pop-txt="确认关闭？"` |
-| `disabledTableSwitch` | 开关是否禁用，可为 `(row) => boolean` | `false` | `:disabled-table-switch="(row) => row.system"` |
-| `showTableOperate` | 是否显示操作列 | `true` | `:show-table-operate="false"` |
-| `tableOperateColumn` | 透传操作列 `el-table-column` | `{}` | `:table-operate-column="{ label: '操作', width: '200' }"` |
-| `tableDetailFn` | 覆盖查看按钮 | — | `:table-detail-fn="(row) => openDetail(row)"` |
-| `tableEditFn` | 覆盖编辑按钮 | — | `:table-edit-fn="(row) => openEdit(row)"` |
-| `tableDelFn` | 覆盖删除；签名为 `(row, setLoading) => void` | — | `:table-del-fn="handleDel"` |
-| `showTableDetail` | 查看按钮显隐，`boolean` 或 `(row) => boolean` | `true` | `:show-table-detail="(row) => row.canView"` |
-| `disabledTableDetail` | 查看按钮禁用 | `false` | `:disabled-table-detail="(row) => row.locked"` |
-| `showTableEdit` | 编辑按钮显隐 | `true` | `:show-table-edit="false"` |
-| `disabledTableEdit` | 编辑按钮禁用 | `false` | `:disabled-table-edit="(row) => row.locked"` |
-| `showTableDel` | 删除按钮显隐 | `true` | `:show-table-del="(row) => !row.system"` |
-| `disabledTableDel` | 删除按钮禁用 | `false` | `:disabled-table-del="(row) => row.readonly"` |
-| `tableDelPopAttrs` | 透传删除 `el-popconfirm` | `{}` | `:table-del-pop-attrs="{ width: 240 }"` |
-| `addRoutePath` | 添加页路由；空则 `${currentPath}/add` | `''` | `add-route-path="/user/create"` |
-| `detailRoutePath` | 详情路由前缀；实际为 `path/${id}` | `''` | `detail-route-path="/user/view"` |
-| `editRoutePath` | 编辑路由前缀 | `''` | `edit-route-path="/user/edit"` |
-| `tableDetailText` | 查看按钮文案 | `'查看'` | `:table-detail-text="(row) => row.isAdmin ? '管理' : '查看'"` |
-| `tableEditText` | 编辑按钮文案 | `'编辑'` | `table-edit-text="修改"` |
-| `tableDelText` | 删除按钮文案 | `'删除'` | `table-del-text="移除"` |
-| `tableDetailType` | 查看按钮 `type` | `'primary'` | `table-detail-type="success"` |
-| `tableEditType` | 编辑按钮 `type` | `'primary'` | `table-edit-type="warning"` |
-| `tableDelType` | 删除按钮 `type` | `'danger'` | `table-del-type="danger"` |
-| `tableDetailBtnAttrs` | 透传查看 `el-button` | `{}` | `:table-detail-btn-attrs="{ link: true }"` |
-| `tableEditBtnAttrs` | 透传编辑 `el-button` | `{}` | `:table-edit-btn-attrs="{ size: 'small' }"` |
-| `tableDelBtnAttrs` | 透传删除 `el-button` | `{}` | `:table-del-btn-attrs="{ loading: delLoading }"` |
-| `skeletonAttrs` | 透传首次加载骨架 `el-skeleton` | `{}` | `:skeleton-attrs="{ rows: 6 }"` |
-| `showSkeleton` | 首次加载是否显示骨架屏 | `true` | `:show-skeleton="false"` |
-| `popconfirmTxt` | 删除确认文案；空则内置「是否 + 删除按钮文案 + 当前行数据？」 | `''` | `:popconfirm-txt="(row) => '确认删除 ' + row.name + '？'"` |
+| 属性                  | 说明                                                                        | 默认值             | 示例                                                                 |
+| --------------------- | --------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------- |
+| `listApi`             | 列表数据接口，须返回 `Promise`；无 `dealData` 时响应为 `{ records, total }` | —                  | `:list-api="listApi"`                                                |
+| `dealParams`          | 请求参数预处理，返回值作为 `listApi` 入参                                   | —                  | `:deal-params="dealParams"`                                          |
+| `dealData`            | 适配列表响应，须返回 `{ data: [], total: number }`                          | —                  | `:deal-data="dealData"`                                              |
+| `listHookConfig`      | 透传 `useTableListHook`（勿在此写 `dealData`/`dealParams`，会被覆盖）       | —                  | `:list-hook-config="{ pageSizeProp: 20 }"`                           |
+| `delApi`              | 删除接口，`Promise`；默认参数为 `row[tableRowKey]`                          | —                  | `:del-api="delApi"`                                                  |
+| `dealDelParams`       | 删除参数预处理，入参整行 `row`                                              | —                  | `:deal-del-params="(row) => ({ id: row.id })"`                       |
+| `delMessage`          | 删除成功提示；可为 `(row) => string`                                        | `''`               | `del-message="已删除"`；`:del-message="(row) => '已删 ' + row.name"` |
+| `switchApi`           | 开关切换接口，`Promise`                                                     | —                  | `:switch-api="switchApi"`                                            |
+| `dealSwitchParams`    | 开关请求参数预处理                                                          | —                  | `:deal-switch-params="(row) => row.id"`                              |
+| `showForm`            | 是否显示搜索表单区                                                          | `true`             | `:show-form="false"`                                                 |
+| `formClass`           | 表单根节点追加 class                                                        | `''`               | `form-class="ls-search-form"`                                        |
+| `formData`            | 搜索表单绑定数据（同 LSForm）                                               | `{}`               | `:form-data="formData"`                                              |
+| `formItems`           | 搜索表单项配置（同 LSForm `form-items`）                                    | `[]`               | `:form-items="formItems"`                                            |
+| `formAttrs`           | 透传内部 LSForm（如 `column`、`label-width`）                               | `{}`               | `:form-attrs="{ column: 3 }"`                                        |
+| `queryFn`             | 覆盖查询时 `loadData`；查询前仍会页码置 1                                   | —                  | `:query-fn="onQuery"`                                                |
+| `resetFn`             | 覆盖列表侧 `handleReset`；表单仍会先 `resetFields`                          | —                  | `:reset-fn="onReset"`                                                |
+| `tableColumn`         | 表格列配置（同 LSTable）                                                    | `[]`               | `:table-column="tableColumn"`                                        |
+| `tableRowKey`         | 行主键字段，用于操作列/删除/开关传参                                        | `'id'`             | `table-row-key="uuid"`                                               |
+| `tableAttrs`          | 透传内部 LSTable / `el-table`                                               | `{}`               | `:table-attrs="{ stripe: true, border: true }"`                      |
+| `tableListeners`      | 透传表格事件，如 `selection-change`                                         | `{}`               | `:table-listeners="{ 'selection-change': onSel }"`                   |
+| `showOperate`         | 是否显示操作按钮区域                                                        | `true`             | `:show-operate="false"`                                              |
+| `showOperateDivider`  | 表单区与操作区间分割线                                                      | `true`             | `:show-operate-divider="false"`                                      |
+| `operateClass`        | 操作区容器追加 class                                                        | `''`               | `operate-class="toolbar"`                                            |
+| `showAdd`             | 是否显示「添加」按钮                                                        | `true`             | `:show-add="false"`                                                  |
+| `disabledAddBtn`      | 是否禁用添加按钮                                                            | `false`            | `:disabled-add-btn="loading"`                                        |
+| `addBtnText`          | 添加按钮文案                                                                | `'添加'`           | `add-btn-text="新建"`                                                |
+| `addBtnAttrs`         | 透传添加按钮 `el-button`                                                    | `{}`               | `:add-btn-attrs="{ type: 'success' }"`                               |
+| `addFn`               | 覆盖添加按钮行为（弹框等）                                                  | —                  | `:add-fn="openAddDialog"`                                            |
+| `showTableSwitch`     | 是否显示开关列                                                              | `false`            | `:show-table-switch="true"`                                          |
+| `switchProp`          | 开关绑定的行字段名                                                          | `'status'`         | `switch-prop="enabled"`                                              |
+| `tableSwitchColumn`   | 透传开关列表头列 `el-table-column`                                          | `{}`               | `:table-switch-column="{ label: '启用', width: '90' }"`              |
+| `tableSwitchAttrs`    | 透传 `el-switch`                                                            | `{}`               | `:table-switch-attrs="{ inlinePrompt: true }"`                       |
+| `tableSwitchPopAttrs` | 透传关开关前 `ElMessageBox`                                                 | `{}`               | `:table-switch-pop-attrs="{ type: 'warning' }"`                      |
+| `tableSwitchPopTxt`   | 关开关前确认文案                                                            | `'请问是否关闭？'` | `table-switch-pop-txt="确认关闭？"`                                  |
+| `disabledTableSwitch` | 开关是否禁用，可为 `(row) => boolean`                                       | `false`            | `:disabled-table-switch="(row) => row.system"`                       |
+| `showTableOperate`    | 是否显示操作列                                                              | `true`             | `:show-table-operate="false"`                                        |
+| `tableOperateColumn`  | 透传操作列 `el-table-column`                                                | `{}`               | `:table-operate-column="{ label: '操作', width: '200' }"`            |
+| `tableDetailFn`       | 覆盖查看按钮                                                                | —                  | `:table-detail-fn="(row) => openDetail(row)"`                        |
+| `tableEditFn`         | 覆盖编辑按钮                                                                | —                  | `:table-edit-fn="(row) => openEdit(row)"`                            |
+| `tableDelFn`          | 覆盖删除；签名为 `(row, setLoading) => void`                                | —                  | `:table-del-fn="handleDel"`                                          |
+| `showTableDetail`     | 查看按钮显隐，`boolean` 或 `(row) => boolean`                               | `true`             | `:show-table-detail="(row) => row.canView"`                          |
+| `disabledTableDetail` | 查看按钮禁用                                                                | `false`            | `:disabled-table-detail="(row) => row.locked"`                       |
+| `showTableEdit`       | 编辑按钮显隐                                                                | `true`             | `:show-table-edit="false"`                                           |
+| `disabledTableEdit`   | 编辑按钮禁用                                                                | `false`            | `:disabled-table-edit="(row) => row.locked"`                         |
+| `showTableDel`        | 删除按钮显隐                                                                | `true`             | `:show-table-del="(row) => !row.system"`                             |
+| `disabledTableDel`    | 删除按钮禁用                                                                | `false`            | `:disabled-table-del="(row) => row.readonly"`                        |
+| `tableDelPopAttrs`    | 透传删除 `el-popconfirm`                                                    | `{}`               | `:table-del-pop-attrs="{ width: 240 }"`                              |
+| `addRoutePath`        | 添加页路由；空则 `${currentPath}/add`                                       | `''`               | `add-route-path="/user/create"`                                      |
+| `detailRoutePath`     | 详情路由前缀；实际为 `path/${id}`                                           | `''`               | `detail-route-path="/user/view"`                                     |
+| `editRoutePath`       | 编辑路由前缀                                                                | `''`               | `edit-route-path="/user/edit"`                                       |
+| `tableDetailText`     | 查看按钮文案                                                                | `'查看'`           | `:table-detail-text="(row) => row.isAdmin ? '管理' : '查看'"`        |
+| `tableEditText`       | 编辑按钮文案                                                                | `'编辑'`           | `table-edit-text="修改"`                                             |
+| `tableDelText`        | 删除按钮文案                                                                | `'删除'`           | `table-del-text="移除"`                                              |
+| `tableDetailType`     | 查看按钮 `type`                                                             | `'primary'`        | `table-detail-type="success"`                                        |
+| `tableEditType`       | 编辑按钮 `type`                                                             | `'primary'`        | `table-edit-type="warning"`                                          |
+| `tableDelType`        | 删除按钮 `type`                                                             | `'danger'`         | `table-del-type="danger"`                                            |
+| `tableDetailBtnAttrs` | 透传查看 `el-button`                                                        | `{}`               | `:table-detail-btn-attrs="{ link: true }"`                           |
+| `tableEditBtnAttrs`   | 透传编辑 `el-button`                                                        | `{}`               | `:table-edit-btn-attrs="{ size: 'small' }"`                          |
+| `tableDelBtnAttrs`    | 透传删除 `el-button`                                                        | `{}`               | `:table-del-btn-attrs="{ loading: delLoading }"`                     |
+| `skeletonAttrs`       | 透传首次加载骨架 `el-skeleton`                                              | `{}`               | `:skeleton-attrs="{ rows: 6 }"`                                      |
+| `showSkeleton`        | 首次加载是否显示骨架屏                                                      | `true`             | `:show-skeleton="false"`                                             |
+| `popconfirmTxt`       | 删除确认文案；空则内置「是否 + 删除按钮文案 + 当前行数据？」                | `''`               | `:popconfirm-txt="(row) => '确认删除 ' + row.name + '？'"`           |
 
 ```html
 <!-- 速查表 → 模板：camelCase 在 JS 中写，模板里常用 kebab-case -->
@@ -160,6 +157,7 @@ LSList 由三个可独立控制的区块构成：
   :show-table-switch="false"
   @submit-form="onSearch"
 />
+
 ```
 
 ---
@@ -196,7 +194,7 @@ LSList 由三个可独立控制的区块构成：
 // listApi 接收当前搜索参数 + 分页参数，返回 Promise
 // ⚠️ 默认响应格式须为：{ records: Array, total: number }
 function basicListApi(params) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         records: [
@@ -212,7 +210,7 @@ function basicListApi(params) {
 
 const basicTableColumn = ref([
   { label: '姓名', prop: 'name' },
-  { label: '年龄', prop: 'age',  width: '80' },
+  { label: '年龄', prop: 'age', width: '80' },
   { label: '部门', prop: 'dept' },
   { label: '状态', prop: 'status' }
 ])
@@ -229,6 +227,7 @@ const basicTableColumn = ref([
   :table-edit-fn="(row) => openEdit(row)"
   :table-del-fn="(row, cb) => handleDel(row, cb)"
 />
+
 ```
 
 :::
@@ -257,7 +256,8 @@ const basicTableColumn = ref([
 // 假设接口返回 { code: 0, data: { list: [], count: 0 } }
 function adaptListApi(params) {
   console.log('实际请求参数：', params)
-  return new Promise(resolve => {
+
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         code: 0,
@@ -289,6 +289,7 @@ function adaptDealParams(params) {
       result[k] = v
     }
   })
+
   return result
 }
 
@@ -312,6 +313,7 @@ const adaptTableColumn = ref([
   :form-items="formItems"
   :table-column="tableColumn"
 />
+
 ```
 
 :::
@@ -358,7 +360,7 @@ const searchFormItems = ref([
     label: '部门',
     prop: 'dept',
     options: [
-      { label: '全部',  value: '' },
+      { label: '全部', value: '' },
       { label: '技术部', value: 'tech' },
       { label: '产品部', value: 'product' },
       { label: '设计部', value: 'design' }
@@ -389,12 +391,8 @@ function searchListApi(params) {
 ```
 
 ```html
-<LSList
-  :list-api="listApi"
-  :form-data="formData"
-  :form-items="formItems"
-  :table-column="tableColumn"
-/>
+<LSList :list-api="listApi" :form-data="formData" :form-items="formItems" :table-column="tableColumn" />
+
 ```
 
 :::
@@ -458,6 +456,7 @@ function readonlyListApi() {
   :show-table-edit="false"
   :show-table-del="false"
 />
+
 ```
 
 :::
@@ -524,13 +523,14 @@ function readonlyListApi() {
 <!-- ② 完全替换操作区 -->
 <LSList :list-api="listApi" :table-column="tableColumn">
   <template #operate>
-    <div style="display:flex;gap:8px;padding:16px 0 8px">
+    <div style="display: flex; gap: 8px; padding: 16px 0 8px">
       <el-button type="primary" @click="handleAdd">新增</el-button>
       <el-button @click="handleBatchImport">批量导入</el-button>
       <el-button @click="handleExport">导出</el-button>
     </div>
   </template>
 </LSList>
+
 ```
 
 :::
@@ -564,17 +564,17 @@ function readonlyListApi() {
 
 ```js
 const operateColTableColumn = ref([
-  { label: '姓名',   prop: 'name' },
-  { label: '角色',   prop: 'typeText' },
-  { label: '状态',   prop: 'statusText' }
+  { label: '姓名', prop: 'name' },
+  { label: '角色', prop: 'typeText' },
+  { label: '状态', prop: 'statusText' }
 ])
 
 function operateColListApi() {
   return new Promise(resolve => setTimeout(() => resolve({
     records: [
-      { id: 1, name: '张三', typeText: '管理员', type: 'admin',  statusText: '正常',   locked: false },
-      { id: 2, name: '李四', typeText: '普通用户', type: 'user', statusText: '已锁定', locked: true  },
-      { id: 3, name: '王五', typeText: '普通用户', type: 'user', statusText: '正常',   locked: false }
+      { id: 1, name: '张三', typeText: '管理员', type: 'admin', statusText: '正常', locked: false },
+      { id: 2, name: '李四', typeText: '普通用户', type: 'user', statusText: '已锁定', locked: true },
+      { id: 3, name: '王五', typeText: '普通用户', type: 'user', statusText: '正常', locked: false }
     ],
     total: 3
   }), 200))
@@ -592,6 +592,7 @@ function operateColListApi() {
   :disabled-table-edit="(row) => row.locked"
   :show-table-del="(row) => !row.locked"
 />
+
 ```
 
 > **行级数据覆盖**：除了通过 props 函数控制外，还可以在行数据中直接设置 `row.tableDetailText`、`row.tableEditText`、`row.tableDelText`、`row.popconfirmTxt` 属性，优先级高于 props，适合后端直接返回按钮配置的场景。
@@ -625,6 +626,7 @@ function operateColListApi() {
 // del-api 默认接收 row[tableRowKey]（即 row.id）
 function mockDelApi(id) {
   console.log('删除 id：', id)
+
   return new Promise(resolve => setTimeout(resolve, 500))
 }
 
@@ -653,6 +655,7 @@ function delListApi() {
   :deal-del-params="(row) => ({ id: row.id, version: row.version })"
   @del-success="handleDelSuccess"
 />
+
 ```
 
 :::
@@ -696,9 +699,9 @@ const switchTableColumn = ref([
 function switchListApi() {
   return new Promise(resolve => setTimeout(() => resolve({
     records: [
-      { id: 1, name: '用户注册',     desc: '允许用户注册', enabled: 1, system: false, note: '可关闭' },
-      { id: 2, name: '系统核心服务', desc: '不可关闭',     enabled: 1, system: true,  note: '系统必须项' },
-      { id: 3, name: '邮件通知',     desc: '发送邮件',     enabled: 0, system: false, note: '可开启' }
+      { id: 1, name: '用户注册', desc: '允许用户注册', enabled: 1, system: false, note: '可关闭' },
+      { id: 2, name: '系统核心服务', desc: '不可关闭', enabled: 1, system: true, note: '系统必须项' },
+      { id: 3, name: '邮件通知', desc: '发送邮件', enabled: 0, system: false, note: '可开启' }
     ],
     total: 3
   }), 200))
@@ -717,6 +720,7 @@ function switchListApi() {
   :disabled-table-switch="(row) => row.system"
   @switch-success="(row, status) => handleSwitchSuccess(row, status)"
 />
+
 ```
 
 > 操作列宽度会影响左侧数据列可用宽度，进而影响 **`show-overflow-tooltip`** 是否在「名称」等列上出现（仅溢出时才有提示），详见 [注意与说明 → 表格溢出提示与操作列宽度](#list-tooltip-operate-column)。
@@ -765,7 +769,7 @@ function switchListApi() {
 
 ```js
 const dialogVisible = ref(false)
-const dialogMode = ref('add')    // 'add' | 'edit' | 'detail'
+const dialogMode = ref('add') // 'add' | 'edit' | 'detail'
 const dialogTitle = computed(() => ({ add: '新增', edit: '编辑', detail: '详情' }[dialogMode.value]))
 const dialogRow = ref({ name: '', dept: '' })
 
@@ -798,6 +802,7 @@ function dialogListApi() {
 <el-dialog v-model="dialogVisible" :title="dialogTitle">
   <!-- 弹框内容 -->
 </el-dialog>
+
 ```
 
 :::
@@ -808,11 +813,11 @@ function dialogListApi() {
 
 操作列按钮默认跳转规则（使用内部 `useRouterHook`）：
 
-| 按钮 | 默认路径 |
-|------|---------|
-| 添加 | `${currentPath}/add` |
+| 按钮 | 默认路径                          |
+| ---- | --------------------------------- |
+| 添加 | `${currentPath}/add`              |
 | 查看 | `${currentPath}/detail/${row.id}` |
-| 编辑 | `${currentPath}/edit/${row.id}` |
+| 编辑 | `${currentPath}/edit/${row.id}`   |
 
 通过 `add-route-path`、`detail-route-path`、`edit-route-path` 可覆盖：
 
@@ -839,6 +844,7 @@ function dialogListApi() {
   :table-detail-fn="(row) => openDetailDrawer(row)"
   :table-edit-fn="(row) => openEditDialog(row)"
 />
+
 ```
 
 > **路由传参**：查看和编辑的默认路由会在路径末尾追加 `/${row[tableRowKey]}`，例如 `/system/user/edit/123`。如需传递更复杂的参数，请使用 `tableEditFn` / `tableDetailFn` 函数覆盖。
@@ -875,7 +881,9 @@ const customQueryFormData = ref({ keyword: '', type: '' })
 const customQueryFormItems = ref([
   { type: 'input', label: '关键词', prop: 'keyword', attrs: { placeholder: '请输入' } },
   {
-    type: 'select', label: '类型', prop: 'type',
+    type: 'select',
+    label: '类型',
+    prop: 'type',
     options: [
       { label: '全部', value: '' },
       { label: 'A类', value: 'A' },
@@ -907,6 +915,7 @@ function customResetFn(formData) {
   :query-fn="customQueryFn"
   :reset-fn="customResetFn"
 />
+
 ```
 
 > **注意**：`query-fn` 需在函数内自行 `loadData()`；查询前组件仍会 `handleCurrentPageChange(1, false)`。`reset-fn` 需在函数内自行 `loadData()` 或 `handleReset()`；表单项已由 LSForm `resetFields` 清空。
@@ -975,12 +984,7 @@ const formSlotTableColumn = ref([
 ```
 
 ```html
-<LSList
-  :list-api="listApi"
-  :form-data="formData"
-  :form-items="formItems"
-  :table-column="tableColumn"
->
+<LSList :list-api="listApi" :form-data="formData" :form-items="formItems" :table-column="tableColumn">
   <!--
     插槽名：${prop}-form-slot
     作用域：{ slotRow, value, updateModelValue }
@@ -999,6 +1003,7 @@ const formSlotTableColumn = ref([
     <el-button type="primary" plain @click="handleAdvancedSearch">高级搜索</el-button>
   </template>
 </LSList>
+
 ```
 
 :::
@@ -1035,11 +1040,11 @@ const formSlotTableColumn = ref([
 
 ```js
 const tableSlotTableColumn = ref([
-  { label: '头像',  prop: 'avatar', width: '70'  },   // 使用 #avatar-table-slot
-  { label: '姓名',  prop: 'name' },
-  { label: '部门',  prop: 'dept' },
-  { label: '状态',  prop: 'status', width: '90'  },   // 使用 #status-table-slot
-  { label: '评分',  prop: 'score',  width: '200' }    // 使用 #score-table-slot
+  { label: '头像', prop: 'avatar', width: '70' }, // 使用 #avatar-table-slot
+  { label: '姓名', prop: 'name' },
+  { label: '部门', prop: 'dept' },
+  { label: '状态', prop: 'status', width: '90' }, // 使用 #status-table-slot
+  { label: '评分', prop: 'score', width: '200' } // 使用 #score-table-slot
 ])
 
 function tableSlotListApi() {
@@ -1047,7 +1052,7 @@ function tableSlotListApi() {
     records: [
       { id: 1, name: '张三', dept: '技术部', status: '在职', statusType: 'success', score: 4 },
       { id: 2, name: '李四', dept: '产品部', status: '在职', statusType: 'success', score: 3 },
-      { id: 3, name: '王五', dept: '设计部', status: '离职', statusType: 'info',    score: 2 }
+      { id: 3, name: '王五', dept: '设计部', status: '离职', statusType: 'info', score: 2 }
     ],
     total: 3
   }), 200))
@@ -1067,6 +1072,7 @@ function tableSlotListApi() {
     <el-avatar>{{ row.name[0] }}</el-avatar>
   </template>
 </LSList>
+
 ```
 
 :::
@@ -1115,14 +1121,11 @@ const operatePrependTableColumn = ref([
   </template>
   <!-- 查看/编辑/删除按钮之后 -->
   <template #table-operate-append="{ row }">
-    <el-button
-      v-if="row.status === '在职'"
-      link type="warning"
-      @click="handleDisable(row)"
-    >禁用</el-button>
+    <el-button v-if="row.status === '在职'" link type="warning" @click="handleDisable(row)">禁用</el-button>
     <el-button v-else link type="primary" @click="handleEnable(row)">启用</el-button>
   </template>
 </LSList>
+
 ```
 
 :::
@@ -1200,6 +1203,7 @@ const fullDoseTableAttrs = { pageSizes: [2, 5, 10] }
     pageSizeProp: 2
   }"
 />
+
 ```
 
 :::
@@ -1233,6 +1237,7 @@ const fullDoseTableAttrs = { pageSizes: [2, 5, 10] }
 // hasPanigation: false：params 中不含 currentPage / pageSize；resolve 须为数组（否则须 dealData 抽出 data）
 function noPaginationListApi(params) {
   console.log('请求参数（无分页）：', params)
+
   return new Promise(resolve => setTimeout(() => resolve([
     { id: 1, name: '张三', dept: '技术部' },
     { id: 2, name: '李四', dept: '产品部' },
@@ -1253,16 +1258,17 @@ const noPaginationTableColumn = ref([
   :table-attrs="{ showPagination: false }"
   :list-hook-config="{ hasPanigation: false }"
 />
+
 ```
 
 > **hasPanigation vs isFullDose 对比（与 `useTableListHook` 一致）：**
 >
-> | | `hasPanigation: false` | `isFullDose: true` |
-> |---|---|---|
-> | 是否传 `currentPage` / `pageSize` | 否 | 是（每次 `loadData` 都会带；全量模式通常仍只请求一次直至再次刷新） |
-> | 典型返回形态 | **数组**，或经 **`deal-data`** 得到 `data` | **数组**可直接用；**对象**必须 **`deal-data`** → `{ data, total }` |
-> | 内部 `total` | **不更新**（保持 0），须 **`showPagination: false`** | 使用 `dealData` 的 `total` 或数组 `length`，**有分页条（前端翻页）** |
-> | 适用场景 | 接口无分页、一次给全表 | 接口一次给全量列表，但希望前端分页 UI |
+> |                                   | `hasPanigation: false`                               | `isFullDose: true`                                                   |
+> | --------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------- |
+> | 是否传 `currentPage` / `pageSize` | 否                                                   | 是（每次 `loadData` 都会带；全量模式通常仍只请求一次直至再次刷新）   |
+> | 典型返回形态                      | **数组**，或经 **`deal-data`** 得到 `data`           | **数组**可直接用；**对象**必须 **`deal-data`** → `{ data, total }`   |
+> | 内部 `total`                      | **不更新**（保持 0），须 **`showPagination: false`** | 使用 `dealData` 的 `total` 或数组 `length`，**有分页条（前端翻页）** |
+> | 适用场景                          | 接口无分页、一次给全表                               | 接口一次给全量列表，但希望前端分页 UI                                |
 
 :::
 
@@ -1295,7 +1301,7 @@ const noPaginationTableColumn = ref([
 ::: details 点我查看代码
 
 ```js
-import { ref, onMounted, nextTick } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 
 const listRef = ref()
 
@@ -1331,12 +1337,8 @@ function autoFetchListApi() {
 <!-- 不自动加载：须在合适的时机调用 loadData()（按钮 / onMounted+nextTick 等） -->
 <el-button type="primary" @click="handleManualLoad">加载数据</el-button>
 
-<LSList
-  ref="listRef"
-  :list-api="listApi"
-  :table-column="tableColumn"
-  :list-hook-config="{ autoFetch: false }"
-/>
+<LSList ref="listRef" :list-api="listApi" :table-column="tableColumn" :list-hook-config="{ autoFetch: false }" />
+
 ```
 
 :::
@@ -1381,7 +1383,7 @@ function listApi() {
       { id: 3, name: '王五', age: 25, dept: '设计部' }
     ],
     total: 3,
-    summary: { avgAge: 28.3 }   // 接口附带统计数据
+    summary: { avgAge: 28.3 } // 接口附带统计数据
   }), 300))
 }
 
@@ -1422,6 +1424,7 @@ const listHookConfig = {
     }"
   />
 </div>
+
 ```
 
 > `callbackAfter` 第一个参数 `res` 是**原始响应**（未经 dealData 处理），因此即使 `dealData` 只返回 `data`/`total`，仍可在 `callbackAfter` 中访问接口返回的所有字段（如 `summary`、`extra` 等）。
@@ -1499,11 +1502,8 @@ function getSelectedRows() {
 <el-button @click="refreshAfterSave">保存并刷新</el-button>
 <el-button @click="resetPageAndReload">回第一页并刷新</el-button>
 
-<LSList
-  ref="listRef"
-  :list-api="listApi"
-  :table-column="tableColumn"
-/>
+<LSList ref="listRef" :list-api="listApi" :table-column="tableColumn" />
+
 ```
 
 :::
@@ -1569,6 +1569,7 @@ function textCustomListApi() {
   :del-message="(row) => `「${row.name}」已成功移除`"
   :table-operate-column="{ label: '动作', width: '180' }"
 />
+
 ```
 
 > **开关列标题修改**：通过 `table-switch-column` 配置。
@@ -1579,6 +1580,355 @@ function textCustomListApi() {
 >   :table-switch-column="{ label: '启用状态', width: '100' }"
 >   table-switch-pop-txt="确认关闭此项？"
 > />
+> ```
+
+> ```
+>
+> ```
+
+> ```
+
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
+> ```
+
+> ```
+>
 > ```
 
 > **行数据字段覆盖**：后端接口可直接在每条行数据中返回 `tableDetailText`、`tableEditText`、`tableDelText`、`popconfirmTxt` 字段，优先级高于所有 props 配置，无需前端额外处理。
@@ -1632,6 +1982,7 @@ function textCustomListApi() {
     :show-operate-divider="false"
   />
 </div>
+
 ```
 
 ```css
@@ -1665,6 +2016,7 @@ function textCustomListApi() {
   border-radius: 0 0 8px 8px;
   box-shadow: var(--el-box-shadow-light);
 }
+
 ```
 
 在 **`scoped` + `LSList` 根 `class="my-page-list"`** 时，把上面选择器改成 `.my-page-list :deep(.lsdoc-card-form)`、`:deep(.lsdoc-card-toolbar)`、`:deep(.ls-table-wrap)` 即可。
@@ -1777,6 +2129,7 @@ function dealData(res) {
   table-edit-text="修改"
   table-del-text="移除"
 />
+
 ```
 
 ```html
@@ -1794,22 +2147,23 @@ function dealData(res) {
   :popconfirm-txt="(row) => '确认删除「' + row.name + '」？'"
   :del-message="(row) => '「' + row.name + '」已删除'"
 />
+
 ```
 
-| 配置项 | 默认值 | 支持函数 | 说明 |
-|--------|--------|---------|------|
-| `addBtnText` | `'添加'` | — | 操作区添加按钮文案 |
-| `tableDetailText` | `'查看'` | ✓ `(row) => string` | 操作列查看按钮文案 |
-| `tableDetailType` | `'primary'` | ✓ `(row) => string` | 查看按钮 Element Plus 类型 |
-| `tableEditText` | `'编辑'` | ✓ `(row) => string` | 操作列编辑按钮文案 |
-| `tableEditType` | `'primary'` | ✓ `(row) => string` | 编辑按钮 Element Plus 类型 |
-| `tableDelText` | `'删除'` | ✓ `(row) => string` | 操作列删除按钮文案 |
-| `tableDelType` | `'danger'` | ✓ `(row) => string` | 删除按钮 Element Plus 类型 |
-| `popconfirmTxt` | `是否${delText}当前行数据？` | ✓ `(row) => string` | 删除确认弹框标题（`delText` 为当前行解析后的删除按钮文案） |
-| `delMessage` | `''`（空则走 `${delText}成功`） | ✓ `(row) => string` | 删除成功 ElMessage 提示 |
-| `tableSwitchPopTxt` | `'请问是否关闭？'` | — | 开关**关闭**前 ElMessageBox 确认文案 |
-| `tableOperateColumn.label` | `'操作'` | — | 操作列表头（`tableOperateColumn`） |
-| `tableSwitchColumn.label` | `'是否开启'` | — | 开关列表头（`tableSwitchColumn`） |
+| 配置项                     | 默认值                          | 支持函数            | 说明                                                       |
+| -------------------------- | ------------------------------- | ------------------- | ---------------------------------------------------------- |
+| `addBtnText`               | `'添加'`                        | —                   | 操作区添加按钮文案                                         |
+| `tableDetailText`          | `'查看'`                        | ✓ `(row) => string` | 操作列查看按钮文案                                         |
+| `tableDetailType`          | `'primary'`                     | ✓ `(row) => string` | 查看按钮 Element Plus 类型                                 |
+| `tableEditText`            | `'编辑'`                        | ✓ `(row) => string` | 操作列编辑按钮文案                                         |
+| `tableEditType`            | `'primary'`                     | ✓ `(row) => string` | 编辑按钮 Element Plus 类型                                 |
+| `tableDelText`             | `'删除'`                        | ✓ `(row) => string` | 操作列删除按钮文案                                         |
+| `tableDelType`             | `'danger'`                      | ✓ `(row) => string` | 删除按钮 Element Plus 类型                                 |
+| `popconfirmTxt`            | `是否${delText}当前行数据？`    | ✓ `(row) => string` | 删除确认弹框标题（`delText` 为当前行解析后的删除按钮文案） |
+| `delMessage`               | `''`（空则走 `${delText}成功`） | ✓ `(row) => string` | 删除成功 ElMessage 提示                                    |
+| `tableSwitchPopTxt`        | `'请问是否关闭？'`              | —                   | 开关**关闭**前 ElMessageBox 确认文案                       |
+| `tableOperateColumn.label` | `'操作'`                        | —                   | 操作列表头（`tableOperateColumn`）                         |
+| `tableSwitchColumn.label`  | `'是否开启'`                    | —                   | 开关列表头（`tableSwitchColumn`）                          |
 
 **文案优先级（操作列按钮）**——行数据字段优先于 props，props 优先于组件内硬编码兜底：
 
@@ -1829,24 +2183,21 @@ export const listCopyConfig = {
   addBtnText: '新建记录',
   tableDetailText: '详情',
   tableDetailType: 'success',
-  tableEditText: (row) => (row.locked ? '查看' : '修改'),
-  tableEditType: (row) => (row.locked ? 'info' : 'warning'),
+  tableEditText: row => (row.locked ? '查看' : '修改'),
+  tableEditType: row => (row.locked ? 'info' : 'warning'),
   tableDelText: '移除',
   tableDelType: 'danger',
   tableSwitchPopTxt: '确认关闭此项？',
   tableOperateColumn: { label: '动作', width: '180' },
   tableSwitchColumn: { label: '启用状态', width: '100' },
-  popconfirmTxt: (row) => '确认移除「' + row.name + '」？',
-  delMessage: (row) => '「' + row.name + '」已移除'
+  popconfirmTxt: row => `确认移除「${row.name}」？`,
+  delMessage: row => `「${row.name}」已移除`
 }
 ```
 
 ```html
-<LSList
-  :list-api="listApi"
-  :table-column="tableColumn"
-  v-bind="listCopyConfig"
-/>
+<LSList :list-api="listApi" :table-column="tableColumn" v-bind="listCopyConfig" />
+
 ```
 
 **逐项写在模板上的等价写法**
@@ -1868,6 +2219,7 @@ export const listCopyConfig = {
   :popconfirm-txt="(row) => '确认移除「' + row.name + '」？'"
   :del-message="(row) => '「' + row.name + '」已移除'"
 />
+
 ```
 
 **行数据覆盖（后端下发，最高优先级）**
@@ -1898,6 +2250,7 @@ export const listCopyConfig = {
   :del-api="delApi"
   :switch-api="switchApi"
 />
+
 ```
 
 ### 数据与接口
@@ -1907,30 +2260,30 @@ export const listCopyConfig = {
 const dealData = res => ({ data: res.result.rows, total: res.result.totalCount })
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **listApi** | 列表数据接口函数，接收（formData + 分页参数）作为入参，须返回 `Promise`。默认响应须为 `{ records: Array, total: number }` | `Function` | — |
-| **dealParams** | 对请求参数预处理，返回值替代原始参数传给 listApi | `(params: object) => any` | — |
-| **dealData** | 适配接口响应格式，必须返回 `{ data: Array, total: number }` 结构 | `(res: any) => { data: any[], total: number }` | — |
-| **listHookConfig** | 透传给底层 `useTableListHook` 的额外配置项，详见下方子选项说明 | `Object` | — |
-| **delApi** | 删除接口函数，默认接收 `row[tableRowKey]` 作为参数，须返回 `Promise` | `Function` | — |
-| **dealDelParams** | 对删除请求参数预处理，接收整行数据，返回值作为 `delApi` 参数 | `(row: object) => any` | — |
-| **delMessage** | 删除成功提示文案；为函数时接收整行数据动态返回文案 | `string \| (row: object) => string` | `''` |
-| **switchApi** | 开关切换接口函数，默认接收 `row[tableRowKey]`，须返回 `Promise` | `Function` | — |
-| **dealSwitchParams** | 对开关切换请求参数预处理 | `(row: object) => any` | — |
+| 属性名               | 说明                                                                                                                      | 类型                                           | 默认值 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------ |
+| **listApi**          | 列表数据接口函数，接收（formData + 分页参数）作为入参，须返回 `Promise`。默认响应须为 `{ records: Array, total: number }` | `Function`                                     | —      |
+| **dealParams**       | 对请求参数预处理，返回值替代原始参数传给 listApi                                                                          | `(params: object) => any`                      | —      |
+| **dealData**         | 适配接口响应格式，必须返回 `{ data: Array, total: number }` 结构                                                          | `(res: any) => { data: any[], total: number }` | —      |
+| **listHookConfig**   | 透传给底层 `useTableListHook` 的额外配置项，详见下方子选项说明                                                            | `Object`                                       | —      |
+| **delApi**           | 删除接口函数，默认接收 `row[tableRowKey]` 作为参数，须返回 `Promise`                                                      | `Function`                                     | —      |
+| **dealDelParams**    | 对删除请求参数预处理，接收整行数据，返回值作为 `delApi` 参数                                                              | `(row: object) => any`                         | —      |
+| **delMessage**       | 删除成功提示文案；为函数时接收整行数据动态返回文案                                                                        | `string \| (row: object) => string`            | `''`   |
+| **switchApi**        | 开关切换接口函数，默认接收 `row[tableRowKey]`，须返回 `Promise`                                                           | `Function`                                     | —      |
+| **dealSwitchParams** | 对开关切换请求参数预处理                                                                                                  | `(row: object) => any`                         | —      |
 
 **listHookConfig 子选项：**
 
-| 子选项 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| `currentPageProp` | 初始页码 | `number` | `1` |
-| `pageSizeProp` | 初始每页条数 | `number` | `10` |
-| `autoFetch` | 组件挂载时是否自动加载数据。设为 `false` 可延迟首次加载，需手动调用 `loadData()` | `boolean` | `true` |
-| `hasPanigation` | 是否携带分页参数（`currentPage`、`pageSize`）请求接口。设为 `false` 时不传分页参数，`listApi` 宜返回**数组**（或 `dealData` 返回 `data`）；此模式下 hook **不更新 `total`**，需自行 **`table-attrs.showPagination: false`** 以免底部分页与数据不符 | `boolean` | `true` |
-| `isFullDose` | 是否一次性加载全量数据并在**前端**切片分页；翻页/改 `pageSize` 只调 `sliceTableData`，不重复请求。`pageSizeProp` 须与 **`table-attrs.pageSizes`** 对齐（否则 LSTable 会把 `pageSize` 改成 `pageSizes[0]`，常见为 10） | `boolean` | `false` |
-| `isDelayLoader` | 是否启用延迟加载器（骨架屏效果增强）。开启后接口响应不会立即渲染，等待 `delayLoaderTime` 毫秒后再呈现，避免闪屏 | `boolean` | `false` |
-| `delayLoaderTime` | 延迟加载时间（毫秒），仅 `isDelayLoader: true` 时生效 | `number` | `300` |
-| `callbackAfter` | 每次请求完成后的回调。有分页时第二参为 `{ tableData, total }`（`Ref`）；**`hasPanigation: false` 时第二参为 `{}`** | `Function` | — |
+| 子选项            | 说明                                                                                                                                                                                                                                               | 类型       | 默认值  |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
+| `currentPageProp` | 初始页码                                                                                                                                                                                                                                           | `number`   | `1`     |
+| `pageSizeProp`    | 初始每页条数                                                                                                                                                                                                                                       | `number`   | `10`    |
+| `autoFetch`       | 组件挂载时是否自动加载数据。设为 `false` 可延迟首次加载，需手动调用 `loadData()`                                                                                                                                                                   | `boolean`  | `true`  |
+| `hasPanigation`   | 是否携带分页参数（`currentPage`、`pageSize`）请求接口。设为 `false` 时不传分页参数，`listApi` 宜返回**数组**（或 `dealData` 返回 `data`）；此模式下 hook **不更新 `total`**，需自行 **`table-attrs.showPagination: false`** 以免底部分页与数据不符 | `boolean`  | `true`  |
+| `isFullDose`      | 是否一次性加载全量数据并在**前端**切片分页；翻页/改 `pageSize` 只调 `sliceTableData`，不重复请求。`pageSizeProp` 须与 **`table-attrs.pageSizes`** 对齐（否则 LSTable 会把 `pageSize` 改成 `pageSizes[0]`，常见为 10）                              | `boolean`  | `false` |
+| `isDelayLoader`   | 是否启用延迟加载器（骨架屏效果增强）。开启后接口响应不会立即渲染，等待 `delayLoaderTime` 毫秒后再呈现，避免闪屏                                                                                                                                    | `boolean`  | `false` |
+| `delayLoaderTime` | 延迟加载时间（毫秒），仅 `isDelayLoader: true` 时生效                                                                                                                                                                                              | `number`   | `300`   |
+| `callbackAfter`   | 每次请求完成后的回调。有分页时第二参为 `{ tableData, total }`（`Ref`）；**`hasPanigation: false` 时第二参为 `{}`**                                                                                                                                 | `Function` | —       |
 
 ```js
 const listHookConfig = {
@@ -1955,21 +2308,22 @@ const listHookConfig = {
   :table-column="tableColumn"
   :form-attrs="{ column: 3 }"
 />
+
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **showForm** | 是否显示搜索表单区域 | `boolean` | `true` |
-| **formClass** | 表单根元素追加的 class | `string` | `''` |
-| **formData** | 搜索表单绑定的数据对象（同 LSForm form-data） | `Object` | `{}` |
-| **formItems** | 搜索表单项配置数组（同 LSForm form-items） | `Array` | `[]` |
-| **formAttrs** | 透传给内部 LSForm 的额外属性（如 label-width、column 等） | `Object` | `{}` |
-| **queryFn** | 覆盖查询时的 **`loadData()`**；**之前仍会**执行 `handleCurrentPageChange(1, false)`（当前页置为 1，本轮不拉数）。须在 `queryFn` 内自行 `loadData()`，否则列表不刷新 | `(formData: object) => void` | — |
-| **resetFn** | 覆盖列表侧的 **`handleReset()`**（回第一页并刷新）。用户点击「重置」时，LSForm **已先** `resetFields`，与是否配置 `resetFn` 无关；若自定义 `resetFn`，须自行 `loadData()` / `handleReset()` 等刷新列表 | `(formData: object) => void` | — |
+| 属性名        | 说明                                                                                                                                                                                                   | 类型                         | 默认值 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- | ------ |
+| **showForm**  | 是否显示搜索表单区域                                                                                                                                                                                   | `boolean`                    | `true` |
+| **formClass** | 表单根元素追加的 class                                                                                                                                                                                 | `string`                     | `''`   |
+| **formData**  | 搜索表单绑定的数据对象（同 LSForm form-data）                                                                                                                                                          | `Object`                     | `{}`   |
+| **formItems** | 搜索表单项配置数组（同 LSForm form-items）                                                                                                                                                             | `Array`                      | `[]`   |
+| **formAttrs** | 透传给内部 LSForm 的额外属性（如 label-width、column 等）                                                                                                                                              | `Object`                     | `{}`   |
+| **queryFn**   | 覆盖查询时的 **`loadData()`**；**之前仍会**执行 `handleCurrentPageChange(1, false)`（当前页置为 1，本轮不拉数）。须在 `queryFn` 内自行 `loadData()`，否则列表不刷新                                    | `(formData: object) => void` | —      |
+| **resetFn**   | 覆盖列表侧的 **`handleReset()`**（回第一页并刷新）。用户点击「重置」时，LSForm **已先** `resetFields`，与是否配置 `resetFn` 无关；若自定义 `resetFn`，须自行 `loadData()` / `handleReset()` 等刷新列表 | `(formData: object) => void` | —      |
 
 ```js
 // queryFn：须自行 loadData
-const queryFn = form => { listRef.value?.loadData() }
+function queryFn(form) { listRef.value?.loadData() }
 ```
 
 ### 操作按钮区
@@ -1978,18 +2332,19 @@ const queryFn = form => { listRef.value?.loadData() }
 <LSList :list-api="listApi" :table-column="cols" add-btn-text="新建" :add-fn="onAdd">
   <template #operate-prepend><el-button>导入</el-button></template>
 </LSList>
+
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **showOperate** | 是否显示操作按钮区域（含分割线和按钮） | `boolean` | `true` |
-| **showOperateDivider** | 表单区与操作区之间是否显示虚线分割线 | `boolean` | `true` |
-| **operateClass** | 操作区容器追加的 class | `string` | `''` |
-| **showAdd** | 是否显示添加按钮 | `boolean` | `true` |
-| **disabledAddBtn** | 是否禁用添加按钮（loading 时自动禁用） | `boolean` | `false` |
-| **addBtnText** | 添加按钮文案 | `string` | `'添加'` |
-| **addBtnAttrs** | 透传给添加按钮（`el-button`）的额外属性 | `Object` | `{}` |
-| **addFn** | 覆盖添加按钮默认路由跳转行为 | `() => void` | — |
+| 属性名                 | 说明                                    | 类型         | 默认值   |
+| ---------------------- | --------------------------------------- | ------------ | -------- |
+| **showOperate**        | 是否显示操作按钮区域（含分割线和按钮）  | `boolean`    | `true`   |
+| **showOperateDivider** | 表单区与操作区之间是否显示虚线分割线    | `boolean`    | `true`   |
+| **operateClass**       | 操作区容器追加的 class                  | `string`     | `''`     |
+| **showAdd**            | 是否显示添加按钮                        | `boolean`    | `true`   |
+| **disabledAddBtn**     | 是否禁用添加按钮（loading 时自动禁用）  | `boolean`    | `false`  |
+| **addBtnText**         | 添加按钮文案                            | `string`     | `'添加'` |
+| **addBtnAttrs**        | 透传给添加按钮（`el-button`）的额外属性 | `Object`     | `{}`     |
+| **addFn**              | 覆盖添加按钮默认路由跳转行为            | `() => void` | —        |
 
 ### 数据表格
 
@@ -2000,16 +2355,17 @@ const queryFn = form => { listRef.value?.loadData() }
   :table-attrs="{ stripe: true, border: true }"
   :table-listeners="{ 'selection-change': onSelectionChange }"
 />
+
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **tableColumn** | 表格列配置数组（同 LSTable table-column，支持 type: date/status/slot 等） | `Array` | `[]` |
-| **tableRowKey** | 行唯一键字段名，用于操作列传参和开关 loading 匹配 | `string` | `'id'` |
-| **tableAttrs** | 透传给内部 LSTable；LSTable 最终将其中与 `el-table` 兼容的项绑定到 **`el-table`**（`inheritAttrs: false`，以组件实现为准） | `Object` | `{}` |
-| **tableListeners** | 透传给内部 LSTable 的事件对象（如 `{ 'selection-change': fn }`） | `Object` | `{}` |
-| **showSkeleton** | 首次加载时是否显示骨架屏（仅首次生效） | `boolean` | `true` |
-| **skeletonAttrs** | 透传给骨架屏（`el-skeleton`）的额外属性 | `Object` | `{}` |
+| 属性名             | 说明                                                                                                                       | 类型      | 默认值 |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | --------- | ------ |
+| **tableColumn**    | 表格列配置数组（同 LSTable table-column，支持 type: date/status/slot 等）                                                  | `Array`   | `[]`   |
+| **tableRowKey**    | 行唯一键字段名，用于操作列传参和开关 loading 匹配                                                                          | `string`  | `'id'` |
+| **tableAttrs**     | 透传给内部 LSTable；LSTable 最终将其中与 `el-table` 兼容的项绑定到 **`el-table`**（`inheritAttrs: false`，以组件实现为准） | `Object`  | `{}`   |
+| **tableListeners** | 透传给内部 LSTable 的事件对象（如 `{ 'selection-change': fn }`）                                                           | `Object`  | `{}`   |
+| **showSkeleton**   | 首次加载时是否显示骨架屏（仅首次生效）                                                                                     | `boolean` | `true` |
+| **skeletonAttrs**  | 透传给骨架屏（`el-skeleton`）的额外属性                                                                                    | `Object`  | `{}`   |
 
 ### 开关列
 
@@ -2023,17 +2379,18 @@ const queryFn = form => { listRef.value?.loadData() }
   table-switch-pop-txt="确认关闭？"
   :table-switch-column="{ label: '启用', width: '100' }"
 />
+
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **showTableSwitch** | 是否在表格中显示开关列 | `boolean` | `false` |
-| **switchProp** | 开关绑定的行数据字段名（值为 truthy 时表示开启） | `string` | `'status'` |
-| **tableSwitchColumn** | 透传给开关列（`el-table-column`）的额外属性（如 label、width） | `Object` | `{}` |
-| **tableSwitchAttrs** | 透传给开关控件（`el-switch`）的额外属性 | `Object` | `{}` |
-| **tableSwitchPopTxt** | 关闭前 ElMessageBox 的确认提示文案 | `string` | `'请问是否关闭？'` |
-| **tableSwitchPopAttrs** | 透传给 ElMessageBox 确认弹框的额外配置 | `Object` | `{}` |
-| **disabledTableSwitch** | 开关是否禁用，函数形式接收整行数据 | `boolean \| (row: object) => boolean` | `false` |
+| 属性名                  | 说明                                                           | 类型                                  | 默认值             |
+| ----------------------- | -------------------------------------------------------------- | ------------------------------------- | ------------------ |
+| **showTableSwitch**     | 是否在表格中显示开关列                                         | `boolean`                             | `false`            |
+| **switchProp**          | 开关绑定的行数据字段名（值为 truthy 时表示开启）               | `string`                              | `'status'`         |
+| **tableSwitchColumn**   | 透传给开关列（`el-table-column`）的额外属性（如 label、width） | `Object`                              | `{}`               |
+| **tableSwitchAttrs**    | 透传给开关控件（`el-switch`）的额外属性                        | `Object`                              | `{}`               |
+| **tableSwitchPopTxt**   | 关闭前 ElMessageBox 的确认提示文案                             | `string`                              | `'请问是否关闭？'` |
+| **tableSwitchPopAttrs** | 透传给 ElMessageBox 确认弹框的额外配置                         | `Object`                              | `{}`               |
+| **disabledTableSwitch** | 开关是否禁用，函数形式接收整行数据                             | `boolean \| (row: object) => boolean` | `false`            |
 
 **开关交互说明（与 `List.vue` 一致）**
 
@@ -2056,35 +2413,36 @@ const queryFn = form => { listRef.value?.loadData() }
   :table-detail-fn="row => openDetail(row)"
   :disabled-table-edit="row => row.locked"
 />
+
 ```
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **showTableOperate** | 是否显示操作列 | `boolean` | `true` |
-| **tableOperateColumn** | 透传给操作列（`el-table-column`）的额外属性（如 label、width、fixed） | `Object` | `{}` |
-| **addRoutePath** | 添加页路由路径，默认 `${currentPath}/add` | `string` | `''` |
-| **detailRoutePath** | 详情页路由路径，默认 `${currentPath}/detail` | `string` | `''` |
-| **editRoutePath** | 编辑页路由路径，默认 `${currentPath}/edit` | `string` | `''` |
-| **tableDetailFn** | 覆盖查看按钮行为，接收整行数据 | `(row: object) => void` | — |
-| **tableEditFn** | 覆盖编辑按钮行为，接收整行数据 | `(row: object) => void` | — |
-| **tableDelFn** | 覆盖删除按钮行为，接收 `(row, setLoading)` 两个参数 | `(row: object, setLoading: (v: boolean) => void) => void` | — |
-| **showTableDetail** | 查看按钮显隐控制 | `boolean \| (row: object) => boolean` | `true` |
-| **disabledTableDetail** | 查看按钮禁用控制 | `boolean \| (row: object) => boolean` | `false` |
-| **tableDetailText** | 查看按钮文案 | `string \| (row: object) => string` | `'查看'` |
-| **tableDetailType** | 查看按钮类型（Element Plus button type） | `string \| (row: object) => string` | `'primary'` |
-| **tableDetailBtnAttrs** | 透传给查看按钮（`el-button`）的额外属性 | `Object` | `{}` |
-| **showTableEdit** | 编辑按钮显隐控制 | `boolean \| (row: object) => boolean` | `true` |
-| **disabledTableEdit** | 编辑按钮禁用控制 | `boolean \| (row: object) => boolean` | `false` |
-| **tableEditText** | 编辑按钮文案 | `string \| (row: object) => string` | `'编辑'` |
-| **tableEditType** | 编辑按钮类型 | `string \| (row: object) => string` | `'primary'` |
-| **tableEditBtnAttrs** | 透传给编辑按钮的额外属性 | `Object` | `{}` |
-| **showTableDel** | 删除按钮显隐控制 | `boolean \| (row: object) => boolean` | `true` |
-| **disabledTableDel** | 删除按钮禁用控制 | `boolean \| (row: object) => boolean` | `false` |
-| **tableDelText** | 删除按钮文案 | `string \| (row: object) => string` | `'删除'` |
-| **tableDelType** | 删除按钮类型 | `string \| (row: object) => string` | `'danger'` |
-| **tableDelBtnAttrs** | 透传给删除按钮的额外属性 | `Object` | `{}` |
-| **tableDelPopAttrs** | 透传给删除确认框（`el-popconfirm`）的额外属性 | `Object` | `{}` |
-| **popconfirmTxt** | 删除确认框文案，默认 `是否${delText}当前行数据？` | `string \| (row: object) => string` | `''` |
+| 属性名                  | 说明                                                                  | 类型                                                      | 默认值      |
+| ----------------------- | --------------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| **showTableOperate**    | 是否显示操作列                                                        | `boolean`                                                 | `true`      |
+| **tableOperateColumn**  | 透传给操作列（`el-table-column`）的额外属性（如 label、width、fixed） | `Object`                                                  | `{}`        |
+| **addRoutePath**        | 添加页路由路径，默认 `${currentPath}/add`                             | `string`                                                  | `''`        |
+| **detailRoutePath**     | 详情页路由路径，默认 `${currentPath}/detail`                          | `string`                                                  | `''`        |
+| **editRoutePath**       | 编辑页路由路径，默认 `${currentPath}/edit`                            | `string`                                                  | `''`        |
+| **tableDetailFn**       | 覆盖查看按钮行为，接收整行数据                                        | `(row: object) => void`                                   | —           |
+| **tableEditFn**         | 覆盖编辑按钮行为，接收整行数据                                        | `(row: object) => void`                                   | —           |
+| **tableDelFn**          | 覆盖删除按钮行为，接收 `(row, setLoading)` 两个参数                   | `(row: object, setLoading: (v: boolean) => void) => void` | —           |
+| **showTableDetail**     | 查看按钮显隐控制                                                      | `boolean \| (row: object) => boolean`                     | `true`      |
+| **disabledTableDetail** | 查看按钮禁用控制                                                      | `boolean \| (row: object) => boolean`                     | `false`     |
+| **tableDetailText**     | 查看按钮文案                                                          | `string \| (row: object) => string`                       | `'查看'`    |
+| **tableDetailType**     | 查看按钮类型（Element Plus button type）                              | `string \| (row: object) => string`                       | `'primary'` |
+| **tableDetailBtnAttrs** | 透传给查看按钮（`el-button`）的额外属性                               | `Object`                                                  | `{}`        |
+| **showTableEdit**       | 编辑按钮显隐控制                                                      | `boolean \| (row: object) => boolean`                     | `true`      |
+| **disabledTableEdit**   | 编辑按钮禁用控制                                                      | `boolean \| (row: object) => boolean`                     | `false`     |
+| **tableEditText**       | 编辑按钮文案                                                          | `string \| (row: object) => string`                       | `'编辑'`    |
+| **tableEditType**       | 编辑按钮类型                                                          | `string \| (row: object) => string`                       | `'primary'` |
+| **tableEditBtnAttrs**   | 透传给编辑按钮的额外属性                                              | `Object`                                                  | `{}`        |
+| **showTableDel**        | 删除按钮显隐控制                                                      | `boolean \| (row: object) => boolean`                     | `true`      |
+| **disabledTableDel**    | 删除按钮禁用控制                                                      | `boolean \| (row: object) => boolean`                     | `false`     |
+| **tableDelText**        | 删除按钮文案                                                          | `string \| (row: object) => string`                       | `'删除'`    |
+| **tableDelType**        | 删除按钮类型                                                          | `string \| (row: object) => string`                       | `'danger'`  |
+| **tableDelBtnAttrs**    | 透传给删除按钮的额外属性                                              | `Object`                                                  | `{}`        |
+| **tableDelPopAttrs**    | 透传给删除确认框（`el-popconfirm`）的额外属性                         | `Object`                                                  | `{}`        |
+| **popconfirmTxt**       | 删除确认框文案，默认 `是否${delText}当前行数据？`                     | `string \| (row: object) => string`                       | `''`        |
 
 > **行级数据覆盖（优先级最高）**：行数据中直接设置以下字段可覆盖同名 props：`row.tableDetailText`、`row.tableEditText`、`row.tableDelText`、`row.popconfirmTxt`。适合后端直接下发按钮配置的场景，优先级高于所有 props。
 
@@ -2104,17 +2462,18 @@ const queryFn = form => { listRef.value?.loadData() }
   @handle-current-page="onPage"
   @handle-page-size="onSize"
 />
+
 ```
 
-| 事件名（脚本） | 模板监听（kebab-case） | 说明 | 回调参数 |
-|--------|--------|------|----------|
-| **submitForm** | `@submit-form` | 搜索表单提交（查询按钮）后触发 | `(formData: object)` |
-| **resetForm** | `@reset-form` | 搜索表单重置（重置按钮）后触发 | `(formData: object)` |
-| **delSuccess** | `@del-success` | 仅内置 **`del-api`** 删除成功时触发；自定义 **`table-del-fn`** 不会触发 | `(row: object, flag: boolean)`，`flag` 源码固定为 `true`，**不是**接口返回体 |
-| **switchSuccess** | `@switch-success` | 内置 **`switch-api`** 调用成功后触发 | `(row: object, status: any)` |
-| **handleLoading** | `@handle-loading` | 列表 loading 变化 | `(loading: boolean)` |
-| **handleCurrentPage** | `@handle-current-page` | 当前页变化（含程序化改页触发的 watch） | `(currentPage: number)` |
-| **handlePageSize** | `@handle-page-size` | 每页条数变化 | `(pageSize: number)` |
+| 事件名（脚本）        | 模板监听（kebab-case） | 说明                                                                    | 回调参数                                                                     |
+| --------------------- | ---------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **submitForm**        | `@submit-form`         | 搜索表单提交（查询按钮）后触发                                          | `(formData: object)`                                                         |
+| **resetForm**         | `@reset-form`          | 搜索表单重置（重置按钮）后触发                                          | `(formData: object)`                                                         |
+| **delSuccess**        | `@del-success`         | 仅内置 **`del-api`** 删除成功时触发；自定义 **`table-del-fn`** 不会触发 | `(row: object, flag: boolean)`，`flag` 源码固定为 `true`，**不是**接口返回体 |
+| **switchSuccess**     | `@switch-success`      | 内置 **`switch-api`** 调用成功后触发                                    | `(row: object, status: any)`                                                 |
+| **handleLoading**     | `@handle-loading`      | 列表 loading 变化                                                       | `(loading: boolean)`                                                         |
+| **handleCurrentPage** | `@handle-current-page` | 当前页变化（含程序化改页触发的 watch）                                  | `(currentPage: number)`                                                      |
+| **handlePageSize**    | `@handle-page-size`    | 每页条数变化                                                            | `(pageSize: number)`                                                         |
 
 ---
 
@@ -2128,6 +2487,7 @@ const queryFn = form => { listRef.value?.loadData() }
   <template #status-table-slot="{ row }">...</template>
   <template #table-operate-prepend="{ row }">...</template>
 </LSList>
+
 ```
 
 ### 搜索表单插槽
@@ -2137,12 +2497,13 @@ const queryFn = form => { listRef.value?.loadData() }
 <template #dateRange-form-slot="{ value, updateModelValue }">
   <el-date-picker :model-value="value" @update:model-value="updateModelValue" />
 </template>
+
 ```
 
-| 插槽名 | 说明 | 作用域参数 |
-|--------|------|------------|
-| **#form-append** | 在所有表单项之后、查询/重置按钮之前插入自定义内容（透传给 LSForm default 插槽） | `{ ... }` |
-| **#{prop}-form-slot** | 为 `type: 'itemSlot'` 表单项提供自定义渲染，插槽名须以 `-form-slot` 结尾 | `{ slotRow, value, updateModelValue }` |
+| 插槽名                | 说明                                                                            | 作用域参数                             |
+| --------------------- | ------------------------------------------------------------------------------- | -------------------------------------- |
+| **#form-append**      | 在所有表单项之后、查询/重置按钮之前插入自定义内容（透传给 LSForm default 插槽） | `{ ... }`                              |
+| **#{prop}-form-slot** | 为 `type: 'itemSlot'` 表单项提供自定义渲染，插槽名须以 `-form-slot` 结尾        | `{ slotRow, value, updateModelValue }` |
 
 ### 操作区插槽
 
@@ -2150,13 +2511,14 @@ const queryFn = form => { listRef.value?.loadData() }
 <template #operate-prepend><el-button>导入</el-button></template>
 <template #operate-append><el-button>导出</el-button></template>
 <template #operate><div class="toolbar">完全自定义操作区</div></template>
+
 ```
 
-| 插槽名 | 说明 | 作用域参数 |
-|--------|------|------------|
-| **#operate** | **完全替换**操作按钮区域（含分割线），使用此插槽时 showAdd 等属性失效 | — |
-| **#operate-prepend** | 添加按钮之前插入内容 | — |
-| **#operate-append** | 添加按钮之后插入内容 | — |
+| 插槽名               | 说明                                                                  | 作用域参数 |
+| -------------------- | --------------------------------------------------------------------- | ---------- |
+| **#operate**         | **完全替换**操作按钮区域（含分割线），使用此插槽时 showAdd 等属性失效 | —          |
+| **#operate-prepend** | 添加按钮之前插入内容                                                  | —          |
+| **#operate-append**  | 添加按钮之后插入内容                                                  | —          |
 
 使用 **`#operate`** 时：不再渲染「表单区与操作区之间」的**默认虚线分割线**（`show-operate-divider` 仅作用于内置操作条那一支）；**`show-add`、`add-btn-text`、`add-fn` 等内置添加按钮相关 props 也不会再生效**，需在插槽内自行放置按钮。若只需在「添加」两侧加按钮，请用 **`#operate-prepend` / `#operate-append`**，以保留默认添加按钮与分割线逻辑。
 
@@ -2166,14 +2528,15 @@ const queryFn = form => { listRef.value?.loadData() }
 <template #amount-table-slot="{ row }">{{ row.amount }} 元</template>
 <template #table-operate-prepend="{ row }"><el-button link>下载</el-button></template>
 <template #table-append="{ tableData }"><el-table-column label="备注" /></template>
+
 ```
 
-| 插槽名 | 说明 | 作用域参数 |
-|--------|------|------------|
-| **#{prop}-table-slot** | 为指定列单元格提供自定义渲染，插槽名须以 `-table-slot` 结尾 | `{ row, column, $index }` |
-| **#table-operate-prepend** | 操作列内置按钮（查看/编辑/删除）之前插入内容 | `{ row }` |
-| **#table-operate-append** | 操作列内置按钮（查看/编辑/删除）之后插入内容 | `{ row }` |
-| **#table-append** | 表格所有配置列之后追加额外列（如汇总列、自定义操作列） | `{ tableData }` |
+| 插槽名                     | 说明                                                        | 作用域参数                |
+| -------------------------- | ----------------------------------------------------------- | ------------------------- |
+| **#{prop}-table-slot**     | 为指定列单元格提供自定义渲染，插槽名须以 `-table-slot` 结尾 | `{ row, column, $index }` |
+| **#table-operate-prepend** | 操作列内置按钮（查看/编辑/删除）之前插入内容                | `{ row }`                 |
+| **#table-operate-append**  | 操作列内置按钮（查看/编辑/删除）之后插入内容                | `{ row }`                 |
+| **#table-append**          | 表格所有配置列之后追加额外列（如汇总列、自定义操作列）      | `{ tableData }`           |
 
 ---
 
@@ -2194,20 +2557,20 @@ lsf?.resetForm(lsf.FormRef)
 listRef.value.TableRef?.TableRef?.getSelectionRows()
 ```
 
-| 名称 | 类型 | 说明 |
-|------|------|------|
-| **loadData** | `(showLoading?: boolean, firstLoad?: boolean) => void` | 刷新当前页数据（不重置搜索表单）。对应 `useTableListHook`：`showLoading` 默认 `true`；为 `false` 时不进入 loading 态但仍会请求。`firstLoad` 为 `true` 时将 `isFirst` 置回 `true`（骨架屏可再次参与显示逻辑） |
-| **handleReset** | `() => void` | 将页码置为 `1` 并 `loadData` 刷新列表。**不会**调用 `resetFields` 清空搜索表单；表单清空来自用户点击 LSForm 的「重置」按钮（先 `resetFields` 再走到列表侧逻辑）。若需在脚本里同时清空表单，应对内部 **LSForm** 调用 `resetForm(内部 el-form 实例)`，见下方代码块及 [LSForm 文档](./form.md) |
-| **setCurrentPage** | `(page: number, isFetch?: boolean) => void` | 对应底层 `handleCurrentPageChange`。第二参数为 `isFetch`（默认 `true`）。**注意**：hook 内对 `currentPage` 有 `watch`，页码变化后往往会再次走加载逻辑，不要依赖「`isFetch: false` 即可完全不请求」 |
-| **setPageSize** | `(size: number) => void` | 设置每页条数并重新加载 |
-| **isFirst** | `Ref<boolean>` | 是否为首次加载（骨架屏显示的判断依据） |
-| **loading** | `Ref<boolean>` | 当前加载状态 |
-| **currentPage** | `Ref<number>` | 当前页码 |
-| **pageSize** | `Ref<number>` | 每页条数 |
-| **total** | `Ref<number>` | 数据总条数 |
-| **routePath** | `ComputedRef<string>` | 当前路由路径（用于计算默认跳转路径） |
-| **FormRef** | `Ref` | 内部 LSForm 组件实例；`validate` / `submitForm` / `resetForm` 等见 [LSForm](./form.md)。**`resetForm(formEl)`** 须传入 LSForm 暴露的 **`FormRef`（即内部 `el-form` 的 ref）**，例如 `lsf.resetForm(lsf.FormRef)` |
-| **TableRef** | `Ref` | 内部 LSTable 实例，可通过 `TableRef.TableRef` 访问底层 `el-table` 实例（`clearSelection`、`getSelectionRows` 等） |
+| 名称               | 类型                                                   | 说明                                                                                                                                                                                                                                                                                        |
+| ------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **loadData**       | `(showLoading?: boolean, firstLoad?: boolean) => void` | 刷新当前页数据（不重置搜索表单）。对应 `useTableListHook`：`showLoading` 默认 `true`；为 `false` 时不进入 loading 态但仍会请求。`firstLoad` 为 `true` 时将 `isFirst` 置回 `true`（骨架屏可再次参与显示逻辑）                                                                                |
+| **handleReset**    | `() => void`                                           | 将页码置为 `1` 并 `loadData` 刷新列表。**不会**调用 `resetFields` 清空搜索表单；表单清空来自用户点击 LSForm 的「重置」按钮（先 `resetFields` 再走到列表侧逻辑）。若需在脚本里同时清空表单，应对内部 **LSForm** 调用 `resetForm(内部 el-form 实例)`，见下方代码块及 [LSForm 文档](./form.md) |
+| **setCurrentPage** | `(page: number, isFetch?: boolean) => void`            | 对应底层 `handleCurrentPageChange`。第二参数为 `isFetch`（默认 `true`）。**注意**：hook 内对 `currentPage` 有 `watch`，页码变化后往往会再次走加载逻辑，不要依赖「`isFetch: false` 即可完全不请求」                                                                                          |
+| **setPageSize**    | `(size: number) => void`                               | 设置每页条数并重新加载                                                                                                                                                                                                                                                                      |
+| **isFirst**        | `Ref<boolean>`                                         | 是否为首次加载（骨架屏显示的判断依据）                                                                                                                                                                                                                                                      |
+| **loading**        | `Ref<boolean>`                                         | 当前加载状态                                                                                                                                                                                                                                                                                |
+| **currentPage**    | `Ref<number>`                                          | 当前页码                                                                                                                                                                                                                                                                                    |
+| **pageSize**       | `Ref<number>`                                          | 每页条数                                                                                                                                                                                                                                                                                    |
+| **total**          | `Ref<number>`                                          | 数据总条数                                                                                                                                                                                                                                                                                  |
+| **routePath**      | `ComputedRef<string>`                                  | 当前路由路径（用于计算默认跳转路径）                                                                                                                                                                                                                                                        |
+| **FormRef**        | `Ref`                                                  | 内部 LSForm 组件实例；`validate` / `submitForm` / `resetForm` 等见 [LSForm](./form.md)。**`resetForm(formEl)`** 须传入 LSForm 暴露的 **`FormRef`（即内部 `el-form` 的 ref）**，例如 `lsf.resetForm(lsf.FormRef)`                                                                            |
+| **TableRef**       | `Ref`                                                  | 内部 LSTable 实例，可通过 `TableRef.TableRef` 访问底层 `el-table` 实例（`clearSelection`、`getSelectionRows` 等）                                                                                                                                                                           |
 
 ---
 
@@ -2218,7 +2581,7 @@ listRef.value.TableRef?.TableRef?.getSelectionRows()
 ```js
 // 典型注意点速记（script setup 中 ref 须 .value）
 listRef.value.setCurrentPage(2, false) // 仍可能因 currentPage watch 再次请求
-listRef.value.handleReset()            // 不清表单；清表单用 lsf.resetForm(lsf.FormRef)
+listRef.value.handleReset() // 不清表单；清表单用 lsf.resetForm(lsf.FormRef)
 // @del-success 第二参为 boolean（源码 emit(row, true)），不是接口响应体
 ```
 
@@ -2245,11 +2608,13 @@ lsf?.resetForm(lsf.FormRef)
 ### 数据格式与配置合并
 
 ```js
+
 // ✅ 默认 listApi 返回
 { records: [], total: 0 }
 // ✅ dealData 返回（字段名是 data，不是 records）
 { data: [], total: 0 }
 // ❌ listHookConfig 里不要写 dealData / dealParams（会被展开覆盖顶层）
+
 ```
 
 - **`listApi` 响应**：未配置 `dealData` 时，hook 按 `{ records, total }` 解构；字段名不是 `records` / `total` 时必须写 `dealData`，且 **`dealData` 返回值必须是 `{ data, total }`**（与无 `dealData` 时的解构字段不同，勿混用 `list`）。
@@ -2263,6 +2628,7 @@ lsf?.resetForm(lsf.FormRef)
 
 ```js
 function onQuery() { listRef.value.loadData() }
+
 function onReset() { listRef.value.handleReset() }
 ```
 
@@ -2271,6 +2637,7 @@ function onReset() { listRef.value.handleReset() }
 ```html
 <!-- del-success 第二参数为 boolean，不是 HTTP 响应体 -->
 <LSList :del-api="delApi" @del-success="(row, flag) => {}" />
+
 ```
 
 - **`delSuccess` 回调参数**：源码在删除成功后为 `emit('delSuccess', row, true)`，第二个参数是**布尔占位**，不是接口返回体；若需接口数据，请在 `delApi` 的 `then` 中自行处理（当前组件未把 `res` 透出到事件）。
@@ -2278,7 +2645,7 @@ function onReset() { listRef.value.handleReset() }
 
 ```js
 // 自定义删除：自行提示与刷新
-const tableDelFn = (row, setLoading) => {
+function tableDelFn(row, setLoading) {
   setLoading(true)
   api.del(row.id).finally(() => { setLoading(false); listRef.value.loadData() })
 }
@@ -2287,11 +2654,8 @@ const tableDelFn = (row, setLoading) => {
 ### 开关列行为简述
 
 ```html
-<LSList
-  :show-table-switch="true"
-  :switch-api="switchApi"
-  table-switch-pop-txt="关前确认"
-/>
+<LSList :show-table-switch="true" :switch-api="switchApi" table-switch-pop-txt="关前确认" />
+
 ```
 
 - **关闭前确认**：`row[switchProp]` 为开启态时，用户关开关会先弹出 `tableSwitchPopTxt`（及 `tableSwitchPopAttrs`）的确认框；从关到开一般直接请求 `switchApi`（以 `List.vue` 中 `status` 分支为准）。接入前建议用真实数据走一遍交互。
@@ -2305,8 +2669,10 @@ const tableDelFn = (row, setLoading) => {
 ### 文案与行级覆盖
 
 ```js
+
 // 行数据可覆盖按钮文案（优先级高于 props）
 { id: 1, name: '甲', tableEditText: '审批', popconfirmTxt: '确认撤回？' }
+
 ```
 
 - **行内字段优先**：`row.tableDetailText`、`row.tableEditText`、`row.tableDelText`、`row.popconfirmTxt` 会覆盖同名 props，便于后端下发文案；与权限、多语言并存时注意合并策略，避免敏感操作文案被列表数据意外覆盖。

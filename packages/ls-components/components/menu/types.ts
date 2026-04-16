@@ -3,13 +3,13 @@
  * @description 定义菜单组件的props类型、接口和事件
  */
 
-import { IconConfigType } from '@cpo/_types';
-import { buildProps } from '@cpo/_utils/runtime';
-import { LocationQueryRaw } from 'vue-router';
+import type { IconConfigType } from '@cpo/_types'
+import type { LocationQueryRaw } from 'vue-router'
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * 菜单配置基础类型
- * @typedef {Object} MenuBaseType
+ * @typedef {object} MenuBaseType
  * @property {string} title - 菜单名称
  * @property {string} [name] - 菜单路由 `name`
  * @property {string} [path] - 菜单路由 `path`
@@ -27,44 +27,44 @@ import { LocationQueryRaw } from 'vue-router';
  * @property {string} [icon] - 图标名称字符串；与 `iconConfig` 二选一
  * @property {any} [meta] - 路由元信息，可存放自定义数据
  */
-export type MenuBaseType = {
-  title: string;
-  name?: string;
-  path?: string;
-  key?: string;
-  cpoPath?: string;
-  iconConfig?: IconConfigType;
-  leaf?: boolean;
-  hideMenu?: boolean;
-  redirect?: string;
-  pCode?: string | number;
-  iconSlot?: string;
-  defJump?: boolean;
-  link?: string;
-  children?: Array<MenuBaseType>;
-  icon?: String;
-  meta?: any;
-};
+export interface MenuBaseType {
+  title: string
+  name?: string
+  path?: string
+  key?: string
+  cpoPath?: string
+  iconConfig?: IconConfigType
+  leaf?: boolean
+  hideMenu?: boolean
+  redirect?: string
+  pCode?: string | number
+  iconSlot?: string
+  defJump?: boolean
+  link?: string
+  children?: Array<MenuBaseType>
+  icon?: string
+  meta?: any
+}
 
 /**
  * 面包屑列表项类型
- * @typedef {Object} BCListItemType
+ * @typedef {object} BCListItemType
  * @property {string} title - 标题
  * @property {string} [name] - 名称
  */
-export type BCListItemType = {
-  title: string;
-  name?: string;
-};
+export interface BCListItemType {
+  title: string
+  name?: string
+}
 
 /**
  * 菜单面包屑列表类型
- * @typedef {Object} MenuBCListType
+ * @typedef {object} MenuBCListType
  * @property {Array<BCListItemType>} [bcList] - 面包屑列表
  */
-export type MenuBCListType = {
-  bcList?: Array<BCListItemType>;
-};
+export interface MenuBCListType {
+  bcList?: Array<BCListItemType>
+}
 
 /**
  * 配置项类型接口
@@ -81,47 +81,47 @@ export interface ConfigItemType extends MenuBaseType, MenuBCListType {}
  * @property {Array<MenuBaseType>} [children] - 子菜单
  */
 export interface MenuItemType extends ConfigItemType {
-  children?: Array<MenuBaseType>;
+  children?: Array<MenuBaseType>
 }
 
 /**
  * 跳转参数类型
- * @typedef {Object} JumpParamsType
+ * @typedef {object} JumpParamsType
  * @property {string|symbol} [name] - 路由名称
  * @property {string} [title] - 标题
  * @property {string} [path] - 路径
  * @property {LocationQueryRaw} [query] - 查询参数
  * @property {string} [link] - 外部链接
  */
-export type JumpParamsType = {
-  name?: string | symbol;
-  title?: string;
-  path?: string;
-  query?: LocationQueryRaw;
-  link?: string;
-};
+export interface JumpParamsType {
+  name?: string | symbol
+  title?: string
+  path?: string
+  query?: LocationQueryRaw
+  link?: string
+}
 
 /**
  * 分组选项类型
- * @typedef {Object} GroupOptionType
+ * @typedef {object} GroupOptionType
  * @property {number} id - ID
  * @property {number} groupId - 分组ID
  * @property {string} groupName - 分组名称
  */
-export type GroupOptionType = {
-  id: number;
-  groupId: number;
-  groupName: string;
-};
+export interface GroupOptionType {
+  id: number
+  groupId: number
+  groupName: string
+}
 
 /**
  * 组件事件名：`onJump` 用于 `defJump` 自定义跳转；`defineSubClick` / `defineChildClick` 用于 `isDefineClick` 模式下的菜单点击回调。
  */
-export const lsEmitNames = ['onJump', 'defineSubClick', 'defineChildClick'];
+export const lsEmitNames = ['onJump', 'defineSubClick', 'defineChildClick']
 
 /**
  * 菜单组件 props
- * @typedef {Object} lsMenuProps
+ * @typedef {object} lsMenuProps
  * @property {Array<MenuBaseType>} menuConfigList - 菜单配置列表，默认为 `[]`
  * @property {boolean} needPermission - 是否开启权限控制；为 `true` 时结合 `permissionList` 与菜单项 `pCode` 控制显示，默认为 `false`
  * @property {Array<string|number>} permissionList - 权限列表，内部存放 `pCode` 码，默认为 `[]`
@@ -134,43 +134,43 @@ export const lsMenuProps = buildProps({
   /** 菜单配置列表 */
   menuConfigList: {
     type: Array<MenuBaseType>,
-    default: () => []
+    default: () => [],
   },
   /** 是否开启权限控制；为 `true` 时结合 `permissionList` 与菜单项 `pCode` 控制显示 */
   needPermission: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 权限列表，内部存放 `pCode` 码 */
   permissionList: {
     type: Array<string | number>,
-    default: () => []
+    default: () => [],
   },
   /** 菜单 hover 时的文字和图标颜色 */
   hoverColor: {
     type: String,
-    default: ''
+    default: '',
   },
   /** 菜单点击是否自定义；为 `true` 时触发 `defineSubClick` 和 `defineChildClick` */
   isDefineClick: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 鼠标移入菜单项时是否显示 tooltip 提示 */
   showTooltip: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /** 菜单字体大小；用于 tooltip 组件 */
   fontSize: {
     type: Number,
-    default: 14
-  }
-});
+    default: 14,
+  },
+})
 
 /**
  * 菜单项组件 props
- * @typedef {Object} lsMenuItemProps
+ * @typedef {object} lsMenuItemProps
  * @property {boolean} needPermission - 是否开启权限控制；为 `true` 时结合 `permissionList` 与 `item.pCode` 控制显示，默认为 `true`
  * @property {Array<string|number>} permissionList - 权限列表，默认为 `[]`
  * @property {MenuBaseType} item - 当前菜单项配置，必填
@@ -181,29 +181,29 @@ export const lsMenuItemProps = buildProps({
   /** 是否开启权限控制；为 `true` 时结合 `permissionList` 与 `item.pCode` 控制显示 */
   needPermission: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /** 权限列表 */
   permissionList: {
     type: Array<string | number>,
-    default: () => []
+    default: () => [],
   },
   /** 当前菜单项配置 */
   item: {
     type: Object,
     required: true,
     default: () => {
-      return {};
-    }
+      return {}
+    },
   },
   /** 是否启用自定义点击模式 */
   isDefineClick: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 是否为叶子菜单标题显示 tooltip */
   showTooltip: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})

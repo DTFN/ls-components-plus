@@ -1,4 +1,7 @@
 <script setup lang="ts" name="LSPreviewPdf">
+import { lsPreviewProp } from '@cpo/_constants/previewType'
+import usePreviewHook from '@cpo/_hooks/usePreviewHook'
+import { merge } from 'lodash-es'
 /**
  * @summary PDF 文档预览组件
  *
@@ -43,53 +46,50 @@
  *   :downloadData="{ fileName: '示例文档.pdf' }"
  * />
  */
-import LSPdf from './Pdf.vue';
-import { merge } from 'lodash-es';
-import usePreviewHook from '@cpo/_hooks/usePreviewHook';
-import { lsPreviewProp } from '@cpo/_constants/previewType';
+import LSPdf from './Pdf.vue'
 
 defineOptions({
   name: 'LSPreviewPdf',
   components: {
-    LSPdf
+    LSPdf,
   },
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
+
+const props = defineProps(lsPreviewProp)
 
 const emits = defineEmits<{
-  (e: 'loadComplete'): void;
-  (e: 'loadError'): void;
-  (e: 'onDownload', data: any): void;
-}>();
-
-const props = defineProps(lsPreviewProp);
+  (e: 'loadComplete'): void
+  (e: 'loadError'): void
+  (e: 'onDownload', data: any): void
+}>()
 
 const previewVisible = defineModel({
-  type: Boolean
-});
+  type: Boolean,
+})
 
-const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible)
 
-const loadComplete = () => {
-  closeLoading();
-  emits('loadComplete');
-};
+function loadComplete() {
+  closeLoading()
+  emits('loadComplete')
+}
 
-const loadError = () => {
-  closeLoading();
-  emits('loadError');
-};
+function loadError() {
+  closeLoading()
+  emits('loadError')
+}
 
 function closePreview(e: any) {
   if (props.hideOnClickModal) {
     if (e.target === e.currentTarget) {
-      previewVisible.value = false;
+      previewVisible.value = false
     }
   }
 }
 
 function onDownload(data: any) {
-  emits('onDownload', data);
+  emits('onDownload', data)
 }
 </script>
 

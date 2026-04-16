@@ -50,106 +50,107 @@
  * </LSDialog>
  */
 
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { merge } from 'lodash-es';
-import { DialogBtnType, lsDialogProp, lsEmitNames } from './types';
+import type { DialogBtnType } from './types'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { merge } from 'lodash-es'
+import { lsDialogProp, lsEmitNames } from './types'
 
 defineOptions({
   name: 'LSDialog',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-const props = defineProps(lsDialogProp);
+const props = defineProps(lsDialogProp)
 
-const emits = defineEmits(lsEmitNames);
+const emits = defineEmits(lsEmitNames)
 
-const slots: any = useSlots();
+const slots: any = useSlots()
 
 const visible = defineModel({
-  type: Boolean
-});
+  type: Boolean,
+})
 
-const ns = useNamespace('dialog');
-const comClass: string = ns.b();
+const ns = useNamespace('dialog')
+const comClass: string = ns.b()
 
-const lsDialogRef = ref();
+const lsDialogRef = ref()
 
 const defAttrs = ref({
   width: '50%',
   closeOnClickModal: false,
   closeOnPressEscape: false,
   zIndex: 2000,
-  alignCenter: true
-});
+  alignCenter: true,
+})
 
-const sHeight = ref(0);
+const sHeight = ref(0)
 
 watch(
   () => visible?.value,
-  val => {
+  (val) => {
     if (val) {
-      props.openScroll && updateHeight();
+      props.openScroll && updateHeight()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 const curBtnCancelConfig = computed<DialogBtnType>(() => {
   return merge(
     {
-      txt: '取消'
+      txt: '取消',
     },
-    props.btnCancelConfig
-  );
-});
+    props.btnCancelConfig,
+  )
+})
 
 const curBtnConfirmConfig = computed<DialogBtnType>(() => {
   return merge(
     {
       type: 'primary',
-      txt: '确认'
+      txt: '确认',
     },
-    props.btnConfirmConfig
-  );
-});
+    props.btnConfirmConfig,
+  )
+})
 
 function handleClose() {
-  emits('onCancel');
+  emits('onCancel')
 }
 
 function handleBtnClose() {
-  visible.value = false;
+  visible.value = false
 }
 
 function handleConfirm() {
-  emits('onConfirm');
+  emits('onConfirm')
 }
 
 async function updateHeight() {
-  await nextTick();
-  const h = props.hasFooter ? 108 : 60;
-  sHeight.value = parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - h;
+  await nextTick()
+  const h = props.hasFooter ? 108 : 60
+  sHeight.value = Number.parseInt(getComputedStyle(lsDialogRef.value.querySelector('.el-dialog')).height) - h
 }
 
 defineExpose({
   updateHeight,
-  lsDialogRef
-});
+  lsDialogRef,
+})
 </script>
 
 <template>
   <el-dialog
     ref="lsDialogRef"
-    :class="comClass"
     v-model="visible"
+    :class="comClass"
     :show-close="!loading"
     v-bind="merge(defAttrs, $attrs)"
     @close="handleClose"
   >
-    <el-scrollbar v-if="openScroll" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight" v-loading="contentLoading">
+    <el-scrollbar v-if="openScroll" v-loading="contentLoading" v-bind="merge(defAttrs, $attrs)" :max-height="sHeight">
       <slot></slot>
     </el-scrollbar>
     <div v-else class="content-wrap">

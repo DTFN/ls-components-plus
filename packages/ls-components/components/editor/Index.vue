@@ -1,4 +1,5 @@
 <script setup lang="ts" name="LSEditor">
+import type { IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
 /**
  * @summary 富文本编辑器组件 - 基于 `wangeditor` 的二次封装
  *
@@ -40,43 +41,44 @@
  *   @handle-created="handleCreated"
  * />
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { elementOutOfBounds } from '@cpo/_utils/utils';
-import { IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-import { merge } from 'lodash-es';
-import { lsEditorEmits, lsEditorProps } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { elementOutOfBounds } from '@cpo/_utils/utils'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { merge } from 'lodash-es'
+import { lsEditorEmits, lsEditorProps } from './types'
 
-const ns = useNamespace('editor');
-const comClass: string = ns.b();
+const props = defineProps(lsEditorProps)
+const emits = defineEmits(lsEditorEmits)
+const ns = useNamespace('editor')
+const comClass: string = ns.b()
 
-const props = defineProps(lsEditorProps);
-const emits = defineEmits(lsEditorEmits);
-
-const editorRef = shallowRef();
-const lsEditorRef = ref();
+const editorRef = shallowRef()
+const lsEditorRef = ref()
 
 function getMaxFileSize(size: number, unit: string) {
-  let temp = (size || 2) * 1024 * 1024;
+  let temp = (size || 2) * 1024 * 1024
+
   if (!size) {
-    return temp;
+    return temp
   }
+
   switch (unit) {
     case 'GB':
-      temp = size * 1024 * 1024;
-      break;
+      temp = size * 1024 * 1024
+      break
     case 'KB':
-      temp = size * 1024;
-      break;
+      temp = size * 1024
+      break
     default:
-      break;
+      break
   }
-  return temp;
+
+  return temp
 }
 
 const defToolbarConfig: Partial<IToolbarConfig> = {
-  excludeKeys: ['group-video']
-};
+  excludeKeys: ['group-video'],
+}
 
 const defEditorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',
@@ -89,110 +91,118 @@ const defEditorConfig: Partial<IEditorConfig> = {
       headers: props.uploadHeaders
         ? props.uploadHeaders
         : {
-            token: props.uploadToken
+            token: props.uploadToken,
           },
       customInsert(res: any, insertFn: any) {
         // res 即服务端的返回结果 从 res 中找到 data alt href ，然后插入图片
-        const { data = '', alt = '', href = '' } = res || {};
-        insertFn(data, alt, href);
-      }
-    }
-  }
-};
+        const { data = '', alt = '', href = '' } = res || {}
+        insertFn(data, alt, href)
+      },
+    },
+  },
+}
 
 const editorStyle = computed(() => {
   return {
-    height: props?.height || '300px'
-  };
-});
+    height: props?.height || '300px',
+  }
+})
 
-const valueModel = ref('');
+const valueModel = ref('')
 
 watch(
   () => props.valueHtml,
-  val => {
-    valueModel.value = val;
+  (val) => {
+    valueModel.value = val
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 onBeforeUnmount(() => {
-  const editor = editorRef.value;
-  if (editor == null) return;
-  editor.destroy();
-});
+  const editor = editorRef.value
+  if (editor == null)
+    return
+  editor.destroy()
+})
 
-const handleCreated = (editor: any) => {
-  editorRef.value = editor;
-  listenerDoms();
-  emits('handleCreated', editor);
-};
-const handleChange = (editor: any) => {
-  emits('handleChange', editor);
-};
-const handleDestroyed = (editor: any) => {
-  emits('handleDestroyed', editor);
-};
-const handleFocus = (editor: any) => {
-  emits('handleFocus', editor);
-};
-const handleBlur = (editor: any) => {
-  emits('handleBlur', editor);
-};
-const customAlert = (info: any, type: any) => {
-  emits('customAlert', info, type);
-};
-const customPaste = (editor: any, event: any, callback: any) => {
-  emits('customPaste', editor, event, callback);
-};
+function handleCreated(editor: any) {
+  editorRef.value = editor
+  listenerDoms()
+  emits('handleCreated', editor)
+}
+
+function handleChange(editor: any) {
+  emits('handleChange', editor)
+}
+
+function handleDestroyed(editor: any) {
+  emits('handleDestroyed', editor)
+}
+
+function handleFocus(editor: any) {
+  emits('handleFocus', editor)
+}
+
+function handleBlur(editor: any) {
+  emits('handleBlur', editor)
+}
+
+function customAlert(info: any, type: any) {
+  emits('customAlert', info, type)
+}
+
+function customPaste(editor: any, event: any, callback: any) {
+  emits('customPaste', editor, event, callback)
+}
 
 async function listenerDoms() {
-  await nextTick();
-  const imgDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-image"]') || [];
+  await nextTick()
+  const imgDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-image"]') || []
   imgDoms.forEach((element: any) => {
-    element.removeEventListener('mouseenter', updateStyle);
+    element.removeEventListener('mouseenter', updateStyle)
     element.addEventListener('mouseenter', () => {
-      updateStyle(element);
-    });
-  });
-  const videoDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-video"]') || [];
+      updateStyle(element)
+    })
+  })
+  const videoDoms = lsEditorRef.value.querySelectorAll('button[data-menu-key="group-video"]') || []
   videoDoms.forEach((element: any) => {
-    element.removeEventListener('mouseenter', updateStyle);
+    element.removeEventListener('mouseenter', updateStyle)
     element.addEventListener('mouseenter', () => {
-      updateStyle(element);
-    });
-  });
+      updateStyle(element)
+    })
+  })
 }
 
 function updateStyle(e: any) {
-  const dom = e.parentNode.querySelector('.w-e-bar-item-menus-container');
-  const pos = elementOutOfBounds(dom, props.containerDom);
+  const dom = e.parentNode.querySelector('.w-e-bar-item-menus-container')
+  const pos = elementOutOfBounds(dom, props.containerDom)
+
   switch (pos) {
     case 'left':
-      dom.style.left = 0;
-      dom.style.right = 'inherit';
-      break;
+      dom.style.left = 0
+      dom.style.right = 'inherit'
+      break
     case 'right':
-      dom.style.left = 'inherit';
-      dom.style.right = 0;
-      break;
+      dom.style.left = 'inherit'
+      dom.style.right = 0
+      break
   }
 }
 
 defineExpose({
-  editorRef
-});
+  editorRef,
+})
 </script>
 
 <template>
   <div ref="lsEditorRef" :class="comClass">
     <Toolbar class="tool-bar-wrap" :editor="editorRef" :default-config="merge(defToolbarConfig, toolbarConfig)" :mode="mode" />
     <Editor
-      class="editor-wrap"
       v-model="valueModel"
+      class="editor-wrap"
       :default-config="merge(defEditorConfig, editorConfig)"
       :style="editorStyle"
       :mode="mode"
@@ -210,6 +220,7 @@ defineExpose({
 <style>
 @import '@wangeditor/editor/dist/css/style.css';
 </style>
+
 <style lang="scss" scoped>
 .ls-editor {
   z-index: 999;

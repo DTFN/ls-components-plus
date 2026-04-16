@@ -8,8 +8,9 @@ outline: deep
 :::
 
 ## 一、注意点：
+
 ::: tip 环境要求
-1、node 18+，pnpm 9.0+  
+1、node 18+，pnpm 9.0+
 2、需安装以下基础依赖：vue3.x、vue-router、element-plus、axios、lodash，并引入使用
 :::
 
@@ -19,12 +20,13 @@ outline: deep
 AutoImport({
   // 需添加该参数，否则无法使用
   ignore: ['h']
-});
+})
 ```
+
 :::
 
 ::: tip 版本提示
-  1、@lingshugroup/web-plus v2.1.2+，element-plus更新至2.10.7。
+1、@lingshugroup/web-plus v2.1.2+，element-plus更新至2.10.7。
 :::
 
 ## 二、安装 [@lingshugroup/web-plus](https://www.npmjs.com/package/@lingshugroup/web-plus)
@@ -45,65 +47,49 @@ pnpm add @lingshugroup/web-plus
 
 :::
 
-
-
 ## 三、快速上手
-
 
 ### 1. 按需引入组件（推荐）
 
-
 ```js
+import LSBackTop from '@lingshugroup/web-plus/backTop'
+import LSBellMessage from '@lingshugroup/web-plus/bellMessage'
+import LSBreadcrumb from '@lingshugroup/web-plus/breadcrumb'
+import { LSButton, LSButtonGroup } from '@lingshugroup/web-plus/button'
+import LSChart from '@lingshugroup/web-plus/chart'
+import LSConfirm from '@lingshugroup/web-plus/confirm'
+import LSContainerBox from '@lingshugroup/web-plus/containerBox'
+import LSDescriptions from '@lingshugroup/web-plus/descriptions'
+import LSDialog from '@lingshugroup/web-plus/dialog'
+import LSEditor from '@lingshugroup/web-plus/editor'
+import LSFlowBox from '@lingshugroup/web-plus/flowBox'
+import { LSForm, LSFormItem } from '@lingshugroup/web-plus/form'
+// 根据业务需求按需引入以下组件
+import LSIcon from '@lingshugroup/web-plus/icon'
+import LSJsonEditor from '@lingshugroup/web-plus/jsonEditor'
+/** *** v1.0.34+ */
+import LSLayout from '@lingshugroup/web-plus/layout'
+import LSList from '@lingshugroup/web-plus/list'
+import LSLive from '@lingshugroup/web-plus/live'
+import LSMap from '@lingshugroup/web-plus/map'
+import LSMenu from '@lingshugroup/web-plus/menu'
+// v1.0.34+之后不建议使用
+import LSPreview from '@lingshugroup/web-plus/preview'
+import LSPreviewDocx from '@lingshugroup/web-plus/previewDocx'
+/** *** v1.0.34+ */
+import LSPreviewImage from '@lingshugroup/web-plus/previewImage'
+import LSPreviewPdf from '@lingshugroup/web-plus/previewPdf'
+import LSPreviewXlsx from '@lingshugroup/web-plus/previewXlsx'
+import LSPrint from '@lingshugroup/web-plus/print'
+import LSTable from '@lingshugroup/web-plus/table'
+// 1.7.5+
+import LSTooltip from '@lingshugroup/web-plus/tooltip'
+import LSTree from '@lingshugroup/web-plus/tree'
+import LSUpload from '@lingshugroup/web-plus/upload'
 // element-plus基础样式，根据业务需求定制
-import 'element-plus/dist/index.css';
-
+import 'element-plus/dist/index.css'
 // 组件库样式，文件较大，发布时压缩大小
 import '@lingshugroup/web-plus/index.css';
-
-// 根据业务需求按需引入以下组件
-import LSIcon from '@lingshugroup/web-plus/icon';
-import { LSButton, LSButtonGroup } from '@lingshugroup/web-plus/button';
-import LSLayout from '@lingshugroup/web-plus/layout';
-
-import { LSForm, LSFormItem } from '@lingshugroup/web-plus/form';
-import LSUpload from '@lingshugroup/web-plus/upload';
-
-import LSTable from '@lingshugroup/web-plus/table';
-import LSDescriptions from '@lingshugroup/web-plus/descriptions';
-
-// v1.0.34+之后不建议使用
-import LSPreview from '@lingshugroup/web-plus/preview';
-
-/***** v1.0.34+ ****/
-import LSPreviewImage from '@lingshugroup/web-plus/previewImage';
-import LSPreviewDocx from '@lingshugroup/web-plus/previewDocx';
-import LSPreviewPdf from '@lingshugroup/web-plus/previewPdf';
-import LSPreviewXlsx from '@lingshugroup/web-plus/previewXlsx';
-/***** v1.0.34+ ****/
-
-import LSTree from '@lingshugroup/web-plus/tree';
-import LSMap from '@lingshugroup/web-plus/map';
-import LSLive from '@lingshugroup/web-plus/live';
-import LSJsonEditor from '@lingshugroup/web-plus/jsonEditor';
-import LSEditor from '@lingshugroup/web-plus/editor';
-import LSList from '@lingshugroup/web-plus/list';
-
-import LSChart from '@lingshugroup/web-plus/chart';
-
-import LSBackTop from '@lingshugroup/web-plus/backTop';
-import LSBreadcrumb from '@lingshugroup/web-plus/breadcrumb';
-import LSMenu from '@lingshugroup/web-plus/menu';
-
-import LSConfirm from '@lingshugroup/web-plus/confirm';
-import LSBellMessage from '@lingshugroup/web-plus/bellMessage';
-import LSDialog from '@lingshugroup/web-plus/dialog';
-
-import LSPrint from '@lingshugroup/web-plus/print';
-import LSFlowBox from '@lingshugroup/web-plus/flowBox';
-import LSContainerBox from '@lingshugroup/web-plus/containerBox';
-
-// 1.7.5+
-import LSTooltip from '@lingshugroup/web-plus/tooltip';
 
 [
   LSIcon,
@@ -137,9 +123,9 @@ import LSTooltip from '@lingshugroup/web-plus/tooltip';
   LSFlowBox,
   LSContainerBox,
   LSTooltip
-].map(item => {
-  app.component(item.name, item);
-});
+].map((item) => {
+  app.component(item.name, item)
+})
 ```
 
 ### 2. 全局引入组件（不推荐）
@@ -149,26 +135,23 @@ echarts、pdfjs-dist(4.8.69)、@wangeditor/editor、@wangeditor/editor-for-vue(5
 :::
 
 ```js
-// element-plus基础样式，根据业务需求定制
-import 'element-plus/dist/index.css';
-
-// 组件库样式，文件教大，发布时压缩大小
-import '@lingshugroup/web-plus/index.css';
-
 // 全局引入
-import LSWebPlus from '@lingshugroup/web-plus';
+import LSWebPlus from '@lingshugroup/web-plus'
+// element-plus基础样式，根据业务需求定制
+import 'element-plus/dist/index.css'
+// 组件库样式，文件教大，发布时压缩大小
+import '@lingshugroup/web-plus/index.css'
 
-app.use(LSWebPlus);
+app.use(LSWebPlus)
 ```
 
 ### 3. 引入常用方法
 
 ```js
 // 常用hooks
-import { useWSHook, useOptionsHook, useTableListHook } from '@lingshugroup/web-plus/hooks';
-
+import { useOptionsHook, useTableListHook, useWSHook } from '@lingshugroup/web-plus/hooks'
 // 常用公共方法
-import { lsValidate, lsCheck, lsUtil } from '@lingshugroup/web-plus/utils';
+import { lsCheck, lsUtil, lsValidate } from '@lingshugroup/web-plus/utils'
 ```
 
 ### 4. 类型检查 v1.3.1+
@@ -193,7 +176,7 @@ MenuBaseType
 // 上传
 UploadItemType
 
-import type {  
+import type {
   BellMessageListType,
   BreadCrumpType
   BreadCrumpListType,

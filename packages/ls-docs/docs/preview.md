@@ -28,20 +28,21 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const source = ref([
   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
   'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
   'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
-]);
-const showViewer = ref(false);
+])
+const showViewer = ref(false)
 
 function closeViewer() {
-  showViewer.value = false;
+  showViewer.value = false
 }
+
 function openViewerImg() {
-  showViewer.value = true;
+  showViewer.value = true
 }
 ```
 
@@ -59,21 +60,22 @@ function openViewerImg() {
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import axios from 'axios';
-import docx from '/files/测试.docx?url';
+import axios from 'axios'
+import { ref } from 'vue'
+import docx from '/files/测试.docx?url'
 
-const source2 = ref();
-const showViewer2 = ref(false);
+const source2 = ref()
+const showViewer2 = ref(false)
 
 function closeViewer2() {
-  showViewer2.value = false;
+  showViewer2.value = false
 }
+
 function openViewerDocx() {
-  axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
-    source2.value = data.data;
-    showViewer2.value = true;
-  });
+  axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then((data) => {
+    source2.value = data.data
+    showViewer2.value = true
+  })
 }
 ```
 
@@ -96,18 +98,19 @@ function openViewerDocx() {
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import pdf from '/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf';
+import { ref } from 'vue'
+import pdf from '/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf'
 
-const source3 = ref();
-const showViewer3 = ref(false);
+const source3 = ref()
+const showViewer3 = ref(false)
 
 function closeViewer3() {
-  showViewer3.value = false;
+  showViewer3.value = false
 }
+
 function openViewerPdf() {
-  source3.value = pdf;
-  showViewer3.value = true;
+  source3.value = pdf
+  showViewer3.value = true
 }
 ```
 
@@ -128,14 +131,26 @@ function openViewerPdf() {
   rel="stylesheet"
   href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css"
 />
-<link rel="stylesheet" href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css" />
-<link rel="stylesheet" href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css" />
+<link
+  rel="stylesheet"
+  href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css"
+/>
 <link
   rel="stylesheet"
   href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/assets/iconfont/iconfont.css"
 />
-<script src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js" async></script>
-<script src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js" async></script>
+<script
+  src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js"
+  async
+></script>
+<script
+  src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js"
+  async
+></script>
 ```
 
 #### 4.2 将资源文件夹放在public文件夹下
@@ -151,19 +166,21 @@ function openViewerPdf() {
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import xlsx from '/files/222.xlsx?url';
+import { ref } from 'vue'
+import xlsx from '/files/222.xlsx?url'
 
-const source4 = ref();
-const showViewer4 = ref(false);
+const source4 = ref()
+const showViewer4 = ref(false)
+
 function closeViewer4() {
-  showViewer4.value = false;
+  showViewer4.value = false
 }
+
 function openViewerXlsx() {
-  axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
-    source4.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
-    showViewer4.value = true;
-  });
+  axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then((data) => {
+    source4.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' })
+    showViewer4.value = true
+  })
 }
 ```
 
@@ -297,7 +314,7 @@ const tableData = ref([
     type: 'boolean',
     value: 'false'
   },
-  
+
   {
     name: 'hasDownload',
     desc: '是否显示下载按钮, v2.4.2+',

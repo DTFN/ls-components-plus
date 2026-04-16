@@ -3,11 +3,11 @@
  * @description 定义 `LSXlsx` 内部渲染器使用的 props 与相关类型。
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * Excel 渲染组件 props
- * @typedef {Object} xlsxProps
+ * @typedef {object} xlsxProps
  * @property {File|string} source Excel 文件源；类型层面兼容 `File` / `string`，但当前 `Xlsx.vue` 实际仅在 `File` 场景执行渲染
  * @property {boolean} hasPagination 大文件预览时是否启用分页渲染；当文件体积超过阈值时，可切换为分批分页渲染，默认 `false`
  * @property {Function} onClose 关闭预览时的回调函数
@@ -16,16 +16,16 @@ export const xlsxProps = buildProps({
   /** Excel 文件源；类型层面兼容 `File` / `string`，当前渲染实现实际依赖 `File` */
   source: {
     type: [File, String],
-    default: null
+    default: null,
   },
   /** 大文件预览时是否启用分页渲染；开启后超大文件会改为分批渲染 */
   hasPagination: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 关闭预览时的回调函数 */
-  onClose: Function
-});
+  onClose: Function,
+})
 
 /**
  * 匹配结果接口
@@ -41,13 +41,13 @@ export const xlsxProps = buildProps({
  */
 export interface Match {
   start: {
-    idx: number;
-    offset: number;
-  };
+    idx: number
+    offset: number
+  }
   end: {
-    idx: number;
-    offset: number;
-  };
-  str: string;
-  oindex: number;
+    idx: number
+    offset: number
+  }
+  str: string
+  oindex: number
 }

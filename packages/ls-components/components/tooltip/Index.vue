@@ -23,73 +23,82 @@
  *
  * @event 无
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { isEmpty } from '@cpo/_utils/utils';
-import { lsTooltipProps } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { isEmpty } from '@cpo/_utils/utils'
+import { lsTooltipProps } from './types'
 
-const props = defineProps(lsTooltipProps);
+const props = defineProps(lsTooltipProps)
 
-const ns = useNamespace('tooltip');
-const comClass: string = ns.b();
-const showTip = ref(false);
-const lsTooltipRef = ref();
+const ns = useNamespace('tooltip')
+const comClass: string = ns.b()
+const showTip = ref(false)
+const lsTooltipRef = ref()
 
-const attrs = useAttrs();
+const attrs = useAttrs()
 
 const comStyle = computed(() => {
-  const w = props.width.toString();
-  let tempW = '100%';
-  if ((w.endsWith('%') || w.endsWith('px')) && !isEmpty(parseInt(w))) {
-    tempW = w;
-  } else if (!isEmpty(Number(w))) {
-    tempW = `${w}px`;
+  const w = props.width.toString()
+  let tempW = '100%'
+
+  if ((w.endsWith('%') || w.endsWith('px')) && !isEmpty(Number.parseInt(w))) {
+    tempW = w
   }
+  else if (!isEmpty(Number(w))) {
+    tempW = `${w}px`
+  }
+
   return {
-    width: tempW
-  };
-});
+    width: tempW,
+  }
+})
 
 const content = computed(() => {
-  return attrs.content || '';
-});
+  return attrs.content || ''
+})
 
 const tempContentStyle = computed(() => {
-  const style: any =
-    props.lineClamp > 1
+  const style: any
+    = props.lineClamp > 1
       ? Object.assign(
           {
-            height: 'auto'
+            height: 'auto',
           },
-          comStyle.value
+          comStyle.value,
         )
       : {
           width: 'auto',
-          height: 0
-        };
-  const size = props.fontSize;
+          height: 0,
+        }
+  const size = props.fontSize
+
   if (size) {
-    style.fontSize = `${size}px`;
+    style.fontSize = `${size}px`
   }
-  const line = props.lineHeight;
+  const line = props.lineHeight
+
   if (line) {
-    style.lineHeight = `${line}px`;
+    style.lineHeight = `${line}px`
   }
-  return style;
-});
+
+  return style
+})
 
 function onMouseEnter() {
-  updateTooltip();
+  updateTooltip()
 }
 
 async function updateTooltip() {
-  await nextTick();
+  await nextTick()
+
   if (lsTooltipRef.value) {
-    const w1 = lsTooltipRef.value.getBoundingClientRect();
-    const w2 = lsTooltipRef.value.querySelector('.temp-content').getBoundingClientRect();
+    const w1 = lsTooltipRef.value.getBoundingClientRect()
+    const w2 = lsTooltipRef.value.querySelector('.temp-content').getBoundingClientRect()
+
     if (props.lineClamp <= 1) {
-      showTip.value = Boolean(w2.width > w1.width);
-    } else {
-      showTip.value = Boolean(w2.height > w1.height);
+      showTip.value = Boolean(w2.width > w1.width)
+    }
+    else {
+      showTip.value = Boolean(w2.height > w1.height)
     }
   }
 }
@@ -97,7 +106,9 @@ async function updateTooltip() {
 
 <template>
   <div ref="lsTooltipRef" :class="comClass" :style="comStyle" @mouseenter="onMouseEnter">
-    <div class="temp-content" :style="tempContentStyle">{{ content }}</div>
+    <div class="temp-content" :style="tempContentStyle">
+      {{ content }}
+    </div>
     <el-tooltip :disabled="!showTip" v-bind="$attrs">
       <template #default>
         <slot name="default"></slot>

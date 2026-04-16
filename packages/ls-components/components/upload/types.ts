@@ -3,10 +3,10 @@
  * @description 定义 `LSUpload` 的业务扩展配置、对外 props 类型与上传相关常量。
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
-import type { LSUnionTypeSS } from '@cpo/_utils/types';
-import type { UploadFile, UploadRawFile } from 'element-plus';
-import type { ExtractPropTypes, PropType } from 'vue';
+import type { LSUnionTypeSS } from '@cpo/_utils/types'
+import type { UploadFile, UploadRawFile } from 'element-plus'
+import type { ExtractPropTypes, PropType } from 'vue'
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * 上传配置接口
@@ -18,11 +18,11 @@ import type { ExtractPropTypes, PropType } from 'vue';
  * @property {string} iconColor - 图标颜色
  */
 export interface configsType {
-  uploadFileList: Array<UploadFile>;
-  initUploadStatus: boolean;
-  showPreview: boolean;
-  sourcePreview: any;
-  iconColor: string;
+  uploadFileList: Array<UploadFile>
+  initUploadStatus: boolean
+  showPreview: boolean
+  sourcePreview: any
+  iconColor: string
 }
 
 /**
@@ -33,8 +33,8 @@ export interface configsType {
  * @property {UploadRawFile} [raw] - 原始文件
  */
 export interface UploadChangeFile extends UploadFile {
-  blob?: string;
-  raw?: UploadRawFile;
+  blob?: string
+  raw?: UploadRawFile
 }
 
 /**
@@ -53,41 +53,46 @@ export interface UploadChangeFile extends UploadFile {
  * @attr {boolean} [limitAllFail] - 超出 `limit` 时是否整批失败；主要在 `multiple=true` 时生效
  * @attr {boolean} [isToast] - 异常场景是否弹出消息提示；未传时默认为 `true`
  * @attr {string} [emptyFileMsg] - 空文件提示文案
- * @attr {Function} [formRuleFunc] - 表单规则获取函数；用于与表单校验联动
- * @attr {Function} [formValidateFunc] - 表单校验触发函数；用于上传结果回写校验状态
- * @attr {Function} [httpRequestFunc] - 业务自定义上传函数；当前实现会传入组装后的 `FormData`
+ * @attr {() => UploadFormRuleShape} [formRuleFunc] - 表单规则获取函数；用于与表单校验联动
+ * @attr {() => void} [formValidateFunc] - 表单校验触发函数；用于上传结果回写校验状态
+ * @attr {(formData: FormData) => unknown | Promise<unknown>} [httpRequestFunc] - 业务自定义上传函数；当前实现会传入组装后的 `FormData`
  * @attr {boolean} [profile] - 是否启用头像模式；未传时默认为 `false`
  * @attr {string} [defProfile] - 头像模式下默认展示的头像地址
  * @attr {boolean} [hideCoverBtn] - 覆盖上传后是否隐藏上传按钮；适用于图片模式
  * @attr {string} [tipContent] - 自定义提示文案；会覆盖组件内置提示文本
  * @attr {boolean} [hideBtnReachLimit] - 达到 `limit` 后是否隐藏上传按钮；适用于图片模式
  */
-export type UploadItemType = {
-  isCover?: boolean;
-  limitFile?: Array<string>;
-  limitFileMsg?: string;
-  limitSize?: number;
-  limitUnit?: 'GB' | 'MB' | 'KB';
-  limitSizeMsg?: string;
-  limitNumMsg?: string;
-  isToast?: boolean;
-  emptyFileMsg?: string;
-  formRuleFunc?: Function;
-  formValidateFunc?: Function;
-  httpRequestFunc?: Function;
+/** 与表单校验联动时，`formRuleFunc` 返回规则对象的最小形状（需含可读写 `message`） */
+export interface UploadFormRuleShape {
+  message: string
+}
+
+export interface UploadItemType {
+  isCover?: boolean
+  limitFile?: Array<string>
+  limitFileMsg?: string
+  limitSize?: number
+  limitUnit?: 'GB' | 'MB' | 'KB'
+  limitSizeMsg?: string
+  limitNumMsg?: string
+  isToast?: boolean
+  emptyFileMsg?: string
+  formRuleFunc?: () => UploadFormRuleShape
+  formValidateFunc?: () => void
+  httpRequestFunc?: (formData: FormData) => unknown | Promise<unknown>
   /** 是否启用头像模式 */
-  profile?: boolean;
+  profile?: boolean
   /** 头像模式下默认展示的头像地址 */
-  defProfile?: string;
+  defProfile?: string
   /** 覆盖上传后是否隐藏上传按钮；适用于图片模式 */
-  hideCoverBtn?: boolean;
+  hideCoverBtn?: boolean
   /** 自定义提示文案；会覆盖组件内置提示文本 */
-  tipContent?: string;
+  tipContent?: string
   /** 超出 `limit` 时是否整批失败 */
-  limitAllFail?: boolean;
+  limitAllFail?: boolean
   /** 达到 `limit` 后是否隐藏上传按钮；适用于图片模式 */
-  hideBtnReachLimit?: boolean;
-};
+  hideBtnReachLimit?: boolean
+}
 
 /**
  * @summary 上传组件 props
@@ -109,138 +114,138 @@ export const lsUploadProps = buildProps({
   /** 业务扩展配置对象 */
   item: {
     type: Object as PropType<UploadItemType>,
-    default: () => ({}) as UploadItemType
+    default: () => ({}) as UploadItemType,
   },
   /** 超出 `limit` 时的钩子；未传时走组件内置数量限制处理 */
   onExceed: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 上传前钩子；返回 `false` 可阻止上传 */
   beforeUpload: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 文件状态变化钩子 */
   onChange: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 上传成功钩子 */
   onSuccess: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 上传失败钩子 */
   onError: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 文件移除钩子，对应 `el-upload` 的 `on-remove` */
   onRemove: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 文件预览钩子 */
   onPreview: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 上传进度钩子 */
   onProgress: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 自定义上传请求；优先级高于 `item.httpRequestFunc` */
   httpRequest: {
     type: Function,
-    default: null
+    default: null,
   },
   /** 是否启用内置的图片卡片自定义操作区 */
   customFile: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 是否在内置图片卡片操作区显示裁剪入口；通常与 `customFile` 搭配 */
   hasCropper: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})
 
-export type lsUploadPropsType = ExtractPropTypes<typeof lsUploadProps>;
+export type lsUploadPropsType = ExtractPropTypes<typeof lsUploadProps>
 
 export const UPLOAD_TYPE_MAP: LSUnionTypeSS = {
   text: 'text',
   picCard: 'picture-card',
-  pic: 'picture'
-};
+  pic: 'picture',
+}
 
-export const IMG_SUFFIX_LIST = ['jpeg', 'jpg', 'dds', 'psd', 'pdt', 'webp', 'xmp', 'gif', 'bmp', 'svg', 'tiff', 'png', 'ico'];
+export const IMG_SUFFIX_LIST = ['jpeg', 'jpg', 'dds', 'psd', 'pdt', 'webp', 'xmp', 'gif', 'bmp', 'svg', 'tiff', 'png', 'ico']
 
 export const UPLOAD_STATUS_MAP = {
   ready: 'ready',
   uploading: 'uploading',
   success: 'success',
-  fail: 'fail'
-};
+  fail: 'fail',
+}
 
 export const fileTypeMap: LSUnionTypeSS = {
   '3gpp': 'audio/3gpp, video/3gpp',
-  ac3: 'audio/ac3',
-  asf: 'allpication/vnd.ms-asf',
-  au: 'audio/basic',
-  css: 'text/css',
-  csv: 'text/csv',
-  doc: 'application/msword',
-  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  dot: 'application/msword',
-  dotx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-  dtd: 'application/xml-dtd',
-  dwg: 'image/vnd.dwg',
-  dxf: 'image/vnd.dxf',
-  gif: 'image/gif',
-  htm: 'text/html',
-  html: 'text/html',
-  jp2: 'image/jp2',
-  jpe: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  jpg: 'image/jpeg',
-  js: 'text/javascript, application/javascript',
-  json: 'application/json',
-  mp2: 'audio/mpeg, video/mpeg',
-  mp3: 'audio/mpeg',
-  mp4: 'audio/mp4, video/mp4',
-  mpeg: 'video/mpeg',
-  mpg: 'video/mpeg',
-  mpp: 'application/vnd.ms-project',
-  ogg: 'application/ogg, audio/ogg',
-  pdf: 'application/pdf',
-  png: 'image/png',
-  pot: 'application/vnd.ms-powerpoint',
-  potx: 'application/vnd.openxmlformats-officedocument.presentationml.template',
-  pps: 'application/vnd.ms-powerpoint',
-  ppsx: 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-  ppt: 'application/vnd.ms-powerpoint',
-  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-  sldx: 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-  rtf: 'application/rtf, text/rtf',
-  svf: 'image/vnd.svf',
-  tif: 'image/tiff',
-  tiff: 'image/tiff',
-  txt: 'text/plain',
-  wdb: 'application/vnd.ms-works',
-  wps: 'application/vnd.ms-works',
-  xhtml: 'application/xhtml+xml',
-  xlc: 'application/vnd.ms-excel',
-  xlm: 'application/vnd.ms-excel',
-  xls: 'application/vnd.ms-excel',
-  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  xlsm: 'application/vnd.ms-excel.addin.macroEnabled.12',
-  xlsb: 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-  xlt: 'application/vnd.ms-excel',
-  xltx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-  xlw: 'application/vnd.ms-excel',
-  xml: 'text/xml, application/xml',
-  zip: 'aplication/zip'
-};
+  'ac3': 'audio/ac3',
+  'asf': 'allpication/vnd.ms-asf',
+  'au': 'audio/basic',
+  'css': 'text/css',
+  'csv': 'text/csv',
+  'doc': 'application/msword',
+  'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'dot': 'application/msword',
+  'dotx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+  'dtd': 'application/xml-dtd',
+  'dwg': 'image/vnd.dwg',
+  'dxf': 'image/vnd.dxf',
+  'gif': 'image/gif',
+  'htm': 'text/html',
+  'html': 'text/html',
+  'jp2': 'image/jp2',
+  'jpe': 'image/jpeg',
+  'jpeg': 'image/jpeg',
+  'jpg': 'image/jpeg',
+  'js': 'text/javascript, application/javascript',
+  'json': 'application/json',
+  'mp2': 'audio/mpeg, video/mpeg',
+  'mp3': 'audio/mpeg',
+  'mp4': 'audio/mp4, video/mp4',
+  'mpeg': 'video/mpeg',
+  'mpg': 'video/mpeg',
+  'mpp': 'application/vnd.ms-project',
+  'ogg': 'application/ogg, audio/ogg',
+  'pdf': 'application/pdf',
+  'png': 'image/png',
+  'pot': 'application/vnd.ms-powerpoint',
+  'potx': 'application/vnd.openxmlformats-officedocument.presentationml.template',
+  'pps': 'application/vnd.ms-powerpoint',
+  'ppsx': 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+  'ppt': 'application/vnd.ms-powerpoint',
+  'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'sldx': 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+  'rtf': 'application/rtf, text/rtf',
+  'svf': 'image/vnd.svf',
+  'tif': 'image/tiff',
+  'tiff': 'image/tiff',
+  'txt': 'text/plain',
+  'wdb': 'application/vnd.ms-works',
+  'wps': 'application/vnd.ms-works',
+  'xhtml': 'application/xhtml+xml',
+  'xlc': 'application/vnd.ms-excel',
+  'xlm': 'application/vnd.ms-excel',
+  'xls': 'application/vnd.ms-excel',
+  'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'xlsm': 'application/vnd.ms-excel.addin.macroEnabled.12',
+  'xlsb': 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+  'xlt': 'application/vnd.ms-excel',
+  'xltx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+  'xlw': 'application/vnd.ms-excel',
+  'xml': 'text/xml, application/xml',
+  'zip': 'aplication/zip',
+}

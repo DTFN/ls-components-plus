@@ -55,13 +55,13 @@ const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [120.1, 200, 150, 80, 70, 110, 0]
 }
-const templateAll: any = ref({
+const templateAll = ref({
   templatePatchSimple: {
     labelPosition: 'top',
     showBackground: true,
     showBarFont: false,
     tooltipValueFormatter: (value, dataIndex) => {
-      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`
     },
   }
 })
@@ -83,7 +83,7 @@ const customOptionSimple = ref({
       }
     }
   ]
-});
+})
 ```
 
 ```html
@@ -116,18 +116,18 @@ const dataNegative = {
     { name: '收入', data: [320, 302, 341, 374, 390, 450, 420] },
     { name: '支出', data: [-120, -132, -101, -134, -190, -230, 0] }
   ]
-};
+}
 const templateAll = ref({
   templatePatchNegative: {
     labelPosition: 'both',
     type: 'negative',
     tooltip: 'shadow',
     legend: ['收入', '支出'],
-    seriesLabelFormatter: params => {
-      return Math.round(params.value) / 100 + '%';
+    seriesLabelFormatter: (params) => {
+      return `${Math.round(params.value) / 100}%`
     }
   }
-});
+})
 ```
 
 ```html
@@ -151,11 +151,13 @@ const templateAll = ref({
 ```js
 const dataWaterfall = {
   axisData: (function () {
-    let list = [];
+    let list = []
+
     for (let i = 1; i <= 11; i++) {
-      list.push('11月' + i + '日');
+      list.push(`11月${i}日`)
     }
-    return list;
+
+    return list
   })(),
   seriesData: [
     {
@@ -171,7 +173,7 @@ const dataWaterfall = {
       data: ['-', '-', '-', 108, 0, '-', '-', '-', 119, 361, 203]
     }
   ]
-};
+}
 const templateAll = ref({
   templatePatchWaterfall: {
     type: 'waterfall',
@@ -179,7 +181,7 @@ const templateAll = ref({
     labelPosition: 'both',
     legend: ['收入', '支出']
   }
-});
+})
 ```
 
 ```html
@@ -221,7 +223,7 @@ const dataCategory = {
       data: [150, 212, 201, 0, 190, 330, 410]
     }
   ]
-};
+}
 
 // 两系列数据（用于案例8）
 const dataTwoSeries = {
@@ -236,14 +238,14 @@ const dataTwoSeries = {
       data: [120, 132, 101, 134, 90, 230, 210]
     }
   ]
-};
+}
 const templateAll = ref({
   templatePatchCategory: {
     type: 'categoryStack',
     tooltip: 'shadow',
     legend: ['直接访问', '邮件营销', '联盟广告', '视频广告']
   }
-});
+})
 ```
 
 ```html
@@ -281,7 +283,7 @@ const dataMultiBar = {
       data: [98, 0, 101, 99, 40]
     }
   ]
-};
+}
 const templateAll = ref({
   templatePatchMultiBar: {
     type: 'multiBar',
@@ -290,7 +292,7 @@ const templateAll = ref({
     labelPosition: 'top',
     legend: ['Forest', 'Steppe', 'Desert', 'Wetland']
   }
-});
+})
 ```
 
 ```html
@@ -311,7 +313,7 @@ const templateAll = ref({
 const dataHorizontalBar = {
   axisData: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
   seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
+}
 const templateAll = ref({
   templatePatchHorizontalBar: {
     axis: 'y',
@@ -319,7 +321,7 @@ const templateAll = ref({
     showBackground: true,
     showBarFont: true
   }
-});
+})
 ```
 
 ```html
@@ -340,14 +342,14 @@ const templateAll = ref({
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
+}
 const templateAll = ref({
   templatePatchCustomColor: {
     labelPosition: 'top',
     showBackground: true,
     barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88']
   }
-});
+})
 ```
 
 ```html
@@ -377,7 +379,7 @@ const dataTwoSeries = {
       data: [120, 132, 101, 134, 90, 230, 210]
     }
   ]
-};
+}
 const templateAll = ref({
   templatePatchDifferentLegendIcon: {
     type: 'categoryStack',
@@ -387,7 +389,7 @@ const templateAll = ref({
     showBarFont: true,
     labelPosition: 'inside'
   }
-});
+})
 ```
 
 ```html
@@ -417,7 +419,7 @@ const dataMultiBar = {
       data: [220, 182, 191, 234, 290, 330, 310, 280, 250, 220]
     }
   ]
-};
+}
 const templateAll = ref({
   templatePatchVerticalDataZoom: {
     type: 'multiBar',
@@ -426,7 +428,7 @@ const templateAll = ref({
     labelPosition: 'top',
     legend: ['Forest', 'Steppe']
   }
-});
+})
 ```
 
 ```html
@@ -438,26 +440,26 @@ const templateAll = ref({
 ### 10. 2.5D柱状体
 
 <ClientOnly>
-<LSChart 
-  template="bar" 
-  :data="data25DBar" 
+<LSChart
+  template="bar"
+  :data="data25DBar"
   :template-patch="templateAll.templatePatch25DBar"
-  :custom-option="customOption25DBar" 
-  height="400" 
+  :custom-option="customOption25DBar"
+  height="400"
 />
 </ClientOnly>
 
 ::: details 点我查看代码
 
 ```js
-import * as echarts from 'echarts';
-import { TITLE_STYLE } from './config';
+import * as echarts from 'echarts'
+import { TITLE_STYLE } from './config'
 
 // 2.5D柱状体数据
 const data25DBar = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
+}
 
 // 2.5D柱状体配置 - 使用Cool→Hot渐变配色
 const customOption25DBar = ref({
@@ -475,18 +477,21 @@ const customOption25DBar = ref({
       color: '#F8FAFC',
       fontSize: 13
     },
-    formatter: function (params) {
-      const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
-      const mainData = params.find(p => p.seriesName === '');
+    formatter(params) {
+      const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6']
+      const mainData = params.find(p => p.seriesName === '')
+
       if (mainData) {
-        const color = colors[mainData.dataIndex % colors.length];
+        const color = colors[mainData.dataIndex % colors.length]
+
         return `<div style="display:flex;align-items:center;gap:10px;padding:4px 2px;">
           <span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${color};box-shadow:0 2px 4px ${color}40;"></span>
           <span style="font-weight:500;">${mainData.name}</span>
           <span style="font-weight:700;margin-left:8px;">${mainData.value}</span>
-        </div>`;
+        </div>`
       }
-      return '';
+
+      return ''
     }
   },
   grid: {
@@ -540,15 +545,16 @@ const customOption25DBar = ref({
       data: data25DBar.seriesData,
       barWidth: '50%',
       itemStyle: {
-        color: function (params) {
-          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
+        color(params) {
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6']
+
           return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.35) },
             { offset: 0.25, color: echarts.color.lift(colors[params.dataIndex % colors.length], 0.15) },
             { offset: 0.5, color: colors[params.dataIndex % colors.length] },
             { offset: 0.75, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.12) },
             { offset: 1, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.3) }
-          ]);
+          ])
         },
         borderRadius: [6, 6, 0, 0],
         shadowColor: 'rgba(15, 23, 42, 0.15)',
@@ -583,13 +589,14 @@ const customOption25DBar = ref({
       barWidth: '50%',
       barGap: '-100%',
       itemStyle: {
-        color: function (params) {
-          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6'];
+        color(params) {
+          const colors = ['#3B82F6', '#06B6D4', '#10B981', '#F59E0B', '#F97316', '#EF4444', '#8B5CF6']
+
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
             { offset: 0, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.22) },
             { offset: 0.35, color: echarts.color.lift(colors[params.dataIndex % colors.length], -0.08) },
             { offset: 1, color: 'rgba(0, 0, 0, 0)' }
-          ]);
+          ])
         },
         borderRadius: [6, 6, 0, 0]
       },
@@ -607,13 +614,13 @@ const customOption25DBar = ref({
       barWidth: '50%',
       barGap: '-100%',
       itemStyle: {
-        color: function (params) {
+        color(params) {
           return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
             { offset: 0, color: 'rgba(255, 255, 255, 0)' },
             { offset: 0.4, color: 'rgba(255, 255, 255, 0.08)' },
             { offset: 0.7, color: 'rgba(255, 255, 255, 0.2)' },
             { offset: 1, color: 'rgba(255, 255, 255, 0.35)' }
-          ]);
+          ])
         },
         borderRadius: [6, 6, 0, 0]
       },
@@ -624,7 +631,7 @@ const customOption25DBar = ref({
       animationDuration: 800
     }
   ]
-});
+})
 ```
 
 ```html
@@ -826,7 +833,7 @@ const customOption25DBar = ref({
     },
     axisTick: { show: false }
   },
-  yAxis: { 
+  yAxis: {
     type: 'value',
     axisLine: { show: false },
     splitLine: { lineStyle: { color: '#E2E8F0', type: 'dashed' } },
@@ -1062,8 +1069,6 @@ const dataTwoSeries = {
   ]
 };
 
-
-
 function changeChartStyle() {
   [
     'templatePatchSimple',
@@ -1079,21 +1084,21 @@ function changeChartStyle() {
     templateAll.value[item].axis = formInline.value.axis;
     templateAll.value[item].labelPosition = formInline.value.pos;
   });
-  
+
   // 保持templatePatchHorizontalBar的水平显示特性
   if (templateAll.value.templatePatchHorizontalBar) {
     templateAll.value.templatePatchHorizontalBar.theme = formInline.value.themeModel;
     templateAll.value.templatePatchHorizontalBar.labelPosition = formInline.value.pos;
     // 不更新axis，保持为'y'以维持水平显示
   }
-  
+
   // 保持templatePatchVerticalDataZoom的垂直缩放特性
   if (templateAll.value.templatePatchVerticalDataZoom) {
     templateAll.value.templatePatchVerticalDataZoom.theme = formInline.value.themeModel;
     templateAll.value.templatePatchVerticalDataZoom.axis = formInline.value.axis;
     templateAll.value.templatePatchVerticalDataZoom.labelPosition = formInline.value.pos;
   }
-  
+
   // 更新customOptionSimple以适应坐标轴变化
   if (formInline.value.axis === 'y') {
     customOptionSimple.value = {
@@ -1181,7 +1186,7 @@ const tableData = ref([
     name: 'theme',
     desc: '主题类型，可选项：default / dark',
     type: 'string',
-    value: 'default' 
+    value: 'default'
   },
   {
     name: 'barColorList',
@@ -1244,7 +1249,7 @@ const tableData2 = ref([
     name: 'axisData',
     desc: '对应axis坐标轴数据，若axis为x，那么该数据展示在x轴上',
     type: 'array',
-    value: '-' 
+    value: '-'
   },
   {
     name: 'seriesData',

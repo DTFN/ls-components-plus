@@ -4,7 +4,7 @@
  * @slot default - 需要打印的内嵌 HTML 内容通过默认插槽传入
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * @summary 打印组件 props
@@ -18,21 +18,21 @@ export const lsPrintProps = buildProps({
   /** 打印对象参数配置，常用参数为 `id`，其他参数参考 `vue3-print-nb` 官方 API */
   printObj: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   /** 打印按钮禁用时，鼠标移入显示的提示文案 */
   content: {
     type: String,
-    default: ''
+    default: '',
   },
   /** 按钮文案 */
   btnTxt: {
     type: String,
-    default: '打印'
+    default: '打印',
   },
   /** 是否允许打印 */
   canPrint: {
     type: Boolean,
-    default: true
-  }
-});
+    default: true,
+  },
+})

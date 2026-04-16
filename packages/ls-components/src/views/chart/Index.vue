@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/_types';
+import type { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/_types'
 
 const formInline: any = ref({
   themeModel: 'default',
   axis: 'x',
-  pos: 'top'
-});
+  pos: 'top',
+})
 const themeOptions = ref([
   {
     label: '默认',
-    value: 'default'
+    value: 'default',
   },
   {
     label: '暗黑',
-    value: 'dark'
-  }
-]);
+    value: 'dark',
+  },
+])
 
 const customOption = ref({
   xAxis: [
@@ -23,15 +23,15 @@ const customOption = ref({
       axisLabel: {
         rotate: 45,
         align: 'center',
-        margin: 24
-      }
-    }
-  ]
-});
+        margin: 24,
+      },
+    },
+  ],
+})
 
 // 柱状图
 const templateAll: Ref<{
-  [key: string]: ChartTemplatePatchType;
+  [key: string]: ChartTemplatePatchType
 }> = ref({
   templatePatchSimple: {
     labelPosition: 'top',
@@ -39,9 +39,10 @@ const templateAll: Ref<{
     showBarFont: false,
     dynamicAxis: true,
     tooltipValueFormatter: (value: any, dataIndex: number) => {
-      console.log(value, dataIndex);
-      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
-    }
+      console.log(value, dataIndex)
+
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`
+    },
   },
   templatePatchNegative: {
     labelPosition: 'both',
@@ -51,19 +52,19 @@ const templateAll: Ref<{
     legendIcon: 'circle',
     dynamicAxis: true,
     seriesLabelFormatter: (params: any) => {
-      return Math.round(params.value) / 100 + '%';
-    }
+      return `${Math.round(params.value) / 100}%`
+    },
   },
   templatePatchWaterfall: {
     type: 'waterfall',
     tooltip: 'shadow',
     labelPosition: 'both',
-    legend: ['收入', '支出']
+    legend: ['收入', '支出'],
   },
   templatePatchCategory: {
     type: 'categoryStack',
     tooltip: 'shadow',
-    legend: ['直接访问', '邮件营销', '联盟广告', '视频广告']
+    legend: ['直接访问', '邮件营销', '联盟广告', '视频广告'],
   },
   templatePatchMultiBar: {
     type: 'multiBar',
@@ -71,9 +72,9 @@ const templateAll: Ref<{
     dataZoom: 'horizontal',
     labelPosition: 'top',
     legend: ['Forest', 'Steppe', 'Desert', 'Wetland'],
-    dynamicAxis: true
-  }
-});
+    dynamicAxis: true,
+  },
+})
 
 // 自定义Y轴展示内容
 const customMultiBarOption = {
@@ -81,197 +82,199 @@ const customMultiBarOption = {
     {
       type: 'value',
       axisLabel: {
-        formatter: '{value} °C'
+        formatter: '{value} °C',
       },
-      show: false
-    }
+      show: false,
+    },
   ],
   xAxis: [
     {
-      show: false
-    }
-  ]
-};
+      show: false,
+    },
+  ],
+}
 
 const dataSimple: ChartDataType = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   // seriesData: [120, 200, 150, 80, 70, 110, 0]
-  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null]
-};
+  seriesData: [120.1, 120.1, 120.1, 120.1, 120.1, 120.1, null],
+}
 const dataNegative = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
   seriesData: [
     { name: '收入', data: [320, 302, 341, 374, 390, 450, 420] },
-    { name: '支出', data: [-120, -132, -101, -134, -190, -230, 0] }
-  ]
-};
+    { name: '支出', data: [-120, -132, -101, -134, -190, -230, 0] },
+  ],
+}
 const dataWaterfall = {
   axisData: (function () {
-    let list = [];
+    let list = []
+
     for (let i = 1; i <= 11; i++) {
-      list.push('11月' + i + '日');
+      list.push(`11月${i}日`)
     }
-    return list;
+
+    return list
   })(),
   seriesData: [
     {
       name: 'temp',
-      data: [0, 900, 1245, 1530, 1376, 1376, 0, 1689, 1856, 1495, 1292]
+      data: [0, 900, 1245, 1530, 1376, 1376, 0, 1689, 1856, 1495, 1292],
     },
     {
       name: '收入',
-      data: [900, 345, 393, '-', '-', 0, 178, 286, '-', '-', '-']
+      data: [900, 345, 393, '-', '-', 0, 178, 286, '-', '-', '-'],
     },
     {
       name: '支出',
-      data: ['-', '-', '-', 108, 0, '-', '-', '-', 119, 361, 203]
-    }
-  ]
-};
+      data: ['-', '-', '-', 108, 0, '-', '-', '-', 119, 361, 203],
+    },
+  ],
+}
 const dataCategory = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
   seriesData: [
     {
       name: '直接访问',
-      data: [320, 302, 301, 334, 0, 330, 320]
+      data: [320, 302, 301, 334, 0, 330, 320],
     },
     {
       name: '邮件营销',
-      data: [120, 132, 101, 0, 90, 230, 210]
+      data: [120, 132, 101, 0, 90, 230, 210],
     },
     {
       name: '联盟广告',
-      data: [220, 182, 191, 234, 290, 0, 310]
+      data: [220, 182, 191, 234, 290, 0, 310],
     },
     {
       name: '视频广告',
-      data: [150, 212, 201, 0, 190, 330, 410]
-    }
-  ]
-};
+      data: [150, 212, 201, 0, 190, 330, 410],
+    },
+  ],
+}
 const dataMultiBar = {
   axisData: ['2012', '2013', '2014', '2015', '2016'],
   seriesData: [
     {
       name: 'Forest',
-      data: [320, 332, 301, 0, 390]
+      data: [320, 332, 301, 0, 390],
     },
     {
       name: 'Steppe',
-      data: [220, 182, 0, 234, 290]
+      data: [220, 182, 0, 234, 290],
     },
     {
       name: 'Desert',
-      data: [150, 232, 201, 154, 0]
+      data: [150, 232, 201, 154, 0],
     },
     {
       name: 'Wetland',
-      data: [98, 0, 101, 99, 40]
-    }
-  ]
-};
+      data: [98, 0, 101, 99, 40],
+    },
+  ],
+}
 
 // 折线图
 const temperatureData = [
   {
     propertyValue: '73.55',
-    propertyTime: 1726174800000
+    propertyTime: 1726174800000,
   },
   {
     propertyValue: '75.72',
-    propertyTime: 1726178400000
+    propertyTime: 1726178400000,
   },
   {
     propertyValue: '76.77',
-    propertyTime: 1726182000000
+    propertyTime: 1726182000000,
   },
   {
     propertyValue: '75.68',
-    propertyTime: 1726185600000
+    propertyTime: 1726185600000,
   },
   {
     propertyValue: '76.13',
-    propertyTime: 1726189200000
+    propertyTime: 1726189200000,
   },
   {
     propertyValue: null,
-    propertyTime: 1726192800000
+    propertyTime: 1726192800000,
   },
   {
     propertyValue: '75.95',
-    propertyTime: 1726196400000
+    propertyTime: 1726196400000,
   },
   {
     propertyValue: null,
-    propertyTime: 1726200000000
+    propertyTime: 1726200000000,
   },
   {
     propertyValue: '74.35',
-    propertyTime: 1726203600000
+    propertyTime: 1726203600000,
   },
   {
     propertyValue: '74.33',
-    propertyTime: 1726207200000
+    propertyTime: 1726207200000,
   },
   {
     propertyValue: '74.02',
-    propertyTime: 1726210800000
+    propertyTime: 1726210800000,
   },
   {
     propertyValue: '76.27',
-    propertyTime: 1726214400000
-  }
-];
+    propertyTime: 1726214400000,
+  },
+]
 const humidity = [
   {
     propertyValue: '30.67',
-    propertyTime: 1726174800000
+    propertyTime: 1726174800000,
   },
   {
     propertyValue: '28.82',
-    propertyTime: 1726178400000
+    propertyTime: 1726178400000,
   },
   {
     propertyValue: '29.82',
-    propertyTime: 1726182000000
+    propertyTime: 1726182000000,
   },
   {
     propertyValue: '29.25',
-    propertyTime: 1726185600000
+    propertyTime: 1726185600000,
   },
   {
     propertyValue: '30.52',
-    propertyTime: 1726189200000
+    propertyTime: 1726189200000,
   },
   {
     propertyValue: '29.65',
-    propertyTime: 1726192800000
+    propertyTime: 1726192800000,
   },
   {
     propertyValue: '29.70',
-    propertyTime: 1726196400000
+    propertyTime: 1726196400000,
   },
   {
     propertyValue: '30.18',
-    propertyTime: 1726200000000
+    propertyTime: 1726200000000,
   },
   {
     propertyValue: '29.47',
-    propertyTime: 1726203600000
+    propertyTime: 1726203600000,
   },
   {
     propertyValue: '29.33',
-    propertyTime: 1726207200000
+    propertyTime: 1726207200000,
   },
   {
     propertyValue: '30.58',
-    propertyTime: 1726210800000
+    propertyTime: 1726210800000,
   },
   {
     propertyValue: '29.13',
-    propertyTime: 1726214400000
-  }
-];
+    propertyTime: 1726214400000,
+  },
+]
 
 const lineData = {
   axisData: [
@@ -298,13 +301,35 @@ const lineData = {
     '11时',
     '12时',
     '13时',
-    '14时'
+    '14时',
   ],
   seriesData: [
-    7.4, 7.43, 7.38, 7.48, 7.57, 7.3, 7.62, 7.25, 7.55, 7.53, 7.47, 7.48, 7.48, 7.42, 7.43, 7.43, 7.53, 7.5, 7.63, 7.45, 7.43,
-    7.63, 7.48, 7.42
-  ]
-};
+    7.4,
+    7.43,
+    7.38,
+    7.48,
+    7.57,
+    7.3,
+    7.62,
+    7.25,
+    7.55,
+    7.53,
+    7.47,
+    7.48,
+    7.48,
+    7.42,
+    7.43,
+    7.43,
+    7.53,
+    7.5,
+    7.63,
+    7.45,
+    7.43,
+    7.63,
+    7.48,
+    7.42,
+  ],
+}
 const train = [
   { value: [0, 0], dataSrcType: 'train', threshold: 0.4271 },
   { value: [0.0343, 0.0747], dataSrcType: 'train', threshold: 0.411 },
@@ -326,8 +351,8 @@ const train = [
   { value: [0.8158, 0.9034], dataSrcType: 'train', threshold: 0.3785 },
   { value: [0.8754, 0.9381], dataSrcType: 'train', threshold: 0.3762 },
   { value: [0.9355, 0.9723], dataSrcType: 'train', threshold: 0.373 },
-  { value: [0.9996, 1], dataSrcType: 'train', threshold: 0.365 }
-];
+  { value: [0.9996, 1], dataSrcType: 'train', threshold: 0.365 },
+]
 const validate = [
   { value: [0, 0], dataSrcType: 'validate', threshold: 0.4272 },
   { value: [0.0236, 0.0826], dataSrcType: 'validate', threshold: 0.414 },
@@ -349,8 +374,8 @@ const validate = [
   { value: [0.8025, 0.9063], dataSrcType: 'validate', threshold: 0.3793 },
   { value: [0.8641, 0.942], dataSrcType: 'validate', threshold: 0.3771 },
   { value: [0.9275, 0.9754], dataSrcType: 'validate', threshold: 0.3735 },
-  { value: [0.9982, 1], dataSrcType: 'validate', threshold: 0.3654 }
-];
+  { value: [0.9982, 1], dataSrcType: 'validate', threshold: 0.3654 },
+]
 const lineData2 = {
   seriesData: [
     {
@@ -361,8 +386,8 @@ const lineData2 = {
       symbolSize: 5,
       areaStyle: true,
       label: {
-        show: false
-      }
+        show: false,
+      },
     },
     {
       name: 'validate',
@@ -370,24 +395,25 @@ const lineData2 = {
       type: 'line',
       smooth: true,
       symbolSize: 5,
-      areaStyle: true
-    }
-  ]
-};
+      areaStyle: true,
+    },
+  ],
+}
 
 const templateAllLine: Ref<{
-  [key: string]: ChartTemplatePatchType;
+  [key: string]: ChartTemplatePatchType
 }> = ref({
   templateSimpleLine: {
     labelPosition: 'top',
     tooltip: 'cross',
     tooltipValueFormatter: (value: any, dataIndex: number) => {
-      console.log(value, dataIndex);
-      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`;
+      console.log(value, dataIndex)
+
+      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`
     },
     seriesLabelFormatter: (params: any) => {
-      return Math.round(params.value) / 100 + '%';
-    }
+      return `${Math.round(params.value) / 100}%`
+    },
   },
   templateMultipleLine: {
     labelPosition: 'top',
@@ -399,7 +425,7 @@ const templateAllLine: Ref<{
     legendIcon: 'circle',
     dataZoom: 'horizontal',
     dataZoomColorOut: 'green',
-    dataZoomColorIn: 'yellow'
+    dataZoomColorIn: 'yellow',
     // dynamicAxis: true
   },
   templateMultipleLine2: {
@@ -408,7 +434,7 @@ const templateAllLine: Ref<{
     smooth: true,
     areaStyle: {},
     tooltip: 'cross',
-    showBarFont: false
+    showBarFont: false,
     // dataZoom: 'horizontal'
     // dataZoomColorOut: 'green',
     // dataZoomColorIn: 'yellow'
@@ -418,14 +444,14 @@ const templateAllLine: Ref<{
     labelPosition: 'top',
     type: 'multiple',
     smooth: true,
-    lineBar: true
+    lineBar: true,
     // dynamicAxis: true
   },
   templateDynamicLine: {
     labelPosition: 'top',
     type: 'multiple',
     tooltip: 'cross',
-    dynamicAxis: true
+    dynamicAxis: true,
   },
   templateDynamicLine2: {
     // labelPosition: 'top',
@@ -435,58 +461,58 @@ const templateAllLine: Ref<{
     showBarFont: false,
     tooltip: 'line',
     dynamicAxis: true,
-    legendIcon: 'circle'
-  }
-});
+    legendIcon: 'circle',
+  },
+})
 
 const customDymLineOption = {
   yAxis: [
     {
       type: 'value',
       axisLabel: {
-        formatter: '{value} °C'
-      }
-    }
-  ]
-};
+        formatter: '{value} °C',
+      },
+    },
+  ],
+}
 
 const dataSimpleLine: any = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-  seriesData: [0, 200, 150, 80, 70, 110, 130]
-};
+  seriesData: [0, 200, 150, 80, 70, 110, 130],
+}
 const dataMultipleLine: any = {
   axisData: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
   seriesData: [
     {
       name: 'Email',
       type: 'line',
-      data: [120, 132, 101, 134, 90, 230, 210]
+      data: [120, 132, 101, 134, 90, 230, 210],
     },
     {
       name: 'name',
       type: 'line',
-      data: [220, 182, 191, 234, 290, 330, 310]
+      data: [220, 182, 191, 234, 290, 330, 310],
     },
     {
       name: 'address',
       type: 'line',
-      data: [22, 66, 99, 234, 33, 56, 310]
-    }
-  ]
-};
+      data: [22, 66, 99, 234, 33, 56, 310],
+    },
+  ],
+}
 const dataLineBarLine: ChartDataType = {
   axisData: temperatureData.map(item => item.propertyTime),
   seriesData: [
     {
       type: 'line',
-      data: temperatureData.map(item => item.propertyValue)
+      data: temperatureData.map(item => item.propertyValue),
     },
     {
       type: 'bar',
-      data: humidity.map(item => item.propertyValue)
-    }
-  ]
-};
+      data: humidity.map(item => item.propertyValue),
+    },
+  ],
+}
 const dynamicLine: any = {
   axisData: temperatureData.map(item => item.propertyTime),
   seriesData: [
@@ -494,11 +520,11 @@ const dynamicLine: any = {
       type: 'line',
       data: temperatureData.map(item => item.propertyValue),
       itemStyle: {
-        color: 'rgba(232, 41, 41, 1)'
-      }
-    }
-  ]
-};
+        color: 'rgba(232, 41, 41, 1)',
+      },
+    },
+  ],
+}
 
 const customOptionLine2 = ref({
   title: {
@@ -507,26 +533,26 @@ const customOptionLine2 = ref({
     // left: 'center',
     // top: 'center',
     textStyle: {
-      fontSize: 30
+      fontSize: 30,
     },
     subtextStyle: {
-      fontSize: 20
-    }
+      fontSize: 20,
+    },
   },
   legend: {
-    data: ['train_TPR']
+    data: ['train_TPR'],
   },
   xAxis: {
     type: 'value',
     splitNumber: 10,
     splitLine: {
-      show: false
-    }
+      show: false,
+    },
   },
   yAxis: {
     type: 'value',
     name: 'TPR,FPR',
-    splitNumber: 10
+    splitNumber: 10,
   },
   series: [
     {
@@ -552,7 +578,7 @@ const customOptionLine2 = ref({
         [0.85, 0.1014],
         [0.9, 0.067],
         [0.95, 0.0236],
-        [1, 0]
+        [1, 0],
       ],
       type: 'line',
       markLine: {
@@ -560,30 +586,31 @@ const customOptionLine2 = ref({
         lineStyle: {
           color: 'red',
           width: 2,
-          type: 'dashed'
+          type: 'dashed',
         },
         data: [
           { type: 'average', name: '平均值' },
-          { yAxis: 0.5, name: 'TPR = 0.5' }
-        ]
-      }
-    }
-  ]
-});
+          { yAxis: 0.5, name: 'TPR = 0.5' },
+        ],
+      },
+    },
+  ],
+})
 
-const dataHeatmap = [];
+const dataHeatmap = []
+
 for (let i = 0; i < 7; i++) {
   for (let j = 0; j < 24; j++) {
-    dataHeatmap.push([j, i, Math.floor(Math.random() * 100)]);
+    dataHeatmap.push([j, i, Math.floor(Math.random() * 100)])
   }
 }
 const customOptionLine3 = ref({
   tooltip: {
-    position: 'top'
+    position: 'top',
   },
   grid: {
     height: '50%',
-    top: '10%'
+    top: '10%',
   },
   xAxis: {
     type: 'category',
@@ -611,14 +638,14 @@ const customOptionLine3 = ref({
       '8p',
       '9p',
       '10p',
-      '11p'
+      '11p',
     ],
-    splitArea: { show: true }
+    splitArea: { show: true },
   },
   yAxis: {
     type: 'category',
     data: ['Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday', 'Sunday'],
-    splitArea: { show: true }
+    splitArea: { show: true },
   },
   visualMap: {
     min: 0,
@@ -626,7 +653,7 @@ const customOptionLine3 = ref({
     calculable: true,
     orient: 'horizontal',
     left: 'center',
-    bottom: '5%'
+    bottom: '5%',
   },
   series: [
     {
@@ -634,26 +661,26 @@ const customOptionLine3 = ref({
       type: 'heatmap',
       data: dataHeatmap,
       label: {
-        show: false
+        show: false,
       },
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
-    }
-  ]
-});
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
+      },
+    },
+  ],
+})
 
 // 饼图
 const customOptionPie = ref({
   series: [
     {
-      roseType: 'area'
-    }
-  ]
-});
+      roseType: 'area',
+    },
+  ],
+})
 // 饼图圈内增加内容
 const customOptionPie2 = ref({
   graphic: [
@@ -666,8 +693,8 @@ const customOptionPie2 = ref({
         text: '中心内容', // 显示的文本
         textAlign: 'center',
         fill: '#000', // 文本颜色
-        fontSize: 20
-      }
+        fontSize: 20,
+      },
     },
     {
       type: 'text',
@@ -678,62 +705,63 @@ const customOptionPie2 = ref({
         text: '100%', // 显示的文本
         textAlign: 'center',
         fill: '#000', // 文本颜色
-        fontSize: 20
-      }
-    }
-  ]
-});
+        fontSize: 20,
+      },
+    },
+  ],
+})
 const templateAllPie: any = ref({
   template1: {},
   template2: {
-    radius: ['45%', '60%']
+    radius: ['45%', '60%'],
   },
   template3: {
     radius: ['10%', '60%'],
-    roseType: 'radius'
+    roseType: 'radius',
   },
   template4: {
     radius: ['45%', '60%'],
-    innerRadius: [0, '35%']
-  }
-});
+    innerRadius: [0, '35%'],
+  },
+})
 const seriesDataPie = [
   { value: 1048, name: '图例 A' },
   { value: 735, name: '图例 B' },
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
-  { value: 300, name: '图例 E' }
-];
+  { value: 300, name: '图例 E' },
+]
 const innerDataPie = [
   { value: 1548, name: '图例 1' },
   { value: 775, name: '图例 2' },
-  { value: 679, name: '图例 3' }
-];
+  { value: 679, name: '图例 3' },
+]
+
 function changeChartStyle() {
   [
     'templatePatchSimple',
     'templatePatchNegative',
     'templatePatchWaterfall',
     'templatePatchCategory',
-    'templatePatchMultiBar'
+    'templatePatchMultiBar',
   ].forEach((item: any) => {
-    templateAll.value[item].theme = formInline.value.themeModel;
-    templateAll.value[item].axis = formInline.value.axis;
-    templateAll.value[item].labelPosition = formInline.value.pos;
+    templateAll.value[item].theme = formInline.value.themeModel
+    templateAll.value[item].axis = formInline.value.axis
+    templateAll.value[item].labelPosition = formInline.value.pos
   });
 
   ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item: any) => {
-    templateAllLine.value[item].theme = formInline.value.themeModel;
-    templateAllLine.value[item].axis = formInline.value.axis;
-    templateAllLine.value[item].labelPosition = formInline.value.pos;
+    templateAllLine.value[item].theme = formInline.value.themeModel
+    templateAllLine.value[item].axis = formInline.value.axis
+    templateAllLine.value[item].labelPosition = formInline.value.pos
   });
 
   ['template1', 'template2', 'template3', 'template4'].forEach((item: any) => {
-    templateAllPie.value[item].theme = formInline.value.themeModel;
-  });
+    templateAllPie.value[item].theme = formInline.value.themeModel
+  })
 }
 
-const templateName: Ref<ChartTemplateType> = ref('bar');
+const templateName: Ref<ChartTemplateType> = ref('bar')
 </script>
 
 <template>
@@ -741,32 +769,47 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="坐标轴：">
         <el-radio-group v-model="formInline.axis" @change="changeChartStyle">
-          <el-radio value="x">x轴</el-radio>
-          <el-radio value="y">y轴</el-radio>
+          <el-radio value="x">
+            x轴
+          </el-radio>
+          <el-radio value="y">
+            y轴
+          </el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="数值展示位置：">
         <el-radio-group v-model="formInline.pos" @change="changeChartStyle">
-          <el-radio value="top">上</el-radio>
-          <el-radio value="bottom">下</el-radio>
-          <el-radio value="left">左</el-radio>
-          <el-radio value="right">右</el-radio>
+          <el-radio value="top">
+            上
+          </el-radio>
+          <el-radio value="bottom">
+            下
+          </el-radio>
+          <el-radio value="left">
+            左
+          </el-radio>
+          <el-radio value="right">
+            右
+          </el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="主题：">
         <el-select
           v-model="formInline.themeModel"
-          @change="changeChartStyle"
           placeholder="请选择主题"
           :style="{ width: '150px' }"
+          @change="changeChartStyle"
         >
-          <el-option v-for="item in themeOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          <el-option v-for="item in themeOptions" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
         </el-select>
       </el-form-item>
     </el-form>
 
     <div style="margin-top: 60px">
-      <el-divider content-position="left">柱状图</el-divider>
+      <el-divider content-position="left">
+        柱状图
+      </el-divider>
 
       <LSChart
         :template="templateName"
@@ -801,7 +844,9 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         :style="{ marginTop: '16px' }"
       />
 
-      <el-divider content-position="left">折线图</el-divider>
+      <el-divider content-position="left">
+        折线图
+      </el-divider>
 
       <LSChart
         template="line"
@@ -840,17 +885,17 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         :custom-option="{
           xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
           },
           yAxis: {
-            type: 'value'
+            type: 'value',
           },
           series: [
             {
               data: [150, 230, 224, 218, 135, 147, 260],
-              type: 'line'
-            }
-          ]
+              type: 'line',
+            },
+          ],
         }"
         :style="{ marginTop: '16px' }"
         width="800"
@@ -873,9 +918,9 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         :custom-option="{
           xAxis: [
             {
-              type: 'value'
-            }
-          ]
+              type: 'value',
+            },
+          ],
         }"
         height="400"
       />
@@ -884,7 +929,9 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
 
       <LSChart :custom-option="customOptionLine3" height="600" />
 
-      <el-divider content-position="left">饼图</el-divider>
+      <el-divider content-position="left">
+        饼图
+      </el-divider>
 
       <LSChart
         template="pie"
@@ -920,16 +967,17 @@ const templateName: Ref<ChartTemplateType> = ref('bar');
         :custom-option="{
           series: [
             {
-              cursor: 'move'
-            }
-          ]
+              cursor: 'move',
+            },
+          ],
         }"
         :style="{ marginTop: '16px' }"
         height="400"
       ></LSChart>
     </div>
 
-    <LSBackTop :target="'.el-main'" :ani-switch="true"> </LSBackTop>
+    <LSBackTop target=".el-main" :ani-switch="true">
+    </LSBackTop>
   </div>
 </template>
 

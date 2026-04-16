@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { ElLoading } from 'element-plus'
+import { merge } from 'lodash-es'
 // import LSImage from './components/Image.vue';
 // import LSDocx from './components/Docx.vue';
 // import LSXlsx from './components/Xlsx.vue';
 // import LSPdf from './components/Pdf.vue';
-import { lsPreviewProp } from './types';
-import { ElLoading } from 'element-plus';
-import { merge } from 'lodash-es';
+import { lsPreviewProp } from './types'
 
 defineOptions({
   name: 'LSPreview',
@@ -16,128 +16,131 @@ defineOptions({
   //   LSXlsx,
   //   LSPdf
   // },
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
+
+const props = defineProps(lsPreviewProp)
 
 const emits = defineEmits<{
-  (e: 'loadComplete'): void;
-  (e: 'loadError'): void;
-}>();
+  (e: 'loadComplete'): void
+  (e: 'loadError'): void
+}>()
 
-const props = defineProps(lsPreviewProp);
-const { type, zoomSize } = toRefs(props);
+const { type, zoomSize } = toRefs(props)
 
 const previewVisible = defineModel({
-  type: Boolean
-});
+  type: Boolean,
+})
 
 const defAttrs: any = reactive({
   zoomSize,
-  source: ''
-});
-const ns = useNamespace('preview');
-const comClass: string = ns.b();
+  source: '',
+})
+const ns = useNamespace('preview')
+const comClass: string = ns.b()
 const cpoMap: any = shallowRef({
   image: null,
   docx: null,
   xlsx: null,
-  pdf: null
-});
-const loadInstance: any = ref();
+  pdf: null,
+})
+const loadInstance: any = ref()
 
 const curCpo = computed(() => {
-  return type?.value && cpoMap.value[type?.value];
-});
+  return type?.value && cpoMap.value[type?.value]
+})
 
-const errorMsg = ref('文件加载失败，请检查文件是否已损坏！');
-let timer: any = null;
+const errorMsg = ref('文件加载失败，请检查文件是否已损坏！')
+let timer: any = null
 
 watch(
   () => previewVisible?.value,
-  val => {
+  (val) => {
     if (val) {
-      openLoading();
+      openLoading()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => props.source,
-  val => {
-    defAttrs.source = val;
+  (val) => {
+    defAttrs.source = val
+
     if (val) {
-      clearTimeout(timer);
+      clearTimeout(timer)
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function openLoading() {
-  props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption));
+  props.needLoading && (loadInstance.value = ElLoading.service(props.loadingOption))
+
   switch (props.type) {
     case 'image':
-      cpoMap.value.image = defineAsyncComponent(() => import('./components/Image.vue'));
-      break;
+      cpoMap.value.image = defineAsyncComponent(() => import('./components/Image.vue'))
+      break
     case 'docx':
-      cpoMap.value.docx = defineAsyncComponent(() => import('./components/Docx.vue'));
-      break;
+      cpoMap.value.docx = defineAsyncComponent(() => import('./components/Docx.vue'))
+      break
     case 'xlsx':
-      cpoMap.value.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'));
-      break;
+      cpoMap.value.xlsx = defineAsyncComponent(() => import('./components/Xlsx.vue'))
+      break
     case 'pdf':
-      cpoMap.value.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'));
-      break;
+      cpoMap.value.pdf = defineAsyncComponent(() => import('./components/Pdf.vue'))
+      break
     default:
-      break;
+      break
   }
 
   timer = setTimeout(() => {
     if (!props.source) {
-      ElMessage.error('加载超时，请检查网络后重试！');
-      closeLoading();
-      previewVisible.value = false;
+      ElMessage.error('加载超时，请检查网络后重试！')
+      closeLoading()
+      previewVisible.value = false
     }
-    clearTimeout(timer);
-  }, 20000);
+    clearTimeout(timer)
+  }, 20000)
 }
 
-const closeLoading = () => {
-  timer && clearTimeout(timer);
-  props.needLoading && loadInstance.value && loadInstance.value.close();
-};
+function closeLoading() {
+  timer && clearTimeout(timer)
+  props.needLoading && loadInstance.value && loadInstance.value.close()
+}
 
-const loadComplete = () => {
-  closeLoading();
-  emits('loadComplete');
-};
+function loadComplete() {
+  closeLoading()
+  emits('loadComplete')
+}
 
-const loadError = () => {
-  closeLoading();
-  console.error(errorMsg.value);
-  emits('loadError');
-};
+function loadError() {
+  closeLoading()
+  console.error(errorMsg.value)
+  emits('loadError')
+}
 
 onBeforeMount(() => {
-  previewVisible.value && props.type && openLoading();
-});
+  previewVisible.value && props.type && openLoading()
+})
 
 onBeforeUnmount(() => {
-  closeLoading();
-});
+  closeLoading()
+})
 </script>
 
 <template>
   <div v-if="previewVisible" :class="comClass">
     <component
-      v-if="curCpo"
       :is="curCpo"
+      v-if="curCpo"
       v-bind="merge(defAttrs, $attrs)"
       @load-complete="loadComplete"
       @load-error="loadError"

@@ -37,164 +37,187 @@
  * @expose lsTreeRef 内部 `el-tree` 实例，可调用 `getCheckedNodes`、`setCheckedKeys`、`filter` 等 Element Plus Tree 原生方法
  */
 
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { excutePowerTree } from '@cpo/_utils/power';
-import type { TreeNodeData } from 'element-plus';
-import { emitNames, lsTreeProps } from './types';
+import type { TreeNodeData } from 'element-plus'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { excutePowerTree } from '@cpo/_utils/power'
+import { emitNames, lsTreeProps } from './types'
 
-const emitAll = defineEmits(emitNames);
+const props = defineProps(lsTreeProps)
 
-const props = defineProps(lsTreeProps);
+const emitAll = defineEmits(emitNames)
 
-const ns = useNamespace('tree');
-const comClass: string = ns.b();
-const treeClass = ns.b('box');
+const ns = useNamespace('tree')
+const comClass: string = ns.b()
+const treeClass = ns.b('box')
 
-const lsTreeRef = ref();
+const lsTreeRef = ref()
 
 // 全选
-const isAllChecked = ref(false);
+const isAllChecked = ref(false)
 // 中间状态
-const isIndeterminate = ref(false);
+const isIndeterminate = ref(false)
 // 所有节点的id
-const allNodeKeys: any = ref<Array<number>>([]);
+const allNodeKeys: any = ref<Array<number>>([])
 
 const treeStyle = computed(() => {
   if (props.height) {
     return {
-      maxHeight: props.height
-    };
-  } else {
-    return {};
+      maxHeight: props.height,
+    }
   }
-});
+  else {
+    return {}
+  }
+})
 
 const curData: any = computed(() => {
-  return props.treeData;
-});
+  return props.treeData
+})
 
-const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'is-penultimate' : '');
+const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'is-penultimate' : '')
 
 watch(
   () => curData.value,
-  async newVal => {
+  async (newVal) => {
     if (newVal && newVal.length > 0) {
-      isAllChecked.value = false;
-      isIndeterminate.value = false;
-      allNodeKeys.value = getAllNodeKeys();
-      await nextTick();
-      lsTreeRef.value!.filter();
-      updateAllCheckStatus();
+      isAllChecked.value = false
+      isIndeterminate.value = false
+      allNodeKeys.value = getAllNodeKeys()
+      await nextTick()
+      lsTreeRef.value!.filter()
+      updateAllCheckStatus()
       // updateStyle();
-      await updateHideStyle();
+      await updateHideStyle()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // 获取所有节点的key值
 function getAllNodeKeys() {
   return curData.value.reduce((keys: any, node: any) => {
-    keys.push(node.id);
+    keys.push(node.id)
+
     if (node.children) {
-      keys.push(...getAllChildKeys(node.children));
+      keys.push(...getAllChildKeys(node.children))
     }
-    return keys;
-  }, []);
+
+    return keys
+  }, [])
 }
 
 // 递归获取所有子节点的key值
 function getAllChildKeys(children: any) {
   return children.reduce((keys: any, child: any) => {
-    keys.push(child.id);
+    keys.push(child.id)
+
     if (child.children) {
-      keys.push(...getAllChildKeys(child.children));
+      keys.push(...getAllChildKeys(child.children))
     }
-    return keys;
-  }, []);
+
+    return keys
+  }, [])
 }
 
 // 更新隐藏样式
 async function updateHideStyle() {
-  await nextTick();
-  const hideChilds: any = document.getElementsByClassName('hide-child-node');
+  await nextTick()
+  const hideChilds: any = document.getElementsByClassName('hide-child-node')
+
   for (let i = 0; i < hideChilds.length; i++) {
-    const vnode = hideChilds[i].parentNode;
-    vnode.style.opacity = 0;
-    vnode.style.width = 0;
-    vnode.style.height = 0;
-    const childNodes = vnode.parentNode.parentNode.querySelectorAll('.el-tree-node');
-    let needHideIcon = true;
+    const vnode = hideChilds[i].parentNode
+    vnode.style.opacity = 0
+    vnode.style.width = 0
+    vnode.style.height = 0
+    const childNodes = vnode.parentNode.parentNode.querySelectorAll('.el-tree-node')
+    let needHideIcon = true
+
     for (let index = 0; index < childNodes.length; index++) {
-      const element = childNodes[index];
+      const element = childNodes[index]
+
       if (element.style.display !== 'none') {
-        needHideIcon = false;
-        break;
+        needHideIcon = false
+        break
       }
     }
+
     if (vnode?.parentNode?.parentNode?.previousElementSibling && needHideIcon) {
-      vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.opacity = 0;
-      vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.visibility = 'hidden';
+      vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.opacity = 0
+      vnode.parentNode.parentNode.previousElementSibling.querySelector('.el-icon').style.visibility = 'hidden'
     }
   }
 }
 
 // 全选所有节点
 function handleCheckAllChange() {
-  isIndeterminate.value = false;
+  isIndeterminate.value = false
+
   if (lsTreeRef.value) {
-    lsTreeRef.value.setCheckedKeys(isAllChecked.value ? allNodeKeys.value : []);
+    lsTreeRef.value.setCheckedKeys(isAllChecked.value ? allNodeKeys.value : [])
   }
 }
 
-// 筛选
-function filterNode(value: any, data: any) {
-  const { permission } = data || {};
+// 筛选节点
+function filterNode(query: string, data: TreeNodeData): boolean {
+  const nodeData = data as Record<string, unknown>
+  const permission = nodeData.permission as string | undefined
+
   if (permission?.startsWith(props.hideNodePrefix)) {
-    return false;
+    return false
   }
-  if (!value) return true;
-  const { label } = props.dataProps || {};
-  if (!label) return true;
-  return data[label].indexOf(value) !== -1;
+
+  if (!query)
+    return true
+
+  const labelField = props.dataProps?.label
+  if (!labelField)
+    return true
+
+  const labelValue = nodeData[labelField] as string | undefined
+  if (!labelValue)
+    return true
+
+  return labelValue.toLowerCase().includes(query.toLowerCase())
 }
 
 // 点击的节点复选框的数据
 function handleCheck(data: any, checkeds: any) {
-  lsTreeRef.value.setCheckedNodes(excutePowerTree(curData.value, data, checkeds));
-  emitAll('handleCheck', data, checkeds);
+  lsTreeRef.value.setCheckedNodes(excutePowerTree(curData.value, data, checkeds))
+  emitAll('handleCheck', data, checkeds)
 }
 
 // 每一个节点复选框变化监听
 function handleChekChange(data: any, checked: any) {
-  updateAllCheckStatus();
+  updateAllCheckStatus()
 
-  emitAll('handleChekChange', data, checked);
+  emitAll('handleChekChange', data, checked)
 }
 
 function updateAllCheckStatus() {
-  const checkedData = lsTreeRef.value.getCheckedNodes(false, true);
-  let ids: Array<number> = [];
+  const checkedData = lsTreeRef.value.getCheckedNodes(false, true)
+  let ids: Array<number> = []
   checkedData.forEach((item: any) => {
-    const { id, parentId } = item;
-    ids.push(id || parentId);
-  });
+    const { id, parentId } = item
+    ids.push(id || parentId)
+  })
+
   if (ids.length > 0) {
-    const status = Boolean(ids.length === allNodeKeys.value.length);
-    isAllChecked.value = status;
-    isIndeterminate.value = !status;
-  } else {
-    isAllChecked.value = false;
-    isIndeterminate.value = false;
+    const status = Boolean(ids.length === allNodeKeys.value.length)
+    isAllChecked.value = status
+    isIndeterminate.value = !status
+  }
+  else {
+    isAllChecked.value = false
+    isIndeterminate.value = false
   }
 }
 
 defineExpose({
-  lsTreeRef
-});
+  lsTreeRef,
+})
 </script>
 
 <template>
@@ -223,7 +246,7 @@ defineExpose({
         <span
           class="custom-tree-node"
           :class="{
-            'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix)
+            'hide-child-node': hideNodePrefix && data.permission?.startsWith(hideNodePrefix),
           }"
         >
           <span>{{ node.label }}</span>

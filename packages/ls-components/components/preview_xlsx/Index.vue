@@ -46,45 +46,45 @@
  *   :on-close="() => { previewVisible3 = false; }"
  * />
  */
-import { lsPreviewProp } from '@cpo/_constants/previewType';
-import usePreviewHook from '@cpo/_hooks/usePreviewHook';
-import { merge } from 'lodash-es';
-import LSXlsx from './Xlsx.vue';
+import { lsPreviewProp } from '@cpo/_constants/previewType'
+import usePreviewHook from '@cpo/_hooks/usePreviewHook'
+import { merge } from 'lodash-es'
+import LSXlsx from './Xlsx.vue'
 
 defineOptions({
   name: 'LSPreviewXlsx',
   components: {
-    LSXlsx
+    LSXlsx,
   },
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
+
+const props = defineProps(lsPreviewProp)
 
 const emits = defineEmits<{
-  (e: 'loadComplete'): void;
-  (e: 'loadError'): void;
-  (e: 'onDownload', data: any): void;
-}>();
-
-const props = defineProps(lsPreviewProp);
+  (e: 'loadComplete'): void
+  (e: 'loadError'): void
+  (e: 'onDownload', data: any): void
+}>()
 
 const previewVisible = defineModel({
-  type: Boolean
-});
+  type: Boolean,
+})
 
-const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible);
+const { comClass, defAttrs, closeLoading, watermarkStyle } = usePreviewHook(props, previewVisible)
 
-const loadComplete = () => {
-  closeLoading();
-  emits('loadComplete');
-};
+function loadComplete() {
+  closeLoading()
+  emits('loadComplete')
+}
 
-const loadError = () => {
-  closeLoading();
-  emits('loadError');
-};
+function loadError() {
+  closeLoading()
+  emits('loadError')
+}
 
 function onDownload(data: any) {
-  emits('onDownload', data);
+  emits('onDownload', data)
 }
 </script>
 

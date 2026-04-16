@@ -1,14 +1,14 @@
 export const jsList = [
   { id: 'luckysheet1', src: '/luckysheet/plugins/js/plugin.js' },
-  { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' }
-];
+  { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' },
+]
 
 export const cssList = [
   { id: 'luckysheetCss1', src: '/luckysheet/plugins/css/pluginsCss.css' },
   { id: 'luckysheetCss2', src: '/luckysheet/plugins/plugins.css' },
   { id: 'luckysheetCss3', src: '/luckysheet/css/luckysheet.css' },
-  { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' }
-];
+  { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' },
+]
 
 export const luckysheetConfig = {
   container: 'luckysheet',
@@ -27,10 +27,10 @@ export const luckysheetConfig = {
   forceCalculation: true, // 强制计算公式
   showConfigWindowResize: false,
   showstatisticBarConfig: {
-    zoom: true
+    zoom: true,
   },
   showsheetbarConfig: {
-    sheet: true // sheet页显示
+    sheet: true, // sheet页显示
   },
   sheetRightClickConfig: {
     delete: false, // 删除
@@ -38,7 +38,7 @@ export const luckysheetConfig = {
     rename: false, // 重命名
     color: false, // 更改颜色
     hide: false, // 隐藏，取消隐藏
-    move: false // 向左移，向右移
+    move: false, // 向左移，向右移
   },
   cellRightClickConfig: {
     copy: false, // 复制
@@ -61,7 +61,7 @@ export const luckysheetConfig = {
     image: false, // 插入图片
     link: false, // 插入链接
     data: false, // 数据验证
-    cellFormat: false // 设置单元格格式,
+    cellFormat: false, // 设置单元格格式,
   },
   hook: {
     // 单元格点击前的事件
@@ -71,10 +71,11 @@ export const luckysheetConfig = {
     // 图片删除前
     imageDeleteBefore: () => false,
     // 图片更新前
-    imageUpdateBefore: () => false
+    imageUpdateBefore: () => false,
     // workbookCreateAfter: function (json: any) {}
-  }
-};
+  },
+}
 
-export const fileSizeLimit = 20;
-export const rowsPerBatch = 1000; // 每批加载的行数
+export const fileSizeLimit = 20
+
+export const rowsPerBatch = 1000 // 每批加载的行数

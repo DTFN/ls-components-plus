@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const jsonEditorRef = ref();
+const jsonEditorRef = ref()
 
 const jsonValue = ref({
   array: [1, 2, 3],
@@ -8,11 +8,11 @@ const jsonValue = ref({
   number: 123,
   seconds: 0,
   object: { a: 'b', c: 'd' },
-  string: 'Hello World'
-});
+  string: 'Hello World',
+})
 
 function getJson() {
-  console.log(jsonEditorRef.value.getJsonValue());
+  console.log(jsonEditorRef.value.getJsonValue())
 }
 </script>
 
@@ -26,7 +26,9 @@ function getJson() {
 
     <br />
 
-    <LSButton type="primary" @click="getJson">获取json</LSButton>
+    <LSButton type="primary" @click="getJson">
+      获取json
+    </LSButton>
   </div>
 </template>
 

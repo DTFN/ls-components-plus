@@ -45,47 +45,47 @@
  *   </template>
  * </LSBellMessage>
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsBellMessageProps, emitNames } from './types';
-import { merge } from 'lodash-es';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { merge } from 'lodash-es'
+import { emitNames, lsBellMessageProps } from './types'
 
-const emitAll = defineEmits(emitNames);
+defineProps(lsBellMessageProps)
 
-defineProps(lsBellMessageProps);
+const emitAll = defineEmits(emitNames)
 
 const defAttrs: Ref<{
-  width: number;
-  placement: string;
-  trigger: string;
+  width: number
+  placement: string
+  trigger: string
 }> = ref({
   width: 360,
   placement: 'bottom-end',
-  trigger: 'click'
-});
+  trigger: 'click',
+})
 
 const defBadgeAttrs: Ref<{
-  showZero: boolean;
-  max: number;
-  offset: number[];
+  showZero: boolean
+  max: number
+  offset: number[]
 }> = ref({
   showZero: false,
   max: 99,
-  offset: [3, 2]
-});
+  offset: [3, 2],
+})
 
-const ns = useNamespace('bell-message');
-const comClass: string = ns.b();
+const ns = useNamespace('bell-message')
+const comClass: string = ns.b()
 
 function readAll() {
-  emitAll('readAll');
+  emitAll('readAll')
 }
 
 function readMsg(id: string | number) {
-  emitAll('readMsg', id);
+  emitAll('readMsg', id)
 }
 
 function loadMore() {
-  emitAll('loadMore');
+  emitAll('loadMore')
 }
 </script>
 
@@ -96,34 +96,44 @@ function loadMore() {
         <el-badge v-bind="merge(defBadgeAttrs, $attrs)" class="icon-message" :value="Number(noticeNum)" dot-class="notice-dot">
           <template #default>
             <LSIcon v-if="iconConfig.name" v-bind="iconConfig" />
-            <el-icon v-else><BellFilled /></el-icon>
+            <el-icon v-else>
+              <BellFilled />
+            </el-icon>
           </template>
         </el-badge>
       </template>
       <div class="msg-list-view">
         <div class="top-box">
-          <LSButton class="pl-12 read_all" link :type="noticeNum > 0 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
-            >全部已读</LSButton
-          >
+          <LSButton class="pl-12 read_all" link :type="noticeNum > 0 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll">
+            全部已读
+          </LSButton>
         </div>
 
-        <div class="content-box" v-loading="loading">
+        <div v-loading="loading" class="content-box">
           <div v-for="(item, index) in list" :key="index" class="mlr-6 msg-item" @click="readMsg(item.id)">
             <h1>{{ item.title }}</h1>
-            <el-tag v-if="item.msgType" type="primary" class="msg-type">{{ item.msgType }}</el-tag>
+            <el-tag v-if="item.msgType" type="primary" class="msg-type">
+              {{ item.msgType }}
+            </el-tag>
             <div class="mt-8 content" v-html="item.content"></div>
-            <div class="mt-8 time">{{ item.createdTime }}</div>
-            <div v-show="item.readStatus == 0" class="dot"></div>
+            <div class="mt-8 time">
+              {{ item.createdTime }}
+            </div>
+            <div v-show="item.readStatus === 0" class="dot"></div>
           </div>
 
           <div
             class="flex-center ptb-24"
             :style="{
-              textAlign: 'center'
+              textAlign: 'center',
             }"
           >
-            <div v-if="noMore" class="no-more">暂无更多</div>
-            <el-button v-else link type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
+            <div v-if="noMore" class="no-more">
+              暂无更多
+            </div>
+            <el-button v-else link type="primary" :loading="loading" @click="loadMore">
+              加载更多
+            </el-button>
           </div>
         </div>
       </div>

@@ -1,52 +1,54 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-type Value<T> = T[keyof T];
+import type { ExtractPropTypes, PropType } from 'vue'
 
-export const epPropKey = '__epPropKey';
+type Value<T> = T[keyof T]
+
+export const epPropKey = '__epPropKey'
 
 export interface LSOptions {
-  classPrefix?: string;
-  componentPrefix?: string;
+  classPrefix?: string
+  componentPrefix?: string
 }
 
 export interface LSIconOptions {
-  iconPrefix?: string;
+  iconPrefix?: string
 }
 
 export interface LSGlobalConfig {
-  classPrefix?: string;
+  classPrefix?: string
 }
 
 export interface LSUnionTypeSS {
-  [key: string]: string;
+  [key: string]: string
 }
 
 export interface LSUnionTypeNS {
-  [key: number]: string;
+  [key: number]: string
 }
 
 export interface LSUnionTypeMNS {
-  [key: number | string]: number | string;
+  [key: number | string]: number | string
 }
 
 export interface LSUnionTypeT<T> {
-  [key: number | string]: T;
+  [key: number | string]: T
 }
 
-export type Writable<T> = { -readonly [P in keyof T]: T[P] };
-export type WritableArray<T> = T extends readonly any[] ? Writable<T> : T;
+export type Writable<T> = { -readonly [P in keyof T]: T[P] }
 
-export type IfNever<T, Y = true, N = false> = [T] extends [never] ? Y : N;
+export type WritableArray<T> = T extends readonly any[] ? Writable<T> : T
 
-export type IfUnknown<T, Y, N> = [unknown] extends [T] ? Y : N;
+export type IfNever<T, Y = true, N = false> = [T] extends [never] ? Y : N
 
-export type UnknownToNever<T> = IfUnknown<T, never, T>;
+export type IfUnknown<T, Y, N> = [unknown] extends [T] ? Y : N
+
+export type UnknownToNever<T> = IfUnknown<T, never, T>
 
 /**
  * Determine if it is `EpProp`
  */
-export type IfEpProp<T, Y, N> = T extends { [epPropKey]: true } ? Y : N;
+export type IfEpProp<T, Y, N> = T extends { [epPropKey]: true } ? Y : N
 
-export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N;
+export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N
 
 /**
  * output prop `buildProp` or `buildProps`.
@@ -65,11 +67,11 @@ export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N;
   }
  */
 export type EpProp<Type, Default, Required> = {
-  readonly type: PropType<Type>;
-  readonly required: [Required] extends [true] ? true : false;
-  readonly validator: ((val: unknown) => boolean) | undefined;
-  [epPropKey]: true;
-} & IfNever<Default, unknown, { readonly default: Default }>;
+  readonly type: PropType<Type>
+  readonly required: [Required] extends [true] ? true : false
+  readonly validator: ((val: unknown) => boolean) | undefined
+  [epPropKey]: true
+} & IfNever<Default, unknown, { readonly default: Default }>
 
 /**
  * Finalized conversion output
@@ -80,7 +82,7 @@ export type EpPropFinalized<Type, Value, Validator, Default, Required> = EpProp<
   EpPropMergeType<Type, Value, Validator>,
   UnknownToNever<Default>,
   Required
->;
+>
 
 /**
  * Converting input to output.
@@ -90,7 +92,7 @@ export type EpPropFinalized<Type, Value, Validator, Default, Required> = EpProp<
 export type EpPropConvert<Input> =
   Input extends EpPropInput<infer Type, infer Value, infer Validator, any, infer Required>
     ? EpPropFinalized<Type, Value, Validator, Input['default'], Required>
-    : never;
+    : never
 
 /**
  * Extract the type of a single prop
@@ -104,9 +106,9 @@ export type EpPropConvert<Input> =
  */
 export type ExtractPropType<T extends object> = Value<
   ExtractPropTypes<{
-    key: T;
+    key: T
   }>
->;
+>
 
 /**
  * Extracts types via `ExtractPropTypes`, accepting `PropType<T>`, `XXXConstructor`, `never`...
@@ -116,15 +118,15 @@ export type ExtractPropType<T extends object> = Value<
  * @example
  * ResolvePropType<BooleanConstructor> => boolean
  * ResolvePropType<PropType<T>> => T
- **/
+ */
 export type ResolvePropType<T> = IfNever<
   T,
   never,
   ExtractPropType<{
-    type: WritableArray<T>;
-    required: true;
+    type: WritableArray<T>
+    required: true
   }>
->;
+>
 
 /**
  * Merge Type, Value, Validator types
@@ -137,7 +139,7 @@ export type ResolvePropType<T> = IfNever<
 export type EpPropMergeType<Type, Value, Validator> =
   | IfNever<UnknownToNever<Value>, ResolvePropType<Type>, never>
   | UnknownToNever<Value>
-  | UnknownToNever<Validator>;
+  | UnknownToNever<Validator>
 
 /**
  * Handling default values for input (constraints)
@@ -148,14 +150,14 @@ export type EpPropInputDefault<Required extends boolean, Default> = Required ext
   ? never
   : Default extends Record<string, unknown> | Array<any>
     ? () => Default
-    : (() => Default) | Default;
+    : (() => Default) | Default
 
 /**
  * Native prop types, e.g: `BooleanConstructor`, `StringConstructor`, `null`, `undefined`, etc.
  *
  * 原生 prop `类型，BooleanConstructor`、`StringConstructor`、`null`、`undefined` 等
  */
-export type NativePropType = ((...args: any) => any) | { new (...args: any): any } | undefined | null;
+export type NativePropType = ((...args: any) => any) | { new (...args: any): any } | undefined | null
 
 /**
  * input prop `buildProp` or `buildProps` (constraints)
@@ -173,18 +175,18 @@ export type NativePropType = ((...args: any) => any) | { new (...args: any): any
     default?: undefined;
   }
  */
-export type EpPropInput<
+export interface EpPropInput<
   Type,
   Value,
   Validator,
   Default extends EpPropMergeType<Type, Value, Validator>,
-  Required extends boolean
-> = {
-  type?: Type;
-  required?: Required;
-  values?: readonly Value[];
-  validator?: ((val: any) => val is Validator) | ((val: any) => boolean);
-  default?: EpPropInputDefault<Required, Default>;
-};
+  Required extends boolean,
+> {
+  type?: Type
+  required?: Required
+  values?: readonly Value[]
+  validator?: ((val: any) => val is Validator) | ((val: any) => boolean)
+  default?: EpPropInputDefault<Required, Default>
+}
 
-export const keysOf = <T>(arr: any) => Object.keys(arr) as Array<keyof T>;
+export const keysOf = <T>(arr: any) => Object.keys(arr) as Array<keyof T>

@@ -12,25 +12,26 @@
  *
  * @event onDropdownCommand(key) 选择下拉命令后触发，返回对应命令 key
  */
-import { lsEmitNames, lsHeaderProp } from '../types';
-import defUserIcon from './default_head.png';
+import { lsEmitNames, lsHeaderProp } from '../types'
+import defUserIcon from './default_head.png'
 
 defineOptions({
   name: 'CommandList',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-defineProps(lsHeaderProp);
+defineProps(lsHeaderProp)
 
-const emits = defineEmits(lsEmitNames);
+const emits = defineEmits(lsEmitNames)
 
-const commandStatus = ref(false);
+const commandStatus = ref(false)
 
 function visibleChange() {
-  commandStatus.value = !commandStatus.value;
+  commandStatus.value = !commandStatus.value
 }
+
 function dropdownCommand(val: any) {
-  emits('onDropdownCommand', val);
+  emits('onDropdownCommand', val)
 }
 </script>
 
@@ -43,7 +44,9 @@ function dropdownCommand(val: any) {
     </span>
     <template v-if="commandList.length > 0" #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-for="item in commandList" :key="item.key" :command="item.key">{{ item.name }}</el-dropdown-item>
+        <el-dropdown-item v-for="item in commandList" :key="item.key" :command="item.key">
+          {{ item.name }}
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>

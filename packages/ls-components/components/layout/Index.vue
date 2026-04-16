@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useNamespace } from '@cpo/_hooks/useNamespace'
 /**
  * @summary 布局组件 - 基于 `el-container` 的页面框架容器
  *
@@ -51,51 +52,52 @@
  *   </template>
  * </LSLayout>
  */
-import { computed, useSlots } from 'vue';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsEmitNames, lsLayoutProp } from './types';
-import Header from './components/Header.vue';
+import { computed, useSlots } from 'vue'
+import Header from './components/Header.vue'
+import { lsEmitNames, lsLayoutProp } from './types'
 
 defineOptions({
   name: 'LSLayout',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-const props = defineProps(lsLayoutProp);
+const props = defineProps(lsLayoutProp)
 
-const emits = defineEmits(lsEmitNames);
+const emits = defineEmits(lsEmitNames)
 
-const slots = useSlots();
+const slots = useSlots()
 
-const ns = useNamespace('layout');
-const comClass: string = ns.b();
-const containerWrap: string = ns.b('container-wrap');
-const containerSection: string = ns.b('container-section');
+const ns = useNamespace('layout')
+const comClass: string = ns.b()
+const containerWrap: string = ns.b('container-wrap')
+const containerSection: string = ns.b('container-section')
 
 const containerWrapStyle = computed(() => {
   if (props.showFooter) {
     return {
-      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`
-    };
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`,
+    }
   }
+
   return {
-    height: `calc(100vh - ${props.headerHeight})`
-  };
-});
+    height: `calc(100vh - ${props.headerHeight})`,
+  }
+})
 
 const containerSectionStyle = computed(() => {
   if (props.showFooter) {
     return {
-      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight} - 40px)`
-    };
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight} - 40px)`,
+    }
   }
+
   return {
-    minHeight: `calc(100vh - ${props.headerHeight} - 40px)`
-  };
-});
+    minHeight: `calc(100vh - ${props.headerHeight} - 40px)`,
+  }
+})
 
 function onDropdownCommand2(val: string) {
-  emits('onCommand', val);
+  emits('onCommand', val)
 }
 </script>
 
@@ -125,7 +127,7 @@ function onDropdownCommand2(val: string) {
         </Header>
       </el-header>
       <el-container :class="containerWrap" :style="containerWrapStyle">
-        <el-aside v-if="mode != 2" :width="asideWidth">
+        <el-aside v-if="mode !== 2" :width="asideWidth">
           <slot name="aside"></slot>
         </el-aside>
         <el-main>

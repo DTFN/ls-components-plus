@@ -1,20 +1,17 @@
-import Theme from 'vitepress/theme';
-import { App } from 'vue';
-import print from 'vue3-print-nb';
-import ApiIntro from './components/ApiIntro.vue';
-import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
-import './style.scss';
+import type { App } from 'vue'
+import Theme from 'vitepress/theme'
+import print from 'vue3-print-nb'
+import ApiIntro from './components/ApiIntro.vue'
+import ArticleMetadata from './components/ArticleMetadata.vue' // 字数阅读时间
+import './style.scss'
 // import { defineClientComponent } from 'vitepress';
-
-import 'element-plus/dist/index.css';
-
+import 'element-plus/dist/index.css'
 // import LSWebPlus from '../../../ls-components/lib/index';
 // import { vAuth } from '../../../ls-components/lib/directives';
 // import '../../../ls-components/lib/index.css';
-
 // import LSWebPlus from '@lingshugroup/web-plus';
 // import { vAuth } from '@lingshugroup/web-plus/directives';
-import '@lingshugroup/web-plus/index.css';
+import '@lingshugroup/web-plus/index.css'
 
 // import LSIcon from '@lingshugroup/web-plus/icon';
 // import { LSButton, LSButtonGroup } from '@lingshugroup/web-plus/button';
@@ -58,10 +55,10 @@ export default Object.assign({}, Theme, {
   // return h(Theme.Layout, props);
   // },
   async enhanceApp({ app }: { app: App }) {
-    app.component('ArticleMetadata', ArticleMetadata);
-    app.component('ApiIntro', ApiIntro);
+    app.component('ArticleMetadata', ArticleMetadata)
+    app.component('ApiIntro', ApiIntro)
 
-    app.directive('print', print);
+    app.directive('print', print)
 
     // vAuth.permissions = ['a', 'b', 'c'];
     // app.directive('auth', vAuth);
@@ -94,8 +91,8 @@ export default Object.assign({}, Theme, {
     // });
 
     if (import.meta.env.MODE === 'development' || !import.meta.env.SSR) {
-      const plugin = await import('@lingshugroup/web-plus');
-      app.use(plugin.default);
+      const plugin = await import('@lingshugroup/web-plus')
+      app.use(plugin.default)
     }
-  }
-});
+  },
+})

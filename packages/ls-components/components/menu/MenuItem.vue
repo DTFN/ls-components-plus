@@ -1,4 +1,7 @@
 <script setup lang="ts" name="LSMenuItem">
+import type { MenuBaseType } from './types'
+import { lsMenuKey } from '@cpo/_constants/token'
+import useRouterHook from '@cpo/_hooks/useRouterHook'
 /**
  * @summary 菜单项组件 - `LSMenu` 的递归子项渲染器
  *
@@ -18,52 +21,54 @@
  * @event defineSubClick(item) 点击子菜单标题时向外层继续抛出
  * @event defineChildClick(item) 点击叶子菜单项且 `isDefineClick=true` 时向外层继续抛出
  */
-import LSIcon from '@cpo/icon/Index.vue';
-import LSTooltip from '@cpo/tooltip/Index.vue';
-import { lsEmitNames, lsMenuItemProps, MenuBaseType } from './types';
-import useRouterHook from '@cpo/_hooks/useRouterHook';
-import { lsMenuKey } from '@cpo/_constants/token';
+import LSIcon from '@cpo/icon/Index.vue'
+import LSTooltip from '@cpo/tooltip/Index.vue'
+import { lsEmitNames, lsMenuItemProps } from './types'
 
-const { jumpRouteCom } = useRouterHook();
+const props = defineProps(lsMenuItemProps)
 
-const emits = defineEmits(lsEmitNames);
+const emits = defineEmits(lsEmitNames)
 
-const props = defineProps(lsMenuItemProps);
+const { jumpRouteCom } = useRouterHook()
 
 const menuProps = inject(lsMenuKey) as {
-  fontSize: number;
-};
+  fontSize: number
+}
 
-const jumpRoute = (index: string, item: MenuBaseType) => {
+function jumpRoute(index: string, item: MenuBaseType) {
   if (props.isDefineClick) {
-    defineChildClickFunc(item);
-  } else {
-    const { link, defJump } = item || {};
+    defineChildClickFunc(item)
+  }
+  else {
+    const { link, defJump } = item || {}
+
     if (defJump) {
-      emits('onJump', item);
-    } else {
+      emits('onJump', item)
+    }
+    else {
       if (!link) {
-        jumpRouteCom(item);
-      } else {
-        window.open(link, '_blank');
+        jumpRouteCom(item)
+      }
+      else {
+        window.open(link, '_blank')
       }
     }
   }
-};
+}
 
 function onJump(item: MenuBaseType) {
-  emits('onJump', item);
+  emits('onJump', item)
 }
 
 function defineSubClickFunc(item: MenuBaseType) {
   if (props.isDefineClick) {
-    emits('defineSubClick', item);
+    emits('defineSubClick', item)
   }
 }
 
 function defineChildClickFunc(item: MenuBaseType) {
   if (props.isDefineClick) {
-    emits('defineChildClick', item);
+    emits('defineChildClick', item)
   }
 }
 </script>
@@ -72,37 +77,37 @@ function defineChildClickFunc(item: MenuBaseType) {
   <template v-if="!needPermission || permissionList.includes(item.pCode)">
     <!-- 无子菜单项 -->
     <div v-if="!item.children || item.leaf" @click.stop>
-      <el-menu-item :index="item['key']" :data-index="item['key']" @click="jumpRoute(item['key'], item as MenuBaseType)">
+      <el-menu-item :index="item.key" :data-index="item.key" @click="jumpRoute(item.key, item as MenuBaseType)">
         <LSIcon v-bind="item.iconConfig">
           <template v-if="item.iconSlot" #default>
-            <slot :name="item.iconSlot"> </slot>
+            <slot :name="item.iconSlot">
+            </slot>
           </template>
         </LSIcon>
         <template #title>
           <LSTooltip v-if="showTooltip" :content="item.title" placement="right" :font-size="menuProps?.fontSize">
             <span class="menu-title">
-              <p>{{ item.title }}</p></span
-            >
+              <p>{{ item.title }}</p></span>
           </LSTooltip>
           <span v-else class="menu-title">
-            <p>{{ item.title }}</p></span
-          >
+            <p>{{ item.title }}</p></span>
         </template>
       </el-menu-item>
     </div>
     <!-- 有子菜单 -->
-    <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click.stop="defineSubClickFunc(item as MenuBaseType)">
+    <el-sub-menu v-else :index="item.key" :data-index="item.key" @click.stop="defineSubClickFunc(item as MenuBaseType)">
       <template #title>
         <LSIcon v-bind="item.iconConfig">
           <template v-if="item.iconSlot" #default>
-            <slot :name="item.iconSlot"> </slot>
+            <slot :name="item.iconSlot">
+            </slot>
           </template>
         </LSIcon>
         <span>{{ item.title }}</span>
       </template>
       <MenuItem
         v-for="child in item.children"
-        :key="child['key']"
+        :key="child.key"
         :item="child"
         :permission-list="permissionList"
         :need-permission="needPermission"

@@ -22,32 +22,32 @@
  *
  * @event onDropdownCommand2(key) 命令列表点击后触发，返回对应命令 key
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsEmitNames, lsHeaderProp } from '../types';
-import CommandList from './CommandList.vue';
-import defUserIcon from './default_head.png';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { lsEmitNames, lsHeaderProp } from '../types'
+import CommandList from './CommandList.vue'
+import defUserIcon from './default_head.png'
 
-const emits = defineEmits(lsEmitNames);
+const props = defineProps(lsHeaderProp)
 
-const slots = useSlots();
+const emits = defineEmits(lsEmitNames)
 
-const ns = useNamespace('header');
-const comClass: string = ns.b();
+const slots = useSlots()
 
-const props = defineProps(lsHeaderProp);
+const ns = useNamespace('header')
+const comClass: string = ns.b()
 
 const headerStyle = computed(() => {
   return {
-    lineHeight: props.height
-  };
-});
+    lineHeight: props.height,
+  }
+})
 
 const logoHeight = computed(() => {
-  return Number(props.height.replace('px', '')) * 0.7;
-});
+  return Number(props.height.replace('px', '')) * 0.7
+})
 
 function onDropdownCommand(val: string) {
-  emits('onDropdownCommand2', val);
+  emits('onDropdownCommand2', val)
 }
 </script>
 
@@ -68,7 +68,9 @@ function onDropdownCommand(val: string) {
       <CommandList v-if="showCommand" v-bind="props" @on-dropdown-command="onDropdownCommand" />
       <template v-else>
         <el-avatar :size="30" :src="userIcon || defUserIcon" alt="" />
-        <div class="name">{{ userName }}</div>
+        <div class="name">
+          {{ userName }}
+        </div>
       </template>
     </div>
   </div>

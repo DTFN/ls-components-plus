@@ -1,4 +1,4 @@
-import { buildProps } from '@cpo/_utils/runtime';
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * @summary 通用预览组件事件名集合
@@ -13,10 +13,10 @@ import { buildProps } from '@cpo/_utils/runtime';
  * @event loadError - 资源渲染失败事件
  * @event onDownload - 点击下载按钮时触发
  */
-export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'onDownload'];
+export const previewEmits = ['close', 'switch', 'update:source', 'loadComplete', 'loadError', 'onDownload']
 
 /** 通用预览组件事件名类型。 */
-export type PreviewEmits = typeof previewEmits;
+export type PreviewEmits = typeof previewEmits
 
 /**
  * @summary 通用预览组件 props
@@ -39,12 +39,12 @@ export const lsPreviewProp = buildProps({
   /** 对外暴露的缩放尺寸配置 */
   zoomSize: {
     type: [Number, String],
-    default: 1.5
+    default: 1.5,
   },
   /** 是否显示全局加载状态；打开预览后由 `usePreviewHook` 控制 Loading 生命周期 */
   needLoading: {
     type: Boolean,
-    default: true
+    default: true,
   },
   /** 全局加载状态配置，透传给 Element Plus `ElLoading.service` */
   loadingOption: {
@@ -52,44 +52,44 @@ export const lsPreviewProp = buildProps({
     default: () => {
       return {
         text: 'Loading',
-        background: 'rgba(0, 0, 0, 0.3)'
-      };
-    }
+        background: 'rgba(0, 0, 0, 0.3)',
+      }
+    },
   },
   /** 是否显示下载按钮 */
   hasDownload: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 下载附带数据；点击下载按钮时通过 `onDownload` 事件原样传出 */
   downloadData: {
     type: Object,
     default: () => {
-      return {};
-    }
+      return {}
+    },
   },
   /** 点击遮罩层是否允许关闭预览 */
   hideOnClickModal: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 是否显示水印 */
   showWatermark: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 水印配置，透传给 `el-watermark` */
   watermarkOption: {
     type: Object,
     default: () => {
-      return {};
-    }
-  }
-});
+      return {}
+    },
+  },
+})
 
 /**
  * @summary 通用预览空资源提示文案
  *
  * 用于空文件、资源不存在或加载失败场景的统一报错提示。
  */
-export const fileEmpty = '文档加载失败，请检查资源是否存在';
+export const fileEmpty = '文档加载失败，请检查资源是否存在'

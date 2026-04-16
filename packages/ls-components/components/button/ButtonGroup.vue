@@ -1,4 +1,5 @@
 <script setup lang="ts" name="LSButtonGroup">
+import { lsBtnKey } from '@cpo/_constants'
 /**
  * @summary 按钮组组件 - 基于 Element Plus `el-button-group` 的二次封装
  *
@@ -27,16 +28,15 @@
  *   <LSButton link>按钮3</LSButton>
  * </LSButtonGroup>
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsBtnGroupProp } from './types';
-import { lsBtnKey } from '@cpo/_constants';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { lsBtnGroupProp } from './types'
 
-const props = defineProps(lsBtnGroupProp);
+const props = defineProps(lsBtnGroupProp)
 
-const ns = useNamespace('button-group');
-const comClass: string = ns.b();
+const ns = useNamespace('button-group')
+const comClass: string = ns.b()
 
-provide(lsBtnKey, props);
+provide(lsBtnKey, props)
 </script>
 
 <template>

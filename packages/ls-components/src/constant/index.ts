@@ -6,7 +6,7 @@ export const MENU_LIST = [
     path: '/button',
     cpoPath: 'button/Index',
     key: '1',
-    meta: { tabName: 'PondGroup' }
+    meta: { tabName: 'PondGroup' },
   },
   {
     id: '2',
@@ -14,7 +14,7 @@ export const MENU_LIST = [
     name: 'Upload',
     path: '/upload',
     cpoPath: 'upload/Index',
-    key: '2'
+    key: '2',
   },
   {
     id: '3',
@@ -22,7 +22,7 @@ export const MENU_LIST = [
     name: 'Descriptions',
     path: '/descriptions',
     cpoPath: 'descriptions/Index',
-    key: '3'
+    key: '3',
   },
   {
     id: '4',
@@ -30,7 +30,7 @@ export const MENU_LIST = [
     name: 'Form',
     path: '/form',
     cpoPath: 'form/Index',
-    key: '4'
+    key: '4',
   },
   {
     id: '5',
@@ -38,7 +38,7 @@ export const MENU_LIST = [
     name: 'Preview',
     path: '/preview',
     cpoPath: 'preview/Index',
-    key: '5'
+    key: '5',
   },
   {
     id: '6',
@@ -46,7 +46,7 @@ export const MENU_LIST = [
     name: 'Menu',
     path: '/menu',
     cpoPath: 'menu/Index',
-    key: '6'
+    key: '6',
   },
   {
     id: '7',
@@ -54,7 +54,7 @@ export const MENU_LIST = [
     name: 'Table',
     path: '/table',
     cpoPath: 'table/Index',
-    key: '7'
+    key: '7',
   },
   {
     id: '8',
@@ -62,7 +62,7 @@ export const MENU_LIST = [
     name: 'Confirm',
     path: '/confirm',
     cpoPath: 'confirm/Index',
-    key: '8'
+    key: '8',
   },
   {
     id: '9',
@@ -70,7 +70,7 @@ export const MENU_LIST = [
     name: 'Chart',
     path: '/chart',
     cpoPath: 'chart/Index',
-    key: '9'
+    key: '9',
   },
   {
     id: '10',
@@ -78,7 +78,7 @@ export const MENU_LIST = [
     name: 'Tree',
     path: '/tree',
     cpoPath: 'tree/Index',
-    key: '10'
+    key: '10',
   },
   {
     id: '12',
@@ -86,7 +86,7 @@ export const MENU_LIST = [
     name: 'Map',
     path: '/map',
     cpoPath: 'map/Index',
-    key: '12'
+    key: '12',
   },
   {
     id: '13',
@@ -94,7 +94,7 @@ export const MENU_LIST = [
     name: 'Editor',
     path: '/editor',
     cpoPath: 'editor/Index',
-    key: '13'
+    key: '13',
   },
   {
     id: '15',
@@ -102,7 +102,7 @@ export const MENU_LIST = [
     name: 'Dialog',
     path: '/dialog',
     cpoPath: 'dialog/Index',
-    key: '15'
+    key: '15',
   },
   {
     id: '16',
@@ -110,7 +110,7 @@ export const MENU_LIST = [
     name: 'LSLayout',
     path: '/lsLayout',
     cpoPath: 'lsLayout/Index',
-    key: '16'
+    key: '16',
   },
   {
     id: '17',
@@ -118,7 +118,7 @@ export const MENU_LIST = [
     name: 'List',
     path: '/list',
     cpoPath: 'list/Index',
-    key: '17'
+    key: '17',
   },
   {
     id: '18',
@@ -126,7 +126,7 @@ export const MENU_LIST = [
     name: 'DownloadFile',
     path: '/downloadFile',
     cpoPath: 'downloadFile/Index',
-    key: '18'
+    key: '18',
   },
   // list切换报错测试
   {
@@ -135,7 +135,7 @@ export const MENU_LIST = [
     name: 'List1',
     path: '/list1',
     cpoPath: 'list/List1',
-    key: '19'
+    key: '19',
   },
   {
     id: '20',
@@ -143,7 +143,7 @@ export const MENU_LIST = [
     name: 'List2',
     path: '/list2',
     cpoPath: 'list/List2',
-    key: '20'
+    key: '20',
   },
   {
     id: '21',
@@ -151,14 +151,15 @@ export const MENU_LIST = [
     name: 'Cropper',
     path: '/cropper',
     cpoPath: 'cropper/Index',
-    key: '21'
-  }
-];
+    key: '21',
+  },
+]
 
-export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`);
+export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`)
+
 export const MonthDayOptions = MonthDays.map((item: string, i: number) => {
   return {
     value: i + 1,
-    label: item
-  };
-});
+    label: item,
+  }
+})

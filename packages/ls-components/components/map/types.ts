@@ -3,8 +3,8 @@
  * @description 定义地图组件的props类型和接口
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
-import type { PropType } from 'vue';
+import type { PropType } from 'vue'
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * 标记锚点类型
@@ -19,11 +19,11 @@ export type MarkerAnchorType =
   | 'middle-right'
   | 'bottom-left'
   | 'bottom-center'
-  | 'bottom-right';
+  | 'bottom-right'
 
 /**
  * 地图组件props
- * @typedef {Object} lsMapProps
+ * @typedef {object} lsMapProps
  * @property {string} securityCode - 安全码，必填
  * @property {string} mapKey - 地图key，必填
  * @property {string} width - 地图宽度，默认为'100%'
@@ -35,7 +35,7 @@ export type MarkerAnchorType =
  * @property {string} areaColor - 绘制区域颜色，默认为'#9BCFFA'
  * @property {boolean} showMarker - 是否显示标记，默认为false
  * @property {Array<any>} markerList - 标记列表，默认为[]
- * @property {Object} markerIcon - 标记图标，默认为null
+ * @property {object} markerIcon - 标记图标，默认为null
  * @property {Array} markerIconSize - 标记图标大小，默认为[19, 32]
  * @property {boolean} showMarkerDialog - 是否显示标记弹窗，默认为false
  * @property {string} markerDialogContent - 标记弹窗内容，默认为''
@@ -46,86 +46,86 @@ export const lsMapProps = buildProps({
   /** 安全码 */
   securityCode: {
     type: String,
-    required: true
+    required: true,
   },
   /** 地图key */
   mapKey: {
     type: String,
-    required: true
+    required: true,
   },
   /** 地图宽度 */
   width: {
     type: String,
-    default: '100%'
+    default: '100%',
   },
   /** 地图高度 */
   height: {
     type: String,
-    default: '300px'
+    default: '300px',
   },
   /** 搜索关键词 */
   searchWord: {
     type: String,
-    default: ''
+    default: '',
   },
   /** 中心点坐标 */
   center: {
     type: [Array, null],
-    default: () => null
+    default: () => null,
   },
   /** 缩放级别 */
   zoom: {
     type: Number,
-    default: 14
+    default: 14,
   },
   /** 缩放范围 */
   zooms: {
     type: Array<number>,
-    default: [10, 20]
+    default: [10, 20],
   },
   /** 绘制区域颜色 */
   areaColor: {
     type: String,
-    default: '#9BCFFA'
+    default: '#9BCFFA',
   },
   /** 是否显示标记 */
   showMarker: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 标记列表 [经度,纬度] */
   markerList: {
     type: Array<any>,
-    default: () => []
+    default: () => [],
   },
   /** 标记图标 */
   markerIcon: {
     type: Object,
-    default: null
+    default: null,
   },
   /** 标记图标大小 */
   markerIconSize: {
     type: Array,
-    default: () => [19, 32]
+    default: () => [19, 32],
   },
   /** 是否点击marker显示弹窗 */
   showMarkerDialog: {
     type: Boolean,
-    default: false
+    default: false,
   },
   /** 弹窗内容 html标签格式 */
   markerDialogContent: {
     type: String,
-    default: ''
+    default: '',
   },
   /** 弹窗锚点位置 */
   markerDialogAnchor: {
     type: String as PropType<MarkerAnchorType>,
-    default: 'middle-left'
+    default: 'middle-left',
   },
   /** 弹窗偏移量 */
   markerDialogOffset: {
     type: Array,
-    default: () => [30, 0]
-  }
-});
+    default: () => [30, 0],
+  },
+})

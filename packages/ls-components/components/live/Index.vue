@@ -21,84 +21,91 @@
  * @example
  * <LSLive ref="liveRef2" class="live-wrap" type="mp4" :is-live="false" />
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import flvjs from 'flv.js';
-import { lsLiveProps } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import flvjs from 'flv.js'
+import { lsLiveProps } from './types'
 
-const props = defineProps(lsLiveProps);
+const props = defineProps(lsLiveProps)
 
-const attrs = useAttrs();
+const attrs = useAttrs()
 
-const ns = useNamespace('live');
-const comClass: string = ns.b();
+const ns = useNamespace('live')
+const comClass: string = ns.b()
 
-const curUrl = ref('');
-const lastDecodedFrames = ref(0);
-const player: any = ref(null);
-const lsLiveRef = ref();
+const curUrl = ref('')
+const lastDecodedFrames = ref(0)
+const player: any = ref(null)
+const lsLiveRef = ref()
 const defAttrs = ref({
   // 是否自动播放
   autoplay: false,
   // 是否显示控制条
   controls: true,
   // 是否静音
-  muted: true
-});
-const isAutoplay = ref(attrs['autoplay'] == undefined ? true : attrs['autoplay']);
+  muted: true,
+})
+const isAutoplay = ref(attrs.autoplay === undefined ? true : attrs.autoplay)
 
 // const isMuted = ref(attrs['muted'] == undefined ? true : attrs['muted']);
 
 const isFlv = computed(() => {
-  return props.type === 'flv';
-});
+  return props.type === 'flv'
+})
 
 // 销毁播放器
 function destoryPlayer() {
-  lastDecodedFrames.value = 0;
+  lastDecodedFrames.value = 0
+
   if (player.value) {
-    player.value?.pause();
-    player.value?.unload();
-    player.value?.detachMediaElement();
-    player.value?.destroy();
-    player.value = null;
+    player.value?.pause()
+    player.value?.unload()
+    player.value?.detachMediaElement()
+    player.value?.destroy()
+    player.value = null
   }
 }
 
 // 监听播放器
 function listenPlayer() {
   if (!isAutoplay.value) {
-    return;
+    return
   }
+
   if (player.value && isFlv.value) {
     player.value.on(flvjs.Events.ERROR, () => {
       // errorType: any, errorDetail: any, errorInfo: any
       // 视频出错后销毁重建
       if (curUrl.value) {
-        createPlayer(curUrl.value);
+        createPlayer(curUrl.value)
       }
-    });
-    player.value.on(flvjs.Events.STATISTICS_INFO, function (res: any) {
-      const { decodedFrames } = res || {};
+    })
+    player.value.on(flvjs.Events.STATISTICS_INFO, (res: any) => {
+      const { decodedFrames } = res || {}
+
       if (lastDecodedFrames.value === 0) {
-        lastDecodedFrames.value = decodedFrames;
-        return;
+        lastDecodedFrames.value = decodedFrames
+
+        return
       }
-      if (lastDecodedFrames.value != decodedFrames) {
-        lastDecodedFrames.value = decodedFrames;
-      } else {
+
+      if (lastDecodedFrames.value !== decodedFrames) {
+        lastDecodedFrames.value = decodedFrames
+      }
+      else {
         if (curUrl.value) {
-          createPlayer(curUrl.value);
+          createPlayer(curUrl.value)
         }
       }
-    });
+    })
   }
 }
 
 // 创建播放器
 async function createPlayer(liveUrl: string) {
-  destoryPlayer();
+  destoryPlayer()
+
   if (flvjs.isSupported() && liveUrl) {
-    curUrl.value = liveUrl;
+    curUrl.value = liveUrl
     // 创建一个播放器实例
     player.value = flvjs.createPlayer(
       {
@@ -106,28 +113,32 @@ async function createPlayer(liveUrl: string) {
         isLive: props.isLive, // 是否是直播流
         hasAudio: props.hasAudio, // 是否有音频
         hasVideo: props.hasVideo, // 是否有视频
-        url: liveUrl // 流地址
+        url: liveUrl, // 流地址
       },
       {
         autoCleanupSourceBuffer: true,
         enableWorker: false,
         enableStashBuffer: true,
         isLive: props.isLive,
-        lazyLoad: false
-      }
-    );
+        lazyLoad: false,
+      },
+    )
+
     if (player.value && lsLiveRef.value) {
-      player.value.attachMediaElement(lsLiveRef.value);
-      player.value.load();
+      player.value.attachMediaElement(lsLiveRef.value)
+      player.value.load()
+
       if (isAutoplay.value) {
-        player.value?.play();
-      } else {
-        player.value?.pause();
+        player.value?.play()
       }
-      listenPlayer();
+      else {
+        player.value?.pause()
+      }
+      listenPlayer()
     }
-  } else {
-    ElMessage.error('不支持播放视频');
+  }
+  else {
+    ElMessage.error('不支持播放视频')
   }
 }
 
@@ -135,43 +146,44 @@ async function createPlayer(liveUrl: string) {
 function updateVisibilityStatus() {
   if (document.visibilityState === 'visible') {
     if (curUrl.value && isFlv.value) {
-      createPlayer(curUrl.value);
+      createPlayer(curUrl.value)
     }
-  } else {
+  }
+  else {
     if (isFlv.value) {
-      destoryPlayer();
+      destoryPlayer()
     }
   }
 }
 
 onMounted(() => {
-  document.addEventListener('visibilitychange', updateVisibilityStatus);
+  document.addEventListener('visibilitychange', updateVisibilityStatus)
   lsLiveRef.value.addEventListener('play', () => {
-    isAutoplay.value = true;
-  });
+    isAutoplay.value = true
+  })
   lsLiveRef.value.addEventListener('pause', () => {
-    isAutoplay.value = false;
-  });
-});
+    isAutoplay.value = false
+  })
+})
 
 onUnmounted(() => {
-  document.removeEventListener('visibilitychange', updateVisibilityStatus);
-});
+  document.removeEventListener('visibilitychange', updateVisibilityStatus)
+})
 
 defineExpose({
-  createPlayer
-});
+  createPlayer,
+})
 </script>
 
 <template>
   <div :class="comClass">
     <video
+      ref="lsLiveRef"
       :autoplay="defAttrs.autoplay"
       :controls="defAttrs.controls"
       :muted="defAttrs.muted"
       width="100%"
       class="ls-video"
-      ref="lsLiveRef"
     ></video>
   </div>
 </template>

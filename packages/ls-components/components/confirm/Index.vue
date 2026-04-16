@@ -41,63 +41,63 @@
  *   @on-cancel="onCancel"
  * />
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { ElMessageBox } from 'element-plus';
-import { emitNames, lsConfirmProps } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { ElMessageBox } from 'element-plus'
+import { emitNames, lsConfirmProps } from './types'
 
-const ns = useNamespace('confirm');
-const comClass: string = ns.b();
-
-const props = defineProps(lsConfirmProps);
-
-const emitAll = defineEmits(emitNames);
+const props = defineProps(lsConfirmProps)
+const emitAll = defineEmits(emitNames)
+const ns = useNamespace('confirm')
+const comClass: string = ns.b()
 
 const visible = defineModel({
-  type: Boolean
-});
+  type: Boolean,
+})
 
-const requestData: Ref<any> = ref();
+const requestData: Ref<any> = ref()
 
 watch(
   () => visible?.value,
-  val => {
+  (val) => {
     if (val) {
-      initBox();
+      initBox()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 const title: any = computed(() => {
-  return props.title;
-});
+  return props.title
+})
 
 const message: any = computed(() => {
-  return props.message;
-});
+  return props.message
+})
 
 watch(
   () => message.value,
-  val => {
+  (val) => {
     if (visible?.value && val) {
-      updateMessage();
+      updateMessage()
     }
   },
   {
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 async function updateMessage() {
-  const msgDom: Element | null = document.querySelector('.ls-confirm-box .el-message-box__message p');
+  const msgDom: Element | null = document.querySelector('.ls-confirm-box .el-message-box__message p')
+
   if (msgDom) {
     if (props.useHtml) {
-      msgDom.innerHTML = message.value;
-    } else {
-      msgDom.textContent = message.value;
+      msgDom.innerHTML = message.value
+    }
+    else {
+      msgDom.textContent = message.value
     }
   }
 }
@@ -123,31 +123,34 @@ function initBox() {
     closeIcon: props.closeIcon,
     beforeClose: async (action, instance, done) => {
       if (action === 'confirm') {
-        instance.confirmButtonLoading = true;
+        instance.confirmButtonLoading = true
+
         if (props.requestApi && typeof props.requestApi === 'function') {
           try {
-            requestData.value = await props.requestApi(props.requestParams);
-          } catch (error) {
-            requestData.value = error;
+            requestData.value = await props.requestApi(props.requestParams)
+          }
+          catch (error) {
+            requestData.value = error
           }
         }
-        instance.confirmButtonLoading = false;
-        done();
-      } else {
+        instance.confirmButtonLoading = false
+        done()
+      }
+      else {
         if (!instance.confirmButtonLoading) {
-          done();
+          done()
         }
       }
-    }
+    },
   })
     .then(() => {
-      visible.value = false;
-      emitAll('onConfirm', requestData);
+      visible.value = false
+      emitAll('onConfirm', requestData.value)
     })
     .catch(() => {
-      visible.value = false;
-      emitAll('onCancel');
-    });
+      visible.value = false
+      emitAll('onCancel')
+    })
 }
 </script>
 

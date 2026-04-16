@@ -16,12 +16,13 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
+
 const markerList = ref([
   {
     lnglat: ['121.922823', '30.898127']
   }
-]);
+])
 const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='title'>已生产区块数</div>
   <div class='value'>100</div>
@@ -29,7 +30,7 @@ const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='value'>200</div>
   <div class='title'>地点</div>
   <div class='value'>上海</div>
-</div>`);
+</div>`)
 ```
 
 ```html
@@ -87,11 +88,11 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 ::: details 点我查看代码
 
 ```js
-import * as echarts from 'echarts';
-import { onMounted, onUnmounted, ref } from 'vue';
+import * as echarts from 'echarts'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-const chinaMapRef = ref(null);
-let chartInstance = null;
+const chinaMapRef = ref(null)
+let chartInstance = null
 
 const chinaMapData = [
   { name: '北京', value: 350 },
@@ -128,14 +129,14 @@ const chinaMapData = [
   { name: '台湾', value: 60 },
   { name: '香港', value: 180 },
   { name: '澳门', value: 50 }
-];
+]
 
 async function initChinaMap() {
-  const response = await fetch('/china.json');
-  const chinaJson = await response.json();
-  echarts.registerMap('china', chinaJson);
+  const response = await fetch('/china.json')
+  const chinaJson = await response.json()
+  echarts.registerMap('china', chinaJson)
 
-  chartInstance = echarts.init(chinaMapRef.value);
+  chartInstance = echarts.init(chinaMapRef.value)
 
   const option = {
     title: {
@@ -154,14 +155,15 @@ async function initChinaMap() {
       borderColor: 'transparent',
       borderWidth: 0,
       textStyle: { color: '#F8FAFC', fontSize: 13 },
-      formatter: function (params) {
+      formatter(params) {
         if (params.value) {
           return `<div style="padding:4px 8px;">
             <div style="font-weight:600;margin-bottom:4px;">${params.name}</div>
             <div style="color:#94A3B8;">数据量：<span style="color:#F8FAFC;font-weight:500;">${params.value}</span></div>
-          </div>`;
+          </div>`
         }
-        return params.name;
+
+        return params.name
       }
     },
     visualMap: {
@@ -214,24 +216,24 @@ async function initChinaMap() {
         selectedMode: 'single'
       }
     ]
-  };
+  }
 
-  chartInstance.setOption(option);
+  chartInstance.setOption(option)
 }
 
 function handleResize() {
-  chartInstance && chartInstance.resize();
+  chartInstance && chartInstance.resize()
 }
 
 onMounted(() => {
-  initChinaMap();
-  window.addEventListener('resize', handleResize);
-});
+  initChinaMap()
+  window.addEventListener('resize', handleResize)
+})
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-  chartInstance && chartInstance.dispose();
-});
+  window.removeEventListener('resize', handleResize)
+  chartInstance && chartInstance.dispose()
+})
 ```
 
 ```html
@@ -319,9 +321,9 @@ async function initChinaMap() {
   const response = await fetch('/china.json');
   const chinaJson = await response.json();
   echarts.registerMap('china', chinaJson);
-  
+
   chartInstance = echarts.init(chinaMapRef.value);
-  
+
   const option = {
     title: {
       text: '中国地图数据分布',
@@ -400,7 +402,7 @@ async function initChinaMap() {
       }
     ]
   };
-  
+
   chartInstance.setOption(option);
 }
 
@@ -417,7 +419,6 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
   chartInstance && chartInstance.dispose();
 });
-
 
 const tableData = ref([
   {

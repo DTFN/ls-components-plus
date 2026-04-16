@@ -1,4 +1,7 @@
 <script setup lang="ts" name="LSBreadcrumb">
+import type { JumpParamsType } from '@cpo/menu/types'
+import type { RouteMeta } from 'vue-router'
+import type { BreadCrumpListType } from './types'
 /**
  * @summary 面包屑组件 - 导航路径展示
  *
@@ -34,60 +37,65 @@
  * <!-- 自定义当前位置文案 -->
  * <LSBreadcrumb :define-list="defineBCList" pos-title="当前路径" />
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import useRouterHook from '@cpo/_hooks/useRouterHook';
-import type { JumpParamsType } from '@cpo/menu/types';
-import { RouteMeta } from 'vue-router';
-import type { BreadCrumpListType } from './types';
-import { lsBreadcrumbProp } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import useRouterHook from '@cpo/_hooks/useRouterHook'
+import { lsBreadcrumbProp } from './types'
 
-const props = defineProps(lsBreadcrumbProp);
+const props = defineProps(lsBreadcrumbProp)
 
-const { jumpRouteCom, currentRouter } = useRouterHook();
+const { jumpRouteCom, currentRouter } = useRouterHook()
 
-const ns = useNamespace('breadcrumb');
-const comClass: string = ns.b();
+const ns = useNamespace('breadcrumb')
+const comClass: string = ns.b()
 
 function isBCList(obj: unknown): obj is Array<JumpParamsType> {
-  return typeof obj === 'object' && obj !== null;
+  return typeof obj === 'object' && obj !== null
 }
 
-const updateBCList = () => {
-  const { bcList }: RouteMeta = currentRouter?.value?.meta || {};
+function updateBCList() {
+  const { bcList }: RouteMeta = currentRouter?.value?.meta || {}
+
   if (isBCList(bcList)) {
-    return bcList;
+    return bcList
   }
-  return [];
-};
+
+  return []
+}
 
 const curBCList: ComputedRef<BreadCrumpListType | unknown[]> = computed(() => {
   if (props.defineList && props.defineList.length > 0) {
-    return props.defineList;
+    return props.defineList
   }
-  return updateBCList();
-});
+
+  return updateBCList()
+})
 
 function jumpLink(item: JumpParamsType) {
-  const { link } = item;
+  const { link } = item
+
   if (link) {
-    window.open(link, '_blank');
-  } else {
-    jumpRouteCom(item);
+    window.open(link, '_blank')
+  }
+  else {
+    jumpRouteCom(item)
   }
 }
 </script>
 
 <template>
   <div v-if="curBCList && curBCList.length > 0" :class="comClass">
-    <p v-if="props.showPos" class="pos">{{ posTitle }}：</p>
+    <p v-if="props.showPos" class="pos">
+      {{ posTitle }}：
+    </p>
     <el-breadcrumb v-bind="$attrs">
       <el-breadcrumb-item
         v-for="(item, i) in curBCList as BreadCrumpListType"
         :key="i"
         :class="{ 'has-jump': item.name }"
         @click="jumpLink(item)"
-        >{{ item.title }}</el-breadcrumb-item
       >
+        {{ item.title }}
+      </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>

@@ -3,13 +3,13 @@
  * @description 定义描述列表组件的props类型和数据结构
  */
 
-import { buildProps } from '@cpo/_utils/runtime';
-import { IconConfigType } from '@cpo/_types';
-import type { PropType } from 'vue';
+import type { IconConfigType } from '@cpo/_types'
+import type { PropType } from 'vue'
+import { buildProps } from '@cpo/_utils/runtime'
 
 /**
  * 描述列表项类型
- * @typedef {Object} DescriptionsListItemType
+ * @typedef {object} DescriptionsListItemType
  * @property {string} label - 左侧标签文本
  * @property {string|number} value - 右侧展示值
  * @property {IconConfigType} [iconConfig] - 标签前图标配置，结构参考 `LSIcon`
@@ -17,7 +17,7 @@ import type { PropType } from 'vue';
  * @property {'date'|'select'|'slot'|string} [type] - 展示类型；默认按普通文本渲染，`date` 为日期格式化，`select` 为映射取值，`slot` 为插槽渲染
  * @property {string} [format] - `type='date'` 时的日期格式，默认 `YYYY-MM-DD HH:mm:ss`
  * @property {string} [slotName] - `type='slot'` 时使用的插槽名称
- * @property {Object} [propMap] - `type='select'` 时的值映射对象
+ * @property {object} [propMap] - `type='select'` 时的值映射对象
  * @property {string|number} [labelWidth] - 当前项 label 宽度
  */
 
@@ -26,25 +26,25 @@ import type { PropType } from 'vue';
  * @typedef {Array<DescriptionsListItemType>} DescriptionsListType
  */
 export type DescriptionsListType = {
-  label: string;
-  value: string | number;
-  iconConfig?: IconConfigType;
-  hide?: boolean;
-  type?: string;
-  format?: string;
-  slotName?: string;
+  label: string
+  value: string | number
+  iconConfig?: IconConfigType
+  hide?: boolean
+  type?: string
+  format?: string
+  slotName?: string
   propMap?: {
     [key: string]: {
-      label: string;
-      value?: string | number;
-    };
-  };
-  labelWidth?: string | number;
-}[];
+      label: string
+      value?: string | number
+    }
+  }
+  labelWidth?: string | number
+}[]
 
 /**
  * 描述列表组件 props
- * @typedef {Object} lsDescProp
+ * @typedef {object} lsDescProp
  * @property {string} labelColor - label 文本颜色，默认为 ''
  * @property {string} labelBgColor - label 区域背景色，默认为 '#e2edff'
  * @property {DescriptionsListType} list - 描述项数据列表
@@ -54,12 +54,12 @@ export const lsDescProp = buildProps({
   /** label字体颜色 */
   labelColor: {
     type: String,
-    default: ''
+    default: '',
   },
   /** label展示区域背景色 */
   labelBgColor: {
     type: String,
-    default: '#e2edff'
+    default: '#e2edff',
   },
   /**
    * 数据列表
@@ -77,11 +77,11 @@ export const lsDescProp = buildProps({
    */
   list: {
     type: Array as PropType<DescriptionsListType>,
-    default: () => []
+    default: () => [],
   },
   /** 数值为0是否展示 */
   showZero: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+})

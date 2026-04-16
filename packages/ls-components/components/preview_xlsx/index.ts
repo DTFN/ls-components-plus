@@ -1,18 +1,19 @@
-import type { App } from 'vue';
-import _LSPreviewXlsx from './Index.vue';
-import { setGlobalConfig } from '@cpo/_utils/config';
-import type { LSOptions } from '@cpo/_utils/types';
+import type { LSOptions } from '@cpo/_utils/types'
+import type { App } from 'vue'
+import { setGlobalConfig } from '@cpo/_utils/config'
+import _LSPreviewXlsx from './Index.vue'
 
 const LSPreviewXlsx: typeof _LSPreviewXlsx & { install: (app: App, options?: LSOptions) => void } = Object.assign(
   _LSPreviewXlsx,
   {
     install: (app: App, options?: LSOptions) => {
-      setGlobalConfig(app, options);
-      if (_LSPreviewXlsx.name) {
-        app.component(_LSPreviewXlsx.name, _LSPreviewXlsx);
-      }
-    }
-  }
-);
+      setGlobalConfig(app, options)
 
-export default LSPreviewXlsx;
+      if (_LSPreviewXlsx.name) {
+        app.component(_LSPreviewXlsx.name, _LSPreviewXlsx)
+      }
+    },
+  },
+)
+
+export default LSPreviewXlsx

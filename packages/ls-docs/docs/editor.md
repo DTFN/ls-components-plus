@@ -23,24 +23,28 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const uploadServer = ref('http://192.168.1.161:8080/fss/upload');
-const uploadToken =
-  'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi57O757uf566h55CG5ZGYIiwiZW5jcnlwdGVkUHdkIjoiJDJhJDEwJGIzYXZkYk9OWkdreElPUWF6by9GNHVzUk1pNEZ4QjlwT3lzNWJNaW8yMmdvNVNyMDNaRElPIiwidXNlclR5cGUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlBFUl9VU0VSX01HVCJ9LHsiYXV0aG9yaXR5IjoiUEVSX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfRVFVSVBfTUdUIn0seyJhdXRob3JpdHkiOiJQRVJfT1ZFUl9WSUVXIn0seyJhdXRob3JpdHkiOiJQRVJfUkVNT1RFX0dVSURBTkNFIn0seyJhdXRob3JpdHkiOiJQRVJfT05MSU5FX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfSU5GT19WSUVXIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODg3MDU4MiwiZXhwIjoxNzMxNDYyNTgyfQ.oflBeBsWuCLifqP9u43eRducrJeQz7JR0IVjTITqTwM';
-const valueHtml = ref(`<div>测试内容</div>`);
+import { ref } from 'vue'
+
+const uploadServer = ref('http://192.168.1.161:8080/fss/upload')
+const uploadToken
+  = 'eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoi57O757uf566h55CG5ZGYIiwiZW5jcnlwdGVkUHdkIjoiJDJhJDEwJGIzYXZkYk9OWkdreElPUWF6by9GNHVzUk1pNEZ4QjlwT3lzNWJNaW8yMmdvNVNyMDNaRElPIiwidXNlclR5cGUiOiJST0xFX0FETUlOIiwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlBFUl9VU0VSX01HVCJ9LHsiYXV0aG9yaXR5IjoiUEVSX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfRVFVSVBfTUdUIn0seyJhdXRob3JpdHkiOiJQRVJfT1ZFUl9WSUVXIn0seyJhdXRob3JpdHkiOiJQRVJfUkVNT1RFX0dVSURBTkNFIn0seyJhdXRob3JpdHkiOiJQRVJfT05MSU5FX0xNIn0seyJhdXRob3JpdHkiOiJQRVJfSU5GT19WSUVXIn1dLCJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODg3MDU4MiwiZXhwIjoxNzMxNDYyNTgyfQ.oflBeBsWuCLifqP9u43eRducrJeQz7JR0IVjTITqTwM'
+const valueHtml = ref(`<div>测试内容</div>`)
 
 // 初始化完成
 function handleCreated(editor) {
-  const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage;
+  const uploadImgConfig = editor.getConfig().MENU_CONF.uploadImage
+
   // 图片上传异常处理
-  uploadImgConfig.onError = file => {
-    const isLt2M = file.size / 1024 / 1024 <= 1;
+  uploadImgConfig.onError = (file) => {
+    const isLt2M = file.size / 1024 / 1024 <= 1
+
     if (!isLt2M) {
-      ElMessage.error('上传图片大小不能超过 1M!');
-    } else {
-      ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`);
+      ElMessage.error('上传图片大小不能超过 1M!')
     }
-  };
+    else {
+      ElMessage.error(`${file.name}上传失败，请刷新页面后重试~`)
+    }
+  }
 }
 ```
 
@@ -75,11 +79,11 @@ const editorConfig = {
       // 自定义插入图片
       customInsert(res, insertFn) {
         // res 即服务端的返回结果 从 res 中找到 url alt href ，然后插入图片
-        insertFn(url, alt, href);
+        insertFn(url, alt, href)
       }
     }
   }
-};
+}
 ```
 
 ```html
@@ -105,18 +109,18 @@ const editorConfig = {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
 
-const lsEditorRef = ref();
+const lsEditorRef = ref()
 
-const content = ref('');
-const contentHtml = ref('');
+const content = ref('')
+const contentHtml = ref('')
 
 function getContent() {
-  const editor = lsEditorRef.value.editorRef;
-  content.value = editor.getText();
-  contentHtml.value = editor.getHtml();
+  const editor = lsEditorRef.value.editorRef
+  content.value = editor.getText()
+  contentHtml.value = editor.getHtml()
 }
 ```
 
@@ -138,9 +142,9 @@ function getContent() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const lsEditorRef4 = ref();
+const lsEditorRef4 = ref()
 
 // 自定义工具栏配置
 const toolbarConfig = {
@@ -176,7 +180,7 @@ const toolbarConfig = {
     'undo',
     'redo' // 撤销、重做
   ]
-};
+}
 ```
 
 ```html
@@ -197,8 +201,9 @@ const toolbarConfig = {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const lsEditorRef5 = ref();
+import { ref } from 'vue'
+
+const lsEditorRef5 = ref()
 
 const readOnlyContent = ref(`
 <div>
@@ -211,7 +216,7 @@ const readOnlyContent = ref(`
   </ul>
   <p><strong>加粗文本</strong> 和 <em>斜体文本</em> 都能正常显示。</p>
 </div>
-`);
+`)
 ```
 
 ```html
@@ -240,16 +245,16 @@ const readOnlyContent = ref(`
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const lsEditorRef6 = ref();
-const valueHtml6 = ref(`<div>初始内容</div>`);
-const changeCount = ref(0);
+const lsEditorRef6 = ref()
+const valueHtml6 = ref(`<div>初始内容</div>`)
+const changeCount = ref(0)
 
 // 监听内容变更
 function handleChange(editor) {
-  changeCount.value++;
-  console.log('内容变更:', editor.getHtml());
+  changeCount.value++
+  console.log('内容变更:', editor.getHtml())
 }
 ```
 
@@ -268,15 +273,15 @@ function handleChange(editor) {
 
 ### 2. Events
 
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
-| handle-created | 编辑器创建完成时触发 | `(editor: Editor) => void` |
-| handle-change | 编辑器内容变化时触发 | `(editor: Editor) => void` |
-| handle-destroyed | 编辑器销毁时触发 | `(editor: Editor) => void` |
-| handle-focus | 编辑器获得焦点时触发 | `(editor: Editor) => void` |
-| handle-blur | 编辑器失去焦点时触发 | `(editor: Editor) => void` |
-| custom-alert | 自定义 alert 事件 | `(info: string, type: string) => void` |
-| custom-paste | 自定义粘贴事件 | `(editor: Editor, event: ClipboardEvent, callback: Function) => void` |
+| 事件名           | 说明                 | 回调参数                                                              |
+| ---------------- | -------------------- | --------------------------------------------------------------------- |
+| handle-created   | 编辑器创建完成时触发 | `(editor: Editor) => void`                                            |
+| handle-change    | 编辑器内容变化时触发 | `(editor: Editor) => void`                                            |
+| handle-destroyed | 编辑器销毁时触发     | `(editor: Editor) => void`                                            |
+| handle-focus     | 编辑器获得焦点时触发 | `(editor: Editor) => void`                                            |
+| handle-blur      | 编辑器失去焦点时触发 | `(editor: Editor) => void`                                            |
+| custom-alert     | 自定义 alert 事件    | `(info: string, type: string) => void`                                |
+| custom-paste     | 自定义粘贴事件       | `(editor: Editor, event: ClipboardEvent, callback: Function) => void` |
 
 ### 3. Exposes
 

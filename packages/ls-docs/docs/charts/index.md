@@ -22,11 +22,12 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
+
 const dataSimple = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [120, 200, 150, 80, 70, 110, 130]
-};
+}
 ```
 
 ```html
@@ -45,17 +46,18 @@ const dataSimple = {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
+
 const dataCustom = {
   axisData: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
   seriesData: [120, 190, 300, 500, 800, 1200, 1500]
-};
+}
 
 const templateCustom = {
   labelPosition: 'top',
   smooth: true,
   areaStyle: {}
-};
+}
 
 const customOption = {
   title: {
@@ -76,7 +78,7 @@ const customOption = {
       }
     }
   ]
-};
+}
 ```
 
 ```html
@@ -107,8 +109,9 @@ const customOption = {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const theme = ref('default');
+import { ref } from 'vue'
+
+const theme = ref('default')
 const dataPie = {
   seriesData: [
     { value: 1048, name: '图例 A' },
@@ -117,7 +120,7 @@ const dataPie = {
     { value: 484, name: '图例 D' },
     { value: 300, name: '图例 E' }
   ]
-};
+}
 
 // 无需额外的templatePie变量，直接在template-patch中使用theme变量
 function changeTheme() {
@@ -146,7 +149,8 @@ function changeTheme() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
+
 const customOptionFull = {
   title: {
     text: '完全自定义配置示例',
@@ -213,7 +217,7 @@ const customOptionFull = {
       smooth: true
     }
   ]
-};
+}
 ```
 
 ```html
@@ -246,7 +250,7 @@ const customOption = {
       }
     }
   ]
-};
+}
 ```
 
 ```html

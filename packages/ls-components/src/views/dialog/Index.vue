@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { useOptionsHook } from '@cpo/_hooks';
-import { DialogBtnType } from '@cpo/_types';
+import type { DialogBtnType } from '@cpo/_types'
+import { useOptionsHook } from '@cpo/_hooks'
 
-const { getSelOption } = useOptionsHook();
+const { getSelOptions } = useOptionsHook()
 
-const visible = ref(false);
-const loading = ref(false);
+const visible = ref(false)
+const loading = ref(false)
 
 const btnConfirmConfig: Ref<DialogBtnType> = ref({
   type: 'warning',
   iconConfig: {
-    name: 'Edit'
+    name: 'Edit',
   },
-  txt: '确认'
-});
+  txt: '确认',
+})
 
-const onConfirm = () => {
-  loading.value = true;
+function onConfirm() {
+  loading.value = true
   setTimeout(() => {
-    loading.value = false;
-    visible.value = false;
-  }, 2000);
-};
+    loading.value = false
+    visible.value = false
+  }, 2000)
+}
 
 const formData = ref({
   username: '',
-  password: ''
-});
+  password: '',
+})
 const formItems = ref<FormItemsType[]>([
   {
     type: 'input',
@@ -36,14 +36,14 @@ const formItems = ref<FormItemsType[]>([
       {
         required: true,
         message: '请输入用户名',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9]{4,36}$/i,
         message: '4-36位数字字母组合',
-        trigger: 'blur'
-      }
-    ]
+        trigger: 'blur',
+      },
+    ],
   },
   {
     type: 'input',
@@ -51,65 +51,68 @@ const formItems = ref<FormItemsType[]>([
     prop: 'password',
     attrs: {
       'show-password': true,
-      maxlength: 24
+      'maxlength': 24,
     },
     rules: [
       {
         required: true,
         message: '请输入用户密码',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9@]*$/i,
         message: '8-24位数字大小写字母组合',
-        trigger: 'blur'
-      }
-    ]
+        trigger: 'blur',
+      },
+    ],
   },
   {
     type: 'itemSlot',
     prop: 'slotTest',
-    label: '自定义插槽'
-  }
-]);
+    label: '自定义插槽',
+  },
+])
 
-const contentLoading = ref(false);
+const contentLoading = ref(false)
 
 function testDialog() {
-  contentLoading.value = true;
-  visible.value = true;
+  contentLoading.value = true
+  visible.value = true
   setTimeout(() => {
-    contentLoading.value = false;
-  }, 2000);
+    contentLoading.value = false
+  }, 2000)
 }
 
 function optionApi() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const optionData = [
       {
         code: 1,
-        name: '隐私保护'
+        name: '隐私保护',
       },
       {
         code: 2,
-        name: '数字车钥匙'
-      }
-    ];
-    return resolve(optionData);
-  });
+        name: '数字车钥匙',
+      },
+    ]
+
+    return resolve(optionData)
+  })
 }
 
-const tooltipContent = ref('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试End');
+const tooltipContent = ref('测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试End')
 
 onMounted(async () => {
-  const data = await getSelOption(optionApi, ['name'], ['code']);
-  console.log(data);
-});
+  const data = await getSelOptions(optionApi, ['name'], ['code'])
+  console.log(data)
+})
 </script>
 
 <template>
   <div>
-    <LSButton type="primary" @click="testDialog">测试弹窗</LSButton>
+    <LSButton type="primary" @click="testDialog">
+      测试弹窗
+    </LSButton>
 
     <LSDialog
       v-model="visible"
@@ -117,17 +120,18 @@ onMounted(async () => {
       title="弹窗Title"
       :content-loading="contentLoading"
       :btn-confirm-config="btnConfirmConfig"
-      @on-confirm="onConfirm"
       align-center
       :has-confirm-btn="true"
       transition="dialog-slide"
+      @on-confirm="onConfirm"
     >
       <template #header>
         <div>弹窗头部</div>
       </template>
-      <div style="height: 600px">弹窗内容弹窗内</div>
+      <div style="height: 600px">
+        弹窗内容弹窗内
+      </div>
       <LSForm
-        ref="FormRef"
         label-position="top"
         inline
         require-asterisk-position="left"
@@ -140,20 +144,26 @@ onMounted(async () => {
         :form-items="formItems"
         :hide-required-asterisk="false"
       >
-        <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
+        <template #slotTest-slot="{ row }">
+          dasdasd：{{ row }}
+        </template>
       </LSForm>
     </LSDialog>
 
     <br /><br />
 
     <LSTooltip width="200" :content="tooltipContent" placement="right" :font-size="18">
-      <div class="tooltip-test">{{ tooltipContent }}</div>
+      <div class="tooltip-test">
+        {{ tooltipContent }}
+      </div>
     </LSTooltip>
 
     <br /><br />
 
     <LSTooltip width="200" :content="tooltipContent" placement="right" :line-clamp="3" :font-size="18">
-      <div class="tooltip-test2">{{ tooltipContent }}</div>
+      <div class="tooltip-test2">
+        {{ tooltipContent }}
+      </div>
     </LSTooltip>
   </div>
 </template>

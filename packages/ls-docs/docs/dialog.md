@@ -32,7 +32,7 @@ outline: deep
 ```
 
 ```js
-const dialogVisible = ref(false);
+const dialogVisible = ref(false)
 ```
 
 :::
@@ -72,7 +72,7 @@ const dialogVisible = ref(false);
 ```
 
 ```js
-const dialogVisible2 = ref(false);
+const dialogVisible2 = ref(false)
 ```
 
 :::
@@ -103,8 +103,8 @@ const dialogVisible2 = ref(false);
 ```html
 <LSButton type="warning" @click="dialogVisible3 = true">打开无标题对话框</LSButton>
 <LSDialog v-model="dialogVisible3" width="400px" :show-header="false">
-  <div style="padding: 20px;">
-    <h3 style="margin-top: 0;">无标题对话框</h3>
+  <div style="padding: 20px">
+    <h3 style="margin-top: 0">无标题对话框</h3>
     <p>这是一个没有标题栏的对话框，您可以在这里添加任何您需要的内容。</p>
   </div>
   <template #footer>
@@ -116,7 +116,7 @@ const dialogVisible2 = ref(false);
 ```
 
 ```js
-const dialogVisible3 = ref(false);
+const dialogVisible3 = ref(false)
 ```
 
 :::
@@ -146,7 +146,7 @@ const dialogVisible3 = ref(false);
 ```
 
 ```js
-const dialogVisible4 = ref(false);
+const dialogVisible4 = ref(false)
 ```
 
 :::
@@ -194,7 +194,7 @@ const dialogVisible4 = ref(false);
 ```
 
 ```js
-const dialogVisible5 = ref(false);
+const dialogVisible5 = ref(false)
 ```
 
 :::
@@ -223,7 +223,7 @@ const dialogVisible5 = ref(false);
 ```
 
 ```js
-const dialogVisible6 = ref(false);
+const dialogVisible6 = ref(false)
 ```
 
 :::
@@ -295,31 +295,31 @@ const dialogVisible6 = ref(false);
 ```
 
 ```js
-const dialogVisible7 = ref(false);
+const dialogVisible7 = ref(false)
 const form = ref({
   name: '',
   age: 0,
   gender: 'male',
   email: ''
-});
+})
 
-const handleSubmit = () => {
-  console.log('保存用户信息:', form.value);
-  dialogVisible7.value = false;
-};
+function handleSubmit() {
+  console.log('保存用户信息:', form.value)
+  dialogVisible7.value = false
+}
 
-const handleConfirmWithLoading = () => {
+function handleConfirmWithLoading() {
   // 显示按钮loading状态
-  confirmLoading.value = true;
+  confirmLoading.value = true
 
   // 模拟2秒的异步操作
   setTimeout(() => {
     // 关闭loading状态
-    confirmLoading.value = false;
+    confirmLoading.value = false
     // 关闭对话框
-    dialogVisible12.value = false;
-  }, 2000);
-};
+    dialogVisible12.value = false
+  }, 2000)
+}
 ```
 
 :::
@@ -357,14 +357,15 @@ const handleConfirmWithLoading = () => {
 >
   <div class="loading-content">
     <el-icon class="is-loading"><Loading /></el-icon>
-    <span style="margin-left: 10px;">正在处理，请稍候...</span>
+    <span style="margin-left: 10px">正在处理，请稍候...</span>
   </div>
 </LSDialog>
 ```
 
 ```js
-import { Loading } from '@element-plus/icons-vue';
-const dialogVisible8 = ref(false);
+import { Loading } from '@element-plus/icons-vue'
+
+const dialogVisible8 = ref(false)
 ```
 
 ```css
@@ -426,8 +427,8 @@ const dialogVisible8 = ref(false);
 ```
 
 ```js
-const dialogVisible9 = ref(false);
-const dialogVisible10 = ref(false);
+const dialogVisible9 = ref(false)
+const dialogVisible10 = ref(false)
 ```
 
 :::
@@ -470,8 +471,9 @@ const dialogVisible10 = ref(false);
 ```
 
 ```js
-import { Close } from '@element-plus/icons-vue';
-const dialogVisible11 = ref(false);
+import { Close } from '@element-plus/icons-vue'
+
+const dialogVisible11 = ref(false)
 ```
 
 ```css
@@ -523,21 +525,21 @@ const dialogVisible11 = ref(false);
 ```
 
 ```js
-const dialogVisible12 = ref(false);
-const confirmLoading = ref(false);
+const dialogVisible12 = ref(false)
+const confirmLoading = ref(false)
 
-const handleConfirmWithLoading = () => {
+function handleConfirmWithLoading() {
   // 显示按钮loading状态
-  confirmLoading.value = true;
+  confirmLoading.value = true
 
   // 模拟2秒的异步操作
   setTimeout(() => {
     // 关闭loading状态
-    confirmLoading.value = false;
+    confirmLoading.value = false
     // 关闭对话框
-    dialogVisible12.value = false;
-  }, 2000);
-};
+    dialogVisible12.value = false
+  }, 2000)
+}
 ```
 
 :::
@@ -553,13 +555,13 @@ const handleConfirmWithLoading = () => {
 对话框内置了确认和取消按钮，支持自定义配置：
 
 ```ts
-type DialogBtnType = {
-  txt?: string              // 按钮文本
-  type?: string             // 按钮类型（primary/success/warning/danger/info）
-  iconConfig?: {             // 图标配置
-    name?: string           // 图标名称
-    color?: string          // 图标颜色
-    size?: number           // 图标大小
+interface DialogBtnType {
+  txt?: string // 按钮文本
+  type?: string // 按钮类型（primary/success/warning/danger/info）
+  iconConfig?: { // 图标配置
+    name?: string // 图标名称
+    color?: string // 图标颜色
+    size?: number // 图标大小
   }
   // 继承 Element Plus Button 的所有属性
 }
@@ -572,8 +574,8 @@ type DialogBtnType = {
   v-model="dialogVisible"
   title="自定义按钮"
   :btn-cancel-config="{ txt: '关闭', type: 'info' }"
-  :btn-confirm-config="{ 
-    txt: '提交', 
+  :btn-confirm-config="{
+    txt: '提交',
     type: 'success',
     iconConfig: { name: 'Check', color: '#fff', size: 16 }
   }"
@@ -585,14 +587,9 @@ type DialogBtnType = {
 当内容超出对话框高度时，可以开启滚动区域：
 
 ```html
-<LSDialog
-  v-model="dialogVisible"
-  title="带滚动的对话框"
-  width="600px"
-  :open-scroll="true"
->
+<LSDialog v-model="dialogVisible" title="带滚动的对话框" width="600px" :open-scroll="true">
   <!-- 长内容 -->
-  <div style="height: 1000px;">很长很长的内容...</div>
+  <div style="height: 1000px">很长很长的内容...</div>
 </LSDialog>
 ```
 
@@ -617,17 +614,17 @@ type DialogBtnType = {
 </LSDialog>
 
 <script setup>
-const confirmLoading = ref(false)
-const contentLoading = ref(false)
+  const confirmLoading = ref(false)
+  const contentLoading = ref(false)
 
-const handleConfirm = () => {
-  confirmLoading.value = true
-  // 模拟异步操作
-  setTimeout(() => {
-    confirmLoading.value = false
-    dialogVisible.value = false
-  }, 2000)
-}
+  const handleConfirm = () => {
+    confirmLoading.value = true
+    // 模拟异步操作
+    setTimeout(() => {
+      confirmLoading.value = false
+      dialogVisible.value = false
+    }, 2000)
+  }
 </script>
 ```
 
@@ -703,7 +700,7 @@ const form = ref({
 const openContentLoadingDialog = () => {
   dialogVisible13.value = true;
   contentLoading.value = true;
-  
+
   // 模拟内容加载
   setTimeout(() => {
     contentLoading.value = false;
@@ -718,7 +715,7 @@ const handleSubmit = () => {
 const handleConfirmWithLoading = () => {
   // 显示按钮loading状态
   confirmLoading.value = true;
-  
+
   // 模拟2秒的异步操作
   setTimeout(() => {
     // 关闭loading状态

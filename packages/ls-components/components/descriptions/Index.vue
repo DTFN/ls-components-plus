@@ -31,74 +31,74 @@
  *   </template>
  * </LSDescriptions>
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import LSIcon from '@cpo/icon/Index.vue';
-import dayjs from 'dayjs';
-import { merge } from 'lodash-es';
-import { lsDescProp } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import LSIcon from '@cpo/icon/Index.vue'
+import dayjs from 'dayjs'
+import { merge } from 'lodash-es'
+import { lsDescProp } from './types'
 
-const slots: any = useSlots();
+const props = defineProps(lsDescProp)
 
-const props = defineProps(lsDescProp);
+const slots: any = useSlots()
 
 const defAttrs = ref({
-  column: 1
-});
-const attrs = useAttrs();
+  column: 1,
+})
+const attrs = useAttrs()
 
-const lsDescRef = ref();
-const ns = useNamespace('descriptions');
-const comClass: string = ns.b();
+const lsDescRef = ref()
+const ns = useNamespace('descriptions')
+const comClass: string = ns.b()
 
 watch(
   () => props.labelColor,
-  async val => {
+  async (val) => {
     if (val) {
-      updateLabelStyle(val, 1);
+      updateLabelStyle(val, 1)
     }
   },
   {
     deep: true,
-    immediate: true
-  }
-);
+    immediate: true,
+  },
+)
 
 watch(
   () => props.labelBgColor,
-  async val => {
+  async (val) => {
     if (val) {
-      updateLabelStyle(val, 2);
+      updateLabelStyle(val, 2)
     }
   },
   {
     deep: true,
-    immediate: true
-  }
-);
+    immediate: true,
+  },
+)
 
 watch(
   () => props.list,
   (val: Array<any>) => {
-    updateLabelStyle(props.labelColor, 2);
-    updateLabelStyle(props.labelBgColor, 2);
-    updateLabelWidth(val.find((item: any) => item.labelWidth));
+    updateLabelStyle(props.labelColor, 2)
+    updateLabelStyle(props.labelBgColor, 2)
+    updateLabelWidth(val.find((item: any) => item.labelWidth))
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => attrs['label-width'],
   (val: any) => {
-    updateLabelWidth(val || props.list.find((item: any) => item.labelWidth));
+    updateLabelWidth(val || props.list.find((item: any) => item.labelWidth))
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // watch(
 //   () => props.labelWidth,
@@ -114,24 +114,25 @@ watch(
 function updateLabelWidth(val: string) {
   nextTick(() => {
     if (val) {
-      const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || [];
+      const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || []
       contentDoms.forEach((element: any) => {
-        element.style.width = 'auto';
-      });
+        element.style.width = 'auto'
+      })
     }
-  });
+  })
 }
 
 async function updateLabelStyle(color: string, type: number) {
-  await nextTick();
-  const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
+  await nextTick()
+  const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || []
   doms.forEach((element: any) => {
     if (type === 1) {
-      element.style.color = color;
-    } else if (type === 2) {
-      element.style.backgroundColor = color;
+      element.style.color = color
     }
-  });
+    else if (type === 2) {
+      element.style.backgroundColor = color
+    }
+  })
 }
 </script>
 
@@ -141,7 +142,7 @@ async function updateLabelStyle(color: string, type: number) {
     :class="[
       comClass,
       `column-${$attrs.column || 1}`,
-      $attrs.title || $attrs.extra || slots.title || slots.extra ? '' : 'no-header'
+      $attrs.title || $attrs.extra || slots.title || slots.extra ? '' : 'no-header',
     ]"
   >
     <el-descriptions v-bind="merge(defAttrs, $attrs)" border>
@@ -167,7 +168,7 @@ async function updateLabelStyle(color: string, type: number) {
           <template v-else-if="item.type === 'select'">
             {{ (item.propMap || {})[item.value]?.label || '--' }}
           </template>
-          <template v-else-if="item.type == 'slot'">
+          <template v-else-if="item.type === 'slot'">
             <slot :name="item.slotName" :data="item?.value"></slot>
           </template>
           <template v-else>

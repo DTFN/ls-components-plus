@@ -1,67 +1,65 @@
 <script setup lang="ts" name="LSDocx">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { docxProps, previewEmits } from '../types';
-import { isArrayBuffer } from '@cpo/_utils/check';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { isArrayBuffer } from '@cpo/_utils/check'
+import { docxProps, previewEmits } from '../types'
 
-const ns = useNamespace('docx');
-const comClass: string = ns.b();
+const props = defineProps(docxProps)
+const emits = defineEmits(previewEmits)
+const ns = useNamespace('docx')
+const comClass: string = ns.b()
 
-const docxPromise = () => import('docx-preview');
+const docxPromise = () => import('docx-preview')
 
-const props = defineProps(docxProps);
-
-const emits = defineEmits(previewEmits);
-
-const docxRef = ref();
+const docxRef = ref()
 
 watch(
   () => props.source,
-  val => {
-    updateDocx(val);
+  (val) => {
+    updateDocx(val)
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
-async function updateDocx(val: ArrayBuffer | String) {
+async function updateDocx(val: ArrayBuffer | string) {
   if (!val || !isArrayBuffer(val)) {
-    return;
+    return
   }
 
-  const docx = await docxPromise();
+  const docx = await docxPromise()
   docx
     .renderAsync(val, docxRef.value, docxRef.value, {
-      className: 'docx', //class name/prefix for default and document style classes
-      inWrapper: true, //enables rendering of wrapper around document content
-      ignoreWidth: false, //disables rendering width of page
-      ignoreHeight: true, //disables rendering height of page
-      ignoreFonts: false, //disables fonts rendering
-      breakPages: true, //enables page breaking on page breaks
-      ignoreLastRenderedPageBreak: true, //disables page breaking on lastRenderedPageBreak elements
-      experimental: false, //enables experimental features (tab stops calculation)
-      trimXmlDeclaration: true, //if true, xml declaration will be removed from xml documents before parsing
-      useBase64URL: false, //if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
-      renderChanges: false, //enables experimental rendering of document changes (inserions/deletions)
-      renderHeaders: true, //enables headers rendering
-      renderFooters: true, //enables footers rendering
-      renderFootnotes: true, //enables footnotes rendering
-      renderEndnotes: true, //enables endnotes rendering
-      debug: false //enables additional logging
+      className: 'docx', // class name/prefix for default and document style classes
+      inWrapper: true, // enables rendering of wrapper around document content
+      ignoreWidth: false, // disables rendering width of page
+      ignoreHeight: true, // disables rendering height of page
+      ignoreFonts: false, // disables fonts rendering
+      breakPages: true, // enables page breaking on page breaks
+      ignoreLastRenderedPageBreak: true, // disables page breaking on lastRenderedPageBreak elements
+      experimental: false, // enables experimental features (tab stops calculation)
+      trimXmlDeclaration: true, // if true, xml declaration will be removed from xml documents before parsing
+      useBase64URL: false, // if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
+      renderChanges: false, // enables experimental rendering of document changes (inserions/deletions)
+      renderHeaders: true, // enables headers rendering
+      renderFooters: true, // enables footers rendering
+      renderFootnotes: true, // enables footnotes rendering
+      renderEndnotes: true, // enables endnotes rendering
+      debug: false, // enables additional logging
     })
     .then(() => {
-      emits('loadComplete');
+      emits('loadComplete')
     })
     .catch(() => {
-      emits('loadError');
-    });
+      emits('loadError')
+    })
 }
 
-const closeFunc = () => {
-  props.onClose && props.onClose();
-  emits('update:source', []);
-};
+function closeFunc() {
+  props.onClose && props.onClose()
+  emits('update:source', [])
+}
 </script>
 
 <template>

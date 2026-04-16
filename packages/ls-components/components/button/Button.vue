@@ -39,49 +39,51 @@
  * </LSButtonGroup>
  */
 
-import { ref, computed, inject, useSlots } from 'vue';
-import { lsBtnKey } from '@cpo/_constants';
-import { lsBtnProp } from './types';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import LSIcon from '@cpo/icon/Index.vue';
+import { lsBtnKey } from '@cpo/_constants'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import LSIcon from '@cpo/icon/Index.vue'
+import { computed, inject, ref, useSlots } from 'vue'
+import { lsBtnProp } from './types'
 
-const slots = useSlots();
+defineProps(lsBtnProp)
 
-defineProps(lsBtnProp);
+const slots = useSlots()
 
 interface separatorType {
-  separator: string;
-  separatorColor: string;
-  separatorSize: string;
+  separator: string
+  separatorColor: string
+  separatorSize: string
 }
 
-const ns = useNamespace('button');
-const comClass: string = ns.b();
+const ns = useNamespace('button')
+const comClass: string = ns.b()
 
-const lsBtnGroupProp: separatorType = inject(lsBtnKey, undefined)!;
+const lsBtnGroupProp: separatorType = inject(lsBtnKey, undefined)!
 
-const separator = ref('');
-const separatorColor = ref('');
-const separatorSize = ref('');
+const separator = ref('')
+const separatorColor = ref('')
+const separatorSize = ref('')
 
 if (lsBtnGroupProp) {
-  separator.value = lsBtnGroupProp.separator;
-  separatorColor.value = lsBtnGroupProp.separatorColor;
-  separatorSize.value = lsBtnGroupProp.separatorSize;
+  separator.value = lsBtnGroupProp.separator
+  separatorColor.value = lsBtnGroupProp.separatorColor
+  separatorSize.value = lsBtnGroupProp.separatorSize
 }
 
 const separatorStyle = computed(() => {
   return {
     color: separatorColor.value,
-    fontSize: `${separatorSize.value}px`
-  };
-});
+    fontSize: `${separatorSize.value}px`,
+  }
+})
 </script>
 
 <template>
   <template v-if="$attrs.icon && !slots.default">
     <el-button v-bind="$attrs" :class="comClass" />
-    <div v-if="separator" class="ls-separator" :style="separatorStyle">{{ separator }}</div>
+    <div v-if="separator" class="ls-separator" :style="separatorStyle">
+      {{ separator }}
+    </div>
   </template>
   <template v-else>
     <el-button v-bind="$attrs" :class="comClass">

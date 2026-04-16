@@ -1,51 +1,52 @@
 <script setup lang="ts">
-import axios from 'axios';
-import docx from '@/assets/files/111.docx?url';
+import axios from 'axios'
+import docx from '@/assets/files/111.docx?url'
 // import xlsx from '@/assets/files/111.xlsx?url';
 // import xlsx from '@/assets/files/222.xlsx?url';
-import xlsx from '@/assets/files/222.xlsx?url';
+import xlsx from '@/assets/files/222.xlsx?url'
 // import xlsx from 'D:/download/666.xlsx?url';
 // import xlsx from 'D:/download/777.xlsx?url';
-import pdf from '@/assets/files/777.pdf';
+import pdf from '@/assets/files/777.pdf'
 // import pdf from '@/assets/files/test.pdf';
 
-const type = ref('image');
-const source: any = ref('');
-const showViewerImage = ref(false);
-const showViewerDocx = ref(false);
-const showViewerPdf = ref(false);
-const showViewerXlsx = ref(false);
-const downloadData = ref({});
+const type = ref('image')
+const source: any = ref('')
+const showViewerImage = ref(false)
+const showViewerDocx = ref(false)
+const showViewerPdf = ref(false)
+const showViewerXlsx = ref(false)
+const downloadData = ref({})
 
 function closeViewer() {
-  showViewerImage.value = false;
-  showViewerDocx.value = false;
-  showViewerPdf.value = false;
-  showViewerXlsx.value = false;
-  source.value = '';
+  showViewerImage.value = false
+  showViewerDocx.value = false
+  showViewerPdf.value = false
+  showViewerXlsx.value = false
+  source.value = ''
 }
 
 function openViewer(val: string) {
-  type.value = val;
+  type.value = val
   downloadData.value = {
-    id: 111111
-  };
+    id: 111111,
+  }
+
   switch (val) {
     case 'image':
       setTimeout(() => {
         source.value = [
           'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
           'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-          'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
-        ];
-      }, 1000);
-      showViewerImage.value = true;
-      break;
+          'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+        ]
+      }, 1000)
+      showViewerImage.value = true
+      break
     case 'docx':
-      axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then(data => {
-        source.value = data.data;
-        showViewerDocx.value = true;
-      });
+      axios.get(location.origin + docx, { responseType: 'arraybuffer' }).then((data) => {
+        source.value = data.data
+        showViewerDocx.value = true
+      })
 
       // axios
       //   .get(
@@ -56,23 +57,23 @@ function openViewer(val: string) {
       //     source.value = data.data;
       //     showViewerDocx.value = true;
       //   });
-      break;
+      break
     case 'xlsx':
-      axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then(data => {
-        source.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
-        showViewerXlsx.value = true;
-      });
-      break;
+      axios.get(location.origin + xlsx, { responseType: 'arraybuffer' }).then((data) => {
+        source.value = new File([new Blob([data.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' })
+        showViewerXlsx.value = true
+      })
+      break
     case 'pdf':
-      source.value = '';
+      source.value = ''
       // setTimeout(() => {
-      source.value = pdf;
+      source.value = pdf
       // }, 3000);
-      showViewerPdf.value = true;
-      break;
+      showViewerPdf.value = true
+      break
     case 'image2':
-      source.value = 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg';
-      showViewerImage.value = true;
+      source.value = 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
+      showViewerImage.value = true
       // axios
       //   .get(
       //     'http://192.168.3.37:8889/detector/api/v1/common/file/preview?fileName=20241212_ba6f326a10b042e98e13761e9cbedf2d.jpg&name=Mask+group+(5)+(1).jpg',
@@ -88,38 +89,48 @@ function openViewer(val: string) {
       //     source.value = URL.createObjectURL(data.data);
       //     showViewerImage.value = true;
       //   });
-      break;
+      break
     default:
-      break;
+      break
   }
 }
 
-const downloadLoading = ref(false);
+const downloadLoading = ref(false)
 
 function download(data: any) {
-  downloadLoading.value = true;
-  console.log(data);
+  downloadLoading.value = true
+  console.log(data)
 
   setTimeout(() => {
-    downloadLoading.value = false;
-  }, 1000);
+    downloadLoading.value = false
+  }, 1000)
 }
 
-const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg';
+const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
 </script>
 
 <template>
   <div>
     <div>
-      <LSButton type="primary" @click="openViewer('image')">图片预览</LSButton>
+      <LSButton type="primary" @click="openViewer('image')">
+        图片预览
+      </LSButton>
 
-      <LSButton type="primary" @click="openViewer('image2')">图片预览2</LSButton>
+      <LSButton type="primary" @click="openViewer('image2')">
+        图片预览2
+      </LSButton>
 
-      <LSButton type="primary" @click="openViewer('docx')">Docx预览</LSButton>
+      <LSButton type="primary" @click="openViewer('docx')">
+        Docx预览
+      </LSButton>
 
-      <LSButton type="primary" @click="openViewer('xlsx')">Xlsx预览</LSButton>
+      <LSButton type="primary" @click="openViewer('xlsx')">
+        Xlsx预览
+      </LSButton>
 
-      <LSButton type="primary" @click="openViewer('pdf')">PDF预览</LSButton>
+      <LSButton type="primary" @click="openViewer('pdf')">
+        PDF预览
+      </LSButton>
     </div>
     <LSPreviewImage
       v-model="showViewerImage"
@@ -129,12 +140,12 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :download-loading="downloadLoading"
       :has-download="true"
       :download-data="downloadData"
-      @on-download="download"
       :hide-on-click-modal="false"
       :show-watermark="true"
       :watermark-option="{
-        content: ['Element+', 'Element Plus']
+        content: ['Element+', 'Element Plus'],
       }"
+      @on-download="download"
     >
       <!-- <template #viewer>
         <div style="position: absolute; color: #ffffff">1111111111111111</div>
@@ -155,7 +166,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :hide-on-click-modal="true"
       :show-watermark="true"
       :watermark-option="{
-        content: ['Element+', 'Element Plus']
+        content: ['Element+', 'Element Plus'],
       }"
       :has-download="false"
       :download-loading="downloadLoading"
@@ -171,7 +182,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
 
     <LSPreviewPdf
       v-model="showViewerPdf"
-      :c-map-url-path="'/cmaps/'"
+      c-map-url-path="/cmaps/"
       :on-close="closeViewer"
       :type="type"
       :source="source"
@@ -179,7 +190,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :init-no-pagination="true"
       :show-watermark="true"
       :watermark-option="{
-        content: ['Element+', 'Element Plus']
+        content: ['Element+', 'Element Plus'],
       }"
       :has-download="false"
       download-txt="下载文件"
@@ -202,7 +213,7 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :has-pagination="true"
       :show-watermark="true"
       :watermark-option="{
-        content: ['Element+', 'Element Plus']
+        content: ['Element+', 'Element Plus'],
       }"
       :has-download="false"
       :download-loading="downloadLoading"

@@ -36,13 +36,14 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-//获取已选项
-const tree1Ref = ref();
-const checkedIds = ref([]);
+// 获取已选项
+const tree1Ref = ref()
+const checkedIds = ref([])
+
 function getChecked() {
-  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes();
+  checkedIds.value = tree1Ref.value.lsTreeRef.getCheckedNodes()
 }
 
 // 权限树数据列表
@@ -203,7 +204,7 @@ const treeData = ref([
       }
     ]
   }
-]);
+])
 
 // 当前用户角色拥有的权限数据结构，具体根据后端返回数据
 const roleData = ref([
@@ -251,71 +252,87 @@ const roleData = ref([
     id: 20468,
     permissionId: 20110
   }
-]);
+])
 
 // 当前用户拥有的权限数据转换
-const checkedPermissionIds = getTreeCheckedData((roleData.value || []).map(item => item.permissionId));
+const checkedPermissionIds = getTreeCheckedData((roleData.value || []).map(item => item.permissionId))
 
 function isEmpty(val) {
   if (val === null) {
-    return true;
+    return true
   }
-  const type = typeof val;
+  const type = typeof val
+
   if (type === 'undefined') {
-    return true;
+    return true
   }
+
   if (type === 'string') {
-    val = val.replace(/^\s*|\s*$/g, '');
+    val = val.replace(/^\s*|\s*$/g, '')
+
     if (val === '') {
-      return true;
+      return true
     }
   }
 
   if (type === 'number') {
     if (isNaN(val)) {
-      return true;
+      return true
     }
   }
+
   if (type === 'object') {
     if (Object.keys(val).length === 0) {
-      return true;
+      return true
     }
   }
+
   if (type === 'boolean') {
-    return false;
+    return false
   }
-  return false;
+
+  return false
 }
 
 // 筛选去掉父级id
 function getTreeCheckedData(ids) {
-  let newIds = ids || [];
+  let newIds = ids || []
+
   if (!isEmpty(treeData.value) && !isEmpty(ids)) {
-    const lunData = list => {
+    const lunData = (list) => {
       if (!isEmpty(list)) {
-        list.forEach(item => {
-          const { id, children } = item;
+        list.forEach((item) => {
+          const { id, children } = item
+
           if (!isEmpty(children)) {
-            let index = newIds.indexOf(id);
+            let index = newIds.indexOf(id)
+
             if (index >= 0) {
               // 有子节点 并且 子节点有勾选 去掉当前父节点id
-              newIds.splice(index, 1);
+              newIds.splice(index, 1)
             }
-            lunData(children);
+            lunData(children)
           }
-        });
+        })
       }
-    };
-    lunData(treeData.value);
+    }
+    lunData(treeData.value)
   }
-  return newIds;
+
+  return newIds
 }
 ```
 
 ```html
 <LSTree :tree-data="treeData" :is-check-all="true" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
 
-<LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+<LSTree
+  :tree-data="treeData"
+  :is-check-all="false"
+  :show-checkbox="true"
+  :default-checked-keys="checkedPermissionIds"
+/>
+
 ```
 
 :::
@@ -338,8 +355,9 @@ function getTreeCheckedData(ids) {
   :is-check-all="true"
   :show-checkbox="true"
   :default-checked-keys="checkedPermissionIds"
-  style="--ls-tree-node-spacing: 5px;"
+  style="--ls-tree-node-spacing: 5px"
 />
+
 ```
 
 ::: details 水平展示说明
@@ -395,7 +413,7 @@ const horizontalTreeData = ref([
       }
     ]
   }
-]);
+])
 ```
 
 2. **组件内部实现**：组件会自动为 `isPenultimate: true` 的节点添加 `is-penultimate` 类
@@ -425,6 +443,7 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
     }
   }
 }
+
 ```
 
 注意事项
@@ -447,7 +466,13 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 </ClientOnly>
 
 ```html
-<LSTree :tree-data="treeData" :is-check-all="false" :show-checkbox="true" :default-checked-keys="checkedPermissionIds" />
+<LSTree
+  :tree-data="treeData"
+  :is-check-all="false"
+  :show-checkbox="true"
+  :default-checked-keys="checkedPermissionIds"
+/>
+
 ```
 
 ### 4. 权限code包含p或d
@@ -472,9 +497,9 @@ const customNodeClass = ({ isPenultimate }: TreeNodeData) => (isPenultimate ? 'i
 
 ```js
 // 获取已选权限
-const permissionTreeRef = ref();
-const checkedPermissionCodes = ref([]);
-const defaultPermissionIds = ref([11, 12]); // 默认选中查看列表和详情权限
+const permissionTreeRef = ref()
+const checkedPermissionCodes = ref([])
+const defaultPermissionIds = ref([11, 12]) // 默认选中查看列表和详情权限
 
 // permission 权限码示例数据
 const permissionTreeData = ref([
@@ -542,18 +567,18 @@ const permissionTreeData = ref([
       }
     ]
   }
-]);
+])
 
 function getPermissionChecked() {
-  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes();
-  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ');
+  const checkedNodes = permissionTreeRef.value.lsTreeRef.getCheckedNodes()
+  checkedPermissionCodes.value = checkedNodes.map(node => node.permission).join(', ')
 }
 ```
 
 ```html
 <LSButton type="primary" @click="getPermissionChecked">获取已选权限</LSButton>
 
-<div style="margin-top: 10px;">已选权限code：{{ checkedPermissionCodes }}</div>
+<div style="margin-top: 10px">已选权限code：{{ checkedPermissionCodes }}</div>
 
 <LSTree
   ref="permissionTreeRef"
@@ -562,6 +587,7 @@ function getPermissionChecked() {
   :show-checkbox="true"
   :default-checked-keys="defaultPermissionIds"
 />
+
 ```
 
 :::
@@ -583,8 +609,8 @@ function getPermissionChecked() {
 
 ```js
 // 隐藏指定前缀节点
-const hidePrefixTreeRef = ref();
-const hidePrefix = ref('I'); // 默认隐藏接口节点
+const hidePrefixTreeRef = ref()
+const hidePrefix = ref('I') // 默认隐藏接口节点
 
 // 隐藏指定前缀节点示例数据
 const hidePrefixTreeData = ref([
@@ -678,7 +704,7 @@ const hidePrefixTreeData = ref([
       }
     ]
   }
-]);
+])
 ```
 
 ```html
@@ -691,6 +717,7 @@ const hidePrefixTreeData = ref([
   :is-check-all="true"
   :show-checkbox="true"
 />
+
 ```
 
 :::
@@ -717,7 +744,6 @@ const hidePrefixTreeData = ref([
 import { tableColumn, tableMethodColumn, tableExposesColumn } from '../constant';
 import { ref } from 'vue';
 import { isEmpty } from '../.vitepress/utils/';
-
 
 const treeData = ref([
   {
@@ -1079,7 +1105,6 @@ const permissionTreeData = ref([
     ]
   }
 ]);
-
 
 // 隐藏指定前缀节点
 const hidePrefixTreeRef = ref();

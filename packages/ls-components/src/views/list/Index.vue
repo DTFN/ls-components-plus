@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ElDivider } from 'element-plus';
-import { h } from 'vue';
+import { ElDivider } from 'element-plus'
+import { h } from 'vue'
 
-const ListRef = ref<any>(null);
+const ListRef = ref<any>(null)
 
 const formData = ref({
   name: undefined,
-  type: undefined
-});
+  type: undefined,
+})
 
 const formItems = [
   {
@@ -15,20 +15,20 @@ const formItems = [
     label: '名称',
     prop: 'name',
     attrs: {
-      prefixStr: '￥'
-    }
+      prefixStr: '￥',
+    },
   },
   {
     type: 'itemSlot',
     label: '名称111',
-    prop: 'slot'
-  }
-];
+    prop: 'slot',
+  },
+]
 
 const tableColumn = [
   {
     label: '名称',
-    prop: 'name'
+    prop: 'name',
   },
   {
     label: '类型',
@@ -36,75 +36,77 @@ const tableColumn = [
     type: 'status',
     value: {
       A: { type: 'success', label: '类型A' },
-      B: { type: '', label: '类型B' }
+      B: { type: '', label: '类型B' },
     },
-    statusStyle: 'follow'
+    statusStyle: 'follow',
   },
   {
     label: '自定义',
     prop: 'table-slot',
-    type: 'slot'
+    type: 'slot',
   },
   {
     label: '创建时间',
     prop: 'createTime',
-    type: 'date'
-  }
-];
+    type: 'date',
+  },
+]
 
 // 生成模拟数据
 function generateTableData(pageNum: number, pageSize: number) {
-  const result = [];
-  const startIndex = (pageNum - 1) * pageSize;
+  const result = []
+  const startIndex = (pageNum - 1) * pageSize
 
   for (let i = 0; i < pageSize; i++) {
-    const index = startIndex + i + 1;
+    const index = startIndex + i + 1
     result.push({
       id: index,
       name: `测试数据${index}`,
       type: index % 2 === 0 ? 'A' : 'B',
       createTime: 1740000000000 + index * 1000 * 60 * 60 * 24,
-      status: index % 2
-    });
+      status: index % 2,
+    })
   }
 
-  return result;
+  return result
 }
 
 function listApi() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize));
-    }, 1000);
-  });
+      resolve(generateTableData(ListRef.value?.currentPage, ListRef.value?.pageSize))
+    }, 1000)
+  })
 }
 
 function dealParams(params: any) {
   return {
-    ...params
-  };
+    ...params,
+  }
 }
 
 function dealData(res: any) {
   const list = (res || []).map((item: any) => {
-    item.popconfirmTxt = `确定删除该记录：${item.name}？`;
+    item.popconfirmTxt = `确定删除该记录：${item.name}？`
+
     // item.tableDetailText = `${item.name}详情`;
-    return item;
-  });
+    return item
+  })
+
   return {
     data: list,
-    total: 100
-  };
+    total: 100,
+  }
 }
 
-const spacer = h(ElDivider, { direction: 'vertical' });
+const spacer = h(ElDivider, { direction: 'vertical' })
 
 function getTableDelText(row: any) {
-  return `删除-${row.name}`;
+  return `删除-${row.name}`
 }
 
 function queryFn(val: any) {
-  console.log('queryFn', val);
+  console.log('queryFn', val)
 }
 
 const selection = ref<any[]>([
@@ -112,35 +114,35 @@ const selection = ref<any[]>([
     id: 2,
     name: '测试数据2',
     type: 'A',
-    createTime: '2024-01-01'
-  }
-]);
+    createTime: '2024-01-01',
+  },
+])
 
 watch(
   () => selection.value,
-  newVal => {
-    console.log('watch---选中数据', newVal);
+  (newVal) => {
+    console.log('watch---选中数据', newVal)
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function updateSelection(val: any) {
-  console.log('updateSelection---选中数据', val);
-  selection.value = val;
+  console.log('updateSelection---选中数据', val)
+  selection.value = val
 }
 
 function delApi(id: any) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
         code: 200,
-        id
-      });
-    }, 1000);
-  });
+        id,
+      })
+    }, 1000)
+  })
 }
 
 // function tableDelFn(row: any, setLoading: (loading: boolean) => void) {
@@ -153,11 +155,11 @@ function delApi(id: any) {
 // }
 
 function delSuccess(row: any, res: boolean) {
-  console.log('delSuccess', row, res);
+  console.log('delSuccess', row, res)
 }
 
 function resetForm(val: any) {
-  console.log(val);
+  console.log(val)
 }
 </script>
 
@@ -178,32 +180,32 @@ function resetForm(val: any) {
     :deal-params="dealParams"
     :table-operate-column="{ minWidth: 200 }"
     :table-attrs="{
-      showSelect: true,
+      'showSelect': true,
       selection,
-      rowKey: 'id',
-      selectColumnOptions: {
+      'rowKey': 'id',
+      'selectColumnOptions': {
         // reserveSelection: false
-        'reserve-selection': true
+        'reserve-selection': true,
       },
       // 'show-overflow-tooltip': false
       'show-overflow-tooltip': {
-        'popper-class': 'red'
-      }
+        'popper-class': 'red',
+      },
     }"
     :table-listeners="{
       'selection-change': (val: any) => {
         console.log('selection-change', val);
       },
-      'update:selection': updateSelection
+      'update:selection': updateSelection,
     }"
     :show-table-operate="true"
     :disabled-add-btn="true"
     :list-hook-config="{
       currentPageProp: 1,
       pageSizeProp: 10,
-      pageSizesProp: [10, 20, 30, 40, 50, 100]
+      pageSizesProp: [10, 20, 30, 40, 50, 100],
     }"
-    :table-detail-text="`详情`"
+    table-detail-text="详情"
     :table-edit-text="(row: any) => `编辑-${row.name}`"
     :table-del-text="getTableDelText"
     :popconfirm-txt="(row: any) => `删除该数据：${row.name}？`"
@@ -212,7 +214,7 @@ function resetForm(val: any) {
     add-btn-text="新增数据"
     table-switch-pop-txt="新增数据"
     :table-switch-pop-attrs="{
-      title: 'aaa'
+      title: 'aaa',
     }"
     @reset-form="resetForm"
     @del-success="delSuccess"
@@ -245,9 +247,13 @@ function resetForm(val: any) {
 
     <template #table-operate-append="{ row }">
       <el-space :size="0" :spacer="spacer">
-        <el-button v-if="row.status === 1" link type="primary"> 下架 </el-button>
+        <el-button v-if="row.status === 1" link type="primary">
+          下架
+        </el-button>
 
-        <el-button link type="primary"> 提交 </el-button>
+        <el-button link type="primary">
+          提交
+        </el-button>
       </el-space>
     </template>
 

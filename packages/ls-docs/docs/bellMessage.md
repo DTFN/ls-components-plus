@@ -17,9 +17,10 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const loading = ref(true);
-const noticeNum = ref(1);
+import { ref } from 'vue'
+
+const loading = ref(true)
+const noticeNum = ref(1)
 const list = ref([
   {
     id: '1',
@@ -37,32 +38,34 @@ const list = ref([
     createdTime: '2024-02-01 13:00:00',
     readStatus: 1
   }
-]);
+])
 
 setTimeout(() => {
-  loading.value = false;
-}, 1000);
+  loading.value = false
+}, 1000)
 
-const loadMore = () => {
-  list.value = list.value.concat(list.value);
-};
+function loadMore() {
+  list.value = list.value.concat(list.value)
+}
 
-const readMsg = id => {
-  list.value = list.value.map(item => {
+function readMsg(id) {
+  list.value = list.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-};
 
-const readAll = () => {
-  list.value = list.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum.value = 0;
-};
+    return item
+  })
+}
+
+function readAll() {
+  list.value = list.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum.value = 0
+}
 ```
 
 ```html
@@ -86,14 +89,15 @@ const readAll = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const loading = ref(true);
-const noticeNum2 = ref(55);
+import { ref } from 'vue'
+
+const loading = ref(true)
+const noticeNum2 = ref(55)
 const iconConfig = ref({
   name: 'Bell',
   size: 24,
   color: '#606266'
-});
+})
 const list = ref([
   {
     id: '1',
@@ -111,32 +115,34 @@ const list = ref([
     createdTime: '2024-02-01 13:00:00',
     readStatus: 1
   }
-]);
+])
 
 setTimeout(() => {
-  loading.value = false;
-}, 1000);
+  loading.value = false
+}, 1000)
 
-const loadMore = () => {
-  list.value = list.value.concat(list.value);
-};
+function loadMore() {
+  list.value = list.value.concat(list.value)
+}
 
-const readMsg = id => {
-  list.value = list.value.map(item => {
+function readMsg(id) {
+  list.value = list.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-};
 
-const readAll2 = () => {
-  list.value = list.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum2.value = 0;
-};
+    return item
+  })
+}
+
+function readAll2() {
+  list.value = list.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum2.value = 0
+}
 ```
 
 ```html
@@ -162,9 +168,10 @@ const readAll2 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const loading = ref(true);
-const noticeNum3 = ref(3);
+import { ref } from 'vue'
+
+const loading = ref(true)
+const noticeNum3 = ref(3)
 const list2 = ref([
   {
     id: '1',
@@ -198,13 +205,13 @@ const list2 = ref([
     createdTime: '2024-01-31 15:00:00',
     readStatus: 1
   }
-]);
+])
 
 setTimeout(() => {
-  loading.value = false;
-}, 1000);
+  loading.value = false
+}, 1000)
 
-const loadMore2 = () => {
+function loadMore2() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -215,29 +222,31 @@ const loadMore2 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list2.value = list2.value.concat(newData);
-  noticeNum3.value += newData.length;
-};
+  ]
+  list2.value = list2.value.concat(newData)
+  noticeNum3.value += newData.length
+}
 
-const readMsg2 = id => {
-  list2.value = list2.value.map(item => {
+function readMsg2(id) {
+  list2.value = list2.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum3.value = list2.value.filter(item => item.readStatus === 0).length;
-};
 
-const readAll3 = () => {
-  list2.value = list2.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum3.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum3.value = list2.value.filter(item => item.readStatus === 0).length
+}
+
+function readAll3() {
+  list2.value = list2.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum3.value = 0
+}
 ```
 
 ```html
@@ -261,7 +270,8 @@ const readAll3 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
+
 const list3 = ref([
   {
     id: '1',
@@ -279,28 +289,30 @@ const list3 = ref([
     createdTime: '2024-01-31 10:00:00',
     readStatus: 1
   }
-]);
+])
 
-const loadMore3 = () => {
+function loadMore3() {
   // 无更多数据，无需处理
-  console.log('No more data');
-};
+  console.log('No more data')
+}
 
-const readMsg3 = id => {
-  list3.value = list3.value.map(item => {
+function readMsg3(id) {
+  list3.value = list3.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-};
 
-const readAll4 = () => {
-  list3.value = list3.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-};
+    return item
+  })
+}
+
+function readAll4() {
+  list3.value = list3.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+}
 ```
 
 ```html
@@ -325,8 +337,9 @@ const readAll4 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const noticeNum4 = ref(2);
+import { ref } from 'vue'
+
+const noticeNum4 = ref(2)
 const list4 = ref([
   {
     id: '1',
@@ -344,9 +357,9 @@ const list4 = ref([
     createdTime: '2024-02-01 13:00:00',
     readStatus: 0
   }
-]);
+])
 
-const loadMore4 = () => {
+function loadMore4() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -357,33 +370,35 @@ const loadMore4 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list4.value = list4.value.concat(newData);
-  noticeNum4.value += newData.length;
-};
+  ]
+  list4.value = list4.value.concat(newData)
+  noticeNum4.value += newData.length
+}
 
-const readMsg4 = id => {
+function readMsg4(id) {
   // 标记为已读
-  list4.value = list4.value.map(item => {
+  list4.value = list4.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum4.value = list4.value.filter(item => item.readStatus === 0).length;
-  // 执行点击事件逻辑
-  console.log('点击了消息:', id);
-  // 这里可以添加跳转到消息详情页等逻辑
-};
 
-const readAll5 = () => {
-  list4.value = list4.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum4.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum4.value = list4.value.filter(item => item.readStatus === 0).length
+  // 执行点击事件逻辑
+  console.log('点击了消息:', id)
+  // 这里可以添加跳转到消息详情页等逻辑
+}
+
+function readAll5() {
+  list4.value = list4.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum4.value = 0
+}
 ```
 
 ```html
@@ -407,8 +422,9 @@ const readAll5 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref, computed } from 'vue';
-const noticeNum5 = ref(4);
+import { computed, ref } from 'vue'
+
+const noticeNum5 = ref(4)
 const list5 = ref([
   {
     id: '1',
@@ -442,14 +458,14 @@ const list5 = ref([
     createdTime: '2024-01-31 15:00:00',
     readStatus: 1
   }
-]);
+])
 
 // 过滤出未读消息
 const filteredList = computed(() => {
-  return list5.value.filter(item => item.readStatus === 0);
-});
+  return list5.value.filter(item => item.readStatus === 0)
+})
 
-const loadMore5 = () => {
+function loadMore5() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -460,29 +476,31 @@ const loadMore5 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list5.value = list5.value.concat(newData);
-  noticeNum5.value += newData.length;
-};
+  ]
+  list5.value = list5.value.concat(newData)
+  noticeNum5.value += newData.length
+}
 
-const readMsg5 = id => {
-  list5.value = list5.value.map(item => {
+function readMsg5(id) {
+  list5.value = list5.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum5.value = list5.value.filter(item => item.readStatus === 0).length;
-};
 
-const readAll6 = () => {
-  list5.value = list5.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum5.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum5.value = list5.value.filter(item => item.readStatus === 0).length
+}
+
+function readAll6() {
+  list5.value = list5.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum5.value = 0
+}
 ```
 
 ```html
@@ -508,8 +526,9 @@ const readAll6 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const noticeNum6 = ref(2);
+import { ref } from 'vue'
+
+const noticeNum6 = ref(2)
 const list6 = ref([
   {
     id: '1',
@@ -527,9 +546,9 @@ const list6 = ref([
     createdTime: '2024-02-01 14:00:00',
     readStatus: 0
   }
-]);
+])
 
-const loadMore6 = () => {
+function loadMore6() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -540,29 +559,31 @@ const loadMore6 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list6.value = list6.value.concat(newData);
-  noticeNum6.value += newData.length;
-};
+  ]
+  list6.value = list6.value.concat(newData)
+  noticeNum6.value += newData.length
+}
 
-const readMsg6 = id => {
-  list6.value = list6.value.map(item => {
+function readMsg6(id) {
+  list6.value = list6.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum6.value = list6.value.filter(item => item.readStatus === 0).length;
-};
 
-const readAll7 = () => {
-  list6.value = list6.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum6.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum6.value = list6.value.filter(item => item.readStatus === 0).length
+}
+
+function readAll7() {
+  list6.value = list6.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum6.value = 0
+}
 ```
 
 ```html
@@ -684,8 +705,9 @@ const readAll7 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const noticeNum7 = ref(2);
+import { ref } from 'vue'
+
+const noticeNum7 = ref(2)
 const list7 = ref([
   {
     id: '1',
@@ -703,9 +725,9 @@ const list7 = ref([
     createdTime: '2024-02-01 15:00:00',
     readStatus: 0
   }
-]);
+])
 
-const loadMore7 = () => {
+function loadMore7() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -716,29 +738,31 @@ const loadMore7 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list7.value = list7.value.concat(newData);
-  noticeNum7.value += newData.length;
-};
+  ]
+  list7.value = list7.value.concat(newData)
+  noticeNum7.value += newData.length
+}
 
-const readMsg7 = id => {
-  list7.value = list7.value.map(item => {
+function readMsg7(id) {
+  list7.value = list7.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum7.value = list7.value.filter(item => item.readStatus === 0).length;
-};
 
-const readAll8 = () => {
-  list7.value = list7.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum7.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum7.value = list7.value.filter(item => item.readStatus === 0).length
+}
+
+function readAll8() {
+  list7.value = list7.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum7.value = 0
+}
 ```
 
 ```html
@@ -897,14 +921,14 @@ const readAll8 = () => {
 <div class="integration-bell-message">
   <el-dropdown trigger="click">
     <span class="el-dropdown-link">
-      <LSBellMessage 
-        :loading="false" 
-        :notice-num="noticeNum8" 
-        :list="list8" 
-        :icon-config="dropdownIconConfig" 
-        @read-msg="readMsg8" 
-        @load-more="loadMore8" 
-        @read-all="readAll9" 
+      <LSBellMessage
+        :loading="false"
+        :notice-num="noticeNum8"
+        :list="list8"
+        :icon-config="dropdownIconConfig"
+        @read-msg="readMsg8"
+        @load-more="loadMore8"
+        @read-all="readAll9"
       />
     </span>
     <template #dropdown>
@@ -914,12 +938,12 @@ const readAll8 = () => {
           <span class="read-all-btn" @click="readAll9">全部已读</span>
         </div>
         <div class="dropdown-body">
-          <LSBellMessage 
-            :loading="false" 
-            :notice-num="noticeNum8" 
-            :list="list8" 
-            :no-more="true" 
-            @read-msg="readMsg8" 
+          <LSBellMessage
+            :loading="false"
+            :notice-num="noticeNum8"
+            :list="list8"
+            :no-more="true"
+            @read-msg="readMsg8"
           />
         </div>
       </div>
@@ -930,13 +954,14 @@ const readAll8 = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const noticeNum8 = ref(3);
+import { ref } from 'vue'
+
+const noticeNum8 = ref(3)
 const dropdownIconConfig = ref({
   name: 'Bell',
   size: 20,
   color: '#606266'
-});
+})
 const list8 = ref([
   {
     id: '1',
@@ -962,9 +987,9 @@ const list8 = ref([
     createdTime: '2024-01-31 16:00:00',
     readStatus: 0
   }
-]);
+])
 
-const loadMore8 = () => {
+function loadMore8() {
   // 模拟加载更多数据
   const newData = [
     {
@@ -975,29 +1000,31 @@ const loadMore8 = () => {
       createdTime: new Date().toLocaleString('zh-CN'),
       readStatus: 0
     }
-  ];
-  list8.value = list8.value.concat(newData);
-  noticeNum8.value += newData.length;
-};
+  ]
+  list8.value = list8.value.concat(newData)
+  noticeNum8.value += newData.length
+}
 
-const readMsg8 = id => {
-  list8.value = list8.value.map(item => {
+function readMsg8(id) {
+  list8.value = list8.value.map((item) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-  // 更新未读数量
-  noticeNum8.value = list8.value.filter(item => item.readStatus === 0).length;
-};
 
-const readAll9 = () => {
-  list8.value = list8.value.map(item => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum8.value = 0;
-};
+    return item
+  })
+  // 更新未读数量
+  noticeNum8.value = list8.value.filter(item => item.readStatus === 0).length
+}
+
+function readAll9() {
+  list8.value = list8.value.map((item) => {
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum8.value = 0
+}
 ```
 
 ```html

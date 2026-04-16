@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { MonthDayOptions } from '@/constant';
-import LSFormText from './text.vue';
-import { isArray } from 'lodash-es';
-const FormRef = ref();
-const FormRef1 = ref();
-const loading = ref(false);
+import { isArray } from 'lodash-es'
+import { MonthDayOptions } from '@/constant'
+import LSFormText from './text.vue'
+
+const FormRef = ref()
+const FormRef1 = ref()
+const loading = ref(false)
 const formData = ref({
   username: '',
-  password: ''
-});
+  password: '',
+})
 const formItems = ref<FormItemsType[] | any>([
   {
     type: 'input',
@@ -18,14 +19,14 @@ const formItems = ref<FormItemsType[] | any>([
       {
         required: true,
         message: '请输入用户名',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9]{4,36}$/i,
         message: '4-36位数字字母组合',
-        trigger: 'blur'
-      }
-    ]
+        trigger: 'blur',
+      },
+    ],
   },
   {
     type: 'input',
@@ -33,57 +34,57 @@ const formItems = ref<FormItemsType[] | any>([
     prop: 'password',
     attrs: {
       'show-password': true,
-      maxlength: 24
+      'maxlength': 24,
     },
     rules: [
       {
         required: true,
         message: '请输入用户密码',
-        trigger: 'blur'
+        trigger: 'blur',
       },
       {
         pattern: /^[A-Z0-9@]*$/i,
         message: '8-24位数字大小写字母组合',
-        trigger: 'blur'
-      }
-    ]
+        trigger: 'blur',
+      },
+    ],
   },
   {
     type: 'select',
     label: '日期',
     prop: 'dateList',
     attrs: {
-      placeholder: '请选择日期，支持多选',
-      multiple: true,
-      clearable: true,
-      'popper-class': 'ls-sel-calendar-popper'
+      'placeholder': '请选择日期，支持多选',
+      'multiple': true,
+      'clearable': true,
+      'popper-class': 'ls-sel-calendar-popper',
     },
     options: MonthDayOptions,
     rules: [
       {
         required: true,
         message: '请选择日期，支持多选',
-        trigger: 'change'
-      }
-    ]
+        trigger: 'change',
+      },
+    ],
   },
   {
     type: 'textarea',
     label: '文本域',
     prop: 'textarea',
-    trim: false
+    trim: false,
   },
   {
     type: 'itemSlot',
     prop: 'slotTest',
-    label: '自定义插槽'
+    label: '自定义插槽',
   },
   {
     type: 'div-item',
     prop: 'slot1111',
-    label: 'hhhhh'
-  }
-]);
+    label: 'hhhhh',
+  },
+])
 
 const formData1 = ref({
   param1: '输入框',
@@ -98,26 +99,26 @@ const formData1 = ref({
   param10: '插入控件',
   params99: {
     start: '0',
-    end: '100'
-  }
-});
+    end: '100',
+  },
+})
 
 const formItems1 = ref<FormItemsType[] | any>([
   {
     type: 'input',
     label: '输入框',
     prop: 'param1',
-    tooltip: '提示语'
+    tooltip: '提示语',
   },
   {
     type: 'input',
     label: '输入框',
-    prop: 'param111'
+    prop: 'param111',
   },
   {
     type: 'number',
     label: '数字',
-    prop: 'param2'
+    prop: 'param2',
   },
   {
     type: 'select',
@@ -126,27 +127,27 @@ const formItems1 = ref<FormItemsType[] | any>([
     options: [
       {
         label: '全部',
-        value: ''
+        value: '',
       },
       {
         label: '选项1',
-        value: '1'
+        value: '1',
       },
       {
         label: '选项2',
-        value: '2'
-      }
+        value: '2',
+      },
     ],
     listeners: {
       change: (value: any) => {
-        console.log(value);
-      }
+        console.log(value)
+      },
     },
     rules: {
       required: true,
       message: '请选择',
-      trigger: 'blur'
-    }
+      trigger: 'blur',
+    },
   },
   {
     type: 'select',
@@ -155,16 +156,16 @@ const formItems1 = ref<FormItemsType[] | any>([
     options: [
       {
         label: '选项1',
-        value: '1'
+        value: '1',
       },
       {
         label: '选项2',
-        value: '2'
-      }
+        value: '2',
+      },
     ],
     attrs: {
-      multiple: true
-    }
+      multiple: true,
+    },
   },
   {
     type: 'radio',
@@ -173,22 +174,22 @@ const formItems1 = ref<FormItemsType[] | any>([
     options: [
       {
         label: '选项1',
-        value: '1'
+        value: '1',
       },
       {
         label: '选项2',
-        value: '2'
-      }
+        value: '2',
+      },
     ],
     attrs: {
-      multiple: true
+      multiple: true,
     },
     listeners: {
       change: (value: any) => {
-        console.log(value);
-      }
+        console.log(value)
+      },
     },
-    radioType: 'button'
+    radioType: 'button',
     // rules: {
     //   required: true,
     //   message: '请选择',
@@ -203,21 +204,21 @@ const formItems1 = ref<FormItemsType[] | any>([
     options: [
       {
         label: '选项1',
-        value: '1'
+        value: '1',
       },
       {
         label: '选项2',
-        value: '2'
-      }
+        value: '2',
+      },
     ],
     attrs: {
-      multiple: true
-    }
+      multiple: true,
+    },
   },
   {
     type: 'datetimerange',
     label: '日期',
-    prop: 'param5'
+    prop: 'param5',
   },
   {
     type: 'cascader',
@@ -225,9 +226,9 @@ const formItems1 = ref<FormItemsType[] | any>([
     prop: 'param6',
     attrs: {
       'show-all-levels': false,
-      props: {
-        checkStrictly: true
-      }
+      'props': {
+        checkStrictly: true,
+      },
     },
     options: [
       {
@@ -240,21 +241,21 @@ const formItems1 = ref<FormItemsType[] | any>([
             children: [
               {
                 value: 'consistency',
-                label: 'Consistency'
+                label: 'Consistency',
               },
               {
                 value: 'feedback',
-                label: 'Feedback'
+                label: 'Feedback',
               },
               {
                 value: 'efficiency',
-                label: 'Efficiency'
+                label: 'Efficiency',
               },
               {
                 value: 'controllability',
-                label: 'Controllability'
-              }
-            ]
+                label: 'Controllability',
+              },
+            ],
           },
           {
             value: 'navigation',
@@ -262,17 +263,17 @@ const formItems1 = ref<FormItemsType[] | any>([
             children: [
               {
                 value: 'side nav',
-                label: 'Side Navigation'
+                label: 'Side Navigation',
               },
               {
                 value: 'top nav',
-                label: 'Top Navigation'
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                label: 'Top Navigation',
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     type: 'multipleCascader',
@@ -289,21 +290,21 @@ const formItems1 = ref<FormItemsType[] | any>([
             children: [
               {
                 value: 'consistency',
-                label: 'Consistency'
+                label: 'Consistency',
               },
               {
                 value: 'feedback',
-                label: 'Feedback'
+                label: 'Feedback',
               },
               {
                 value: 'efficiency',
-                label: 'Efficiency'
+                label: 'Efficiency',
               },
               {
                 value: 'controllability',
-                label: 'Controllability'
-              }
-            ]
+                label: 'Controllability',
+              },
+            ],
           },
           {
             value: 'navigation',
@@ -311,28 +312,28 @@ const formItems1 = ref<FormItemsType[] | any>([
             children: [
               {
                 value: 'side nav',
-                label: 'Side Navigation'
+                label: 'Side Navigation',
               },
               {
                 value: 'top nav',
-                label: 'Top Navigation'
-              }
-            ]
-          }
-        ]
-      }
+                label: 'Top Navigation',
+              },
+            ],
+          },
+        ],
+      },
     ],
     attrs: {
       'show-all-levels': false,
-      props: {
-        checkStrictly: true
-      }
-    }
+      'props': {
+        checkStrictly: true,
+      },
+    },
   },
   {
     type: 'switch',
     label: '开关',
-    prop: 'param8'
+    prop: 'param8',
   },
   {
     type: 'inputRange',
@@ -340,101 +341,102 @@ const formItems1 = ref<FormItemsType[] | any>([
     prop: 'params99',
     attrs: {
       start: {
-        placeholder: '开始取值范围'
+        placeholder: '开始取值范围',
       },
       end: {
-        placeholder: '截止取值范围'
-      }
-    }
+        placeholder: '截止取值范围',
+      },
+    },
   },
   {
     type: 'inputNumberRange',
     label: '数字范围',
-    prop: 'params999'
+    prop: 'params999',
   },
   {
     type: 'textarea',
     label: '文本域',
-    prop: 'param9'
+    prop: 'param9',
   },
   {
     type: 'itemSlot',
     label: '插入控件',
     prop: 'param10',
     isRow: true,
-    tooltip: '提示语'
+    tooltip: '提示语',
   },
   {
     type: 'slot',
     label: '自定义',
     prop: 'param11',
-    isRow: true
+    isRow: true,
   },
   {
     type: 'div-item',
     prop: 'slot1111',
-    label: 'hhhhh'
-  }
-]);
+    label: 'hhhhh',
+  },
+])
 
 function onLogin(val: any) {
-  if (loading.value) return;
+  if (loading.value)
+    return
   // FormRef.value.validate().then((res: any) => {
-  loading.value = true;
+  loading.value = true
   setTimeout(() => {
-    loading.value = false;
-    console.log('submit success!', val);
-  }, 2000);
+    loading.value = false
+    console.log('submit success!', val)
+  }, 2000)
   // });
 }
 
-const formData_2 = ref<any>({
+const formData_2: Ref<any> = ref<any>({
   label: '嵌套表单',
   item_1: [
     {
       name: undefined,
-      age: undefined
-    }
+      age: undefined,
+    },
   ],
   item_2: [
     {
       type: undefined,
-      open: false
-    }
-  ]
-});
+      open: false,
+    },
+  ],
+})
 
 const formItems_2 = [
   {
     type: 'label',
     label: '标题',
-    prop: 'label'
+    prop: 'label',
   },
   {
     type: 'itemSlot',
     label: '第一段',
-    prop: 'item_1'
+    prop: 'item_1',
   },
   {
     type: 'slot',
     label: '第二段',
-    prop: 'item_2'
-  }
-];
+    prop: 'item_2',
+  },
+]
 
 const item_1_form = [
   {
     type: 'input',
     label: '姓名',
     prop: 'name',
-    required: true
+    required: true,
   },
   {
     type: 'number',
     label: '年龄',
-    prop: 'age'
-  }
-];
+    prop: 'age',
+  },
+]
 
 const item_2_form = [
   {
@@ -444,69 +446,72 @@ const item_2_form = [
     rules: {
       required: true,
       message: '请选择活动类型',
-      trigger: 'blur'
+      trigger: 'blur',
     },
     options: [
       {
         label: '选项1',
-        value: 1
-      }
-    ]
+        value: 1,
+      },
+    ],
   },
   {
     type: 'switch',
     label: '开启',
-    prop: 'open'
-  }
-];
+    prop: 'open',
+  },
+]
 
 function addItem_1() {
   formData_2.value.item_1.push({
     name: undefined,
-    age: undefined
-  });
+    age: undefined,
+  })
 }
 
 function addItem_2() {
   formData_2.value.item_2.push({
     type: undefined,
-    open: false
-  });
+    open: false,
+  })
 }
 
 function removeItem_1(index: number) {
-  formData_2.value.item_1.splice(index, 1);
+  formData_2.value.item_1.splice(index, 1)
 }
 
 function removeItem_2(index: number) {
-  formData_2.value.item_2.splice(index, 1);
+  formData_2.value.item_2.splice(index, 1)
 }
 
-const read = ref(false);
+const read = ref(false)
 
 function onSubmit(res: any) {
-  console.log('onSubmit', res);
+  console.log('onSubmit', res)
 }
 
 function changeSelect(value: any, prop: string) {
-  console.log('changeSelect', value, prop);
-}
-function changeRadio(value: any, prop: string) {
-  console.log('changeRadio', value, prop);
+  console.log('changeSelect', value, prop)
 }
 
-const lsFormRef = ref();
+function changeRadio(value: any, prop: string) {
+  console.log('changeRadio', value, prop)
+}
+
+const lsFormRef = ref()
+
 function getContext() {
-  console.log('--- getContext ---');
-  const fields = lsFormRef.value.FormRef.fields || [];
+  console.log('--- getContext ---')
+  const fields = lsFormRef.value.FormRef.fields || []
   fields.forEach((item: any) => {
-    let props = item.prop;
+    let props = item.prop
+
     if (isArray(props)) {
-      props = props.join('.');
+      props = props.join('.')
     }
-    console.log(lsFormRef.value.FormRef.getField(props).fieldValue);
-  });
-  console.log('--- getContext ---');
+    console.log(lsFormRef.value.FormRef.getField(props).fieldValue)
+  })
+  console.log('--- getContext ---')
 }
 </script>
 
@@ -526,7 +531,9 @@ function getContext() {
     :hide-required-asterisk="false"
     @submit="onLogin"
   >
-    <template #slotTest-slot="{ row }"> dasdasd：{{ row }} </template>
+    <template #slotTest-slot="{ row }">
+      dasdasd：{{ row }}
+    </template>
   </LSFormText>
 
   <br />
@@ -538,8 +545,8 @@ function getContext() {
   {{ formData1 }}
   <LSFormText
     ref="FormRef1"
-    :read="read"
     v-model:form-data="formData1"
+    :read="read"
     :form-items="formItems1"
     :column="1"
     :loading="loading"
@@ -548,7 +555,9 @@ function getContext() {
     @on-change="changeSelect"
     @change-radio="changeRadio"
   >
-    <template #param1-input-prepend> 必填 </template>
+    <template #param1-input-prepend>
+      必填
+    </template>
 
     <template #param9-prepend>
       <div>注意事项</div>
@@ -577,15 +586,19 @@ function getContext() {
         <div v-for="(item, index) in formData_2.item_1" :key="index" class="item-center mb-24">
           <LSFormItem
             v-for="(fItem, i) in item_1_form"
-            :key="i + '-' + index"
+            :key="`${i}-${index}`"
             v-bind="fItem"
-            class="mr-24"
             v-model="formData_2.item_1[index][fItem.prop]"
+            class="mr-24"
             :prop="['item_1', index, fItem.prop]"
           ></LSFormItem>
-          <el-button type="danger" class="ml-12" @click="removeItem_1(index)">删除</el-button>
+          <el-button type="danger" class="ml-12" @click="removeItem_1(index as number)">
+            删除
+          </el-button>
         </div>
-        <el-button type="primary" class="mt-12" @click="addItem_1">添加</el-button>
+        <el-button type="primary" class="mt-12" @click="addItem_1">
+          添加
+        </el-button>
       </div>
     </template>
 
@@ -595,15 +608,19 @@ function getContext() {
           <div v-for="(item, index) in formData_2.item_2" :key="index" class="item-center mb-24">
             <LSFormItem
               v-for="(fItem, i) in item_2_form"
-              :key="i + '-' + index"
+              :key="`${i}-${index}`"
               v-bind="fItem"
-              class="mr-24"
               v-model="formData_2.item_2[index][fItem.prop]"
+              class="mr-24"
               :prop="['item_2', index, fItem.prop]"
             ></LSFormItem>
-            <el-button type="danger" class="ml-12" @click="removeItem_2(index)">删除</el-button>
+            <el-button type="danger" class="ml-12" @click="removeItem_2(index as number)">
+              删除
+            </el-button>
           </div>
-          <el-button type="primary" class="mt-12" @click="addItem_2">添加</el-button>
+          <el-button type="primary" class="mt-12" @click="addItem_2">
+            添加
+          </el-button>
         </div>
       </el-form-item>
     </template>
@@ -612,7 +629,9 @@ function getContext() {
   <!-- <el-button type="primary" :loading="loading" :disabled="loading" @click="onLogin">登 录</el-button> -->
 
   <!-- 获取字段的 context -->
-  <el-button type="primary" @click="getContext">获取字段的 context</el-button>
+  <el-button type="primary" @click="getContext">
+    获取字段的 context
+  </el-button>
 </template>
 
 <style scoped></style>

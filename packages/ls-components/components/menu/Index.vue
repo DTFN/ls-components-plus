@@ -45,135 +45,140 @@
  * />
  */
 
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsMenuProps, lsEmitNames, MenuBaseType } from './types';
-import useRouterHook from '@cpo/_hooks/useRouterHook';
-import MenuItem from './MenuItem.vue';
-import { lsMenuKey } from '@cpo/_constants/token';
+import type { MenuBaseType } from './types'
+import { lsMenuKey } from '@cpo/_constants/token'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import useRouterHook from '@cpo/_hooks/useRouterHook'
+import MenuItem from './MenuItem.vue'
+import { lsEmitNames, lsMenuProps } from './types'
 
-const { currentRouter } = useRouterHook();
+const props = defineProps(lsMenuProps)
 
-const ns = useNamespace('menu');
-const comClass: string = ns.b();
+const emits = defineEmits(lsEmitNames)
 
-const props = defineProps(lsMenuProps);
+const { currentRouter } = useRouterHook()
 
-const emits = defineEmits(lsEmitNames);
+const ns = useNamespace('menu')
+const comClass: string = ns.b()
 
-const useAttr = useAttrs();
+const useAttr = useAttrs()
 
-provide(lsMenuKey, { fontSize: props.fontSize });
+provide(lsMenuKey, { fontSize: props.fontSize })
 
-const isInit = ref(false);
-const selectedKeys: Ref<string> = ref('');
-const lsComMenuRef = ref();
+const isInit = ref(false)
+const selectedKeys: Ref<string> = ref('')
+const lsComMenuRef = ref()
 
 watch(
   () => props.permissionList,
-  nVal => {
+  (nVal) => {
     if (props.needPermission && nVal && nVal.length > 0) {
-      initMenuSider();
+      initMenuSider()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => currentRouter.value,
   () => {
-    initMenuSider();
+    initMenuSider()
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => useAttr['default-active'],
-  async val => {
+  async (val) => {
     if (val) {
-      await nextTick();
-      updateActiveClass(val.toString());
+      await nextTick()
+      updateActiveClass(val.toString())
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function initMenuSider() {
   if (!isInit.value) {
-    return;
+    return
   }
-  const { meta }: any = currentRouter?.value || {};
-  selectedKeys.value = meta?.key || '1';
+  const { meta }: any = currentRouter?.value || {}
+  selectedKeys.value = meta?.key || '1'
 }
 
 function onJump(item: MenuBaseType) {
-  emits('onJump', item);
+  emits('onJump', item)
 }
 
 function defineSubClickFunc(item: MenuBaseType) {
-  const { key } = item;
-  updateActiveClass(key);
-  emits('defineSubClick', item);
+  const { key } = item
+  updateActiveClass(key)
+  emits('defineSubClick', item)
 }
 
 function defineChildClickFunc(item: MenuBaseType) {
-  const { key } = item;
-  updateActiveClass(key);
-  emits('defineChildClick', item);
+  const { key } = item
+  updateActiveClass(key)
+  emits('defineChildClick', item)
 }
 
 function updateActiveClass(index: string | undefined) {
   if (lsComMenuRef.value) {
-    let isExists = false;
-    const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu');
-    const menuItemDom = lsComMenuRef.value.$el.querySelectorAll('.el-menu-item');
-    const subActiveCss = 'is-sub-active';
-    const menuActiveCss = 'is-active';
+    let isExists = false
+    const subMenuDom = lsComMenuRef.value.$el.querySelectorAll('.el-sub-menu')
+    const menuItemDom = lsComMenuRef.value.$el.querySelectorAll('.el-menu-item')
+    const subActiveCss = 'is-sub-active'
+    const menuActiveCss = 'is-active'
     menuItemDom.forEach((n: any) => {
-      const classNames = Array.from(n.classList);
+      const classNames = Array.from(n.classList)
+
       if (classNames.includes(menuActiveCss)) {
-        n.classList.remove(menuActiveCss);
+        n.classList.remove(menuActiveCss)
       }
+
       if (index === n.dataset.index) {
-        isExists = true;
-        n.classList.add(menuActiveCss);
+        isExists = true
+        n.classList.add(menuActiveCss)
       }
-    });
+    })
     subMenuDom.forEach((n: any) => {
-      const classNames = Array.from(n.classList);
+      const classNames = Array.from(n.classList)
+
       if (classNames.includes(subActiveCss)) {
-        n.classList.remove(subActiveCss);
+        n.classList.remove(subActiveCss)
       }
+
       if (!isExists && index === n.dataset.index) {
-        n.classList.add(subActiveCss);
+        n.classList.add(subActiveCss)
       }
-    });
+    })
   }
 }
 
 onMounted(() => {
-  isInit.value = true;
-  initMenuSider();
-});
+  isInit.value = true
+  initMenuSider()
+})
 
 defineExpose({
-  lsComMenuRef
-});
+  lsComMenuRef,
+})
 </script>
 
 <template>
   <el-menu ref="lsComMenuRef" :default-active="selectedKeys" v-bind="$attrs" :class="comClass">
     <MenuItem
       v-for="item in menuConfigList"
-      :key="item['key']"
+      :key="item.key"
       :item="item"
       :permission-list="permissionList"
       :need-permission="needPermission"
@@ -183,7 +188,9 @@ defineExpose({
       @define-sub-click="defineSubClickFunc"
       @define-child-click="defineChildClickFunc"
     >
-      <template #[item.iconSlot]><slot :name="item.iconSlot"></slot></template>
+      <template #[item.iconSlot]>
+        <slot :name="item.iconSlot"></slot>
+      </template>
     </MenuItem>
   </el-menu>
 </template>

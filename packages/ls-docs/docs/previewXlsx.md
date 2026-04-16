@@ -27,14 +27,27 @@ exclude: ['pdfjs-dist', 'luckyexcel']
   rel="stylesheet"
   href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css"
 />
-<link rel="stylesheet" href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css" />
-<link rel="stylesheet" href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css" />
+<link
+  rel="stylesheet"
+  href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css"
+/>
 <link
   rel="stylesheet"
   href="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/assets/iconfont/iconfont.css"
 />
-<script src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js" async></script>
-<script src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js" async></script>
+<script
+  src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js"
+  async
+></script>
+<script
+  src="https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js"
+  async
+></script>
+
 ```
 
 #### 2. 将资源文件夹放在public文件夹下
@@ -57,27 +70,32 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible1 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible1 = ref(false)
+const source1 = ref(null)
 
 // 加载本地Excel文件
 async function loadLocalXlsxFile() {
   try {
-    const response = await axios.get(location.origin + '/files/222.xlsx', { responseType: 'arraybuffer' });
-    const file = new File([new Blob([response.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' });
-    return file;
-  } catch (error) {
-    console.error('加载Excel文件出错:', error);
-    return null;
+    const response = await axios.get(`${location.origin}/files/222.xlsx`, { responseType: 'arraybuffer' })
+    const file = new File([new Blob([response.data], { type: 'text/plain' })], '222.xlsx', { type: 'text/plain' })
+
+    return file
+  }
+  catch (error) {
+    console.error('加载Excel文件出错:', error)
+
+    return null
   }
 }
 
 async function loadXlsxFile() {
   // 加载本地Excel文件
-  source1.value = await loadLocalXlsxFile();
+  source1.value = await loadLocalXlsxFile()
+
   if (source1.value) {
-    previewVisible1.value = true;
+    previewVisible1.value = true
   }
 }
 ```
@@ -85,6 +103,7 @@ async function loadXlsxFile() {
 ```html
 <LSPreviewXlsx v-model="previewVisible1" :source="source1" :on-close="() => { previewVisible1 = false; }" />
 <LSButton @click="loadXlsxFile">点击预览Excel文档</LSButton>
+
 ```
 
 :::
@@ -100,20 +119,22 @@ async function loadXlsxFile() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible2 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible2 = ref(false)
+const source1 = ref(null)
 const watermarkOption = ref({
   content: '临港集团',
   fontSize: 16,
   color: 'rgba(0, 0, 0, 0.1)'
-});
+})
 
 async function loadXlsxFileWithWatermark() {
   // 加载本地Excel文件
-  source1.value = await loadLocalXlsxFile();
+  source1.value = await loadLocalXlsxFile()
+
   if (source1.value) {
-    previewVisible2.value = true;
+    previewVisible2.value = true
   }
 }
 ```
@@ -127,6 +148,7 @@ async function loadXlsxFileWithWatermark() {
   :on-close="() => { previewVisible2 = false; }"
 />
 <LSButton @click="loadXlsxFileWithWatermark">点击预览带水印Excel文档</LSButton>
+
 ```
 
 :::
@@ -142,20 +164,22 @@ async function loadXlsxFileWithWatermark() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible3 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible3 = ref(false)
+const source1 = ref(null)
 
 async function loadXlsxFileWithDownload() {
   // 加载本地Excel文件
-  source1.value = await loadLocalXlsxFile();
+  source1.value = await loadLocalXlsxFile()
+
   if (source1.value) {
-    previewVisible3.value = true;
+    previewVisible3.value = true
   }
 }
 
 function handleXlsxDownload(data) {
-  console.log('下载Excel文档:', data);
+  console.log('下载Excel文档:', data)
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -169,6 +193,7 @@ function handleXlsxDownload(data) {
   :on-close="() => { previewVisible3 = false; }"
 />
 <LSButton @click="loadXlsxFileWithDownload">点击预览带下载功能Excel文档</LSButton>
+
 ```
 
 :::
@@ -191,20 +216,22 @@ function handleXlsxDownload(data) {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible5 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible5 = ref(false)
+const source1 = ref(null)
 
 async function loadXlsxFileWithCustomControls() {
   // 加载本地Excel文件
-  source1.value = await loadLocalXlsxFile();
+  source1.value = await loadLocalXlsxFile()
+
   if (source1.value) {
-    previewVisible5.value = true;
+    previewVisible5.value = true
   }
 }
 
 function handleXlsxDownload(data) {
-  console.log('下载Excel文档:', data);
+  console.log('下载Excel文档:', data)
 }
 ```
 
@@ -218,6 +245,7 @@ function handleXlsxDownload(data) {
   </template>
 </LSPreviewXlsx>
 <LSButton @click="loadXlsxFileWithCustomControls">点击预览自定义控制栏Excel文档</LSButton>
+
 ```
 
 ```scss
@@ -229,6 +257,7 @@ function handleXlsxDownload(data) {
   display: flex;
   gap: 10px;
 }
+
 ```
 
 :::
@@ -306,8 +335,6 @@ async function loadXlsxFileWithDownload() {
     previewVisible3.value = true;
   }
 }
-
-
 
 // 示例5
 const previewVisible5 = ref(false);

@@ -24,46 +24,47 @@
  *   <FullHDContent />
  * </LSContainerBox>
  */
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsContainerBoxProps } from './types';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { lsContainerBoxProps } from './types'
 
-const ns = useNamespace('container-box');
-const comClass: string = ns.b();
+const props = defineProps(lsContainerBoxProps)
+const ns = useNamespace('container-box')
+const comClass: string = ns.b()
 
-const lsContainerBoxRef = ref();
+const lsContainerBoxRef = ref()
 
-const scale = ref(1);
-const props = defineProps(lsContainerBoxProps);
+const scale = ref(1)
 
-const getScale = () => {
+function getScale() {
   // 固定16： 9
-  const wh = window.innerHeight / props.height;
-  const ww = window.innerWidth / props.width;
-  scale.value = ww < wh ? ww : wh;
-};
+  const wh = window.innerHeight / props.height
+  const ww = window.innerWidth / props.width
+  scale.value = ww < wh ? ww : wh
+}
 
-const debounce = (fn: Function, delay: number = 500) => {
-  const delays = delay;
-  let timer: any = null;
+function debounce(fn: (...args: any) => void, delay: number = 500) {
+  const delays = delay
+  let timer: any = null
+
   return function (...args: any) {
     if (timer) {
-      clearTimeout(timer);
+      clearTimeout(timer)
     }
     timer = setTimeout(() => {
-      fn.apply((window as any).this, args);
-      window.clearTimeout(timer);
-    }, delays);
-  };
-};
+      fn.apply((window as any).this, args)
+      window.clearTimeout(timer)
+    }, delays)
+  }
+}
 
 onMounted(() => {
-  getScale();
-  window.addEventListener('resize', debounce(getScale));
-});
+  getScale()
+  window.addEventListener('resize', debounce(getScale))
+})
 </script>
 
 <template>
-  <div :class="comClass" ref="lsContainerBoxRef">
+  <div ref="lsContainerBoxRef" :class="comClass">
     <slot></slot>
   </div>
 </template>

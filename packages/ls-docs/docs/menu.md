@@ -18,7 +18,7 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const MENU_CONFIG_LIST = [
   {
@@ -86,7 +86,7 @@ const MENU_CONFIG_LIST = [
     pCode: 'c7',
     leaf: true
   }
-];
+]
 ```
 
 ```html
@@ -120,7 +120,7 @@ const MENU_CONFIG_LIST = [
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const MENU_CONFIG_LIST2 = [
   {
@@ -145,25 +145,25 @@ const MENU_CONFIG_LIST2 = [
       }
     ]
   }
-];
-const blockIndex = ref(0);
-const defaultActive = ref('1');
+]
+const blockIndex = ref(0)
+const defaultActive = ref('1')
 
 function blockClick(val) {
-  blockIndex.value = val;
-  defaultActive.value = (val + 1).toString();
+  blockIndex.value = val
+  defaultActive.value = (val + 1).toString()
 }
 
 function defineSubClickFunc(item) {
-  const { key } = item;
-  blockIndex.value = key?.split('-')[0] - 1;
-  defaultActive.value = key;
+  const { key } = item
+  blockIndex.value = key?.split('-')[0] - 1
+  defaultActive.value = key
 }
 
 function defineChildClickFunc(item) {
-  const { key } = item;
-  blockIndex.value = key?.split('-')[0] - 1;
-  defaultActive.value = key;
+  const { key } = item
+  blockIndex.value = key?.split('-')[0] - 1
+  defaultActive.value = key
 }
 ```
 
@@ -215,11 +215,11 @@ function defineChildClickFunc(item) {
 ### 3. 带权限控制的菜单
 
 <ClientOnly>
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST" 
+<LSMenu
+  :menu-config-list="MENU_CONFIG_LIST"
   :need-permission="true"
   :permission-list="['c1', 'c2', 'c21', 'c22']"
-  class="menu-wrap" 
+  class="menu-wrap"
 />
 </ClientOnly>
 
@@ -227,11 +227,16 @@ function defineChildClickFunc(item) {
 
 ```js
 // 权限列表只包含 c1, c2, c21, c22
-const permissionList = ['c1', 'c2', 'c21', 'c22'];
+const permissionList = ['c1', 'c2', 'c21', 'c22']
 ```
 
 ```html
-<LSMenu :menu-config-list="MENU_CONFIG_LIST" :need-permission="true" :permission-list="permissionList" class="menu-wrap" />
+<LSMenu
+  :menu-config-list="MENU_CONFIG_LIST"
+  :need-permission="true"
+  :permission-list="permissionList"
+  class="menu-wrap"
+/>
 ```
 
 :::
@@ -239,10 +244,10 @@ const permissionList = ['c1', 'c2', 'c21', 'c22'];
 ### 4. 带自定义字体大小的菜单
 
 <ClientOnly>
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST3" 
+<LSMenu
+  :menu-config-list="MENU_CONFIG_LIST3"
   :font-size="16"
-  class="menu-wrap" 
+  class="menu-wrap"
 />
 </ClientOnly>
 
@@ -277,7 +282,7 @@ const MENU_CONFIG_LIST3 = [
       }
     ]
   }
-];
+]
 ```
 
 ```html
@@ -289,10 +294,10 @@ const MENU_CONFIG_LIST3 = [
 ### 5. 禁用 Tooltip 的菜单
 
 <ClientOnly>
-<LSMenu 
-  :menu-config-list="MENU_CONFIG_LIST3" 
+<LSMenu
+  :menu-config-list="MENU_CONFIG_LIST3"
   :show-tooltip="false"
-  class="menu-wrap" 
+  class="menu-wrap"
 />
 </ClientOnly>
 
@@ -340,7 +345,7 @@ const MENU_CONFIG_LIST4 = [
       }
     ]
   }
-];
+]
 ```
 
 ```html
@@ -388,7 +393,7 @@ const menuItem = {
     requiresAuth: true,
     title: '页面标题'
   }
-};
+}
 ```
 
 ### 2. 图标配置
@@ -402,13 +407,13 @@ const menuWithIcon = {
     color: '#409EFF', // 图标颜色
     size: 16 // 图标大小
   }
-};
+}
 
 // 使用自定义图标插槽
 const menuWithCustomIcon = {
   title: '菜单名称',
   iconSlot: 'custom-icon' // 插槽名称
-};
+}
 ```
 
 ### 3. 子菜单配置
@@ -427,7 +432,7 @@ const menuWithChildren = {
       key: 'child-key-2'
     }
   ]
-};
+}
 ```
 
 ### 4. 外链配置
@@ -436,7 +441,7 @@ const menuWithChildren = {
 const menuWithLink = {
   title: '外部链接',
   link: 'https://www.example.com' // 配置后会在新窗口打开
-};
+}
 ```
 
 ### 5. 图标字符串配置
@@ -446,7 +451,7 @@ const menuWithIconString = {
   title: '菜单名称',
   icon: 'House', // 直接使用图标名称，与 iconConfig 二选一
   key: 'menu-key'
-};
+}
 ```
 
 ### 6. 权限控制
@@ -472,7 +477,7 @@ const menuWithRedirect = {
   title: '带重定向的菜单',
   path: '/dashboard',
   redirect: '/dashboard/overview' // 访问 /dashboard 时自动重定向
-};
+}
 ```
 
 ### 8. 特殊配置
@@ -492,7 +497,7 @@ const specialMenu = {
 
   // 是否显示为图标菜单（收缩时）
   iconSlot: 'custom-icon-name'
-};
+}
 ```
 
 ### 5. 权限控制
@@ -525,7 +530,7 @@ const specialMenu = {
 
   // 是否自定义跳转处理
   defJump: true
-};
+}
 ```
 
 ## 路由生成与管理
@@ -685,14 +690,14 @@ const localizedMenu = computed(() => {
 结合媒体查询和状态管理，实现响应式菜单：
 
 ```js
-const isCollapse = ref(false);
+const isCollapse = ref(false)
 
 // 监听窗口大小变化
 function handleResize() {
-  isCollapse.value = window.innerWidth < 768;
+  isCollapse.value = window.innerWidth < 768
 }
 
-window.addEventListener('resize', handleResize);
+window.addEventListener('resize', handleResize)
 ```
 
 ```html
