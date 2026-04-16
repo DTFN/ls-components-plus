@@ -51,8 +51,6 @@ export { default as LSMap } from '@cpo/map/Index.vue'
 
 export { default as LSMenu } from '@cpo/menu/Index.vue'
 
-export { default as LSPreview } from '@cpo/preview/Index.vue'
-
 export { default as LSPreviewDocx } from '@cpo/preview_docx/Index.vue'
 
 export { default as LSPreviewImage } from '@cpo/preview_image/Index.vue'
