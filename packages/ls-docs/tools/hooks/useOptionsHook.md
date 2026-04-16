@@ -518,7 +518,3 @@ function handleDemoReset() {
   margin-top: 10px;
 }
 </style>
-
-```
-
-```
