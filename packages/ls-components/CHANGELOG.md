@@ -1,3 +1,24 @@
+## [2.5.2](https://github.com/DTFN/ls-components-plus/compare/v2.5.1...v2.5.2) (2026-04-16)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 u0pdate ([3a5df5c](https://github.com/DTFN/ls-components-plus/commit/3a5df5cb9a37fd5cf518575938e0758e057b3559))
+* **ls-component:** 🧩 update ([0779e8b](https://github.com/DTFN/ls-components-plus/commit/0779e8b8aa398e590998b57c795f4fdf86ef4645))
+* **ls-component:** 🧩 update ([07b358a](https://github.com/DTFN/ls-components-plus/commit/07b358a2bae41fcaf74b5d9df935b81f785381e1))
+* **ls-component:** 🧩 update ([9e085f1](https://github.com/DTFN/ls-components-plus/commit/9e085f1ca1a2bcf896208912c5543396436f9e37))
+* **ls-component:** 🧩 update ([5c7166e](https://github.com/DTFN/ls-components-plus/commit/5c7166e3dce45a752d864346466618c5ab89b334))
+* **ls-component:** 🧩 update ([d08ca92](https://github.com/DTFN/ls-components-plus/commit/d08ca92f717f9af74219a8d70abf75722b8be2d5))
+* **ls-component:** 🧩 update ([696bef0](https://github.com/DTFN/ls-components-plus/commit/696bef02d0f98c7e61c4be6d547f2da98547aa19))
+* **ls-component:** 🧩 update ([77e27af](https://github.com/DTFN/ls-components-plus/commit/77e27af303ab7c717fc1c6c315ba316cdb6452ae))
+* **ls-component:** 🧩 update ([1767b2e](https://github.com/DTFN/ls-components-plus/commit/1767b2ef70e05f616e0dfab776de5b6097e41aac))
+* **ls-component:** 🧩 所有组件注释完善 ([4dbd7e4](https://github.com/DTFN/ls-components-plus/commit/4dbd7e4b77caa1145ba3cdc138e0fe86520545ff))
+* **ls-doc:** 🧩 update ([d623617](https://github.com/DTFN/ls-components-plus/commit/d62361721a8dbcb52c6e239943d1d1af9c47d5df))
+* **ls-doc:** 🧩 update ([7a6aeab](https://github.com/DTFN/ls-components-plus/commit/7a6aeab9525c543045a8b5d3ef73994955dbde1c))
+* **ls-doc:** 🧩 update ([807d9c3](https://github.com/DTFN/ls-components-plus/commit/807d9c34f34e1155639bc759e77972f7238e6c78))
+* **ls-doc:** 🧩 update ([f1ffda1](https://github.com/DTFN/ls-components-plus/commit/f1ffda1b77f2b4fb6629dbeb3b8cb81c4cdf3f08))
+* **ls-doc:** 🧩 update ([55ee9e6](https://github.com/DTFN/ls-components-plus/commit/55ee9e653f3057f1a1cdb735e32df4af5b3ab9ec))
+
 ## [2.5.1](https://github.com/DTFN/ls-components-plus/compare/v2.5.0...v2.5.1) (2026-04-07)
 
 
