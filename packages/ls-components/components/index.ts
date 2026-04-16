@@ -24,7 +24,6 @@ import LSList from './list/index'
 import LSLive from './live/index'
 import LSMap from './map/index'
 import LSMenu from './menu/index'
-import LSPreview from './preview/index'
 import LSPreviewDocx from './preview_docx/index'
 import LSPreviewImage from './preview_image/index'
 import LSPreviewPdf from './preview_pdf/index'
@@ -40,7 +39,6 @@ const components: Record<string, Plugin> = {
   LSButton,
   LSDescriptions,
   LSUpload,
-  LSPreview,
   LSForm,
   LSFormItem,
   LSTable,
