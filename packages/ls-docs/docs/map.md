@@ -78,6 +78,177 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 
 :::
 
+### 中国地图
+
+<ClientOnly>
+<div ref="chinaMapRef" class="china-map-container"></div>
+</ClientOnly>
+
+::: details 点我查看代码
+
+```js
+import * as echarts from 'echarts';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const chinaMapRef = ref(null);
+let chartInstance = null;
+
+const chinaMapData = [
+  { name: '北京', value: 350 },
+  { name: '天津', value: 120 },
+  { name: '河北', value: 280 },
+  { name: '山西', value: 150 },
+  { name: '内蒙古', value: 90 },
+  { name: '辽宁', value: 220 },
+  { name: '吉林', value: 130 },
+  { name: '黑龙江', value: 180 },
+  { name: '上海', value: 420 },
+  { name: '江苏', value: 380 },
+  { name: '浙江', value: 360 },
+  { name: '安徽', value: 200 },
+  { name: '福建', value: 240 },
+  { name: '江西', value: 170 },
+  { name: '山东', value: 320 },
+  { name: '河南', value: 290 },
+  { name: '湖北', value: 260 },
+  { name: '湖南', value: 230 },
+  { name: '广东', value: 450 },
+  { name: '广西', value: 160 },
+  { name: '海南', value: 80 },
+  { name: '重庆', value: 190 },
+  { name: '四川', value: 310 },
+  { name: '贵州', value: 140 },
+  { name: '云南', value: 180 },
+  { name: '西藏', value: 30 },
+  { name: '陕西', value: 210 },
+  { name: '甘肃', value: 100 },
+  { name: '青海', value: 50 },
+  { name: '宁夏', value: 70 },
+  { name: '新疆', value: 90 },
+  { name: '台湾', value: 60 },
+  { name: '香港', value: 180 },
+  { name: '澳门', value: 50 }
+];
+
+async function initChinaMap() {
+  const response = await fetch('/china.json');
+  const chinaJson = await response.json();
+  echarts.registerMap('china', chinaJson);
+
+  chartInstance = echarts.init(chinaMapRef.value);
+
+  const option = {
+    title: {
+      text: '中国地图数据分布',
+      left: 'center',
+      top: 20,
+      textStyle: {
+        color: '#1E293B',
+        fontSize: 18,
+        fontWeight: 600
+      }
+    },
+    tooltip: {
+      trigger: 'item',
+      backgroundColor: 'rgba(30, 41, 59, 0.95)',
+      borderColor: 'transparent',
+      borderWidth: 0,
+      textStyle: { color: '#F8FAFC', fontSize: 13 },
+      formatter: function (params) {
+        if (params.value) {
+          return `<div style="padding:4px 8px;">
+            <div style="font-weight:600;margin-bottom:4px;">${params.name}</div>
+            <div style="color:#94A3B8;">数据量：<span style="color:#F8FAFC;font-weight:500;">${params.value}</span></div>
+          </div>`;
+        }
+        return params.name;
+      }
+    },
+    visualMap: {
+      min: 0,
+      max: 500,
+      left: 'left',
+      top: 'bottom',
+      text: ['高', '低'],
+      textStyle: { color: '#64748B' },
+      inRange: {
+        color: ['#E0F2FE', '#7DD3FC', '#38BDF8', '#0EA5E9', '#0284C7', '#0369A1']
+      },
+      calculable: true
+    },
+    geo: {
+      map: 'china',
+      roam: true,
+      zoom: 1.2,
+      center: [104, 36],
+      label: {
+        show: true,
+        color: '#475569',
+        fontSize: 10
+      },
+      emphasis: {
+        label: {
+          show: true,
+          color: '#1E293B',
+          fontWeight: 600
+        },
+        itemStyle: {
+          areaColor: '#FCD34D',
+          shadowBlur: 20,
+          shadowColor: 'rgba(252, 211, 77, 0.5)'
+        }
+      },
+      itemStyle: {
+        areaColor: '#E2E8F0',
+        borderColor: '#94A3B8',
+        borderWidth: 0.5
+      }
+    },
+    series: [
+      {
+        name: '数据分布',
+        type: 'map',
+        map: 'china',
+        geoIndex: 0,
+        data: chinaMapData,
+        selectedMode: 'single'
+      }
+    ]
+  };
+
+  chartInstance.setOption(option);
+}
+
+function handleResize() {
+  chartInstance && chartInstance.resize();
+}
+
+onMounted(() => {
+  initChinaMap();
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+  chartInstance && chartInstance.dispose();
+});
+```
+
+```html
+<div ref="chinaMapRef" class="china-map-container"></div>
+```
+
+```scss
+.china-map-container {
+  width: 100%;
+  height: 500px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+```
+
+:::
+
 ## API
 
 ### 1. Attributes
@@ -86,7 +257,8 @@ const markerDialogContent = ref(`<div class='point-wrap'>
 
 <script setup>
 import { tableColumn } from '../constant';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import * as echarts from 'echarts';
 
 const markerList = ref([
   {
@@ -101,6 +273,150 @@ const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='title'>地点</div>
   <div class='value'>上海</div>
 </div>`);
+
+// 中国地图相关
+const chinaMapRef = ref(null);
+let chartInstance = null;
+
+const chinaMapData = [
+  { name: '北京', value: 350 },
+  { name: '天津', value: 120 },
+  { name: '河北', value: 280 },
+  { name: '山西', value: 150 },
+  { name: '内蒙古', value: 90 },
+  { name: '辽宁', value: 220 },
+  { name: '吉林', value: 130 },
+  { name: '黑龙江', value: 180 },
+  { name: '上海', value: 420 },
+  { name: '江苏', value: 380 },
+  { name: '浙江', value: 360 },
+  { name: '安徽', value: 200 },
+  { name: '福建', value: 240 },
+  { name: '江西', value: 170 },
+  { name: '山东', value: 320 },
+  { name: '河南', value: 290 },
+  { name: '湖北', value: 260 },
+  { name: '湖南', value: 230 },
+  { name: '广东', value: 450 },
+  { name: '广西', value: 160 },
+  { name: '海南', value: 80 },
+  { name: '重庆', value: 190 },
+  { name: '四川', value: 310 },
+  { name: '贵州', value: 140 },
+  { name: '云南', value: 180 },
+  { name: '西藏', value: 30 },
+  { name: '陕西', value: 210 },
+  { name: '甘肃', value: 100 },
+  { name: '青海', value: 50 },
+  { name: '宁夏', value: 70 },
+  { name: '新疆', value: 90 },
+  { name: '台湾', value: 60 },
+  { name: '香港', value: 180 },
+  { name: '澳门', value: 50 }
+];
+
+async function initChinaMap() {
+  const response = await fetch('/china.json');
+  const chinaJson = await response.json();
+  echarts.registerMap('china', chinaJson);
+  
+  chartInstance = echarts.init(chinaMapRef.value);
+  
+  const option = {
+    title: {
+      text: '中国地图数据分布',
+      left: 'center',
+      top: 20,
+      textStyle: {
+        color: '#1E293B',
+        fontSize: 18,
+        fontWeight: 600
+      }
+    },
+    tooltip: {
+      trigger: 'item',
+      backgroundColor: 'rgba(30, 41, 59, 0.95)',
+      borderColor: 'transparent',
+      borderWidth: 0,
+      textStyle: { color: '#F8FAFC', fontSize: 13 },
+      formatter: function(params) {
+        if (params.value) {
+          return `<div style="padding:4px 8px;">
+            <div style="font-weight:600;margin-bottom:4px;">${params.name}</div>
+            <div style="color:#94A3B8;">数据量：<span style="color:#F8FAFC;font-weight:500;">${params.value}</span></div>
+          </div>`;
+        }
+        return params.name;
+      }
+    },
+    visualMap: {
+      min: 0,
+      max: 500,
+      left: 'left',
+      top: 'bottom',
+      text: ['高', '低'],
+      textStyle: { color: '#64748B' },
+      inRange: {
+        color: ['#E0F2FE', '#7DD3FC', '#38BDF8', '#0EA5E9', '#0284C7', '#0369A1']
+      },
+      calculable: true
+    },
+    geo: {
+      map: 'china',
+      roam: true,
+      zoom: 1.2,
+      center: [104, 36],
+      label: {
+        show: true,
+        color: '#475569',
+        fontSize: 10
+      },
+      emphasis: {
+        label: {
+          show: true,
+          color: '#1E293B',
+          fontWeight: 600
+        },
+        itemStyle: {
+          areaColor: '#FCD34D',
+          shadowBlur: 20,
+          shadowColor: 'rgba(252, 211, 77, 0.5)'
+        }
+      },
+      itemStyle: {
+        areaColor: '#E2E8F0',
+        borderColor: '#94A3B8',
+        borderWidth: 0.5
+      }
+    },
+    series: [
+      {
+        name: '数据分布',
+        type: 'map',
+        map: 'china',
+        geoIndex: 0,
+        data: chinaMapData,
+        selectedMode: 'single'
+      }
+    ]
+  };
+  
+  chartInstance.setOption(option);
+}
+
+function handleResize() {
+  chartInstance && chartInstance.resize();
+}
+
+onMounted(() => {
+  initChinaMap();
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+  chartInstance && chartInstance.dispose();
+});
 
 
 const tableData = ref([
@@ -243,5 +559,12 @@ const tableData = ref([
       margin-bottom: 0;
     }
   }
+}
+
+.china-map-container {
+  width: 100%;
+  height: 500px;
+  background-color: #F8FAFC;
+  border-radius: 8px;
 }
 </style>

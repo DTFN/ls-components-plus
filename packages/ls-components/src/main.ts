@@ -21,7 +21,7 @@ import LSWebPlus from '@cpo/main';
 // import LSLayout from '../lib/layout/';
 
 import 'element-plus/dist/index.css';
-// import '../lib/index.css';
+import '../lib/index.css';
 
 const app = createApp(App);
 

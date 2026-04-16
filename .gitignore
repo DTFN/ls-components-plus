@@ -12,6 +12,10 @@ lerna-debug.log*
 .history/
 .trae/
 .agents/
+.claude/
+.codebuddy/
+agent-data/
+skills-lock.json
 node_modules/
 dist
 dist-ssr

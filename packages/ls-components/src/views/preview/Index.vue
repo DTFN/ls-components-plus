@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import axios from 'axios';
-import docx from '@/assets/files/markdown2.docx?url';
+import docx from '@/assets/files/111.docx?url';
 // import xlsx from '@/assets/files/111.xlsx?url';
 // import xlsx from '@/assets/files/222.xlsx?url';
-import xlsx from '@/assets/files/test.xlsx?url';
+import xlsx from '@/assets/files/222.xlsx?url';
 // import xlsx from 'D:/download/666.xlsx?url';
 // import xlsx from 'D:/download/777.xlsx?url';
 import pdf from '@/assets/files/777.pdf';
@@ -209,11 +209,11 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :download-data="downloadData"
       @on-download="download"
     >
-      <template #extra>
+      <!-- <template #extra>
         <div class="extra-wrap">
           <el-image :src="src" />
         </div>
-      </template>
+      </template> -->
     </LSPreviewXlsx>
 
     <!-- <el-image

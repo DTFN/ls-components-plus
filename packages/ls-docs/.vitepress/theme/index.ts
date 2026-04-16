@@ -1,9 +1,9 @@
-import { App } from 'vue';
 import Theme from 'vitepress/theme';
-import './style.scss';
-import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
-import ApiIntro from './components/ApiIntro.vue';
+import { App } from 'vue';
 import print from 'vue3-print-nb';
+import ApiIntro from './components/ApiIntro.vue';
+import ArticleMetadata from './components/ArticleMetadata.vue'; // 字数阅读时间
+import './style.scss';
 // import { defineClientComponent } from 'vitepress';
 
 import 'element-plus/dist/index.css';
@@ -93,10 +93,12 @@ export default Object.assign({}, Theme, {
     //   app.component(item.name, item);
     // });
 
-    if (!import.meta.env.SSR) {
+    if (import.meta.env.MODE === 'development') {
+      const LSWebPlus = await import('@lingshugroup/web-plus');
+      app.use(LSWebPlus);
+    } else if (!import.meta.env.SSR) {
       const plugin = await import('@lingshugroup/web-plus');
       app.use(plugin.default);
     }
-    // app.use(LSWebPlus);
   }
 });

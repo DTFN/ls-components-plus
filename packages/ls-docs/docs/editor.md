@@ -17,7 +17,7 @@ outline: deep
 
 <br />
 <ClientOnly>
-<LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" :uploadImgSize="1" height="400px" @handle-created="handleCreated" />
+<LSEditor ref="lsEditorRef" :valueHtml="valueHtml" :upload-server="uploadServer" :upload-token="uploadToken" height="400px" @handle-created="handleCreated" />
 </ClientOnly>
 
 ::: details 点我查看代码
@@ -47,6 +47,7 @@ function handleCreated(editor) {
 ```html
 <LSEditor
   ref="lsEditorRef"
+  :valueHtml="valueHtml"
   :upload-server="uploadServer"
   :upload-token="uploadToken"
   height="400px"
@@ -105,6 +106,8 @@ const editorConfig = {
 
 ```js
 import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
+
 const lsEditorRef = ref();
 
 const content = ref('');
@@ -136,6 +139,7 @@ function getContent() {
 
 ```js
 import { ref } from 'vue';
+
 const lsEditorRef4 = ref();
 
 // 自定义工具栏配置
@@ -237,7 +241,9 @@ const readOnlyContent = ref(`
 
 ```js
 import { ref } from 'vue';
+
 const lsEditorRef6 = ref();
+const valueHtml6 = ref(`<div>初始内容</div>`);
 const changeCount = ref(0);
 
 // 监听内容变更
@@ -248,7 +254,7 @@ function handleChange(editor) {
 ```
 
 ```html
-<LSEditor ref="lsEditorRef6" @handle-change="handleChange" height="400px" />
+<LSEditor ref="lsEditorRef6" :valueHtml="valueHtml6" @handle-change="handleChange" height="400px" />
 <div>内容变更次数： {{ changeCount }}</div>
 ```
 
@@ -260,7 +266,19 @@ function handleChange(editor) {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-### 2. Exposes
+### 2. Events
+
+| 事件名 | 说明 | 回调参数 |
+| --- | --- | --- |
+| handle-created | 编辑器创建完成时触发 | `(editor: Editor) => void` |
+| handle-change | 编辑器内容变化时触发 | `(editor: Editor) => void` |
+| handle-destroyed | 编辑器销毁时触发 | `(editor: Editor) => void` |
+| handle-focus | 编辑器获得焦点时触发 | `(editor: Editor) => void` |
+| handle-blur | 编辑器失去焦点时触发 | `(editor: Editor) => void` |
+| custom-alert | 自定义 alert 事件 | `(info: string, type: string) => void` |
+| custom-paste | 自定义粘贴事件 | `(editor: Editor, event: ClipboardEvent, callback: Function) => void` |
+
+### 3. Exposes
 
 <ApiIntro :tableColumn="tableExposesColumn" :tableData="tableData2" />
 
@@ -340,7 +358,7 @@ const editorConfig = {
 function getContent() {
   const editor = lsEditorRef.value.editorRef;
   content.value = editor.getText();
-  contentHtml.value = editor.getHtml()
+  contentHtml.value = editor.getHtml();
 }
 
 function handleCreated(editor) {
@@ -366,7 +384,7 @@ const tableData = ref([
     name: 'valueHtml',
     desc: '富文本内容，用于回显',
     type: 'string',
-    value: '-'
+    value: "''"
   },
   {
     name: 'height',
@@ -376,33 +394,33 @@ const tableData = ref([
   },
   {
     name: 'mode',
-    desc: '富文本展示模式',
+    desc: '编辑器模式，可选值: default / simple',
     type: 'string',
     value: 'default'
   },
   {
     name: 'toolbarConfig',
-    desc: '富文本工具栏配置，同wangeditor一致',
-    type: 'json',
+    desc: '富文本工具栏配置，同 wangeditor 一致',
+    type: 'object',
     value: '{}'
   },
   {
     name: 'editorConfig',
-    desc: '富文本编辑器配置，同wangeditor一致',
-    type: 'json',
+    desc: '富文本编辑器配置，同 wangeditor 一致',
+    type: 'object',
     value: '{}'
   },
   {
     name: 'uploadServer',
     desc: '上传图片服务器地址',
     type: 'string',
-    value: '-'
+    value: "''"
   },
   {
     name: 'uploadToken',
-    desc: '上传图片所需token，如接口不需要则不传',
+    desc: '上传图片所需 token，如接口不需要则不传',
     type: 'string',
-    value: '-'
+    value: "''"
   },
   {
     name: 'uploadFieldName',
@@ -412,8 +430,8 @@ const tableData = ref([
   },
   {
     name: 'uploadHeaders',
-    desc: '图片上传请求头参数',
-    type: 'json',
+    desc: '图片上传请求头参数（优先级高于 uploadToken）',
+    type: 'object',
     value: 'null'
   },
   {
@@ -424,14 +442,14 @@ const tableData = ref([
   },
   {
     name: 'uploadImgSizeUnit',
-    desc: '图片上传大小限制单位，GB/MB/KB',
+    desc: '图片上传大小限制单位（GB/MB/KB）',
     type: 'string',
     value: 'MB'
   },
   {
     name: 'containerDom',
-    desc: '可视区域dom，默认使用window',
-    type: 'string',
+    desc: '可视区域 dom，用于计算下拉菜单位置，默认使用 window',
+    type: 'object',
     value: 'null'
   }
 ])

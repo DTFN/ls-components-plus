@@ -1,16 +1,19 @@
 import { buildProps } from '@cpo/_utils/runtime';
 
 export const lsTableProps = buildProps({
+  // 表格列数据
   tableColumn: {
     type: Array<any>,
     default: () => [],
     required: true
   },
+  // 表格数据
   tableData: {
     type: Array<any>,
     default: () => [],
     required: true
   },
+  // 加载状态
   loading: {
     type: Boolean,
     default: false
@@ -135,14 +138,17 @@ export const lsTableProps = buildProps({
     type: Boolean,
     default: true
   },
+  // 空状态文案
   labelEmpty: {
     type: String,
     default: '--'
   },
+  // 空状态文案样式
   labelEmptyClass: {
     type: String,
     default: ''
   },
+  // 空状态文案
   emptyLabel: {
     type: String,
     default: '暂无数据'

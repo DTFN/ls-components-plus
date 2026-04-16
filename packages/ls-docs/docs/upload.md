@@ -18,7 +18,7 @@ outline: deep
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -34,7 +34,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 const item1 = ref({
   isCover: false
 });
@@ -53,7 +53,7 @@ const item1 = ref({
 
 ```js
 import { ref } from 'vue';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 const item2 = ref({
   limitFile: ['png', 'docx']
 });
@@ -75,7 +75,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 const item3 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
+    return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
   }
 });
 function httpResponseFunc(res) {
@@ -98,7 +98,7 @@ function httpResponseFunc(res) {
 </ClientOnly>
 
 ```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -114,7 +114,7 @@ const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/dat
 </ClientOnly>
 
 ```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+const action = ref('http://192.168.1.33:3001/upload');
 ```
 
 ```html
@@ -268,14 +268,13 @@ function formValidateFunc() {
 </LSUpload>
 </ClientOnly>
 
-```js
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
-const fileList = ref([{ name: '', url: 'http://192.168.1.33:8008/images/fish1.png' }]);
+````js
+const action = ref('http://192.168.1.33:3001/upload');
+const fileList = ref([{ name: '', url: '' }]);
 
-
+```html
 <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
-
-```
+````
 
 ### 9. 自定义上传按钮
 
@@ -304,8 +303,7 @@ const fileList = ref([{ name: '', url: 'http://192.168.1.33:8008/images/fish1.pn
 ```js
 const item6 = ref({
   hideBtnReachLimit: true,
-  limitNumMsg: '最多只能上传3个文件',
-  isCover: false
+  limitNumMsg: '最多只能上传3个文件'
 });
 ```
 
@@ -316,34 +314,43 @@ const item6 = ref({
 ### 11. 带删除确认的上传
 
 <ClientOnly>
-  <LSUpload :action="action" multiple :before-remove="beforeRemove"></LSUpload>
+  <LSUpload :action="action" multiple :before-remove="handleRemove"></LSUpload>
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import { ElMessageBox } from 'element-plus';
-const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
-
-function beforeRemove(file, fileList) {
-  return ElMessageBox.confirm('确定要删除这个文件吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(() => {
-      return Promise.resolve();
-    })
-    .catch(() => {
-      return Promise.reject();
-    });
+function handleRemove(file, fileList) {
+  return new Promise((resolve, reject) => {
+    if (confirm('确定要删除这个文件吗？')) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
 }
 ```
 
 ```html
-<LSUpload :action="action" multiple :before-remove="beforeRemove"></LSUpload>
+<LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
 ```
 
-### 12. 多文件上传带预览
+### 12. 带背景图片的上传
+
+<ClientOnly>
+  <LSUpload :action="action" :item="item7"></LSUpload>
+</ClientOnly>
+
+```js
+const item7 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
+});
+```
+
+```html
+<LSUpload :action="action" :item="item7"></LSUpload>
+```
+
+### 13. 多文件上传带预览
 
 <ClientOnly>
   <LSUpload :action="action" multiple list-type="picture-card" :item="item8"></LSUpload>
@@ -360,7 +367,7 @@ const item8 = ref({
 <LSUpload :action="action" multiple list-type="picture-card" :limit="5" :item="item8"></LSUpload>
 ```
 
-### 13. 带进度条的上传
+### 14. 带进度条的上传
 
 <ClientOnly>
   <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
@@ -369,7 +376,7 @@ const item8 = ref({
 ```js
 const item9 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -384,7 +391,7 @@ const item9 = ref({
 <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
 ```
 
-### 14. 自定义文件列表项
+### 15. 自定义文件列表项
 
 <ClientOnly>
   <LSUpload :action="action" multiple :item="item10">
@@ -420,7 +427,7 @@ function handleCustomRemove(file) {
 </LSUpload>
 ```
 
-### 15. 与其他组件的集成
+### 16. 与其他组件的集成
 
 <ClientOnly>
   <el-card shadow="hover" style="width: 400px">
@@ -476,7 +483,7 @@ const item11 = ref({
 </el-card>
 ```
 
-### 16. 拖拽上传带背景图片
+### 17. 拖拽上传带背景图片
 
 <ClientOnly>
   <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
@@ -484,6 +491,8 @@ const item11 = ref({
 
 ```js
 const item12 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
   tipContent: '点击或拖拽文件到此处上传'
 });
 ```
@@ -492,7 +501,7 @@ const item12 = ref({
 <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
 ```
 
-### 17. 图片上传带背景
+### 18. 图片上传带背景
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
@@ -500,8 +509,11 @@ const item12 = ref({
 
 ```js
 const item13 = ref({
+  bgImage:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
   profile: true,
-  defProfile: 'http://192.168.1.33:8008/images/fish1.png'
+  defProfile:
+    'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
 });
 ```
 
@@ -509,7 +521,7 @@ const item13 = ref({
 <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
 ```
 
-### 18. 多文件上传带进度条
+### 19. 多文件上传带进度条
 
 <ClientOnly>
   <LSUpload :action="action" multiple :show-file-list="true" :item="item14"></LSUpload>
@@ -523,7 +535,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -538,7 +550,7 @@ const item14 = ref({
 <LSUpload :action="action" multiple :limit="3" :show-file-list="true" :item="item14"></LSUpload>
 ```
 
-### 19. 自定义文件预览
+### 20. 自定义文件预览
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture" :item="item15">
@@ -611,7 +623,7 @@ const item15 = ref({
 </style>
 ```
 
-### 20. 自动上传与手动上传切换
+### 21. 自动上传与手动上传切换
 
 <ClientOnly>
   <div class="upload-mode-toggle">
@@ -674,9 +686,6 @@ function handleSubmitUpload() {
       <div class="ls-tip">{{ autoUpload ? '文件将自动上传' : '选择文件后需要点击上传按钮' }}</div>
     </template>
   </LSUpload>
-  <LSButton v-if="!autoUpload" type="success" :icon="Check" @click="handleSubmitUpload" style="margin-left: 10px;">
-    上传
-  </LSButton>
 </div>
 
 <style scoped>
@@ -691,18 +700,20 @@ function handleSubmitUpload() {
 
 ## API
 
-### 1. Attributes，需以item为UploadItemType格式传值，保留了el-upload属性和方法
+组件基于 el-upload 二次封装，保留了 el-upload 的所有原生属性和方法，同时通过 `item` 对象提供了额外的配置选项。
+
+### 1. Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 属性详细说明
+#### 1.1 item 配置属性（通过 item 对象传入）
 
 | 属性名            | 类型     | 默认值 | 说明                            | 使用场景                       | 注意事项                        |
 | ----------------- | -------- | ------ | ------------------------------- | ------------------------------ | ------------------------------- |
 | isCover           | boolean  | true   | 是否覆盖上传                    | 控制是否覆盖已上传的文件       | 为true时，multiple不能设置true  |
 | limitFile         | array    | []     | 文件格式限制                    | 限制上传文件的格式             | 例如 ['png', 'docx']            |
 | limitFileMsg      | string   | -      | 文件格式限制提示                | 自定义文件格式错误提示信息     | -                               |
-| limitSize         | number   | 2      | 文件大小限制                    | 限制上传文件的大小             | 以MB为单位                      |
+| limitSize         | number   | 2      | 文件大小限制（MB）              | 限制上传文件的大小             | 以MB为单位，可用limitUnit调整   |
 | limitUnit         | string   | MB     | 文件大小限制单位                | 自定义文件大小限制的单位       | 支持 GB/MB/KB                   |
 | limitSizeMsg      | string   | -      | 文件大小限制提示                | 自定义文件大小错误提示信息     | -                               |
 | limitNumMsg       | string   | -      | 文件个数限制提示                | 自定义文件个数错误提示信息     | multiple为true时生效            |
@@ -717,24 +728,36 @@ function handleSubmitUpload() {
 | hideCoverBtn      | boolean  | false  | 覆盖上传后是否隐藏上传按钮      | 控制上传后是否隐藏按钮         | 适用图片模式                    |
 | tipContent        | string   | -      | tip提示                         | 自定义提示信息                 | -                               |
 | hideBtnReachLimit | boolean  | false  | 达到limit限制时是否隐藏上传按钮 | 控制达到限制时是否隐藏按钮     | 适用图片模式                    |
-| beforeUpload      | function | -      | 上传前的钩子函数                | 上传前的验证和处理             | 返回false可阻止上传             |
-| onRemove          | function | -      | 文件删除前的钩子函数            | 删除文件前的确认和处理         | 返回false可阻止删除             |
+| bgImage           | string   | -      | 上传区域背景图片                | 自定义上传区域的背景           | 可用于美化上传界面              |
+
+#### 1.2 Props 属性（直接传入）
+
+| 属性名       | 类型     | 默认值 | 说明                   | 使用场景                 | 注意事项                          |
+| ------------ | -------- | ------ | ---------------------- | ------------------------ | --------------------------------- |
+| customFile   | boolean  | false  | 是否自定义文件列表项   | 完全自定义文件列表展示   | 启用后 #file 插槽生效             |
+| hasCropper   | boolean  | false  | 是否启用图片裁剪功能   | 图片上传时显示裁剪按钮   | 仅 picture-card 模式下生效        |
+| beforeUpload | function | -      | 上传前的钩子函数       | 上传前的验证和处理       | 返回 false 可阻止上传             |
+| onRemove     | function | -      | 文件删除前的钩子函数   | 删除文件前的确认和处理   | 返回 false 可阻止删除             |
+| onSuccess    | function | -      | 上传成功的钩子函数     | 处理上传成功后的逻辑     | 与 el-upload 的 success 一致      |
+| onError      | function | -      | 上传失败的钩子函数     | 处理上传失败后的逻辑     | 与 el-upload 的 error 一致        |
+| onChange     | function | -      | 文件状态改变的钩子函数 | 监听文件选择、上传等变化 | 与 el-upload 的 change 一致       |
+| onExceed     | function | -      | 超出文件个数限制的钩子 | 处理超出限制时的逻辑     | 与 el-upload 的 exceed 一致       |
+| onPreview    | function | -      | 文件预览的钩子函数     | 自定义预览逻辑           | 与 el-upload 的 preview 一致      |
+| onProgress   | function | -      | 上传进度的钩子函数     | 监听上传进度             | 与 el-upload 的 progress 一致     |
+| httpRequest  | function | -      | 覆盖默认的上传请求     | 完全自定义上传实现       | 与 el-upload 的 http-request 一致 |
 
 ### 2. Events
 
 <ApiIntro :tableColumn="tableMethodColumn" :tableData="tableData2" />
 
-#### 事件详细说明
+#### 2.1 LSUpload 自定义事件
 
-| 事件名             | 说明             | 参数                     | 使用场景                                       |
-| ------------------ | ---------------- | ------------------------ | ---------------------------------------------- |
-| upload-error-func  | 上传错误回调     | msg                      | 获取上传过程中的错误信息，用于错误处理         |
-| on-change-func     | 文件更新上传回调 | file                     | 文件更新时触发，增加blob返回数据，用于文件预览 |
-| http-response-func | 覆盖上传方法回调 | data                     | 手动上传时获取接口调用结果，用于处理上传结果   |
-| on-handle-cropper  | 图片裁剪回调     | file, index              | 图片裁剪时触发，用于处理裁剪后的图片           |
-| success            | 上传成功回调     | response, file, fileList | 上传成功时触发，用于处理成功逻辑               |
-| error              | 上传失败回调     | error, file, fileList    | 上传失败时触发，用于处理失败逻辑               |
-| remove             | 文件移除回调     | file, fileList           | 文件被移除时触发，用于处理移除逻辑             |
+| 事件名             | 说明         | 参数        | 使用场景                                     |
+| ------------------ | ------------ | ----------- | -------------------------------------------- |
+| upload-error-func  | 上传错误回调 | msg         | 获取上传过程中的错误信息，用于错误处理       |
+| on-change-func     | 文件变更回调 | file        | 文件变更时触发，包含 blob 数据，用于文件预览 |
+| http-response-func | HTTP响应回调 | data        | 手动上传时获取接口调用结果，用于处理上传结果 |
+| on-handle-cropper  | 图片裁剪回调 | file, index | 图片裁剪时触发，用于处理裁剪后的图片         |
 
 ### 3. Slots
 
@@ -747,21 +770,24 @@ function handleSubmitUpload() {
 
 ### 4. 方法
 
-| 方法名       | 说明             | 参数           | 使用场景               |
-| ------------ | ---------------- | -------------- | ---------------------- |
-| submit       | 手动触发上传     | -              | 用于手动上传模式       |
-| clearFiles   | 清空已选择的文件 | -              | 用于重置上传组件       |
-| abort        | 取消上传         | file           | 用于取消正在上传的文件 |
-| handleStart  | 开始上传         | file           | 用于控制上传流程       |
-| handleRemove | 移除文件         | file, fileList | 用于手动移除文件       |
+组件通过 `ref` 暴露 `uploadRef` 属性，可通过 `uploadRef.value` 访问 el-upload 的原始方法：
+
+| 方法名       | 说明             | 参数           | 使用场景               | 调用方式                                       |
+| ------------ | ---------------- | -------------- | ---------------------- | ---------------------------------------------- |
+| submit       | 手动触发上传     | -              | 用于手动上传模式       | `uploadRef.value.uploadRef.submit()`           |
+| clearFiles   | 清空已选择的文件 | -              | 用于重置上传组件       | `uploadRef.value.uploadRef.clearFiles()`       |
+| abort        | 取消上传         | file           | 用于取消正在上传的文件 | `uploadRef.value.uploadRef.abort(file)`        |
+| handleStart  | 开始上传         | file           | 用于控制上传流程       | `uploadRef.value.uploadRef.handleStart(file)`  |
+| handleRemove | 移除文件         | file, fileList | 用于手动移除文件       | `uploadRef.value.uploadRef.handleRemove(file)` |
 
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import { ElForm, ElFormItem, ElMessageBox, ElSwitch } from 'element-plus';
+  import { ElForm, ElFormItem, ElAlert, ElCard, ElButton, ElSwitch } from 'element-plus';
   import { tableColumn, tableMethodColumn } from '../constant';
+  import { Upload } from '@element-plus/icons-vue';
 
-  const action = ref('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership');
+  const action = ref('http://192.168.1.33:3001/upload');
   const item1 = ref({
     isCover: false,
   })
@@ -771,7 +797,7 @@ function handleSubmitUpload() {
   })
   const item3 = ref({
     httpRequestFunc: function (formData, uploadProcessObj) {
-      return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, uploadProcessObj);
+      return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
     }
   })
   const item4 = ref({
@@ -780,32 +806,18 @@ function handleSubmitUpload() {
   const item5 = ref({ profile: true })
 const item6 = ref({
   hideBtnReachLimit: true,
-  limitNumMsg: '最多只能上传3个文件',
-  isCover: false
+  limitNumMsg: '最多只能上传3个文件'
 });
-
-
-function beforeRemove(file, fileList) {
-  return ElMessageBox.confirm('确定要删除这个文件吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  })
-    .then(() => {
-      return Promise.resolve();
-    })
-    .catch(() => {
-      return Promise.reject();
-    });
-}
-
+const item7 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
+});
 const item8 = ref({
   hideBtnReachLimit: true,
   limitNumMsg: '最多只能上传5个文件'
 });
 const item9 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -822,11 +834,13 @@ const item11 = ref({
   limitSizeMsg: '文件大小不能超过5MB'
 });
 const item12 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
   tipContent: '点击或拖拽文件到此处上传'
 });
 const item13 = ref({
+  bgImage: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=gradient%20purple%20background%20for%20image%20upload&image_size=square',
   profile: true,
-  defProfile: 'http://192.168.1.33:8008/images/fish1.png'
+  defProfile: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
 });
 const item14 = ref({
   limitFile: ['jpg', 'png', 'gif'],
@@ -835,7 +849,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://icds-admin.test.sh.energy-blockchain.com/v1/proof/data-ownership', formData, {
+    return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -1062,30 +1076,42 @@ const fileList = ref([
     },
     {
       name: 'hideBtnReachLimit',
-      desc: '达到限制数量后是否隐藏上传按钮，适用图片模式',
+      desc: '达到limit限制时是否隐藏上传按钮，适用图片模式',
       type: 'boolean',
       value: false
+    },
+    {
+      name: 'bgImage',
+      desc: '上传区域背景图片',
+      type: 'string',
+      value: '-'
     }
   ])
 
   const tableData2 = ref([
     {
+      name: 'upload-error-func',
+      desc: '上传错误回调，获取上传前置报错信息，处理form表单验证等问题',
+      type: 'function',
+      value: 'msg'
+    },
+    {
       name: 'on-change-func',
-      desc: '文件更新上传回调方法，增加blob返回数据',
+      desc: '文件变更回调，文件更新时触发，增加blob返回数据，用于文件预览',
       type: 'function',
       value: 'file'
     },
     {
       name: 'http-response-func',
-      desc: '覆盖上传方法回调函数，返回值为接口调用结果，常用于手动上传，配合httpRequestFunc使用',
+      desc: 'HTTP响应回调，覆盖上传方法时使用，返回值为接口调用结果',
       type: 'function',
       value: 'data'
     },
     {
-      name: 'upload-error-func',
-      desc: '获取上传前置报错信息，处理form表单验证等问题',
+      name: 'on-handle-cropper',
+      desc: '图片裁剪回调，图片裁剪时触发，用于处理裁剪后的图片',
       type: 'function',
-      value: 'msg'
+      value: 'file, index'
     }
   ])
 </script>

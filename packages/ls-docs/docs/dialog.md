@@ -548,15 +548,126 @@ const handleConfirmWithLoading = () => {
 
 <ApiIntro :tableColumn="tableColumn" :tableData="dialogTableData" />
 
-### 2. Events
+### 2. 按钮配置
+
+对话框内置了确认和取消按钮，支持自定义配置：
+
+```ts
+type DialogBtnType = {
+  txt?: string              // 按钮文本
+  type?: string             // 按钮类型（primary/success/warning/danger/info）
+  iconConfig?: {             // 图标配置
+    name?: string           // 图标名称
+    color?: string          // 图标颜色
+    size?: number           // 图标大小
+  }
+  // 继承 Element Plus Button 的所有属性
+}
+```
+
+示例：
+
+```html
+<LSDialog
+  v-model="dialogVisible"
+  title="自定义按钮"
+  :btn-cancel-config="{ txt: '关闭', type: 'info' }"
+  :btn-confirm-config="{ 
+    txt: '提交', 
+    type: 'success',
+    iconConfig: { name: 'Check', color: '#fff', size: 16 }
+  }"
+/>
+```
+
+### 3. 滚动区域
+
+当内容超出对话框高度时，可以开启滚动区域：
+
+```html
+<LSDialog
+  v-model="dialogVisible"
+  title="带滚动的对话框"
+  width="600px"
+  :open-scroll="true"
+>
+  <!-- 长内容 -->
+  <div style="height: 1000px;">很长很长的内容...</div>
+</LSDialog>
+```
+
+开启后，内容区域会自动计算高度并显示滚动条。
+
+### 4. 加载状态
+
+支持两种加载状态：
+
+1. **按钮加载**：通过 `loading` prop 控制确认按钮的加载状态
+2. **内容加载**：通过 `content-loading` prop 控制内容区域的加载状态
+
+```html
+<LSDialog
+  v-model="dialogVisible"
+  title="加载示例"
+  :loading="confirmLoading"
+  :content-loading="contentLoading"
+  @on-confirm="handleConfirm"
+>
+  <div>对话框内容</div>
+</LSDialog>
+
+<script setup>
+const confirmLoading = ref(false)
+const contentLoading = ref(false)
+
+const handleConfirm = () => {
+  confirmLoading.value = true
+  // 模拟异步操作
+  setTimeout(() => {
+    confirmLoading.value = false
+    dialogVisible.value = false
+  }, 2000)
+}
+</script>
+```
+
+### 5. 自定义底部按钮
+
+可以通过 `footer` slot 完全自定义底部按钮区域：
+
+```html
+<LSDialog v-model="dialogVisible" title="自定义底部">
+  <div>对话框内容</div>
+  <template #footer>
+    <div class="custom-footer">
+      <LSButton @click="dialogVisible = false">取消</LSButton>
+      <LSButton type="primary" @click="handleSave">保存</LSButton>
+      <LSButton type="success" @click="handleSubmit">提交</LSButton>
+    </div>
+  </template>
+</LSDialog>
+```
+
+### 6. 其他原生属性
+
+组件基于 Element Plus 的 `el-dialog` 进行二次封装，支持所有原生属性，如：
+
+- `top` - 对话框距离顶部的高度
+- `custom-class` - 自定义类名
+- `lock-scroll` - 是否在 Dialog 出现时将 body 滚动锁定
+- `before-close` - 关闭前的回调函数
+- `open-delay` - Dialog 打开的延时时间
+- `close-delay` - Dialog 关闭的延时时间
+
+### 7. Events
 
 <ApiIntro :tableColumn="eventTableColumn" :tableData="dialogEventTableData" />
 
-### 3. Slots
+### 8. Slots
 
 <ApiIntro :tableColumn="slotTableColumn" :tableData="dialogSlotTableData" />
 
-### 4. Exposes
+### 9. Exposes
 
 <ApiIntro :tableColumn="exposesTableColumn" :tableData="dialogExposesTableData" />
 
@@ -564,6 +675,7 @@ const handleConfirmWithLoading = () => {
 import { ref } from 'vue';
 import { Loading, Close } from '@element-plus/icons-vue';
 import { tableColumn } from '../constant';
+import { ElForm, ElFormItem, ElInput, ElRadio, ElRadioGroup, ElInputNumber, ElIcon } from 'element-plus'
 
 const dialogVisible = ref(false);
 const dialogVisible2 = ref(false);
@@ -577,7 +689,9 @@ const dialogVisible9 = ref(false);
 const dialogVisible10 = ref(false);
 const dialogVisible11 = ref(false);
 const dialogVisible12 = ref(false);
+const dialogVisible13 = ref(false);
 const confirmLoading = ref(false);
+const contentLoading = ref(false);
 
 const form = ref({
   name: '',
@@ -585,6 +699,16 @@ const form = ref({
   gender: 'male',
   email: ''
 });
+
+const openContentLoadingDialog = () => {
+  dialogVisible13.value = true;
+  contentLoading.value = true;
+  
+  // 模拟内容加载
+  setTimeout(() => {
+    contentLoading.value = false;
+  }, 2000);
+};
 
 const handleSubmit = () => {
   console.log('保存用户信息:', form.value);
@@ -682,6 +806,54 @@ const dialogTableData = ref([
     desc: '是否可调整大小',
     type: 'boolean',
     value: 'false'
+  },
+  {
+    name: 'hasFooter',
+    desc: '是否显示底部按钮区域',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'hasCancelBtn',
+    desc: '是否显示取消按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'hasConfirmBtn',
+    desc: '是否显示确认按钮',
+    type: 'boolean',
+    value: 'true'
+  },
+  {
+    name: 'loading',
+    desc: '确认按钮的加载状态（显示loading并禁用）',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'btnCancelConfig',
+    desc: '取消按钮配置，继承 Button 所有属性',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'btnConfirmConfig',
+    desc: '确认按钮配置，继承 Button 所有属性',
+    type: 'object',
+    value: '{}'
+  },
+  {
+    name: 'contentLoading',
+    desc: '内容区域的加载状态（显示loading）',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'openScroll',
+    desc: '是否开启内容区域滚动（超出高度时显示滚动条）',
+    type: 'boolean',
+    value: 'false'
   }
 ]);
 
@@ -701,11 +873,6 @@ const eventTableColumn = ref([
 ]);
 
 const dialogEventTableData = ref([
-  {
-    name: 'update:modelValue',
-    desc: '对话框可见性变化时触发',
-    params: 'visible: boolean'
-  },
   {
     name: 'open',
     desc: '对话框打开时触发',
@@ -727,9 +894,14 @@ const dialogEventTableData = ref([
     params: '-'
   },
   {
-    name: 'visible-change',
-    desc: '对话框可见性变化时触发',
-    params: 'visible: boolean'
+    name: 'onCancel',
+    desc: '点击取消按钮或关闭按钮时触发',
+    params: '-'
+  },
+  {
+    name: 'onConfirm',
+    desc: '点击确认按钮时触发',
+    params: '-'
   }
 ]);
 
@@ -747,19 +919,19 @@ const slotTableColumn = ref([
 const dialogSlotTableData = ref([
   {
     name: 'default',
-    desc: '对话框内容'
+    desc: '对话框内容区域'
   },
   {
     name: 'header',
-    desc: '对话框头部'
+    desc: '对话框头部区域（自定义头部）'
   },
   {
     name: 'title',
-    desc: '对话框标题'
+    desc: '对话框标题区域'
   },
   {
     name: 'footer',
-    desc: '对话框底部按钮区域'
+    desc: '对话框底部按钮区域（完全自定义底部）'
   }
 ]);
 
@@ -784,28 +956,16 @@ const exposesTableColumn = ref([
 
 const dialogExposesTableData = ref([
   {
-    name: 'DialogRef',
-    desc: 'el-dialog 组件的实例',
+    name: 'lsDialogRef',
+    desc: 'el-dialog 组件的 DOM 引用',
     params: '-',
-    return: 'ComponentInstance'
+    return: 'HTMLElement'
   },
   {
-    name: 'open',
-    desc: '打开对话框',
+    name: 'updateHeight',
+    desc: '手动更新滚动区域高度（openScroll 为 true 时有效）',
     params: '-',
-    return: 'void'
-  },
-  {
-    name: 'close',
-    desc: '关闭对话框',
-    params: '-',
-    return: 'void'
-  },
-  {
-    name: 'handleClose',
-    desc: '处理关闭事件',
-    params: '-',
-    return: 'void'
+    return: 'Promise<void>'
   }
 ]);
 </script>

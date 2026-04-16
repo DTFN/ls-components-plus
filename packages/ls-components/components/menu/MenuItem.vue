@@ -51,7 +51,7 @@ function defineChildClickFunc(item: MenuBaseType) {
 
 <template id="menu-item">
   <template v-if="!needPermission || permissionList.includes(item.pCode)">
-    <!-- 单个菜单项 -->
+    <!-- 无子菜单项 -->
     <div v-if="!item.children || item.leaf" @click.stop>
       <el-menu-item :index="item['key']" :data-index="item['key']" @click="jumpRoute(item['key'], item as MenuBaseType)">
         <LSIcon v-bind="item.iconConfig">
@@ -71,7 +71,7 @@ function defineChildClickFunc(item: MenuBaseType) {
         </template>
       </el-menu-item>
     </div>
-    <!-- 子菜单 -->
+    <!-- 有子菜单 -->
     <el-sub-menu v-else :index="item['key']" :data-index="item['key']" @click.stop="defineSubClickFunc(item as MenuBaseType)">
       <template #title>
         <LSIcon v-bind="item.iconConfig">

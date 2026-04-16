@@ -220,7 +220,7 @@ const defineBCListWithQuery = ref([
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
-#### 1.1 Breadcrumb Item Attributes
+### 2. Breadcrumb Item Attributes
 
 ::: warning 默认路由meta中bcList配置参数与之一致
 :::

@@ -399,7 +399,7 @@ const list9 = ref([
 <script setup>
 import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
-import { ElButton, ElTag } from 'element-plus';
+import { ElButton, ElTag, ElCard } from 'element-plus';
 
 const iconColor = ref('red');
 const list1 = ref([
@@ -690,6 +690,12 @@ const tableData = ref([
     desc: '额外内容',
     type: 'string',
     value: '-'
+  },
+  {
+    name: 'showZero',
+    desc: '数值为0时是否展示',
+    type: 'boolean',
+    value: 'false'
   }
 ])
 
@@ -740,6 +746,12 @@ const tableData1 = ref([
     name: 'slotName',
     desc: '用于type=slot的插槽名称',
     type: 'string',
+    value: '-'
+  },
+  {
+    name: 'labelWidth',
+    desc: 'label宽度，支持string或number',
+    type: 'string / number',
     value: '-'
   },
   {
