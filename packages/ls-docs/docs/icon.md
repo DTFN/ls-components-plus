@@ -42,6 +42,7 @@ outline: deep
   height="100"
   src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
 />
+
 ```
 
 ### 4. svg
@@ -49,7 +50,7 @@ outline: deep
 <LSIcon :type="2" :name="svgIcon" width="30" height="30" color="yellow" />
 
 ```ts
-import svgIcon from '/public/vue.svg';
+import svgIcon from '/public/vue.svg'
 ```
 
 ```html
@@ -82,6 +83,7 @@ import svgIcon from '/public/vue.svg';
     gap: 16px;
   }
 </style>
+
 ```
 
 :::
@@ -114,6 +116,7 @@ import svgIcon from '/public/vue.svg';
     gap: 16px;
   }
 </style>
+
 ```
 
 :::
@@ -121,11 +124,11 @@ import svgIcon from '/public/vue.svg';
 ### 7. 带点击事件的图标
 
 <div class="icon-click-example">
-  <LSIcon 
-    name="RefreshRight" 
-    color="#409eff" 
-    size="24" 
-    style="cursor: pointer;" 
+  <LSIcon
+    name="RefreshRight"
+    color="#409eff"
+    size="24"
+    style="cursor: pointer;"
     @click="handleIconClick"
   />
   <span>{{ clickMessage }}</span>
@@ -134,20 +137,21 @@ import svgIcon from '/public/vue.svg';
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const clickMessage = ref('点击图标试试');
+import { ref } from 'vue'
 
-const handleIconClick = () => {
-  clickMessage.value = '图标被点击了！';
+const clickMessage = ref('点击图标试试')
+
+function handleIconClick() {
+  clickMessage.value = '图标被点击了！'
   setTimeout(() => {
-    clickMessage.value = '点击图标试试';
-  }, 1000);
-};
+    clickMessage.value = '点击图标试试'
+  }, 1000)
+}
 ```
 
 ```html
 <div class="icon-click-example">
-  <LSIcon name="RefreshRight" color="#409eff" size="24" style="cursor: pointer;" @click="handleIconClick" />
+  <LSIcon name="RefreshRight" color="#409eff" size="24" style="cursor: pointer" @click="handleIconClick" />
   <span>{{ clickMessage }}</span>
 </div>
 
@@ -158,6 +162,7 @@ const handleIconClick = () => {
     gap: 16px;
   }
 </style>
+
 ```
 
 :::
@@ -231,6 +236,7 @@ const handleIconClick = () => {
     color: #606266;
   }
 </style>
+
 ```
 
 :::
@@ -249,21 +255,23 @@ const handleIconClick = () => {
 ::: details 点我查看代码
 
 ```js
-import { ref, computed } from 'vue';
-const currentIcon = ref('SuccessFilled');
+import { computed, ref } from 'vue'
+
+const currentIcon = ref('SuccessFilled')
 const iconColor = computed(() => {
   const colorMap = {
     SuccessFilled: '#67c23a',
     WarningFilled: '#e6a23c',
     ErrorFilled: '#f56c6c',
     InfoFilled: '#409eff'
-  };
-  return colorMap[currentIcon.value] || '#606266';
-});
+  }
 
-const switchIcon = iconName => {
-  currentIcon.value = iconName;
-};
+  return colorMap[currentIcon.value] || '#606266'
+})
+
+function switchIcon(iconName) {
+  currentIcon.value = iconName
+}
 ```
 
 ```html
@@ -303,6 +311,7 @@ const switchIcon = iconName => {
     color: #409eff;
   }
 </style>
+
 ```
 
 :::
@@ -317,7 +326,7 @@ const switchIcon = iconName => {
     <LSIcon name="Star" class="icon-style-3" />
     <LSIcon name="Star" class="icon-style-4" />
   </div>
-  
+
   <h3>动画效果</h3>
   <div class="icon-animations">
     <LSIcon name="RefreshRight" class="icon-animation-1" />
@@ -448,6 +457,7 @@ const switchIcon = iconName => {
     }
   }
 </style>
+
 ```
 
 :::
@@ -470,7 +480,7 @@ const switchIcon = iconName => {
       <span>删除</span>
     </LSButton>
   </div>
-  
+
   <h3>与导航菜单的集成</h3>
   <div class="nav-integration">
     <div class="nav-item">
@@ -486,7 +496,7 @@ const switchIcon = iconName => {
       <span>设置</span>
     </div>
   </div>
-  
+
   <h3>与表单组件的集成</h3>
   <div class="form-integration">
     <div class="form-item">
@@ -498,7 +508,7 @@ const switchIcon = iconName => {
       <input type="password" placeholder="密码" />
     </div>
   </div>
-  
+
   <h3>与卡片组件的集成</h3>
   <div class="card-integration">
     <div class="card">
@@ -780,6 +790,7 @@ const switchIcon = iconName => {
     color: #909399;
   }
 </style>
+
 ```
 
 :::

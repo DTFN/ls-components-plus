@@ -1,13 +1,32 @@
 <script setup lang="ts" name="LSXlsx">
-import { fileEmpty, previewEmits } from '@cpo/_constants/previewType';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { isFile } from '@cpo/_utils/check';
-import { loadCss, loadJs, removeCss, removeJs } from '@cpo/_utils/utils';
-import LuckyExcel from 'luckyexcel';
-import * as XLSX from 'xlsx/xlsx.mjs';
-import { cssList, fileSizeLimit, jsList, luckysheetConfig, rowsPerBatch } from './config';
-import { xlsxProps } from './types';
+/**
+ * @summary Excel 渲染组件 - `LSPreviewXlsx` 的内部渲染器
+ *
+ * `LSXlsx` 是 `LSPreviewXlsx` 的内部子组件，负责加载 `Luckysheet` 相关静态资源并将 Excel 文件渲染到页面。
+ * 小文件场景下会通过 `LuckyExcel.transformExcelToLucky` 直接转换渲染；文件超过体积阈值且 `hasPagination=true` 时，
+ * 会改为基于 `xlsx` 做分批分页渲染。
+ * 当前实现会先校验 `source` 是否为 `File`；若传入字符串或空值，会直接终止初始化。
+ *
+ * @attr {File|string} source Excel 文件源；类型层面兼容 `File` / `string`，当前渲染实现实际依赖 `File`
+ * @attr {boolean} hasPagination 大文件预览时是否启用分页渲染，默认 `false`
+ * @attr {Function} onClose 关闭预览时的回调函数
+ *
+ * @event loadComplete Excel 渲染完成后触发
+ * @event loadError Excel 渲染失败或资源异常时触发
+ * @event update:source 点击关闭按钮后触发，用于将外部 `source` 重置为空数组
+ * @event onDownload 点击下载按钮后触发，参数来自透传的 `downloadData`
+ */
+import { fileEmpty, previewEmits } from '@cpo/_constants/previewType'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { isFile } from '@cpo/_utils/check'
+import { loadCss, loadJs, removeCss, removeJs } from '@cpo/_utils/utils'
+import LuckyExcel from 'luckyexcel'
+import * as XLSX from 'xlsx/xlsx.mjs'
+import { cssList, fileSizeLimit, jsList, luckysheetConfig, rowsPerBatch } from './config'
+import { xlsxProps } from './types'
 
+const props = defineProps(xlsxProps)
+const emits = defineEmits(previewEmits)
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/css/luckysheet.css
@@ -15,141 +34,153 @@ import { xlsxProps } from './types';
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/js/plugin.js
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/luckysheet.umd.js
 
-const ns = useNamespace('xlsx');
-const comClass = ns.b();
+const ns = useNamespace('xlsx')
+const comClass = ns.b()
 
-const props = defineProps(xlsxProps);
-
-const emits = defineEmits(previewEmits);
-
-const attrs = useAttrs();
+const attrs = useAttrs()
 
 const hasDownload = computed(() => {
-  return attrs['has-download'] || attrs['hasDownload'];
-});
+  return attrs['has-download'] || attrs.hasDownload
+})
 
 const downloadLoading = computed(() => {
-  return attrs['download-loading'] || attrs['downloadLoading'] || false;
-});
+  return attrs['download-loading'] || attrs.downloadLoading || false
+})
 
 watch(
   () => props.source,
-  val => {
+  (val) => {
     if (val) {
-      const { size }: any = val || {};
+      const { size }: any = val || {}
+
       if (size / 1024 / 1024 <= fileSizeLimit) {
-        initXlsx(val);
-      } else {
+        initXlsx(val)
+      }
+      else {
         if (!props.hasPagination) {
-          ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`);
-          emits('loadComplete');
-        } else {
-          initXlsxLarge(val);
+          ElMessage.error(`文件大小超过 ${fileSizeLimit} MB，加载失败！`)
+          emits('loadComplete')
+        }
+        else {
+          initXlsxLarge(val)
         }
       }
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
-const isCreatedLuckySheet = ref(false);
+const isCreatedLuckySheet = ref(false)
+
 function isLuckySheet() {
-  const scripts = document.scripts;
+  const scripts = document.scripts
+
   for (let i = 0; i < scripts.length; i++) {
-    const element = scripts[i];
+    const element = scripts[i]
+
     if (element.src.includes('luckysheet')) {
-      return true;
+      return true
     }
   }
-  return false;
+
+  return false
 }
 
-const closeFunc = () => {
-  props.onClose && props.onClose();
-  emits('update:source', []);
-};
+function closeFunc() {
+  props.onClose && props.onClose()
+  emits('update:source', [])
+}
 
 async function initXlsx(val: File | string) {
-  let isCompleted = false;
+  let isCompleted = false
+
   if (!(await initLuckySheet(val))) {
-    return;
+    return
   }
+
   try {
     LuckyExcel.transformExcelToLucky(
       val,
-      function (exportJson: { sheets: string | any[] | null; info: { name: { creator: any } } }) {
+      (exportJson: { sheets: string | any[] | null, info: { name: { creator: any } } }) => {
         if (exportJson.sheets == null) {
-          emits('loadError');
-          return;
+          emits('loadError')
+
+          return
         }
 
         (window as any).luckysheet.destroy();
         (window as any).luckysheet.create({
           data: exportJson.sheets,
           title: exportJson.info.name,
-          ...luckysheetConfig
-        });
-        isCompleted = true;
-        emits('loadComplete');
-      }
-    );
+          ...luckysheetConfig,
+        })
+        isCompleted = true
+        emits('loadComplete')
+      },
+    )
     let timer = setTimeout(() => {
       if (!isCompleted) {
-        ElMessage.error(fileEmpty);
-        emits('loadError');
-        clearTimeout(timer);
+        ElMessage.error(fileEmpty)
+        emits('loadError')
+        clearTimeout(timer)
       }
-    }, 6000);
-  } catch (error) {
-    emits('loadError');
+    }, 6000)
+  }
+  catch (error) {
+    emits('loadError', error)
   }
 }
 
 function getSheetData(data: any) {
-  const end = Math.min(0 + rowsPerBatch, data.length);
-  const batchData = data.slice(0, end);
+  const end = Math.min(0 + rowsPerBatch, data.length)
+  const batchData = data.slice(0, end)
 
-  let curR = 0;
+  let curR = 0
   const curCellData: any = [[]];
   (window as any).luckysheet.transToCellData(batchData).forEach((list: any) => {
-    const { r } = list;
+    const { r } = list
+
     if (curR !== r) {
-      curR = r;
-      curCellData[curR] = [];
+      curR = r
+      curCellData[curR] = []
     }
-    curCellData[curR].push(list);
-  });
-  return curCellData;
+    curCellData[curR].push(list)
+  })
+
+  return curCellData
 }
 
 async function initXlsxLarge(val: File | string) {
-  await nextTick();
+  await nextTick()
+
   if (!(await initLuckySheet(val))) {
-    return;
+    return
   }
+
   try {
-    const reader = new FileReader();
+    const reader = new FileReader()
+
     reader.onload = async function (e: any) {
       const workbook = XLSX.read(e.target.result, {
         type: 'binary',
-        dense: true
-      });
+        dense: true,
+      })
 
-      let activeIndex = 0;
+      let activeIndex = 0
       const allSheetData = (workbook.SheetNames || []).map((name: string) => {
         return {
           name,
-          data: XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 })
-        };
-      });
+          data: XLSX.utils.sheet_to_json(workbook.Sheets[name], { header: 1 }),
+        }
+      })
       // 分批加载数据到 Luckysheet
-      const curSheetName = ref(allSheetData[activeIndex]?.name);
-      const curSheetData = ref(allSheetData[activeIndex]?.data);
-      let totalRows = curSheetData.value.length;
-      let currentBatch = 0;
+      const curSheetName = ref(allSheetData[activeIndex]?.name)
+      const curSheetData = ref(allSheetData[activeIndex]?.data)
+      let totalRows = curSheetData.value.length
+      let currentBatch = 0
 
       const curLuckSheetData = (allSheetData || []).map((item: any, i: number) => {
         return {
@@ -157,69 +188,72 @@ async function initXlsxLarge(val: File | string) {
           index: i + 1,
           status: '1',
           order: i,
-          data: getSheetData(item.data)
-        };
-      });
+          data: getSheetData(item.data),
+        }
+      })
 
       function loadBatch() {
-        if (currentBatch * rowsPerBatch >= totalRows) return;
+        if (currentBatch * rowsPerBatch >= totalRows)
+          return
 
-        const start = currentBatch * rowsPerBatch;
-        const end = Math.min(start + rowsPerBatch, totalRows);
-        const batchData = curSheetData.value.slice(start, end);
+        const start = currentBatch * rowsPerBatch
+        const end = Math.min(start + rowsPerBatch, totalRows)
+        const batchData = curSheetData.value.slice(start, end)
 
-        let curR = 0;
+        let curR = 0
         const curCellData: any = [[]];
         (window as any).luckysheet.transToCellData(batchData).forEach((list: any) => {
-          const { r } = list;
+          const { r } = list
+
           if (curR !== r) {
-            curR = r;
-            curCellData[curR] = [];
+            curR = r
+            curCellData[curR] = []
           }
-          curCellData[curR].push(list);
-        });
+          curCellData[curR].push(list)
+        })
 
         if (!isCreatedLuckySheet.value) {
-          (window as any).luckysheet.destroy();
+          (window as any).luckysheet.destroy()
           const curLuckysheetConfig = {
             ...luckysheetConfig,
             hook: {
               sheetActivate(index: number) {
-                if (activeIndex != index) {
-                  activeIndex = index - 1;
-                  curSheetName.value = allSheetData[activeIndex]?.name;
-                  curSheetData.value = allSheetData[activeIndex]?.data || [];
-                  totalRows = curSheetData.value.length;
+                if (activeIndex !== index) {
+                  activeIndex = index - 1
+                  curSheetName.value = allSheetData[activeIndex]?.name
+                  curSheetData.value = allSheetData[activeIndex]?.data || []
+                  totalRows = curSheetData.value.length
                   const pageBtn = document
                     .getElementById('luckysheet')
-                    ?.querySelector('.spage-number button[data-page="1"]') as HTMLElement;
-                  pageBtn?.click();
+                    ?.querySelector('.spage-number button[data-page="1"]') as HTMLElement
+                  pageBtn?.click()
                 }
               },
               onTogglePager(pagination: any) {
-                const { page } = pagination;
-                currentBatch = page - 1;
-                loadBatch();
-              }
-            }
+                const { page } = pagination
+                currentBatch = page - 1
+                loadBatch()
+              },
+            },
           };
           (window as any).luckysheet.create({
             data: curLuckSheetData,
             pager: {
-              pageIndex: 1, //当前页码，必填
-              total: totalRows, //数据总条数，必填
-              pageSize: rowsPerBatch, //每页显示多少条数据，默认10条
+              pageIndex: 1, // 当前页码，必填
+              total: totalRows, // 数据总条数，必填
+              pageSize: rowsPerBatch, // 每页显示多少条数据，默认10条
               showTotal: true, // 是否显示总数，默认关闭：false
-              showSkip: true, //是否显示跳页，默认关闭：false
-              showPN: true, //是否显示上下翻页，默认开启：true
-              prevPage: '', //上翻页文字描述，默认"上一页"
-              nextPage: '', //下翻页文字描述，默认"下一页"
-              totalTxt: '' // 数据总条数文字描述，默认"总共：{total}"
+              showSkip: true, // 是否显示跳页，默认关闭：false
+              showPN: true, // 是否显示上下翻页，默认开启：true
+              prevPage: '', // 上翻页文字描述，默认"上一页"
+              nextPage: '', // 下翻页文字描述，默认"下一页"
+              totalTxt: '', // 数据总条数文字描述，默认"总共：{total}"
             },
-            ...curLuckysheetConfig
-          });
-          isCreatedLuckySheet.value = true;
-        } else {
+            ...curLuckysheetConfig,
+          })
+          isCreatedLuckySheet.value = true
+        }
+        else {
           (window as any).luckysheet.updataSheet({
             data: [
               {
@@ -227,51 +261,55 @@ async function initXlsxLarge(val: File | string) {
                 index: activeIndex + 1,
                 status: '1',
                 order: activeIndex,
-                data: curCellData
-              }
-            ]
-          });
+                data: curCellData,
+              },
+            ],
+          })
         }
 
-        emits('loadComplete');
+        emits('loadComplete')
       }
 
-      loadBatch();
-    };
-    reader.readAsArrayBuffer(val as File);
-  } catch (error) {
-    emits('loadError');
+      loadBatch()
+    }
+    reader.readAsArrayBuffer(val as File)
+  }
+  catch (error) {
+    emits('loadError', error)
   }
 }
 
 async function initLuckySheet(val: File | string) {
   if (!val || !isFile(val)) {
-    return false;
+    return false
   }
+
   if (!isLuckySheet()) {
-    await loadCss(cssList);
-    await loadJs(jsList);
+    await loadCss(cssList)
+    await loadJs(jsList)
   }
-  return true;
+
+  return true
 }
 
 function resetLuckySheet() {
   if (isCreatedLuckySheet.value) {
-    (window as any).luckysheet.destroy();
+    (window as any).luckysheet.destroy()
   }
+
   if (isLuckySheet()) {
-    removeCss(cssList);
-    removeJs(jsList);
+    removeCss(cssList)
+    removeJs(jsList)
   }
 }
 
 function onDownload() {
-  emits('onDownload', attrs.downloadData);
+  emits('onDownload', attrs.downloadData)
 }
 
 onBeforeUnmount(() => {
-  resetLuckySheet();
-});
+  resetLuckySheet()
+})
 </script>
 
 <template>
@@ -303,6 +341,7 @@ onBeforeUnmount(() => {
   line-height: 0 !important;
 }
 </style>
+
 <style lang="scss" scoped>
 .ls-xlsx {
   position: relative;

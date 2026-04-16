@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { IPDFLinkService } from 'pdfjs-dist/types/web/interfaces';
+import type { IPDFLinkService } from 'pdfjs-dist/types/web/interfaces'
 
 class SimpleLinkService implements IPDFLinkService {
-  externalLinkEnabled: boolean;
+  externalLinkEnabled: boolean
 
   constructor() {
-    this.externalLinkEnabled = true;
+    this.externalLinkEnabled = true
   }
 
   /**
    * @type {number}
    */
   get pagesCount() {
-    return 0;
+    return 0
   }
 
   /**
    * @type {number}
    */
   get page() {
-    return 0;
+    return 0
   }
 
   /**
@@ -31,7 +31,7 @@ class SimpleLinkService implements IPDFLinkService {
    * @type {number}
    */
   get rotation() {
-    return 0;
+    return 0
   }
 
   /**
@@ -43,7 +43,7 @@ class SimpleLinkService implements IPDFLinkService {
    * @type {boolean}
    */
   get isInPresentationMode() {
-    return false;
+    return false
   }
 
   /**
@@ -68,7 +68,7 @@ class SimpleLinkService implements IPDFLinkService {
    * @returns {string} The hyperlink to the PDF object.
    */
   getDestinationHash(_dest: any): string {
-    return '#';
+    return '#'
   }
 
   /**
@@ -76,7 +76,7 @@ class SimpleLinkService implements IPDFLinkService {
    * @returns {string} The hyperlink to the PDF object.
    */
   getAnchorUrl(_hash: any): string {
-    return '#';
+    return '#'
   }
 
   /**
@@ -90,15 +90,15 @@ class SimpleLinkService implements IPDFLinkService {
   executeNamedAction(_action: string) {}
 
   /**
-   * @param {Object} _action
+   * @param {object} _action
    */
   executeSetOCGState(_action: object) {}
 
   /**
    * @param {number} _pageNum - page number.
-   * @param {Object} _pageRef - reference to the page.
+   * @param {object} _pageRef - reference to the page.
    */
   cachePageRef(_pageNum: number, _pageRef: object) {}
 }
 
-export { SimpleLinkService };
+export { SimpleLinkService }

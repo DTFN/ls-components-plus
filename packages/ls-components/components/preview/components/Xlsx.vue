@@ -1,9 +1,13 @@
 <script setup lang="ts" name="LSXlsx">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { previewEmits, xlsxProps } from '../types';
-import { loadJs, removeJs, loadCss, removeCss } from '@cpo/_utils/utils';
-import { isFile } from '@cpo/_utils/check';
-import LuckyExcel from 'luckyexcel';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { isFile } from '@cpo/_utils/check'
+import { loadCss, loadJs, removeCss, removeJs } from '@cpo/_utils/utils'
+import LuckyExcel from 'luckyexcel'
+import { previewEmits, xlsxProps } from '../types'
+
+const props = defineProps(xlsxProps)
+
+const emits = defineEmits(previewEmits)
 
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/css/pluginsCss.css
 // https://front-development.oss-cn-beijing.aliyuncs.com/front-dev/luckysheet/plugins/plugins.css
@@ -14,64 +18,64 @@ import LuckyExcel from 'luckyexcel';
 
 const jsList = [
   { id: 'luckysheet1', src: '/luckysheet/plugins/js/plugin.js' },
-  { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' }
-];
+  { id: 'luckysheet2', src: '/luckysheet/luckysheet.umd.js' },
+]
 
 const cssList = [
   { id: 'luckysheetCss1', src: '/luckysheet/plugins/css/pluginsCss.css' },
   { id: 'luckysheetCss2', src: '/luckysheet/plugins/plugins.css' },
   { id: 'luckysheetCss3', src: '/luckysheet/css/luckysheet.css' },
-  { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' }
-];
+  { id: 'luckysheetCss4', src: '/luckysheet/assets/iconfont/iconfont.css' },
+]
 
-const ns = useNamespace('xlsx');
-const comClass = ns.b();
-
-const props = defineProps(xlsxProps);
-
-const emits = defineEmits(previewEmits);
+const ns = useNamespace('xlsx')
+const comClass = ns.b()
 
 watch(
   () => props.source,
-  val => {
-    initXlsx(val);
+  (val) => {
+    initXlsx(val)
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function isLuckySheet() {
-  const scripts = document.scripts;
+  const scripts = document.scripts
+
   for (let i = 0; i < scripts.length; i++) {
-    const element = scripts[i];
+    const element = scripts[i]
+
     if (element.src.includes('luckysheet')) {
-      return true;
+      return true
     }
   }
-  return false;
+
+  return false
 }
 
-const closeFunc = () => {
-  props.onClose && props.onClose();
-  emits('update:source', []);
-};
+function closeFunc() {
+  props.onClose && props.onClose()
+  emits('update:source', [])
+}
 
 async function initXlsx(val: File | string) {
   if (!val || !isFile(val)) {
-    return;
+    return
   }
+
   try {
     if (!isLuckySheet()) {
-      await loadCss(cssList);
-      await loadJs(jsList);
+      await loadCss(cssList)
+      await loadJs(jsList)
     }
     LuckyExcel.transformExcelToLucky(
       val,
-      function (exportJson: { sheets: string | any[] | null; info: { name: { creator: any } } }) {
+      (exportJson: { sheets: string | any[] | null, info: { name: { creator: any } } }) => {
         if (exportJson.sheets == null) {
-          return;
+          return
         }
 
         (window as any).luckysheet.destroy();
@@ -95,7 +99,7 @@ async function initXlsx(val: File | string) {
           forceCalculation: true, // 强制计算公式
           showConfigWindowResize: false,
           showsheetbarConfig: {
-            sheet: true // sheet页显示
+            sheet: true, // sheet页显示
           },
           sheetRightClickConfig: {
             delete: false, // 删除
@@ -103,7 +107,7 @@ async function initXlsx(val: File | string) {
             rename: false, // 重命名
             color: false, // 更改颜色
             hide: false, // 隐藏，取消隐藏
-            move: false // 向左移，向右移
+            move: false, // 向左移，向右移
           },
           cellRightClickConfig: {
             copy: false, // 复制
@@ -126,7 +130,7 @@ async function initXlsx(val: File | string) {
             image: false, // 插入图片
             link: false, // 插入链接
             data: false, // 数据验证
-            cellFormat: false // 设置单元格格式,
+            cellFormat: false, // 设置单元格格式,
           },
           hook: {
             // 单元格点击前的事件
@@ -136,24 +140,25 @@ async function initXlsx(val: File | string) {
             // 图片删除前
             imageDeleteBefore: () => false,
             // 图片更新前
-            imageUpdateBefore: () => false
+            imageUpdateBefore: () => false,
             // workbookCreateAfter: function (json: any) {}
-          }
-        });
-      }
-    );
-    emits('loadComplete');
-  } catch (error) {
-    emits('loadError');
+          },
+        })
+      },
+    )
+    emits('loadComplete')
+  }
+  catch (error) {
+    emits('loadError')
   }
 }
 
 onBeforeUnmount(() => {
   if (!isLuckySheet()) {
-    removeCss(cssList);
-    removeJs(jsList);
+    removeCss(cssList)
+    removeJs(jsList)
   }
-});
+})
 </script>
 
 <template>

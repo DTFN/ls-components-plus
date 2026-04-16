@@ -18,24 +18,24 @@ LSTable 内部使用 `el-config-provider` 注入中文语言包，表格与分�
 
 ## table-column 配置速查
 
-| 字段 | 说明 | 示例 |
-| --- | --- | --- |
-| `label` | 列标题 | `'场景名称'` |
-| `prop` | 字段名（支持 lodash get 路径） | `'dataName'`、`'user.name'` |
-| `minWidth` / `width` | 列宽 / 最小宽度 | `100`、`'120px'` |
-| `type` | 列渲染类型 | `'date'`、`'status'`、`'number'`、`'slot'`、`'link'`、`'button'`、`'render'` |
-| `render` | `type: 'render'` 时的单元格组件（函数式组件或 Vue 组件） | 见 [列类型说明 · render](#column-type-render) / [§8 示例](#table-example-render) |
-| `value` | status 列映射 | `{ key: { type: 'success', label: '启用' } }` |
-| `dateTemplate` | 日期格式（dayjs，type 为 `date` 时生效） | `'YYYY-MM-DD HH:mm:ss'` |
-| `statusStyle` | 状态列样式（type 为 `status` 时生效） | `'default'`、`'dot'`、`'follow'` |
-| `href` / `hrefProp` | 链接地址配置（type 为 `link` 时生效） | `href: (row) => string`、`hrefProp: 'detailUrl'` |
-| `text` / `textProp` / `textFormatter` | 链接 / 按钮展示文案（`link`、`button` 时生效） | `text: '查看'`、`textProp: 'name'`、`textFormatter: (row, raw) => string` |
-| `linkProps` | 透传给 `el-link` 的其余配置（支持对象或函数） | `{ type: 'primary' }`、`({ row }) => ({ disabled: row.disabled })` |
-| `buttonProps` | type 为 `button` 时透传给 `el-button` 的配置（支持对象或函数） | `{ type: 'primary', link: true }`、`({ row }) => ({ disabled: row.disabled })` |
-| `sortable` | 是否排序 | `true`、`'custom'` |
-| `headerSlot` | 是否使用插槽自定义表头 | `true`，插槽名 `#${prop}-header` |
-| `filterIconSlot` | 是否使用插槽自定义筛选图标 | `true`，插槽名 `#${prop}-filter-icon` |
-| `filters` / `filterMethod` | 筛选配置（透传 el-table-column） | [Element Plus Table · Table-column 属性](https://element-plus.org/zh-CN/component/table#table-column-%E5%B1%9E%E6%80%A7) |
+| 字段                                  | 说明                                                           | 示例                                                                                                                     |
+| ------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `label`                               | 列标题                                                         | `'场景名称'`                                                                                                             |
+| `prop`                                | 字段名（支持 lodash get 路径）                                 | `'dataName'`、`'user.name'`                                                                                              |
+| `minWidth` / `width`                  | 列宽 / 最小宽度                                                | `100`、`'120px'`                                                                                                         |
+| `type`                                | 列渲染类型                                                     | `'date'`、`'status'`、`'number'`、`'slot'`、`'link'`、`'button'`、`'render'`                                             |
+| `render`                              | `type: 'render'` 时的单元格组件（函数式组件或 Vue 组件）       | 见 [列类型说明 · render](#column-type-render) / [§8 示例](#table-example-render)                                         |
+| `value`                               | status 列映射                                                  | `{ key: { type: 'success', label: '启用' } }`                                                                            |
+| `dateTemplate`                        | 日期格式（dayjs，type 为 `date` 时生效）                       | `'YYYY-MM-DD HH:mm:ss'`                                                                                                  |
+| `statusStyle`                         | 状态列样式（type 为 `status` 时生效）                          | `'default'`、`'dot'`、`'follow'`                                                                                         |
+| `href` / `hrefProp`                   | 链接地址配置（type 为 `link` 时生效）                          | `href: (row) => string`、`hrefProp: 'detailUrl'`                                                                         |
+| `text` / `textProp` / `textFormatter` | 链接 / 按钮展示文案（`link`、`button` 时生效）                 | `text: '查看'`、`textProp: 'name'`、`textFormatter: (row, raw) => string`                                                |
+| `linkProps`                           | 透传给 `el-link` 的其余配置（支持对象或函数）                  | `{ type: 'primary' }`、`({ row }) => ({ disabled: row.disabled })`                                                       |
+| `buttonProps`                         | type 为 `button` 时透传给 `el-button` 的配置（支持对象或函数） | `{ type: 'primary', link: true }`、`({ row }) => ({ disabled: row.disabled })`                                           |
+| `sortable`                            | 是否排序                                                       | `true`、`'custom'`                                                                                                       |
+| `headerSlot`                          | 是否使用插槽自定义表头                                         | `true`，插槽名 `#${prop}-header`                                                                                         |
+| `filterIconSlot`                      | 是否使用插槽自定义筛选图标                                     | `true`，插槽名 `#${prop}-filter-icon`                                                                                    |
+| `filters` / `filterMethod`            | 筛选配置（透传 el-table-column）                               | [Element Plus Table · Table-column 属性](https://element-plus.org/zh-CN/component/table#table-column-%E5%B1%9E%E6%80%A7) |
 
 ---
 
@@ -55,25 +55,21 @@ LSTable 内部使用 `el-config-provider` 注入中文语言包，表格与分�
 ```js
 const tableData = ref([
   { id: 1, name: '张三', amount: 1200, createdAt: 1729041600000 },
-  { id: 2, name: '李四', amount: -50,  createdAt: 1729044000000 },
-  { id: 3, name: '王五', amount: 300,  createdAt: 1729126200000 }
-]);
+  { id: 2, name: '李四', amount: -50, createdAt: 1729044000000 },
+  { id: 3, name: '王五', amount: 300, createdAt: 1729126200000 }
+])
 
 const basicColumns = ref([
-  { label: 'ID',       prop: 'id',        width: 80 },
-  { label: '姓名',     prop: 'name',      minWidth: 120 },
-  { label: '余额',     prop: 'amount',    minWidth: 100 },
+  { label: 'ID', prop: 'id', width: 80 },
+  { label: '姓名', prop: 'name', minWidth: 120 },
+  { label: '余额', prop: 'amount', minWidth: 100 },
   { label: '创建时间', prop: 'createdAt', minWidth: 180 }
-]);
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="basicColumns"
-  :table-data="tableData"
-  stripe
-/>
+<LSTable :show-pagination="false" :table-column="basicColumns" :table-data="tableData" stripe />
+
 ```
 
 :::
@@ -92,11 +88,11 @@ const basicColumns = ref([
 
 `statusStyle` 控制状态的展示风格，共三种：
 
-| 值 | 说明 |
-|---|---|
-| `default` | 仅改变文字颜色，无额外修饰 |
-| `dot` | 文字左侧添加同色圆点，文字颜色不变 |
-| `follow` | 文字左侧添加同色圆点，且文字颜色跟随状态类型 |
+| 值        | 说明                                         |
+| --------- | -------------------------------------------- |
+| `default` | 仅改变文字颜色，无额外修饰                   |
+| `dot`     | 文字左侧添加同色圆点，文字颜色不变           |
+| `follow`  | 文字左侧添加同色圆点，且文字颜色跟随状态类型 |
 
 <br>
 <ClientOnly>
@@ -122,26 +118,26 @@ const basicColumns = ref([
 
 ```js
 const statusTableData = ref([
-  { id: 1, name: '张三', status: 'ENABLED',  amount: 1200, createdAt: 1729041600000 },
-  { id: 2, name: '李四', status: 'DISABLED', amount: -50,  createdAt: 1729044000000, disabled: true },
-  { id: 3, name: '王五', status: 'PENDING',  amount: 300,  createdAt: 1729126200000 },
-  { id: 4, name: '赵六', status: 'UNKNOWN',  amount: 0,    createdAt: 1729130000000 }
-]);
+  { id: 1, name: '张三', status: 'ENABLED', amount: 1200, createdAt: 1729041600000 },
+  { id: 2, name: '李四', status: 'DISABLED', amount: -50, createdAt: 1729044000000, disabled: true },
+  { id: 3, name: '王五', status: 'PENDING', amount: 300, createdAt: 1729126200000 },
+  { id: 4, name: '赵六', status: 'UNKNOWN', amount: 0, createdAt: 1729130000000 }
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   { label: '姓名', prop: 'name', minWidth: 120 },
   {
     label: '状态',
     prop: 'status',
     minWidth: 130,
     type: 'status',
-    statusStyle: 'dot',  // 'default' | 'dot' | 'follow'
+    statusStyle: 'dot', // 'default' | 'dot' | 'follow'
     value: {
-      ENABLED:  { type: 'success', label: '启用' },
-      DISABLED: { type: 'danger',  label: '停用' },
-      PENDING:  { type: 'warning', label: '待审核' },
-      default:  { type: 'info',    label: '未知' }  // 未命中 key 时兜底
+      ENABLED: { type: 'success', label: '启用' },
+      DISABLED: { type: 'danger', label: '停用' },
+      PENDING: { type: 'warning', label: '待审核' },
+      default: { type: 'info', label: '未知' } // 未命中 key 时兜底
     },
     // statusProps 透传 el-text 配置，支持对象或函数
     statusProps: ({ row }) => ({
@@ -149,17 +145,14 @@ const tableColumn = ref([
       style: { cursor: row.disabled ? 'not-allowed' : 'default' }
     })
   },
-  { label: '余额',     prop: 'amount',    type: 'number', isSuc: true, minWidth: 100 },
-  { label: '创建时间', prop: 'createdAt', type: 'date',   minWidth: 180 }
-]);
+  { label: '余额', prop: 'amount', type: 'number', isSuc: true, minWidth: 100 },
+  { label: '创建时间', prop: 'createdAt', type: 'date', minWidth: 180 }
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="statusTableData"
-/>
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="statusTableData" />
+
 ```
 
 :::
@@ -181,11 +174,11 @@ const tableColumn = ref([
 const dateTableData = ref([
   { id: 1, name: '张三', createdAt: 1729041600000, updatedAt: '2024-10-16T10:28:11', expiredAt: null },
   { id: 2, name: '李四', createdAt: 1729044000000, updatedAt: '2024-11-20T08:00:00', expiredAt: 1735660800000 },
-  { id: 3, name: '王五', createdAt: 1729126200000, updatedAt: null,                  expiredAt: 1738339200000 }
-]);
+  { id: 3, name: '王五', createdAt: 1729126200000, updatedAt: null, expiredAt: 1738339200000 }
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   { label: '姓名', prop: 'name', minWidth: 100 },
   // 不传 dateTemplate，使用默认格式 YYYY-MM-DD HH:mm:ss
   { label: '创建时间', prop: 'createdAt', type: 'date', minWidth: 180 },
@@ -193,15 +186,12 @@ const tableColumn = ref([
   { label: '更新时间', prop: 'updatedAt', type: 'date', minWidth: 120, dateTemplate: 'YYYY-MM-DD' },
   // 值为 null 时显示 labelEmpty（默认 '--'）
   { label: '到期时间', prop: 'expiredAt', type: 'date', minWidth: 180 }
-]);
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="dateTableData"
-/>
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="dateTableData" />
+
 ```
 
 :::
@@ -221,31 +211,28 @@ const tableColumn = ref([
 
 ```js
 const numberTableData = ref([
-  { id: 1, name: '张三', income: 8800,   expense: -3200, balance: 5600,  score: null },
-  { id: 2, name: '李四', income: 0,      expense: -150,  balance: -150,  score: 72 },
-  { id: 3, name: '王五', income: 12000,  expense: -9000, balance: 3000,  score: 95 },
-  { id: 4, name: '赵六', income: 500,    expense: 0,     balance: 500,   score: -10 }
-]);
+  { id: 1, name: '张三', income: 8800, expense: -3200, balance: 5600, score: null },
+  { id: 2, name: '李四', income: 0, expense: -150, balance: -150, score: 72 },
+  { id: 3, name: '王五', income: 12000, expense: -9000, balance: 3000, score: 95 },
+  { id: 4, name: '赵六', income: 500, expense: 0, balance: 500, score: -10 }
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   { label: '姓名', prop: 'name', minWidth: 100 },
   // isSuc: true —— 正数绿色，负数红色
-  { label: '收入', prop: 'income',  type: 'number', isSuc: true, minWidth: 100 },
+  { label: '收入', prop: 'income', type: 'number', isSuc: true, minWidth: 100 },
   // 负数始终红色，isSuc 不传时正数不加颜色
   { label: '支出', prop: 'expense', type: 'number', minWidth: 100 },
   { label: '余额', prop: 'balance', type: 'number', isSuc: true, minWidth: 100 },
   // 值为 null 显示 '--'
-  { label: '评分', prop: 'score',   type: 'number', isSuc: true, minWidth: 90 }
-]);
+  { label: '评分', prop: 'score', type: 'number', isSuc: true, minWidth: 90 }
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="numberTableData"
-/>
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="numberTableData" />
+
 ```
 
 :::
@@ -256,12 +243,12 @@ const tableColumn = ref([
 
 `type: 'link'` 列使用 `el-link` 渲染。链接地址通过以下方式配置（优先级从高到低）：
 
-| 配置方式 | 说明 |
-|---|---|
-| `href: (row) => string` | 函数，根据行数据动态生成地址 |
-| `href: 'https://...'` | 固定字符串 |
-| `hrefProp: 'urlField'` | 从行数据的指定字段取值 |
-| 不配置 | 回退到当前列 `prop` 对应的字段值 |
+| 配置方式                | 说明                             |
+| ----------------------- | -------------------------------- |
+| `href: (row) => string` | 函数，根据行数据动态生成地址     |
+| `href: 'https://...'`   | 固定字符串                       |
+| `hrefProp: 'urlField'`  | 从行数据的指定字段取值           |
+| 不配置                  | 回退到当前列 `prop` 对应的字段值 |
 
 展示文本优先级：`textFormatter` > `text` > `textProp` > `prop` 对应字段值。`linkProps` 支持对象或函数，透传给 `el-link`（`type`、`underline`、`target`、`disabled` 等）。
 
@@ -274,14 +261,14 @@ const tableColumn = ref([
 
 ```js
 const linkTableData = ref([
-  { id: 1, name: '零数官网',   url: 'https://lingshu.group',         detailId: 1, disabled: false },
-  { id: 2, name: '产品介绍',   url: 'https://lingshu.group/product', detailId: 2, disabled: false },
-  { id: 3, name: '链接已禁用', url: 'https://lingshu.group/data',    detailId: 3, disabled: true },
-  { id: 4, name: '无链接地址', url: null,                            detailId: 4, disabled: false }
-]);
+  { id: 1, name: '零数官网', url: 'https://lingshu.group', detailId: 1, disabled: false },
+  { id: 2, name: '产品介绍', url: 'https://lingshu.group/product', detailId: 2, disabled: false },
+  { id: 3, name: '链接已禁用', url: 'https://lingshu.group/data', detailId: 3, disabled: true },
+  { id: 4, name: '无链接地址', url: null, detailId: 4, disabled: false }
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   // hrefProp：从行数据的 url 字段取链接地址
   {
     label: 'hrefProp 取值',
@@ -297,7 +284,7 @@ const tableColumn = ref([
     prop: 'name',
     type: 'link',
     minWidth: 140,
-    href: (row) => `/detail/${row.detailId}`,
+    href: row => `/detail/${row.detailId}`,
     linkProps: { type: 'success' }
   },
   // textFormatter：自定义展示文本
@@ -319,15 +306,12 @@ const tableColumn = ref([
     hrefProp: 'url',
     linkProps: ({ row }) => ({ type: 'primary', target: '_blank', disabled: row.disabled })
   }
-]);
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="linkTableData"
-/>
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="linkTableData" />
+
 ```
 
 :::
@@ -393,11 +377,8 @@ const tableColumn = ref([
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="buttonTableData"
-/>
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="buttonTableData" />
+
 ```
 
 :::
@@ -409,6 +390,7 @@ const tableColumn = ref([
 `type: 'slot'` 列将单元格内容完全交给具名插槽渲染，**插槽名即列的 `prop`**，作用域为 `{ row, column, index }`，可以放置任意自定义内容。
 
 除列内容插槽外，还支持：
+
 - **`#{prop}-header`**：自定义表头，列配置需设置 `headerSlot: true`，作用域 `{ column, index }`
 - **`#{prop}-filter-icon`**：自定义筛选图标，列配置需设置 `filterIconSlot: true`，作用域 `{ filterOpened }`
 
@@ -444,39 +426,38 @@ const slotTableData = ref([
   { id: 1, name: '张三', tags: ['Vue', 'TypeScript'] },
   { id: 2, name: '李四', tags: ['React'] },
   { id: 3, name: '王五', tags: [] }
-]);
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   { label: '姓名', prop: 'name', minWidth: 120 },
   // type: 'slot'，插槽名 = prop（tags）
   { label: '标签', prop: 'tags', type: 'slot', minWidth: 180 },
   // headerSlot: true 开启自定义表头插槽 #{prop}-header
   { label: '操作', prop: 'operate', type: 'slot', minWidth: 140, headerSlot: true }
-]);
+])
 ```
 
 ```html
 <LSTable :show-pagination="false" :table-column="tableColumn" :table-data="slotTableData">
   <!-- 列内容插槽，插槽名 = prop，作用域 { row, column, index } -->
   <template #tags="{ row }">
-    <el-tag v-for="tag in row.tags" :key="tag" size="small" style="margin-right:4px">
-      {{ tag }}
-    </el-tag>
-    <span v-if="!row.tags?.length" style="color:#c0c4cc">—</span>
+    <el-tag v-for="tag in row.tags" :key="tag" size="small" style="margin-right: 4px"> {{ tag }} </el-tag>
+    <span v-if="!row.tags?.length" style="color: #c0c4cc">—</span>
   </template>
 
   <template #operate="{ row }">
     <el-button link type="primary" size="small" @click="handleView(row)">查看</el-button>
-    <el-button link type="danger"  size="small" @click="handleDelete(row)">删除</el-button>
+    <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
   </template>
 
   <!-- 自定义表头插槽，插槽名 = {prop}-header，作用域 { column, index } -->
   <template #operate-header>
     <span>操作</span>
-    <el-tag size="small" type="info" style="margin-left:4px">自定义头</el-tag>
+    <el-tag size="small" type="info" style="margin-left: 4px">自定义头</el-tag>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -487,13 +468,13 @@ const tableColumn = ref([
 
 用法约定（须同时设置 `type` 与 `render`、空值与未配置 `render` 时的表现）见 [列类型说明 · render](#column-type-render)。下表为传入组件的 props 说明，可运行示例与可复制代码见本节后文。
 
-| 参数 | 说明 |
-|---|---|
-| `row` | 当前行数据 |
-| `column` | el-table 的 column 对象 |
-| `index` | 行索引 |
-| `value` | 当前列 `prop` 对应的原始值（等价于 `get(row, prop)`） |
-| `item` | 当前列配置项本身 |
+| 参数     | 说明                                                  |
+| -------- | ----------------------------------------------------- |
+| `row`    | 当前行数据                                            |
+| `column` | el-table 的 column 对象                               |
+| `index`  | 行索引                                                |
+| `value`  | 当前列 `prop` 对应的原始值（等价于 `get(row, prop)`） |
+| `item`   | 当前列配置项本身                                      |
 
 <br>
 <ClientOnly>
@@ -503,17 +484,17 @@ const tableColumn = ref([
 ::: details 点我查看代码
 
 ```js
-import { h, ref } from 'vue';
+import { h, ref } from 'vue'
 
 const renderTableData_1 = ref([
-  { id: 1, name: '张三', score: 95,  progress: 95, disabled: false },
-  { id: 2, name: '李四', score: -10, progress: 40, disabled: true  },
-  { id: 3, name: '王五', score: 72,  progress: 72, disabled: false },
+  { id: 1, name: '张三', score: 95, progress: 95, disabled: false },
+  { id: 2, name: '李四', score: -10, progress: 40, disabled: true },
+  { id: 3, name: '王五', score: 72, progress: 72, disabled: false },
   { id: 4, name: '赵六', score: null, progress: 0, disabled: false }
-]);
+])
 
 const renderColumns_1 = ref([
-  { label: 'ID',   prop: 'id',   width: 70 },
+  { label: 'ID', prop: 'id', width: 70 },
   // type: 'render' + render：根据 disabled 状态改变文字颜色和粗细
   {
     label: '姓名',
@@ -536,8 +517,10 @@ const renderColumns_1 = ref([
     type: 'render',
     minWidth: 100,
     render: ({ value }) => {
-      if (value === null || value === undefined) return h('span', { style: { color: '#c0c4cc' } }, '--');
-      return h('span', { style: { color: Number(value) < 0 ? '#F56C6C' : '#67C23A', fontWeight: 600 } }, value);
+      if (value === null || value === undefined)
+        return h('span', { style: { color: '#c0c4cc' } }, '--')
+
+      return h('span', { style: { color: Number(value) < 0 ? '#F56C6C' : '#67C23A', fontWeight: 600 } }, value)
     }
   },
   // 渲染进度条
@@ -550,12 +533,18 @@ const renderColumns_1 = ref([
       h('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } }, [
         h('div', {
           style: {
-            flex: 1, height: '6px', borderRadius: '3px', background: '#f0f0f0', overflow: 'hidden'
+            flex: 1,
+            height: '6px',
+            borderRadius: '3px',
+            background: '#f0f0f0',
+            overflow: 'hidden'
           }
         }, [
           h('div', {
             style: {
-              width: `${value}%`, height: '100%', borderRadius: '3px',
+              width: `${value}%`,
+              height: '100%',
+              borderRadius: '3px',
               background: value >= 80 ? '#67C23A' : value >= 50 ? '#E6A23C' : '#F56C6C',
               transition: 'width .3s'
             }
@@ -564,15 +553,12 @@ const renderColumns_1 = ref([
         h('span', { style: { fontSize: '12px', color: '#606266', whiteSpace: 'nowrap' } }, `${value}%`)
       ])
   }
-]);
+])
 ```
 
 ```html
-<LSTable
-  :show-pagination="false"
-  :table-column="renderColumns_1"
-  :table-data="renderTableData_1"
-/>
+<LSTable :show-pagination="false" :table-column="renderColumns_1" :table-data="renderTableData_1" />
+
 ```
 
 :::
@@ -598,16 +584,12 @@ const renderColumns_1 = ref([
 ::: details 点我查看代码
 
 ```js
-const loading = ref(false);
+const loading = ref(false)
 ```
 
 ```html
-<LSTable
-  :loading="loading"
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="tableData"
-/>
+<LSTable :loading="loading" :show-pagination="false" :table-column="tableColumn" :table-data="tableData" />
+
 ```
 
 :::
@@ -618,11 +600,11 @@ const loading = ref(false);
 
 无数据时 LSTable 提供多种空状态展示方式，通过以下属性控制：
 
-| 属性 | 说明 | 默认值 |
-|---|---|---|
-| `showEmpty` | 是否渲染空状态区域 | `true` |
-| `emptyLabel` | 空状态描述文案 | `'暂无数据'` |
-| `#empty` | 自定义空状态插槽，存在时完全替代默认空状态 | — |
+| 属性         | 说明                                       | 默认值       |
+| ------------ | ------------------------------------------ | ------------ |
+| `showEmpty`  | 是否渲染空状态区域                         | `true`       |
+| `emptyLabel` | 空状态描述文案                             | `'暂无数据'` |
+| `#empty`     | 自定义空状态插槽，存在时完全替代默认空状态 | —            |
 
 <br>
 <ClientOnly>
@@ -656,14 +638,13 @@ const loading = ref(false);
 <LSTable :show-pagination="false" :table-column="tableColumn" :table-data="[]" />
 
 <!-- ② 自定义 emptyLabel -->
-<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="[]"
-  empty-label="该列表暂时没有数据哦～" />
+<LSTable :show-pagination="false" :table-column="tableColumn" :table-data="[]" empty-label="该列表暂时没有数据哦～" />
 
 <!-- ③ 自定义 #empty 插槽 -->
 <LSTable :show-pagination="false" :table-column="tableColumn" :table-data="[]">
   <template #empty>
-    <div style="text-align:center;padding:20px 0;color:#909399">
-      <div style="font-size:32px">📭</div>
+    <div style="text-align: center; padding: 20px 0; color: #909399">
+      <div style="font-size: 32px">📭</div>
       <div>暂无相关记录，请调整筛选条件后重试</div>
     </div>
   </template>
@@ -671,6 +652,7 @@ const loading = ref(false);
 
 <!-- ④ showEmpty=false，完全隐藏空状态区域 -->
 <LSTable :show-pagination="false" :table-column="tableColumn" :table-data="[]" :show-empty="false" />
+
 ```
 
 :::
@@ -681,13 +663,13 @@ const loading = ref(false);
 
 LSTable 默认在最左侧显示序号列，可通过以下属性灵活配置：
 
-| 属性 | 说明 | 默认值 |
-|---|---|---|
-| `showTableIndex` | 是否显示序号列 | `true` |
-| `tableIndexLabel` | 序号列表头文案 | `'序号'` |
-| `tableIndexStart` | `true` 时序号从 0 开始 | `false` |
-| `tableIndexInPage` | `true` 时每页从 1 重新累加，`false` 时跨页全局连续 | `false` |
-| `tableIndexfixed` | 序号列是否固定左侧 | `false` |
+| 属性               | 说明                                               | 默认值   |
+| ------------------ | -------------------------------------------------- | -------- |
+| `showTableIndex`   | 是否显示序号列                                     | `true`   |
+| `tableIndexLabel`  | 序号列表头文案                                     | `'序号'` |
+| `tableIndexStart`  | `true` 时序号从 0 开始                             | `false`  |
+| `tableIndexInPage` | `true` 时每页从 1 重新累加，`false` 时跨页全局连续 | `false`  |
+| `tableIndexfixed`  | 序号列是否固定左侧                                 | `false`  |
 
 <br>
 <ClientOnly>
@@ -717,6 +699,7 @@ LSTable 默认在最左侧显示序号列，可通过以下属性灵活配置：
 
 <!-- ④ 序号列固定左侧 -->
 <LSTable :table-index-fixed="true" ... />
+
 ```
 
 :::
@@ -743,18 +726,18 @@ LSTable 默认在最左侧显示序号列，可通过以下属性灵活配置：
 
 ```js
 const tableData = ref([
-  { id: 1, name: '张三', email: null,              score: 92, remark: null        },
-  { id: 2, name: null,   email: 'li4@example.com', score: null, remark: '备注内容' },
-  { id: 3, name: '王五', email: '',                score: 0,   remark: null       }
-]);
+  { id: 1, name: '张三', email: null, score: 92, remark: null },
+  { id: 2, name: null, email: 'li4@example.com', score: null, remark: '备注内容' },
+  { id: 3, name: '王五', email: '', score: 0, remark: null }
+])
 
 const tableColumn = ref([
-  { label: 'ID',   prop: 'id',     width: 70 },
-  { label: '姓名', prop: 'name',   minWidth: 120 },
-  { label: '邮箱', prop: 'email',  minWidth: 200 },
-  { label: '分数', prop: 'score',  minWidth: 100, type: 'number' },
+  { label: 'ID', prop: 'id', width: 70 },
+  { label: '姓名', prop: 'name', minWidth: 120 },
+  { label: '邮箱', prop: 'email', minWidth: 200 },
+  { label: '分数', prop: 'score', minWidth: 100, type: 'number' },
   { label: '备注', prop: 'remark', minWidth: 160 }
-]);
+])
 ```
 
 ```html
@@ -769,6 +752,7 @@ const tableColumn = ref([
   label-empty="N/A"
   label-empty-class="text-muted"
 />
+
 ```
 
 :::
@@ -795,10 +779,10 @@ const tableColumn = ref([
 ::: details 点我查看代码
 
 ```js
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-const page = ref(1);
-const pageSize = ref(5);
+const page = ref(1)
+const pageSize = ref(5)
 
 // 前端分页：从完整数据中截取当前页
 const allData = ref(
@@ -808,19 +792,20 @@ const allData = ref(
     amount: (i % 3 === 0 ? -1 : 1) * (i + 1) * 100,
     createdAt: 1729041600000 + i * 3600000
   }))
-);
-const total = computed(() => allData.value.length);
+)
+const total = computed(() => allData.value.length)
 const tableData = computed(() => {
-  const start = (page.value - 1) * pageSize.value;
-  return allData.value.slice(start, start + pageSize.value);
-});
+  const start = (page.value - 1) * pageSize.value
+
+  return allData.value.slice(start, start + pageSize.value)
+})
 
 const tableColumn = ref([
-  { label: 'ID',       prop: 'id',        width: 70 },
-  { label: '姓名',     prop: 'name',      minWidth: 120 },
-  { label: '余额',     prop: 'amount',    type: 'number', isSuc: true, minWidth: 100 },
-  { label: '创建时间', prop: 'createdAt', type: 'date',   minWidth: 180 }
-]);
+  { label: 'ID', prop: 'id', width: 70 },
+  { label: '姓名', prop: 'name', minWidth: 120 },
+  { label: '余额', prop: 'amount', type: 'number', isSuc: true, minWidth: 100 },
+  { label: '创建时间', prop: 'createdAt', type: 'date', minWidth: 180 }
+])
 ```
 
 ```html
@@ -833,6 +818,7 @@ const tableColumn = ref([
   v-model:page-size="pageSize"
   :page-sizes="[5, 10, 20]"
 />
+
 ```
 
 :::
@@ -869,18 +855,19 @@ const tableColumn = ref([
 ::: details 点我查看代码
 
 ```js
-const page = ref(10);   // 初始第 10 页（100 条 / 每页 10 条，合法）
-const pageSize = ref(10);
-const total = ref(100);
+const page = ref(10) // 初始第 10 页（100 条 / 每页 10 条，合法）
+const pageSize = ref(10)
+const total = ref(100)
 
 // 前端模拟：根据当前页动态生成数据
 const tableData = computed(() => {
-  const start = (page.value - 1) * pageSize.value;
+  const start = (page.value - 1) * pageSize.value
+
   return Array.from(
     { length: Math.min(pageSize.value, Math.max(0, total.value - start)) },
     (_, i) => ({ id: start + i + 1, name: `记录 ${start + i + 1}` })
-  );
-});
+  )
+})
 ```
 
 ```html
@@ -892,6 +879,7 @@ const tableData = computed(() => {
   v-model:current-page="page"
   v-model:page-size="pageSize"
 />
+
 ```
 
 :::
@@ -953,6 +941,7 @@ const tableData = computed(() => {
     background: true
   }"
 />
+
 ```
 
 :::
@@ -985,7 +974,7 @@ const tableData = computed(() => {
 ::: details 点我查看代码
 
 ```js
-const currentRow = ref(null);
+const currentRow = ref(null)
 ```
 
 ```html
@@ -998,6 +987,7 @@ const currentRow = ref(null);
   highlight-current-row
   @current-change="(row) => currentRow = row"
 />
+
 ```
 
 :::
@@ -1031,14 +1021,15 @@ const currentRow = ref(null);
 ::: details 点我查看代码
 
 ```js
-const page = ref(1);
-const pageSize = ref(3);
-const selection = ref([]);
+const page = ref(1)
+const pageSize = ref(3)
+const selection = ref([])
 
 const tableData = computed(() => {
-  const start = (page.value - 1) * pageSize.value;
-  return allData.value.slice(start, start + pageSize.value);
-});
+  const start = (page.value - 1) * pageSize.value
+
+  return allData.value.slice(start, start + pageSize.value)
+})
 ```
 
 ```html
@@ -1053,6 +1044,7 @@ const tableData = computed(() => {
   v-model:page-size="pageSize"
   v-model:selection="selection"
 />
+
 ```
 
 :::
@@ -1083,12 +1075,12 @@ const tableData = computed(() => {
 
 ```js
 const tableColumn = ref([
-  { label: '客户',     prop: 'customer', minWidth: 120 },
+  { label: '客户', prop: 'customer', minWidth: 120 },
   // sortable: true —— 前端排序，点击表头即时生效
-  { label: '金额',     prop: 'amount',   minWidth: 100, type: 'number', isSuc: true, sortable: true },
+  { label: '金额', prop: 'amount', minWidth: 100, type: 'number', isSuc: true, sortable: true },
   // sortable: 'custom' —— 服务端排序，需监听 @sort-change 自行请求
   { label: '创建时间', prop: 'createdAt', minWidth: 180, type: 'date', sortable: 'custom' }
-]);
+])
 ```
 
 ```html
@@ -1099,12 +1091,13 @@ const tableColumn = ref([
   :table-data="tableData"
   @sort-change="handleSortChange"
 />
+
 ```
 
 ```js
 function handleSortChange({ prop, order }) {
   // order: 'ascending' | 'descending' | null
-  console.log('排序变更：', prop, order);
+  console.log('排序变更：', prop, order)
   // 服务端排序：重新请求数据
 }
 ```
@@ -1131,8 +1124,8 @@ function handleSortChange({ prop, order }) {
 
 ```js
 const tableColumn = ref([
-  { label: '订单号', prop: 'orderNo',  minWidth: 120 },
-  { label: '客户',   prop: 'customer', minWidth: 120 },
+  { label: '订单号', prop: 'orderNo', minWidth: 120 },
+  { label: '客户', prop: 'customer', minWidth: 120 },
   {
     label: '分类',
     prop: 'category',
@@ -1145,20 +1138,16 @@ const tableColumn = ref([
     ],
     // filterMethod 决定每行是否显示
     filterMethod(value, row) {
-      return row.category === value;
+      return row.category === value
     }
   },
   { label: '金额', prop: 'amount', minWidth: 100, type: 'number', isSuc: true }
-]);
+])
 ```
 
 ```html
-<LSTable
-  row-key="id"
-  :show-pagination="false"
-  :table-column="tableColumn"
-  :table-data="tableData"
-/>
+<LSTable row-key="id" :show-pagination="false" :table-column="tableColumn" :table-data="tableData" />
+
 ```
 
 :::
@@ -1189,35 +1178,34 @@ const tableColumn = ref([
 
 ```js
 const tableColumn = ref([
-  { label: '订单号', prop: 'orderNo',  minWidth: 120 },
-  { label: '客户',   prop: 'customer', minWidth: 120 },
+  { label: '订单号', prop: 'orderNo', minWidth: 120 },
+  { label: '客户', prop: 'customer', minWidth: 120 },
   {
     label: '分类',
     prop: 'category',
     minWidth: 100,
-    filterIconSlot: true,   // 开启自定义筛选图标插槽
+    filterIconSlot: true, // 开启自定义筛选图标插槽
     filters: [
       { text: 'A 类', value: 'A 类' },
       { text: 'B 类', value: 'B 类' },
       { text: 'C 类', value: 'C 类' }
     ],
     filterMethod(value, row) {
-      return row.category === value;
+      return row.category === value
     }
   },
   { label: '金额', prop: 'amount', minWidth: 100, type: 'number', isSuc: true }
-]);
+])
 ```
 
 ```html
 <LSTable :table-column="tableColumn" :table-data="tableData">
   <!-- 插槽名：{prop}-filter-icon，作用域 { filterOpened } -->
   <template #category-filter-icon="{ filterOpened }">
-    <span :style="{ color: filterOpened ? '#409EFF' : '#909399' }">
-      {{ filterOpened ? '▼' : '▽' }}
-    </span>
+    <span :style="{ color: filterOpened ? '#409EFF' : '#909399' }"> {{ filterOpened ? '▼' : '▽' }} </span>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1251,21 +1239,16 @@ const tableColumn = ref([
 ::: details 点我查看代码
 
 ```html
-<LSTable
-  row-key="id"
-  :show-pagination="false"
-  :show-expand="true"
-  :table-column="tableColumn"
-  :table-data="tableData"
->
+<LSTable row-key="id" :show-pagination="false" :show-expand="true" :table-column="tableColumn" :table-data="tableData">
   <!-- 展开行内容，作用域 { row } -->
   <template #expand="{ row }">
-    <div style="padding:12px 20px">
+    <div style="padding: 12px 20px">
       <div>订单号：{{ row.orderNo }}</div>
       <div>客户：{{ row.customer }}</div>
     </div>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1299,28 +1282,26 @@ const tableColumn = ref([
 ```js
 function summaryMethod({ columns, data }) {
   return columns.map((col, index) => {
-    if (index === 0) return '合计';
+    if (index === 0)
+      return '合计'
+
     if (col.property === 'amount') {
-      return data.reduce((sum, row) => sum + Number(row.amount || 0), 0);
+      return data.reduce((sum, row) => sum + Number(row.amount || 0), 0)
     }
-    return '';
-  });
+
+    return ''
+  })
 }
 ```
 
 ```html
-<LSTable
-  row-key="id"
-  :table-column="tableColumn"
-  :table-data="tableData"
-  show-summary
-  :summary-method="summaryMethod"
->
+<LSTable row-key="id" :table-column="tableColumn" :table-data="tableData" show-summary :summary-method="summaryMethod">
   <!-- 追加在表格末尾（合计行之后）的自定义内容 -->
   <template #append>
-    <div style="padding:8px 16px">追加内容</div>
+    <div style="padding: 8px 16px">追加内容</div>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1348,24 +1329,23 @@ function summaryMethod({ columns, data }) {
 // 将 group 相同的相邻行的"分组"列合并
 function spanMethod({ rowIndex, column }) {
   if (column.property === 'group') {
-    const rows = tableData.value;
-    const current = rows[rowIndex];
-    const prev = rows[rowIndex - 1];
-    const next = rows[rowIndex + 1];
-    if (prev?.group === current.group) return { rowspan: 0, colspan: 0 };
-    if (next?.group === current.group) return { rowspan: 2, colspan: 1 };
+    const rows = tableData.value
+    const current = rows[rowIndex]
+    const prev = rows[rowIndex - 1]
+    const next = rows[rowIndex + 1]
+    if (prev?.group === current.group)
+      return { rowspan: 0, colspan: 0 }
+    if (next?.group === current.group)
+      return { rowspan: 2, colspan: 1 }
   }
-  return { rowspan: 1, colspan: 1 };
+
+  return { rowspan: 1, colspan: 1 }
 }
 ```
 
 ```html
-<LSTable
-  row-key="id"
-  :table-column="tableColumn"
-  :table-data="tableData"
-  :span-method="spanMethod"
-/>
+<LSTable row-key="id" :table-column="tableColumn" :table-data="tableData" :span-method="spanMethod" />
+
 ```
 
 :::
@@ -1399,18 +1379,21 @@ LSTable 通过 `ref` 暴露 `TableRef`，可直接调用 `el-table` 的原生方
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
 
-const tableRef = ref()          // 绑定到 LSTable 的 ref
+const tableRef = ref() // 绑定到 LSTable 的 ref
 const selection = ref([])
 const rowClickLog = ref('')
 
 // 调用 el-table 原生方法
-function callClearSelection()     { tableRef.value?.TableRef?.clearSelection() }
-function callToggleAll()          { tableRef.value?.TableRef?.toggleAllSelection() }
-function callDoLayout()           { tableRef.value?.TableRef?.doLayout() }
-function callClearSort()          { tableRef.value?.TableRef?.clearSort() }
+function callClearSelection() { tableRef.value?.TableRef?.clearSelection() }
+
+function callToggleAll() { tableRef.value?.TableRef?.toggleAllSelection() }
+
+function callDoLayout() { tableRef.value?.TableRef?.doLayout() }
+
+function callClearSort() { tableRef.value?.TableRef?.clearSort() }
 ```
 
 ```html
@@ -1431,6 +1414,7 @@ function callClearSort()          { tableRef.value?.TableRef?.clearSort() }
   @row-click="(row) => (rowClickLog = `点击了行 id=${row.id}`)"
   @cell-click="(row, col) => ElMessage.info(`${col.label} = ${row[col.property]}`)"
 />
+
 ```
 
 :::
@@ -1464,21 +1448,37 @@ LSTable 通过列配置中的 `type` 字段内置了多种渲染模式。下方�
 ```js
 const tableData = ref([
   {
-    id: 1, name: '张三', status: 'ENABLED', amount: 1200,
-    createdAt: 1729041600000, website: '零数官网',
-    websiteUrl: 'https://lingshu.group', remark: null
+    id: 1,
+    name: '张三',
+    status: 'ENABLED',
+    amount: 1200,
+    createdAt: 1729041600000,
+    website: '零数官网',
+    websiteUrl: 'https://lingshu.group',
+    remark: null
   },
   {
-    id: 2, name: '李四', status: 'DISABLED', amount: -50,
-    createdAt: 1729044000000, website: null,
-    websiteUrl: null, remark: '有备注', disabled: true
+    id: 2,
+    name: '李四',
+    status: 'DISABLED',
+    amount: -50,
+    createdAt: 1729044000000,
+    website: null,
+    websiteUrl: null,
+    remark: '有备注',
+    disabled: true
   },
   {
-    id: 3, name: '王五', status: 'PENDING', amount: 300,
-    createdAt: 1729126200000, website: '数据服务',
-    websiteUrl: 'https://lingshu.group/data', remark: null
+    id: 3,
+    name: '王五',
+    status: 'PENDING',
+    amount: 300,
+    createdAt: 1729126200000,
+    website: '数据服务',
+    websiteUrl: 'https://lingshu.group/data',
+    remark: null
   }
-]);
+])
 
 const typeColumns = ref([
   { label: 'ID', prop: 'id', width: 70 },
@@ -1486,30 +1486,41 @@ const typeColumns = ref([
   { label: '创建时间', prop: 'createdAt', type: 'date', minWidth: 180, dateTemplate: 'YYYY-MM-DD' },
   // status：statusStyle 可为 'default' | 'dot' | 'follow'
   {
-    label: '状态', prop: 'status', type: 'status', minWidth: 120, statusStyle: 'dot',
+    label: '状态',
+    prop: 'status',
+    type: 'status',
+    minWidth: 120,
+    statusStyle: 'dot',
     value: {
       ENABLED: { type: 'success', label: '启用' },
-      DISABLED: { type: 'danger',  label: '停用' },
-      PENDING:  { type: 'warning', label: '待审核' }
+      DISABLED: { type: 'danger', label: '停用' },
+      PENDING: { type: 'warning', label: '待审核' }
     }
   },
   // number：isSuc=true 时正数用 success，负数始终为 danger
   { label: '余额', prop: 'amount', type: 'number', isSuc: true, minWidth: 100 },
   // link：hrefProp 指定行数据中的链接字段，linkProps 支持函数
   {
-    label: '官网链接', prop: 'website', type: 'link', minWidth: 130,
+    label: '官网链接',
+    prop: 'website',
+    type: 'link',
+    minWidth: 130,
     hrefProp: 'websiteUrl',
     linkProps: ({ row }) => ({ type: 'primary', target: '_blank', disabled: row.disabled })
   },
   // button：text 为按钮文案，buttonProps 支持函数，onClick 接收行上下文
   {
-    label: '操作', prop: 'id', type: 'button', text: '查看', minWidth: 90,
+    label: '操作',
+    prop: 'id',
+    type: 'button',
+    text: '查看',
+    minWidth: 90,
     buttonProps: { type: 'primary', link: true },
     onClick({ row }) { alert(`查看：${row.name}`) }
   },
   // slot：插槽名为列的 prop，作用域 { row, column, index }
   { label: '备注', prop: 'remark', type: 'slot', minWidth: 110 }
-]);
+])
 ```
 
 ```html
@@ -1517,9 +1528,10 @@ const typeColumns = ref([
   <!-- slot 类型列：插槽名 = 列 prop -->
   <template #remark="{ row }">
     <el-tag v-if="row.remark" type="info" size="small">{{ row.remark }}</el-tag>
-    <span v-else style="color:#c0c4cc">无</span>
+    <span v-else style="color: #c0c4cc">无</span>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1652,10 +1664,10 @@ import { h } from 'vue';
 ```js
 // 空数据 + 自定义 emptyLabel + show-overflow-tooltip
 const overflowColumns = ref([
-  { label: 'ID',   prop: 'id',     width: 80 },
-  { label: '姓名', prop: 'name',   minWidth: 120 },
+  { label: 'ID', prop: 'id', width: 80 },
+  { label: '姓名', prop: 'name', minWidth: 120 },
   { label: '备注', prop: 'remark', minWidth: 80 }
-]);
+])
 ```
 
 ```html
@@ -1668,12 +1680,13 @@ const overflowColumns = ref([
   show-overflow-tooltip
 >
   <template #empty>
-    <div style="padding:24px 0;text-align:center;color:#909399">
-      <div style="font-size:28px;margin-bottom:8px">📭</div>
+    <div style="padding: 24px 0; text-align: center; color: #909399">
+      <div style="font-size: 28px; margin-bottom: 8px">📭</div>
       <div>自定义 #empty 插槽：暂无数据</div>
     </div>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1708,11 +1721,11 @@ const overflowColumns = ref([
 ::: details 点我查看代码
 
 ```js
-const multiSelection = ref([]);
+const multiSelection = ref([])
 ```
 
 ```html
-<div style="margin-bottom:8px;font-size:13px">
+<div style="margin-bottom: 8px; font-size: 13px">
   已选中 {{ multiSelection.length }} 条：{{ multiSelection.map(r => r.name).join('、') || '无' }}
 </div>
 <LSTable
@@ -1723,6 +1736,7 @@ const multiSelection = ref([]);
   :table-data="tableData"
   v-model:selection="multiSelection"
 />
+
 ```
 
 :::
@@ -1752,13 +1766,11 @@ const multiSelection = ref([]);
 ::: details 点我查看代码
 
 ```js
-const radioCurrentRow = ref(null);
+const radioCurrentRow = ref(null)
 ```
 
 ```html
-<div style="margin-bottom:8px;font-size:13px">
-  当前选中：{{ radioCurrentRow ? radioCurrentRow.name : '无' }}
-</div>
+<div style="margin-bottom: 8px; font-size: 13px">当前选中：{{ radioCurrentRow ? radioCurrentRow.name : '无' }}</div>
 <LSTable
   row-key="id"
   :show-pagination="false"
@@ -1769,6 +1781,7 @@ const radioCurrentRow = ref(null);
   highlight-current-row
   @current-change="(row) => (radioCurrentRow = row)"
 />
+
 ```
 
 :::
@@ -1808,10 +1821,10 @@ const radioCurrentRow = ref(null);
 ::: details 点我查看代码
 
 ```js
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
-const pagingPage = ref(1);
-const pagingSize = ref(5);
+const pagingPage = ref(1)
+const pagingSize = ref(5)
 
 const pagingAllData = ref(
   Array.from({ length: 20 }, (_, i) => ({
@@ -1820,20 +1833,21 @@ const pagingAllData = ref(
     amount: (i % 3 === 0 ? -1 : 1) * (i + 1) * 100,
     createdAt: 1729041600000 + i * 3600000
   }))
-);
+)
 
-const pagingTotal = computed(() => pagingAllData.value.length);
+const pagingTotal = computed(() => pagingAllData.value.length)
 const pagingData = computed(() => {
-  const start = (pagingPage.value - 1) * pagingSize.value;
-  return pagingAllData.value.slice(start, start + pagingSize.value);
-});
+  const start = (pagingPage.value - 1) * pagingSize.value
+
+  return pagingAllData.value.slice(start, start + pagingSize.value)
+})
 
 const pagingColumns = ref([
-  { label: 'ID',    prop: 'id',        width: 70 },
-  { label: '姓名',  prop: 'name',      minWidth: 120 },
-  { label: '余额',  prop: 'amount',    type: 'number', isSuc: true, minWidth: 100 },
+  { label: 'ID', prop: 'id', width: 70 },
+  { label: '姓名', prop: 'name', minWidth: 120 },
+  { label: '余额', prop: 'amount', type: 'number', isSuc: true, minWidth: 100 },
   { label: '创建时间', prop: 'createdAt', type: 'date', minWidth: 180 }
-]);
+])
 ```
 
 ```html
@@ -1849,13 +1863,14 @@ const pagingColumns = ref([
 >
   <!-- 展开行内容，作用域 { row } -->
   <template #expand="{ row }">
-    <div style="padding:12px 20px;font-size:13px;color:#606266;line-height:1.8">
+    <div style="padding: 12px 20px; font-size: 13px; color: #606266; line-height: 1.8">
       <div>编号：{{ row.id }}</div>
       <div>姓名：{{ row.name }}</div>
       <div>余额：{{ row.amount }}</div>
     </div>
   </template>
 </LSTable>
+
 ```
 
 :::
@@ -1864,38 +1879,38 @@ const pagingColumns = ref([
 
 ## LSTable 属性（Props）
 
-| 属性名 | 说明 | 类型 | 默认值 |
-|--------|------|------|--------|
-| **tableColumn** | 列配置数组，每项透传给 el-table-column；必填 | `Array` | `[]` |
-| **tableData** | 表格数据源；必填 | `Array` | `[]` |
-| **loading** | 是否显示加载状态（v-loading） | `boolean` | `false` |
-| **showPagination** | 是否显示底部分页 | `boolean` | `true` |
-| **paginationClass** | 分页容器根元素的 class | `string` | `''` |
-| **total** | 数据总条数，供分页显示 | `number` | `0` |
-| **currentPage** | 当前页码，支持 v-model:current-page | `number` | `1` |
-| **pageSize** | 每页条数，支持 v-model:page-size | `number` | `10` |
-| **pageSizes** | 每页条数可选值列表 | `number[]` | `[10, 20, 30, 40, 50, 100]` |
-| **paginationOptions** | 透传给 el-pagination 的配置（如 layout） | `object` | `{}` |
-| **showTableIndex** | 是否显示序号列（type=index） | `boolean` | `true` |
-| **tableIndexfixed** | 序号列是否固定在左侧 | `boolean` | `false` |
-| **tableIndexLabel** | 序号列表头文案 | `string` | `'序号'` |
-| **tableIndexInPage** | 为 true 时序号在当前页内从 1 累加；为 false 时随分页全局连续 | `boolean` | `false` |
-| **tableIndexStart** | 为 true 时序号从 0 开始，否则从 1 开始 | `boolean` | `false` |
-| **indexColumnOptions** | 透传给序号列 el-table-column 的配置 | `object` | `{}` |
-| **showRadio** | 是否显示单选列 | `boolean` | `false` |
-| **radioColumnOptions** | 透传给单选列 el-table-column 的配置 | `object` | `{}` |
-| **showRadioLabel** | 是否在单选列显示 radio 的 label 文案 | `boolean` | `false` |
-| **radioProp** | 单选用作取值比较的字段名 | `string` | `'id'` |
-| **currentRow** | 当前选中的行（单选），用于受控高亮 | `object` | — |
-| **showSelect** | 是否显示多选列（type=selection） | `boolean` | `false` |
-| **selectColumnOptions** | 透传给多选列，如 selectable(row)、reserveSelection 等 | `object` | `{}` |
-| **selection** | 当前选中的行数组（多选），支持 v-model:selection | `array` | `[]` |
-| **showExpand** | 是否显示展开列（type=expand） | `boolean` | `false` |
-| **expandColumnOptions** | 透传给展开列 el-table-column 的配置 | `object` | `{}` |
-| **showEmpty** | 无数据时是否显示空状态区域 | `boolean` | `true` |
-| **labelEmpty** | 单元格值为空时显示的占位文案 | `string` | `'--'` |
-| **labelEmptyClass** | 上述空占位文案所在元素的 class | `string` | `''` |
-| **emptyLabel** | 无数据时空状态的描述文案 | `string` | `'暂无数据'` |
+| 属性名                  | 说明                                                         | 类型       | 默认值                      |
+| ----------------------- | ------------------------------------------------------------ | ---------- | --------------------------- |
+| **tableColumn**         | 列配置数组，每项透传给 el-table-column；必填                 | `Array`    | `[]`                        |
+| **tableData**           | 表格数据源；必填                                             | `Array`    | `[]`                        |
+| **loading**             | 是否显示加载状态（v-loading）                                | `boolean`  | `false`                     |
+| **showPagination**      | 是否显示底部分页                                             | `boolean`  | `true`                      |
+| **paginationClass**     | 分页容器根元素的 class                                       | `string`   | `''`                        |
+| **total**               | 数据总条数，供分页显示                                       | `number`   | `0`                         |
+| **currentPage**         | 当前页码，支持 v-model:current-page                          | `number`   | `1`                         |
+| **pageSize**            | 每页条数，支持 v-model:page-size                             | `number`   | `10`                        |
+| **pageSizes**           | 每页条数可选值列表                                           | `number[]` | `[10, 20, 30, 40, 50, 100]` |
+| **paginationOptions**   | 透传给 el-pagination 的配置（如 layout）                     | `object`   | `{}`                        |
+| **showTableIndex**      | 是否显示序号列（type=index）                                 | `boolean`  | `true`                      |
+| **tableIndexfixed**     | 序号列是否固定在左侧                                         | `boolean`  | `false`                     |
+| **tableIndexLabel**     | 序号列表头文案                                               | `string`   | `'序号'`                    |
+| **tableIndexInPage**    | 为 true 时序号在当前页内从 1 累加；为 false 时随分页全局连续 | `boolean`  | `false`                     |
+| **tableIndexStart**     | 为 true 时序号从 0 开始，否则从 1 开始                       | `boolean`  | `false`                     |
+| **indexColumnOptions**  | 透传给序号列 el-table-column 的配置                          | `object`   | `{}`                        |
+| **showRadio**           | 是否显示单选列                                               | `boolean`  | `false`                     |
+| **radioColumnOptions**  | 透传给单选列 el-table-column 的配置                          | `object`   | `{}`                        |
+| **showRadioLabel**      | 是否在单选列显示 radio 的 label 文案                         | `boolean`  | `false`                     |
+| **radioProp**           | 单选用作取值比较的字段名                                     | `string`   | `'id'`                      |
+| **currentRow**          | 当前选中的行（单选），用于受控高亮                           | `object`   | —                           |
+| **showSelect**          | 是否显示多选列（type=selection）                             | `boolean`  | `false`                     |
+| **selectColumnOptions** | 透传给多选列，如 selectable(row)、reserveSelection 等        | `object`   | `{}`                        |
+| **selection**           | 当前选中的行数组（多选），支持 v-model:selection             | `array`    | `[]`                        |
+| **showExpand**          | 是否显示展开列（type=expand）                                | `boolean`  | `false`                     |
+| **expandColumnOptions** | 透传给展开列 el-table-column 的配置                          | `object`   | `{}`                        |
+| **showEmpty**           | 无数据时是否显示空状态区域                                   | `boolean`  | `true`                      |
+| **labelEmpty**          | 单元格值为空时显示的占位文案                                 | `string`   | `'--'`                      |
+| **labelEmptyClass**     | 上述空占位文案所在元素的 class                               | `string`   | `''`                        |
+| **emptyLabel**          | 无数据时空状态的描述文案                                     | `string`   | `'暂无数据'`                |
 
 透传属性（不在此表）：Element Plus Table 的所有属性均可透传，如 `stripe`、`border`、`height`、`max-height`、`row-key`、`table-layout`、`highlight-current-row`、`show-overflow-tooltip`、`show-summary`、`summary-method`、`default-expand-all`、`expand-row-keys`、`row-class-name`、`row-style`、`cell-class-name`、`header-cell-class-name` 等。
 
@@ -1905,13 +1920,13 @@ const pagingColumns = ref([
 
 ## LSTable 事件（Events）
 
-| 事件名 | 说明 | 回调参数 |
-|--------|------|----------|
-| **sizeChange** | 每页条数改变时触发 | `(pageSize: number)` |
-| **currentPageChange** | 当前页改变时触发 | `(currentPage: number)` |
-| **update:page-size** | v-model:page-size 同步 | `(pageSize: number)` |
-| **update:current-page** | v-model:current-page 同步 | `(currentPage: number)` |
-| **update:selection** | v-model:selection 同步（多选） | `(selection: any[])` |
+| 事件名                  | 说明                           | 回调参数                |
+| ----------------------- | ------------------------------ | ----------------------- |
+| **sizeChange**          | 每页条数改变时触发             | `(pageSize: number)`    |
+| **currentPageChange**   | 当前页改变时触发               | `(currentPage: number)` |
+| **update:page-size**    | v-model:page-size 同步         | `(pageSize: number)`    |
+| **update:current-page** | v-model:current-page 同步      | `(currentPage: number)` |
+| **update:selection**    | v-model:selection 同步（多选） | `(selection: any[])`    |
 
 透传事件：Element Plus Table 的事件均可透传监听，如 `select`、`select-all`、`selection-change`、`current-change`、`row-click`、`cell-click`、`sort-change`、`filter-change`、`expand-change`、`header-click` 等。
 
@@ -1919,16 +1934,16 @@ const pagingColumns = ref([
 
 ## LSTable 插槽（Slots）
 
-| 插槽名 | 说明 | 作用域参数 |
-|--------|------|------------|
-| **prepend** | 插在配置列之前（位于 `el-table` 默认插槽内）；并非 Element Plus 文档中的表格级插槽名，仅为 LSTable 提供的具名插槽 | — |
-| **expand** | 展开行内容，需配合 showExpand 使用 | `{ row }` |
-| **empty** | 无数据时自定义内容，覆盖默认空状态 | — |
-| **append** | 表格最后一行之后插入的内容（对应 el-table append） | — |
-| **default** | 默认插槽，用于在配置列之后追加 el-table-column（如操作列） | — |
-| **#{prop}** | 列类型为 slot 时的列内容，插槽名为该列的 prop | `{ row, column, index }` |
-| **#{prop}-header** | 列自定义表头，列配置需设置 headerSlot: true | `{ column, index }` |
-| **#{prop}-filter-icon** | 列自定义筛选图标，列配置需设置 filterIconSlot: true | `{ filterOpened }` |
+| 插槽名                  | 说明                                                                                                              | 作用域参数               |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| **prepend**             | 插在配置列之前（位于 `el-table` 默认插槽内）；并非 Element Plus 文档中的表格级插槽名，仅为 LSTable 提供的具名插槽 | —                        |
+| **expand**              | 展开行内容，需配合 showExpand 使用                                                                                | `{ row }`                |
+| **empty**               | 无数据时自定义内容，覆盖默认空状态                                                                                | —                        |
+| **append**              | 表格最后一行之后插入的内容（对应 el-table append）                                                                | —                        |
+| **default**             | 默认插槽，用于在配置列之后追加 el-table-column（如操作列）                                                        | —                        |
+| **#{prop}**             | 列类型为 slot 时的列内容，插槽名为该列的 prop                                                                     | `{ row, column, index }` |
+| **#{prop}-header**      | 列自定义表头，列配置需设置 headerSlot: true                                                                       | `{ column, index }`      |
+| **#{prop}-filter-icon** | 列自定义筛选图标，列配置需设置 filterIconSlot: true                                                               | `{ filterOpened }`       |
 
 ---
 
@@ -1936,8 +1951,8 @@ const pagingColumns = ref([
 
 通过 ref 可访问内部 el-table 实例，用于调用 Element Plus Table 的方法：
 
-| 名称 | 说明 |
-|------|------|
+| 名称         | 说明                                                                                                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **TableRef** | el-table 的 ref 引用，可调用 `clearSelection`、`getSelectionRows`、`toggleRowSelection`、`toggleAllSelection`、`setCurrentRow`、`clearSort`、`clearFilter`、`doLayout`、`sort`、`scrollTo` 等 |
 
 ---
@@ -1946,44 +1961,44 @@ const pagingColumns = ref([
 
 每项会原样透传给 `el-table-column`，下表为常用字段及 LSTable 扩展字段。
 
-| 字段 | 说明 | 类型 | 默认值 / 说明 |
-|------|------|------|----------------|
-| **label** | 列标题 | `string` | — |
-| **prop** | 对应数据字段名，支持路径如 `user.name` | `string` | — |
-| **type** | 列类型：不设或 `default`、`date`、`status`、`number`、`slot`、`link`、`button`、`render` | `string` | 不设则按普通文本渲染 |
-| **width** | 列宽度（固定） | `string` / `number` | — |
-| **minWidth** | 列最小宽度 | `string` / `number` | — |
-| **fixed** | 固定列：`true` / `'left'` / `'right'` | `boolean` / `string` | — |
-| **align** | 列内容对齐方式 | `string` | `'left'` |
-| **headerAlign** | 表头对齐方式 | `string` | — |
-| **sortable** | 是否可排序；`'custom'` 表示服务端排序，需监听 sort-change | `boolean` / `string` | `false` |
-| **dateTemplate** | type 为 date 时的日期格式（dayjs 格式） | `string` | `'YYYY-MM-DD HH:mm:ss'` |
-| **value** | type 为 status 时的映射：`{ [字段值]: { type?, label } }`，可含 default | `object` | — |
-| **statusStyle** | type 为 status 时的展示样式：default（仅颜色）、dot / follow（带圆点） | `string` | `'default'` |
-| **statusProps** | type 为 status 时透传给 `el-text` 的其余配置；支持对象或函数 `({ row, column, index, value, item }) => object` | `object` / `Function` | `{}` |
-| **isSuc** | type 为 number 时，为 true 表示正数（含零）用 success；负数始终为 danger，与该项无关 | `boolean` | — |
-| **href** | type 为 link 时的链接，可为固定字符串或函数 `(row) => string` | `string` / `Function` | 未配置函数/字符串时依次使用 `hrefProp` 对应字段、否则回退为列 `prop` 对应字段值 |
-| **hrefProp** | type 为 link 时，从行数据中取链接的字段路径，如 `detailUrl` | `string` | — |
-| **linkProps** | type 为 link 时透传给 `el-link` 的其余配置，如 `type`、`underline`、`target` 等；支持对象或函数 `({ row, column, index }) => object` | `object` / `Function` | `{}` |
-| **text** | type 为 link 时的固定展示文案 | `string` | 默认取 `textProp` 或当前 `prop` 对应值 |
-| **textProp** | type 为 link 时，作为展示文案的数据字段路径，如 `name` | `string` | — |
-| **textFormatter** | type 为 link 或 button 时，自定义展示文案的格式化函数 `(row, rawValue) => string`，优先级最高 | `Function` | — |
-| **buttonProps** | type 为 button 时透传给 `el-button` 的其余配置；支持对象或函数 `({ row, column, index, value, item }) => object` | `object` / `Function` | `{}` |
-| **onClick** | type 为 button 时的点击回调，接收 `{ row, column, index, value, item }` | `Function` | — |
-| **headerSlot** | 为 true 时使用插槽 `#{prop}-header` 渲染表头 | `boolean` | — |
-| **filterIconSlot** | 为 true 时使用插槽 `#{prop}-filter-icon` 渲染筛选图标 | `boolean` | — |
-| **className** | 列单元格的 class | `string` | — |
-| **labelClassName** | 表头单元格的 class | `string` | — |
-| **formatter** | 格式化函数（透传 el-table-column） | `Function` | — |
-| **showOverflowTooltip** | 是否在溢出时显示 tooltip（可传 boolean 或对象） | `boolean` / `object` | — |
-| **filters** | 筛选项列表（透传） | `array` | — |
-| **filterMethod** | 筛选方法（透传） | `Function` | — |
-| **filterMultiple** | 筛选是否多选（透传） | `boolean` | — |
-| **filteredValue** | 当前选中的筛选值（透传） | `array` | — |
-| **sortMethod** | 排序方法（透传） | `Function` | — |
-| **sortBy** | 排序字段或函数（透传） | `string` / `Function` / `array` | — |
-| **resizable** | 是否可拖拽调整列宽（透传，需 border） | `boolean` | — |
-| **render** | `type` 为 `render` 时的单元格组件；接收 `{ row, column, index, value, item }` 作为 props | `Component` / `FunctionalComponent` | — |
+| 字段                    | 说明                                                                                                                                 | 类型                                | 默认值 / 说明                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- | ------------------------------------------------------------------------------- |
+| **label**               | 列标题                                                                                                                               | `string`                            | —                                                                               |
+| **prop**                | 对应数据字段名，支持路径如 `user.name`                                                                                               | `string`                            | —                                                                               |
+| **type**                | 列类型：不设或 `default`、`date`、`status`、`number`、`slot`、`link`、`button`、`render`                                             | `string`                            | 不设则按普通文本渲染                                                            |
+| **width**               | 列宽度（固定）                                                                                                                       | `string` / `number`                 | —                                                                               |
+| **minWidth**            | 列最小宽度                                                                                                                           | `string` / `number`                 | —                                                                               |
+| **fixed**               | 固定列：`true` / `'left'` / `'right'`                                                                                                | `boolean` / `string`                | —                                                                               |
+| **align**               | 列内容对齐方式                                                                                                                       | `string`                            | `'left'`                                                                        |
+| **headerAlign**         | 表头对齐方式                                                                                                                         | `string`                            | —                                                                               |
+| **sortable**            | 是否可排序；`'custom'` 表示服务端排序，需监听 sort-change                                                                            | `boolean` / `string`                | `false`                                                                         |
+| **dateTemplate**        | type 为 date 时的日期格式（dayjs 格式）                                                                                              | `string`                            | `'YYYY-MM-DD HH:mm:ss'`                                                         |
+| **value**               | type 为 status 时的映射：`{ [字段值]: { type?, label } }`，可含 default                                                              | `object`                            | —                                                                               |
+| **statusStyle**         | type 为 status 时的展示样式：default（仅颜色）、dot / follow（带圆点）                                                               | `string`                            | `'default'`                                                                     |
+| **statusProps**         | type 为 status 时透传给 `el-text` 的其余配置；支持对象或函数 `({ row, column, index, value, item }) => object`                       | `object` / `Function`               | `{}`                                                                            |
+| **isSuc**               | type 为 number 时，为 true 表示正数（含零）用 success；负数始终为 danger，与该项无关                                                 | `boolean`                           | —                                                                               |
+| **href**                | type 为 link 时的链接，可为固定字符串或函数 `(row) => string`                                                                        | `string` / `Function`               | 未配置函数/字符串时依次使用 `hrefProp` 对应字段、否则回退为列 `prop` 对应字段值 |
+| **hrefProp**            | type 为 link 时，从行数据中取链接的字段路径，如 `detailUrl`                                                                          | `string`                            | —                                                                               |
+| **linkProps**           | type 为 link 时透传给 `el-link` 的其余配置，如 `type`、`underline`、`target` 等；支持对象或函数 `({ row, column, index }) => object` | `object` / `Function`               | `{}`                                                                            |
+| **text**                | type 为 link 时的固定展示文案                                                                                                        | `string`                            | 默认取 `textProp` 或当前 `prop` 对应值                                          |
+| **textProp**            | type 为 link 时，作为展示文案的数据字段路径，如 `name`                                                                               | `string`                            | —                                                                               |
+| **textFormatter**       | type 为 link 或 button 时，自定义展示文案的格式化函数 `(row, rawValue) => string`，优先级最高                                        | `Function`                          | —                                                                               |
+| **buttonProps**         | type 为 button 时透传给 `el-button` 的其余配置；支持对象或函数 `({ row, column, index, value, item }) => object`                     | `object` / `Function`               | `{}`                                                                            |
+| **onClick**             | type 为 button 时的点击回调，接收 `{ row, column, index, value, item }`                                                              | `Function`                          | —                                                                               |
+| **headerSlot**          | 为 true 时使用插槽 `#{prop}-header` 渲染表头                                                                                         | `boolean`                           | —                                                                               |
+| **filterIconSlot**      | 为 true 时使用插槽 `#{prop}-filter-icon` 渲染筛选图标                                                                                | `boolean`                           | —                                                                               |
+| **className**           | 列单元格的 class                                                                                                                     | `string`                            | —                                                                               |
+| **labelClassName**      | 表头单元格的 class                                                                                                                   | `string`                            | —                                                                               |
+| **formatter**           | 格式化函数（透传 el-table-column）                                                                                                   | `Function`                          | —                                                                               |
+| **showOverflowTooltip** | 是否在溢出时显示 tooltip（可传 boolean 或对象）                                                                                      | `boolean` / `object`                | —                                                                               |
+| **filters**             | 筛选项列表（透传）                                                                                                                   | `array`                             | —                                                                               |
+| **filterMethod**        | 筛选方法（透传）                                                                                                                     | `Function`                          | —                                                                               |
+| **filterMultiple**      | 筛选是否多选（透传）                                                                                                                 | `boolean`                           | —                                                                               |
+| **filteredValue**       | 当前选中的筛选值（透传）                                                                                                             | `array`                             | —                                                                               |
+| **sortMethod**          | 排序方法（透传）                                                                                                                     | `Function`                          | —                                                                               |
+| **sortBy**              | 排序字段或函数（透传）                                                                                                               | `string` / `Function` / `array`     | —                                                                               |
+| **resizable**           | 是否可拖拽调整列宽（透传，需 border）                                                                                                | `boolean`                           | —                                                                               |
+| **render**              | `type` 为 `render` 时的单元格组件；接收 `{ row, column, index, value, item }` 作为 props                                             | `Component` / `FunctionalComponent` | —                                                                               |
 
 其他 `el-table-column` 支持的属性（如 `index`、`column-key`、`sort-orders` 等）均可写在列配置中。
 

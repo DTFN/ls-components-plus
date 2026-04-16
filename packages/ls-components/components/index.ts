@@ -1,34 +1,39 @@
-import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import type { App, Plugin } from 'vue';
-import { LSButton, LSButtonGroup } from './button/index';
-import LSDescriptions from './descriptions/index';
-import { LSForm, LSFormItem } from './form/index';
-import LSTable from './table/index';
-import LSUpload from './upload/index';
-import LSPreview from './preview/index';
-import LSMenu from './menu/index';
-import LSIcon from './icon/index';
-import LSConfirm from './confirm/index';
-import LSChart from './chart/index';
-import LSBreadcrumb from './breadcrumb/index';
-import LSBellMessage from './bellMessage/index';
-import LSLive from './live/index';
-import LSTree from './tree/index';
-import LSPrint from './print/index';
-import LSContainerBox from './containerBox/index';
-import LSBackTop from './backTop/index';
-import LSMap from './map/index';
-import LSEditor from './editor/index';
-import LSDialog from './dialog/index';
-import LSLayout from './layout/index';
-import LSList from './list/index';
-import LSPreviewImage from './preview_image/index';
-import LSPreviewDocx from './preview_docx/index';
-import LSPreviewPdf from './preview_pdf/index';
-import LSPreviewXlsx from './preview_xlsx/index';
-import LSDownloadFile from './downloadFile/index';
-import LSTooltip from './tooltip/index';
-import LSCropper from './cropper/index';
+/**
+ * @file 组件库入口文件
+ * @description LS Components Plus 组件库主入口，导出所有组件和安装函数
+ */
+
+import type { App, Plugin } from 'vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import LSBackTop from './backTop/index'
+import LSBellMessage from './bellMessage/index'
+import LSBreadcrumb from './breadcrumb/index'
+import { LSButton, LSButtonGroup } from './button/index'
+import LSChart from './chart/index'
+import LSConfirm from './confirm/index'
+import LSContainerBox from './containerBox/index'
+import LSCropper from './cropper/index'
+import LSDescriptions from './descriptions/index'
+import LSDialog from './dialog/index'
+import LSDownloadFile from './downloadFile/index'
+import LSEditor from './editor/index'
+import { LSForm, LSFormItem } from './form/index'
+import LSIcon from './icon/index'
+import LSLayout from './layout/index'
+import LSList from './list/index'
+import LSLive from './live/index'
+import LSMap from './map/index'
+import LSMenu from './menu/index'
+import LSPreview from './preview/index'
+import LSPreviewDocx from './preview_docx/index'
+import LSPreviewImage from './preview_image/index'
+import LSPreviewPdf from './preview_pdf/index'
+import LSPreviewXlsx from './preview_xlsx/index'
+import LSPrint from './print/index'
+import LSTable from './table/index'
+import LSTooltip from './tooltip/index'
+import LSTree from './tree/index'
+import LSUpload from './upload/index'
 
 const components: Record<string, Plugin> = {
   LSButtonGroup,
@@ -61,37 +66,37 @@ const components: Record<string, Plugin> = {
   LSPreviewXlsx,
   LSDownloadFile,
   LSTooltip,
-  LSCropper
-};
+  LSCropper,
+}
 
-const install = (app: App) => {
+function install(app: App) {
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component as Component);
+    app.component(key, component as Component)
   }
 
   for (const key of Object.keys(components)) {
-    const cpo: any = components[key];
-    app.component(cpo?.name, cpo);
+    const cpo: any = components[key]
+    app.component(cpo?.name, cpo)
   }
-};
+}
 
 const LSWebPlus: Plugin = {
   ...components,
-  install
-};
+  install,
+}
 
-export default LSWebPlus;
+export default LSWebPlus
 
 export type {
   BellMessageListType,
   BreadCrumpListType,
-  IconConfigType,
   ChartDataType,
   ChartTemplatePatchType,
   ChartTemplateType,
   DescriptionsListType,
   DialogBtnType,
+  IconConfigType,
   MarkerAnchorType,
   MenuBaseType,
-  UploadItemType
-} from '@cpo/_types';
+  UploadItemType,
+} from '@cpo/_types'

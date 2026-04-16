@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import logo from '@/assets/logo.png';
-import { MENU_LIST } from '@/constant';
-import type { BellMessageListType } from '@cpo/_types';
+import type { BellMessageListType } from '@cpo/_types'
+import logo from '@/assets/logo.png'
+import { MENU_LIST } from '@/constant'
 
 // function jumpRoute(path: string) {
 //   if (path && path.trim() !== '') {
@@ -15,7 +15,7 @@ import type { BellMessageListType } from '@cpo/_types';
 //   }
 // }
 
-const noticeNum = ref(1);
+const noticeNum = ref(1)
 const list: Ref<BellMessageListType> = ref([
   {
     id: '1',
@@ -23,37 +23,39 @@ const list: Ref<BellMessageListType> = ref([
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 12:00:00',
-    readStatus: 0
+    readStatus: 0,
   },
   {
     id: '2',
     msgType: '角色权限变更',
     content: '角色权限已变更，将在下次登录后生效！',
     createdTime: '2024-02-01 13:00:00',
-    readStatus: 1
-  }
-]);
+    readStatus: 1,
+  },
+])
 
-const loadMore = () => {
-  list.value = list.value.concat(list.value);
-};
+function loadMore() {
+  list.value = list.value.concat(list.value)
+}
 
-const readMsg = (id: string) => {
+function readMsg(id: string) {
   list.value = list.value.map((item: any) => {
     if (item.id === id) {
-      item.readStatus = 1;
+      item.readStatus = 1
     }
-    return item;
-  });
-};
 
-const readAll = () => {
+    return item
+  })
+}
+
+function readAll() {
   list.value = list.value.map((item: any) => {
-    item.readStatus = 1;
-    return item;
-  });
-  noticeNum.value = 0;
-};
+    item.readStatus = 1
+
+    return item
+  })
+  noticeNum.value = 0
+}
 </script>
 
 <template>
@@ -66,10 +68,10 @@ const readAll = () => {
         :notice-num="noticeNum"
         :list="list"
         :loading="false"
+        style="margin-right: 18px"
         @read-msg="readMsg"
         @read-all="readAll"
         @load-more="loadMore"
-        style="margin-right: 18px"
       />
     </template>
     <template #section>

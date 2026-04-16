@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { MarkerAnchorType } from '@cpo/_types';
+import type { MarkerAnchorType } from '@cpo/_types'
 
 const markerList = ref([
   {
-    lnglat: ['121.922823', '30.898127']
-  }
-]);
+    lnglat: ['121.922823', '30.898127'],
+  },
+])
 
 const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='title'>已生产区块数</div>
@@ -14,9 +14,9 @@ const markerDialogContent = ref(`<div class='point-wrap'>
   <div class='value'>200</div>
   <div class='title'>地点</div>
   <div class='value'>上海</div>
-</div>`);
+</div>`)
 
-const markerDialogAnchor: MarkerAnchorType = 'top-right';
+const markerDialogAnchor: MarkerAnchorType = 'top-right'
 </script>
 
 <template>

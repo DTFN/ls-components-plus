@@ -1,45 +1,91 @@
 <script setup lang="ts" name="LSBellMessage">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsBellMessageProps, emitNames } from './types';
-import { merge } from 'lodash-es';
+/**
+ * @summary 铃铛消息组件 - 消息通知展示组件
+ *
+ * 这是自研库的标准消息通知组件，用于在顶部导航栏显示消息通知。
+ * 支持消息图标、标题、描述、时间、状态等展示，可配置最大显示数量，
+ * 适用于消息中心、通知中心等场景。
+ *
+ * @attr {string} title - 标题
+ * @attr {any[]} data - 消息数据数组
+ * @attr {number} max - 最大显示数量，默认为5
+ * @attr {boolean} showFooter - 是否显示底部
+ * @attr {boolean} showAll - 是否显示全部
+ * @attr {string} footerText - 底部文本
+ * @attr {string} emptyText - 空状态文本
+ * @attr {boolean} showIndex - 是否显示序号
+ *
+ * @slot title - 标题插槽
+ * @slot empty - 空状态插槽
+ * @slot default - 默认插槽
+ * @slot item - 消息项插槽，参数：{ item, index }
+ * @slot footer - 底部插槽
+ *
+ * @event onAll - 查看全部事件
+ * @event onItem - 点击消息项事件，参数：item
+ *
+ * @csspart bell-message - 消息组件容器
+ * @csspart bell-message-list - 消息列表
+ * @csspart bell-message-item - 消息项
+ *
+ * @example
+ * <!-- 基础用法 -->
+ * <LSBellMessage
+ *   title="消息通知"
+ *   :data="messageList"
+ *   :max="5"
+ *   @onItem="handleMessageClick"
+ * />
+ *
+ * @example
+ * <!-- 自定义消息项 -->
+ * <LSBellMessage :data="messageList">
+ *   <template #item="{ item, index }">
+ *     <CustomMessageItem :data="item" />
+ *   </template>
+ * </LSBellMessage>
+ */
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { merge } from 'lodash-es'
+import { emitNames, lsBellMessageProps } from './types'
 
-const emitAll = defineEmits(emitNames);
+defineProps(lsBellMessageProps)
 
-defineProps(lsBellMessageProps);
+const emitAll = defineEmits(emitNames)
 
 const defAttrs: Ref<{
-  width: number;
-  placement: string;
-  trigger: string;
+  width: number
+  placement: string
+  trigger: string
 }> = ref({
   width: 360,
   placement: 'bottom-end',
-  trigger: 'click'
-});
+  trigger: 'click',
+})
 
 const defBadgeAttrs: Ref<{
-  showZero: boolean;
-  max: number;
-  offset: number[];
+  showZero: boolean
+  max: number
+  offset: number[]
 }> = ref({
   showZero: false,
   max: 99,
-  offset: [3, 2]
-});
+  offset: [3, 2],
+})
 
-const ns = useNamespace('bell-message');
-const comClass: string = ns.b();
+const ns = useNamespace('bell-message')
+const comClass: string = ns.b()
 
 function readAll() {
-  emitAll('readAll');
+  emitAll('readAll')
 }
 
 function readMsg(id: string | number) {
-  emitAll('readMsg', id);
+  emitAll('readMsg', id)
 }
 
 function loadMore() {
-  emitAll('loadMore');
+  emitAll('loadMore')
 }
 </script>
 
@@ -50,34 +96,44 @@ function loadMore() {
         <el-badge v-bind="merge(defBadgeAttrs, $attrs)" class="icon-message" :value="Number(noticeNum)" dot-class="notice-dot">
           <template #default>
             <LSIcon v-if="iconConfig.name" v-bind="iconConfig" />
-            <el-icon v-else><BellFilled /></el-icon>
+            <el-icon v-else>
+              <BellFilled />
+            </el-icon>
           </template>
         </el-badge>
       </template>
       <div class="msg-list-view">
         <div class="top-box">
-          <LSButton class="pl-12 read_all" link :type="noticeNum > 0 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll"
-            >全部已读</LSButton
-          >
+          <LSButton class="pl-12 read_all" link :type="noticeNum > 0 ? 'primary' : ''" :disabled="noticeNum < 1" @click="readAll">
+            全部已读
+          </LSButton>
         </div>
 
-        <div class="content-box" v-loading="loading">
+        <div v-loading="loading" class="content-box">
           <div v-for="(item, index) in list" :key="index" class="mlr-6 msg-item" @click="readMsg(item.id)">
             <h1>{{ item.title }}</h1>
-            <el-tag v-if="item.msgType" type="primary" class="msg-type">{{ item.msgType }}</el-tag>
+            <el-tag v-if="item.msgType" type="primary" class="msg-type">
+              {{ item.msgType }}
+            </el-tag>
             <div class="mt-8 content" v-html="item.content"></div>
-            <div class="mt-8 time">{{ item.createdTime }}</div>
-            <div v-show="item.readStatus == 0" class="dot"></div>
+            <div class="mt-8 time">
+              {{ item.createdTime }}
+            </div>
+            <div v-show="item.readStatus === 0" class="dot"></div>
           </div>
 
           <div
             class="flex-center ptb-24"
             :style="{
-              textAlign: 'center'
+              textAlign: 'center',
             }"
           >
-            <div v-if="noMore" class="no-more">暂无更多</div>
-            <el-button v-else link type="primary" :loading="loading" @click="loadMore">加载更多</el-button>
+            <div v-if="noMore" class="no-more">
+              暂无更多
+            </div>
+            <el-button v-else link type="primary" :loading="loading" @click="loadMore">
+              加载更多
+            </el-button>
           </div>
         </div>
       </div>

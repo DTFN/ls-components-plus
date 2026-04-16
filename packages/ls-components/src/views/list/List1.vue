@@ -2,15 +2,15 @@
   当前位置：权益海报
 -->
 <script setup lang="ts">
-import { claimPrivilegePosterListApi } from './interface';
-import { COM_FORM_ATTRS, COM_TABLE_ATTRS } from './attrs';
-import { getStatusList, getStatusMap } from './types';
+import { COM_FORM_ATTRS, COM_TABLE_ATTRS } from './attrs'
+import { claimPrivilegePosterListApi } from './interface'
+import { getStatusList, getStatusMap } from './types'
 
 // 列表组件ref
-const lsListRef = ref();
+const lsListRef = ref()
 
 // 添加按钮是否禁用
-let disabledAdd = ref(false);
+let disabledAdd = ref(false)
 
 // 表单数据
 const formData = ref({
@@ -19,8 +19,8 @@ const formData = ref({
   createdBy: '',
   createdTime: '',
   updatedBy: '',
-  updatedTime: ''
-});
+  updatedTime: '',
+})
 
 // 表单配置
 const formItems = ref([
@@ -29,19 +29,19 @@ const formItems = ref([
     label: '权益类型',
     prop: 'type',
     attrs: {
-      clearable: false
+      clearable: false,
     },
-    options: getStatusList('EquityTypeOptions') // 权益类型 0-尊享包 1-增值包
+    options: getStatusList('EquityTypeOptions'), // 权益类型 0-尊享包 1-增值包
   },
   {
     type: 'input',
     label: '版本号',
-    prop: 'version'
+    prop: 'version',
   },
   {
     type: 'input',
     label: '创建人',
-    prop: 'createdBy'
+    prop: 'createdBy',
   },
   {
     type: 'date',
@@ -50,14 +50,14 @@ const formItems = ref([
     attrs: {
       valueFormat: 'YYYY/MM/DD',
       disabledDate: (time: any) => {
-        return time.getTime() > Date.now();
-      }
-    }
+        return time.getTime() > Date.now()
+      },
+    },
   },
   {
     type: 'input',
     label: '更新人',
-    prop: 'updatedBy'
+    prop: 'updatedBy',
   },
   {
     type: 'date',
@@ -66,11 +66,11 @@ const formItems = ref([
     attrs: {
       valueFormat: 'YYYY/MM/DD',
       disabledDate: (time: any) => {
-        return time.getTime() > Date.now();
-      }
-    }
-  }
-]);
+        return time.getTime() > Date.now()
+      },
+    },
+  },
+])
 
 // 表格列配置
 const tableColumn = [
@@ -79,46 +79,46 @@ const tableColumn = [
     label: '权益类型',
     prop: 'type',
     type: 'status',
-    value: getStatusMap('EquityTypeOptions')
+    value: getStatusMap('EquityTypeOptions'),
   },
   {
     minWidth: 100,
     label: '版本号',
-    prop: 'version'
+    prop: 'version',
   },
   {
     minWidth: 100,
     label: '版本说明',
     prop: 'versionExplain',
-    type: 'slot'
+    type: 'slot',
   },
   {
     minWidth: 100,
     label: '权益图片',
     prop: 'posterImage',
-    type: 'slot'
+    type: 'slot',
   },
   {
     minWidth: 100,
     label: '创建人',
-    prop: 'createdBy'
+    prop: 'createdBy',
   },
   {
     minWidth: 160,
     label: '创建时间',
-    prop: 'createdTime'
+    prop: 'createdTime',
   },
   {
     minWidth: 100,
     label: '更新人',
-    prop: 'updatedBy'
+    prop: 'updatedBy',
   },
   {
     minWidth: 160,
     label: '更新时间',
-    prop: 'updatedTime'
-  }
-];
+    prop: 'updatedTime',
+  },
+]
 
 /**
  * 处理请求参数
@@ -127,8 +127,8 @@ const tableColumn = [
  */
 function dealParams(params: any) {
   return {
-    ...params
-  };
+    ...params,
+  }
 }
 
 /**
@@ -139,23 +139,23 @@ function dealParams(params: any) {
 function dealData(res: any) {
   // 判断是否禁用添加按钮
   if (!disabledAdd.value) {
-    disabledAdd.value = res.total > 1;
+    disabledAdd.value = res.total > 1
   }
 
   return {
     data: res.records,
-    total: res.total
-  };
+    total: res.total,
+  }
 }
 
-const tableData: any = ref([]);
+const tableData: any = ref([])
 
 async function init() {
-  const { records }: any = await claimPrivilegePosterListApi();
-  tableData.value = records;
+  const { records }: any = await claimPrivilegePosterListApi()
+  tableData.value = records
 }
 
-init();
+init()
 </script>
 
 <template>
@@ -170,10 +170,10 @@ init();
       :deal-data="dealData"
       :form-attrs="{
         ...COM_FORM_ATTRS,
-        labelWidth: 70
+        labelWidth: 70,
       }"
       :table-attrs="{
-        ...COM_TABLE_ATTRS
+        ...COM_TABLE_ATTRS,
       }"
       :show-table-detail="false"
       :show-table-del="false"
@@ -181,7 +181,7 @@ init();
       class="com-tab-list"
     >
     </LSList>
-    <!-- 
+    <!--
     <el-table :data="tableData" style="width: 100%">
       <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" width="180" />
     </el-table> -->

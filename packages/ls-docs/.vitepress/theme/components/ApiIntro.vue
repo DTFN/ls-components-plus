@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-import { ElTable, ElTableColumn } from 'element-plus';
+import { ElTable, ElTableColumn } from 'element-plus'
 
-const props = defineProps({
+defineProps({
   tableColumn: {
     type: Array<any>,
     required: true,
-    default: () => []
+    default: () => [],
   },
   tableData: {
     type: Array<any>,
     required: true,
-    default: () => []
-  }
-});
+    default: () => [],
+  },
+})
 </script>
+
 <template>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column
@@ -26,6 +27,7 @@ const props = defineProps({
     />
   </el-table>
 </template>
+
 <style lang="scss">
 .el-table {
   tr {

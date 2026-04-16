@@ -80,9 +80,8 @@ export default {
     {
       text: 'hooks',
       items: [
-        { text: 'useRouterHook', link: '/tools/hooks/useRouterHook' },
         { text: 'useWSHook', link: '/tools/hooks/useWSHook' },
-        { text: 'useOptionHook', link: '/tools/hooks/useOptionHook' },
+        { text: 'useOptionsHook', link: '/tools/hooks/useOptionsHook' },
         { text: 'useTableListHook', link: '/tools/hooks/useTableListHook' }
       ]
     },

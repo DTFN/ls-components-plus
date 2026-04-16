@@ -1,104 +1,105 @@
 <script setup lang="ts" name="LSPdf">
-import * as PDFJS from 'pdfjs-dist';
-import type { PDFDocumentLoadingTask, PDFPageProxy, PageViewport, RenderTask } from 'pdfjs-dist';
-import type { GetViewportParameters, PDFDocumentProxy, RenderParameters } from 'pdfjs-dist/types/src/display/api';
+import type { PageViewport, PDFDocumentLoadingTask, PDFPageProxy, RenderTask } from 'pdfjs-dist'
+import type { GetViewportParameters, PDFDocumentProxy, RenderParameters } from 'pdfjs-dist/types/src/display/api'
 import type {
   AnnotationEventPayload,
   HighlightEventPayload,
   HighlightOptions,
   LoadedEventPayload,
   TextLayerLoadedEventPayload,
-  WatermarkOptions
-} from '../../types';
-import Annotation from './Annotation.vue';
-import Text from './Text.vue';
-import XFA from './XFA.vue';
-import { merge } from 'lodash-es';
+  WatermarkOptions,
+} from '../../types'
+import { merge } from 'lodash-es'
+import * as PDFJS from 'pdfjs-dist'
+import Annotation from './Annotation.vue'
+import Text from './Text.vue'
+import XFA from './XFA.vue'
+
 interface InternalProps {
-  page: PDFPageProxy | undefined;
-  document: PDFDocumentProxy | undefined;
-  viewport: PageViewport | undefined;
+  page: PDFPageProxy | undefined
+  document: PDFDocumentProxy | undefined
+  viewport: PageViewport | undefined
 }
 
 const props = withDefaults(
   defineProps<{
-    pdf: PDFDocumentLoadingTask;
-    page: number;
-    scale: number;
-    rotation?: number;
-    fitParent?: boolean;
-    width?: number;
-    height?: number;
-    textLayer?: boolean;
-    imageResourcesPath?: string;
-    hideForms?: boolean;
-    intent?: string;
-    annotationLayer?: boolean;
-    annotationsFilter?: string[];
-    annotationsMap?: object;
-    watermarkText?: string;
-    watermarkOptions?: WatermarkOptions;
-    highlightText?: string | string[];
-    highlightOptions?: HighlightOptions;
+    pdf: PDFDocumentLoadingTask
+    page: number
+    scale: number
+    rotation?: number
+    fitParent?: boolean
+    width?: number
+    height?: number
+    textLayer?: boolean
+    imageResourcesPath?: string
+    hideForms?: boolean
+    intent?: string
+    annotationLayer?: boolean
+    annotationsFilter?: string[]
+    annotationsMap?: object
+    watermarkText?: string
+    watermarkOptions?: WatermarkOptions
+    highlightText?: string | string[]
+    highlightOptions?: HighlightOptions
   }>(),
   {
     intent: 'display',
     page: 1,
-    scale: 1
-  }
-);
+    scale: 1,
+  },
+)
 
 const emits = defineEmits<{
-  (event: 'annotation', payload: AnnotationEventPayload): void;
-  (event: 'highlight', payload: HighlightEventPayload): void;
-  (event: 'loaded', payload: LoadedEventPayload): void;
-  (event: 'textLoaded', payload: TextLayerLoadedEventPayload): void;
-  (event: 'annotationLoaded', payload: any[]): void;
-  (event: 'xfaLoaded'): void;
-  (event: 'loadComplete'): void;
-  (event: 'loadError'): void;
-  (event: 'update:source'): void;
-}>();
+  (event: 'annotation', payload: AnnotationEventPayload): void
+  (event: 'highlight', payload: HighlightEventPayload): void
+  (event: 'loaded', payload: LoadedEventPayload): void
+  (event: 'textLoaded', payload: TextLayerLoadedEventPayload): void
+  (event: 'annotationLoaded', payload: any[]): void
+  (event: 'xfaLoaded'): void
+  (event: 'loadComplete'): void
+  (event: 'loadError'): void
+  (event: 'update:source'): void
+}>()
 
 watch(
   () => props.pdf,
   () => {
-    initPdf();
+    initPdf()
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // Template Refs
-const container = ref<HTMLSpanElement>();
-const loadingLayer = ref<HTMLSpanElement>();
-const loading = ref(false);
-let renderTask: RenderTask;
+const container = ref<HTMLSpanElement>()
+const loadingLayer = ref<HTMLSpanElement>()
+const loading = ref(false)
+let renderTask: RenderTask
 
 const internalProps = computed(() => {
   return {
     viewport: undefined,
     document: undefined,
-    page: undefined
-  } as InternalProps;
-});
+    page: undefined,
+  } as InternalProps
+})
 const alayerProps = computed(() => {
   return {
     annotationsMap: props.annotationsMap,
     annotationsFilter: props.annotationsFilter,
     imageResourcesPath: props.imageResourcesPath,
     hideForms: props.hideForms,
-    intent: props.intent
-  };
-});
+    intent: props.intent,
+  }
+})
 const tlayerProps = computed(() => {
   return {
     highlightText: props.highlightText,
-    highlightOptions: props.highlightOptions
-  };
-});
+    highlightOptions: props.highlightOptions,
+  }
+})
 
 function getWatermarkOptionsWithDefaults(): WatermarkOptions {
   return merge(
@@ -108,130 +109,147 @@ function getWatermarkOptionsWithDefaults(): WatermarkOptions {
       rows: 4,
       rotation: 45,
       fontSize: 18,
-      color: 'rgba(211, 210, 211, 0.4)'
+      color: 'rgba(211, 210, 211, 0.4)',
     },
-    props.watermarkOptions
-  );
+    props.watermarkOptions,
+  )
 }
 
 function getRotation(rotation: number): number {
-  if (!(typeof rotation === 'number' && rotation % 90 === 0)) return 0;
-  const factor = rotation / 90;
-  if (factor > 4) return getRotation(rotation - 360);
-  else if (factor < 0) return getRotation(rotation + 360);
-  return rotation;
+  if (!(typeof rotation === 'number' && rotation % 90 === 0))
+    return 0
+  const factor = rotation / 90
+  if (factor > 4)
+    return getRotation(rotation - 360)
+  else if (factor < 0)
+    return getRotation(rotation + 360)
+
+  return rotation
 }
 
 function getScale(page: PDFPageProxy): number {
-  let fscale = props.scale;
+  let fscale = props.scale
+
   if (props.fitParent) {
-    const parentWidth: number = (container.value!.parentNode! as HTMLElement).clientWidth;
-    const scale1Width = page.getViewport({ scale: 1 }).width;
-    fscale = parentWidth / scale1Width;
-  } else if (props.width) {
-    const scale1Width = page.getViewport({ scale: 1 }).width;
-    fscale = props.width / scale1Width;
-  } else if (props.height) {
-    const scale1Height = page.getViewport({ scale: 1 }).height;
-    fscale = props.height / scale1Height;
+    const parentWidth: number = (container.value!.parentNode! as HTMLElement).clientWidth
+    const scale1Width = page.getViewport({ scale: 1 }).width
+    fscale = parentWidth / scale1Width
   }
-  return fscale;
+  else if (props.width) {
+    const scale1Width = page.getViewport({ scale: 1 }).width
+    fscale = props.width / scale1Width
+  }
+  else if (props.height) {
+    const scale1Height = page.getViewport({ scale: 1 }).height
+    fscale = props.height / scale1Height
+  }
+
+  return fscale
 }
 
 function paintWatermark(zoomRatio = 1.0) {
-  if (!props.watermarkText) return;
+  if (!props.watermarkText)
+    return
 
-  const canvas = getCurrentCanvas();
-  if (!canvas) return;
+  const canvas = getCurrentCanvas()
+  if (!canvas)
+    return
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  const ctx = canvas.getContext('2d')
+  if (!ctx)
+    return
 
-  const mergeOptions = getWatermarkOptionsWithDefaults();
+  const mergeOptions = getWatermarkOptionsWithDefaults()
 
-  const text = props.watermarkText;
-  const columns = mergeOptions.columns!;
-  const rows = mergeOptions.rows!;
-  const numWatermarks = columns * rows;
-  const rotation = mergeOptions.rotation!;
-  const pixels = mergeOptions.fontSize! * zoomRatio;
-  ctx.font = `${pixels}px Trebuchet MS`;
-  ctx.fillStyle = mergeOptions.color!;
+  const text = props.watermarkText
+  const columns = mergeOptions.columns!
+  const rows = mergeOptions.rows!
+  const numWatermarks = columns * rows
+  const rotation = mergeOptions.rotation!
+  const pixels = mergeOptions.fontSize! * zoomRatio
+  ctx.font = `${pixels}px Trebuchet MS`
+  ctx.fillStyle = mergeOptions.color!
 
   for (let i = 0; i < numWatermarks; i++) {
-    const x = (i % columns) * (canvas.width / columns) + canvas.width / (columns * 2);
-    const y = Math.floor(i / columns) * (canvas.height / rows) + canvas.height / (rows * 2);
+    const x = (i % columns) * (canvas.width / columns) + canvas.width / (columns * 2)
+    const y = Math.floor(i / columns) * (canvas.height / rows) + canvas.height / (rows * 2)
 
-    const textWidth = ctx.measureText(text).width;
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(-rotation * (Math.PI / 180));
-    ctx.fillText(text, -textWidth / 2, pixels / 2);
-    ctx.restore();
+    const textWidth = ctx.measureText(text).width
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.rotate(-rotation * (Math.PI / 180))
+    ctx.fillText(text, -textWidth / 2, pixels / 2)
+    ctx.restore()
   }
 }
 
 function getCurrentCanvas(): HTMLCanvasElement | null {
-  let oldCanvas = null;
-  container.value?.childNodes.forEach(el => {
-    if ((el as HTMLElement).tagName === 'CANVAS') oldCanvas = el;
-  });
-  return oldCanvas;
+  let oldCanvas = null
+  container.value?.childNodes.forEach((el) => {
+    if ((el as HTMLElement).tagName === 'CANVAS')
+      oldCanvas = el
+  })
+
+  return oldCanvas
 }
 
 function setupCanvas(viewport: PageViewport): HTMLCanvasElement {
-  let canvas;
-  const currentCanvas = getCurrentCanvas()!;
+  let canvas
+  const currentCanvas = getCurrentCanvas()!
+
   if (currentCanvas && currentCanvas?.getAttribute('role') === 'main') {
-    canvas = currentCanvas;
-  } else {
-    canvas = document.createElement('canvas');
-    canvas.style.display = 'block';
-    canvas.setAttribute('dir', 'ltr');
+    canvas = currentCanvas
+  }
+  else {
+    canvas = document.createElement('canvas')
+    canvas.style.display = 'block'
+    canvas.setAttribute('dir', 'ltr')
   }
 
-  const outputScale = window.devicePixelRatio || 1;
-  canvas.width = Math.floor(viewport.width * outputScale);
-  canvas.height = Math.floor(viewport.height * outputScale);
+  const outputScale = window.devicePixelRatio || 1
+  canvas.width = Math.floor(viewport.width * outputScale)
+  canvas.height = Math.floor(viewport.height * outputScale)
 
-  canvas.style.width = `${Math.floor(viewport.width)}px`;
-  canvas.style.height = `${Math.floor(viewport.height)}px`;
+  canvas.style.width = `${Math.floor(viewport.width)}px`
+  canvas.style.height = `${Math.floor(viewport.height)}px`
 
-  canvas.setAttribute('class', 'pdf-canvas');
+  canvas.setAttribute('class', 'pdf-canvas')
 
   // --scale-factor property
-  container.value?.style.setProperty('--scale-factor', `${viewport.scale}`);
+  container.value?.style.setProperty('--scale-factor', `${viewport.scale}`)
   // Also setting dimension properties for load layer
-  loadingLayer.value!.style.width = `${Math.floor(viewport.width)}px`;
-  loadingLayer.value!.style.height = `${Math.floor(viewport.height)}px`;
-  loadingLayer.value!.style.top = '0';
-  loadingLayer.value!.style.left = '0';
-  loading.value = true;
-  return canvas;
+  loadingLayer.value!.style.width = `${Math.floor(viewport.width)}px`
+  loadingLayer.value!.style.height = `${Math.floor(viewport.height)}px`
+  loadingLayer.value!.style.top = '0'
+  loadingLayer.value!.style.left = '0'
+  loading.value = true
+
+  return canvas
 }
 
 function cancelRender() {
-  if (renderTask) renderTask.cancel();
+  if (renderTask)
+    renderTask.cancel()
 }
 
 function renderPage(pageNum: number) {
   toRaw(internalProps.value.document)
     ?.getPage(pageNum)
-    .then(page => {
-      cancelRender();
+    .then((page) => {
+      cancelRender()
 
-      const defaultViewport = page.getViewport();
+      const defaultViewport = page.getViewport()
       const viewportParams: GetViewportParameters = {
         scale: getScale(page),
-        rotation: getRotation((props.rotation || 0) + defaultViewport.rotation)
-      };
-      const viewport = page.getViewport(viewportParams);
+        rotation: getRotation((props.rotation || 0) + defaultViewport.rotation),
+      }
+      const viewport = page.getViewport(viewportParams)
 
-      const oldCanvas = getCurrentCanvas();
-      const canvas = setupCanvas(viewport);
+      const oldCanvas = getCurrentCanvas()
+      const canvas = setupCanvas(viewport)
 
-      const outputScale = window.devicePixelRatio || 1;
-      const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined;
+      const outputScale = window.devicePixelRatio || 1
+      const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined
 
       // Render PDF page into canvas context
       const renderContext: RenderParameters = {
@@ -239,38 +257,40 @@ function renderPage(pageNum: number) {
         viewport,
         annotationMode: props.hideForms ? PDFJS.AnnotationMode.ENABLE : PDFJS.AnnotationMode.ENABLE_FORMS,
         transform,
-        intent: props.intent
-      };
-
-      if (canvas?.getAttribute('role') !== 'main') {
-        if (oldCanvas) container.value?.replaceChild(canvas, oldCanvas);
-      } else {
-        canvas.removeAttribute('role');
+        intent: props.intent,
       }
 
-      internalProps.value.page = page;
-      internalProps.value.viewport = viewport;
-      renderTask = page.render(renderContext);
+      if (canvas?.getAttribute('role') !== 'main') {
+        if (oldCanvas)
+          container.value?.replaceChild(canvas, oldCanvas)
+      }
+      else {
+        canvas.removeAttribute('role')
+      }
+
+      internalProps.value.page = page
+      internalProps.value.viewport = viewport
+      renderTask = page.render(renderContext)
       renderTask.promise
         .then(() => {
-          loading.value = false;
-          paintWatermark(viewport.scale);
-          emits('loaded', internalProps.value.viewport!);
-          emits('loadComplete');
+          loading.value = false
+          paintWatermark(viewport.scale)
+          emits('loaded', internalProps.value.viewport!)
+          emits('loadComplete')
         })
         .catch(() => {
-          emits('loadError');
+          emits('loadError')
           // render task cancelled
-        });
-    });
+        })
+    })
 }
 
 function initDoc(proxy: PDFDocumentLoadingTask) {
   if (proxy.promise) {
     proxy.promise.then(async (document: any) => {
-      internalProps.value.document = document;
-      renderPage(props.page);
-    });
+      internalProps.value.document = document
+      renderPage(props.page)
+    })
   }
 }
 
@@ -278,32 +298,33 @@ watch(
   () => [props.page, props.scale, props.width, props.height, props.rotation, props.hideForms, props.intent],
   () => {
     // Props that should dispatch an render task
-    renderPage(props.page);
-  }
-);
+    renderPage(props.page)
+  },
+)
 
 // Exposed methods
 function reload() {
-  renderPage(props.page);
+  renderPage(props.page)
 }
 
 function cancel() {
-  cancelRender();
+  cancelRender()
 }
 
 async function initPdf() {
   if (props.pdf) {
     try {
-      initDoc(props.pdf);
-    } finally {
+      initDoc(props.pdf)
+    }
+    finally {
     }
   }
 }
 
 defineExpose({
   reload,
-  cancel
-});
+  cancel,
+})
 </script>
 
 <template>

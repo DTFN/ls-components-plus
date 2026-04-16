@@ -1,60 +1,64 @@
 <script setup lang="ts" name="LSJsonEditor">
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { merge } from 'lodash-es'
 // https://github.com/bestkolobok/vue3-jsoneditor
-import JsonEditor from 'vue3-ts-jsoneditor';
-import { lsJsonEditorProps } from './types';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { merge } from 'lodash-es';
+import JsonEditor from 'vue3-ts-jsoneditor'
+import { lsJsonEditorProps } from './types'
 
-const ns = useNamespace('json-editor');
-const comClass: string = ns.b();
+const props = defineProps(lsJsonEditorProps)
+const ns = useNamespace('json-editor')
+const comClass: string = ns.b()
 
-const props = defineProps(lsJsonEditorProps);
-
-const attrs = useAttrs();
+const attrs = useAttrs()
 
 const defAttrs: any = ref({
   mode: 'text',
   height: 600,
   navigationBar: false,
-  readOnly: true
-});
+  readOnly: true,
+})
 
-const jsonModel: any = ref({});
-const editorCss = ref('');
+const jsonModel: any = ref({})
+const editorCss = ref('')
 
 const bindAttrs = computed(() => {
-  const curAttrs = merge(defAttrs.value, attrs);
+  const curAttrs = merge(defAttrs.value, attrs)
+
   if (typeof curAttrs['read-only'] !== 'undefined') {
-    curAttrs.readOnly = curAttrs['read-only'];
+    curAttrs.readOnly = curAttrs['read-only']
   }
+
   if (typeof curAttrs['navigation-bar'] !== 'undefined') {
-    curAttrs.navigationBar = curAttrs['navigation-bar'];
+    curAttrs.navigationBar = curAttrs['navigation-bar']
   }
+
   if (!curAttrs.readOnly) {
-    curAttrs.mode = 'tree';
-    editorCss.value = 'editor-status';
+    curAttrs.mode = 'tree'
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    editorCss.value = 'editor-status'
   }
-  return curAttrs;
-});
+
+  return curAttrs
+})
 
 watch(
   () => props.jsonValue,
-  val => {
-    jsonModel.value = val;
+  (val) => {
+    jsonModel.value = val
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function getJsonValue() {
-  return jsonModel.value;
+  return jsonModel.value
 }
 
 defineExpose({
-  getJsonValue
-});
+  getJsonValue,
+})
 </script>
 
 <template>

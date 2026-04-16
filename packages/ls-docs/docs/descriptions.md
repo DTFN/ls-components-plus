@@ -15,8 +15,9 @@ outline: deep
 <LSDescriptions label-bg-color="blue" label-color="#fff" :list="list1" label-width="120px"></LSDescriptions>
 
 ```js
-import { ref } from 'vue';
-const iconColor = ref('red');
+import { ref } from 'vue'
+
+const iconColor = ref('red')
 const list1 = ref([
   {
     iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
@@ -33,7 +34,7 @@ const list1 = ref([
     label: '批次数量',
     value: '5'
   }
-]);
+])
 ```
 
 ```html
@@ -95,7 +96,7 @@ const list2 = ref([
     label: '备注',
     value: ''
   }
-]);
+])
 ```
 
 ```html
@@ -126,7 +127,7 @@ const list3 = ref([
     value: new Date('2024-06-30T23:59:59'),
     format: 'MM-DD HH:mm'
   }
-]);
+])
 ```
 
 ```html
@@ -171,7 +172,7 @@ const list4 = ref([
       3: { label: '上门配送' }
     }
   }
-]);
+])
 ```
 
 ```html
@@ -206,7 +207,7 @@ const list5 = ref([
     type: 'slot',
     slotName: 'customSlot'
   }
-]);
+])
 ```
 
 ```html
@@ -218,6 +219,7 @@ const list5 = ref([
     <el-tag type="success">已完成</el-tag>
   </template>
 </LSDescriptions>
+
 ```
 
 ### 6. 带不同样式的描述列表
@@ -242,7 +244,7 @@ const list6 = ref([
     label: '错误',
     value: '无'
   }
-]);
+])
 ```
 
 ```html
@@ -264,7 +266,7 @@ const list7 = ref([
   { label: '属性6', value: '值6' },
   { label: '属性7', value: '值7' },
   { label: '属性8', value: '值8' }
-]);
+])
 ```
 
 ```html
@@ -298,7 +300,7 @@ const list8 = ref([
     label: '帮助',
     value: '帮助文档'
   }
-]);
+])
 ```
 
 ```html
@@ -360,11 +362,11 @@ const list9 = ref([
     type: 'slot',
     slotName: 'action'
   }
-]);
+])
 ```
 
 ```html
-<el-card shadow="hover" style="width: 100%; margin-bottom: 20px;">
+<el-card shadow="hover" style="width: 100%; margin-bottom: 20px">
   <template #header>
     <div class="card-header">
       <span>用户信息卡片</span>
@@ -380,6 +382,7 @@ const list9 = ref([
     </template>
   </LSDescriptions>
 </el-card>
+
 ```
 
 ## API

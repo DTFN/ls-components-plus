@@ -1,13 +1,13 @@
 {
   "name": "ls-docs",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+  }
 }

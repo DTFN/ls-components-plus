@@ -1,20 +1,24 @@
-export const isServerRendering: Boolean = (() => {
+export const isServerRendering: boolean = (() => {
   try {
-    return !(typeof window !== 'undefined' && document !== undefined);
-  } catch (e) {
-    return true;
+    return !(typeof window !== 'undefined' && document !== undefined)
   }
-})();
+  catch {
+    return true
+  }
+})()
 
-export const getRootAttr = (ele: HTMLElement, key: string): string => {
+export function getRootAttr(ele: HTMLElement, key: string): string {
   if (!isServerRendering) {
     if (!ele) {
-      ele = document.documentElement;
+      ele = document.documentElement
     }
+
     if (ele) {
-      return getComputedStyle(ele).getPropertyValue(key);
+      return getComputedStyle(ele).getPropertyValue(key)
     }
-    return '';
+
+    return ''
   }
-  return '';
-};
+
+  return ''
+}

@@ -1,80 +1,80 @@
 <script setup lang="ts">
-import { DescriptionsListType } from '@cpo/_types';
+import type { DescriptionsListType } from '@cpo/_types'
 
-const iconColor = ref('red');
+const iconColor = ref('red')
 
-const itemLabelWidth = ref('160px');
+const itemLabelWidth = ref('160px')
 const list1: Ref<DescriptionsListType> = ref([
   {
     iconConfig: { type: 1, name: 'iconoir:fish', color: iconColor },
     label: '养殖品种',
     value: '舟山鲈鱼',
-    labelWidth: itemLabelWidth
+    labelWidth: itemLabelWidth,
   },
   {
     iconConfig: { type: 1, name: 'game-icons:whale-tail' },
     label: '尾数范围',
     value: '56024 - 93366 尾',
-    labelWidth: itemLabelWidth
+    labelWidth: itemLabelWidth,
   },
   {
     iconConfig: { name: 'Edit' },
     label: '批次数量',
     value: '5',
-    labelWidth: itemLabelWidth
-  }
-]);
+    labelWidth: itemLabelWidth,
+  },
+])
 
 const list2: Ref<DescriptionsListType> = ref([
   {
     label: '捕捞编号',
-    value: 'F20240613003'
+    value: 'F20240613003',
   },
   {
     label: '销售订单号',
-    value: 'XSDD00000001010'
+    value: 'XSDD00000001010',
   },
   {
     label: '鱼种',
-    value: '舟山鲈鱼'
+    value: '舟山鲈鱼',
   },
   {
     label: '捕捞规格',
-    value: '--'
+    value: '--',
   },
   {
     label: '责任人',
-    value: ''
+    value: '',
   },
   {
     label: '捕捞量(斤)',
-    value: 12
+    value: 12,
   },
   {
     label: '桶数量',
-    value: 1
+    value: 1,
   },
   {
     label: '我方人员',
-    value: ''
+    value: '',
   },
   {
     label: '客户人员',
-    value: ''
+    value: '',
   },
   {
     label: '司机姓名',
-    value: ''
+    value: '',
   },
   {
     label: '车牌号',
-    value: ''
+    value: '',
   },
   {
     label: '备注',
-    value: ''
-  }
-]);
+    value: '',
+  },
+])
 </script>
 
 <template>
@@ -91,8 +91,12 @@ const list2: Ref<DescriptionsListType> = ref([
 
     <br />
     <el-descriptions title="测试新属性" border direction="vertical" label-width="200px">
-      <el-descriptions-item label="Username" :label-width="itemLabelWidth">kooriookami</el-descriptions-item>
-      <el-descriptions-item label="Telephone" :label-width="itemLabelWidth">18100000000</el-descriptions-item>
+      <el-descriptions-item label="Username" :label-width="itemLabelWidth">
+        kooriookami
+      </el-descriptions-item>
+      <el-descriptions-item label="Telephone" :label-width="itemLabelWidth">
+        18100000000
+      </el-descriptions-item>
     </el-descriptions>
   </div>
 </template>

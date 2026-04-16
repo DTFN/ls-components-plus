@@ -33,10 +33,11 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible1 = ref(false);
-const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf');
-const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
+import { ref } from 'vue'
+
+const previewVisible1 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 ```
 
 ```html
@@ -47,6 +48,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
   :onClose="() => { previewVisible1 = false; }"
 />
 <LSButton @click="previewVisible1 = true">点击预览PDF文档</LSButton>
+
 ```
 
 :::
@@ -62,15 +64,16 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible2 = ref(false);
-const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf');
-const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
+import { ref } from 'vue'
+
+const previewVisible2 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 const watermarkOption = ref({
   content: '临港集团',
   fontSize: 16,
   color: 'rgba(0, 0, 0, 0.1)'
-});
+})
 ```
 
 ```html
@@ -83,6 +86,7 @@ const watermarkOption = ref({
   :onClose="() => { previewVisible2 = false; }"
 />
 <LSButton @click="previewVisible2 = true">点击预览带水印PDF文档</LSButton>
+
 ```
 
 :::
@@ -98,13 +102,14 @@ const watermarkOption = ref({
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible3 = ref(false);
-const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf');
-const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
+import { ref } from 'vue'
+
+const previewVisible3 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 
 function handlePdfDownload(data) {
-  console.log('下载PDF文档:', data);
+  console.log('下载PDF文档:', data)
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -119,6 +124,7 @@ function handlePdfDownload(data) {
   :onClose="() => { previewVisible3 = false; }"
 />
 <LSButton @click="previewVisible3 = true">点击预览带下载功能PDF文档</LSButton>
+
 ```
 
 :::
@@ -134,10 +140,11 @@ function handlePdfDownload(data) {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible4 = ref(false);
-const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf');
-const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
+import { ref } from 'vue'
+
+const previewVisible4 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 ```
 
 ```html
@@ -149,6 +156,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
   :onClose="() => { previewVisible4 = false; }"
 />
 <LSButton @click="previewVisible4 = true">点击预览不分页PDF文档</LSButton>
+
 ```
 
 :::
@@ -171,13 +179,14 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible5 = ref(false);
-const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf');
-const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/');
+import { ref } from 'vue'
+
+const previewVisible5 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 
 function handlePdfDownload(data) {
-  console.log('下载PDF文档:', data);
+  console.log('下载PDF文档:', data)
 }
 ```
 
@@ -196,6 +205,7 @@ function handlePdfDownload(data) {
   </template>
 </LSPreviewPdf>
 <LSButton @click="previewVisible5 = true">点击预览自定义控制栏PDF文档</LSButton>
+
 ```
 
 ```scss
@@ -207,6 +217,7 @@ function handlePdfDownload(data) {
   display: flex;
   gap: 10px;
 }
+
 ```
 
 :::

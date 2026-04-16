@@ -20,21 +20,23 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible1 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible1 = ref(false)
+const source1 = ref(null)
 
 function loadDocxFile() {
   // 模拟加载DOCX文件
   // 实际使用中，你需要通过FileReader或fetch获取ArrayBuffer格式的文件数据
   // 这里仅做示例，实际使用时需要替换为真实的文件加载逻辑
-  previewVisible1.value = true;
+  previewVisible1.value = true
 }
 ```
 
 ```html
 <LSPreviewDocx v-model="previewVisible1" :source="source1" :onClose="() => { previewVisible1 = false; }" />
 <LSButton @click="loadDocxFile">点击预览DOCX文档</LSButton>
+
 ```
 
 :::
@@ -50,18 +52,19 @@ function loadDocxFile() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible2 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible2 = ref(false)
+const source1 = ref(null)
 const watermarkOption = ref({
   content: '临港集团',
   fontSize: 16,
   color: 'rgba(0, 0, 0, 0.1)'
-});
+})
 
 function loadDocxFileWithWatermark() {
   // 模拟加载DOCX文件
-  previewVisible2.value = true;
+  previewVisible2.value = true
 }
 ```
 
@@ -74,6 +77,7 @@ function loadDocxFileWithWatermark() {
   :onClose="() => { previewVisible2 = false; }"
 />
 <LSButton @click="loadDocxFileWithWatermark">点击预览带水印DOCX文档</LSButton>
+
 ```
 
 :::
@@ -89,17 +93,18 @@ function loadDocxFileWithWatermark() {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible3 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible3 = ref(false)
+const source1 = ref(null)
 
 function loadDocxFileWithDownload() {
   // 模拟加载DOCX文件
-  previewVisible3.value = true;
+  previewVisible3.value = true
 }
 
 function handleDocxDownload(data) {
-  console.log('下载DOCX文档:', data);
+  console.log('下载DOCX文档:', data)
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -113,6 +118,7 @@ function handleDocxDownload(data) {
   :onClose="() => { previewVisible3 = false; }"
 />
 <LSButton @click="loadDocxFileWithDownload">点击预览带下载功能DOCX文档</LSButton>
+
 ```
 
 :::
@@ -135,17 +141,18 @@ function handleDocxDownload(data) {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible4 = ref(false);
-const source1 = ref(null);
+import { ref } from 'vue'
+
+const previewVisible4 = ref(false)
+const source1 = ref(null)
 
 function loadDocxFileWithCustomControls() {
   // 模拟加载DOCX文件
-  previewVisible4.value = true;
+  previewVisible4.value = true
 }
 
 function handleDocxDownload(data) {
-  console.log('下载DOCX文档:', data);
+  console.log('下载DOCX文档:', data)
 }
 ```
 
@@ -159,6 +166,7 @@ function handleDocxDownload(data) {
   </template>
 </LSPreviewDocx>
 <LSButton @click="loadDocxFileWithCustomControls">点击预览自定义控制栏DOCX文档</LSButton>
+
 ```
 
 ```scss
@@ -170,6 +178,7 @@ function handleDocxDownload(data) {
   display: flex;
   gap: 10px;
 }
+
 ```
 
 :::

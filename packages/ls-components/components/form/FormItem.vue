@@ -1,194 +1,277 @@
 <script setup lang="ts" name="LSFormItem">
+import dayjs from 'dayjs'
 /**
- * Form item 组件
- * !!!最多支持101个 el-form-item
+ * @summary 表单项组件 - `LSForm` 的单项渲染单元
+ *
+ * `LSFormItem` 接收 `form-items` 中的单项配置并渲染对应控件，内置 `label`、`input`、`textarea`、
+ * `number`、`radio`、`checkbox`、`select`、`date`、`datetimerange`、`timePicker`、`timeSelect`、
+ * `cascader`、`multipleCascader`、`switch`、`inputRange`、`inputNumberRange`、`slot`、`itemSlot` 等类型。
+ * 组件统一处理只读展示、多选全选、范围值回写、级联路径文案、tooltip 图标以及前后缀插槽能力。
+ *
+ * 常用配置字段：
+ * @attr {string} type 控件类型
+ * @attr {string} label 标签文案
+ * @attr {string|string[]} prop 对应 `formData` 的字段名，支持嵌套路径
+ * @attr {any} modelValue 当前值；在 `LSForm` 中由父组件传入
+ * @attr {any} value 独立使用时的值；需配合 `isValue=true`
+ * @attr {boolean} isValue 是否使用 `value` 初始化内部值，默认 `false`
+ * @attr {object|object[]} rules 校验规则，透传给 `el-form-item`
+ * @attr {Array} options `select` / `radio` / `checkbox` / `cascader` 的选项列表
+ * @attr {object} attrs 透传给内部控件的额外属性；范围类型需按 `rangeProps` 嵌套
+ * @attr {object} listeners 透传给内部控件的事件对象；范围类型需按 `rangeProps` 嵌套
+ * @attr {boolean} disabled 是否禁用当前表单项，默认 `false`
+ * @attr {boolean} read 是否只读，默认 `false`
+ * @attr {boolean} isRow 多列布局时是否独占整行，默认 `false`
+ * @attr {string} className 表单项根元素追加的 class
+ * @attr {string} labelClass label 文案 class
+ * @attr {string} labelIconClass tooltip 图标 class
+ * @attr {string} tooltip label 右侧提示文案
+ * @attr {boolean} colon label 后是否追加冒号，默认 `false`
+ * @attr {string} labelEmpty 只读或纯文本模式下的空值占位文案，默认 `--`
+ * @attr {boolean} labelNumber `type='label'` 时是否按数字渲染，默认 `false`
+ * @attr {string} dateFormat 日期类型只读时的显示格式，默认 `YYYY-MM-DD HH:mm:ss`
+ * @attr {Function} formatReadValue 只读文本格式化函数，优先级最高
+ * @attr {boolean} trim `textarea` 时是否使用 `v-model.trim`，默认 `true`
+ * @attr {string} rangeSeparator 范围输入分隔符，默认 `~`
+ * @attr {string[]} rangeProps 范围输入两端字段名，默认 `['start', 'end']`
+ * @attr {string} radioType `type='radio'` 时的样式类型；`button` 渲染为按钮单选
+ * @attr {boolean} selectAll `type='select'` 且多选时是否显示全选，默认 `true`
+ * @attr {string} slotKey 覆盖插槽名中的 `prop`
+ * @attr {boolean} levelMatch 级联控件 value 是否按层级匹配 options，默认 `false`
+ * @attr {boolean} manualValidate 值变化时是否手动触发校验，默认 `false`
+ * @attr {number} index 当前表单项索引，默认 `0`
+ *
+ * @slot [slotKey|prop] 当 `type='slot'` 时的完整内容插槽
+ * @slot [slotKey|prop]-slot 当 `type='itemSlot'` 时的 `el-form-item` 内部插槽
+ * @slot [slotKey|prop]-prepend 控件前置插槽
+ * @slot [slotKey|prop]-append 控件后置插槽
+ * @slot [slotKey|prop]-read-slot 只读模式下按字段匹配的显示插槽
+ * @slot [type]-read-slot 只读模式下按类型匹配的显示插槽
+ * @slot tooltip-icon 全局 tooltip 图标插槽
+ * @slot [slotKey|prop]-label-icon 指定字段的 tooltip 图标插槽
+ * @slot [slotKey|prop]-input-prefix 输入框前缀插槽
+ * @slot [slotKey|prop]-input-suffix 输入框后缀插槽
+ * @slot [slotKey|prop]-input-prepend 输入框前置块插槽
+ * @slot [slotKey|prop]-input-append 输入框后置块插槽
+ *
+ * @event update:value(prop, value) 内部值同步事件，供 `LSForm` 桥接字段更新时使用
+ * @event onChange(value, prop, index) 控件 change 事件
+ *
+ * @example
+ * <LSForm :form-data="formData" :form-items="formItems">
+ *   <template #score-slot="{ value, updateModelValue }">
+ *     <el-rate :model-value="value" @change="updateModelValue" />
+ *   </template>
+ * </LSForm>
  */
-import { isEqual, get, set } from 'lodash-es';
-import { ref, computed } from 'vue';
-import { isEmpty } from '../_utils/utils';
-import { lsFormItemProps } from './types';
-import dayjs from 'dayjs';
+import { get, isEqual, set } from 'lodash-es'
+import { computed, ref } from 'vue'
+import { isEmpty } from '../_utils/utils'
+import { lsFormItemProps } from './types'
 
-const props = defineProps(lsFormItemProps);
+const props = defineProps(lsFormItemProps)
 
 const emits = defineEmits<{
-  'update:value': [key: string | number | string[], value: any];
-  onChange: [value: any, prop: string, index: number];
-}>();
+  'update:value': [key: string | number | string[], value: any]
+  'onChange': [value: any, prop: string, index: number]
+}>()
 
-const modelValue = defineModel<any>();
-const FormItemRef = ref();
+const modelValue = defineModel<any>()
+const FormItemRef = ref()
 
 // 级联多选
 const cascaderProps = computed(() => {
-  let op = {};
+  let op = {}
+
   if (props.type === 'multipleCascader') {
     op = {
-      ...props.attrs?.props
-    };
+      ...props.attrs?.props,
+    }
   }
-  return { ...op, multiple: true };
-});
+
+  return { ...op, multiple: true }
+})
 
 // 下拉框全选
-const selectCheckAll = ref(false);
-const selectIndeterminate = ref(false);
+const selectCheckAll = ref(false)
+const selectIndeterminate = ref(false)
 
 // 下拉框全选事件
 function handleSelectCheckAll(val: any) {
-  selectIndeterminate.value = false;
+  selectIndeterminate.value = false
 
-  if (val && props.options && props.options.length) modelValue.value = props.options.map(_ => _.value);
-  else modelValue.value = [];
+  if (val && props.options && props.options.length)
+    modelValue.value = props.options.map(_ => _.value)
+  else modelValue.value = []
 }
 
 // 范围
-const range_1 = ref();
-const range_2 = ref();
+const range_1 = ref()
+const range_2 = ref()
 
 // 只有isValue 的时候 才会去赋值给 modelValue
 watch(
   () => props.value,
-  newVal => {
-    if (props.isValue) modelValue.value = newVal;
+  (newVal) => {
+    if (props.isValue)
+      modelValue.value = newVal
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => modelValue,
   (newVal: any) => {
     if (['inputRange', 'inputNumberRange'].includes(props.type || '')) {
-      range_1.value = get(newVal.value, props?.rangeProps[0] || 'start');
-      range_2.value = get(newVal.value, props?.rangeProps[1] || 'end');
+      range_1.value = get(newVal.value, props?.rangeProps[0] || 'start')
+      range_2.value = get(newVal.value, props?.rangeProps[1] || 'end')
     }
+
     if (!isEmpty(props.prop)) {
-      emits('update:value', props.prop, newVal);
+      emits('update:value', props.prop, newVal)
     }
+
     // 手动验证
     if (props.manualValidate && !['slot'].includes(props.type || '')) {
-      FormItemRef.value.validate();
+      FormItemRef.value.validate()
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // select 去掉不存在opctions 的value
 watch(
   [() => modelValue, () => props.type, () => props.attrs, () => props.options],
   ([newVal, type, attrs, options]: any) => {
     if (type === 'select' && options && options.length && !isEmpty(options)) {
-      const values = options.map((_: any) => _.value);
+      const values = options.map((_: any) => _.value)
 
       if (attrs && attrs.multiple) {
         if (!isEmpty(newVal.value) && Array.isArray(newVal.value)) {
-          const value: any[] = [];
+          const value: any[] = []
           newVal.value.forEach((item: any) => {
-            if (values.includes(item)) value.push(item);
-          });
+            if (values.includes(item))
+              value.push(item)
+          })
 
-          if (!isEqual(value, newVal.value)) modelValue.value = value;
+          if (!isEqual(value, newVal.value))
+            modelValue.value = value
         }
 
         if (isEmpty(newVal.value)) {
-          selectCheckAll.value = false;
-          selectIndeterminate.value = false;
-        } else {
-          const isAll = newVal.value.length === options.length;
-          selectCheckAll.value = isAll;
-          selectIndeterminate.value = !isAll;
+          selectCheckAll.value = false
+          selectIndeterminate.value = false
         }
-      } else if (attrs && attrs.filterable && attrs['allow-create']) {
+        else {
+          const isAll = newVal.value.length === options.length
+          selectCheckAll.value = isAll
+          selectIndeterminate.value = !isAll
+        }
+      }
+      else if (attrs && attrs.filterable && attrs['allow-create']) {
         // 添加选项
-        modelValue.value = newVal.value;
-      } else {
+        modelValue.value = newVal.value
+      }
+      else {
         if (!isEmpty(values) && !isEmpty(newVal.value)) {
-          if (!values.includes(newVal.value)) modelValue.value = '';
+          if (!values.includes(newVal.value))
+            modelValue.value = ''
         }
       }
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // 范围赋值
 watch(
   [() => range_1.value, () => range_2.value],
   ([val1, val2]) => {
-    let vals = {};
-    vals = set(vals, props?.rangeProps[0] || 'start', val1);
-    vals = set(vals, props?.rangeProps[1] || 'end', val2);
-    modelValue.value = vals;
+    let vals = {}
+    vals = set(vals, props?.rangeProps[0] || 'start', val1)
+    vals = set(vals, props?.rangeProps[1] || 'end', val2)
+    modelValue.value = vals
   },
   {
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // 获取Options label (select/radio/checkbox)
 function getOptionsLabel(value: string | string[], options: any[], multiple?: boolean) {
-  let val = props?.labelEmpty;
+  let val = props?.labelEmpty
+
   if (options && !isEmpty(value)) {
     if (multiple && Array.isArray(value)) {
-      val = value.map((item: any) => options.find(_ => _.value === item)?.label).join(',');
-    } else {
-      val = options.find(_ => _.value === value)?.label;
+      val = value.map((item: any) => options.find(_ => _.value === item)?.label).join(',')
+    }
+    else {
+      val = options.find(_ => _.value === value)?.label
     }
   }
-  return val;
+
+  return val
 }
 
 // 获取cascader Options label 父子不关联
 function getCascaderOptionLabel(value: string | number, options: any[], parentLabel: string = '') {
-  let labelText = parentLabel;
-  let found = false;
+  let labelText = parentLabel
+  let found = false
+
   if (!isEmpty(value) && !isEmpty(options)) {
-    let showAllLevels = true;
+    let showAllLevels = true
+
+    // eslint-disable-next-line no-prototype-builtins
     if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
-      showAllLevels = false;
+      showAllLevels = false
     }
-    const valueField = props.attrs?.props?.value || 'value';
-    const labelField = props.attrs?.props?.label || 'label';
+    const valueField = props.attrs?.props?.value || 'value'
+    const labelField = props.attrs?.props?.label || 'label'
 
     for (const item of options) {
       if (item[valueField] === value) {
         if (showAllLevels) {
-          labelText = `${labelText ? `${labelText}/` : ''}${item?.[labelField]}`;
-        } else {
-          labelText = item?.[labelField];
+          labelText = `${labelText ? `${labelText}/` : ''}${item?.[labelField]}`
         }
+        else {
+          labelText = item?.[labelField]
+        }
+
         return {
           labelText,
-          found: true
-        };
-      } else {
+          found: true,
+        }
+      }
+      else {
         if (!isEmpty(item?.children) && !found) {
-          const res: any = getCascaderOptionLabel(value, item?.children, labelText);
-          labelText = res.labelText;
-          found = res.found;
+          const res: any = getCascaderOptionLabel(value, item?.children, labelText)
+          labelText = res.labelText
+          found = res.found
+
           if (found) {
             return {
               labelText,
-              found
-            };
+              found,
+            }
           }
         }
       }
     }
   }
+
   return {
     labelText,
-    found
-  };
+    found,
+  }
 }
 
 // 级联控件层级匹配获取OptionLabel
@@ -196,77 +279,91 @@ function getCascaderOptionLabelLevelMatch(
   value: (string | number)[],
   options: any[],
   parentLabel: string = '',
-  index: number = 0
+  index: number = 0,
 ) {
-  let labelText = parentLabel;
+  let labelText = parentLabel
+
   if (!isEmpty(value) && !isEmpty(options)) {
-    let showAllLevels = true;
+    let showAllLevels = true
+
+    // eslint-disable-next-line no-prototype-builtins
     if (props.attrs && props.attrs.hasOwnProperty('show-all-levels') && props.attrs['show-all-levels'] === false) {
-      showAllLevels = false;
+      showAllLevels = false
     }
-    const valueField = props.attrs?.props?.value || 'value';
-    const labelField = props.attrs?.props?.label || 'label';
-    const findItem = options.find(item => item[valueField] === value[index]);
+    const valueField = props.attrs?.props?.value || 'value'
+    const labelField = props.attrs?.props?.label || 'label'
+    const findItem = options.find(item => item[valueField] === value[index])
+
     if (!isEmpty(findItem)) {
       if (showAllLevels) {
-        labelText = `${labelText ? `${labelText}/` : ''}${findItem?.[labelField]}`;
-      } else {
-        labelText = findItem?.[labelField];
+        labelText = `${labelText ? `${labelText}/` : ''}${findItem?.[labelField]}`
+      }
+      else {
+        labelText = findItem?.[labelField]
       }
 
       if (index < value.length - 1 && !isEmpty(findItem?.children)) {
-        labelText = getCascaderOptionLabelLevelMatch(value, findItem?.children, labelText, index + 1);
+        labelText = getCascaderOptionLabelLevelMatch(value, findItem?.children, labelText, index + 1)
       }
     }
   }
-  return labelText;
+
+  return labelText
 }
 
 // 获取cascader Options label
 function buildCascaderPathLabels(value: (string | number)[], options: any[], parentLabel: string = '') {
-  let labelText = parentLabel;
+  let labelText = parentLabel
+
   if (!isEmpty(value) && !isEmpty(options)) {
     if (props?.levelMatch) {
-      labelText = getCascaderOptionLabelLevelMatch(value, options, labelText);
-    } else {
+      labelText = getCascaderOptionLabelLevelMatch(value, options, labelText)
+    }
+    else {
       value.forEach((item: any) => {
-        const res: any = getCascaderOptionLabel(item, options, labelText);
-        labelText = res.labelText;
-      });
+        const res: any = getCascaderOptionLabel(item, options, labelText)
+        labelText = res.labelText
+      })
     }
   }
-  return labelText;
+
+  return labelText
 }
 
 // 获取cascader Options label
 function getCascaderVal(value: number | string | string[], options: any[], multiple?: boolean) {
-  let val = props?.labelEmpty;
+  let val = props?.labelEmpty
+
   if (options && !isEmpty(value)) {
-    const newVal = Array.isArray(value) ? value : [value];
+    const newVal = Array.isArray(value) ? value : [value]
 
     if (multiple) {
-      val = '';
+      val = ''
       newVal.forEach((item: any) => {
-        const newItem = Array.isArray(item) ? item : [item];
-        val = `${val ? `${val},` : ''}${buildCascaderPathLabels(newItem, options)}`;
-      });
-      if (isEmpty(val)) val = props?.labelEmpty;
-    } else {
-      val = buildCascaderPathLabels(newVal, options);
+        const newItem = Array.isArray(item) ? item : [item]
+        val = `${val ? `${val},` : ''}${buildCascaderPathLabels(newItem, options)}`
+      })
+      if (isEmpty(val))
+        val = props?.labelEmpty
+    }
+    else {
+      val = buildCascaderPathLabels(newVal, options)
     }
   }
-  return val;
+
+  return val
 }
 
 // 获取日期值
 function getDateValue(val: Date | string | string[] | Date[]) {
-  if (isEmpty(val) && !dayjs(val as any).isValid()) return props?.labelEmpty;
+  if (isEmpty(val) && !dayjs(val as any).isValid())
+    return props?.labelEmpty
 
   if (Array.isArray(val)) {
-    return val.map(v => (props.dateFormat ? dayjs(v).format(props.dateFormat) : v)).join(` ${props.rangeSeparator} `);
+    return val.map(v => (props.dateFormat ? dayjs(v).format(props.dateFormat) : v)).join(` ${props.rangeSeparator} `)
   }
 
-  return props.dateFormat ? dayjs(val).format(props.dateFormat) : val;
+  return props.dateFormat ? dayjs(val).format(props.dateFormat) : val
 }
 
 /**
@@ -281,82 +378,85 @@ function getDateValue(val: Date | string | string[] | Date[]) {
  *   - append: 后置内容
  */
 function getValueWithAffix(val: string, type: string | undefined = undefined) {
-  if (isEmpty(val)) return props?.labelEmpty;
+  if (isEmpty(val))
+    return props?.labelEmpty
 
-  let result = val;
+  let result = val
 
   // 添加前缀字符串
   if (props.attrs?.prefixStr) {
-    result = props.attrs.prefixStr + result;
+    result = props.attrs.prefixStr + result
   }
 
   // 添加后缀
   if (props.attrs?.suffix) {
-    result = result + props.attrs.suffix;
+    result = result + props.attrs.suffix
   }
 
   // 添加前置内容
   if (props.attrs?.prepend && type !== 'inputNumberRange') {
-    result = props.attrs.prepend + result;
+    result = props.attrs.prepend + result
   }
 
   // 添加后置内容
   if (props.attrs?.append && type !== 'inputNumberRange') {
-    result = result + props.attrs.append;
+    result = result + props.attrs.append
   }
 
-  return result;
+  return result
 }
 
 function readValue(type: string | undefined) {
-  const val = modelValue.value;
+  const val = modelValue.value
+
   if (props?.formatReadValue) {
-    return props.formatReadValue(val);
-  } else {
+    return props.formatReadValue(val)
+  }
+  else {
     switch (type) {
       case 'switch':
-        return val ? '是' : '否';
+        return val ? '是' : '否'
       case 'date':
       case 'datetimerange':
-        return getDateValue(val);
+        return getDateValue(val)
       case 'radio':
-        return getOptionsLabel(val, props.options);
+        return getOptionsLabel(val, props.options)
       case 'checkbox':
-        return getOptionsLabel(val, props.options, true);
+        return getOptionsLabel(val, props.options, true)
       case 'select':
-        return getOptionsLabel(val, props.options, props.attrs?.multiple);
+        return getOptionsLabel(val, props.options, props.attrs?.multiple)
       case 'cascader':
-        return getCascaderVal(val, props.options, props.attrs?.props?.multiple || false);
+        return getCascaderVal(val, props.options, props.attrs?.props?.multiple || false)
       case 'multipleCascader':
-        return getCascaderVal(val, props.options, true);
+        return getCascaderVal(val, props.options, true)
       case 'inputRange':
       case 'inputNumberRange':
-        return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${getValueWithAffix(range_2.value, type) || props?.labelEmpty}`;
+        return `${range_1.value || props?.labelEmpty} ${props.rangeSeparator} ${getValueWithAffix(range_2.value, type) || props?.labelEmpty}`
       case 'input':
-        return getValueWithAffix(val);
+        return getValueWithAffix(val)
       default:
-        return isEmpty(val) ? props?.labelEmpty : val;
+        return isEmpty(val) ? props?.labelEmpty : val
     }
   }
 }
 
 // 监听change事件
 function onChange(value: any) {
-  emits('onChange', value, props.prop as string, props.index);
+  emits('onChange', value, props.prop as string, props.index)
 }
 
 // 修改modelValue
 function updateModelValue(val: any) {
-  modelValue.value = val;
+  modelValue.value = val
 }
 
 const slotName = computed(() => {
-  return props.slotKey || props.prop;
-});
+  return props.slotKey || props.prop
+})
 
 defineExpose({
-  FormItemRef
-});
+  FormItemRef,
+})
 </script>
 
 <template>
@@ -375,7 +475,7 @@ defineExpose({
 
         <el-tooltip v-if="tooltip" effect="dark" placement="top" :content="tooltip">
           <el-icon class="ml-4" :class="labelIconClass">
-            <slot v-if="$slots[`tooltip-icon`]" :name="`tooltip-icon`" :slot-row="{ ...props }" />
+            <slot v-if="$slots[`tooltip-icon`]" name="tooltip-icon" :slot-row="{ ...props }" />
             <slot v-else-if="$slots[`${slotName}-label-icon`]" :name="`${slotName}-label-icon`" :slot-row="{ ...props }" />
           </el-icon>
         </el-tooltip>
@@ -408,7 +508,9 @@ defineExpose({
         :value="readValue(type)"
         :slot-row="{ ...props }"
       />
-      <div v-else class="ls-read-text-container">{{ readValue(type) }}</div>
+      <div v-else class="ls-read-text-container">
+        {{ readValue(type) }}
+      </div>
     </template>
 
     <template v-else>
@@ -820,6 +922,7 @@ defineExpose({
   align-items: center;
 }
 </style>
+
 <style lang="scss">
 .el-select-dropdown__header {
   padding: 5px 10px !important;

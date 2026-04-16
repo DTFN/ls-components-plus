@@ -160,9 +160,9 @@ outline: deep
   <div class="backtop-scroll">
     往下滚动展示置顶按钮（监听滚动）
   </div>
-  <LSBackTop 
-    :target="'#backtopContainer5'" 
-    :right="400" 
+  <LSBackTop
+    :target="'#backtopContainer5'"
+    :right="400"
     :bottom="200"
     @click="handleBackTopClick"
   > </LSBackTop>
@@ -179,9 +179,9 @@ outline: deep
 ```
 
 ```js
-const handleBackTopClick = () => {
-  console.log('点击了回到顶部按钮');
-};
+function handleBackTopClick() {
+  console.log('点击了回到顶部按钮')
+}
 ```
 
 :::
@@ -210,7 +210,7 @@ const tableData = ref([
     name: 'target',
     desc: '触发滚动的对象',
     type: 'string',
-    value: '-' 
+    value: '-'
   },
   {
     name: 'right',
@@ -263,12 +263,12 @@ const eventTableData = ref([
   {
     name: 'click',
     desc: '点击回到顶部按钮时触发',
-    params: '-' 
+    params: '-'
   },
   {
     name: 'scroll',
     desc: '滚动时触发',
-    params: 'event' 
+    params: 'event'
   }
 ]);
 
@@ -302,7 +302,7 @@ const handleBackTopClick = () => {
   height: 300px;
   overflow: auto;
   margin-bottom: 20px;
-  
+
   .backtop-scroll {
     position: relative;
     width: 100%;
@@ -324,12 +324,12 @@ const handleBackTopClick = () => {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s;
-  
+
   &:hover {
     background-color: #66B1FF;
     transform: translateY(-2px);
   }
-  
+
   span {
     font-size: 12px;
     margin-top: 4px;

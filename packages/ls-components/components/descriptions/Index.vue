@@ -1,72 +1,104 @@
 <script setup lang="ts" name="LSDescriptions">
-import LSIcon from '@cpo/icon/Index.vue';
-import dayjs from 'dayjs';
-import { lsDescProp } from './types';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { merge } from 'lodash-es';
+/**
+ * @summary 描述列表组件 - 基于 Element Plus `el-descriptions` 的二次封装
+ *
+ * `LSDescriptions` 用于按标签/内容的形式展示字段信息，内置 label 颜色、背景色、
+ * 图标和空值处理逻辑，并保留 `el-descriptions` 的常用属性透传能力。
+ * 组件当前始终以带边框形式渲染，常见透传属性可通过 `$attrs` 传入，如
+ * `column`、`title`、`extra`、`size`、`align`、`label-width` 等。
+ *
+ * 组件自有属性：
+ * @attr {DescriptionsListType} list 描述项数据列表
+ * @attr {string} labelColor label 文本颜色
+ * @attr {string} labelBgColor label 区域背景色，默认 `#e2edff`
+ * @attr {boolean} showZero 值为 `0` 时是否显示 `0`，默认 `false`
+ *
+ * 插槽：
+ * @slot title 标题区域插槽
+ * @slot extra 右侧额外区域插槽
+ * @slot icon 全局图标插槽，会渲染在配置了 `iconConfig` 的描述项前
+ * @slot [slotName] 当描述项 `type='slot'` 时使用的动态内容插槽
+ *
+ * @event 无
+ *
+ * @example
+ * <LSDescriptions :list="list" label-bg-color="#f0f9ff" label-color="#1890ff" :column="2" />
+ *
+ * @example
+ * <LSDescriptions :list="list">
+ *   <template #status>
+ *     <el-tag type="success">已完成</el-tag>
+ *   </template>
+ * </LSDescriptions>
+ */
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import LSIcon from '@cpo/icon/Index.vue'
+import dayjs from 'dayjs'
+import { merge } from 'lodash-es'
+import { lsDescProp } from './types'
 
-const slots: any = useSlots();
+const props = defineProps(lsDescProp)
 
-const props = defineProps(lsDescProp);
+const slots: any = useSlots()
 
 const defAttrs = ref({
-  column: 1
-});
-const attrs = useAttrs();
+  column: 1,
+})
+const attrs = useAttrs()
 
-const lsDescRef = ref();
-const ns = useNamespace('descriptions');
-const comClass: string = ns.b();
+const lsDescRef = ref()
+const ns = useNamespace('descriptions')
+const comClass: string = ns.b()
 
 watch(
   () => props.labelColor,
-  async val => {
+  async (val) => {
     if (val) {
-      updateLabelStyle(val, 1);
+      updateLabelStyle(val, 1)
     }
   },
   {
     deep: true,
-    immediate: true
-  }
-);
+    immediate: true,
+  },
+)
 
 watch(
   () => props.labelBgColor,
-  async val => {
+  async (val) => {
     if (val) {
-      updateLabelStyle(val, 2);
+      updateLabelStyle(val, 2)
     }
   },
   {
     deep: true,
-    immediate: true
-  }
-);
+    immediate: true,
+  },
+)
 
 watch(
   () => props.list,
   (val: Array<any>) => {
-    updateLabelStyle(props.labelColor, 2);
-    updateLabelStyle(props.labelBgColor, 2);
-    updateLabelWidth(val.find((item: any) => item.labelWidth));
+    updateLabelStyle(props.labelColor, 2)
+    updateLabelStyle(props.labelBgColor, 2)
+    updateLabelWidth(val.find((item: any) => item.labelWidth))
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 watch(
   () => attrs['label-width'],
   (val: any) => {
-    updateLabelWidth(val || props.list.find((item: any) => item.labelWidth));
+    updateLabelWidth(val || props.list.find((item: any) => item.labelWidth))
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 // watch(
 //   () => props.labelWidth,
@@ -82,24 +114,25 @@ watch(
 function updateLabelWidth(val: string) {
   nextTick(() => {
     if (val) {
-      const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || [];
+      const contentDoms = lsDescRef.value?.querySelectorAll('.el-descriptions__content') || []
       contentDoms.forEach((element: any) => {
-        element.style.width = 'auto';
-      });
+        element.style.width = 'auto'
+      })
     }
-  });
+  })
 }
 
 async function updateLabelStyle(color: string, type: number) {
-  await nextTick();
-  const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || [];
+  await nextTick()
+  const doms = lsDescRef.value?.querySelectorAll('.el-descriptions__label') || []
   doms.forEach((element: any) => {
     if (type === 1) {
-      element.style.color = color;
-    } else if (type === 2) {
-      element.style.backgroundColor = color;
+      element.style.color = color
     }
-  });
+    else if (type === 2) {
+      element.style.backgroundColor = color
+    }
+  })
 }
 </script>
 
@@ -109,7 +142,7 @@ async function updateLabelStyle(color: string, type: number) {
     :class="[
       comClass,
       `column-${$attrs.column || 1}`,
-      $attrs.title || $attrs.extra || slots.title || slots.extra ? '' : 'no-header'
+      $attrs.title || $attrs.extra || slots.title || slots.extra ? '' : 'no-header',
     ]"
   >
     <el-descriptions v-bind="merge(defAttrs, $attrs)" border>
@@ -135,7 +168,7 @@ async function updateLabelStyle(color: string, type: number) {
           <template v-else-if="item.type === 'select'">
             {{ (item.propMap || {})[item.value]?.label || '--' }}
           </template>
-          <template v-else-if="item.type == 'slot'">
+          <template v-else-if="item.type === 'slot'">
             <slot :name="item.slotName" :data="item?.value"></slot>
           </template>
           <template v-else>

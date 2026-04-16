@@ -1,60 +1,60 @@
 <script setup lang="ts">
-import { get } from '@/request/request';
-import { lsUtil } from '@cpo/_utils';
+import { lsUtil } from '@cpo/_utils'
+import { get } from '@/request/request'
 
-const { mergeBuffer, fileToBuffer } = lsUtil;
+const { mergeBuffer, fileToBuffer } = lsUtil
 
-const downloadFileRef = ref();
-const chunkTotal = ref(3);
-const initRequstNum = ref(2);
-const maxErrorNum = ref(1);
+const downloadFileRef = ref()
+const chunkTotal = ref(3)
+const initRequstNum = ref(2)
+const maxErrorNum = ref(1)
 
 // 初始化分片下载
 function chunkDownloadInit(params: any): Promise<any> {
-  return get(`/v2/data/transfer/startMultipartDownload/${params.id}`);
+  return get(`/v2/data/transfer/startMultipartDownload/${params.id}`)
 }
 
 // 分片下载
 function chunkDownload(params: any, config: any): Promise<any> {
   return get(`/v2/data/transfer/multipartDownload/${params.id}/${params.chunk}`, {}, 'GET', {
-    signal: config.signal
-  });
+    signal: config.signal,
+  })
 }
 
 // 分片下载结束
 function chunkDownloadEnd(params: any): Promise<any> {
-  return get(`/v2/data/transfer/endMultiPartDownload/${params.id}/${params.taskId}`);
+  return get(`/v2/data/transfer/endMultiPartDownload/${params.id}/${params.taskId}`)
 }
 
-const id = ref(3);
-const taskId = ref('');
+const id = ref(3)
+const taskId = ref('')
 
 async function downloadFunc() {
   taskId.value = await chunkDownloadInit({
-    id: id.value
-  });
-  downloadFileRef.value.start();
+    id: id.value,
+  })
+  downloadFileRef.value.start()
 }
 
 async function onDownloadSuccess(data: any) {
-  console.log(data);
+  console.log(data)
   await chunkDownloadEnd({
     id: id.value,
-    taskId: taskId.value
-  });
+    taskId: taskId.value,
+  })
   const result = mergeBuffer(
     (data || []).map((item: any) => {
       return {
         file: fileToBuffer(item.multipartFile),
-        byteLength: item.length
-      };
-    })
-  );
-  console.log(result);
+        byteLength: item.length,
+      }
+    }),
+  )
+  console.log(result)
 }
 
 function onDownloadError(data: any) {
-  console.log(data);
+  console.log(data)
 }
 </script>
 
@@ -71,7 +71,9 @@ function onDownloadError(data: any) {
       @on-download-error="onDownloadError"
     />
     <br />
-    <LSButton type="primary" @click="downloadFunc">下载</LSButton>
+    <LSButton type="primary" @click="downloadFunc">
+      下载
+    </LSButton>
   </div>
 </template>
 

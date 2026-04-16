@@ -22,8 +22,9 @@ outline: deep
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-const canPrint = ref(true);
+import { ref } from 'vue'
+
+const canPrint = ref(true)
 ```
 
 ```html
@@ -51,8 +52,9 @@ const canPrint = ref(true);
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-const canPrint = ref(true);
+import { ref } from 'vue'
+
+const canPrint = ref(true)
 ```
 
 ```html
@@ -86,7 +88,6 @@ import { tableColumn, tableSlotColumn } from '../constant';
 import { ref } from 'vue';
 
 const canPrint = ref(true);
-
 
 const tableData = ref([
   {

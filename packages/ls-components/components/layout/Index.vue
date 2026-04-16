@@ -1,49 +1,103 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue';
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { lsEmitNames, lsLayoutProp } from './types';
-import Header from './components/Header.vue';
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+/**
+ * @summary 布局组件 - 基于 `el-container` 的页面框架容器
+ *
+ * `LSLayout` 基于 Element Plus 容器组件封装，提供 3 种后台常用布局模式：
+ * `1` 为“顶部导航 + 侧边栏 + 内容区”、`2` 为“顶部导航 + 内容区”、`3` 为“侧边栏 + 顶部导航 + 内容区”。
+ * 组件保留 `el-container` 结构写法，并将标题、用户信息、命令列表等头部属性透传给内部 `Header` 组件。
+ *
+ * 组件自有属性：
+ * @attr {string|number} mode 布局模式，可选 `1 / 2 / 3`，默认 `1`
+ * @attr {string} headerHeight 头部高度，传值需带单位，默认 `60px`
+ * @attr {boolean} showFooter 是否显示底部区域，默认 `false`
+ * @attr {string} footerHeight 底部高度，传值需带单位，默认 `60px`
+ * @attr {string} asideWidth 侧边栏宽度，传值需带单位，默认 `200px`
+ * @attr {boolean} showLogo 是否显示 logo；模式 `1/2` 显示在头部，模式 `3` 显示在侧栏顶部，默认 `true`
+ * @attr {string} logo logo 图片地址，默认 `''`
+ * @attr {string} customCss 追加到根节点的自定义 class，默认 `''`
+ * @attr {string} theme 主题风格类名，可选 `glass` / `cyber` / `minimal`，默认 `''`
+ *
+ * 常用头部透传属性（通过 `$attrs` 传给内部 `Header`）：
+ * @attr {string} title 头部标题
+ * @attr {boolean} showCommand 是否显示右侧交互区，默认 `true`
+ * @attr {string} userName 用户名，默认 `Admin`
+ * @attr {string} userIcon 用户头像地址
+ * @attr {Array<{key: string, name: string}>} commandList 顶部交互功能列表
+ *
+ * @slot header 自定义整个头部；提供时会覆盖默认 `Header`
+ * @slot headerLeft 默认头部左侧插槽
+ * @slot headerRight 默认头部右侧插槽
+ * @slot headerTitle 默认头部中间标题插槽
+ * @slot aside 侧边栏插槽；模式 `1/3` 时使用
+ * @slot section 主内容区域插槽
+ * @slot footer 底部插槽；`showFooter=true` 时使用
+ *
+ * @event onCommand(key) 点击顶部交互功能后触发，返回 `commandList` 对应项的 `key`
+ *
+ * @example
+ * <LSLayout
+ *   header-height="50px"
+ *   aside-width="220px"
+ *   :logo="logo"
+ *   title="Layout 测试"
+ *   :command-list="commandList"
+ *   @onCommand="onCommand"
+ * >
+ *   <template #aside>
+ *     <LSMenu :menu-config-list="MENU_CONFIG_LIST" class="menu-wrap" style="width: 220px" />
+ *   </template>
+ *   <template #section>
+ *     <div class="ls-main-container">列表区域</div>
+ *   </template>
+ * </LSLayout>
+ */
+import { computed, useSlots } from 'vue'
+import Header from './components/Header.vue'
+import { lsEmitNames, lsLayoutProp } from './types'
 
 defineOptions({
   name: 'LSLayout',
-  inheritAttrs: false
-});
+  inheritAttrs: false,
+})
 
-const props = defineProps(lsLayoutProp);
+const props = defineProps(lsLayoutProp)
 
-const emits = defineEmits(lsEmitNames);
+const emits = defineEmits(lsEmitNames)
 
-const slots = useSlots();
+const slots = useSlots()
 
-const ns = useNamespace('layout');
-const comClass: string = ns.b();
-const containerWrap: string = ns.b('container-wrap');
-const containerSection: string = ns.b('container-section');
+const ns = useNamespace('layout')
+const comClass: string = ns.b()
+const containerWrap: string = ns.b('container-wrap')
+const containerSection: string = ns.b('container-section')
 
 const containerWrapStyle = computed(() => {
   if (props.showFooter) {
     return {
-      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`
-    };
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight})`,
+    }
   }
+
   return {
-    height: `calc(100vh - ${props.headerHeight})`
-  };
-});
+    height: `calc(100vh - ${props.headerHeight})`,
+  }
+})
 
 const containerSectionStyle = computed(() => {
   if (props.showFooter) {
     return {
-      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight} - 40px)`
-    };
+      height: `calc(100vh - ${props.headerHeight} - ${props.footerHeight} - 40px)`,
+    }
   }
+
   return {
-    minHeight: `calc(100vh - ${props.headerHeight} - 40px)`
-  };
-});
+    minHeight: `calc(100vh - ${props.headerHeight} - 40px)`,
+  }
+})
 
 function onDropdownCommand2(val: string) {
-  emits('onCommand', val);
+  emits('onCommand', val)
 }
 </script>
 
@@ -73,7 +127,7 @@ function onDropdownCommand2(val: string) {
         </Header>
       </el-header>
       <el-container :class="containerWrap" :style="containerWrapStyle">
-        <el-aside v-if="mode != 2" :width="asideWidth">
+        <el-aside v-if="mode !== 2" :width="asideWidth">
           <slot name="aside"></slot>
         </el-aside>
         <el-main>

@@ -1,9 +1,9 @@
 <!-- persistent该属性自测之后只有在mode是horizontal才生效 -->
 <script setup lang="ts">
-import { useRouterHook } from '@lingshugroup/web-plus/hooks';
-import logo from '@/assets/logo.png';
-import vueSvg from '@/assets/vue.svg';
-import type { BreadCrumpListType, MenuBaseType } from '@cpo/_types';
+import type { BreadCrumpListType, MenuBaseType } from '@cpo/_types'
+import useRouterHook from '@cpo/_hooks/useRouterHook'
+import logo from '@/assets/logo.png'
+import vueSvg from '@/assets/vue.svg'
 
 const MENU_CONFIG_LIST: MenuBaseType[] = [
   {
@@ -15,7 +15,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
     cpoPath: 'fisheryManager/Overview',
     pCode: 'c1',
     link: 'https://www.lingshu.net/',
-    defJump: true
+    defJump: true,
   },
   {
     title: '养殖单元管理',
@@ -43,9 +43,9 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
             key: '2-1',
             cpoPath: 'pondManager/GroupDetail',
             pCode: 'c21',
-            hideMenu: true
-          }
-        ]
+            hideMenu: true,
+          },
+        ],
       },
       {
         title: '养殖池管理',
@@ -53,7 +53,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         path: 'pond-manager',
         key: '2-2',
         cpoPath: 'pondManager/Index',
-        pCode: 'c22'
+        pCode: 'c22',
       },
       {
         title: '养殖品种',
@@ -61,7 +61,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         path: 'fishCategory',
         key: '2-3',
         cpoPath: 'prodManager/fishCategory/Index',
-        pCode: 'c23'
+        pCode: 'c23',
       },
       {
         title: '养殖区域可视化',
@@ -69,9 +69,9 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         path: 'area-view',
         key: '2-4',
         cpoPath: 'pondManager/AreaView',
-        pCode: 'c24'
-      }
-    ]
+        pCode: 'c24',
+      },
+    ],
   },
   {
     title: '养殖周期管理',
@@ -99,11 +99,11 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
             key: '3-1',
             cpoPath: 'pondManager/cycle/HistoryCycleDetail',
             pCode: 'c25',
-            hideMenu: true
-          }
-        ]
-      }
-    ]
+            hideMenu: true,
+          },
+        ],
+      },
+    ],
   },
   {
     title: '规划管理',
@@ -122,7 +122,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
+        hideMenu: true,
       },
       {
         title: '编辑规划',
@@ -131,7 +131,7 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
+        hideMenu: true,
       },
       {
         title: '规划详情',
@@ -140,55 +140,56 @@ const MENU_CONFIG_LIST: MenuBaseType[] = [
         key: '8',
         cpoPath: 'planManager/Edit',
         pCode: 'c7',
-        hideMenu: true
-      }
-    ]
-  }
-];
+        hideMenu: true,
+      },
+    ],
+  },
+]
 
-const { getRouteQuery, currentRouter } = useRouterHook();
+const { getRouteQuery, currentRouter } = useRouterHook()
 
-const defineBCList: Ref<BreadCrumpListType> = ref([]);
-const comMenuRef = ref();
+const defineBCList: Ref<BreadCrumpListType> = ref([])
+const comMenuRef = ref()
 
 watch(
   () => currentRouter.value,
-  val => {
-    const { name }: any = val || {};
-    const query = getRouteQuery();
-    setDefineBCList(name, query);
+  (val) => {
+    const { name }: any = val || {}
+    const query = getRouteQuery()
+    setDefineBCList(name, query)
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
 function setDefineBCList(name: string, query: any) {
   if (name === 'Menu') {
     defineBCList.value = [
       {
-        title: '产品管理'
+        title: '产品管理',
       },
       {
         title: '产品详情',
         name: 'Button',
-        query
+        query,
       },
       {
-        title: '物模型草稿'
-      }
-    ];
-  } else {
-    defineBCList.value = [];
+        title: '物模型草稿',
+      },
+    ]
+  }
+  else {
+    defineBCList.value = []
   }
 }
 
 function onJump(res: any) {
-  console.log(res);
+  console.log(res)
 }
 
-const isCollapse = ref(true);
+const isCollapse = ref(true)
 
 const MENU_CONFIG_LIST2: MenuBaseType[] = [
   {
@@ -201,11 +202,11 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
         children: [
           {
             title: '渔场1-1-1',
-            key: '1-1-1'
-          }
-        ]
-      }
-    ]
+            key: '1-1-1',
+          },
+        ],
+      },
+    ],
   },
   {
     title: '养殖单元管理',
@@ -213,50 +214,51 @@ const MENU_CONFIG_LIST2: MenuBaseType[] = [
     children: [
       {
         title: '养殖区域管理-养殖区域管理',
-        key: '2-1'
+        key: '2-1',
       },
       {
         title: '养殖池管理',
-        key: '2-2'
+        key: '2-2',
       },
       {
         title: '养殖品种',
-        key: '2-3'
-      }
-    ]
-  }
-];
-const blockIndex: any = ref(0);
-const comMenuRef2 = ref();
-const defaultActive = ref('1');
-const defaultOpeneds: any = ref([]);
+        key: '2-3',
+      },
+    ],
+  },
+]
+const blockIndex: any = ref(0)
+const comMenuRef2 = ref()
+const defaultActive = ref('1')
+const defaultOpeneds: any = ref([])
 
 function blockClick(val: number) {
   if (val === blockIndex.value) {
-    blockIndex.value = -1;
-    defaultActive.value = '-1';
-  } else {
-    blockIndex.value = val;
-    defaultActive.value = (val + 1).toString();
+    blockIndex.value = -1
+    defaultActive.value = '-1'
+  }
+  else {
+    blockIndex.value = val
+    defaultActive.value = (val + 1).toString()
     // comMenuRef2.value.lsComMenuRef.open(val + 1);
   }
-  defaultOpeneds.value = ['1', '1-1', '1-1-1'];
+  defaultOpeneds.value = ['1', '1-1', '1-1-1']
 }
 
 function defineSubClickFunc(item: MenuBaseType) {
-  const { key }: any = item;
-  blockIndex.value = key?.split('-')[0] - 1;
-  defaultActive.value = key;
+  const { key }: any = item
+  blockIndex.value = key?.split('-')[0] - 1
+  defaultActive.value = key
 }
 
 function defineChildClickFunc(item: MenuBaseType) {
-  const { key }: any = item;
-  blockIndex.value = key?.split('-')[0] - 1;
-  defaultActive.value = key;
+  const { key }: any = item
+  blockIndex.value = key?.split('-')[0] - 1
+  defaultActive.value = key
 }
 
 function activeMenu() {
-  comMenuRef2.value.lsComMenuRef.updateActiveIndex('2-1');
+  comMenuRef2.value.lsComMenuRef.updateActiveIndex('2-1')
 }
 </script>
 
@@ -265,17 +267,21 @@ function activeMenu() {
     <LSBreadcrumb :define-list="defineBCList" separator="$" />
     <br />
     <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-      <el-radio-button :value="false">expand</el-radio-button>
-      <el-radio-button :value="true">collapse</el-radio-button>
+      <el-radio-button :value="false">
+        expand
+      </el-radio-button>
+      <el-radio-button :value="true">
+        collapse
+      </el-radio-button>
     </el-radio-group>
     <LSMenu
+      ref="comMenuRef"
       :menu-config-list="MENU_CONFIG_LIST"
       hover-color="blue"
       style="max-width: 225px"
-      @on-jump="onJump"
       :collapse="isCollapse"
       :show-tooltip="true"
-      ref="comMenuRef"
+      @on-jump="onJump"
     >
       <template #icon7>
         <vueSvg />
@@ -292,11 +298,11 @@ function activeMenu() {
         :collapse="false"
         :is-define-click="true"
         :default-active="defaultActive"
-        @define-sub-click="defineSubClickFunc"
-        @define-child-click="defineChildClickFunc"
         :default-openeds="defaultOpeneds"
         mode="vertical"
         :persistent="false"
+        @define-sub-click="defineSubClickFunc"
+        @define-child-click="defineChildClickFunc"
       >
         <template #icon7>
           <vueSvg />
@@ -304,12 +310,18 @@ function activeMenu() {
       </LSMenu>
 
       <ul class="block-list">
-        <li :class="{ active: blockIndex == 0 }" @click="blockClick(0)">渔场概览</li>
-        <li :class="{ active: blockIndex == 1 }" @click="blockClick(1)">养殖单元管理</li>
+        <li :class="{ active: blockIndex === 0 }" @click="blockClick(0)">
+          渔场概览
+        </li>
+        <li :class="{ active: blockIndex === 1 }" @click="blockClick(1)">
+          养殖单元管理
+        </li>
       </ul>
     </div>
     <br />
-    <LSButton @click="activeMenu">激活菜单</LSButton>
+    <LSButton @click="activeMenu">
+      激活菜单
+    </LSButton>
 
     <br />
     <br />
@@ -324,10 +336,18 @@ function activeMenu() {
       menu-trigger="click"
     >
       <el-sub-menu index="2">
-        <template #title>Workspace</template>
-        <el-menu-item index="2-1">item one</el-menu-item>
-        <el-menu-item index="2-2">item two</el-menu-item>
-        <el-menu-item index="2-3">item three</el-menu-item>
+        <template #title>
+          Workspace
+        </template>
+        <el-menu-item index="2-1">
+          item one
+        </el-menu-item>
+        <el-menu-item index="2-2">
+          item two
+        </el-menu-item>
+        <el-menu-item index="2-3">
+          item three
+        </el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>

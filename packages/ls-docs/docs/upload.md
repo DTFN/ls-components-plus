@@ -17,8 +17,9 @@ outline: deep
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-const action = ref('http://192.168.1.33:3001/upload');
+import { ref } from 'vue'
+
+const action = ref('http://192.168.1.33:3001/upload')
 ```
 
 ```html
@@ -33,11 +34,12 @@ const action = ref('http://192.168.1.33:3001/upload');
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-const action = ref('http://192.168.1.33:3001/upload');
+import { ref } from 'vue'
+
+const action = ref('http://192.168.1.33:3001/upload')
 const item1 = ref({
   isCover: false
-});
+})
 ```
 
 ```html
@@ -52,11 +54,12 @@ const item1 = ref({
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-const action = ref('http://192.168.1.33:3001/upload');
+import { ref } from 'vue'
+
+const action = ref('http://192.168.1.33:3001/upload')
 const item2 = ref({
   limitFile: ['png', 'docx']
-});
+})
 ```
 
 ```html
@@ -71,18 +74,20 @@ const item2 = ref({
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import axios from 'axios';
+import axios from 'axios'
+import { ref } from 'vue'
+
 const item3 = ref({
-  httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
+  httpRequestFunc(formData, uploadProcessObj) {
+    return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj)
   }
-});
+})
+
 function httpResponseFunc(res) {
   const {
     data: { code, data }
-  } = res;
-  console.log('httpResponseFunc', code, data);
+  } = res
+  console.log('httpResponseFunc', code, data)
 }
 ```
 
@@ -98,7 +103,7 @@ function httpResponseFunc(res) {
 </ClientOnly>
 
 ```js
-const action = ref('http://192.168.1.33:3001/upload');
+const action = ref('http://192.168.1.33:3001/upload')
 ```
 
 ```html
@@ -114,7 +119,7 @@ const action = ref('http://192.168.1.33:3001/upload');
 </ClientOnly>
 
 ```js
-const action = ref('http://192.168.1.33:3001/upload');
+const action = ref('http://192.168.1.33:3001/upload')
 ```
 
 ```html
@@ -191,12 +196,13 @@ const action = ref('http://192.168.1.33:3001/upload');
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-import axios from 'axios';
-const ruleFormRef = ref();
+import axios from 'axios'
+import { ref } from 'vue'
+
+const ruleFormRef = ref()
 const ruleForm = ref({
   fileId: ''
-});
+})
 const rules = ref({
   fileId: [
     {
@@ -205,23 +211,28 @@ const rules = ref({
       trigger: 'change'
     }
   ]
-});
+})
+
 function submitForm() {
-  ruleFormRef.value.validate(valid => {
+  ruleFormRef.value.validate((valid) => {
     if (valid) {
-      alert('submit!');
-    } else {
-      console.log('error submit!!');
-      return false;
+      alert('submit!')
     }
-  });
+    else {
+      console.log('error submit!!')
+
+      return false
+    }
+  })
 }
+
 function uploadErrorFunc(msg) {
-  console.log(msg);
+  console.log(msg)
 }
+
 function formValidateFunc() {
-  ruleForm.value.fileId = '11111';
-  ruleFormRef.value.validateField('fileId');
+  ruleForm.value.fileId = '11111'
+  ruleFormRef.value.validateField('fileId')
 }
 ```
 
@@ -253,6 +264,7 @@ function formValidateFunc() {
     <LSButton type="primary" @click="submitForm()">提交</LSButton>
   </el-form-item>
 </el-form>
+
 ```
 
 :::
@@ -263,7 +275,7 @@ function formValidateFunc() {
 <ClientOnly>
 <LSUpload list-type="picture-card" :action="action" :item="item5" v-model:file-list="fileList">
   <template #tip>
-    <div>12312312</div>  
+    <div>12312312</div>
   </template>
 </LSUpload>
 </ClientOnly>
@@ -292,6 +304,7 @@ const fileList = ref([{ name: '', url: '' }]);
     <LSButton type="primary" icon="Upload">自定义上传按钮</LSButton>
   </template>
 </LSUpload>
+
 ```
 
 ### 10. 带数量限制的上传
@@ -304,7 +317,7 @@ const fileList = ref([{ name: '', url: '' }]);
 const item6 = ref({
   hideBtnReachLimit: true,
   limitNumMsg: '最多只能上传3个文件'
-});
+})
 ```
 
 ```html
@@ -321,11 +334,12 @@ const item6 = ref({
 function handleRemove(file, fileList) {
   return new Promise((resolve, reject) => {
     if (confirm('确定要删除这个文件吗？')) {
-      resolve();
-    } else {
-      reject();
+      resolve()
     }
-  });
+    else {
+      reject()
+    }
+  })
 }
 ```
 
@@ -343,7 +357,7 @@ function handleRemove(file, fileList) {
 const item7 = ref({
   bgImage:
     'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blue%20gradient%20background%20with%20upload%20icon&image_size=square'
-});
+})
 ```
 
 ```html
@@ -360,7 +374,7 @@ const item7 = ref({
 const item8 = ref({
   hideBtnReachLimit: true,
   limitNumMsg: '最多只能上传5个文件'
-});
+})
 ```
 
 ```html
@@ -375,16 +389,16 @@ const item8 = ref({
 
 ```js
 const item9 = ref({
-  httpRequestFunc: function (formData, uploadProcessObj) {
+  httpRequestFunc(formData, uploadProcessObj) {
     return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
-      onUploadProgress: function (progressEvent) {
-        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        console.log('上传进度:', percentCompleted);
+      onUploadProgress(progressEvent) {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        console.log('上传进度:', percentCompleted)
       }
-    });
+    })
   }
-});
+})
 ```
 
 ```html
@@ -407,11 +421,13 @@ const item9 = ref({
 </ClientOnly>
 
 ```js
-const item10 = ref({});
+const item10 = ref({})
+
 function handleCustomRemove(file) {
-  const index = fileList.value.findIndex(item => item.uid === file.uid);
+  const index = fileList.value.findIndex(item => item.uid === file.uid)
+
   if (index !== -1) {
-    fileList.value.splice(index, 1);
+    fileList.value.splice(index, 1)
   }
 }
 ```
@@ -425,6 +441,7 @@ function handleCustomRemove(file) {
     </div>
   </template>
 </LSUpload>
+
 ```
 
 ### 16. 与其他组件的集成
@@ -462,7 +479,7 @@ const item11 = ref({
   limitFileMsg: '只能上传PDF、Word或Excel文件',
   limitSize: 5,
   limitSizeMsg: '文件大小不能超过5MB'
-});
+})
 ```
 
 ```html
@@ -481,6 +498,7 @@ const item11 = ref({
     </template>
   </LSUpload>
 </el-card>
+
 ```
 
 ### 17. 拖拽上传带背景图片
@@ -494,7 +512,7 @@ const item12 = ref({
   bgImage:
     'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=light%20blue%20background%20with%20drag%20and%20drop%20area&image_size=landscape_16_9',
   tipContent: '点击或拖拽文件到此处上传'
-});
+})
 ```
 
 ```html
@@ -514,7 +532,7 @@ const item13 = ref({
   profile: true,
   defProfile:
     'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=default%20user%20avatar%20placeholder&image_size=square'
-});
+})
 ```
 
 ```html
@@ -534,16 +552,16 @@ const item14 = ref({
   limitSize: 2,
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
-  httpRequestFunc: function (formData, uploadProcessObj) {
+  httpRequestFunc(formData, uploadProcessObj) {
     return axios.post('http://192.168.1.33:3001/upload', formData, {
       ...uploadProcessObj,
-      onUploadProgress: function (progressEvent) {
-        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        console.log('上传进度:', percentCompleted);
+      onUploadProgress(progressEvent) {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        console.log('上传进度:', percentCompleted)
       }
-    });
+    })
   }
-});
+})
 ```
 
 ```html
@@ -573,7 +591,7 @@ const item14 = ref({
 const item15 = ref({
   limitFile: ['jpg', 'png'],
   limitFileMsg: '只能上传图片文件'
-});
+})
 ```
 
 ```html
@@ -621,6 +639,7 @@ const item15 = ref({
     color: #606266;
   }
 </style>
+
 ```
 
 ### 21. 自动上传与手动上传切换
@@ -630,9 +649,9 @@ const item15 = ref({
     <el-switch v-model="autoUpload" @change="handleUploadModeChange">
       {{ autoUpload ? '自动上传' : '手动上传' }}
     </el-switch>
-    <LSUpload 
-      :action="action" 
-      :auto-upload="autoUpload" 
+    <LSUpload
+      :action="action"
+      :auto-upload="autoUpload"
       :item="item16"
       ref="uploadRef"
     >
@@ -651,33 +670,35 @@ const item15 = ref({
 </ClientOnly>
 
 ```js
-import { ref } from 'vue';
-import { Upload, Check } from '@element-plus/icons-vue';
+import { Check, Upload } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 
-const autoUpload = ref(true);
-const uploadRef = ref(null);
+const autoUpload = ref(true)
+const uploadRef = ref(null)
 const item16 = ref({
   limitFile: ['pdf', 'docx', 'xlsx'],
   limitFileMsg: '只能上传PDF、Word或Excel文件',
   limitSize: 5,
   limitSizeMsg: '文件大小不能超过5MB'
-});
+})
 
 function handleUploadModeChange() {
-  console.log('上传模式切换为:', autoUpload.value ? '自动上传' : '手动上传');
+  console.log('上传模式切换为:', autoUpload.value ? '自动上传' : '手动上传')
 }
 
 function handleSubmitUpload() {
   if (uploadRef.value) {
-    uploadRef.value.submit();
-    console.log('手动触发上传');
+    uploadRef.value.submit()
+    console.log('手动触发上传')
   }
 }
 ```
 
 ```html
 <div class="upload-mode-toggle">
-  <el-switch v-model="autoUpload" @change="handleUploadModeChange"> {{ autoUpload ? '自动上传' : '手动上传' }} </el-switch>
+  <el-switch v-model="autoUpload" @change="handleUploadModeChange">
+    {{ autoUpload ? '自动上传' : '手动上传' }}
+  </el-switch>
   <LSUpload :action="action" :auto-upload="autoUpload" :item="item16" ref="uploadRef">
     <template #trigger>
       <LSButton type="primary" :icon="Upload"> {{ autoUpload ? '选择文件' : '选择文件(手动上传)' }} </LSButton>
@@ -696,6 +717,7 @@ function handleSubmitUpload() {
     flex-wrap: wrap;
   }
 </style>
+
 ```
 
 ## API

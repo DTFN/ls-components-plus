@@ -38,6 +38,7 @@ outline: deep
 </el-form>
 
 ### 1. templateSimpleLine
+
 <ClientOnly>
 <LSChart template="line" :data="dataSimpleLine" :template-patch="templateAllLine.templateSimpleLine" :custom-option="customOption" />
 </ClientOnly>
@@ -48,13 +49,13 @@ outline: deep
 const dataSimpleLine = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [820, 932, 901, 934, 1290, 1330, 1320]
-};
+}
 const templateAllLine = ref({
   templateSimpleLine: {
     labelPosition: 'top',
     tooltip: 'cross'
   }
-});
+})
 const customOption = ref({
   xAxis: [
     {
@@ -66,7 +67,7 @@ const customOption = ref({
       }
     }
   ]
-});
+})
 ```
 
 ```html
@@ -108,7 +109,7 @@ const dataMultipleLine = {
       data: [22, 66, 99, 234, 33, 56, 310]
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateMultipleLine: {
     labelPosition: 'top',
@@ -119,7 +120,7 @@ const templateAllLine = ref({
     legend: ['Email', 'name', 'address'],
     dataZoom: 'horizontal'
   }
-});
+})
 ```
 
 ```html
@@ -186,7 +187,7 @@ const temperatureData = [
     propertyValue: '76.27',
     propertyTime: 1726214400000
   }
-];
+]
 
 const humidity = [
   {
@@ -237,7 +238,7 @@ const humidity = [
     propertyValue: '29.13',
     propertyTime: 1726214400000
   }
-];
+]
 const dataLineBarLine = {
   axisData: temperatureData.map(item => item.propertyTime),
   seriesData: [
@@ -250,7 +251,7 @@ const dataLineBarLine = {
       data: humidity.map(item => item.propertyValue)
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateLineBar: {
     labelPosition: 'top',
@@ -258,7 +259,7 @@ const templateAllLine = ref({
     smooth: true,
     lineBar: true
   }
-});
+})
 ```
 
 ```html
@@ -325,7 +326,7 @@ const temperatureData = [
     propertyValue: '76.27',
     propertyTime: 1726214400000
   }
-];
+]
 const dynamicLine = {
   axisData: temperatureData.map(item => item.propertyTime),
   seriesData: [
@@ -334,7 +335,7 @@ const dynamicLine = {
       data: temperatureData.map(item => item.propertyValue)
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateDynamicLine: {
     labelPosition: 'top',
@@ -342,11 +343,17 @@ const templateAllLine = ref({
     tooltip: 'cross',
     dynamicAxis: true
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dynamicLine" :template-patch="templateAllLine.templateDynamicLine" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dynamicLine"
+  :template-patch="templateAllLine.templateDynamicLine"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -374,7 +381,7 @@ const dataAreaChart = {
       data: [1, -2, 2, 5, 3, 2, 0]
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateAreaChart: {
     type: 'multiple',
@@ -384,11 +391,17 @@ const templateAllLine = ref({
     legend: ['最高温度', '最低温度'],
     showBarFont: true
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateAreaChart" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataAreaChart"
+  :template-patch="templateAllLine.templateAreaChart"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -416,7 +429,7 @@ const dataDualYAxis = {
       data: [20, 30, 25, 15, 10, 20, 25]
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateDualYAxis: {
     type: 'multiple',
@@ -424,11 +437,17 @@ const templateAllLine = ref({
     tooltip: 'cross',
     legend: ['销售额', '订单数']
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataDualYAxis" :template-patch="templateAllLine.templateDualYAxis" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataDualYAxis"
+  :template-patch="templateAllLine.templateDualYAxis"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -451,7 +470,7 @@ const dataMarkLineChart = {
       data: [820, 932, 901, 934, 1290, 1330, 1320]
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateMarkLineChart: {
     type: 'multiple',
@@ -470,11 +489,17 @@ const templateAllLine = ref({
     },
     showBarFont: true
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataMarkLineChart" :template-patch="templateAllLine.templateMarkLineChart" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataMarkLineChart"
+  :template-patch="templateAllLine.templateMarkLineChart"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -491,18 +516,24 @@ const templateAllLine = ref({
 const dataSimpleLine = {
   axisData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
   seriesData: [820, 932, 901, 934, 1290, 1330, 1320]
-};
+}
 const templateAllLine = ref({
   templateCustomColorLine: {
     labelPosition: 'top',
     tooltip: 'cross',
     barColorList: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8ACB88']
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataSimpleLine" :template-patch="templateAllLine.templateCustomColorLine" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataSimpleLine"
+  :template-patch="templateAllLine.templateCustomColorLine"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -535,7 +566,7 @@ const dataMultipleLine = {
       data: [22, 66, 99, 234, 33, 56, 310]
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateVerticalZoomLine: {
     labelPosition: 'top',
@@ -546,11 +577,17 @@ const templateAllLine = ref({
     legend: ['Email', 'name', 'address'],
     dataZoom: 'vertical'
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataMultipleLine" :template-patch="templateAllLine.templateVerticalZoomLine" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataMultipleLine"
+  :template-patch="templateAllLine.templateVerticalZoomLine"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -575,11 +612,17 @@ const templateAllLine = ref({
     legendIcon: 'circle',
     showBarFont: true
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataAreaChart" :template-patch="templateAllLine.templateDifferentLegendIconLine" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataAreaChart"
+  :template-patch="templateAllLine.templateDifferentLegendIconLine"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -603,18 +646,24 @@ const dataStepLine = {
       step: 'middle'
     }
   ]
-};
+}
 const templateAllLine = ref({
   templateStepLine: {
     type: 'multiple',
     tooltip: 'cross',
     legend: ['阶梯线']
   }
-});
+})
 ```
 
 ```html
-<LSChart template="line" :data="dataStepLine" :template-patch="templateAllLine.templateStepLine" width="800" height="400" />
+<LSChart
+  template="line"
+  :data="dataStepLine"
+  :template-patch="templateAllLine.templateStepLine"
+  width="800"
+  height="400"
+/>
 ```
 
 :::
@@ -1025,7 +1074,7 @@ const tableData = ref([
     name: 'theme',
     desc: '主题类型，可选项：default / dark',
     type: 'string',
-    value: 'default' 
+    value: 'default'
   },
   {
     name: 'barColorList',
@@ -1094,7 +1143,7 @@ const tableData2 = ref([
     name: 'axisData',
     desc: '对应axis坐标轴数据，若axis为x，那么该数据展示在x轴上',
     type: 'array',
-    value: '-' 
+    value: '-'
   },
   {
     name: 'seriesData',

@@ -36,6 +36,38 @@ LSCropper 是一个功能强大的图片裁剪组件，基于 vue-cropper 二次
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const fileList = ref([])
+const visible = ref(false)
+const cropData = ref({})
+const imgUrl = ref('')
+
+function onChangeFunc(res) {
+  fileList.value = []
+  imgUrl.value = res.blob
+  visible.value = true
+}
+
+function onConfirm() {
+  visible.value = false
+
+  if (cropData.value.file) {
+    fileList.value = [
+      {
+        url: URL.createObjectURL(cropData.value.file)
+      }
+    ]
+  }
+}
+
+function onCropData(data) {
+  console.log('裁剪数据:', data)
+  cropData.value = data
+}
+</script>
+
 <template>
   <div>
     <LSUpload
@@ -44,7 +76,7 @@ LSCropper 是一个功能强大的图片裁剪组件，基于 vue-cropper 二次
       :file-list="fileList"
       :item="{
         limitFile: ['png', 'jpg', 'jpeg'],
-        limitSize: 20
+        limitSize: 20,
       }"
       @on-change-func="onChangeFunc"
     ></LSUpload>
@@ -53,37 +85,6 @@ LSCropper 是一个功能强大的图片裁剪组件，基于 vue-cropper 二次
     </LSDialog>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const fileList = ref([]);
-const visible = ref(false);
-const cropData = ref({});
-const imgUrl = ref('');
-
-function onChangeFunc(res) {
-  fileList.value = [];
-  imgUrl.value = res.blob;
-  visible.value = true;
-}
-
-function onConfirm() {
-  visible.value = false;
-  if (cropData.value.file) {
-    fileList.value = [
-      {
-        url: URL.createObjectURL(cropData.value.file)
-      }
-    ];
-  }
-}
-
-function onCropData(data) {
-  console.log('裁剪数据:', data);
-  cropData.value = data;
-}
-</script>
 ```
 
 :::
@@ -99,21 +100,21 @@ function onCropData(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataSquare = ref({})
+
+function onCropDataSquare(data) {
+  console.log('方形裁剪数据:', data)
+  cropDataSquare.value = data
+}
+</script>
+
 <template>
   <LSCropper :img-url="sampleImageUrl" graphics-type="square" :show-preview="true" @on-crop-data="onCropDataSquare" />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataSquare = ref({});
-
-function onCropDataSquare(data) {
-  console.log('方形裁剪数据:', data);
-  cropDataSquare.value = data;
-}
-</script>
 ```
 
 :::
@@ -129,21 +130,21 @@ function onCropDataSquare(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataCircular = ref({})
+
+function onCropDataCircular(data) {
+  console.log('圆形裁剪数据:', data)
+  cropDataCircular.value = data
+}
+</script>
+
 <template>
   <LSCropper :img-url="sampleImageUrl" graphics-type="circular" :show-preview="true" @on-crop-data="onCropDataCircular" />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataCircular = ref({});
-
-function onCropDataCircular(data) {
-  console.log('圆形裁剪数据:', data);
-  cropDataCircular.value = data;
-}
-</script>
 ```
 
 :::
@@ -159,6 +160,18 @@ function onCropDataCircular(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataJpeg = ref({})
+
+function onCropDataJpeg(data) {
+  console.log('JPEG格式裁剪数据:', data)
+  cropDataJpeg.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -168,18 +181,6 @@ function onCropDataCircular(data) {
     @on-crop-data="onCropDataJpeg"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataJpeg = ref({});
-
-function onCropDataJpeg(data) {
-  console.log('JPEG格式裁剪数据:', data);
-  cropDataJpeg.value = data;
-}
-</script>
 ```
 
 :::
@@ -195,21 +196,21 @@ function onCropDataJpeg(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataNoPreview = ref({})
+
+function onCropDataNoPreview(data) {
+  console.log('无预览裁剪数据:', data)
+  cropDataNoPreview.value = data
+}
+</script>
+
 <template>
   <LSCropper :img-url="sampleImageUrl" graphics-type="square" :show-preview="false" @on-crop-data="onCropDataNoPreview" />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataNoPreview = ref({});
-
-function onCropDataNoPreview(data) {
-  console.log('无预览裁剪数据:', data);
-  cropDataNoPreview.value = data;
-}
-</script>
 ```
 
 :::
@@ -225,6 +226,18 @@ function onCropDataNoPreview(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataCustomName = ref({})
+
+function onCropDataCustomName(data) {
+  console.log('自定义文件名裁剪数据:', data)
+  cropDataCustomName.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -234,18 +247,6 @@ function onCropDataNoPreview(data) {
     @on-crop-data="onCropDataCustomName"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataCustomName = ref({});
-
-function onCropDataCustomName(data) {
-  console.log('自定义文件名裁剪数据:', data);
-  cropDataCustomName.value = data;
-}
-</script>
 ```
 
 :::
@@ -261,6 +262,18 @@ function onCropDataCustomName(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataCustomSize = ref({})
+
+function onCropDataCustomSize(data) {
+  console.log('自定义最小尺寸裁剪数据:', data)
+  cropDataCustomSize.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -270,18 +283,6 @@ function onCropDataCustomName(data) {
     @on-crop-data="onCropDataCustomSize"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataCustomSize = ref({});
-
-function onCropDataCustomSize(data) {
-  console.log('自定义最小尺寸裁剪数据:', data);
-  cropDataCustomSize.value = data;
-}
-</script>
 ```
 
 :::
@@ -297,6 +298,18 @@ function onCropDataCustomSize(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataWebp = ref({})
+
+function onCropDataWebp(data) {
+  console.log('WebP格式裁剪数据:', data)
+  cropDataWebp.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -306,18 +319,6 @@ function onCropDataCustomSize(data) {
     @on-crop-data="onCropDataWebp"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataWebp = ref({});
-
-function onCropDataWebp(data) {
-  console.log('WebP格式裁剪数据:', data);
-  cropDataWebp.value = data;
-}
-</script>
 ```
 
 :::
@@ -336,6 +337,25 @@ function onCropDataWebp(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const errorMessage = ref('')
+const cropDataWithError = ref({})
+
+function onCropDataWithError(data) {
+  console.log('裁剪成功:', data)
+  cropDataWithError.value = data
+  errorMessage.value = ''
+}
+
+function onCropError(error) {
+  console.error('裁剪失败:', error)
+  errorMessage.value = '裁剪过程中发生错误，请重试'
+}
+</script>
+
 <template>
   <div>
     <LSCropper
@@ -350,25 +370,6 @@ function onCropDataWebp(data) {
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const errorMessage = ref('');
-const cropDataWithError = ref({});
-
-function onCropDataWithError(data) {
-  console.log('裁剪成功:', data);
-  cropDataWithError.value = data;
-  errorMessage.value = '';
-}
-
-function onCropError(error) {
-  console.error('裁剪失败:', error);
-  errorMessage.value = '裁剪过程中发生错误，请重试';
-}
-</script>
 
 <style scoped>
 .error-message {
@@ -394,6 +395,18 @@ function onCropError(error) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataFixedRatio = ref({})
+
+function onCropDataFixedRatio(data) {
+  console.log('固定比例裁剪数据:', data)
+  cropDataFixedRatio.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -404,18 +417,6 @@ function onCropError(error) {
     @on-crop-data="onCropDataFixedRatio"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataFixedRatio = ref({});
-
-function onCropDataFixedRatio(data) {
-  console.log('固定比例裁剪数据:', data);
-  cropDataFixedRatio.value = data;
-}
-</script>
 ```
 
 :::
@@ -431,23 +432,23 @@ function onCropDataFixedRatio(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataResponsive = ref({})
+
+function onCropDataResponsive(data) {
+  console.log('响应式裁剪数据:', data)
+  cropDataResponsive.value = data
+}
+</script>
+
 <template>
   <div class="responsive-container">
     <LSCropper :img-url="sampleImageUrl" graphics-type="square" :show-preview="true" @on-crop-data="onCropDataResponsive" />
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataResponsive = ref({});
-
-function onCropDataResponsive(data) {
-  console.log('响应式裁剪数据:', data);
-  cropDataResponsive.value = data;
-}
-</script>
 
 <style scoped>
 .responsive-container {
@@ -471,6 +472,18 @@ function onCropDataResponsive(data) {
 ::: details 点我查看代码
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png')
+const cropDataAvatar = ref({})
+
+function onCropDataAvatar(data) {
+  console.log('头像裁剪数据:', data)
+  cropDataAvatar.value = data
+}
+</script>
+
 <template>
   <LSCropper
     :img-url="sampleImageUrl"
@@ -483,18 +496,6 @@ function onCropDataResponsive(data) {
     @on-crop-data="onCropDataAvatar"
   />
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const sampleImageUrl = ref('http://192.168.1.33:8008/images/fish1.png');
-const cropDataAvatar = ref({});
-
-function onCropDataAvatar(data) {
-  console.log('头像裁剪数据:', data);
-  cropDataAvatar.value = data;
-}
-</script>
 ```
 
 :::
@@ -535,6 +536,72 @@ function onCropDataAvatar(data) {
 ### 1. 实际项目中的完整裁剪流程
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+// 上传相关
+const fileList = ref([])
+const cropDialogVisible = ref(false)
+const cropImageUrl = ref('')
+
+// 裁剪相关
+const cropType = ref('square')
+const outputType = ref('png')
+const cropResult = ref({})
+
+// 处理文件上传
+function handleFileChange(res) {
+  fileList.value = []
+  cropImageUrl.value = res.blob
+  cropDialogVisible.value = true
+}
+
+// 处理裁剪数据
+function handleCropData(data) {
+  console.log('裁剪成功:', data)
+  cropResult.value = data
+}
+
+// 处理裁剪错误
+function handleCropError(error) {
+  console.error('裁剪失败:', error)
+  // 显示错误提示
+}
+
+// 确认裁剪
+function handleCropConfirm() {
+  cropDialogVisible.value = false
+
+  if (cropResult.value.file) {
+    // 显示裁剪后的图片
+    fileList.value = [
+      {
+        url: URL.createObjectURL(cropResult.value.file)
+      }
+    ]
+
+    // 可以在这里上传裁剪后的图片到服务器
+    uploadCroppedImage(cropResult.value.file)
+  }
+}
+
+// 取消裁剪
+function handleCropCancel() {
+  cropDialogVisible.value = false
+  cropResult.value = {}
+}
+
+// 上传裁剪后的图片
+function uploadCroppedImage(file) {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  // 这里实现上传逻辑
+  console.log('上传裁剪后的图片:', file.name)
+  // 例如：axios.post('/api/upload', formData);
+}
+</script>
+
 <template>
   <div>
     <!-- 上传组件 -->
@@ -544,7 +611,7 @@ function onCropDataAvatar(data) {
       :file-list="fileList"
       :item="{
         limitFile: ['png', 'jpg', 'jpeg'],
-        limitSize: 20
+        limitSize: 20,
       }"
       @on-change-func="handleFileChange"
     ></LSUpload>
@@ -566,97 +633,31 @@ function onCropDataAvatar(data) {
       <h3>裁剪设置</h3>
       <div>
         <label>
-          <input type="radio" v-model="cropType" value="square" />
+          <input v-model="cropType" type="radio" value="square" />
           方形裁剪
         </label>
         <label>
-          <input type="radio" v-model="cropType" value="circular" />
+          <input v-model="cropType" type="radio" value="circular" />
           圆形裁剪
         </label>
       </div>
       <div>
         <label>
-          <input type="radio" v-model="outputType" value="png" />
+          <input v-model="outputType" type="radio" value="png" />
           PNG格式
         </label>
         <label>
-          <input type="radio" v-model="outputType" value="jpeg" />
+          <input v-model="outputType" type="radio" value="jpeg" />
           JPEG格式
         </label>
         <label>
-          <input type="radio" v-model="outputType" value="webp" />
+          <input v-model="outputType" type="radio" value="webp" />
           WebP格式
         </label>
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-// 上传相关
-const fileList = ref([]);
-const cropDialogVisible = ref(false);
-const cropImageUrl = ref('');
-
-// 裁剪相关
-const cropType = ref('square');
-const outputType = ref('png');
-const cropResult = ref({});
-
-// 处理文件上传
-function handleFileChange(res) {
-  fileList.value = [];
-  cropImageUrl.value = res.blob;
-  cropDialogVisible.value = true;
-}
-
-// 处理裁剪数据
-function handleCropData(data) {
-  console.log('裁剪成功:', data);
-  cropResult.value = data;
-}
-
-// 处理裁剪错误
-function handleCropError(error) {
-  console.error('裁剪失败:', error);
-  // 显示错误提示
-}
-
-// 确认裁剪
-function handleCropConfirm() {
-  cropDialogVisible.value = false;
-
-  if (cropResult.value.file) {
-    // 显示裁剪后的图片
-    fileList.value = [
-      {
-        url: URL.createObjectURL(cropResult.value.file)
-      }
-    ];
-
-    // 可以在这里上传裁剪后的图片到服务器
-    uploadCroppedImage(cropResult.value.file);
-  }
-}
-
-// 取消裁剪
-function handleCropCancel() {
-  cropDialogVisible.value = false;
-  cropResult.value = {};
-}
-
-// 上传裁剪后的图片
-function uploadCroppedImage(file) {
-  const formData = new FormData();
-  formData.append('file', file);
-
-  // 这里实现上传逻辑
-  console.log('上传裁剪后的图片:', file.name);
-  // 例如：axios.post('/api/upload', formData);
-}
-</script>
 
 <style scoped>
 .crop-settings {
@@ -893,8 +894,12 @@ LSCropper 组件提供了两个主要事件，用于处理裁剪结果和错误�
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="visible = false">取消</el-button>
-          <el-button type="primary" @click="onConfirm">确认裁剪</el-button>
+          <el-button @click="visible = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="onConfirm">
+            确认裁剪
+          </el-button>
         </div>
       </template>
     </LSDialog>
@@ -907,6 +912,71 @@ LSCropper 组件提供了两个主要事件，用于处理裁剪结果和错误�
 对于需要批量裁剪多张图片的场景，可以使用以下方法：
 
 ```vue
+<script setup>
+import { ref } from 'vue'
+
+const visible = ref(false)
+const currentIndex = ref(0)
+const images = ref([])
+const currentImageUrl = ref('')
+const cropResults = ref([])
+const currentCropData = ref({})
+
+function onBatchChangeFunc(res) {
+  images.value = res.files.map(file => file.blob)
+  currentIndex.value = 0
+  cropResults.value = []
+
+  if (images.value.length > 0) {
+    currentImageUrl.value = images.value[0]
+    visible.value = true
+  }
+}
+
+function onCropData(data) {
+  currentCropData.value = data
+}
+
+function onNext() {
+  if (currentCropData.value.file) {
+    cropResults.value.push(currentCropData.value)
+  }
+
+  currentIndex.value++
+
+  if (currentIndex.value < images.value.length) {
+    currentImageUrl.value = images.value[currentIndex.value]
+    currentCropData.value = {}
+  }
+  else {
+    visible.value = false
+    // 处理所有裁剪结果
+    handleAllCropResults()
+  }
+}
+
+function onConfirm() {
+  if (currentCropData.value.file) {
+    cropResults.value.push(currentCropData.value)
+  }
+  visible.value = false
+  // 处理所有裁剪结果
+  handleAllCropResults()
+}
+
+function onCancel() {
+  visible.value = false
+  images.value = []
+  cropResults.value = []
+  currentCropData.value = {}
+}
+
+function handleAllCropResults() {
+  console.log('所有裁剪结果:', cropResults.value)
+  // 可以在这里批量上传裁剪后的图片
+}
+</script>
+
 <template>
   <div>
     <!-- 批量上传 -->
@@ -917,9 +987,15 @@ LSCropper 组件提供了两个主要事件，用于处理裁剪结果和错误�
       <LSCropper :img-url="currentImageUrl" graphics-type="square" :show-preview="true" @on-crop-data="onCropData" />
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="onCancel">取消</el-button>
-          <el-button type="primary" @click="onNext">下一张</el-button>
-          <el-button type="primary" @click="onConfirm">完成</el-button>
+          <el-button @click="onCancel">
+            取消
+          </el-button>
+          <el-button type="primary" @click="onNext">
+            下一张
+          </el-button>
+          <el-button type="primary" @click="onConfirm">
+            完成
+          </el-button>
         </div>
       </template>
     </LSDialog>
@@ -935,69 +1011,6 @@ LSCropper 组件提供了两个主要事件，用于处理裁剪结果和错误�
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-
-const visible = ref(false);
-const currentIndex = ref(0);
-const images = ref([]);
-const currentImageUrl = ref('');
-const cropResults = ref([]);
-const currentCropData = ref({});
-
-function onBatchChangeFunc(res) {
-  images.value = res.files.map(file => file.blob);
-  currentIndex.value = 0;
-  cropResults.value = [];
-
-  if (images.value.length > 0) {
-    currentImageUrl.value = images.value[0];
-    visible.value = true;
-  }
-}
-
-function onCropData(data) {
-  currentCropData.value = data;
-}
-
-function onNext() {
-  if (currentCropData.value.file) {
-    cropResults.value.push(currentCropData.value);
-  }
-
-  currentIndex.value++;
-  if (currentIndex.value < images.value.length) {
-    currentImageUrl.value = images.value[currentIndex.value];
-    currentCropData.value = {};
-  } else {
-    visible.value = false;
-    // 处理所有裁剪结果
-    handleAllCropResults();
-  }
-}
-
-function onConfirm() {
-  if (currentCropData.value.file) {
-    cropResults.value.push(currentCropData.value);
-  }
-  visible.value = false;
-  // 处理所有裁剪结果
-  handleAllCropResults();
-}
-
-function onCancel() {
-  visible.value = false;
-  images.value = [];
-  cropResults.value = [];
-  currentCropData.value = {};
-}
-
-function handleAllCropResults() {
-  console.log('所有裁剪结果:', cropResults.value);
-  // 可以在这里批量上传裁剪后的图片
-}
-</script>
 
 <style scoped>
 .result-list {

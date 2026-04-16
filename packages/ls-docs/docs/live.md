@@ -19,14 +19,15 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue'
+
 // http或https类型的直播地址，根据视频地址类型选择flv或mp4
-const m1 = 'http://192.168.1.33:8009/live/test.flv';
-const liveRef = ref();
-const liveUrl = ref(m1);
+const m1 = 'http://192.168.1.33:8009/live/test.flv'
+const liveRef = ref()
+const liveUrl = ref(m1)
 onMounted(() => {
-  liveRef.value && liveRef.value.createPlayer(liveUrl);
-});
+  liveRef.value && liveRef.value.createPlayer(liveUrl)
+})
 ```
 
 ```html
@@ -55,13 +56,14 @@ onMounted(() => {
 ::: details 点我查看代码
 
 ```js
-import { ref, onMounted } from 'vue';
-import m2 from '/src/assets/files/m2.mp4';
-const liveRef2 = ref();
-const liveUrl2 = ref(m2);
+import { onMounted, ref } from 'vue'
+import m2 from '/src/assets/files/m2.mp4'
+
+const liveRef2 = ref()
+const liveUrl2 = ref(m2)
 onMounted(() => {
-  liveRef2.value && liveRef2.value.createPlayer(liveUrl2);
-});
+  liveRef2.value && liveRef2.value.createPlayer(liveUrl2)
+})
 ```
 
 ```html
@@ -97,23 +99,25 @@ onMounted(() => {
 ::: details 点我查看代码
 
 ```js
-import { ref, onMounted } from 'vue';
-const m1 = 'http://192.168.1.33:8008/images/m1.mp4';
-const m2 = 'http://192.168.1.33:8008/images/m2.mp4';
-const liveRef3 = ref();
-const liveUrl3 = ref(m1);
-const anotherUrl = ref(m2);
+import { onMounted, ref } from 'vue'
+
+const m1 = 'http://192.168.1.33:8008/images/m1.mp4'
+const m2 = 'http://192.168.1.33:8008/images/m2.mp4'
+const liveRef3 = ref()
+const liveUrl3 = ref(m1)
+const anotherUrl = ref(m2)
 onMounted(() => {
-  liveRef3.value && liveRef3.value.createPlayer(liveUrl3);
-});
+  liveRef3.value && liveRef3.value.createPlayer(liveUrl3)
+})
 
 function playVideo() {
   // 播放逻辑
   if (liveRef3.value) {
-    const videoElement = liveRef3.value.$el.querySelector('video');
+    const videoElement = liveRef3.value.$el.querySelector('video')
+
     if (videoElement) {
-      videoElement.play();
-      console.log('播放视频');
+      videoElement.play()
+      console.log('播放视频')
     }
   }
 }
@@ -121,18 +125,19 @@ function playVideo() {
 function pauseVideo() {
   // 暂停逻辑
   if (liveRef3.value) {
-    const videoElement = liveRef3.value.$el.querySelector('video');
+    const videoElement = liveRef3.value.$el.querySelector('video')
+
     if (videoElement) {
-      videoElement.pause();
-      console.log('暂停视频');
+      videoElement.pause()
+      console.log('暂停视频')
     }
   }
 }
 
 function changeVideo() {
   // 切换视频逻辑
-  liveRef3.value && liveRef3.value.createPlayer(anotherUrl);
-  console.log('切换视频');
+  liveRef3.value && liveRef3.value.createPlayer(anotherUrl)
+  console.log('切换视频')
 }
 ```
 
@@ -317,11 +322,11 @@ const tableData2 = ref([
   color: #409eff;
   cursor: pointer;
   transition: all 0.3s;
-  
+
   &:hover {
     background-color: #ecf5ff;
   }
-  
+
   &:active {
     background-color: #409eff;
     color: #fff;

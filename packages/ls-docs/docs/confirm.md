@@ -26,27 +26,29 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const visible = ref(false);
-const title = ref('标题');
-const message = ref('内容');
+import { ref } from 'vue'
+
+const visible = ref(false)
+const title = ref('标题')
+const message = ref('内容')
 
 function handleClick1() {
-  visible.value = true;
+  visible.value = true
 }
 
 function onConfirm(data) {
-  console.log('确认点击', data.value);
+  console.log('确认点击', data.value)
 }
 
 function onCancel() {
-  console.log('取消点击');
+  console.log('取消点击')
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick1">普通确认框</LSButton>
-<LSConfirm v-model="visible" :title="title" :message="message" @on-confirm="onConfirm" @on-cancel="onCancel"> </LSConfirm>
+<LSConfirm v-model="visible" :title="title" :message="message" @on-confirm="onConfirm" @on-cancel="onCancel">
+</LSConfirm>
 ```
 
 :::
@@ -70,17 +72,25 @@ function onCancel() {
 ::: details 点我查看代码
 
 ```js
-const visible2 = ref(false);
-const message2 = ref('<span style="color: red;">内容 2</span> <br/> <span style="color: green;">内容 222222</span>');
+const visible2 = ref(false)
+const message2 = ref('<span style="color: red;">内容 2</span> <br/> <span style="color: green;">内容 222222</span>')
 
 function handleClick2() {
-  visible2.value = true;
+  visible2.value = true
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick2">可拖拽且内容为html确认框</LSButton>
-<LSConfirm v-model="visible2" :title="title" :message="message2" draggable useHtml @on-confirm="onConfirm" @on-cancel="onCancel">
+<LSConfirm
+  v-model="visible2"
+  :title="title"
+  :message="message2"
+  draggable
+  useHtml
+  @on-confirm="onConfirm"
+  @on-cancel="onCancel"
+>
 </LSConfirm>
 ```
 
@@ -104,19 +114,19 @@ function handleClick2() {
 ::: details 点我查看代码
 
 ```js
-import axios from 'axios';
+import axios from 'axios'
 
-const visible3 = ref(false);
-const message3 = ref('点击确定后，请求数据');
-const requestApi = () => axios.get('https://jsonplaceholder.typicode.com/posts/1');
+const visible3 = ref(false)
+const message3 = ref('点击确定后，请求数据')
+const requestApi = () => axios.get('https://jsonplaceholder.typicode.com/posts/1')
 
 function handleClick3() {
-  visible3.value = true;
+  visible3.value = true
 }
 
 function onConfirm3(data) {
-  message3.value = '请求数据完成';
-  console.log('请求结果', data.value);
+  message3.value = '请求数据完成'
+  console.log('请求结果', data.value)
 }
 ```
 
@@ -156,34 +166,34 @@ function onConfirm3(data) {
 ::: details 点我查看代码
 
 ```js
-const visible4 = ref(false);
-const title4 = ref('');
-const message4 = ref('');
-const type4 = ref('');
+const visible4 = ref(false)
+const title4 = ref('')
+const message4 = ref('')
+const type4 = ref('')
 
 function handleClick4(type) {
-  type4.value = type;
+  type4.value = type
 
   switch (type) {
     case 'success':
-      title4.value = '成功提示';
-      message4.value = '操作成功！';
-      break;
+      title4.value = '成功提示'
+      message4.value = '操作成功！'
+      break
     case 'info':
-      title4.value = '信息提示';
-      message4.value = '这是一条信息提示。';
-      break;
+      title4.value = '信息提示'
+      message4.value = '这是一条信息提示。'
+      break
     case 'warning':
-      title4.value = '警告提示';
-      message4.value = '请确认您的操作！';
-      break;
+      title4.value = '警告提示'
+      message4.value = '请确认您的操作！'
+      break
     case 'error':
-      title4.value = '错误提示';
-      message4.value = '操作失败，请重试！';
-      break;
+      title4.value = '错误提示'
+      message4.value = '操作失败，请重试！'
+      break
   }
 
-  visible4.value = true;
+  visible4.value = true
 }
 ```
 
@@ -192,7 +202,14 @@ function handleClick4(type) {
 <LSButton type="info" @click="handleClick4('info')">信息确认框</LSButton>
 <LSButton type="warning" @click="handleClick4('warning')">警告确认框</LSButton>
 <LSButton type="danger" @click="handleClick4('error')">错误确认框</LSButton>
-<LSConfirm v-model="visible4" :title="title4" :message="message4" :type="type4" @on-confirm="onConfirm" @on-cancel="onCancel">
+<LSConfirm
+  v-model="visible4"
+  :title="title4"
+  :message="message4"
+  :type="type4"
+  @on-confirm="onConfirm"
+  @on-cancel="onCancel"
+>
 </LSConfirm>
 ```
 
@@ -217,10 +234,10 @@ function handleClick4(type) {
 ::: details 点我查看代码
 
 ```js
-const visible5 = ref(false);
+const visible5 = ref(false)
 
 function handleClick5() {
-  visible5.value = true;
+  visible5.value = true
 }
 ```
 
@@ -258,16 +275,17 @@ function handleClick5() {
 ::: details 点我查看代码
 
 ```js
-const visible6 = ref(false);
+const visible6 = ref(false)
 
 function handleClick6() {
-  visible6.value = true;
+  visible6.value = true
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick6">居中显示确认框</LSButton>
-<LSConfirm v-model="visible6" :title="title" :message="message" center @on-confirm="onConfirm" @on-cancel="onCancel"> </LSConfirm>
+<LSConfirm v-model="visible6" :title="title" :message="message" center @on-confirm="onConfirm" @on-cancel="onCancel">
+</LSConfirm>
 ```
 
 :::
@@ -290,20 +308,27 @@ function handleClick6() {
 ::: details 点我查看代码
 
 ```js
-import { QuestionFilled } from '@element-plus/icons-vue';
-import { markRaw } from 'vue';
+import { QuestionFilled } from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 
-const visible7 = ref(false);
-const customIcon = markRaw(QuestionFilled);
+const visible7 = ref(false)
+const customIcon = markRaw(QuestionFilled)
 
 function handleClick7() {
-  visible7.value = true;
+  visible7.value = true
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick7">自定义图标确认框</LSButton>
-<LSConfirm v-model="visible7" :title="title" :message="message" :icon="customIcon" @on-confirm="onConfirm" @on-cancel="onCancel">
+<LSConfirm
+  v-model="visible7"
+  :title="title"
+  :message="message"
+  :icon="customIcon"
+  @on-confirm="onConfirm"
+  @on-cancel="onCancel"
+>
 </LSConfirm>
 ```
 
@@ -327,16 +352,23 @@ function handleClick7() {
 ::: details 点我查看代码
 
 ```js
-const visible8 = ref(false);
+const visible8 = ref(false)
 
 function handleClick8() {
-  visible8.value = true;
+  visible8.value = true
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick8">禁用关闭按钮</LSButton>
-<LSConfirm v-model="visible8" :title="title" :message="message" :show-close="false" @on-confirm="onConfirm" @on-cancel="onCancel">
+<LSConfirm
+  v-model="visible8"
+  :title="title"
+  :message="message"
+  :show-close="false"
+  @on-confirm="onConfirm"
+  @on-cancel="onCancel"
+>
 </LSConfirm>
 ```
 
@@ -360,10 +392,10 @@ function handleClick8() {
 ::: details 点我查看代码
 
 ```js
-const visible9 = ref(false);
+const visible9 = ref(false)
 
 function handleClick9() {
-  visible9.value = true;
+  visible9.value = true
 }
 ```
 
@@ -401,22 +433,23 @@ function handleClick9() {
 ::: details 点我查看代码
 
 ```js
-const visible10 = ref(false);
-const message10 = ref('点击确定后，带参数请求数据');
-const requestParams = { id: 123, name: '测试' };
+const visible10 = ref(false)
+const message10 = ref('点击确定后，带参数请求数据')
+const requestParams = { id: 123, name: '测试' }
 
-const requestApiWithParams = params => {
-  console.log('请求参数:', params);
-  return axios.get('https://jsonplaceholder.typicode.com/posts/1', { params });
-};
+function requestApiWithParams(params) {
+  console.log('请求参数:', params)
+
+  return axios.get('https://jsonplaceholder.typicode.com/posts/1', { params })
+}
 
 function handleClick10() {
-  visible10.value = true;
+  visible10.value = true
 }
 
 function onConfirm10(data) {
-  message10.value = '请求数据完成';
-  console.log('请求结果:', data.value);
+  message10.value = '请求数据完成'
+  console.log('请求结果:', data.value)
 }
 ```
 
@@ -453,16 +486,17 @@ function onConfirm10(data) {
 ::: details 点我查看代码
 
 ```js
-const visible11 = ref(false);
+const visible11 = ref(false)
 
 function handleClick11() {
-  visible11.value = true;
+  visible11.value = true
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick11">仅显示确认按钮</LSButton>
-<LSConfirm v-model="visible11" :title="title" :message="message" :show-cancel-btn="false" @on-confirm="onConfirm"> </LSConfirm>
+<LSConfirm v-model="visible11" :title="title" :message="message" :show-cancel-btn="false" @on-confirm="onConfirm">
+</LSConfirm>
 ```
 
 :::
@@ -485,10 +519,10 @@ function handleClick11() {
 ::: details 点我查看代码
 
 ```js
-const visible12 = ref(false);
+const visible12 = ref(false)
 
 function handleClick12() {
-  visible12.value = true;
+  visible12.value = true
 }
 ```
 
@@ -525,13 +559,13 @@ function handleClick12() {
 ::: details 点我查看代码
 
 ```js
-import { CloseCircleFilled } from '@element-plus/icons-vue';
+import { CloseCircleFilled } from '@element-plus/icons-vue'
 
-const visible13 = ref(false);
-const closeIcon = markRaw(CloseCircleFilled);
+const visible13 = ref(false)
+const closeIcon = markRaw(CloseCircleFilled)
 
 function handleClick13() {
-  visible13.value = true;
+  visible13.value = true
 }
 ```
 
@@ -568,10 +602,10 @@ function handleClick13() {
 ::: details 点我查看代码
 
 ```js
-const visible14 = ref(false);
+const visible14 = ref(false)
 
 function handleClick14() {
-  visible14.value = true;
+  visible14.value = true
 }
 ```
 
@@ -624,23 +658,24 @@ function handleClick14() {
 ::: details 点我查看代码
 
 ```js
-const visible15 = ref(false);
-const message15 = ref('初始消息内容');
+const visible15 = ref(false)
+const message15 = ref('初始消息内容')
 
 function handleClick15() {
-  message15.value = '初始消息内容';
-  visible15.value = true;
+  message15.value = '初始消息内容'
+  visible15.value = true
 
   // 2秒后更新消息内容
   setTimeout(() => {
-    message15.value = '消息内容已更新';
-  }, 2000);
+    message15.value = '消息内容已更新'
+  }, 2000)
 }
 ```
 
 ```html
 <LSButton type="primary" @click="handleClick15">动态更新内容</LSButton>
-<LSConfirm v-model="visible15" :title="title" :message="message15" @on-confirm="onConfirm" @on-cancel="onCancel"> </LSConfirm>
+<LSConfirm v-model="visible15" :title="title" :message="message15" @on-confirm="onConfirm" @on-cancel="onCancel">
+</LSConfirm>
 ```
 
 :::
@@ -668,7 +703,7 @@ const confirmConfig = {
 
   // 取消按钮文本
   cancelBtnTxt: '取消'
-};
+}
 ```
 
 ### 2. 行为配置
@@ -698,7 +733,7 @@ const behaviorConfig = {
 
   // 按ESC是否关闭
   closeOnPressEscape: false
-};
+}
 ```
 
 ### 3. 异步请求配置
@@ -706,10 +741,11 @@ const behaviorConfig = {
 ```js
 const asyncConfig = {
   // 异步请求函数
-  requestApi: async params => {
+  requestApi: async (params) => {
     // 执行异步操作
-    const response = await axios.post('/api/action', params);
-    return response.data;
+    const response = await axios.post('/api/action', params)
+
+    return response.data
   },
 
   // 请求参数
@@ -717,7 +753,7 @@ const asyncConfig = {
     id: 123,
     action: 'delete'
   }
-};
+}
 ```
 
 ### 4. 样式配置
@@ -734,8 +770,8 @@ const styleConfig = {
   icon: customIcon,
 
   // 自定义关闭图标
-  closeIcon: closeIcon
-};
+  closeIcon
+}
 ```
 
 ## API
@@ -767,21 +803,21 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref } from 'vue'
 
-  const visible = ref(false);
+  const visible = ref(false)
 
   function showConfirm() {
-    visible.value = true;
+    visible.value = true
   }
 
   function handleConfirm(data) {
-    console.log('用户确认了操作', data.value);
+    console.log('用户确认了操作', data.value)
     // 执行确认后的逻辑
   }
 
   function handleCancel() {
-    console.log('用户取消了操作');
+    console.log('用户取消了操作')
     // 执行取消后的逻辑
   }
 </script>
@@ -802,16 +838,16 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 />
 
 <script setup>
-  import axios from 'axios';
+  import axios from 'axios'
 
-  const submitData = async params => {
+  const submitData = async (params) => {
     // 执行API请求
-    const response = await axios.post('/api/submit', params);
-    return response.data;
-  };
+    const response = await axios.post('/api/submit', params)
+    return response.data
+  }
 
   function handleConfirm(data) {
-    console.log('提交成功', data.value);
+    console.log('提交成功', data.value)
     // 处理成功后的逻辑
   }
 </script>
@@ -825,7 +861,7 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 <LSConfirm v-model="visible" title="提示信息" :message="htmlContent" useHtml />
 
 <script setup>
-  const htmlContent = '<div>这是<b>加粗文本</b>和<i>斜体文本</i></div>';
+  const htmlContent = '<div>这是<b>加粗文本</b>和<i>斜体文本</i></div>'
 </script>
 ```
 
@@ -837,18 +873,18 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 <LSConfirm v-model="visible" title="处理中" :message="message" />
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref } from 'vue'
 
-  const message = ref('正在处理，请稍候...');
-  const visible = ref(false);
+  const message = ref('正在处理，请稍候...')
+  const visible = ref(false)
 
   function showConfirm() {
-    visible.value = true;
+    visible.value = true
 
     // 模拟异步操作
     setTimeout(() => {
-      message.value = '处理完成！';
-    }, 2000);
+      message.value = '处理完成！'
+    }, 2000)
   }
 </script>
 ```
@@ -872,22 +908,22 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
+  import { ref, computed } from 'vue'
 
-  const deleteVisible = ref(false);
-  const deleteId = ref(null);
+  const deleteVisible = ref(false)
+  const deleteId = ref(null)
   const deleteMessage = computed(() => {
-    return `您确定要删除ID为${deleteId.value}的项目吗？此操作不可恢复。`;
-  });
+    return `您确定要删除ID为${deleteId.value}的项目吗？此操作不可恢复。`
+  })
 
   function deleteItem(id) {
-    deleteId.value = id;
-    deleteVisible.value = true;
+    deleteId.value = id
+    deleteVisible.value = true
   }
 
   function handleDeleteConfirm() {
     // 执行删除操作
-    console.log('删除项目', deleteId.value);
+    console.log('删除项目', deleteId.value)
     // 调用删除API
   }
 </script>
@@ -910,34 +946,34 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
-  import axios from 'axios';
+  import { ref, computed } from 'vue'
+  import axios from 'axios'
 
-  const submitVisible = ref(false);
+  const submitVisible = ref(false)
   const formData = ref({
     name: '',
-    email: ''
-  });
+    email: '',
+  })
 
   const submitMessage = computed(() => {
-    return `确定要提交以下信息吗？\n姓名：${formData.value.name}\n邮箱：${formData.value.email}`;
-  });
+    return `确定要提交以下信息吗？\n姓名：${formData.value.name}\n邮箱：${formData.value.email}`
+  })
 
   function submitForm() {
     // 表单验证
     if (!formData.value.name || !formData.value.email) {
-      return;
+      return
     }
-    submitVisible.value = true;
+    submitVisible.value = true
   }
 
-  const submitFormData = async params => {
-    const response = await axios.post('/api/form/submit', params);
-    return response.data;
-  };
+  const submitFormData = async (params) => {
+    const response = await axios.post('/api/form/submit', params)
+    return response.data
+  }
 
   function handleSubmitConfirm(data) {
-    console.log('表单提交成功', data.value);
+    console.log('表单提交成功', data.value)
     // 处理成功逻辑
   }
 </script>
@@ -962,30 +998,30 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue';
-  import axios from 'axios';
+  import { ref, computed } from 'vue'
+  import axios from 'axios'
 
-  const selectedIds = ref([]);
-  const batchVisible = ref(false);
+  const selectedIds = ref([])
+  const batchVisible = ref(false)
 
   const batchMessage = computed(() => {
-    return `您确定要删除选中的${selectedIds.value.length}个项目吗？此操作不可恢复。`;
-  });
+    return `您确定要删除选中的${selectedIds.value.length}个项目吗？此操作不可恢复。`
+  })
 
   function batchDelete() {
-    if (selectedIds.value.length === 0) return;
-    batchVisible.value = true;
+    if (selectedIds.value.length === 0) return
+    batchVisible.value = true
   }
 
-  const batchDeleteData = async params => {
-    const response = await axios.post('/api/batch/delete', params);
-    return response.data;
-  };
+  const batchDeleteData = async (params) => {
+    const response = await axios.post('/api/batch/delete', params)
+    return response.data
+  }
 
   function handleBatchConfirm(data) {
-    console.log('批量删除成功', data.value);
+    console.log('批量删除成功', data.value)
     // 刷新列表
-    selectedIds.value = [];
+    selectedIds.value = []
   }
 </script>
 ```
@@ -998,23 +1034,25 @@ LSConfirm 组件基于 Element Plus 的 ElMessageBox 进行封装，提供了更
 
 ```js
 // composables/useConfirm.js
-import { ref } from 'vue';
+import { ref } from 'vue'
+// 在组件中使用
+import { useConfirm as useConfirmHook } from '@/composables/useConfirm'
 
 export function useConfirm() {
-  const visible = ref(false);
+  const visible = ref(false)
   const config = ref({
     title: '确认操作',
     message: '您确定要执行此操作吗？',
     type: 'warning'
-  });
+  })
 
   function show(options) {
-    Object.assign(config.value, options);
-    visible.value = true;
+    Object.assign(config.value, options)
+    visible.value = true
   }
 
   function hide() {
-    visible.value = false;
+    visible.value = false
   }
 
   return {
@@ -1022,20 +1060,17 @@ export function useConfirm() {
     config,
     show,
     hide
-  };
+  }
 }
 
-// 在组件中使用
-import { useConfirm } from '@/composables/useConfirm';
-
-const { visible, config, show } = useConfirm();
+const { visible, config, show } = useConfirmHook()
 
 function deleteItem(id) {
   show({
     title: '删除确认',
     message: `您确定要删除ID为${id}的项目吗？`,
     type: 'error'
-  });
+  })
 }
 ```
 
@@ -1054,31 +1089,31 @@ function deleteItem(id) {
 />
 
 <script setup>
-  import { ref } from 'vue';
-  import axios from 'axios';
+  import { ref } from 'vue'
+  import axios from 'axios'
 
   const config = ref({
     title: '提交数据',
-    message: '确定要提交吗？'
-  });
+    message: '确定要提交吗？',
+  })
 
-  const asyncAction = async params => {
+  const asyncAction = async (params) => {
     try {
-      const response = await axios.post('/api/submit', params);
-      return response.data;
+      const response = await axios.post('/api/submit', params)
+      return response.data
     } catch (error) {
-      console.error('请求失败:', error);
-      throw error; // 抛出错误，让组件捕获
+      console.error('请求失败:', error)
+      throw error // 抛出错误，让组件捕获
     }
-  };
+  }
 
   function handleSuccess(data) {
-    config.value.message = '提交成功！';
-    console.log('成功:', data.value);
+    config.value.message = '提交成功！'
+    console.log('成功:', data.value)
   }
 
   function handleCancel() {
-    console.log('取消操作');
+    console.log('取消操作')
   }
 </script>
 ```

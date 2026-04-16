@@ -1,85 +1,99 @@
 <script setup lang="ts" name="LSDocx">
-import { useNamespace } from '@cpo/_hooks/useNamespace';
-import { docxProps } from './types';
-import { previewEmits, fileEmpty } from '@cpo/_constants/previewType';
-import { isArrayBuffer } from '@cpo/_utils/check';
+import { fileEmpty, previewEmits } from '@cpo/_constants/previewType'
+/**
+ * @summary Word 文档渲染组件 - `LSPreviewDocx` 的内部渲染器
+ *
+ * `LSDocx` 是 `LSPreviewDocx` 的内部子组件，负责基于 `docx-preview` 将 DOCX 数据渲染到容器节点。
+ * 组件监听 `source` 变化后执行异步渲染，并通过通用预览事件把加载成功、加载失败、下载点击与数据清空行为继续向外层透传。
+ * 当前实现会先校验 `source` 是否为 `ArrayBuffer`；若为空或不是 `ArrayBuffer`，会提示文件为空并触发 `loadError`。
+ *
+ * @attr {ArrayBuffer|string} source 文档数据源；类型层面兼容 `ArrayBuffer` / `string`，当前渲染实现实际依赖 `ArrayBuffer`
+ * @attr {Function} onClose 关闭预览时的回调函数
+ *
+ * @event loadComplete 文档渲染完成后触发
+ * @event loadError 文档渲染失败或数据源不合法时触发
+ * @event update:source 点击关闭按钮后触发，用于将外部 `source` 重置为空数组
+ * @event onDownload 点击下载按钮后触发，参数来自透传的 `downloadData`
+ */
+import { useNamespace } from '@cpo/_hooks/useNamespace'
+import { isArrayBuffer } from '@cpo/_utils/check'
+import { docxProps } from './types'
 
-const ns = useNamespace('docx');
-const comClass: string = ns.b();
+const props = defineProps(docxProps)
+const emits = defineEmits(previewEmits)
+const ns = useNamespace('docx')
+const comClass: string = ns.b()
 
-const docxPromise = () => import('docx-preview');
+const docxPromise = () => import('docx-preview')
 
-const props = defineProps(docxProps);
-
-const emits = defineEmits(previewEmits);
-
-const attrs = useAttrs();
+const attrs = useAttrs()
 
 const hasDownload = computed(() => {
-  return attrs['has-download'] || attrs['hasDownload'];
-});
+  return attrs['has-download'] || attrs.hasDownload
+})
 
 const downloadLoading = computed(() => {
-  return attrs['download-loading'] || attrs['downloadLoading'] || false;
-});
+  return attrs['download-loading'] || attrs.downloadLoading || false
+})
 
-const docxRef = ref();
+const docxRef = ref()
 
 watch(
   () => props.source,
-  val => {
+  (val) => {
     if (val) {
-      updateDocx(val);
+      updateDocx(val)
     }
   },
   {
     immediate: true,
-    deep: true
-  }
-);
+    deep: true,
+  },
+)
 
-async function updateDocx(val: ArrayBuffer | String) {
+async function updateDocx(val: ArrayBuffer | string) {
   if (!val || !isArrayBuffer(val)) {
-    ElMessage.error(fileEmpty);
-    emits('loadError');
-    return;
+    ElMessage.error(fileEmpty)
+    emits('loadError')
+
+    return
   }
 
-  const docx = await docxPromise();
+  const docx = await docxPromise()
   docx
     .renderAsync(val, docxRef.value, docxRef.value, {
-      className: 'docx', //class name/prefix for default and document style classes
-      inWrapper: true, //enables rendering of wrapper around document content
-      ignoreWidth: false, //disables rendering width of page
-      ignoreHeight: true, //disables rendering height of page
-      ignoreFonts: false, //disables fonts rendering
-      breakPages: false, //enables page breaking on page breaks
-      ignoreLastRenderedPageBreak: false, //disables page breaking on lastRenderedPageBreak elements
-      experimental: false, //enables experimental features (tab stops calculation)
-      trimXmlDeclaration: true, //if true, xml declaration will be removed from xml documents before parsing
-      useBase64URL: false, //if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
-      renderChanges: false, //enables experimental rendering of document changes (inserions/deletions)
-      renderHeaders: true, //enables headers rendering
-      renderFooters: true, //enables footers rendering
-      renderFootnotes: true, //enables footnotes rendering
-      renderEndnotes: true, //enables endnotes rendering
-      debug: false //enables additional logging
+      className: 'docx', // class name/prefix for default and document style classes
+      inWrapper: true, // enables rendering of wrapper around document content
+      ignoreWidth: false, // disables rendering width of page
+      ignoreHeight: true, // disables rendering height of page
+      ignoreFonts: false, // disables fonts rendering
+      breakPages: false, // enables page breaking on page breaks
+      ignoreLastRenderedPageBreak: false, // disables page breaking on lastRenderedPageBreak elements
+      experimental: false, // enables experimental features (tab stops calculation)
+      trimXmlDeclaration: true, // if true, xml declaration will be removed from xml documents before parsing
+      useBase64URL: false, // if true, images, fonts, etc. will be converted to base 64 URL, otherwise URL.createObjectURL is used
+      renderChanges: false, // enables experimental rendering of document changes (inserions/deletions)
+      renderHeaders: true, // enables headers rendering
+      renderFooters: true, // enables footers rendering
+      renderFootnotes: true, // enables footnotes rendering
+      renderEndnotes: true, // enables endnotes rendering
+      debug: false, // enables additional logging
     })
     .then(() => {
-      emits('loadComplete');
+      emits('loadComplete')
     })
     .catch(() => {
-      emits('loadError');
-    });
+      emits('loadError')
+    })
 }
 
-const closeFunc = () => {
-  props.onClose && props.onClose();
-  emits('update:source', []);
-};
+function closeFunc() {
+  props.onClose && props.onClose()
+  emits('update:source', [])
+}
 
 function onDownload() {
-  emits('onDownload', attrs.downloadData);
+  emits('onDownload', attrs.downloadData)
 }
 </script>
 

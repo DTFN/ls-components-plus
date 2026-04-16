@@ -38,17 +38,17 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template1: {}
-});
+})
 const customOptionPie = ref({
   series: [
     {
       roseType: 'area'
     }
   ]
-});
+})
 ```
 
 ```html
@@ -79,12 +79,12 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template2: {
     radius: ['45%', '60%']
   }
-});
+})
 const customOptionPie2 = ref({
   graphic: [
     {
@@ -112,7 +112,7 @@ const customOptionPie2 = ref({
       }
     }
   ]
-});
+})
 ```
 
 ```html
@@ -142,22 +142,28 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template3: {
     radius: ['10%', '60%'],
     roseType: 'radius'
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template3" height="400"></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template3"
+  height="400"
+></LSChart>
 ```
 
 :::
 
 ### 4. 案例四
+
 <ClientOnly>
 <LSChart template="pie" :data="{ seriesData: seriesDataPie, innerData: innerDataPie }" :template-patch="templateAllPie.template4" :custom-option="{ series: [ { cursor: 'move' } ] }" height="400" ></LSChart>
 </ClientOnly>
@@ -171,18 +177,18 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template4: {
     radius: ['10%', '60%'],
     roseType: 'radius'
   }
-});
+})
 const innerDataPie = [
   { value: 1548, name: '图例 1' },
   { value: 775, name: '图例 2' },
   { value: 679, name: '图例 3' }
-];
+]
 ```
 
 ```html
@@ -212,7 +218,7 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template5: {
     radius: ['40%', '70%'],
@@ -223,11 +229,16 @@ const templateAllPie = ref({
       show: false
     }
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template5" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template5"
+  height="400"
+></LSChart>
 ```
 
 :::
@@ -247,7 +258,7 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template6: {
     radius: '60%',
@@ -257,11 +268,16 @@ const templateAllPie = ref({
       formatter: '{b}: {c} ({d}%)'
     }
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template6" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template6"
+  height="400"
+></LSChart>
 ```
 
 :::
@@ -281,17 +297,22 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template7: {
     color: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
     radius: '60%'
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template7" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template7"
+  height="400"
+></LSChart>
 ```
 
 :::
@@ -311,7 +332,7 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template8: {
     legendOrient: 'vertical',
@@ -319,11 +340,16 @@ const templateAllPie = ref({
     legendTop: 'center',
     radius: ['40%', '60%']
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template8" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template8"
+  height="400"
+></LSChart>
 ```
 
 :::
@@ -343,7 +369,7 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template9: {
     legendShow: false,
@@ -353,11 +379,16 @@ const templateAllPie = ref({
       formatter: '{b}: {c} ({d}%)'
     }
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template9" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template9"
+  height="400"
+></LSChart>
 ```
 
 :::
@@ -377,7 +408,7 @@ const seriesDataPie = [
   { value: 580, name: '图例 C' },
   { value: 484, name: '图例 D' },
   { value: 300, name: '图例 E' }
-];
+]
 const templateAllPie = ref({
   template10: {
     radius: ['40%', '60%'],
@@ -392,16 +423,19 @@ const templateAllPie = ref({
       length2: 20
     }
   }
-});
+})
 ```
 
 ```html
-<LSChart template="pie" :data="{ seriesData: seriesDataPie }" :template-patch="templateAllPie.template10" height="400" ></LSChart>
+<LSChart
+  template="pie"
+  :data="{ seriesData: seriesDataPie }"
+  :template-patch="templateAllPie.template10"
+  height="400"
+></LSChart>
 ```
 
 :::
-
-
 
 ## API
 
@@ -635,7 +669,7 @@ const tableData = ref([
     name: 'radius',
     desc: '饼图的半径，数组的第一项是内半径，第二项是外半径',
     type: 'array',
-    value: '[0%, 60%]' 
+    value: '[0%, 60%]'
   },
   {
     name: 'roseType',

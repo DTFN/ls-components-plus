@@ -1,4 +1,4 @@
-import type { themeType } from '../types';
+import type { themeType } from '../types'
 
 const THEME_MAP: themeType = {
   default: {
@@ -11,8 +11,8 @@ const THEME_MAP: themeType = {
     toolTip: {
       color: '#FFFFFF',
       bgColor: '#FFFFFF',
-      shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);'
-    }
+      shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);',
+    },
   },
   dark: {
     fontColor: '#FFFFFF',
@@ -24,23 +24,24 @@ const THEME_MAP: themeType = {
     toolTip: {
       color: '#5E5E5E',
       bgColor: '#5E5E5E',
-      shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);'
-    }
-  }
-};
+      shadowColor: '0 1px 10px rgba(0, 0, 0, 5%), 0 4px 5px rgba(0, 0, 0, 8%), 0 2px 4px -1px rgba(0, 0, 0, 12%);',
+    },
+  },
+}
 
 interface seriesLabelType {
   multiBar: {
-    show: boolean;
-    rotate: number;
-    align: string;
-    verticalAlign: string;
-    position: string;
-    distance: number;
-    formatter: string;
-  };
+    show: boolean
+    rotate: number
+    align: string
+    verticalAlign: string
+    position: string
+    distance: number
+    formatter: string
+  }
 }
 
+/** 预置的系列 label 配置，目前主要用于多系列柱状图。 */
 const SERIES_LABEL_MAP: seriesLabelType = {
   multiBar: {
     show: true,
@@ -49,73 +50,72 @@ const SERIES_LABEL_MAP: seriesLabelType = {
     verticalAlign: 'middle',
     position: 'insideBottom',
     distance: 10,
-    formatter: '{c} - {a}'
-  }
-};
+    formatter: '{c} - {a}',
+  },
+}
 
-let DEF_THEME: string = '';
-const FONT_COLOR_MAP: any = {};
-const SPLIT_LINE_COLOR: any = {};
-const BG_COLOR_MAP: any = {};
-const BAR_COLOR_MAP: any = {};
-const DATA_ZOOM_COLOR: any = {};
-const BG_BAR_COLOR_MAP: any = {};
-const TOOLTIP_COLOR_MAP: any = {};
+const DEF_THEME: string = ''
+const FONT_COLOR_MAP: any = {}
+const SPLIT_LINE_COLOR: any = {}
+const BG_COLOR_MAP: any = {}
+const BAR_COLOR_MAP: any = {}
+const DATA_ZOOM_COLOR: any = {}
+const BG_BAR_COLOR_MAP: any = {}
+const TOOLTIP_COLOR_MAP: any = {}
 
-const setThemeColor = () => {
+function setThemeColor() {
   Object.keys(THEME_MAP).forEach((key, i) => {
-    i === 0 && (DEF_THEME = key);
-    FONT_COLOR_MAP[key] = THEME_MAP[key].fontColor;
-    SPLIT_LINE_COLOR[key] = THEME_MAP[key].splitLineColor;
-    BG_COLOR_MAP[key] = THEME_MAP[key].bgColor;
-    BAR_COLOR_MAP[key] = THEME_MAP[key].barColor;
-    DATA_ZOOM_COLOR[key] = THEME_MAP[key].dataZoomColor;
-    BG_BAR_COLOR_MAP[key] = THEME_MAP[key].barBgColor;
-    TOOLTIP_COLOR_MAP[key] = THEME_MAP[key].toolTip;
-  });
-};
+    i === 0 && (FONT_COLOR_MAP[key] = THEME_MAP[key].fontColor)
+    SPLIT_LINE_COLOR[key] = THEME_MAP[key].splitLineColor
+    BG_COLOR_MAP[key] = THEME_MAP[key].bgColor
+    BAR_COLOR_MAP[key] = THEME_MAP[key].barColor
+    DATA_ZOOM_COLOR[key] = THEME_MAP[key].dataZoomColor
+    BG_BAR_COLOR_MAP[key] = THEME_MAP[key].barBgColor
+    TOOLTIP_COLOR_MAP[key] = THEME_MAP[key].toolTip
+  })
+}
 
 interface labelPositionType {
   both?: {
-    top: string;
-    '-top': string;
-    left: string;
-    '-left': string;
-  };
+    'top': string
+    '-top': string
+    'left': string
+    '-left': string
+  }
   insideBoth?: {
-    insideTop: string;
-    '-insideTop': string;
-    insideLeft: string;
-    '-insideLeft': string;
-  };
+    'insideTop': string
+    '-insideTop': string
+    'insideLeft': string
+    '-insideLeft': string
+  }
 }
 
 const LABEL_POSITION_MAP: labelPositionType = {
   both: {
-    top: 'top',
+    'top': 'top',
     '-top': 'bottom',
-    left: 'right',
-    '-left': 'left'
+    'left': 'right',
+    '-left': 'left',
   },
   insideBoth: {
-    insideTop: 'insideTop',
+    'insideTop': 'insideTop',
     '-insideTop': 'insideBottom',
-    insideLeft: 'insideRight',
-    '-insideLeft': 'insideLeft'
-  }
-};
+    'insideLeft': 'insideRight',
+    '-insideLeft': 'insideLeft',
+  },
+}
 
-setThemeColor();
+setThemeColor()
 
 export {
-  SERIES_LABEL_MAP,
   BAR_COLOR_MAP,
-  FONT_COLOR_MAP,
-  BG_COLOR_MAP,
-  DEF_THEME,
-  DATA_ZOOM_COLOR,
-  SPLIT_LINE_COLOR,
-  LABEL_POSITION_MAP,
   BG_BAR_COLOR_MAP,
-  TOOLTIP_COLOR_MAP
-};
+  BG_COLOR_MAP,
+  DATA_ZOOM_COLOR,
+  DEF_THEME,
+  FONT_COLOR_MAP,
+  LABEL_POSITION_MAP,
+  SERIES_LABEL_MAP,
+  SPLIT_LINE_COLOR,
+  TOOLTIP_COLOR_MAP,
+}

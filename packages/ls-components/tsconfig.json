@@ -2,9 +2,21 @@
   "compilerOptions": {
     "composite": true,
     "target": "ESNext",
+    "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
     "useDefineForClassFields": true,
+    // "noEmit": true,
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
+    // "strictFunctionTypes": false,
+    "paths": {
+      "@": ["src"],
+      "@/*": ["src/*"],
+      "@cpo": ["components"],
+      "@cpo/*": ["components/*"]
+    },
+    "resolveJsonModule": true,
     "types": ["vite/client", "node"],
     "allowJs": true,
     "checkJs": false,
@@ -17,50 +29,27 @@
     // "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
     // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
     // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
-
     "declaration": true,
+    "declarationDir": "lib/types",
     "declarationMap": false,
     "emitDeclarationOnly": true,
-    "declarationDir": "lib/types",
-
-    "jsx": "preserve",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
-    // "noEmit": true,
-    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
-    // "strictFunctionTypes": false,
-    "paths": {
-      "@": ["src"],
-      "@/*": ["src/*"],
-      "@cpo": ["components"],
-      "@cpo/*": ["components/*"],
-    }
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "vueCompilerOptions": {
-    "strictTemplates": false  // 降低模板类型检查的严格度
+    "strictTemplates": false // 降低模板类型检查的严格度
   },
   "include": [
     "src/**/*",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
     "components/**/*",
-    "components/**/*.ts",
-    "components/**/*.d.ts",
-    "components/**/*.tsx",
-    "components/**/*.vue",
     "components.d.ts",
     "build/**/*.ts",
     "build/**/*.d.ts",
     "vite.config.ts",
-    "vitest.config.ts",
     "auto-imports.d.ts",
-    "src/typings/*.ts",
+    "src/typings/*.ts"
   ],
   "exclude": ["node_modules", "dist", "**/*.js", ".npmrc", "lib"]
 }

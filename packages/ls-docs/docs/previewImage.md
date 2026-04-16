@@ -20,14 +20,16 @@ outline: deep
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible1 = ref(false);
-const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
+import { ref } from 'vue'
+
+const previewVisible1 = ref(false)
+const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
 ```
 
 ```html
 <LSPreviewImage v-model="previewVisible1" :source="source1" :on-close="() => { previewVisible1 = false; }" />
 <LSButton @click="previewVisible1 = true">点击预览单张图片</LSButton>
+
 ```
 
 :::
@@ -43,18 +45,20 @@ const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible2 = ref(false);
+import { ref } from 'vue'
+
+const previewVisible2 = ref(false)
 const source2 = ref([
   'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
   'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
   'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-]);
+])
 ```
 
 ```html
 <LSPreviewImage v-model="previewVisible2" :source="source2" :on-close="() => { previewVisible2 = false; }" />
 <LSButton @click="previewVisible2 = true">点击预览多张图片</LSButton>
+
 ```
 
 :::
@@ -70,14 +74,15 @@ const source2 = ref([
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible3 = ref(false);
-const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
+import { ref } from 'vue'
+
+const previewVisible3 = ref(false)
+const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
 const watermarkOption = ref({
   content: '临港集团',
   fontSize: 16,
   color: 'rgba(255, 255, 255, 0.3)'
-});
+})
 ```
 
 ```html
@@ -89,6 +94,7 @@ const watermarkOption = ref({
   :on-close="() => { previewVisible3 = false; }"
 />
 <LSButton @click="previewVisible3 = true">点击预览带水印图片</LSButton>
+
 ```
 
 :::
@@ -110,13 +116,14 @@ const watermarkOption = ref({
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible4 = ref(false);
+import { ref } from 'vue'
+
+const previewVisible4 = ref(false)
 const source2 = ref([
   'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
   'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
   'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-]);
+])
 ```
 
 ```html
@@ -128,6 +135,7 @@ const source2 = ref([
   </template>
 </LSPreviewImage>
 <LSButton @click="previewVisible4 = true">点击预览自定义控制栏</LSButton>
+
 ```
 
 ```scss
@@ -137,6 +145,7 @@ const source2 = ref([
   left: 20px;
   z-index: 1000;
 }
+
 ```
 
 :::
@@ -152,17 +161,18 @@ const source2 = ref([
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible5 = ref(false);
-const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg');
+import { ref } from 'vue'
+
+const previewVisible5 = ref(false)
+const source1 = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
 const downloadData = ref({
   url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
   name: 'image.jpeg'
-});
+})
 
 function handleDownload(data) {
-  console.log('下载数据:', data);
-  alert('下载图片: ' + data.url);
+  console.log('下载数据:', data)
+  alert(`下载图片: ${data.url}`)
   // 这里可以实现自定义的下载逻辑
 }
 ```
@@ -177,6 +187,7 @@ function handleDownload(data) {
   :downloadData="downloadData"
 />
 <LSButton @click="previewVisible5 = true">点击预览带下载功能</LSButton>
+
 ```
 
 :::
@@ -192,22 +203,29 @@ function handleDownload(data) {
 ::: details 点我查看代码
 
 ```js
-import { ref } from 'vue';
-const previewVisible6 = ref(false);
-const source6 = ref('');
+import { ref } from 'vue'
 
-const handlePreview6 = () => {
-  previewVisible6.value = true;
+const previewVisible6 = ref(false)
+const source6 = ref('')
+
+function handlePreview6() {
+  previewVisible6.value = true
   // 图片打开后会自动显示2s的加载状态
   setTimeout(() => {
-    source6.value = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
-  }, 2000);
-};
+    source6.value = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  }, 2000)
+}
 ```
 
 ```html
-<LSPreviewImage v-model="previewVisible6" :source="source6" :need-loading="true" :on-close="() => { previewVisible6 = false; }" />
+<LSPreviewImage
+  v-model="previewVisible6"
+  :source="source6"
+  :need-loading="true"
+  :on-close="() => { previewVisible6 = false; }"
+/>
 <LSButton @click="handlePreview6">点击预览带加载状态</LSButton>
+
 ```
 
 :::

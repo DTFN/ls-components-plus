@@ -1,46 +1,49 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress';
-import { computed, ref, onMounted } from 'vue';
-import { countWord } from '../../utils/';
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
+import { useData } from 'vitepress'
+import { computed, onMounted, ref } from 'vue'
+import { countWord } from '../../utils/'
 
-const { page } = useData();
-const date = computed(() => new Date(page.value.lastUpdated!));
+const { page } = useData()
+const date = computed(() => new Date(page.value.lastUpdated!))
+console.log(date)
 
-const wordCount = ref(0);
-const imageCount = ref(0);
+const wordCount = ref(0)
+const imageCount = ref(0)
 
 const wordTime = computed(() => {
-  return (wordCount.value / 275) * 60;
-});
+  return (wordCount.value / 275) * 60
+})
 
 const imageTime = computed(() => {
-  const n = imageCount.value;
+  const n = imageCount.value
+
   if (imageCount.value <= 10) {
     // 等差数列求和
-    return n * 13 + (n * (n - 1)) / 2;
+    return n * 13 + (n * (n - 1)) / 2
   }
-  return 175 + (n - 10) * 3;
-});
+
+  return 175 + (n - 10) * 3
+})
 
 // 阅读时间
 const readTime = computed(() => {
-  return Math.ceil((wordTime.value + imageTime.value) / 60);
-});
+  return Math.ceil((wordTime.value + imageTime.value) / 60)
+})
 
 function analyze() {
-  document.querySelectorAll('.meta-des').forEach(v => v.remove());
-  const docDomContainer = window.document.querySelector('#VPContent');
-  const imgs = docDomContainer?.querySelectorAll<HTMLImageElement>('.content-container .main img');
-  imageCount.value = imgs?.length || 0;
-  const words = docDomContainer?.querySelector('.content-container .main')?.textContent || '';
-  wordCount.value = countWord(words);
+  document.querySelectorAll('.meta-des').forEach(v => v.remove())
+  const docDomContainer = window.document.querySelector('#VPContent')
+  const imgs = docDomContainer?.querySelectorAll<HTMLImageElement>('.content-container .main img')
+  imageCount.value = imgs?.length || 0
+  const words = docDomContainer?.querySelector('.content-container .main')?.textContent || ''
+  wordCount.value = countWord(words)
 }
 
 onMounted(() => {
   // 初始化时执行一次
-  analyze();
-});
+  analyze()
+})
 </script>
 
 <template>
