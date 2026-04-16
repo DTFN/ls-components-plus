@@ -1,7 +1,11 @@
 {
   "name": "components-vue3",
-  "version": "2.3.2",
   "type": "module",
+  "version": "2.3.2",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.1.0"
+  },
   "scripts": {
     "dev:ls-components": "pnpm -r --filter @lingshugroup/web-plus run dev",
     "build:ls-components": "pnpm -r --filter @lingshugroup/web-plus run build",
@@ -13,10 +17,6 @@
     "release": "standard-version",
     "commit": "git add -A && git-cz",
     "mcp": "pnpm -r --filter @lingshugroup/web-plus run mcp:setup"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.1.0"
   },
   "browserslist": {
     "production": [
@@ -72,6 +72,14 @@
     "vue3-print-nb": "^0.1.4",
     "vue3-ts-jsoneditor": "^2.11.2"
   },
+  "optionalDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.2"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
@@ -125,13 +133,5 @@
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^2.0.29",
     "xlsx": "^0.18.5"
-  },
-  "optionalDependencies": {
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/npm": "^12.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.2"
   }
 }
