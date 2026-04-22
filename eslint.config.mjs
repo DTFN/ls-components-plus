@@ -89,6 +89,7 @@ export default antfu(
       'regexp/no-useless-quantifier': 'off',
       'regexp/no-useless-non-capturing-group': 'off',
       'regexp/no-useless-assertions': 'off',
+      'regexp/no-contradiction-with-assertion': 'off',
     },
     vue: {
       overrides: {

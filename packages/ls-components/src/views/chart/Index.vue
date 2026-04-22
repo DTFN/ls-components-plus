@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { ChartDataType, ChartTemplatePatchType, ChartTemplateType } from '@cpo/_types'
 
+/** 演示用统一调色盘（ECharts 默认系，对比清晰） */
+const DEMO_COLORS = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#9a60b4', '#3ba272', '#fc8452']
+
 const formInline: any = ref({
   themeModel: 'default',
   axis: 'x',
@@ -38,10 +41,11 @@ const templateAll: Ref<{
     showBackground: true,
     showBarFont: false,
     dynamicAxis: true,
+    barColorList: [...DEMO_COLORS],
     tooltipValueFormatter: (value: any, dataIndex: number) => {
-      console.log(value, dataIndex)
+      const v = value ?? '-'
 
-      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`
+      return `${dataIndex} · ${v}`
     },
   },
   templatePatchNegative: {
@@ -51,8 +55,11 @@ const templateAll: Ref<{
     legend: ['收入', '支出'],
     legendIcon: 'circle',
     dynamicAxis: true,
+    barColorList: ['#5470c6', '#ee6666'],
     seriesLabelFormatter: (params: any) => {
-      return `${Math.round(params.value) / 100}%`
+      const v = params.value
+
+      return v === 0 || v === '-' ? '' : String(v)
     },
   },
   templatePatchWaterfall: {
@@ -60,11 +67,13 @@ const templateAll: Ref<{
     tooltip: 'shadow',
     labelPosition: 'both',
     legend: ['收入', '支出'],
+    barColorList: ['#91cc75', '#5470c6', '#fac858'],
   },
   templatePatchCategory: {
     type: 'categoryStack',
     tooltip: 'shadow',
     legend: ['直接访问', '邮件营销', '联盟广告', '视频广告'],
+    barColorList: DEMO_COLORS.slice(0, 4),
   },
   templatePatchMultiBar: {
     type: 'multiBar',
@@ -73,6 +82,7 @@ const templateAll: Ref<{
     labelPosition: 'top',
     legend: ['Forest', 'Steppe', 'Desert', 'Wetland'],
     dynamicAxis: true,
+    barColorList: DEMO_COLORS.slice(0, 4),
   },
 })
 
@@ -406,13 +416,16 @@ const templateAllLine: Ref<{
   templateSimpleLine: {
     labelPosition: 'top',
     tooltip: 'cross',
+    barColorList: [DEMO_COLORS[0]],
     tooltipValueFormatter: (value: any, dataIndex: number) => {
-      console.log(value, dataIndex)
+      const v = value ?? '-'
 
-      return `${dataIndex} - ${((value || 0) / 100).toFixed(2)} %`
+      return `${dataIndex} · ${v}`
     },
     seriesLabelFormatter: (params: any) => {
-      return `${Math.round(params.value) / 100}%`
+      const v = params.value
+
+      return v === 0 || v === null || v === undefined ? '' : String(v)
     },
   },
   templateMultipleLine: {
@@ -421,11 +434,12 @@ const templateAllLine: Ref<{
     smooth: true,
     areaStyle: {},
     tooltip: 'cross',
-    legend: ['Email', 'name', 'address'],
+    legend: ['Email', 'Union Ads', 'Video'],
     legendIcon: 'circle',
     dataZoom: 'horizontal',
-    dataZoomColorOut: 'green',
-    dataZoomColorIn: 'yellow',
+    dataZoomColorOut: '#91cc75',
+    dataZoomColorIn: '#fac858',
+    barColorList: DEMO_COLORS.slice(0, 3),
     // dynamicAxis: true
   },
   templateMultipleLine2: {
@@ -435,6 +449,9 @@ const templateAllLine: Ref<{
     areaStyle: {},
     tooltip: 'cross',
     showBarFont: false,
+    legend: ['train', 'validate'],
+    legendIcon: 'circle',
+    barColorList: [DEMO_COLORS[0], DEMO_COLORS[1]],
     // dataZoom: 'horizontal'
     // dataZoomColorOut: 'green',
     // dataZoomColorIn: 'yellow'
@@ -445,6 +462,7 @@ const templateAllLine: Ref<{
     type: 'multiple',
     smooth: true,
     lineBar: true,
+    barColorList: [DEMO_COLORS[0], DEMO_COLORS[3]],
     // dynamicAxis: true
   },
   templateDynamicLine: {
@@ -452,6 +470,7 @@ const templateAllLine: Ref<{
     type: 'multiple',
     tooltip: 'cross',
     dynamicAxis: true,
+    barColorList: [DEMO_COLORS[0], DEMO_COLORS[1]],
   },
   templateDynamicLine2: {
     // labelPosition: 'top',
@@ -489,12 +508,12 @@ const dataMultipleLine: any = {
       data: [120, 132, 101, 134, 90, 230, 210],
     },
     {
-      name: 'name',
+      name: 'Union Ads',
       type: 'line',
       data: [220, 182, 191, 234, 290, 330, 310],
     },
     {
-      name: 'address',
+      name: 'Video',
       type: 'line',
       data: [22, 66, 99, 234, 33, 56, 310],
     },
@@ -519,9 +538,6 @@ const dynamicLine: any = {
     {
       type: 'line',
       data: temperatureData.map(item => item.propertyValue),
-      itemStyle: {
-        color: 'rgba(232, 41, 41, 1)',
-      },
     },
   ],
 }
@@ -581,10 +597,17 @@ const customOptionLine2 = ref({
         [1, 0],
       ],
       type: 'line',
+      itemStyle: {
+        color: '#5470c6',
+      },
+      lineStyle: {
+        color: '#5470c6',
+        width: 2,
+      },
       markLine: {
         symbol: ['none', 'none'],
         lineStyle: {
-          color: 'red',
+          color: '#ee6666',
           width: 2,
           type: 'dashed',
         },
@@ -654,6 +677,9 @@ const customOptionLine3 = ref({
     orient: 'horizontal',
     left: 'center',
     bottom: '5%',
+    inRange: {
+      color: ['#313695', '#4575b4', '#74add1', '#fee090', '#f46d43', '#a50026'],
+    },
   },
   series: [
     {
@@ -675,6 +701,7 @@ const customOptionLine3 = ref({
 
 // 饼图
 const customOptionPie = ref({
+  color: [...DEMO_COLORS],
   series: [
     {
       roseType: 'area',
@@ -683,6 +710,7 @@ const customOptionPie = ref({
 })
 // 饼图圈内增加内容
 const customOptionPie2 = ref({
+  color: [...DEMO_COLORS],
   graphic: [
     {
       type: 'text',
@@ -692,7 +720,7 @@ const customOptionPie2 = ref({
       style: {
         text: '中心内容', // 显示的文本
         textAlign: 'center',
-        fill: '#000', // 文本颜色
+        fill: '#303133',
         fontSize: 20,
       },
     },
@@ -704,24 +732,30 @@ const customOptionPie2 = ref({
       style: {
         text: '100%', // 显示的文本
         textAlign: 'center',
-        fill: '#000', // 文本颜色
+        fill: '#5470c6',
         fontSize: 20,
+        fontWeight: 600,
       },
     },
   ],
 })
 const templateAllPie: any = ref({
-  template1: {},
+  template1: {
+    color: DEMO_COLORS,
+  },
   template2: {
     radius: ['45%', '60%'],
+    color: DEMO_COLORS,
   },
   template3: {
     radius: ['10%', '60%'],
     roseType: 'radius',
+    color: DEMO_COLORS,
   },
   template4: {
     radius: ['45%', '60%'],
     innerRadius: [0, '35%'],
+    color: DEMO_COLORS,
   },
 })
 const seriesDataPie = [
@@ -750,7 +784,14 @@ function changeChartStyle() {
     templateAll.value[item].labelPosition = formInline.value.pos
   });
 
-  ['templateSimpleLine', 'templateMultipleLine', 'templateLineBar', 'templateDynamicLine'].forEach((item: any) => {
+  [
+    'templateSimpleLine',
+    'templateMultipleLine',
+    'templateMultipleLine2',
+    'templateLineBar',
+    'templateDynamicLine',
+    'templateDynamicLine2',
+  ].forEach((item: any) => {
     templateAllLine.value[item].theme = formInline.value.themeModel
     templateAllLine.value[item].axis = formInline.value.axis
     templateAllLine.value[item].labelPosition = formInline.value.pos
@@ -883,6 +924,7 @@ const templateName: Ref<ChartTemplateType> = ref('bar')
         :data="dataSimpleLine"
         :template-patch="templateAllLine.templateSimpleLine"
         :custom-option="{
+          color: [...DEMO_COLORS],
           xAxis: {
             type: 'category',
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
