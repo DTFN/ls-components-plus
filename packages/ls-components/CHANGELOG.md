@@ -1,3 +1,15 @@
+# [2.6.0](https://github.com/DTFN/ls-components-plus/compare/v2.5.2...v2.6.0) (2026-04-24)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 回退useTableListHook ([53c9929](https://github.com/DTFN/ls-components-plus/commit/53c99293f64aecbdc363e38ce01242d9dfdd6768))
+
+
+### Features
+
+* **ls-component:** 🚀 update ([aa734d5](https://github.com/DTFN/ls-components-plus/commit/aa734d5163dc471efdf12bc4ef10f8af5302a016))
+
 ## [2.5.2](https://github.com/DTFN/ls-components-plus/compare/v2.5.1...v2.5.2) (2026-04-16)
 
 
