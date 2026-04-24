@@ -3,7 +3,7 @@
 -->
 <script setup lang="ts">
 import { COM_FORM_ATTRS, COM_TABLE_ATTRS } from './attrs'
-import { claimPrivilegePosterListApi } from './interface'
+import { claimPrivilegePosterListApi, claimPrivilegePosterListApi2 } from './interface'
 import { getStatusList, getStatusMap } from './types'
 
 // 列表组件ref
@@ -148,18 +148,21 @@ function dealData(res: any) {
   }
 }
 
-const tableData: any = ref([])
-
-async function init() {
-  const { records }: any = await claimPrivilegePosterListApi()
-  tableData.value = records
-}
-
-init()
+/**
+ * 无分页：useTableListHook 在 hasPagination: false 时只消费 dealData 返回的 data，不再拼接 currentPage/pageSize
+ * @param res 原始响应数据
+ * @returns 处理后的响应数据
+ */
+// function dealDataNoPage(res: any) {
+//   return {
+//     data: res.records || [],
+//   }
+// }
 </script>
 
 <template>
   <div>
+    <!-- 默认：服务端分页 + 底部分页条 -->
     <LSList
       ref="lsListRef"
       :list-api="claimPrivilegePosterListApi"
@@ -181,10 +184,38 @@ init()
       class="com-tab-list"
     >
     </LSList>
+
     <!--
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column v-for="item in tableColumn" :key="item.prop" :prop="item.prop" :label="item.label" width="180" />
-    </el-table> -->
+      无分页案例（@ls-web-plus：listHookConfig.hasPagination + tableAttrs.showPagination）
+      与 MCP 推荐写法一致
+    -->
+    <el-divider content-position="left">
+      无分页
+    </el-divider>
+    <LSList
+      :list-api="claimPrivilegePosterListApi2"
+      :form-data="formData"
+      :form-items="formItems"
+      :table-column="tableColumn"
+      :deal-params="dealParams"
+      :list-hook-config="{
+        hasPagination: false,
+        isFullDose: true,
+      }"
+      :form-attrs="{
+        ...COM_FORM_ATTRS,
+        labelWidth: 70,
+      }"
+      :table-attrs="{
+        ...COM_TABLE_ATTRS,
+        showPagination: false,
+      }"
+      :show-table-detail="false"
+      :show-table-del="false"
+      :show-add="false"
+      :show-skeleton="true"
+      class="com-tab-list"
+    />
   </div>
 </template>
 
