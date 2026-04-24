@@ -1,211 +1,160 @@
-/**
- * @file 表格列表Hook
- * @description 列表页面获取数据的通用Hook，集成表单查询、分页、数据加载等功能
- */
-
 import useDelayLoader from './useDelayLoader'
 
-/**
- * 请求函数类型
- */
-export type RequestFn<T = any> = (params?: any) => Promise<T>
-
-/**
- * 数据处理函数类型
- */
-export type DealDataFn<T = any> = (res: any) => { data: T[], total?: number }
-
-/**
- * 参数处理函数类型
- */
-export type DealParamsFn = (params: any) => any
-
-/**
- * 请求完成回调类型
- */
-export type CallbackAfterFn<T = any> = (res: any, context: { tableData: T[], total: number }) => void
-
-/**
- * 请求配置项
- */
-export interface UseTableListOptions {
-  currentPageProp?: number
-  pageSizeProp?: number
-  pageSizes?: number[]
-  isDelayLoader?: boolean
-  delayLoaderTime?: number
-  isFullDose?: boolean
-  hasPagination?: boolean
-  autoFetch?: boolean
-  dealData?: DealDataFn
-  dealParams?: DealParamsFn
-  callbackAfter?: CallbackAfterFn
-  defaultSearchParams?: Record<string, any>
-}
-
-/**
- * 表格列表Hook返回类型
- */
-export interface UseTableListReturn<T = any> {
-  isFirst: ReturnType<typeof ref<boolean>>
-  loading: ReturnType<typeof ref<boolean>>
-  pageSize: ReturnType<typeof ref<number>>
-  pageSizes: number[]
-  currentPage: ReturnType<typeof ref<number>>
-  tableData: ReturnType<typeof ref<T[]>>
-  total: ReturnType<typeof ref<number>>
-  errorMsg: ReturnType<typeof ref<string>>
-  searchParams: ReturnType<typeof ref<Record<string, any>>>
-  selectedRows: ReturnType<typeof ref<T[]>>
-  handleCurrentPageChange: (page: number, isFetch?: boolean) => void
-  handleSizeChange: (size: number) => void
-  handleReset: () => void
-  loadData: (showLoading?: boolean, firstLoad?: boolean) => Promise<void>
-  refresh: () => Promise<void>
-  clearData: () => void
-  clearSelectedRows: () => void
-  search: (params?: Record<string, any>, resetPage?: boolean) => void
-  resetSearch: () => void
-  setSearchParams: (params: Record<string, any>) => void
-  abort: () => void
-}
-
-export default function useTableListHook<T = any>(
-  requestFn?: RequestFn,
-  requestParams?: any,
-  config?: UseTableListOptions,
-): UseTableListReturn<T> {
+// 列表页面获取数据的hook
+export default function (
+  requestFn: any | undefined,
+  requestParams: any,
+  config?: {
+    currentPageProp?: number // 当前页码
+    pageSizeProp?: number // 每页条数
+    isDelayLoader?: boolean // 是否使用延迟加载器
+    delayLoaderTime?: number // 延迟加载时间(毫秒)
+    isFullDose?: boolean // 是否全量数据
+    hasPanigation?: boolean // 是否有分页
+    autoFetch?: boolean // 是否页面加载时自动获取数据
+    dealData?: any | ((res: any) => any) | undefined // 处理返回数据的方法
+    dealParams?: any | ((params: any) => any) | undefined // 处理请求参数的方法
+    callbackAfter?: (res: any, data: any) => void | undefined // 请求完成后的回调
+  },
+) {
   const {
     currentPageProp = 1,
     pageSizeProp = 10,
-    pageSizes: pageSizesProp = [10, 20, 50, 100],
     isDelayLoader = false,
     delayLoaderTime = 300,
     isFullDose = false,
     autoFetch = true,
-    hasPagination = true,
+    hasPanigation = true,
     dealParams,
     dealData,
     callbackAfter,
-    defaultSearchParams = {},
   } = config || {}
 
+  // 初始化
   const isFirst = ref(true)
+  // 加载状态
   const loading = ref(false)
+  // 当前页
   const currentPage = ref(currentPageProp)
+  // 每页大小
   const pageSize = ref(pageSizeProp)
-  const pageSizes = ref(pageSizesProp)
-  const tableData = ref<T[]>([]) as ReturnType<typeof ref<T[]>>
-  const tableDataSource = ref<T[]>([]) as ReturnType<typeof ref<T[]>>
+  // 列表
+  const tableData = ref([])
+  // 全量数据的存储
+  const tableDataSource = ref([])
+  // 总数
   const total = ref(0)
-  const errorMsg = ref('')
-  const searchParams = ref<Record<string, any>>({ ...defaultSearchParams })
-  const selectedRows = ref<T[]>([]) as ReturnType<typeof ref<T[]>>
 
-  let abortController: AbortController | null = null
-
-  const sliceTableData = () => {
-    tableData.value = (tableDataSource.value || []).slice(
-      (currentPage.value - 1) * pageSize.value,
-      currentPage.value * pageSize.value,
-    )
-  }
-
+  // 处理返回结果
   const disposeResponseData = (resData: any) => {
-    if (hasPagination) {
+    if (hasPanigation) {
+      // 有分页
       if (isFullDose) {
         let newResData = resData || []
         let newTotal = newResData.length
 
         if (dealData && typeof dealData === 'function') {
-          const result = dealData(resData)
-          newResData = result.data || []
-          newTotal = Number(result.total || 0)
+          const { data, total: count = 0 } = dealData(resData)
+          newResData = data || []
+          newTotal = Number(count || 0)
         }
-
-        tableDataSource.value = newResData as T[]
+        tableDataSource.value = newResData
         total.value = newTotal
         sliceTableData()
       }
       else if (dealData && typeof dealData === 'function') {
-        const result = dealData(resData)
-        tableData.value = result.data as T[]
-        total.value = Number(result.total || 0)
+        const { data, total: count = 0 } = dealData(resData)
+        tableData.value = data || []
+        total.value = Number(count || 0)
       }
       else {
         const { records = [], total: count } = resData || {}
-        tableData.value = records as T[]
+        tableData.value = records || []
         total.value = Number(count)
       }
 
       if (callbackAfter) {
-        callbackAfter(resData, { tableData: tableData.value as T[], total: total.value })
+        callbackAfter(resData, { tableData, total })
       }
     }
     else {
+      // 无分页
       if (dealData && typeof dealData === 'function') {
-        const result = dealData(resData)
-        tableData.value = result.data as T[]
+        const { data } = dealData(resData)
+        tableData.value = data || []
       }
       else {
-        tableData.value = resData as T[]
+        tableData.value = resData
       }
 
       if (callbackAfter) {
-        callbackAfter(resData, { tableData: tableData.value, total: total.value })
+        callbackAfter(resData, {})
       }
     }
   }
 
-  const requestData = async (): Promise<any> => {
-    if (!requestFn) {
-      errorMsg.value = 'requestFn is required'
-      throw new Error('requestFn is required')
-    }
+  // 加载数据
+  const requestData = (): Promise<any> =>
+    new Promise((resolve, reject) => {
+      if (!requestFn) {
+        reject(new Error('requestFn is required'))
 
-    abortController = new AbortController()
-    errorMsg.value = ''
-
-    const requestParamsData = typeof requestParams === 'function' ? requestParams() : requestParams || {}
-
-    let params: Record<string, any> = {}
-
-    if (hasPagination) {
-      params = {
-        currentPage: currentPage.value,
-        pageSize: pageSize.value,
-        ...requestParamsData,
-        ...searchParams.value,
+        return
       }
-    }
-    else {
-      params = {
-        ...requestParamsData,
-        ...searchParams.value,
+
+      const requestParamsData = (typeof requestParams === 'function' ? requestParams() : requestParams) || {}
+
+      let params = {}
+
+      if (hasPanigation) {
+        params = {
+          currentPage: currentPage.value,
+          pageSize: pageSize.value,
+          ...requestParamsData,
+        }
       }
-    }
+      else {
+        params = {
+          ...requestParamsData,
+        }
+      }
 
-    if (dealParams) {
-      params = dealParams(params)
-    }
+      if (dealParams) {
+        params = dealParams(params)
+      }
 
-    try {
-      const res = await requestFn(params)
-      disposeResponseData(res)
+      requestFn(params)
+        .then((res: any) => {
+          if (!isDelayLoader) {
+            disposeResponseData(res)
+          }
 
-      return res
-    }
-    catch (err: any) {
-      errorMsg.value = err?.message || '请求失败'
-      throw err
-    }
-  }
+          resolve(res)
+        })
+        .catch((err: string) => {
+          console.log(`useTableHook error: ${err}`)
+          reject(err)
+        })
+        .finally(() => {
+          loading.value = false
+          setTimeout(() => {
+            isFirst.value = false
+          }, 400)
+        })
+    })
 
+  // 延迟加载数据配置
   const delayLoaderData = useDelayLoader(delayLoaderTime || 300, (data) => {
     disposeResponseData(data)
   })
 
-  const loadData = async (showLoading: boolean = true, firstLoad: boolean = false): Promise<void> => {
+  // 完整数据分页设置展示的数据
+  function sliceTableData() {
+    tableData.value = tableDataSource.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value)
+  }
+
+  // 加载数据
+  const loadData = (showLoading: boolean = true, firstLoad: boolean = false) => {
     if (!requestFn) {
       return
     }
@@ -228,21 +177,12 @@ export default function useTableListHook<T = any>(
       return
     }
 
-    try {
-      await requestData()
-    }
-    finally {
+    requestData().finally(() => {
       loading.value = false
-      setTimeout(() => {
-        isFirst.value = false
-      }, 400)
-    }
+    })
   }
 
-  const refresh = async (): Promise<void> => {
-    await loadData(true, false)
-  }
-
+  // 切换页数
   const handleCurrentPageChange = (page: number, isFetch: boolean = true) => {
     currentPage.value = page
 
@@ -256,6 +196,7 @@ export default function useTableListHook<T = any>(
     }
   }
 
+  // 切换大小
   const handleSizeChange = (size: number) => {
     pageSize.value = size
     currentPage.value = 1
@@ -268,63 +209,28 @@ export default function useTableListHook<T = any>(
     }
   }
 
+  // 监听当前页
+  watch(currentPage, (newVal) => {
+    handleCurrentPageChange(newVal)
+  })
+
+  // 监听每页条数
+  watch(pageSize, (newVal) => {
+    handleSizeChange(newVal)
+  })
+
+  // 重置列表
   const handleReset = () => {
+    // 分页数据重置
     currentPage.value = 1
+
+    // 重新加载列表
     nextTick(() => {
       loadData()
     })
   }
 
-  const clearData = () => {
-    tableData.value = []
-    tableDataSource.value = []
-    total.value = 0
-    errorMsg.value = ''
-  }
-
-  const clearSelectedRows = () => {
-    selectedRows.value = []
-  }
-
-  const setSearchParams = (params: Record<string, any>) => {
-    searchParams.value = { ...defaultSearchParams, ...params }
-  }
-
-  const search = (params?: Record<string, any>, resetPage: boolean = true) => {
-    if (params) {
-      searchParams.value = { ...defaultSearchParams, ...params }
-    }
-
-    if (resetPage) {
-      currentPage.value = 1
-    }
-
-    loadData()
-  }
-
-  const resetSearch = () => {
-    searchParams.value = { ...defaultSearchParams }
-    currentPage.value = 1
-    loadData()
-  }
-
-  const abort = () => {
-    if (abortController) {
-      abortController.abort()
-      abortController = null
-      loading.value = false
-      errorMsg.value = '请求已取消'
-    }
-  }
-
-  watch(currentPage, (newVal) => {
-    handleCurrentPageChange(newVal)
-  })
-
-  watch(pageSize, (newVal) => {
-    handleSizeChange(newVal)
-  })
-
+  // 渲染后自动获取列表
   onMounted(() => {
     if (autoFetch) {
       isFirst.value = true
@@ -332,31 +238,16 @@ export default function useTableListHook<T = any>(
     }
   })
 
-  onUnmounted(() => {
-    abort()
-  })
-
   return {
     isFirst,
     loading: isDelayLoader ? delayLoaderData.loading : loading,
     pageSize,
-    pageSizes: pageSizes.value,
     currentPage,
     tableData,
     total,
-    errorMsg,
-    searchParams,
-    selectedRows,
     handleCurrentPageChange,
     handleSizeChange,
     handleReset,
     loadData,
-    refresh,
-    clearData,
-    clearSelectedRows,
-    search,
-    resetSearch,
-    setSearchParams,
-    abort,
   }
 }

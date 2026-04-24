@@ -1,7 +1,10 @@
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+
+const require = createRequire(import.meta.url)
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -23,6 +26,267 @@ const EXTRA_METADATA_MODULES = [
     description: '通用预览常量与共享 props 配置',
   },
 ]
+
+/** Element Plus 官方文档根地址（与 web-types 中 doc-url 同源） */
+const ELEMENT_PLUS_DOC_ORIGIN = 'https://element-plus.org'
+
+/**
+ * 解析已安装的 element-plus `web-types.json`；用于在本地 components 未覆盖时补全属性说明。
+ * @returns {string | null}
+ */
+function resolveElementPlusWebTypesPath() {
+  try {
+    return require.resolve('element-plus/web-types.json')
+  }
+  catch {
+    return null
+  }
+}
+
+/**
+ * 从项目依赖或 CDN 加载 Element Plus web-types，保证与 https://element-plus.org 文档体系一致
+ */
+async function loadElementPlusWebTypes() {
+  const localPath = resolveElementPlusWebTypesPath()
+  if (localPath) {
+    const raw = fs.readFileSync(localPath, 'utf-8')
+    const data = JSON.parse(raw)
+
+    return {
+      data,
+      version: data.version,
+      source: 'node_modules:element-plus',
+      localPath: path.relative(path.join(__dirname, '../..'), localPath).replace(/\\/g, '/'),
+    }
+  }
+
+  console.warn('⚠️  未在 node_modules 中发现 element-plus/web-types.json，从 unpkg 拉取最新包元数据...')
+
+  const res = await fetch('https://unpkg.com/element-plus@latest/web-types.json', {
+    redirect: 'follow',
+  })
+  if (!res.ok) {
+    throw new Error(`拉取 element-plus web-types 失败: HTTP ${res.status}`)
+  }
+
+  const data = await res.json()
+
+  return {
+    data,
+    version: data.version,
+    source: 'https://unpkg.com/element-plus@latest/web-types.json',
+  }
+}
+
+/**
+ * 将 Ls* 组件名转为 Element Plus 标签名，用于匹配 web-types 中的 el-* 条目
+ * @param {string} componentName
+ * @returns {string | null}
+ */
+function lsNameToElementPlusTag(componentName) {
+  if (typeof componentName !== 'string') {
+    return null
+  }
+
+  let pascal = ''
+  if (componentName.startsWith('LS')) {
+    pascal = componentName.slice(2)
+  }
+  else if (componentName.startsWith('Ls')) {
+    pascal = componentName.slice(2)
+  }
+  else {
+    return null
+  }
+
+  if (!pascal) {
+    return null
+  }
+
+  const kebab = pascal
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase()
+
+  return `el-${kebab}`
+}
+
+/**
+ * 将 en-US 文档链接替换为 zh-CN（与 element-plus 中文站一致）
+ * @param {string | undefined} url
+ * @returns {string | undefined}
+ */
+function toZhElementPlusDocUrl(url) {
+  if (!url || typeof url !== 'string') {
+    return url
+  }
+
+  return url.replace(/\/en-US\//g, '/zh-CN/')
+}
+
+/**
+ * @param {unknown} t
+ * @returns {string}
+ */
+function formatElementPlusPropType(t) {
+  if (t == null) {
+    return 'any'
+  }
+
+  if (Array.isArray(t)) {
+    return t
+      .map((x) => {
+        if (typeof x === 'string') {
+          return x
+        }
+
+        return JSON.stringify(x)
+      })
+      .join(' | ')
+  }
+
+  if (typeof t === 'string') {
+    return t
+  }
+
+  return String(t)
+}
+
+/**
+ * 构建 el-* -> { props, docUrl, description }
+ * @param {object} webTypes
+ * @returns {Map<string, { name: string, description?: string, docUrl?: string, props: object[] }>}
+ */
+function buildElementPlusComponentIndex(webTypes) {
+  const list = webTypes?.contributions?.html?.['vue-components'] || []
+  const index = new Map()
+
+  for (const comp of list) {
+    if (!comp?.name) {
+      continue
+    }
+
+    index.set(comp.name, {
+      name: comp.name,
+      description: comp.description,
+      docUrl: comp['doc-url'],
+      props: comp.props || [],
+    })
+  }
+
+  return index
+}
+
+/**
+ * 表单/输入相关：元数据与模板中应使用 HTML 标准属性名 maxlength / minlength，禁止驼峰 maxLength / minLength
+ * @param {string} name
+ * @returns {string}
+ */
+function normalizeLengthAttrName(name) {
+  if (name === 'maxLength') {
+    return 'maxlength'
+  }
+
+  if (name === 'minLength') {
+    return 'minlength'
+  }
+
+  return name
+}
+
+/**
+ * @param {Array<{ name: string } & Record<string, unknown>>} props
+ * @returns {typeof props}
+ */
+function normalizeMinMaxLengthPropNames(props) {
+  if (!Array.isArray(props)) {
+    return props
+  }
+
+  return props.map((prop) => {
+    const next = normalizeLengthAttrName(prop.name)
+    if (next === prop.name) {
+      return prop
+    }
+
+    return { ...prop, name: next }
+  })
+}
+
+/** 与表单控件相关的 Element Plus 标签，用于在匹配主标签后再合并一层（如 form-item 内常渲染 el-input） */
+const ELEMENT_PLUS_FORM_CONTROL_TAGS = ['el-input']
+
+/**
+ * 将单份 EP 组件的 props 合入（跳过已有同名；长度类属性名归一为 maxlength / minlength）
+ * @param {Array<object>} merged
+ * @param {Set<string>} seen
+ * @param {object[] | undefined} epProps
+ * @param {string} [fromTag]  web-types 中的来源标签，如 el-input
+ */
+function appendElementPlusProps(merged, seen, epProps, fromTag) {
+  if (!epProps?.length) {
+    return
+  }
+
+  for (const p of epProps) {
+    const name = normalizeLengthAttrName(p.name)
+    if (seen.has(name)) {
+      continue
+    }
+
+    seen.add(name)
+    const row = {
+      name,
+      type: formatElementPlusPropType(p.type),
+      description: (p.description || '').trim(),
+      required: false,
+      default: p.default,
+      from: 'element-plus',
+      docUrl: toZhElementPlusDocUrl(p['doc-url'] || p.docUrl),
+    }
+
+    if (fromTag) {
+      row.fromTag = fromTag
+    }
+
+    merged.push(row)
+  }
+}
+
+/**
+ * 本地 `components` 中解析到的 props 优先生效；仅当不存在同名属性时，从 Element Plus web-types 补全
+ * @param {Array<object>} localProps
+ * @param {string | null} elTag
+ * @param {Map} epIndex
+ * @returns {Array<object>}
+ */
+function mergePropsWithElementPlus(localProps, elTag, epIndex) {
+  const withNorm = normalizeMinMaxLengthPropNames(localProps)
+  if (!elTag || !epIndex) {
+    return withNorm
+  }
+
+  const ep = epIndex.get(elTag)
+  if (!ep || !ep.props?.length) {
+    return withNorm
+  }
+
+  const seen = new Set(withNorm.map(p => p.name))
+  const merged = [...withNorm]
+
+  appendElementPlusProps(merged, seen, ep.props, elTag)
+
+  if (elTag === 'el-form-item') {
+    for (const subTag of ELEMENT_PLUS_FORM_CONTROL_TAGS) {
+      const sub = epIndex.get(subTag)
+      if (sub?.props?.length) {
+        appendElementPlusProps(merged, seen, sub.props, subTag)
+      }
+    }
+  }
+
+  return uniqueBy(merged, item => item.name)
+}
 
 function normalizeText(text = '') {
   return text.replace(/\s+/g, ' ').trim()
@@ -498,7 +762,9 @@ function extractConstantModuleMetadata(moduleConfig) {
             name: exportName,
             kind: 'props',
             description,
-            props: extractPropsFromBuildProps(content, attrDocMap, exportName),
+            props: normalizeMinMaxLengthPropNames(
+              uniqueBy(extractPropsFromBuildProps(content, attrDocMap, exportName), item => item.name),
+            ),
           })
 
           return
@@ -551,8 +817,36 @@ function extractConstantModuleMetadata(moduleConfig) {
   }
 }
 
-function main() {
+/**
+ * 属性提取策略（写入 component-meta 注释）：
+ * 1) 以 `../components` 下 Vue 与本地 types 解析结果为准；
+ * 2) 无同名项时，合并 node_modules/element-plus/web-types（与 https://element-plus.org 一致），缺失时从 unpkg 拉取。
+ */
+async function main() {
   console.log('🔍 扫描 Vue 组件...')
+
+  let elementPlusInfo = {
+    version: null,
+    source: 'none',
+    docOrigin: ELEMENT_PLUS_DOC_ORIGIN,
+  }
+  let epIndex = new Map()
+
+  try {
+    const ep = await loadElementPlusWebTypes()
+    elementPlusInfo = {
+      version: ep.version,
+      source: ep.source,
+      localPath: ep.localPath,
+      docOrigin: ELEMENT_PLUS_DOC_ORIGIN,
+    }
+    epIndex = buildElementPlusComponentIndex(ep.data)
+    console.log(`✅ 已加载 Element Plus web-types v${ep.version}（${ep.source}）← ${ELEMENT_PLUS_DOC_ORIGIN}`)
+  }
+  catch (e) {
+    console.warn('⚠️  无法加载 Element Plus web-types，将仅使用 components 本地解析：', e.message)
+  }
+
   const componentFiles = scanComponents(COMPONENTS_DIR)
   console.log(`✅ 找到 ${componentFiles.length} 个组件`)
 
@@ -585,7 +879,7 @@ function main() {
         }
       }
 
-      const props = propsFromTypes.length
+      const baseProps = propsFromTypes.length
         ? propsFromTypes
         : propsFromDefineProps.length
           ? propsFromDefineProps.map(prop => ({
@@ -600,16 +894,26 @@ function main() {
               required: false,
             }))
 
+      const rawProps = uniqueBy(baseProps, item => item.name)
+      const elTag = lsNameToElementPlusTag(name)
+      const hasEpMatch = Boolean(elTag && epIndex && epIndex.size && epIndex.has(elTag))
+      const props = mergePropsWithElementPlus(rawProps, elTag, epIndex)
+
       components.push({
         name,
         file: relativePath,
         description: mergedDoc.summary,
-        props: uniqueBy(props, item => item.name),
+        props,
         events: emits.length > 0 ? emits : mergedDoc.events,
         slots: [...new Set(slots.filter(Boolean))],
+        ...(hasEpMatch
+          ? {
+              elementPlusTag: elTag,
+            }
+          : {}),
       })
 
-      console.log(`✅ 解析: ${name} (${relativePath})`)
+      console.log(`✅ 解析: ${name} (${relativePath})${hasEpMatch ? ` [${elTag}]` : ''}`)
     }
     catch (error) {
       console.error(`❌ 解析失败: ${filePath}`, error.message)
@@ -627,6 +931,13 @@ function main() {
     generated: new Date().toISOString(),
     totalComponents: components.length,
     totalConstants: constants.length,
+    elementPlus: {
+      version: elementPlusInfo.version,
+      source: elementPlusInfo.source,
+      localPath: elementPlusInfo.localPath,
+      doc: ELEMENT_PLUS_DOC_ORIGIN,
+      note: 'Props 以 components 为主；无同名项时自 Element Plus web-types 补全（与官网属性表一致；输入长度用 maxlength / minlength）',
+    },
     components,
     constants,
   }
@@ -636,4 +947,7 @@ function main() {
   console.log(`📊 共提取 ${components.length} 个组件与 ${constants.length} 个常量模块的元数据`)
 }
 
-main()
+main().catch((err) => {
+  console.error(err)
+  process.exit(1)
+})
