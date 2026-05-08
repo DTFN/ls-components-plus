@@ -310,7 +310,7 @@ onBeforeUnmount(() => {
         <span class="captcha-loading-dot" />
         <span>验证中…</span>
       </div>
-      <div class="captcha-scene" :class="[`is-${status}`]" :style="sceneStyle">
+      <div class="captcha-scene" :class="`is-${status}`" :style="sceneStyle">
         <div class="captcha-hole" :style="holeStyle" />
         <div class="captcha-piece" :style="pieceStyle" />
         <div v-if="status !== 'idle'" class="captcha-overlay">
@@ -443,27 +443,57 @@ onBeforeUnmount(() => {
   border-radius: 8px;
 }
 .captcha-scene.is-success .captcha-overlay {
-  background: rgb(16 185 129 / 35%);
+  background: rgb(16 185 129 / 80%);
+  backdrop-filter: blur(3px);
 }
 .captcha-scene.is-error .captcha-overlay {
-  background: rgb(239 68 68 / 35%);
+  background: rgb(239 68 68 / 80%);
+  backdrop-filter: blur(3px);
+  animation: captcha-shake 0.4s ease-in-out;
 }
 .captcha-overlay-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  font-size: 24px;
+  width: 56px;
+  height: 56px;
+  font-size: 32px;
   color: #ffffff;
-  border: 2px solid rgb(255 255 255 / 80%);
+  border: 3px solid rgb(255 255 255 / 90%);
   border-radius: 50%;
+  animation: captcha-overlay-pop 0.35s ease-out;
+}
+
+@keyframes captcha-overlay-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .captcha-overlay-text {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: #ffffff;
-  text-shadow: 0 1px 3px rgb(0 0 0 / 40%);
+  text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+}
+
+@keyframes captcha-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
 }
 .captcha-prompt {
   padding: 0 2px;
@@ -498,13 +528,13 @@ onBeforeUnmount(() => {
   opacity: 0.72;
 }
 .captcha-slider.is-fail .captcha-slider-fill {
-  background: rgb(239 68 68 / 20%);
+  background: rgb(239 68 68 / 50%);
 }
 .captcha-slider.is-success .captcha-slider-fill {
-  background: rgb(16 185 129 / 20%);
+  background: rgb(16 185 129 / 50%);
 }
 .captcha-slider.is-error .captcha-slider-fill {
-  background: rgb(239 68 68 / 20%);
+  background: rgb(239 68 68 / 50%);
 }
 .captcha-slider-thumb {
   position: relative;
@@ -530,7 +560,8 @@ onBeforeUnmount(() => {
   cursor: grabbing;
   box-shadow: 0 4px 12px rgb(99 102 241 / 35%);
 }
-.captcha-slider.is-fail .captcha-slider-thumb {
+.captcha-slider.is-fail .captcha-slider-thumb,
+.captcha-slider.is-error .captcha-slider-thumb {
   color: #ef4444;
   border-color: #ef4444;
 }
