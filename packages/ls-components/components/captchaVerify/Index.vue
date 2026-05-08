@@ -1,17 +1,23 @@
 <script setup lang="ts" name="LSCaptchaVerify">
 /**
- * @summary 滑块拼图验证码组件
+ * @summary 滑块拼图验证码组件 - 基于 `LSDialog` 的二次封装
  *
  * `LSCaptchaVerify` 提供滑块拼图形式的验证码交互，包含拖动轨迹记录、状态反馈、自动重试等功能。
  * 组件通过 `v-model` 控制显隐，通过 `sceneSeed` 控制视觉主题和拼图形状，通过 `targetPercent` 控制缺口位置。
  *
- * @attr {boolean} v-model 控制验证码弹窗显示/隐藏
+ * 组件自有属性：
  * @attr {boolean} loading 验证中 loading 状态，默认 `false`
  * @attr {string} prompt 提示文案，默认 `'按住滑块拖动拼图到缺口处'`
  * @attr {number} targetPercent 缺口目标位置百分比(0-1)，默认 `0.5`
- * @attr {string} status 验证状态：`'idle' | 'error' | 'success'`，默认 `'idle'`
+ * @attr {CaptchaStatus} status 验证状态：`'idle' | 'error' | 'success'`，默认 `'idle'`
  * @attr {number} sceneSeed 场景种子，用于生成不同的背景主题和拼图形状，默认 `0`
  * @attr {string} serialNo 验证码序列号，显示在右下角
+ *
+ * 常用透传属性（来自 `LSDialog` / `$attrs`）：
+ * @attr {boolean} v-model 控制验证码弹窗显示/隐藏
+ * @attr {string} title 弹窗标题，默认 `'安全验证'`
+ * @attr {string|number} width 弹窗宽度，默认 `'420px'`
+ * @attr {boolean} hasFooter 是否显示底部操作区，默认 `false`
  *
  * @event refresh 点击"换一张"时触发
  * @event select 拖动完成并满足精度要求时触发，参数：`{ dragPercent: number, durationMs: number, trace: TracePoint[] }`
@@ -25,42 +31,25 @@
  *   @refresh="loadCaptcha"
  *   @select="onVerify"
  * />
+ *
+ * @example
+ * <LSCaptchaVerify
+ *   v-model="visible"
+ *   :loading="verifyLoading"
+ *   :status="verifyStatus"
+ *   @select="handleSelect"
+ * />
  */
 
-type CaptchaStatus = 'idle' | 'error' | 'success'
+import type { CaptchaSelectPayload, TracePoint } from './types'
+import { lsCaptchaVerifyProps } from './types'
 
-export interface TracePoint {
-  x: number
-  t: number
-}
-
-export interface CaptchaSelectPayload {
-  dragPercent: number
-  durationMs: number
-  trace: TracePoint[]
-}
-
-const props = withDefaults(defineProps<{
-  /** 验证中 loading 状态 */
-  loading?: boolean
-  /** 提示文案 */
-  prompt?: string
-  /** 缺口目标位置百分比(0-1) */
-  targetPercent?: number
-  /** 验证状态 */
-  status?: CaptchaStatus
-  /** 场景种子，用于生成不同主题和形状 */
-  sceneSeed?: number
-  /** 验证码序列号 */
-  serialNo?: string
-}>(), {
-  loading: false,
-  prompt: '按住滑块拖动拼图到缺口处',
-  targetPercent: 0.5,
-  status: 'idle',
-  sceneSeed: 0,
-  serialNo: '',
+defineOptions({
+  name: 'LSCaptchaVerify',
+  inheritAttrs: false,
 })
+
+const props = defineProps(lsCaptchaVerifyProps)
 
 const emit = defineEmits<{
   /** 点击换一张时触发 */
