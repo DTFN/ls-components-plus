@@ -9,6 +9,7 @@ import LSBackTop from './backTop/index'
 import LSBellMessage from './bellMessage/index'
 import LSBreadcrumb from './breadcrumb/index'
 import { LSButton, LSButtonGroup } from './button/index'
+import LSCaptchaVerify from './captchaVerify/index'
 import LSChart from './chart/index'
 import LSConfirm from './confirm/index'
 import LSContainerBox from './containerBox/index'
@@ -65,6 +66,7 @@ const components: Record<string, Plugin> = {
   LSDownloadFile,
   LSTooltip,
   LSCropper,
+  LSCaptchaVerify,
 }
 
 function install(app: App) {

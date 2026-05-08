@@ -2,22 +2,22 @@ export default {
   '/docs/': [
     {
       text: '指南',
-      items: [{ text: '快速开始', link: '/docs/quickstart' }]
+      items: [{ text: '快速开始', link: '/docs/quickstart' }],
     },
     {
       text: 'Basic 基础组件',
       items: [
         { text: 'Icon 图标', link: '/docs/icon' },
         { text: 'Button 按钮', link: '/docs/button' },
-        { text: 'Layout 布局', link: '/docs/layout' }
-      ]
+        { text: 'Layout 布局', link: '/docs/layout' },
+      ],
     },
     {
       text: 'Form 表单组件',
       items: [
         { text: 'Form 表单', link: '/docs/form' },
-        { text: 'Upload 上传', link: '/docs/upload' }
-      ]
+        { text: 'Upload 上传', link: '/docs/upload' },
+      ],
     },
     {
       text: 'Data 数据展示',
@@ -33,8 +33,8 @@ export default {
         { text: 'Map 地图', link: '/docs/map' },
         { text: 'Live 直播/视频', link: '/docs/live' },
         { text: 'Editor 富文本', link: '/docs/editor' },
-        { text: 'List 列表', link: '/docs/list' }
-      ]
+        { text: 'List 列表', link: '/docs/list' },
+      ],
     },
     {
       text: 'Chart 图表',
@@ -42,16 +42,16 @@ export default {
         { text: 'chart 介绍', link: '/docs/charts/' },
         { text: 'Bar 柱状图', link: '/docs/charts/bar' },
         { text: 'Line 折线图', link: '/docs/charts/line' },
-        { text: 'Pie 饼图', link: '/docs/charts/pie' }
-      ]
+        { text: 'Pie 饼图', link: '/docs/charts/pie' },
+      ],
     },
     {
       text: 'Navigation 导航',
       items: [
         { text: 'Backtop 回到顶部', link: '/docs/backtop' },
         { text: 'Breadcrumb 面包屑', link: '/docs/breadcrumb' },
-        { text: 'Menu 菜单', link: '/docs/menu' }
-      ]
+        { text: 'Menu 菜单', link: '/docs/menu' },
+      ],
     },
     {
       text: 'Feedback 反馈组件',
@@ -59,8 +59,8 @@ export default {
         { text: 'Confirm 确认框', link: '/docs/confirm' },
         { text: 'BellMessage 消息通知列表', link: '/docs/bellMessage' },
         { text: 'Dialog 对话框', link: '/docs/dialog' },
-        { text: 'Tooltip 弹出提示', link: '/docs/tooltip' }
-      ]
+        { text: 'Tooltip 弹出提示', link: '/docs/tooltip' },
+      ],
     },
     {
       text: 'Other 其它组件',
@@ -68,9 +68,10 @@ export default {
         { text: 'Print 打印', link: '/docs/print' },
         // { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
         { text: 'Download 下载', link: '/docs/download' },
-        { text: 'Cropper 图片裁剪', link: '/docs/cropper' }
-      ]
-    }
+        { text: 'Cropper 图片裁剪', link: '/docs/cropper' },
+        { text: 'CaptchaVerify 滑块验证码', link: '/docs/captchaVerify' },
+      ],
+    },
   ],
   '/tools/': [
     // {
@@ -82,16 +83,16 @@ export default {
       items: [
         { text: 'useWSHook', link: '/tools/hooks/useWSHook' },
         { text: 'useOptionsHook', link: '/tools/hooks/useOptionsHook' },
-        { text: 'useTableListHook', link: '/tools/hooks/useTableListHook' }
-      ]
+        { text: 'useTableListHook', link: '/tools/hooks/useTableListHook' },
+      ],
     },
     {
       text: 'utils',
       items: [
         { text: 'lsValidate', link: '/tools/utils/validate' },
         { text: 'lsCheck', link: '/tools/utils/check' },
-        { text: 'lsUtil', link: '/tools/utils/util' }
-      ]
-    }
-  ]
-};
+        { text: 'lsUtil', link: '/tools/utils/util' },
+      ],
+    },
+  ],
+}
