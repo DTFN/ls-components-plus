@@ -49,7 +49,7 @@
   "stylelint.enable": true,
   "eslint.enable": true,
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass", "html"],
-  "stylelint.configFile": "./.stylelintrc.cjs",
+  "stylelint.configFile": "${workspaceFolder}/.stylelintrc.cjs",
   // 开启快速建议（自动补齐）功能
   "editor.quickSuggestions": {
     "other": true,

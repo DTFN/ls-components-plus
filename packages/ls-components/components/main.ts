@@ -19,6 +19,8 @@ export { default as LSButton } from '@cpo/button/Button.vue'
 
 export { default as LSButtonGroup } from '@cpo/button/ButtonGroup.vue'
 
+export { default as LSCaptchaVerify } from '@cpo/captchaVerify/Index.vue'
+
 export { default as LSChart } from '@cpo/chart/Index.vue'
 
 export { default as LSConfirm } from '@cpo/confirm/Index.vue'

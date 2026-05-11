@@ -153,6 +153,14 @@ export const MENU_LIST = [
     cpoPath: 'cropper/Index',
     key: '21',
   },
+  {
+    id: '22',
+    title: 'CaptchaVerify 验证码',
+    name: 'CaptchaVerify',
+    path: '/captchaVerify',
+    cpoPath: 'captchaVerify/Index',
+    key: '22',
+  },
 ]
 
 export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`)
