@@ -215,11 +215,11 @@ const hideBtn = computed(() => {
 })
 
 watch(
-  [isCover, httpRequestFunc],
-  ([nVal1, nVal2]) => {
+  [isCover, httpRequestFunc, () => props.httpRequest],
+  ([nVal1, nVal2, nVal3]) => {
     defAttrs.isCover = nVal1
 
-    if (nVal2 && typeof nVal2 === 'function') {
+    if ((nVal2 && typeof nVal2 === 'function') || (nVal3 && typeof nVal3 === 'function')) {
       (defAttrs as TempType)['http-request'] = httpRequestAction
     }
   },

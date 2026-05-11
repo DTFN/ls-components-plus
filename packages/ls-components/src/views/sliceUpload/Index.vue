@@ -2,21 +2,16 @@
 import axios from 'axios'
 
 const sliceUploadRef = ref()
-const file = ref<File | null>(null)
 const chunkSize = ref(2 * 1024 * 1024)
 const initRequestNum = ref(3)
 const maxErrorNum = ref(3)
 
-function handleFileChange(event: Event) {
-  const target = event.target as HTMLInputElement
-
-  if (target.files && target.files.length > 0) {
-    file.value = target.files[0]
-  }
+function resetSliceUpload() {
+  sliceUploadRef.value?.reset()
 }
 
 function chunkUpload(params: any, config: any): Promise<any> {
-  return axios.post('http://192.168.1.33:3001/upload', params.formData, {
+  return axios.post('http://192.168.1.33:8080/api/v1/upload/chunk', params.formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -25,21 +20,7 @@ function chunkUpload(params: any, config: any): Promise<any> {
 }
 
 function mergeUpload(params: any): Promise<any> {
-  return axios.post('http://192.168.1.33:3001/upload', params)
-}
-
-function startUpload() {
-  if (!file.value) {
-    ElMessage.warning('请先选择文件')
-
-    return
-  }
-  sliceUploadRef.value?.start()
-}
-
-function resetUpload() {
-  sliceUploadRef.value?.reset()
-  file.value = null
+  return axios.post('http://192.168.1.33:8080/api/v1/upload/merge', params)
 }
 
 function onUploadSuccess(data: any) {
@@ -51,42 +32,37 @@ function onUploadError(data: any) {
   ElMessage.error('上传失败')
   console.log('onUploadError', data)
 }
+
+function onChangeFunc(file: any) {
+  console.log('onChangeFunc', file)
+}
 </script>
 
 <template>
   <div>
-    <h3>分片上传示例</h3>
-
-    <div style="margin-bottom: 16px;">
-      <input type="file" @change="handleFileChange">
-      <LSButton type="primary" style="margin-left: 8px;" @click="startUpload">
-        开始上传
-      </LSButton>
-      <LSButton style="margin-left: 8px;" @click="resetUpload">
-        重置
-      </LSButton>
-    </div>
-
-    <div v-if="file" style="margin-bottom: 16px;">
-      已选择文件：{{ file.name }}（{{ (file.size / 1024 / 1024).toFixed(2) }} MB）
-    </div>
+    <h3>分片上传示例（基于 LSUpload）</h3>
 
     <LSSliceUpload
       ref="sliceUploadRef"
-      :file="file"
+      :auto-upload="false"
       :chunk-size="chunkSize"
       :init-request-num="initRequestNum"
       :max-error-num="maxErrorNum"
       :chunk-upload-request="chunkUpload"
       :merge-request="mergeUpload"
+      :item="{ limitSize: 12, limitFile: ['png', 'jpg', 'pdf', 'txt'] }"
       @on-upload-success="onUploadSuccess"
       @on-upload-error="onUploadError"
+      @on-change-func="onChangeFunc"
     />
+    <LSButton style="margin-top: 8px;" @click="resetSliceUpload">
+      重置分片上传
+    </LSButton>
 
     <div style="margin-top: 32px;">
-      <h4>基础上传示例（LSUpload）</h4>
+      <h4>普通上传示例（LSUpload）</h4>
       <LSUpload
-        action="http://192.168.1.33:3001/upload"
+        action="http://192.168.1.33:8080/api/v1/upload/file"
         :item="{ limitSize: 50, limitFile: ['png', 'jpg', 'pdf'] }"
         :auto-upload="false"
       />

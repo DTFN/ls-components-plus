@@ -19,7 +19,7 @@ outline: deep
 ```js
 import { ref } from 'vue'
 
-const action = ref('http://192.168.1.33:3001/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 ```
 
 ```html
@@ -36,7 +36,7 @@ const action = ref('http://192.168.1.33:3001/upload')
 ```js
 import { ref } from 'vue'
 
-const action = ref('http://192.168.1.33:3001/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 const item1 = ref({
   isCover: false
 })
@@ -56,7 +56,7 @@ const item1 = ref({
 ```js
 import { ref } from 'vue'
 
-const action = ref('http://192.168.1.33:3001/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 const item2 = ref({
   limitFile: ['png', 'docx']
 })
@@ -79,7 +79,7 @@ import { ref } from 'vue'
 
 const item3 = ref({
   httpRequestFunc(formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj)
+    return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, uploadProcessObj)
   }
 })
 
@@ -103,7 +103,7 @@ function httpResponseFunc(res) {
 </ClientOnly>
 
 ```js
-const action = ref('http://192.168.1.33:3001/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 ```
 
 ```html
@@ -119,7 +119,7 @@ const action = ref('http://192.168.1.33:3001/upload')
 </ClientOnly>
 
 ```js
-const action = ref('http://192.168.1.33:3001/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 ```
 
 ```html
@@ -281,7 +281,7 @@ function formValidateFunc() {
 </ClientOnly>
 
 ````js
-const action = ref('http://192.168.1.33:3001/upload');
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file');
 const fileList = ref([{ name: '', url: '' }]);
 
 ```html
@@ -390,7 +390,7 @@ const item8 = ref({
 ```js
 const item9 = ref({
   httpRequestFunc(formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, {
+    return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, {
       ...uploadProcessObj,
       onUploadProgress(progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -553,7 +553,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc(formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, {
+    return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, {
       ...uploadProcessObj,
       onUploadProgress(progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -809,7 +809,7 @@ function handleSubmitUpload() {
   import { tableColumn, tableMethodColumn } from '../constant';
   import { Upload } from '@element-plus/icons-vue';
 
-  const action = ref('http://192.168.1.33:3001/upload');
+  const action = ref('http://192.168.1.33:8080/api/v1/upload/file');
   const item1 = ref({
     isCover: false,
   })
@@ -819,7 +819,7 @@ function handleSubmitUpload() {
   })
   const item3 = ref({
     httpRequestFunc: function (formData, uploadProcessObj) {
-      return axios.post('http://192.168.1.33:3001/upload', formData, uploadProcessObj);
+      return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, uploadProcessObj);
     }
   })
   const item4 = ref({
@@ -839,7 +839,7 @@ const item8 = ref({
 });
 const item9 = ref({
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, {
+    return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -871,7 +871,7 @@ const item14 = ref({
   limitSizeMsg: '文件大小不能超过2MB',
   limitNumMsg: '最多只能上传3个文件',
   httpRequestFunc: function (formData, uploadProcessObj) {
-    return axios.post('http://192.168.1.33:3001/upload', formData, {
+    return axios.post('http://192.168.1.33:8080/api/v1/upload/file', formData, {
       ...uploadProcessObj,
       onUploadProgress: function (progressEvent) {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
