@@ -1,3 +1,13 @@
+## [2.6.2](https://github.com/DTFN/ls-components-plus/compare/v2.6.1...v2.6.2) (2026-05-11)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 修复滑块验证异常UI ([a39d45c](https://github.com/DTFN/ls-components-plus/commit/a39d45ce240155299cf09a59497b62ef01a3cc13))
+* **ls-component:** 🧩 分片上传 ([91021af](https://github.com/DTFN/ls-components-plus/commit/91021afdefa55ce9ab4293bd8eca836f3cbdc826))
+* **ls-component:** 🧩 分片上传完善 ([2091962](https://github.com/DTFN/ls-components-plus/commit/2091962196163103b1275e9a366f432ac6dbbfd9))
+* **ls-component:** 🧩 增加分片上传 ([3a5846a](https://github.com/DTFN/ls-components-plus/commit/3a5846a26d8ce4d57d83ec386db4308aa1aa99c3))
+
 ## [2.6.1](https://github.com/DTFN/ls-components-plus/compare/v2.6.0...v2.6.1) (2026-05-11)
 
 
