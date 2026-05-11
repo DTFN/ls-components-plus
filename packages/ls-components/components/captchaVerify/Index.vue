@@ -306,7 +306,7 @@ onBeforeUnmount(() => {
         <div class="captcha-piece" :style="pieceStyle" />
         <div v-if="status !== 'idle'" class="captcha-overlay">
           <span class="captcha-overlay-icon">{{ status === 'success' ? '&#10003;' : '&#10007;' }}</span>
-          <span class="captcha-overlay-text">{{ status === 'success' ? '验证通过' : '验证失败，请重试' }}</span>
+          <span class="captcha-overlay-text">{{ status === 'success' ? '验证通过' : status === 'error' ? '不通过' : '验证失败，请重试' }}</span>
         </div>
       </div>
 
