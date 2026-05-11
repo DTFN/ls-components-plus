@@ -18,8 +18,8 @@ importers:
         specifier: ^2.3.1
         version: 2.3.2(vue@3.5.18(typescript@5.9.3))
       '@lingshugroup/web-plus':
-        specifier: ^2.5.2
-        version: 2.5.2
+        specifier: ^2.6.2
+        version: 2.6.2
       '@univerjs/core':
         specifier: ^0.2.11
         version: 0.2.15(@grpc/grpc-js@1.9.14)(react@18.3.1)(rxjs@7.8.2)
@@ -1393,8 +1393,8 @@ packages:
   '@lezer/lr@1.4.3':
     resolution: {integrity: sha512-yenN5SqAxAPv/qMnpWW0AT7l+SxVrgG+u0tNsRQWqbrz66HIl8DnEbBObvy21J5K7+I1v7gsAnlE2VQ5yYVSeA==}
 
-  '@lingshugroup/web-plus@2.5.2':
-    resolution: {integrity: sha512-JB4f5L8yg3aHmrrrL+H07TDTu+w7FsBgd02fIrWp5sLH8z5dMMoSocBeYJyvR62v1EkHUbyXdJi1F7CVrmabIA==}
+  '@lingshugroup/web-plus@2.6.2':
+    resolution: {integrity: sha512-rWBJFwkq9EPWCMPXWjQs5VPZ4IoAklLZCUujs4heOvDkkkwi9QRv0qdnFpDLcG62g7p2KCjV8hT0LMdwqnsK8A==}
 
   '@lokesh.dhakar/quantize@1.4.0':
     resolution: {integrity: sha512-+//cqVWKis//t0YH62EDtwaFSPG/CDtYNg4CZmzNmG2d5W17Iu3fuDAdpQXCDHUDrrU9q0veze4A7tPZXlR/mg==}
@@ -6398,6 +6398,7 @@ packages:
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
+    deprecated: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
     hasBin: true
 
   prelude-ls@1.2.1:
@@ -9369,7 +9370,7 @@ snapshots:
     dependencies:
       '@lezer/common': 1.3.0
 
-  '@lingshugroup/web-plus@2.5.2': {}
+  '@lingshugroup/web-plus@2.6.2': {}
 
   '@lokesh.dhakar/quantize@1.4.0': {}
 

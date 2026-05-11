@@ -17,6 +17,7 @@ export default {
       items: [
         { text: 'Form 表单', link: '/docs/form' },
         { text: 'Upload 上传', link: '/docs/upload' },
+        { text: 'SliceUpload 分片上传', link: '/docs/sliceUpload' },
       ],
     },
     {
