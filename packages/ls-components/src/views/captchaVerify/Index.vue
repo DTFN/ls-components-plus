@@ -70,7 +70,7 @@ function onVerify(payload: CaptchaSelectPayload) {
     loading.value = false
 
     if (Math.random() > 0.3) {
-      status.value = 'success'
+      status.value = 'error'
       setTimeout(() => {
         visible1.value = false
       }, 600)
@@ -79,7 +79,7 @@ function onVerify(payload: CaptchaSelectPayload) {
       status.value = 'error'
       // 1.5s 后自动恢复 idle，允许重新验证
       setTimeout(() => {
-        status.value = 'idle'
+        // status.value = 'idle'
       }, 1500)
     }
   }, 800)
@@ -92,7 +92,7 @@ function onVerify2(payload: CaptchaSelectPayload) {
     loading.value = false
 
     if (Math.random() > 0.3) {
-      status.value = 'success'
+      status.value = 'error'
       setTimeout(() => {
         visible2.value = false
       }, 600)
@@ -136,9 +136,11 @@ function getTraceSummary(trace: TracePoint[]) {
 
       <LSCaptchaVerify
         v-model="visible1"
+        title="测试验证"
         :target-percent="0.5"
         :scene-seed="sceneSeed"
         :serial-no="serialNo"
+        :status="status"
         @refresh="onRefresh"
         @select="onVerify"
       />

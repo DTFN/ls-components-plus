@@ -4,7 +4,7 @@ import type { UploadProps } from 'element-plus'
 import axios from 'axios'
 import { ElMessageBox } from 'element-plus'
 
-const action = ref('http://192.168.2.138:8778/api/v1/file/upload')
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 const headers = ref({
   Authorization: 'Bearer 536002a2-2084-4ad3-9167-8ffa0e6dde1d',
 })
