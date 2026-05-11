@@ -136,6 +136,7 @@ function getTraceSummary(trace: TracePoint[]) {
 
       <LSCaptchaVerify
         v-model="visible1"
+        title="测试验证"
         :target-percent="0.5"
         :scene-seed="sceneSeed"
         :serial-no="serialNo"

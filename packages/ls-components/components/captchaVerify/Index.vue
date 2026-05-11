@@ -42,6 +42,7 @@
  */
 
 import type { CaptchaSelectPayload, TracePoint } from './types'
+import LSDialog from '../dialog'
 import { lsCaptchaVerifyProps } from './types'
 
 defineOptions({
@@ -293,6 +294,7 @@ onBeforeUnmount(() => {
     width="420px"
     :has-footer="false"
     destroy-on-close
+    v-bind="$attrs"
   >
     <div class="captcha-wrap" :class="{ 'is-slider-dragging': dragging }">
       <div v-if="loading" class="captcha-loading-mask" aria-live="polite">

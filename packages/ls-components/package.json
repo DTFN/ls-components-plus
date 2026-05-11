@@ -48,6 +48,10 @@
       "import": "./lib/button/index.js",
       "require": "./lib/button/index.cjs"
     },
+    "./captchaVerify": {
+      "import": "./lib/captchaVerify/index.js",
+      "require": "./lib/captchaVerify/index.cjs"
+    },
     "./chart": {
       "import": "./lib/chart/index.js",
       "require": "./lib/chart/index.cjs"
@@ -60,6 +64,10 @@
       "import": "./lib/containerBox/index.js",
       "require": "./lib/containerBox/index.cjs"
     },
+    "./cropper": {
+      "import": "./lib/cropper/index.js",
+      "require": "./lib/cropper/index.cjs"
+    },
     "./descriptions": {
       "import": "./lib/descriptions/index.js",
       "require": "./lib/descriptions/index.cjs"
@@ -67,6 +75,10 @@
     "./dialog": {
       "import": "./lib/dialog/index.js",
       "require": "./lib/dialog/index.cjs"
+    },
+    "./downloadFile": {
+      "import": "./lib/downloadFile/index.js",
+      "require": "./lib/downloadFile/index.cjs"
     },
     "./editor": {
       "import": "./lib/editor/index.js",
@@ -100,10 +112,6 @@
       "import": "./lib/menu/index.js",
       "require": "./lib/menu/index.cjs"
     },
-    "./preview": {
-      "import": "./lib/preview/index.js",
-      "require": "./lib/preview/index.cjs"
-    },
     "./previewImage": {
       "import": "./lib/preview_image/index.js",
       "require": "./lib/preview_image/index.cjs"
@@ -124,25 +132,25 @@
       "import": "./lib/print/index.js",
       "require": "./lib/print/index.cjs"
     },
+    "./sliceUpload": {
+      "import": "./lib/sliceUpload/index.js",
+      "require": "./lib/sliceUpload/index.cjs"
+    },
     "./table": {
       "import": "./lib/table/index.js",
       "require": "./lib/table/index.cjs"
-    },
-    "./upload": {
-      "import": "./lib/upload/index.js",
-      "require": "./lib/upload/index.cjs"
-    },
-    "./tree": {
-      "import": "./lib/tree/index.js",
-      "require": "./lib/tree/index.cjs"
     },
     "./tooltip": {
       "import": "./lib/tooltip/index.js",
       "require": "./lib/tooltip/index.cjs"
     },
-    "./cropper": {
-      "import": "./lib/cropper/index.js",
-      "require": "./lib/cropper/index.cjs"
+    "./tree": {
+      "import": "./lib/tree/index.js",
+      "require": "./lib/tree/index.cjs"
+    },
+    "./upload": {
+      "import": "./lib/upload/index.js",
+      "require": "./lib/upload/index.cjs"
     },
     "./index.css": "./lib/index.css"
   },

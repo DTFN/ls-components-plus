@@ -63,6 +63,8 @@ export { default as LSPreviewXlsx } from '@cpo/preview_xlsx/Index.vue'
 
 export { default as LSPrint } from '@cpo/print/Index.vue'
 
+export { default as LSSlideUpload } from '@cpo/sliceUpload/Index.vue'
+
 export { default as LSTable } from '@cpo/table/Table.vue'
 
 export { default as LSTooltip } from '@cpo/tooltip/Index.vue'
