@@ -62,13 +62,16 @@ const emit = defineEmits<{
 const visible = defineModel<boolean>({ default: false })
 
 const PIECE_SIZE = 60
-const TOLERANCE = 0.06
+const MIN_OVERLAP_RATIO = 0.95
+const MAX_CENTER_DISTANCE = PIECE_SIZE * (1 - MIN_OVERLAP_RATIO)
 
+const sceneRef = ref<HTMLElement>()
 const sliderRef = ref<HTMLElement>()
 const thumbRef = ref<HTMLElement>()
 const dragging = ref(false)
 const dragX = ref(0)
 const maxDragX = ref(0)
+const sceneWidth = ref(0)
 const startTime = ref(0)
 const trace = ref<TracePoint[]>([])
 const localFail = ref(false)
@@ -148,6 +151,18 @@ function updateMaxDrag() {
   if (!el)
     return
   maxDragX.value = Math.max(0, el.clientWidth - 40)
+  sceneWidth.value = sceneRef.value?.clientWidth || el.clientWidth
+}
+
+function getPositionOverlapRatio() {
+  const width = sceneWidth.value || sliderRef.value?.clientWidth || 0
+
+  if (!width)
+    return 0
+
+  const centerDistance = Math.abs(dragPercent.value - clampedTarget.value) * width
+
+  return Math.max(0, (PIECE_SIZE - centerDistance) / PIECE_SIZE)
 }
 
 function detachWindowPointerListeners() {
@@ -218,9 +233,10 @@ function onPointerEnd(e: PointerEvent) {
     return
   dragging.value = false
 
-  const diff = Math.abs(dragPercent.value - clampedTarget.value)
+  const centerDistance = Math.abs(dragPercent.value - clampedTarget.value) * (sceneWidth.value || sliderRef.value?.clientWidth || 0)
+  const overlapRatio = getPositionOverlapRatio()
 
-  if (diff > TOLERANCE) {
+  if (overlapRatio < MIN_OVERLAP_RATIO || centerDistance > MAX_CENTER_DISTANCE) {
     localFail.value = true
     setTimeout(resetDrag, 300)
 
@@ -259,12 +275,16 @@ watch(visible, (open) => {
   if (open) {
     nextTick(() => {
       updateMaxDrag()
-      const el = sliderRef.value
+      const sliderEl = sliderRef.value
+      const sceneEl = sceneRef.value
 
-      if (el && typeof ResizeObserver !== 'undefined') {
+      if ((sliderEl || sceneEl) && typeof ResizeObserver !== 'undefined') {
         resizeObserver?.disconnect()
         resizeObserver = new ResizeObserver(() => updateMaxDrag())
-        resizeObserver.observe(el)
+        if (sliderEl)
+          resizeObserver.observe(sliderEl)
+        if (sceneEl)
+          resizeObserver.observe(sceneEl)
       }
     })
   }
@@ -301,7 +321,7 @@ onBeforeUnmount(() => {
         <span class="captcha-loading-dot" />
         <span>验证中…</span>
       </div>
-      <div class="captcha-scene" :class="`is-${status}`" :style="sceneStyle">
+      <div ref="sceneRef" class="captcha-scene" :class="`is-${status}`" :style="sceneStyle">
         <div class="captcha-hole" :style="holeStyle" />
         <div class="captcha-piece" :style="pieceStyle" />
         <div v-if="status !== 'idle'" class="captcha-overlay">

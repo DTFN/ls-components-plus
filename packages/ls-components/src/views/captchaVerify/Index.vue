@@ -70,7 +70,7 @@ function onVerify(payload: CaptchaSelectPayload) {
     loading.value = false
 
     if (Math.random() > 0.3) {
-      status.value = 'error'
+      status.value = 'success'
       setTimeout(() => {
         visible1.value = false
       }, 600)
