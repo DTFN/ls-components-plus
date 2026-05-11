@@ -128,6 +128,14 @@ export const MENU_LIST = [
     cpoPath: 'downloadFile/Index',
     key: '18',
   },
+  {
+    id: '23',
+    title: 'SliceUpload 分片上传',
+    name: 'SliceUpload',
+    path: '/sliceUpload',
+    cpoPath: 'sliceUpload/Index',
+    key: '23',
+  },
   // list切换报错测试
   {
     id: '19',

@@ -30,6 +30,7 @@ import LSPreviewImage from './preview_image/index'
 import LSPreviewPdf from './preview_pdf/index'
 import LSPreviewXlsx from './preview_xlsx/index'
 import LSPrint from './print/index'
+import LSSliceUpload from './sliceUpload/index'
 import LSTable from './table/index'
 import LSTooltip from './tooltip/index'
 import LSTree from './tree/index'
@@ -64,6 +65,7 @@ const components: Record<string, Plugin> = {
   LSPreviewPdf,
   LSPreviewXlsx,
   LSDownloadFile,
+  LSSliceUpload,
   LSTooltip,
   LSCropper,
   LSCaptchaVerify,
