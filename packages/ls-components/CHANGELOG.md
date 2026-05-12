@@ -1,3 +1,11 @@
+## [2.6.3](https://github.com/DTFN/ls-components-plus/compare/v2.6.2...v2.6.3) (2026-05-12)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 完善滑块验证 ([8bbc941](https://github.com/DTFN/ls-components-plus/commit/8bbc941c964213605c252e8c7d13285922c19fa7))
+* **ls-doc:** 🧩 文档更新 ([3bd32d9](https://github.com/DTFN/ls-components-plus/commit/3bd32d90bd76726c867551c99db57893c0f70a5c))
+
 ## [2.6.2](https://github.com/DTFN/ls-components-plus/compare/v2.6.1...v2.6.2) (2026-05-11)
 
 
