@@ -7,6 +7,24 @@ outline: deep
 ::: tip 滑块拼图验证码组件，用于登录、注册等场景的安全验证。
 :::
 
+## 基础演示
+
+<ClientOnly>
+  <LSButton type="primary" @click="openCaptchaDemo">
+    打开验证码
+  </LSButton>
+  <LSCaptchaVerify
+    v-model="captchaVisibleDemo"
+    :target-percent="captchaTargetPercentDemo"
+    :scene-seed="captchaSceneSeedDemo"
+    :serial-no="captchaSerialNoDemo"
+    :status="captchaStatusDemo"
+    :loading="captchaLoadingDemo"
+    @refresh="refreshCaptchaDemo"
+    @select="selectCaptchaDemo"
+  />
+</ClientOnly>
+
 ## 使用方式
 
 ```vue
@@ -191,28 +209,61 @@ function doLogin() {
 </template>
 ```
 
+## 服务端联调流程
+
+1. 打开验证码前，请求后端获取 `captchaId`、`sceneSeed`、`targetPercent`。
+2. 将 `sceneSeed` 和 `targetPercent` 传给组件，用于生成当前验证码画面。
+3. 用户拖动到允许误差范围后，组件触发 `select`，返回 `dragPercent`、`durationMs`、`trace`。
+4. 前端把 `captchaId` 和 `select` 返回数据提交给后端校验。
+5. 后端校验通过时将 `status` 设置为 `success`，失败时设置为 `error` 并重新加载验证码。
+
 ## API
 
 ### Attributes
 
 <ApiIntro :tableColumn="tableColumn" :tableData="tableData" />
 
+### 透传属性
+
+组件内部使用 `LSDialog` 作为弹窗容器，除下表中的自有属性外，`title`、`width`、`has-footer`、`destroy-on-close` 等 `LSDialog` 支持的属性也可以直接传入。
+
 ### Events
 
-<ApiIntro :tableColumn="eventColumn" :tableData="eventData" />
+### 事件说明
+
+| 事件名            | 触发时机                             | 说明                                                                            |
+| ----------------- | ------------------------------------ | ------------------------------------------------------------------------------- |
+| update:modelValue | 弹窗显示状态变化时触发               | `v-model` 对应事件，参数为最新的显示状态                                        |
+| refresh           | 点击右下角“换一张”按钮时触发         | 通常用于重新请求后端验证码数据，并更新 `serialNo`、`sceneSeed`、`targetPercent` |
+| select            | 用户拖动完成并命中缺口误差范围时触发 | 返回拖动结果，业务侧应在该事件中调用后端校验接口                                |
+
+::: tip
+`select` 只在前端命中内置误差范围后触发，最终是否验证通过仍建议以后端校验结果为准。后端校验成功时将 `status` 设置为 `success`，失败时设置为 `error` 并重新拉取验证码。
+:::
+
+### 透传事件
+
+`CaptchaVerify` 内部使用 `LSDialog`，未被组件声明消费的事件会继续透传给 `LSDialog`。如果业务需要监听弹窗生命周期，可以直接使用 `LSDialog` 支持的事件，例如关闭、打开完成等事件。
 
 ### Select Payload
 
-<ApiIntro :tableColumn="payloadColumn" :tableData="payloadData" />
+| 字段        | 类型         | 说明                                                       |
+| ----------- | ------------ | ---------------------------------------------------------- |
+| dragPercent | number       | 最终拖动位置百分比，范围为 0-1，组件内部会保留 4 位小数    |
+| durationMs  | number       | 本次拖动总耗时，单位为毫秒                                 |
+| trace       | TracePoint[] | 拖动轨迹采样点数组，用于后端做人机校验、行为分析或风控判断 |
 
 ### TracePoint
 
-<ApiIntro :tableColumn="traceColumn" :tableData="traceData" />
+| 字段 | 类型   | 说明                                     |
+| ---- | ------ | ---------------------------------------- |
+| x    | number | 当前采样点的拖动位置百分比，范围为 0-1   |
+| t    | number | 当前采样点距离拖动开始的时间，单位为毫秒 |
 
 ## 交互说明
 
 1. **拖动滑块**：按住滑块向右拖动，拼图块会跟随移动
-2. **精度要求**：拼图块需要与缺口位置相差不超过 6%（`TOLERANCE = 0.06`）
+2. **精度要求**：拼图块与缺口位置重合度需要达到 95% 以上；当前拼图块宽度为 60px，因此中心点偏差最多约 3px（`MIN_OVERLAP_RATIO = 0.95`）
 3. **轨迹记录**：组件会自动记录拖动过程中的坐标和时间戳
 4. **状态反馈**：
    - `idle` - 待验证状态
@@ -239,6 +290,35 @@ function doLogin() {
 <script setup>
 import { tableColumn, tableMethodColumn } from '../constant';
 import { ref } from 'vue';
+
+const captchaVisibleDemo = ref(false);
+const captchaSceneSeedDemo = ref(123);
+const captchaTargetPercentDemo = ref(0.5);
+const captchaSerialNoDemo = ref('CAPTCHA-001');
+const captchaStatusDemo = ref('idle');
+const captchaLoadingDemo = ref(false);
+
+function openCaptchaDemo() {
+  refreshCaptchaDemo();
+  captchaVisibleDemo.value = true;
+}
+
+function refreshCaptchaDemo() {
+  captchaStatusDemo.value = 'idle';
+  captchaSceneSeedDemo.value = Math.floor(Math.random() * 1000);
+  captchaTargetPercentDemo.value = Number((0.25 + Math.random() * 0.5).toFixed(2));
+  captchaSerialNoDemo.value = `CAPTCHA-${captchaSceneSeedDemo.value}`;
+}
+
+function selectCaptchaDemo(payload) {
+  captchaLoadingDemo.value = true;
+  console.log('CaptchaVerify select:', payload);
+
+  setTimeout(() => {
+    captchaStatusDemo.value = 'success';
+    captchaLoadingDemo.value = false;
+  }, 600);
+}
 
 const tableData = ref([
   {
@@ -293,13 +373,18 @@ const eventColumn = ref([
 
 const eventData = ref([
   {
+    name: 'update:modelValue',
+    desc: '弹窗显示状态变化时触发，对应 v-model',
+    params: 'visible: boolean'
+  },
+  {
     name: 'refresh',
-    desc: '点击"换一张"按钮时触发',
+    desc: '点击"换一张"按钮时触发，用于重新获取验证码数据',
     params: '-'
   },
   {
     name: 'select',
-    desc: '拖动完成并满足精度要求时触发',
+    desc: '拖动完成并满足精度要求时触发，业务侧可在此调用后端校验接口',
     params: '{ dragPercent, durationMs, trace }'
   }
 ]);

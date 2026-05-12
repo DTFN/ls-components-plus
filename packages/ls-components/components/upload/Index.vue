@@ -255,14 +255,20 @@ function updateFileAccept(files: Array<string>) {
   })
 }
 
-function validateForm(msg: string) {
-  const { formRuleFunc, formValidateFunc }: any = toRefs(props?.item)
+function getFormValidateHandlers() {
+  const { formRuleFunc, formValidateFunc } = props.item || {}
 
-  if (formRuleFunc.value && typeof formRuleFunc.value === 'function' && formValidateFunc && typeof formValidateFunc.value === 'function') {
-    const formRule = formRuleFunc.value()
+  return { formRuleFunc, formValidateFunc }
+}
+
+function validateForm(msg: string) {
+  const { formRuleFunc, formValidateFunc } = getFormValidateHandlers()
+
+  if (typeof formRuleFunc === 'function' && typeof formValidateFunc === 'function') {
+    const formRule = formRuleFunc()
     const { message } = formRule
     formRule.message = msg
-    formValidateFunc.value()
+    formValidateFunc()
     formRule.message = message
   }
   emits('uploadErrorFunc', msg)
@@ -493,10 +499,10 @@ function setChangeRes() {
 function onSuccessAction(response: any, file: UploadFile, fileList: UploadFiles) {
   uploading.value = false
   configs.initUploadStatus = false
-  const { formRuleFunc, formValidateFunc }: any = toRefs(props?.item)
+  const { formRuleFunc, formValidateFunc } = getFormValidateHandlers()
 
-  if (formRuleFunc.value && typeof formRuleFunc.value === 'function' && formValidateFunc.value && typeof formValidateFunc.value === 'function') {
-    formValidateFunc.value()
+  if (typeof formRuleFunc === 'function' && typeof formValidateFunc === 'function') {
+    formValidateFunc()
   }
 
   if (props.onSuccess) {
