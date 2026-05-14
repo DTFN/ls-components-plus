@@ -1,3 +1,15 @@
+## [2.6.4](https://github.com/DTFN/ls-components-plus/compare/v2.6.3...v2.6.4) (2026-05-14)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 total 变更后校正LSList分页边界 ([ed634f1](https://github.com/DTFN/ls-components-plus/commit/ed634f1c867228e03ae7fd44f666f3e6774bf368))
+* **ls-component:** 🧩 update ([becbe76](https://github.com/DTFN/ls-components-plus/commit/becbe76bcbf59b8dc2f18e3e93316439a49ecd3f))
+* **ls-component:** 🧩 代码兼容 ([656e360](https://github.com/DTFN/ls-components-plus/commit/656e3606e5209b4a4c95aa5407106784d8a77b52))
+* **ls-component:** 🧩 文档更新 ([78ae9fc](https://github.com/DTFN/ls-components-plus/commit/78ae9fcf6f8d0fdd3e85baa55a1346cc96007434))
+* **ls-doc:** 🧩 兼容build ([673d66e](https://github.com/DTFN/ls-components-plus/commit/673d66eb3045d90727715012c269508db15a3100))
+* **ls-doc:** 🧩 兼容服务器docs build编译 ([5dc6794](https://github.com/DTFN/ls-components-plus/commit/5dc679484cc43529b5ee567160b09ca8ae41694e))
+
 ## [2.6.3](https://github.com/DTFN/ls-components-plus/compare/v2.6.2...v2.6.3) (2026-05-12)
 
 
