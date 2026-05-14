@@ -60,17 +60,20 @@ export default function (
         }
         tableDataSource.value = newResData
         total.value = newTotal
+        syncPagerAfterTotalChange(false)
         sliceTableData()
       }
       else if (dealData && typeof dealData === 'function') {
         const { data, total: count = 0 } = dealData(resData)
         tableData.value = data || []
         total.value = Number(count || 0)
+        syncPagerAfterTotalChange(true)
       }
       else {
         const { records = [], total: count } = resData || {}
         tableData.value = records || []
         total.value = Number(count)
+        syncPagerAfterTotalChange(true)
       }
 
       if (callbackAfter) {
@@ -180,6 +183,29 @@ export default function (
     requestData().finally(() => {
       loading.value = false
     })
+  }
+
+  /**
+   * total 更新后：若当前页超出最大页则收回；服务端分页时需在 loading 可重入后补拉列表。
+   */
+  function syncPagerAfterTotalChange(refetch: boolean) {
+    if (!hasPanigation) {
+      return
+    }
+
+    const maxPage = total.value <= 0 ? 1 : Math.max(1, Math.ceil(total.value / pageSize.value))
+
+    if (currentPage.value <= maxPage) {
+      return
+    }
+
+    currentPage.value = maxPage
+
+    if (refetch) {
+      nextTick(() => {
+        loadData()
+      })
+    }
   }
 
   // 切换页数
