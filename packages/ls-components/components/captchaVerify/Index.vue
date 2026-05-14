@@ -368,7 +368,7 @@ onBeforeUnmount(() => {
           </svg>
           换一张
         </button>
-        <span class="captcha-serial-text">{{ serialNo }}</span>
+        <!-- <span class="captcha-serial-text">{{ serialNo }}</span> -->
       </div>
     </div>
   </LSDialog>
