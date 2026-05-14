@@ -13,7 +13,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite'
 import viteCompression from 'vite-plugin-compression'
-import eslintPlugin from 'vite-plugin-eslint'
+// import eslintPlugin from 'vite-plugin-eslint'
 import FilesLoader from 'vite-plugin-files-loader'
 import simpleHtmlPlugin from 'vite-plugin-simple-html'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
@@ -34,7 +34,7 @@ export function createVitePlugins(viteEnv: ViteEnv): (PluginOption | PluginOptio
     // vue 可以使用 jsx/tsx 语法
     vueJsx(),
     // esLint 报错信息显示在浏览器界面上
-    eslintPlugin(),
+    // eslintPlugin(),
     // name 可以写在 script 标签上
     vueSetupExtend({}),
     // 创建打包压缩配置
