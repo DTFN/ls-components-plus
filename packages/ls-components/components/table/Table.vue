@@ -327,6 +327,33 @@ function handleSelectAll(selection: any[]) {
   selectionData.value = selection || []
 }
 
+/** 将 `showOverflowTooltip` 规范为 Element Plus 对象配置；`false` 时不改写（返回 undefined） */
+function resolveShowOverflowTooltipConfig(showOverflowTooltip: any) {
+  if (typeof showOverflowTooltip === 'boolean') {
+    if (showOverflowTooltip === true) {
+      return {
+        popperClass: 'table-popper-css',
+      }
+    }
+
+    return undefined
+  }
+
+  if (typeof showOverflowTooltip === 'object') {
+    const tooltip: any = showOverflowTooltip || {}
+    const popperClass = `table-popper-css ${(tooltip && tooltip?.popperClass) || ''}`
+
+    return {
+      ...tooltip,
+      popperClass,
+    }
+  }
+
+  return {
+    popperClass: 'table-popper-css',
+  }
+}
+
 // 表格属性
 const attrsProps = computed(() => {
   const attrsProps = objectKeysToCamel(attrs)
@@ -357,29 +384,9 @@ const attrsProps = computed(() => {
   const showOverflowTooltip = get(attrsProps, 'showOverflowTooltip')
 
   if (attrs && !isEmpty(showOverflowTooltip)) {
-    // 布尔值true时使用默认配置
-    if (typeof showOverflowTooltip === 'boolean') {
-      if (showOverflowTooltip === true) {
-        newAttrs.showOverflowTooltip = {
-          popperClass: 'table-popper-css',
-        }
-      }
-    }
-    // 对象配置时合并配置
-    else if (typeof showOverflowTooltip === 'object') {
-      const tooltip: any = showOverflowTooltip || {}
-      const popperClass = `table-popper-css ${(tooltip && tooltip?.popperClass) || ''}`
-      newAttrs.showOverflowTooltip = {
-        ...tooltip,
-        popperClass,
-      }
-    }
-    // 其他情况使用默认配置
-    else {
-      newAttrs.showOverflowTooltip = {
-        popperClass: 'table-popper-css',
-      }
-    }
+    const resolved = resolveShowOverflowTooltipConfig(showOverflowTooltip)
+    if (resolved !== undefined)
+      newAttrs.showOverflowTooltip = resolved
   }
   // 未配置时使用默认配置
   else {
@@ -390,6 +397,28 @@ const attrsProps = computed(() => {
 
   return newAttrs
 })
+
+// 获取列属性
+function getItemAttrs(item: any) {
+  const newItemAttrs = { ...item }
+
+  // 获取溢出提示配置
+  const showOverflowTooltip_a = get(item, 'showOverflowTooltip')
+  const showOverflowTooltip_b = get(item, 'show-overflow-tooltip')
+  const showOverflowTooltip = isEmpty(showOverflowTooltip_a) ? showOverflowTooltip_b : showOverflowTooltip_a
+
+  if (!isEmpty(showOverflowTooltip)) {
+    const resolved = resolveShowOverflowTooltipConfig(showOverflowTooltip)
+    if (resolved !== undefined)
+      newItemAttrs.showOverflowTooltip = resolved
+  }
+
+  if (!isEmpty(showOverflowTooltip_b)) {
+    delete newItemAttrs['show-overflow-tooltip']
+  }
+
+  return newItemAttrs
+}
 
 // 获取状态type
 function getStatusType(value: any, row: any, prop: any) {
@@ -502,7 +531,7 @@ defineExpose({
           />
 
           <template v-for="item in tableColumn" :key="item.prop">
-            <el-table-column v-bind="item">
+            <el-table-column v-bind="getItemAttrs(item)">
               <template #default="{ row, column, $index }">
                 <!-- 默认渲染模板 -->
                 <!-- 日期 -->
