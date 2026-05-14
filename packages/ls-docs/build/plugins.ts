@@ -1,32 +1,33 @@
-import { resolve } from 'path';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite'
+import type { ViteEnv } from '../typings/global'
+import { resolve } from 'node:path'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 // import { VitePWA } from "vite-plugin-pwa";
-import { visualizer } from 'rollup-plugin-visualizer';
-import simpleHtmlPlugin from 'vite-plugin-simple-html';
-import vueJsx from '@vitejs/plugin-vue-jsx';
-import eslintPlugin from 'vite-plugin-eslint';
-import viteCompression from 'vite-plugin-compression';
-import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite';
-import Components from 'unplugin-vue-components/vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-import AutoImport from 'unplugin-auto-import/vite';
-import { ViteEnv } from '../typings/global';
-import FilesLoader from 'vite-plugin-files-loader';
-import svgLoader from 'vite-svg-loader';
+import { visualizer } from 'rollup-plugin-visualizer'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import vueSetupExtend from 'unplugin-vue-setup-extend-plus/vite'
+import viteCompression from 'vite-plugin-compression'
+// import eslintPlugin from 'vite-plugin-eslint'
+import FilesLoader from 'vite-plugin-files-loader'
+import simpleHtmlPlugin from 'vite-plugin-simple-html'
+import svgLoader from 'vite-svg-loader'
 
-const pathSrc = resolve(__dirname, '../typings');
+const pathSrc = resolve(__dirname, '../typings')
 
 /**
  * 创建 vite 插件
  * @param viteEnv
  */
-export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOption[])[] => {
-  const { VITE_GLOB_APP_TITLE, VITE_REPORT } = viteEnv;
+export function createVitePlugins(viteEnv: ViteEnv): (PluginOption | PluginOption[])[] {
+  const { VITE_GLOB_APP_TITLE, VITE_REPORT } = viteEnv
+
   return [
     // vue 可以使用 jsx/tsx 语法
     vueJsx(),
     // esLint 报错信息显示在浏览器界面上
-    eslintPlugin(),
+    // eslintPlugin(),
     // name 可以写在 script 标签上
     vueSetupExtend({}),
     // 创建打包压缩配置
@@ -35,8 +36,8 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
     simpleHtmlPlugin({
       minify: true,
       inject: {
-        data: { title: VITE_GLOB_APP_TITLE }
-      }
+        data: { title: VITE_GLOB_APP_TITLE },
+      },
     }),
     // vitePWA
     // VITE_PWA && createVitePwa(viteEnv),
@@ -47,47 +48,50 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
         // 需要自动导入的插件，自定义导入的API
         'vue',
         'vue-router',
-        'pinia'
+        'pinia',
       ],
       ignore: ['h'],
       resolvers: [ElementPlusResolver()],
-      dts: resolve(pathSrc, 'auto-imports.d.ts')
+      dts: resolve(pathSrc, 'auto-imports.d.ts'),
     }),
     Components({
       resolvers: [ElementPlusResolver()],
       dirs: ['src/components'],
-      dts: resolve(pathSrc, 'components.d.ts')
+      dts: resolve(pathSrc, 'components.d.ts'),
     }),
     FilesLoader(),
-    svgLoader()
-  ];
-};
+    svgLoader(),
+  ]
+}
 
 /**
  * @description 根据 compress 配置，生成不同的压缩规则
  * @param viteEnv
  */
-const createCompression = (viteEnv: ViteEnv): PluginOption | PluginOption[] => {
-  const { VITE_BUILD_COMPRESS = 'none', VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv;
-  const compressList = VITE_BUILD_COMPRESS.split(',');
-  const plugins: PluginOption[] = [];
+function createCompression(viteEnv: ViteEnv): PluginOption | PluginOption[] {
+  const { VITE_BUILD_COMPRESS = 'none', VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv
+  const compressList = VITE_BUILD_COMPRESS.split(',')
+  const plugins: PluginOption[] = []
+
   if (compressList.includes('gzip')) {
     plugins.push(
       viteCompression({
         ext: '.gz',
         algorithm: 'gzip',
-        deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
-      })
-    );
+        deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE,
+      }),
+    )
   }
+
   if (compressList.includes('brotli')) {
     plugins.push(
       viteCompression({
         ext: '.br',
         algorithm: 'brotliCompress',
-        deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
-      })
-    );
+        deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE,
+      }),
+    )
   }
-  return plugins;
-};
+
+  return plugins
+}
