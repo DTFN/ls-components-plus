@@ -125,22 +125,26 @@ function setGrid(templatePatch: ChartTemplatePatchType) {
 function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axisType: string) {
   const { axisData, seriesData } = data as ChartMapDataType
   const { axis = 'x', theme, lineBar, dynamicAxis, type } = templatePatch
+  const baseAxisOption = {
+    axisTick: {
+      show: false,
+    },
+    axisLine: {
+      show: true,
+      lineStyle: {
+        width: 1,
+        color: FONT_COLOR_MAP[theme || DEF_THEME],
+      },
+    },
+    axisLabel: {
+      margin: 18,
+      color: FONT_COLOR_MAP[theme || DEF_THEME],
+    },
+  }
   let params: any = [
     {
       type: axis === axisType ? 'category' : 'value',
-      axisTick: {
-        show: false,
-      },
-      axisLine: {
-        show: axis === axisType,
-        lineStyle: {
-          width: 1,
-          color: FONT_COLOR_MAP[theme || DEF_THEME],
-        },
-      },
-      axisLabel: {
-        margin: 18,
-      },
+      ...baseAxisOption,
       splitLine: {
         lineStyle: {
           type: 'dashed',
@@ -158,6 +162,7 @@ function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
           ? [
               {
                 type: 'value',
+                ...baseAxisOption,
                 splitLine: {
                   show: false,
                   lineStyle: {
@@ -167,6 +172,7 @@ function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
               },
               {
                 type: 'value',
+                ...baseAxisOption,
                 splitLine: {
                   lineStyle: {
                     color: SPLIT_LINE_COLOR[theme || DEF_THEME],
@@ -180,6 +186,7 @@ function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
           : [
               {
                 type: 'value',
+                ...baseAxisOption,
               },
             ]
     }
