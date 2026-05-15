@@ -54,7 +54,7 @@ const SERIES_LABEL_MAP: seriesLabelType = {
   },
 }
 
-const DEF_THEME: string = ''
+const DEF_THEME: string = 'default'
 const FONT_COLOR_MAP: any = {}
 const SPLIT_LINE_COLOR: any = {}
 const BG_COLOR_MAP: any = {}
@@ -64,8 +64,8 @@ const BG_BAR_COLOR_MAP: any = {}
 const TOOLTIP_COLOR_MAP: any = {}
 
 function setThemeColor() {
-  Object.keys(THEME_MAP).forEach((key, i) => {
-    i === 0 && (FONT_COLOR_MAP[key] = THEME_MAP[key].fontColor)
+  Object.keys(THEME_MAP).forEach((key) => {
+    FONT_COLOR_MAP[key] = THEME_MAP[key].fontColor
     SPLIT_LINE_COLOR[key] = THEME_MAP[key].splitLineColor
     BG_COLOR_MAP[key] = THEME_MAP[key].bgColor
     BAR_COLOR_MAP[key] = THEME_MAP[key].barColor

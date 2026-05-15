@@ -139,7 +139,7 @@ function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
       show: false,
     },
     axisLine: {
-      show: axis === axisType,
+      show: true,
       lineStyle: {
         width: 1,
         color: FONT_COLOR_MAP[theme || DEF_THEME],
@@ -147,6 +147,7 @@ function setAxis(data: ChartDataType, templatePatch: ChartTemplatePatchType, axi
     },
     axisLabel: {
       margin: 18,
+      color: FONT_COLOR_MAP[theme || DEF_THEME],
     },
     splitLine: {
       lineStyle: {
