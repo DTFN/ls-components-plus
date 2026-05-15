@@ -1,3 +1,10 @@
+## [2.6.5](https://github.com/DTFN/ls-components-plus/compare/v2.6.4...v2.6.5) (2026-05-15)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 chart组件坐标轴不显示修复 ([9c28ffc](https://github.com/DTFN/ls-components-plus/commit/9c28ffc8505f345b693394c9f4a0eeb0e5650023))
+
 ## [2.6.4](https://github.com/DTFN/ls-components-plus/compare/v2.6.3...v2.6.4) (2026-05-14)
 
 
