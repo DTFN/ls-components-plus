@@ -6,7 +6,9 @@
 import { buildProps, definePropType } from '@cpo/_utils/runtime'
 
 export type LSCropperGraphicsType = 'square' | 'circular'
+
 export type LSCropperOutputType = 'jpeg' | 'png' | 'webp'
+
 export type LSCropperPreviewFit = 'contain' | 'cover'
 
 export interface LSCropperCropData {

@@ -1,9 +1,9 @@
 <script setup lang="ts" name="LSCropper">
+import type { LSCropperCropData } from './types'
+import { useNamespace } from '@cpo/_hooks/useNamespace'
 import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
 import { VueCropper } from 'vue-cropper'
-import { useNamespace } from '@cpo/_hooks/useNamespace'
 import { lsEmits, lsProps } from './types'
-import type { LSCropperCropData } from './types'
 import 'vue-cropper/dist/index.css'
 
 /**
@@ -322,13 +322,12 @@ defineExpose({
   min-height: var(--ls-cropper-height);
   overflow: hidden;
   background:
-    linear-gradient(45deg, rgba(148, 163, 184, 0.1) 25%, transparent 25%) 0 0 / 20px 20px,
-    linear-gradient(-45deg, rgba(148, 163, 184, 0.1) 25%, transparent 25%) 0 10px / 20px 20px,
+    linear-gradient(45deg, rgb(148 163 184 / 10%) 25%, transparent 25%) 0 0 / 20px 20px,
+    linear-gradient(-45deg, rgb(148 163 184 / 10%) 25%, transparent 25%) 0 10px / 20px 20px,
     #101827;
   border: 1px solid #d7dde8;
   border-radius: 8px;
 }
-
 .ls-cropper-preview {
   width: 100%;
   padding: 12px;
@@ -337,7 +336,6 @@ defineExpose({
   border: 1px solid #e1e7ef;
   border-radius: 8px;
 }
-
 .ls-cropper-preview__header {
   display: flex;
   gap: 12px;
@@ -345,13 +343,11 @@ defineExpose({
   justify-content: space-between;
   margin-bottom: 10px;
 }
-
 .ls-cropper-preview__title {
   font-size: 13px;
   font-weight: 600;
   color: #243247;
 }
-
 .ls-cropper-preview__state {
   padding: 2px 8px;
   font-size: 12px;
@@ -360,26 +356,23 @@ defineExpose({
   background: #dff7f2;
   border-radius: 999px;
 }
-
 .ls-cropper-preview__body {
   display: grid;
   place-items: center;
   height: var(--ls-cropper-preview-height);
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(36, 50, 71, 0.05) 1px, transparent 1px) 0 0 / 16px 16px,
-    linear-gradient(0deg, rgba(36, 50, 71, 0.05) 1px, transparent 1px) 0 0 / 16px 16px,
-    #fff;
+    linear-gradient(90deg, rgb(36 50 71 / 5%) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(0deg, rgb(36 50 71 / 5%) 1px, transparent 1px) 0 0 / 16px 16px,
+    #ffffff;
   border: 1px dashed #ccd6e3;
   border-radius: 6px;
 }
-
 .ls-cropper-preview__body img {
   width: 100%;
   height: 100%;
   object-fit: var(--ls-cropper-preview-fit);
 }
-
 .ls-cropper-preview__empty {
   max-width: 220px;
   padding: 0 12px;
@@ -388,18 +381,15 @@ defineExpose({
   color: #7a8798;
   text-align: center;
 }
-
 .ls-cropper-preview--circular .ls-cropper-preview__body img {
   width: min(100%, var(--ls-cropper-preview-height));
   border-radius: 50%;
 }
-
 .circular {
   :deep(.cropper-view-box) {
     border-radius: 50%; // 将裁剪框由方形调整为圆形
-    outline-color: rgba(20, 184, 166, 0.88);
+    outline-color: rgb(20 184 166 / 88%);
   }
-
   :deep(.cropper-face) {
     background-color: transparent; // 清除裁剪框填充背景色
   }
