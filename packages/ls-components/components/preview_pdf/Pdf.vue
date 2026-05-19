@@ -11,9 +11,11 @@ const props = withDefaults(
     onClose: () => void
     showSize?: boolean
     cMapUrlPath: string
+    pageMode?: boolean
   }>(),
   {
     showSize: true,
+    pageMode: false,
   },
 )
 const emits = defineEmits<{
@@ -56,6 +58,12 @@ const downloadTxt = computed(() => {
 
 const downloadLoading = computed(() => {
   return attrs['download-loading'] || attrs.downloadLoading || false
+})
+
+const wrapperHeight = computed(() => {
+  const val = attrs['wrapper-height'] || attrs.wrapperHeight
+
+  return val ? String(val) : 'calc(100vh - 48px)'
 })
 
 watch(
@@ -169,8 +177,8 @@ function onDownload() {
 </script>
 
 <template>
-  <div v-if="isComplete" :class="comClass">
-    <div class="opt-wrap">
+  <div v-if="isComplete" :class="[comClass, { 'page-mode': props.pageMode }]">
+    <div class="opt-wrap" :class="{ 'page-mode': props.pageMode }">
       <div v-if="showPagination" class="page-wrap">
         <LSButton type="primary" size="small" :disabled="curPage === 1" @click="prevPdf">
           上一页
@@ -193,7 +201,7 @@ function onDownload() {
         }}
       </LSButton>
 
-      <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+      <span v-if="!props.pageMode" :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
         <LSIcon name="Close" :size="26" />
       </span>
     </div>
@@ -204,11 +212,14 @@ function onDownload() {
         :pdf="pdfObj"
         :page="curPage"
         :scale="scale"
+        :style="{
+          height: wrapperHeight || '70vh',
+        }"
         @load-complete="loadComplete"
         @load-error="loadError"
       />
       <div v-else class="infinite-list-wrapper" style="overflow: auto">
-        <el-scrollbar height="calc(100vh - 48px)">
+        <el-scrollbar :height="wrapperHeight">
           <ul v-infinite-scroll="load" :infinite-scroll-disabled="noMore" class="infinite-list">
             <li v-for="page in count" :key="page" class="infinite-list-item">
               <PdfItem
@@ -249,6 +260,7 @@ function onDownload() {
       position: absolute !important;
       left: 50%;
       padding-bottom: 6px;
+      overflow: auto;
       transform: translateX(-50%);
     }
   }
@@ -306,6 +318,33 @@ function onDownload() {
     .el-button {
       :deep(> span) {
         line-height: inherit;
+      }
+    }
+    &.page-mode {
+      position: fixed;
+      inset: auto 36px 36px auto;
+      z-index: 100;
+      gap: 8px;
+      justify-content: center;
+      width: auto;
+      height: 20px;
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0 0 0 / 15%);
+      .page-wrap,
+      .size-wrap {
+        margin-right: 0;
+      }
+    }
+  }
+  &.page-mode {
+    min-height: 100vh;
+    .pdf-content {
+      margin-top: 0;
+      .infinite-list-wrapper,
+      .el-scrollbar,
+      > div {
+        height: auto;
       }
     }
   }

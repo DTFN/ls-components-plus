@@ -4,7 +4,7 @@ outline: deep
 
 # PreviewPdf PDF预览
 
-::: warning 基于pdfjs-dist二次封装，用于预览.pdf格式文档。
+:::: warning 基于pdfjs-dist二次封装，用于预览.pdf格式文档。
 
 v1.0.34之后使用新的预览组件（LSPreviewPdf)不在需要特殊配置且不需要传type参数。
 <Br />
@@ -13,12 +13,12 @@ v1.0.34以前版本请参考以下使用方式
 optimizeDeps: {
 exclude: ['pdfjs-dist', 'luckyexcel']
 }，build中添加external: ['pdfjs-dist', 'luckyexcel']，不需要哪个依赖排除哪个即可
-:::
+::::
 
-::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.8.69。
+:::: tip 需安装依赖 [pdfjs-dist](https://www.npmjs.com/package/pdfjs-dist) 版本为4.8.69。
 
 [字体下载](/cmaps.zip)，下载完成后解压到public文件夹下
-:::
+::::
 
 ## 使用方式
 
@@ -30,7 +30,7 @@ exclude: ['pdfjs-dist', 'luckyexcel']
 <LSButton @click="previewVisible1 = true">点击预览PDF文档</LSButton>
 </ClientOnly>
 
-::: details 点我查看代码
+:::: details 点我查看代码
 
 ```js
 import { ref } from 'vue'
@@ -51,7 +51,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 
 ```
 
-:::
+::::
 
 ### 2. 带水印的PDF预览
 
@@ -61,7 +61,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 <LSButton @click="previewVisible2 = true">点击预览带水印PDF文档</LSButton>
 </ClientOnly>
 
-::: details 点我查看代码
+:::: details 点我查看代码
 
 ```js
 import { ref } from 'vue'
@@ -89,7 +89,7 @@ const watermarkOption = ref({
 
 ```
 
-:::
+::::
 
 ### 3. 带下载功能的PDF预览
 
@@ -99,7 +99,7 @@ const watermarkOption = ref({
 <LSButton @click="previewVisible3 = true">点击预览带下载功能PDF文档</LSButton>
 </ClientOnly>
 
-::: details 点我查看代码
+:::: details 点我查看代码
 
 ```js
 import { ref } from 'vue'
@@ -127,7 +127,7 @@ function handlePdfDownload(data) {
 
 ```
 
-:::
+::::
 
 ### 4. 初始加载全部页面
 
@@ -137,7 +137,7 @@ function handlePdfDownload(data) {
 <LSButton @click="previewVisible4 = true">初始加载全部页面</LSButton>
 </ClientOnly>
 
-::: details 点我查看代码
+:::: details 点我查看代码
 
 ```js
 import { ref } from 'vue'
@@ -159,7 +159,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 
 ```
 
-:::
+::::
 
 ### 5. 自定义控制栏
 
@@ -176,7 +176,7 @@ const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
 <LSButton @click="previewVisible5 = true">点击预览自定义控制栏PDF文档</LSButton>
 </ClientOnly>
 
-::: details 点我查看代码
+:::: details 点我查看代码
 
 ```js
 import { ref } from 'vue'
@@ -220,7 +220,51 @@ function handlePdfDownload(data) {
 
 ```
 
-:::
+::::
+
+### 6. 页面展示模式
+
+页面模式下不展示弹窗遮罩，工具栏悬浮在右下角，关闭按钮隐藏，适合直接嵌入页面使用。
+
+<br />
+<ClientOnly>
+<div v-if="previewVisible6">
+  <LSPreviewPdf
+    :source="pdfSource1"
+    :cMapUrlPath="cMapUrlPath"
+    :page-mode="true"
+    :init-no-pagination="true"
+    :show-watermark="true"
+    :watermark-option="{ content: '示例水印' }"
+    :wrapper-height="'calc(100vh - 120px)'"
+  />
+</div>
+<LSButton @click="previewVisible6 = !previewVisible6">{{ previewVisible6 ? '关闭' : '打开' }}页面模式PDF</LSButton>
+</ClientOnly>
+
+:::: details 点我查看代码
+
+```js
+import { ref } from 'vue'
+
+const previewVisible6 = ref(false)
+const pdfSource1 = ref('/files/食物辑要.八卷.明.穆世锡撰.明万历四十二年娄东穆氏原刊本.黑白版.pdf')
+const cMapUrlPath = ref('https://unpkg.com/pdfjs-dist@3.4.120/cmaps/')
+```
+
+```html
+<LSPreviewPdf
+  :source="pdfSource1"
+  :cMapUrlPath="cMapUrlPath"
+  :page-mode="true"
+  :init-no-pagination="true"
+  :show-watermark="true"
+  :watermark-option="{ content: '示例水印' }"
+  :wrapper-height="'calc(100vh - 120px)'"
+/>
+```
+
+::::
 
 ## API
 
@@ -267,6 +311,9 @@ const previewVisible4 = ref(false);
 
 // 示例5
 const previewVisible5 = ref(false);
+
+// 示例6
+const previewVisible6 = ref(false);
 
 function handlePdfDownload(data) {
   alert('下载PDF文档:', data);
@@ -351,6 +398,18 @@ const tableData = ref([
     desc: '是否显示缩放控制',
     type: 'boolean',
     value: 'true'
+  },
+  {
+    name: 'pageMode',
+    desc: '是否以页面模式展示，为 true 时不以弹窗形式展示，隐藏关闭按钮并调整顶部操作栏布局',
+    type: 'boolean',
+    value: 'false'
+  },
+  {
+    name: 'wrapperHeight',
+    desc: '滚动容器高度，透传给 el-scrollbar',
+    type: 'number / string',
+    value: 'calc(100vh - 48px)'
   }
 ]);
 
@@ -418,7 +477,7 @@ const slotTableData = ref([
 }
 
 /* 优化预览界面显示效果 */
-:deep(.ls-preview) {
+::deep(.ls-preview) {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
@@ -432,19 +491,19 @@ const slotTableData = ref([
   justify-content: center !important;
 }
 
-:deep(.ls-preview .ls-xlsx) {
+::deep(.ls-preview .ls-xlsx) {
   position: relative !important;
   height: 96% !important;
   width: 96% !important;
 }
 
-:deep(.ls-preview .ls-docx) {
+::deep(.ls-preview .ls-docx) {
   position: relative !important;
   height: 96% !important;
   width: 96% !important;
 }
 
-:deep(.ls-preview .ls-pdf) {
+::deep(.ls-preview .ls-pdf) {
   position: relative !important;
   height: 96% !important;
   width: 96% !important;
