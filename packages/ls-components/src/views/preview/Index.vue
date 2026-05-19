@@ -15,6 +15,8 @@ const showViewerImage = ref(false)
 const showViewerDocx = ref(false)
 const showViewerPdf = ref(false)
 const showViewerXlsx = ref(false)
+const showPageModePdf = ref(false)
+const pageModeSource = ref('')
 const downloadData = ref({})
 
 function closeViewer() {
@@ -97,6 +99,11 @@ function openViewer(val: string) {
 
 const downloadLoading = ref(false)
 
+function openPageModePdf() {
+  pageModeSource.value = pdf
+  showPageModePdf.value = true
+}
+
 function download(data: any) {
   downloadLoading.value = true
   console.log(data)
@@ -130,6 +137,10 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
 
       <LSButton type="primary" @click="openViewer('pdf')">
         PDF预览
+      </LSButton>
+
+      <LSButton type="primary" @click="openPageModePdf">
+        PDF页面模式
       </LSButton>
     </div>
     <LSPreviewImage
@@ -204,6 +215,23 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
         </div>
       </template>
     </LSPreviewPdf>
+
+    <LSPreviewPdf
+      v-if="showPageModePdf"
+      :source="pageModeSource"
+      c-map-url-path="/cmaps/"
+      :page-mode="true"
+      :init-no-pagination="true"
+      :show-watermark="true"
+      :watermark-option="{
+        content: ['Element+', 'Element Plus'],
+      }"
+      :has-download="false"
+      download-txt="下载文件"
+      :download-loading="downloadLoading"
+      :download-data="downloadData"
+      @on-download="download"
+    />
 
     <LSPreviewXlsx
       v-model="showViewerXlsx"

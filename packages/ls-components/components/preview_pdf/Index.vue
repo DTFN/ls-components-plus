@@ -45,6 +45,14 @@ import { merge } from 'lodash-es'
  *   :hasDownload="true"
  *   :downloadData="{ fileName: '示例文档.pdf' }"
  * />
+ *
+ * @example
+ * <!-- 页面展示模式（非弹窗） -->
+ * <LSPreviewPdf
+ *   :source="pdfUrl"
+ *   :cMapUrlPath="cMapUrlPath"
+ *   :page-mode="true"
+ * />
  */
 import LSPdf from './Pdf.vue'
 
@@ -81,6 +89,9 @@ function loadError() {
 }
 
 function closePreview(e: any) {
+  if (props.pageMode)
+    return
+
   if (props.hideOnClickModal) {
     if (e.target === e.currentTarget) {
       previewVisible.value = false
@@ -94,13 +105,14 @@ function onDownload(data: any) {
 </script>
 
 <template>
-  <div v-if="previewVisible" :class="comClass" @click="closePreview">
+  <div v-if="previewVisible !== false || props.pageMode" :class="props.pageMode ? '' : comClass" @click="closePreview">
     <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
-      <LSPdf v-bind="merge(defAttrs, $attrs)" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
+      <LSPdf v-bind="merge(defAttrs, $attrs)" :page-mode="props.pageMode" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
     </el-watermark>
     <LSPdf
       v-else
       v-bind="merge(defAttrs, $attrs)"
+      :page-mode="props.pageMode"
       @load-complete="loadComplete"
       @load-error="loadError"
       @on-download="onDownload"

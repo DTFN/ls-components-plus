@@ -11,9 +11,11 @@ const props = withDefaults(
     onClose: () => void
     showSize?: boolean
     cMapUrlPath: string
+    pageMode?: boolean
   }>(),
   {
     showSize: true,
+    pageMode: false,
   },
 )
 const emits = defineEmits<{
@@ -169,8 +171,8 @@ function onDownload() {
 </script>
 
 <template>
-  <div v-if="isComplete" :class="comClass">
-    <div class="opt-wrap">
+  <div v-if="isComplete" :class="[comClass, { 'page-mode': props.pageMode }]">
+    <div class="opt-wrap" :class="{ 'page-mode': props.pageMode }">
       <div v-if="showPagination" class="page-wrap">
         <LSButton type="primary" size="small" :disabled="curPage === 1" @click="prevPdf">
           上一页
@@ -193,7 +195,7 @@ function onDownload() {
         }}
       </LSButton>
 
-      <span :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
+      <span v-if="!props.pageMode" :class="[ns.e('btn'), ns.e('close')]" @click="closeFunc">
         <LSIcon name="Close" :size="26" />
       </span>
     </div>
@@ -307,6 +309,28 @@ function onDownload() {
       :deep(> span) {
         line-height: inherit;
       }
+    }
+    &.page-mode {
+      position: fixed;
+      inset: auto 24px 24px auto;
+      z-index: 100;
+      gap: 8px;
+      justify-content: center;
+      width: auto;
+      height: 20px;
+      padding: 8px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0 0 0 / 15%);
+      .page-wrap,
+      .size-wrap {
+        margin-right: 0;
+      }
+    }
+  }
+  &.page-mode {
+    min-height: 100vh;
+    .pdf-content {
+      margin-top: 0;
     }
   }
   .infinite-list-wrapper {

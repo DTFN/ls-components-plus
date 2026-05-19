@@ -85,6 +85,11 @@ export const lsPreviewProp = buildProps({
       return {}
     },
   },
+  /** 是否以页面模式展示；为 true 时不以弹窗形式展示，隐藏关闭按钮并调整顶部操作栏布局 */
+  pageMode: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 /**
