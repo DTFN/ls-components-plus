@@ -60,6 +60,12 @@ const downloadLoading = computed(() => {
   return attrs['download-loading'] || attrs.downloadLoading || false
 })
 
+const wrapperHeight = computed(() => {
+  const val = attrs['wrapper-height'] || attrs.wrapperHeight
+
+  return val ? String(val) : 'calc(100vh - 48px)'
+})
+
 watch(
   initNoPage,
   (val) => {
@@ -206,11 +212,14 @@ function onDownload() {
         :pdf="pdfObj"
         :page="curPage"
         :scale="scale"
+        :style="{
+          height: wrapperHeight || '70vh',
+        }"
         @load-complete="loadComplete"
         @load-error="loadError"
       />
       <div v-else class="infinite-list-wrapper" style="overflow: auto">
-        <el-scrollbar height="calc(100vh - 48px)">
+        <el-scrollbar :height="wrapperHeight">
           <ul v-infinite-scroll="load" :infinite-scroll-disabled="noMore" class="infinite-list">
             <li v-for="page in count" :key="page" class="infinite-list-item">
               <PdfItem
@@ -251,6 +260,7 @@ function onDownload() {
       position: absolute !important;
       left: 50%;
       padding-bottom: 6px;
+      overflow: auto;
       transform: translateX(-50%);
     }
   }
@@ -312,7 +322,7 @@ function onDownload() {
     }
     &.page-mode {
       position: fixed;
-      inset: auto 24px 24px auto;
+      inset: auto 36px 36px auto;
       z-index: 100;
       gap: 8px;
       justify-content: center;
@@ -331,6 +341,11 @@ function onDownload() {
     min-height: 100vh;
     .pdf-content {
       margin-top: 0;
+      .infinite-list-wrapper,
+      .el-scrollbar,
+      > div {
+        height: auto;
+      }
     }
   }
   .infinite-list-wrapper {

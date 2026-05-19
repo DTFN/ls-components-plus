@@ -90,6 +90,11 @@ export const lsPreviewProp = buildProps({
     type: Boolean,
     default: false,
   },
+  /** 滚动容器高度，透传给 `el-scrollbar`；默认 `calc(100vh - 48px)` */
+  wrapperHeight: {
+    type: [Number, String],
+    default: 'calc(100vh - 48px)',
+  },
 })
 
 /**

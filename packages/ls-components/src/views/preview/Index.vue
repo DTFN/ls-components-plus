@@ -226,6 +226,10 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
       :watermark-option="{
         content: ['Element+', 'Element Plus'],
       }"
+      :style="{
+        minHeight: '70vh',
+      }"
+      wrapper-height="70vh"
       :has-download="false"
       download-txt="下载文件"
       :download-loading="downloadLoading"

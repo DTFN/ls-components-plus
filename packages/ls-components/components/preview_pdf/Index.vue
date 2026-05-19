@@ -107,12 +107,13 @@ function onDownload(data: any) {
 <template>
   <div v-if="previewVisible !== false || props.pageMode" :class="props.pageMode ? '' : comClass" @click="closePreview">
     <el-watermark v-if="showWatermark" v-bind="watermarkOption" :style="watermarkStyle">
-      <LSPdf v-bind="merge(defAttrs, $attrs)" :page-mode="props.pageMode" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
+      <LSPdf v-bind="merge(defAttrs, $attrs)" :page-mode="props.pageMode" :wrapper-height="props.wrapperHeight" @load-complete="loadComplete" @load-error="loadError" @on-download="onDownload" />
     </el-watermark>
     <LSPdf
       v-else
       v-bind="merge(defAttrs, $attrs)"
       :page-mode="props.pageMode"
+      :wrapper-height="props.wrapperHeight"
       @load-complete="loadComplete"
       @load-error="loadError"
       @on-download="onDownload"
