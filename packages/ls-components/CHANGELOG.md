@@ -1,3 +1,15 @@
+## [2.6.6](https://github.com/DTFN/ls-components-plus/compare/v2.6.5...v2.6.6) (2026-05-19)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 pdf ([95b807d](https://github.com/DTFN/ls-components-plus/commit/95b807d6045dfbc6c02bdf97a508bede38fd5e83))
+* **ls-component:** 🧩 pdf组件支持page模式 ([b54d2b7](https://github.com/DTFN/ls-components-plus/commit/b54d2b7d45fbe9e446559bea2e259dd9bd80c1b8))
+* **ls-component:** 🧩 update ([94646cf](https://github.com/DTFN/ls-components-plus/commit/94646cfbf9247923abcd6ec9ed569050d044231c))
+* **ls-component:** 🧩 优化cropper组件 ([f430cfd](https://github.com/DTFN/ls-components-plus/commit/f430cfd439f0099e2ce782441a4b0ee7cd2477af))
+* **ls-doc:** 🧩 文档更新 ([4f86f8c](https://github.com/DTFN/ls-components-plus/commit/4f86f8c54172daf26d96dded43925754f9320f92))
+* **ls-doc:** 🧩 文档更新最新版本 ([41454e8](https://github.com/DTFN/ls-components-plus/commit/41454e8fc7a8e881ac682ab2b36685f1fb1e4b0c))
+
 ## [2.6.5](https://github.com/DTFN/ls-components-plus/compare/v2.6.4...v2.6.5) (2026-05-15)
 
 
