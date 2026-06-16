@@ -15,8 +15,7 @@
     "lint:fix": "eslint **/*.{vue,ts,json} --fix",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "release": "standard-version",
-    "commit": "git add -A && git-cz",
-    "mcp": "pnpm -r --filter @lingshugroup/web-plus run mcp:setup"
+    "commit": "git add -A && git-cz"
   },
   "browserslist": {
     "production": [
@@ -39,7 +38,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@antfu/eslint-config": "4.11.0",
     "@element-plus/icons-vue": "^2.3.1",
-    "@lingshugroup/web-plus": "^2.6.5",
+    "@lingshugroup/web-plus": "^2.6.6",
     "@univerjs/core": "^0.2.11",
     "@univerjs/design": "^0.2.11",
     "@univerjs/docs": "^0.2.11",

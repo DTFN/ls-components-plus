@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import axios from 'axios'
+import pdf from '@/assets/files/30a6d88a-d928-4647-8fc9-cc07de969d82.pdf'
 import docx from '@/assets/files/111.docx?url'
-// import xlsx from '@/assets/files/111.xlsx?url';
-// import xlsx from '@/assets/files/222.xlsx?url';
-import xlsx from '@/assets/files/222.xlsx?url'
-// import xlsx from 'D:/download/666.xlsx?url';
-// import xlsx from 'D:/download/777.xlsx?url';
-import pdf from '@/assets/files/777.pdf'
-// import pdf from '@/assets/files/test.pdf';
+import xlsx from '@/assets/files/111.xlsx?url'
 
 const type = ref('image')
 const source: any = ref('')
@@ -69,9 +64,19 @@ function openViewer(val: string) {
     case 'pdf':
       source.value = ''
       // setTimeout(() => {
-      source.value = pdf
+      source.value = 'http://192.168.1.33:8008/images/30a6d88a-d928-4647-8fc9-cc07de969d82.pdf'
       // }, 3000);
       showViewerPdf.value = true
+
+      // axios.get(
+      //   /** 接收二进制数据，将其封装为文本类型的 File 对象并赋值给 source，同时打开 PDF 预览 */
+      //   'http://192.168.1.33:8008/images/test1.pdf',
+      //   { responseType: 'arraybuffer' },
+      // ).then((data) => {
+      //   console.log(data)
+      //   source.value = new File([new Blob([data.data], { type: 'application/pdf' })], 'document.pdf', { type: 'application/pdf' })
+      //   showViewerPdf.value = true
+      // })
       break
     case 'image2':
       source.value = 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg'
@@ -192,22 +197,13 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
     </LSPreviewDocx>
 
     <LSPreviewPdf
+      v-if="showViewerPdf"
       v-model="showViewerPdf"
       c-map-url-path="/cmaps/"
       :on-close="closeViewer"
-      :type="type"
       :source="source"
-      :hide-on-click-modal="true"
-      :init-no-pagination="true"
-      :show-watermark="true"
-      :watermark-option="{
-        content: ['Element+', 'Element Plus'],
-      }"
-      :has-download="false"
-      download-txt="下载文件"
-      :download-loading="downloadLoading"
-      :download-data="downloadData"
-      @on-download="download"
+      hide-on-click-moda1
+      :has-download="true"
     >
       <template #extra>
         <div class="extra-wrap">
