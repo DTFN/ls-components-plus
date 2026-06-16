@@ -202,22 +202,13 @@ const src = 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jp
     </LSPreviewDocx>
 
     <LSPreviewPdf
+      v-if="showViewerPdf"
       v-model="showViewerPdf"
       c-map-url-path="/cmaps/"
       :on-close="closeViewer"
-      :type="type"
       :source="source"
-      :hide-on-click-modal="true"
-      :init-no-pagination="true"
-      :show-watermark="true"
-      :watermark-option="{
-        content: ['Element+', 'Element Plus'],
-      }"
-      :has-download="false"
-      download-txt="下载文件"
-      :download-loading="downloadLoading"
-      :download-data="downloadData"
-      @on-download="download"
+      hide-on-click-moda1
+      :has-download="true"
     >
       <template #extra>
         <div class="extra-wrap">

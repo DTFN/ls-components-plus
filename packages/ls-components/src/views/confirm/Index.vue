@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { QuestionFilled } from '@element-plus/icons-vue'
-import axios from 'axios'
-
 const visible = ref(false)
 const title = ref('标题')
 const message = ref('内容')
@@ -9,7 +6,7 @@ const type = ref(1)
 const useHtml = ref(false)
 const requestApi: any = ref(null)
 
-const defIcon = markRaw(QuestionFilled)
+const defIcon = markRaw(WarningFilled)
 
 function onConfirm(data: any) {
   console.log(data.value)
@@ -51,18 +48,40 @@ function handleClick(val: number) {
 </script>
 
 <template>
-  <div>
-    <LSButton type="primary" @click="handleClick(1)">
-      确认框1
-    </LSButton>
+  <div class="confirm-demo">
+    <h2>确认框 LSConfirm</h2>
 
-    <LSButton type="primary" @click="handleClick(2)">
-      确认框2
-    </LSButton>
+    <div class="demo-section">
+      <h3>基础用法</h3>
+      <p class="desc">
+        三种不同类型的确认框：纯文本、HTML 内容、带请求接口。
+      </p>
+      <div class="btn-row">
+        <LSButton type="primary" @click="handleClick(1)">
+          纯文本确认
+        </LSButton>
+        <LSButton type="warning" @click="handleClick(2)">
+          HTML 内容确认
+        </LSButton>
+        <LSButton type="danger" @click="handleClick(3)">
+          接口请求确认
+        </LSButton>
+      </div>
+    </div>
 
-    <LSButton type="primary" @click="handleClick(3)">
-      确认框3
-    </LSButton>
+    <div class="demo-section">
+      <h3>属性说明</h3>
+      <p class="desc">
+        v-model 控制显示；title / message 设置标题与内容；useHtml 开启 HTML 渲染；requestApi 支持点击确认后自动请求接口。
+      </p>
+      <el-alert
+        title="提示"
+        type="info"
+        description="点击上方按钮查看不同场景的确认框交互。"
+        show-icon
+        :closable="false"
+      />
+    </div>
 
     <LSConfirm
       v-model="visible"
@@ -76,9 +95,38 @@ function handleClick(val: number) {
       :close-icon="defIcon"
       @on-confirm="onConfirm"
       @on-cancel="onCancel"
-    >
-    </LSConfirm>
+    />
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.confirm-demo {
+  padding: 24px;
+}
+h2 {
+  margin-bottom: 24px;
+  font-size: 22px;
+}
+.demo-section {
+  padding: 20px;
+  margin-bottom: 24px;
+  background: #ffffff;
+  border: 1px solid #e4e7ed;
+  border-radius: 8px;
+  h3 {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #303133;
+  }
+  .desc {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #606266;
+  }
+}
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+</style>
