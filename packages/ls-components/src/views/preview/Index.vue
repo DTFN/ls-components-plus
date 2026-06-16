@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import axios from 'axios'
-// import xlsx from 'D:/download/666.xlsx?url';
-// import xlsx from 'D:/download/777.xlsx?url';
 import pdf from '@/assets/files/30a6d88a-d928-4647-8fc9-cc07de969d82.pdf'
 import docx from '@/assets/files/111.docx?url'
-// import xlsx from '@/assets/files/111.xlsx?url';
-// import xlsx from '@/assets/files/222.xlsx?url';
-import xlsx from '@/assets/files/222.xlsx?url'
-// import pdf from '@/assets/files/test.pdf';
+import xlsx from '@/assets/files/111.xlsx?url'
 
 const type = ref('image')
 const source: any = ref('')

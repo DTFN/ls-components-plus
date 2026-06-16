@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Edit, HomeFilled, Upload, WarningFilled } from '@element-plus/icons-vue'
+import { Edit, HomeFilled, Upload } from '@element-plus/icons-vue'
 import SvgIconCount from '@/assets/count.svg'
 import SvgIconDataIcv from '@/assets/data_icv.svg'
 import SvgIconVue from '@/assets/vue.svg'
