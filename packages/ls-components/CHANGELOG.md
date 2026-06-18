@@ -1,3 +1,14 @@
+## [2.6.7](https://github.com/DTFN/ls-components-plus/compare/v2.6.6...v2.6.7) (2026-06-18)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 element版本升级 ([bf33df6](https://github.com/DTFN/ls-components-plus/commit/bf33df63c10fc2de865d283caccd8955ab86a625))
+* **ls-component:** 🧩 update ([337c1b9](https://github.com/DTFN/ls-components-plus/commit/337c1b9be40f6bceb8a107c379b8126d0ef5eb28))
+* **ls-component:** 🧩 增加展示案例 ([b2cf45b](https://github.com/DTFN/ls-components-plus/commit/b2cf45bc9bd93dd1001f45d81bebeb2c9ea6176f))
+* **ls-doc:** 🧩 update ([379f19a](https://github.com/DTFN/ls-components-plus/commit/379f19aa8f429aff2abbdc1703206ecb3f87c93a))
+* **ls-doc:** 🧩 update ([82f88e7](https://github.com/DTFN/ls-components-plus/commit/82f88e7fea8ad275a51fd24cf989f55e5796b2fd))
+
 ## [2.6.6](https://github.com/DTFN/ls-components-plus/compare/v2.6.5...v2.6.6) (2026-05-19)
 
 
