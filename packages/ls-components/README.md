@@ -6,7 +6,7 @@
 
 适用于 vue3.x
 
-1.element-plus升级至2.10.6
+1.element-plus升级至2.14.2
 
 ## 链接
 
