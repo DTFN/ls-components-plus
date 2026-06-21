@@ -1,65 +1,74 @@
-<script lang="ts" setup>
-import type { UploadProps, UploadUserFile } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { ref } from 'vue'
-
-const fileList = ref<UploadUserFile[]>([
-  {
-    name: 'element-plus-logo.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
+<script setup lang="ts">
+const jsonData = ref({
+  name: '零数科技',
+  version: '2.6.8',
+  description: '前端UI组件库（Vue3）',
+  features: ['Vue3', 'TypeScript', 'Element Plus'],
+  author: {
+    name: '前端团队',
+    email: 'frontend@lingshu.com'
   },
-  {
-    name: 'element-plus-logo2.svg',
-    url: 'https://element-plus.org/images/element-plus-logo.svg',
-  },
-])
+  createTime: '2024-01-01',
+  isOpenSource: true,
+  downloadCount: 10000
+})
 
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
-}
+const readOnly = ref(false)
+const jsonValue = ref(JSON.stringify(jsonData.value, null, 2))
 
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
-}
-
-const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-  ElMessage.warning(
-    `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length} totally`,
-  )
-}
-
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile) => {
-  return ElMessageBox.confirm(`Cancel the transfer of ${uploadFile.name} ?`).then(
-    () => true,
-    () => false,
-  )
-}
-
-function beforeUpload() {
-  return false
+function handleChange(val: any) {
+  console.log('JSON内容变化：', val)
+  ElMessage.success('JSON内容已更新')
 }
 </script>
 
 <template>
-  <el-upload
-    v-model:file-list="fileList"
-    class="upload-demo"
-    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-    multiple
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
-    :before-remove="beforeRemove"
-    :before-upload="beforeUpload"
-    :limit="3"
-    :on-exceed="handleExceed"
-  >
-    <el-button type="primary">
-      Click to upload
-    </el-button>
-    <template #tip>
-      <div class="el-upload__tip">
-        jpg/png files with a size less than 500KB.
-      </div>
-    </template>
-  </el-upload>
+  <div class="json-editor-demo">
+    <h2>JsonEditor JSON编辑器</h2>
+    <p>用于编辑和查看JSON格式数据的组件</p>
+
+    <div style="margin: 20px 0">
+      <LSButton type="primary" @click="readOnly = !readOnly" style="margin-bottom: 20px">
+        {{ readOnly ? '切换为编辑模式' : '切换为只读模式' }}
+      </LSButton>
+
+      <LSJsonEditor
+        :json-value="jsonValue"
+        :read-only="readOnly"
+        height="500px"
+        :navigation-bar="true"
+        @change="handleChange"
+      />
+    </div>
+
+    <div style="margin-top: 40px">
+      <h3>编辑结果：</h3>
+      <pre style="background: #f5f5f5; padding: 20px; border-radius: 4px; max-height: 300px; overflow: auto">
+        {{ JSON.stringify(JSON.parse(jsonValue), null, 2) }}
+      </pre>
+    </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.json-editor-demo {
+  padding: 20px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+}
+</style>
