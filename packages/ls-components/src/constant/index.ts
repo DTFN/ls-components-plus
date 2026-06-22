@@ -241,22 +241,6 @@ export const MENU_LIST = [
     cpoPath: 'theme/Index',
     key: '32',
   },
-  {
-    id: '33',
-    title: 'Hooks 自定义钩子',
-    name: 'Hooks',
-    path: '/hooks',
-    cpoPath: 'hooks/Index',
-    key: '33',
-  },
-  {
-    id: '34',
-    title: 'Utils 工具函数',
-    name: 'Utils',
-    path: '/utils',
-    cpoPath: 'utils/Index',
-    key: '34',
-  },
 ]
 
 export const MonthDays = Array.from({ length: 31 }, (_, index) => `${index + 1}日`)

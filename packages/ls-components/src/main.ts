@@ -15,7 +15,7 @@ import App from './App.vue'
 // import LSMenu from '../lib/menu/';
 // import LSLayout from '../lib/layout/';
 import 'element-plus/dist/index.css'
-import '../lib/index.css'
+// import '../lib/index.css'
 
 const app = createApp(App)
 
