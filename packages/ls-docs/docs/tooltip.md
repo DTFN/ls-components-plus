@@ -234,6 +234,130 @@ outline: deep
 
 :::
 
+### 5. 不同主题
+
+<br />
+<ClientOnly>
+<div class="tooltip-trigger-demo">
+  <div class="item">
+    <LSTooltip width="80" :fontSize="14" content="深色主题提示" placement="top" effect="dark">
+      <div class="tooltip-item">dark 深色</div>
+    </LSTooltip>
+  </div>
+  <div class="item">
+    <LSTooltip width="80" :fontSize="14" content="浅色主题提示" placement="top" effect="light">
+      <div class="tooltip-item">light 浅色</div>
+    </LSTooltip>
+  </div>
+</div>
+</ClientOnly>
+
+:::: details 点我查看代码
+
+```html
+<div class="tooltip-trigger-demo">
+  <div class="item">
+    <LSTooltip width="80" :fontSize="14" content="深色主题提示" placement="top" effect="dark">
+      <div class="tooltip-item">dark 深色</div>
+    </LSTooltip>
+  </div>
+  <div class="item">
+    <LSTooltip width="80" :fontSize="14" content="浅色主题提示" placement="top" effect="light">
+      <div class="tooltip-item">light 浅色</div>
+    </LSTooltip>
+  </div>
+</div>
+```
+
+::::
+
+### 6. HTML 内容提示
+
+<br />
+<ClientOnly>
+<LSTooltip width="200" :fontSize="14" content="<span style='color: #409eff;'>自定义</span> <b>HTML</b> 内容提示" placement="top" raw-content>
+  <div class="tooltip-test">鼠标悬浮查看 HTML 内容</div>
+</LSTooltip>
+</ClientOnly>
+
+:::: details 点我查看代码
+
+```html
+<LSTooltip
+  width="200"
+  :fontSize="14"
+  content="<span style='color: #409eff;'>自定义</span> <b>HTML</b> 内容提示"
+  placement="top"
+  raw-content
+>
+  <div class="tooltip-test">鼠标悬浮查看 HTML 内容</div>
+</LSTooltip>
+```
+
+::::
+
+### 7. 禁用状态
+
+<br />
+<ClientOnly>
+<LSTooltip width="200" :fontSize="14" content="这个提示被禁用了" placement="top" :disabled="true">
+  <div class="tooltip-test">禁用状态下的文本内容（不会显示提示）</div>
+</LSTooltip>
+</ClientOnly>
+
+:::: details 点我查看代码
+
+```html
+<LSTooltip
+  width="200"
+  :fontSize="14"
+  content="这个提示被禁用了"
+  placement="top"
+  :disabled="true"
+>
+  <div class="tooltip-test">禁用状态下的文本内容（不会显示提示）</div>
+</LSTooltip>
+```
+
+::::
+
+### 8. 延迟显示与隐藏
+
+<br />
+<ClientOnly>
+<div class="tooltip-trigger-demo">
+  <div class="item">
+    <LSTooltip width="100" :fontSize="14" content="延迟 500ms 显示" placement="top" :show-after="500">
+      <div class="tooltip-item">延迟显示</div>
+    </LSTooltip>
+  </div>
+  <div class="item">
+    <LSTooltip width="100" :fontSize="14" content="延迟 1000ms 隐藏" placement="top" :hide-after="1000">
+      <div class="tooltip-item">延迟隐藏</div>
+    </LSTooltip>
+  </div>
+</div>
+</ClientOnly>
+
+:::: details 点我查看代码
+
+```html
+<div class="tooltip-trigger-demo">
+  <div class="item">
+    <LSTooltip width="100" :fontSize="14" content="延迟 500ms 显示" placement="top" :show-after="500">
+      <div class="tooltip-item">延迟显示</div>
+    </LSTooltip>
+  </div>
+  <div class="item">
+    <LSTooltip width="100" :fontSize="14" content="延迟 1000ms 隐藏" placement="top" :hide-after="1000">
+      <div class="tooltip-item">延迟隐藏</div>
+    </LSTooltip>
+  </div>
+</div>
+```
+
+::::
+
 ## API
 
 ### 1. LSTooltip 特有属性
