@@ -1,3 +1,14 @@
+## [2.6.9](https://github.com/DTFN/ls-components-plus/compare/v2.6.8...v2.6.9) (2026-07-21)
+
+
+### Bug Fixes
+
+* **ls-component:** 🧩 update ([25a4d7a](https://github.com/DTFN/ls-components-plus/commit/25a4d7a1661b652f940fcdc0b270146389b62d88))
+* **ls-component:** 🧩 update ([12467a8](https://github.com/DTFN/ls-components-plus/commit/12467a839e603bb8e26142708afebe8f7ca24a80))
+* **ls-component:** 🧩 update ([dc9fca4](https://github.com/DTFN/ls-components-plus/commit/dc9fca473df2b44f459dc6129e73174a3809901d))
+* **ls-component:** 🧩 修复PDF低版本浏览器兼容问题 ([f60563d](https://github.com/DTFN/ls-components-plus/commit/f60563d0a753f8d01b99ac7b590cb663b7bb33c5))
+* **ls-component:** 🧩 案例更新 ([ca2bcae](https://github.com/DTFN/ls-components-plus/commit/ca2bcaef3d1b4c7744a6121bb51895825b5ff34c))
+
 ## [2.6.8](https://github.com/DTFN/ls-components-plus/compare/v2.6.7...v2.6.8) (2026-06-18)
 
 
