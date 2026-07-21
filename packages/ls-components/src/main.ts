@@ -7,6 +7,7 @@ import { setupRouter } from '@/router/index'
 // import LSWebPlus from '../lib/index';
 // import { vAuth } from '../lib/directives';
 import App from './App.vue'
+import '@cpo/preview_pdf/polyfills'
 // import LSWebPlus from '@lingshugroup/web-plus';
 // import { vAuth } from '@lingshugroup/web-plus/directives';
 // import '@lingshugroup/web-plus/index.css';
@@ -15,7 +16,7 @@ import App from './App.vue'
 // import LSMenu from '../lib/menu/';
 // import LSLayout from '../lib/layout/';
 import 'element-plus/dist/index.css'
-import '../lib/index.css'
+// import '../lib/index.css'
 
 const app = createApp(App)
 

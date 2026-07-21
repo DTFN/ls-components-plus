@@ -59,10 +59,10 @@ import { LSButton, LSButtonGroup } from '@lingshugroup/web-plus/button'
 import LSChart from '@lingshugroup/web-plus/chart'
 import LSConfirm from '@lingshugroup/web-plus/confirm'
 import LSContainerBox from '@lingshugroup/web-plus/containerBox'
-import LSDescriptions from '@lingshugroup/web-plus/descriptions'
-import LSDialog from '@lingshugroup/web-plus/dialog'
-import LSEditor from '@lingshugroup/web-plus/editor'
-import LSFlowBox from '@lingshugroup/web-plus/flowBox'
+import LSCaptchaVerify from '@lingshugroup/web-plus/captchaVerify'
+import LSSliceUpload from '@lingshugroup/web-plus/sliceUpload'
+import LSCropper from '@lingshugroup/web-plus/cropper'
+import LSDownloadFile from '@lingshugroup/web-plus/downloadFile'
 import { LSForm, LSFormItem } from '@lingshugroup/web-plus/form'
 // 根据业务需求按需引入以下组件
 import LSIcon from '@lingshugroup/web-plus/icon'
@@ -99,6 +99,7 @@ import '@lingshugroup/web-plus/index.css';
   LSForm,
   LSFormItem,
   LSUpload,
+  LSSliceUpload,
   LSTable,
   LSDescriptions,
   LSPreview,
@@ -120,10 +121,13 @@ import '@lingshugroup/web-plus/index.css';
   LSBellMessage,
   LSDialog,
   LSPrint,
-  LSFlowBox,
+  LSCaptchaVerify,
+  LSCropper,
+  LSDownloadFile,
   LSContainerBox,
   LSTooltip
-].map((item) => {
+]
+.map((item) => {
   app.component(item.name, item)
 })
 ```

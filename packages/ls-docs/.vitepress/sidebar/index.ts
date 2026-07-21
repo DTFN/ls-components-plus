@@ -10,6 +10,7 @@ export default {
         { text: 'Icon 图标', link: '/docs/icon' },
         { text: 'Button 按钮', link: '/docs/button' },
         { text: 'Layout 布局', link: '/docs/layout' },
+        { text: 'Theme 主题', link: '/docs/theme' },
       ],
     },
     {
@@ -67,10 +68,11 @@ export default {
       text: 'Other 其它组件',
       items: [
         { text: 'Print 打印', link: '/docs/print' },
-        // { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
+        { text: 'ContainerBox 适配容器', link: '/docs/containerBox' },
         { text: 'Download 下载', link: '/docs/download' },
         { text: 'Cropper 图片裁剪', link: '/docs/cropper' },
         { text: 'CaptchaVerify 滑块验证码', link: '/docs/captchaVerify' },
+        { text: 'JsonEditor JSON编辑器', link: '/docs/jsonEditor' },
       ],
     },
   ],

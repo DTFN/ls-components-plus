@@ -65,6 +65,7 @@ function openViewer(val: string) {
       source.value = ''
       // setTimeout(() => {
       source.value = 'http://192.168.1.33:8008/images/30a6d88a-d928-4647-8fc9-cc07de969d82.pdf'
+      // source.value = 'http://192.168.3.27:8080/api/admin/file/preview?fileKey=files/2026/06/26/343db4dcca404106be7005233b29cbfa.pdf'
       // }, 3000);
       showViewerPdf.value = true
 

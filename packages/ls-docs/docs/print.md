@@ -69,6 +69,115 @@ const canPrint = ref(true)
 </LSPrint>
 ```
 
+### 3. 指定区域打印
+
+<br />
+<div id="printArea" style="padding: 16px; margin-bottom: 12px; background: #f5f7fa; border: 1px dashed #c0c4cc; border-radius: 6px;">
+  <h3 style="margin-top: 0;">指定区域内容</h3>
+  <p>该区域通过 id="printArea" 被 LSPrint 组件指定打印。</p>
+  <el-tag>标签 A</el-tag>
+  <el-tag type="success">标签 B</el-tag>
+</div>
+<ClientOnly>
+<LSPrint
+  :print-obj="{ id: '#printArea', popTitle: '打印测试' }"
+  content="正在打印指定区域"
+  btn-txt="打印指定区域"
+  :can-print="true"
+  :icon-config="{ name: 'Printer' }"
+  type="primary"
+/>
+</ClientOnly>
+
+```html
+<div id="printArea" style="padding: 16px; background: #f5f7fa; border: 1px dashed #c0c4cc; border-radius: 6px;">
+  <h3>指定区域内容</h3>
+  <p>该区域通过 id="printArea" 被 LSPrint 组件指定打印。</p>
+  <el-tag>标签 A</el-tag>
+  <el-tag type="success">标签 B</el-tag>
+</div>
+
+<LSPrint
+  :print-obj="{ id: '#printArea', popTitle: '打印测试' }"
+  content="正在打印指定区域"
+  btn-txt="打印指定区域"
+  :can-print="true"
+  :icon-config="{ name: 'Printer' }"
+  type="primary"
+/>
+```
+
+### 4. 禁用打印
+
+<br />
+<ClientOnly>
+<LSPrint
+  content="当前状态禁止打印"
+  btn-txt="禁止打印"
+  :can-print="false"
+  :icon-config="{ name: 'Printer', color: 'red' }"
+  type="primary"
+/>
+</ClientOnly>
+
+```html
+<LSPrint
+  content="当前状态禁止打印"
+  btn-txt="禁止打印"
+  :can-print="false"
+  :icon-config="{ name: 'Printer', color: 'red' }"
+  type="primary"
+/>
+```
+
+### 5. 动态控制打印权限
+
+<br />
+<ClientOnly>
+<el-switch v-model="canPrint" active-text="允许打印" inactive-text="禁止打印" />
+<br /><br />
+<LSPrint
+  content="通过开关动态控制是否允许打印"
+  btn-txt="动态控制打印"
+  :can-print="canPrint"
+  :icon-config="{ name: 'Printer' }"
+  type="primary"
+/>
+</ClientOnly>
+
+```js
+import { ref } from 'vue'
+
+const canPrint = ref(true)
+```
+
+```html
+<el-switch v-model="canPrint" active-text="允许打印" inactive-text="禁止打印" />
+
+<LSPrint
+  content="通过开关动态控制是否允许打印"
+  btn-txt="动态控制打印"
+  :can-print="canPrint"
+  :icon-config="{ name: 'Printer' }"
+  type="primary"
+/>
+```
+
+### 6. 自定义按钮样式
+
+<br />
+<ClientOnly>
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="success" />
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="warning" />
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="danger" />
+</ClientOnly>
+
+```html
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="success" />
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="warning" />
+<LSPrint content="自定义按钮样式" btn-txt="打印" :can-print="true" :icon-config="{ name: 'Printer' }" type="danger" />
+```
+
 ## API
 
 ### 1. Attributes
