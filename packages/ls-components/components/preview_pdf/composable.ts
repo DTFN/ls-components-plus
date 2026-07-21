@@ -5,14 +5,27 @@ import { fileEmpty } from '@cpo/_constants/previewType'
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist'
 import PDFWorker from 'pdfjs-dist/build/pdf.worker.min?url'
 import { shallowRef } from 'vue'
+import { PROMISE_WITH_RESOLVERS_POLYFILL } from './polyfills'
 import { getDestinationArray, getDestinationRef, getLocation, isSpecLike } from './pdfs/destination'
 import { addStylesToIframe, createIframe } from './pdfs/miscellaneous'
 
-// Could not find a way to make this work with vite, importing the worker entry bundle the whole worker to the the final output
-// https://erindoyle.dev/using-pdfjs-with-vite/
-// GlobalWorkerOptions.workerSrc = PDFWorker
+/**
+ * 为 pdfjs worker 线程注入 Promise.withResolvers polyfill。
+ * pdfjs-dist@4.8.69 以 module worker 形式加载 worker，worker 上下文与主线程隔离，
+ * 因此必须生成一个 Blob URL wrapper：先注入 polyfill，再动态 import 原始 worker。
+ */
+function createWorkerUrlWithPolyfill(workerSrc: string): string {
+  if (typeof document === 'undefined' || typeof Blob === 'undefined' || typeof URL === 'undefined')
+    return workerSrc
+
+  const absoluteWorkerSrc = new URL(workerSrc, location.href).href
+  const wrapper = `${PROMISE_WITH_RESOLVERS_POLYFILL}\nimport ${JSON.stringify(absoluteWorkerSrc)};`
+
+  return URL.createObjectURL(new Blob([wrapper], { type: 'text/javascript' }))
+}
+
 function configWorker(wokerSrc: string) {
-  GlobalWorkerOptions.workerSrc = wokerSrc
+  GlobalWorkerOptions.workerSrc = createWorkerUrlWithPolyfill(wokerSrc)
 }
 
 /**
