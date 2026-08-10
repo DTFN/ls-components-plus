@@ -44,6 +44,7 @@ import { getVariable } from '@cpo/_utils/config'
 import LSButton from '@cpo/button/Button.vue'
 import LSIcon from '@cpo/icon/Index.vue'
 import LSPreviewImage from '@cpo/preview_image'
+import imageCompression from 'browser-image-compression'
 import { fileTypeMap, IMG_SUFFIX_LIST, lsUploadProps, UPLOAD_STATUS_MAP, UPLOAD_TYPE_MAP } from './types'
 // import { merge } from 'lodash-es';
 
@@ -139,6 +140,27 @@ const limitNumMsg = computed(() => {
 })
 const limitAllFail = computed(() => {
   return props?.item?.limitAllFail
+})
+const isCompress = computed(() => {
+  return props?.item?.compress || false
+})
+const compressThreshold = computed(() => {
+  return props?.item?.compressThreshold ?? 500
+})
+const compressMaxWidth = computed(() => {
+  return props?.item?.compressMaxWidth ?? 4000
+})
+const compressMaxHeight = computed(() => {
+  return props?.item?.compressMaxHeight ?? 4000
+})
+const compressQuality = computed(() => {
+  return props?.item?.compressQuality ?? 0.8
+})
+const compressUseWebWorker = computed(() => {
+  return props?.item?.compressUseWebWorker ?? true
+})
+const compressFieldName = computed(() => {
+  return props?.item?.compressFieldName || 'compressed'
 })
 const isProfile = computed(() => {
   return props?.item?.profile || false
@@ -309,9 +331,9 @@ async function onExceedAction(files: any, fileList: UploadUserFile[]) {
   }
 }
 
-function beforeUploadAction(file: UploadRawFile) {
+async function beforeUploadAction(file: UploadRawFile): Promise<boolean | File> {
   if (props.beforeUpload) {
-    const beforeStatus = props.beforeUpload(file)
+    const beforeStatus = await props.beforeUpload(file)
 
     if (beforeStatus && isCover.value && !isMultiple.value) {
       updateCoverFileList()
@@ -319,33 +341,108 @@ function beforeUploadAction(file: UploadRawFile) {
 
     return beforeStatus
   }
-  const isSuccess = validateUploadFile(file, true)
 
-  if (isSuccess && autoUpload.value && isCover.value && !isMultiple.value) {
+  // 先校验文件类型；大小在压缩后校验
+  if (!validateUploadFileType(file, true)) {
+    return false
+  }
+
+  let uploadFile: UploadRawFile | File = file
+
+  // 开启压缩且为图片文件时，执行压缩流程
+  if (isCompress.value && isImageFile(file)) {
+    try {
+      const compressedFile = await compressImage(file)
+
+      if (compressedFile) {
+        uploadFile = compressedFile
+      }
+    }
+    catch (error) {
+      console.error('Image compression failed:', error)
+      const msg = '图片压缩失败，请检查后重新上传！'
+
+      if (isToast.value) {
+        setTimeout(() => {
+          ElMessage.error(msg)
+        }, 200)
+      }
+      else {
+        validateForm(msg)
+      }
+
+      return false
+    }
+  }
+
+  // 压缩完成后再校验最终文件大小
+  if (!validateUploadFileSize(uploadFile, true)) {
+    return false
+  }
+
+  // 图片卡片模式下仍需校验图片格式
+  if (isPicCard.value && !fileTypeMatch(uploadFile.name, IMG_SUFFIX_LIST)) {
+    const msg = `上传文件 ${uploadFile.name} 不是图片格式的文件！`
+
+    if (isToast.value) {
+      setTimeout(() => {
+        ElMessage.error(msg)
+      }, 200)
+    }
+    else {
+      validateForm(msg)
+    }
+
+    return false
+  }
+
+  if (autoUpload.value && isCover.value && !isMultiple.value) {
     updateCoverFileList()
   }
 
-  return isSuccess
+  // 将压缩信息挂载到文件对象，供上传请求组装 FormData 时使用
+  ;(uploadFile as any).__compressedInfo = {
+    isCompressed: uploadFile !== file,
+    originalSize: file.size,
+    compressedSize: uploadFile.size,
+  }
+
+  // 保持 uid 与原始文件一致
+  ;(uploadFile as any).uid = file.uid
+
+  return uploadFile
 }
 
-function validateUploadFile(file: UploadRawFile, showMsg: boolean): boolean {
-  let isSuccess: boolean = true
-  const { size, name } = file
-  const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name)
-
-  let isLimitSize = false
-
-  switch (limitUnit.value) {
-    case 'KB':
-      isLimitSize = size / 1024 > limitSize.value
-      break
-    case 'MB':
-      isLimitSize = size / 1024 / 1024 > limitSize.value
-      break
-    default:
-      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value
-      break
+function validateUploadFile(file: UploadRawFile | File, showMsg: boolean): boolean {
+  if (!validateUploadFileType(file, showMsg)) {
+    return false
   }
+
+  if (!validateUploadFileSize(file, showMsg)) {
+    return false
+  }
+
+  if (isPicCard.value && !fileTypeMatch(file.name, IMG_SUFFIX_LIST)) {
+    const msg = `上传文件 ${file.name} 不是图片格式的文件！`
+
+    if (isToast.value && showMsg) {
+      setTimeout(() => {
+        ElMessage.error(msg)
+      }, 200)
+    }
+    else {
+      validateForm(msg)
+    }
+
+    return false
+  }
+
+  return true
+}
+
+function validateUploadFileType(file: UploadRawFile | File, showMsg: boolean): boolean {
+  const { name } = file
+  const isLimitFile = limitFile.value.length > 0 && !fileTypeMatch(name)
 
   if (isLimitFile) {
     const msg
@@ -363,11 +460,32 @@ function validateUploadFile(file: UploadRawFile, showMsg: boolean): boolean {
     else {
       validateForm(msg)
     }
-    isSuccess = false
+
+    return false
+  }
+
+  return true
+}
+
+function validateUploadFileSize(file: UploadRawFile | File, showMsg: boolean): boolean {
+  const { size, name } = file
+
+  let isLimitSize = false
+
+  switch (limitUnit.value) {
+    case 'KB':
+      isLimitSize = size / 1024 > limitSize.value
+      break
+    case 'MB':
+      isLimitSize = size / 1024 / 1024 > limitSize.value
+      break
+    default:
+      isLimitSize = size / 1024 / 1024 / 1024 > limitSize.value
+      break
   }
 
   if (isLimitSize) {
-    const msg = limitSizeMsg.value || `上传文件 ${file.name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`
+    const msg = limitSizeMsg.value || `上传文件 ${name} 大小不能超过 ${limitSize.value}${limitUnit.value}！`
 
     if (isToast.value && showMsg) {
       setTimeout(() => {
@@ -377,24 +495,11 @@ function validateUploadFile(file: UploadRawFile, showMsg: boolean): boolean {
     else {
       validateForm(msg)
     }
-    isSuccess = false
+
+    return false
   }
 
-  if (!isLimitFile && isPicCard.value && !fileTypeMatch(name, IMG_SUFFIX_LIST)) {
-    const msg = `上传文件 ${file.name} 不是图片格式的文件！`
-
-    if (isToast.value && showMsg) {
-      setTimeout(() => {
-        ElMessage.error(msg)
-      }, 200)
-    }
-    else {
-      validateForm(msg)
-    }
-    isSuccess = false
-  }
-
-  return isSuccess
+  return true
 }
 
 function fileTypeMatch(name: string, list?: Array<string>) {
@@ -422,6 +527,92 @@ function fileTypeMatch(name: string, list?: Array<string>) {
   return false
 }
 
+/**
+ * 判断文件是否为图片
+ * @param file 待判断文件
+ */
+function isImageFile(file: File): boolean {
+  if (file.type && file.type.startsWith('image/')) {
+    return true
+  }
+
+  return fileTypeMatch(file.name, IMG_SUFFIX_LIST)
+}
+
+/**
+ * 加载图片并返回 Image 对象
+ * @param file 图片文件
+ */
+function loadImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      resolve(img)
+    }
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error('图片加载失败'))
+    }
+    img.src = url
+  })
+}
+
+/**
+ * 压缩图片
+ * @param file 原始图片文件
+ * @returns 压缩后的 File；若无需压缩则返回 null
+ */
+async function compressImage(file: File): Promise<File | null> {
+  if (!isImageFile(file)) {
+    return null
+  }
+
+  const thresholdKB = compressThreshold.value
+  const maxWidth = compressMaxWidth.value
+  const maxHeight = compressMaxHeight.value
+  const isOverSize = file.size / 1024 > thresholdKB
+
+  let isOverDimension = false
+  let targetWidthOrHeight: number | undefined
+
+  try {
+    const img = await loadImage(file)
+    isOverDimension = img.width > maxWidth || img.height > maxHeight
+
+    if (!isOverSize && !isOverDimension) {
+      return null
+    }
+
+    const scale = Math.min(1, maxWidth / img.width, maxHeight / img.height)
+    targetWidthOrHeight = Math.floor(Math.max(img.width * scale, img.height * scale))
+  }
+  catch {
+    // 无法读取图片尺寸时，若文件大小未超限则认为无需压缩
+    if (!isOverSize) {
+      return null
+    }
+  }
+
+  const options = {
+    maxSizeMB: thresholdKB / 1024,
+    maxWidthOrHeight: targetWidthOrHeight,
+    useWebWorker: compressUseWebWorker.value,
+    initialQuality: compressQuality.value,
+    fileType: file.type,
+  }
+
+  const compressedBlob = await imageCompression(file, options)
+
+  return new File([compressedBlob], file.name, {
+    type: compressedBlob.type,
+    lastModified: file.lastModified,
+  })
+}
+
 function updateCoverFileList(preIndex?: number, endIndex?: number) {
   configs.uploadFileList.splice(preIndex || 0, endIndex || configs.uploadFileList.length - 1)
 }
@@ -435,8 +626,14 @@ function onChangeAction(file: UploadChangeFile, fileList: UploadFiles) {
   // 更新文件列表
   configs.uploadFileList = fileList
 
-  // 验证文件是否合法
-  const isSuccess = file.raw && validateUploadFile(file.raw, !autoUpload.value)
+  // 验证文件是否合法；开启图片压缩时，文件大小在压缩完成后再校验
+  let isSuccess = false
+
+  if (file.raw) {
+    isSuccess = isCompress.value && isImageFile(file.raw)
+      ? validateUploadFileType(file.raw, !autoUpload.value)
+      : validateUploadFile(file.raw, !autoUpload.value)
+  }
 
   // 如果是覆盖模式且不是多选模式，则更新文件列表
   if (isSuccess && isCover.value && !isMultiple.value) {
@@ -603,6 +800,16 @@ async function httpRequestAction(data: any) {
   }
   const formData = new FormData()
   formData.append('file', file)
+
+  // 开启压缩时，向后端传递压缩信息
+  if (isCompress.value) {
+    const compressedInfo = (file as any).__compressedInfo || {
+      isCompressed: false,
+      originalSize: file.size,
+      compressedSize: file.size,
+    }
+    formData.append(compressFieldName.value, JSON.stringify(compressedInfo))
+  }
 
   if (typeof httpRequestFunc.value === 'function') {
     uploading.value = true

@@ -22,6 +22,17 @@ const item2: Ref<any> = ref({
   limitFile: ['pdf', 'jpg'],
 })
 
+const itemCompress: Ref<UploadItemType> = ref({
+  compress: true,
+  compressThreshold: 500,
+  compressMaxWidth: 4000,
+  compressMaxHeight: 4000,
+  compressQuality: 0.8,
+  limitFile: ['jpg', 'png'],
+  limitSize: 10,
+  tipContent: '图片超过 500KB 或尺寸超过 4000px 将自动压缩',
+})
+
 const logoImg = new URL('@/assets/logo.png', import.meta.url).href
 const defImg = new URL('@/assets/default_head.png', import.meta.url).href
 const fileList = ref<any[]>([
@@ -173,6 +184,16 @@ function onHandleCropper(file: any, index: number) {
     <br />
 
     <LSUpload :action="action" :item="item2"></LSUpload>
+
+    <br />
+
+    <LSUpload
+      :action="action"
+      list-type="picture-card"
+      :item="itemCompress"
+      :auto-upload="false"
+      @http-response-func="httpResponseFunc"
+    ></LSUpload>
 
     <br />
 

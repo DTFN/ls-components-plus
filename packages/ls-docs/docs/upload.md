@@ -126,7 +126,32 @@ const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
 <LSUpload list-type="picture-card" :action="action"> </LSUpload>
 ```
 
-### 7. 表单验证
+### 7. 图片压缩上传
+
+开启图片压缩后，超过 `compressThreshold`（默认 500KB）或尺寸超过 `compressMaxWidth`/`compressMaxHeight`（默认 4000px）的图片会在上传前自动压缩，并在 FormData 中附加 `compressed` 字段告知后端压缩信息。
+
+<br />
+
+<ClientOnly>
+  <LSUpload list-type="picture-card" :action="action" :item="itemCompress"></LSUpload>
+</ClientOnly>
+
+```js
+const action = ref('http://192.168.1.33:8080/api/v1/upload/file')
+const itemCompress = ref({
+  compress: true,
+  compressThreshold: 500,
+  compressMaxWidth: 4000,
+  compressMaxHeight: 4000,
+  compressQuality: 0.8,
+})
+```
+
+```html
+<LSUpload list-type="picture-card" :action="action" :item="itemCompress"></LSUpload>
+```
+
+### 8. 表单验证
 
 <br />
 <!-- <LSForm
@@ -269,7 +294,7 @@ function formValidateFunc() {
 
 :::
 
-### 8. 用户头像模式
+### 9. 用户头像模式
 
 <br />
 <ClientOnly>
@@ -288,7 +313,7 @@ const fileList = ref([{ name: '', url: '' }]);
 <LSUpload list-type="picture-card" :action="action" :item="{ profile: true }" v-model:file-list="fileList"> </LSUpload>
 ````
 
-### 9. 自定义上传按钮
+### 10. 自定义上传按钮
 
 <ClientOnly>
   <LSUpload :action="action">
@@ -307,7 +332,7 @@ const fileList = ref([{ name: '', url: '' }]);
 
 ```
 
-### 10. 带数量限制的上传
+### 11. 带数量限制的上传
 
 <ClientOnly>
   <LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
@@ -324,7 +349,7 @@ const item6 = ref({
 <LSUpload :action="action" :limit="3" multiple :item="item6"></LSUpload>
 ```
 
-### 11. 带删除确认的上传
+### 12. 带删除确认的上传
 
 <ClientOnly>
   <LSUpload :action="action" multiple :before-remove="handleRemove"></LSUpload>
@@ -347,7 +372,7 @@ function handleRemove(file, fileList) {
 <LSUpload :action="action" multiple @on-remove="handleRemove"></LSUpload>
 ```
 
-### 12. 带背景图片的上传
+### 13. 带背景图片的上传
 
 <ClientOnly>
   <LSUpload :action="action" :item="item7"></LSUpload>
@@ -364,7 +389,7 @@ const item7 = ref({
 <LSUpload :action="action" :item="item7"></LSUpload>
 ```
 
-### 13. 多文件上传带预览
+### 14. 多文件上传带预览
 
 <ClientOnly>
   <LSUpload :action="action" multiple list-type="picture-card" :item="item8"></LSUpload>
@@ -381,7 +406,7 @@ const item8 = ref({
 <LSUpload :action="action" multiple list-type="picture-card" :limit="5" :item="item8"></LSUpload>
 ```
 
-### 14. 带进度条的上传
+### 15. 带进度条的上传
 
 <ClientOnly>
   <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
@@ -405,7 +430,7 @@ const item9 = ref({
 <LSUpload :action="action" :show-file-list="true" :item="item9"></LSUpload>
 ```
 
-### 15. 自定义文件列表项
+### 16. 自定义文件列表项
 
 <ClientOnly>
   <LSUpload :action="action" multiple :item="item10">
@@ -444,7 +469,7 @@ function handleCustomRemove(file) {
 
 ```
 
-### 16. 与其他组件的集成
+### 17. 与其他组件的集成
 
 <ClientOnly>
   <el-card shadow="hover" style="width: 400px">
@@ -501,7 +526,7 @@ const item11 = ref({
 
 ```
 
-### 17. 拖拽上传带背景图片
+### 18. 拖拽上传带背景图片
 
 <ClientOnly>
   <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
@@ -519,7 +544,7 @@ const item12 = ref({
 <LSUpload :action="action" :drag="true" :item="item12"></LSUpload>
 ```
 
-### 18. 图片上传带背景
+### 19. 图片上传带背景
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
@@ -539,7 +564,7 @@ const item13 = ref({
 <LSUpload :action="action" list-type="picture-card" :item="item13"></LSUpload>
 ```
 
-### 19. 多文件上传带进度条
+### 20. 多文件上传带进度条
 
 <ClientOnly>
   <LSUpload :action="action" multiple :show-file-list="true" :item="item14"></LSUpload>
@@ -568,7 +593,7 @@ const item14 = ref({
 <LSUpload :action="action" multiple :limit="3" :show-file-list="true" :item="item14"></LSUpload>
 ```
 
-### 20. 自定义文件预览
+### 21. 自定义文件预览
 
 <ClientOnly>
   <LSUpload :action="action" list-type="picture" :item="item15">
@@ -642,7 +667,7 @@ const item15 = ref({
 
 ```
 
-### 21. 自动上传与手动上传切换
+### 22. 自动上传与手动上传切换
 
 <ClientOnly>
   <div class="upload-mode-toggle">
@@ -751,6 +776,13 @@ function handleSubmitUpload() {
 | tipContent        | string   | -      | tip提示                         | 自定义提示信息                 | -                               |
 | hideBtnReachLimit | boolean  | false  | 达到limit限制时是否隐藏上传按钮 | 控制达到限制时是否隐藏按钮     | 适用图片模式                    |
 | bgImage           | string   | -      | 上传区域背景图片                | 自定义上传区域的背景           | 可用于美化上传界面              |
+| compress          | boolean  | false  | 是否开启图片压缩                | 上传图片时自动压缩体积/尺寸    | 仅对图片文件生效                |
+| compressThreshold | number   | 500    | 图片压缩阈值（KB）              | 超过该大小才触发压缩           | 默认 500KB                      |
+| compressMaxWidth  | number   | 4000   | 图片压缩最大宽度                | 限制压缩后图片宽度             | 默认 4000px                     |
+| compressMaxHeight | number   | 4000   | 图片压缩最大高度                | 限制压缩后图片高度             | 默认 4000px                     |
+| compressQuality   | number   | 0.8    | 图片压缩质量                    | 控制压缩后图片质量             | 取值 0 ~ 1                      |
+| compressUseWebWorker | boolean | true | 是否使用 Web Worker 压缩       | 在独立线程中压缩，避免阻塞 UI  | 默认 true                       |
+| compressFieldName | string   | compressed | 压缩信息字段名              | 上传时随文件提交给后端         | 值为 JSON 字符串                |
 
 #### 1.2 Props 属性（直接传入）
 
@@ -826,6 +858,13 @@ function handleSubmitUpload() {
     textPreview: ['pdf', 'xlsx'],
   })
   const item5 = ref({ profile: true })
+  const itemCompress = ref({
+    compress: true,
+    compressThreshold: 500,
+    compressMaxWidth: 4000,
+    compressMaxHeight: 4000,
+    compressQuality: 0.8,
+  })
 const item6 = ref({
   hideBtnReachLimit: true,
   limitNumMsg: '最多只能上传3个文件'
@@ -1107,6 +1146,48 @@ const fileList = ref([
       desc: '上传区域背景图片',
       type: 'string',
       value: '-'
+    },
+    {
+      name: 'compress',
+      desc: '是否开启图片压缩，仅对图片文件生效',
+      type: 'boolean',
+      value: false
+    },
+    {
+      name: 'compressThreshold',
+      desc: '图片压缩阈值（KB），文件大小超过该值时触发压缩',
+      type: 'number',
+      value: 500
+    },
+    {
+      name: 'compressMaxWidth',
+      desc: '图片压缩最大宽度',
+      type: 'number',
+      value: 4000
+    },
+    {
+      name: 'compressMaxHeight',
+      desc: '图片压缩最大高度',
+      type: 'number',
+      value: 4000
+    },
+    {
+      name: 'compressQuality',
+      desc: '图片压缩质量，取值 0 ~ 1',
+      type: 'number',
+      value: 0.8
+    },
+    {
+      name: 'compressUseWebWorker',
+      desc: '是否使用 Web Worker 进行图片压缩',
+      type: 'boolean',
+      value: true
+    },
+    {
+      name: 'compressFieldName',
+      desc: '压缩成功后随文件一起提交给后端的字段名',
+      type: 'string',
+      value: 'compressed'
     }
   ])
 

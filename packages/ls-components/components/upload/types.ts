@@ -92,6 +92,22 @@ export interface UploadItemType {
   limitAllFail?: boolean
   /** 达到 `limit` 后是否隐藏上传按钮；适用于图片模式 */
   hideBtnReachLimit?: boolean
+  /** 上传区域背景图片 */
+  bgImage?: string
+  /** 是否开启图片压缩；仅对图片文件生效 */
+  compress?: boolean
+  /** 图片压缩阈值（KB），文件大小超过该值时触发压缩；默认 500 */
+  compressThreshold?: number
+  /** 图片压缩最大宽度；默认 4000 */
+  compressMaxWidth?: number
+  /** 图片压缩最大高度；默认 4000 */
+  compressMaxHeight?: number
+  /** 图片压缩质量，取值 0 ~ 1；默认 0.8 */
+  compressQuality?: number
+  /** 是否使用 Web Worker 进行图片压缩；默认 true */
+  compressUseWebWorker?: boolean
+  /** 压缩成功后随文件一起提交给后端的字段名；默认 `compressed` */
+  compressFieldName?: string
 }
 
 /**
